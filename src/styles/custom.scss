@@ -1,0 +1,18 @@
+// Removes the "x" icon from invalid form inputs.
+.form-control.is-invalid {
+    background-image: none;
+    padding-right: $input-padding-x;
+}
+
+.cover {
+    object-fit: cover;
+}
+
+.bg-cover {
+    background-size: cover;
+}
+
+.form-group label {
+    font-size: 13px;
+    margin-bottom: 6px;
+}
