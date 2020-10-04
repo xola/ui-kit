@@ -10,7 +10,9 @@ const FormInput = ({ label, error, children, ...rest }) => {
             </Label>
 
             {rest.type === "select" || !children ? (
-                <Input id={rest.id} invalid={!!error} {...rest} />
+                <Input id={rest.id} invalid={!!error} {...rest}>
+                    {children}
+                </Input>
             ) : (
                 cloneElement(children, rest)
             )}
