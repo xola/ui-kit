@@ -1,6 +1,6 @@
 {
     "name": "xola-ui-kit",
-    "version": "0.1.2",
+    "version": "0.1.6",
     "description": "Xola UI Kit",
     "main": "lib/index.js",
     "license": "MIT",
