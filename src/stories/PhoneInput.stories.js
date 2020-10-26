@@ -10,6 +10,11 @@ export const Default = () => {
     return <PhoneInput onChange={setValue} value={value} />;
 };
 
+export const WithDefaultCountry = () => {
+    const [value, setValue] = useState("+1");
+    return <PhoneInput onChange={setValue} value={value} defaultCountry="US" />;
+};
+
 export const WithFormInput = () => {
     const [value, setValue] = useState("");
 

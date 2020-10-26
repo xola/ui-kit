@@ -8,38 +8,30 @@ export class PhoneInput extends Component {
     constructor(...args) {
         super(...args);
         this.inputRef = createRef();
-        this.state = { country: "" };
     }
 
     handleValueChange(e) {
-        const { value } = e.target;
-        const country = this.getCountry(value);
-
-        this.setState({ country }, () => {
-            this.props.onChange(value);
-        });
+        this.props.onChange(e.target.value);
     }
 
     handleCountryChange(e) {
         const country = e.target.value;
         const value = "+" + getCountryCallingCode(country);
-
-        this.setState({ country }, () => {
-            this.props.onChange(value);
-            this.inputRef.current.focus();
-        });
+        this.props.onChange(value);
+        this.inputRef.current.focus();
     }
 
-    getCountry(value) {
+    getCountry() {
+        const { value, defaultCountry = "" } = this.props;
         const asYouType = new AsYouType();
         asYouType.input(value);
         const phoneNumber = asYouType.getNumber();
-        return phoneNumber && phoneNumber.country ? phoneNumber.country : "";
+        return phoneNumber && phoneNumber.country ? phoneNumber.country : defaultCountry;
     }
 
     render() {
         const { value, error, ...rest } = this.props;
-        const { country } = this.state;
+        const country = this.getCountry();
         const invalid = !!error;
 
         return (
@@ -66,4 +58,5 @@ export class PhoneInput extends Component {
 PhoneInput.propTypes = {
     onChange: PropTypes.func,
     value: PropTypes.any,
+    defaultCountry: PropTypes.string,
 };
