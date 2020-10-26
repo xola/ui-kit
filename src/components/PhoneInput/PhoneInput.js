@@ -1,59 +1,41 @@
 import { AsYouType, getCountryCallingCode } from "libphonenumber-js";
 import PropTypes from "prop-types";
-import React, { Component, createRef } from "react";
+import React, { useRef, useState } from "react";
 import { Input, InputGroup } from "reactstrap";
 import { CountrySelect } from "../CountrySelect";
 
-export class PhoneInput extends Component {
-    constructor(...args) {
-        super(...args);
-        this.inputRef = createRef();
-    }
+const getCountry = (value) => {
+    const asYouType = new AsYouType();
+    asYouType.input(value);
+    const phoneNumber = asYouType.getNumber();
+    return phoneNumber && phoneNumber.country ? phoneNumber.country : null;
+};
 
-    handleValueChange(e) {
-        this.props.onChange(e.target.value);
-    }
+export const PhoneInput = ({ value, onChange, error, defaultCountry = "", ...rest }) => {
+    const [country, setCountry] = useState(defaultCountry);
+    const inputRef = useRef();
+    const invalid = !!error;
 
-    handleCountryChange(e) {
+    const handleValueChange = (e) => {
+        onChange(e.target.value);
+        setCountry(getCountry(value) || country);
+    };
+
+    const handleCountryChange = (e) => {
         const country = e.target.value;
+        setCountry(country);
         const value = "+" + getCountryCallingCode(country);
-        this.props.onChange(value);
-        this.inputRef.current.focus();
-    }
+        onChange(value);
+        inputRef.current.focus();
+    };
 
-    getCountry() {
-        const { value, defaultCountry = "" } = this.props;
-        const asYouType = new AsYouType();
-        asYouType.input(value);
-        const phoneNumber = asYouType.getNumber();
-        return phoneNumber && phoneNumber.country ? phoneNumber.country : defaultCountry;
-    }
-
-    render() {
-        const { value, error, defaultCountry, ...rest } = this.props;
-        const country = this.getCountry();
-        const invalid = !!error;
-
-        return (
-            <InputGroup>
-                <CountrySelect
-                    invalid={invalid}
-                    style={{ maxWidth: 60 }}
-                    value={country}
-                    onChange={(e) => this.handleCountryChange(e)}
-                />
-
-                <Input
-                    invalid={invalid}
-                    {...rest}
-                    innerRef={this.inputRef}
-                    onChange={(e) => this.handleValueChange(e)}
-                    value={value}
-                />
-            </InputGroup>
-        );
-    }
-}
+    return (
+        <InputGroup>
+            <CountrySelect invalid={invalid} style={{ maxWidth: 60 }} value={country} onChange={handleCountryChange} />
+            <Input invalid={invalid} {...rest} innerRef={inputRef} onChange={handleValueChange} value={value} />
+        </InputGroup>
+    );
+};
 
 PhoneInput.propTypes = {
     onChange: PropTypes.func,
