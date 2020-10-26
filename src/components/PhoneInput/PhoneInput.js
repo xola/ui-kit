@@ -30,7 +30,7 @@ export class PhoneInput extends Component {
     }
 
     render() {
-        const { value, error, ...rest } = this.props;
+        const { value, error, defaultCountry, ...rest } = this.props;
         const country = this.getCountry();
         const invalid = !!error;
 
