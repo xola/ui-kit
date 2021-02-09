@@ -1,0 +1,43 @@
+@import "../../../styles/variables.scss";
+
+.sellers-list-item {
+    width: 100%;
+    margin: 0px;
+    padding: 10px 0px;
+    img {
+        width: 40px;
+        height: auto;
+        border-radius: 50%;
+    }
+
+    .placeholder {
+        width: 40px;
+        background-color: #bdbdbd;
+        color: white;
+        height: 40px;
+        border-radius: 50%;
+        font-size: 16px;
+        font-weight: 500;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .seller-name {
+        font-size: 16px;
+    }
+
+    &:hover {
+        background: $hover-background;
+        color: $body-color;
+    }
+}
+
+.active {
+    background: theme-color("primary");
+    color: white;
+    &:hover {
+        background: theme-color("primary");
+        color: white;
+    }
+}

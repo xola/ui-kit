@@ -5,5 +5,6 @@ export { FormInput } from "./components/FormInput";
 export { CountrySelect } from "./components/CountrySelect";
 export { PhoneInput } from "./components/PhoneInput";
 export { MiniStepper } from "./components/MiniStepper";
+export { ProductsSelector } from "./components/ProductsSelector";
 
 export * from "reactstrap";

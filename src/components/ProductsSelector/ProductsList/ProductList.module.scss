@@ -1,0 +1,15 @@
+@import "../../../styles/variables.scss";
+
+.products-list-container {
+    .products-list-actions {
+        background: #e0e0e0;
+        padding: 10px;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        .searchbox {
+            height: 30px;
+            outline: none;
+            float: right;
+        }
+    }
+}

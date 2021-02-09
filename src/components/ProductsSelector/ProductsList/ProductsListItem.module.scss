@@ -1,0 +1,50 @@
+@import "../../../styles/variables.scss";
+
+.products-list-item {
+    margin: 10px 0px;
+    cursor: pointer;
+    .thumbnail-container {
+        min-height: 30px;
+        padding: 0px;
+        .thumbnail {
+            width: 100%;
+            img {
+                max-width: 100%;
+                height: auto;
+            }
+            .selected {
+                width: 100%;
+                background-color: rgba($color: theme-color("success"), $alpha: 0.7);
+                height: 100%;
+                color: white;
+                font-size: 24px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                position: absolute;
+                top: 0;
+            }
+        }
+    }
+
+    .row {
+        margin-right: 5px;
+        padding: 5px;
+        opacity: 0.5;
+    }
+
+    .selected {
+        opacity: 1;
+    }
+
+    .title {
+        font-size: 18px;
+    }
+
+    &:hover {
+        .row {
+            background-color: $hover-background;
+            opacity: 1;
+        }
+    }
+}

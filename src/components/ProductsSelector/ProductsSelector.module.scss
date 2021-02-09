@@ -1,0 +1,25 @@
+@import "../../styles/variables.scss";
+
+.products-selector-container {
+    .header {
+        padding: 10px 0px;
+        span {
+            margin-left: 20px;
+        }
+    }
+
+    .selector {
+        border: solid 1px $border-color;
+        min-height: 70vh;
+    }
+
+    .text-hyperlink {
+        cursor: pointer;
+        text-decoration: underline;
+        color: blue;
+    }
+
+    .border-right {
+        border-right: solid 1px $border-color;
+    }
+}
