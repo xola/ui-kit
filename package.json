@@ -39,6 +39,7 @@
         "bootstrap": "^4.5.2",
         "cleave.js": "^1.6.0",
         "libphonenumber-js": "^1.7.58",
+        "lodash": "^4.17.20",
         "reactstrap": "^8.5.1"
     }
 }
