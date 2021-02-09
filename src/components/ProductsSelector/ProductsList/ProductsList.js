@@ -26,8 +26,8 @@ class ProductsList extends Component {
         }
     };
 
-    countSelectedProductsForSeller = () => {
-        let count = _.filter([...this.state.sellerProducts], (product) => product.selected).length;
+    countSelectedProductsForSeller = (products) => {
+        let count = _.filter([...products], (product) => product.selected).length;
         this.setState({
             selectedProductsCount: count,
         });
@@ -39,7 +39,7 @@ class ProductsList extends Component {
             sellerProducts: sellerProducts,
         });
         this.filterProductsBySearch(this.state.searchQuery);
-        this.countSelectedProductsForSeller();
+        this.countSelectedProductsForSeller(sellerProducts);
     };
 
     filterProductsBySearch = (searchQuery) => {
@@ -78,8 +78,12 @@ class ProductsList extends Component {
                 <Row className={styles["products-list-actions"]}>
                     <Col md={8}>
                         <Label check>
-                            <Input type="checkbox" onChange={this.onSelectAll} /> {this.state.selectedProductsCount}{" "}
-                            Listing(s) selected
+                            <Input
+                                type="checkbox"
+                                checked={this.state.sellerProducts.length === this.state.selectedProductsCount}
+                                onChange={this.onSelectAll}
+                            />{" "}
+                            {this.state.selectedProductsCount} Listing(s) selected
                         </Label>
                     </Col>
                     <Col md={4}>
