@@ -69,7 +69,7 @@ class ProductsSelector extends Component {
                     </Col>
                 </Row>
                 <Row className={styles.selector}>
-                    <Col xs={this.state.hasMultipleSellers ? "3" : "0"} className={classNames("border-right", "p-0")}>
+                    <Col xs={3} className={classNames("border-right", "p-0", {"d-none": !this.state.hasMultipleSellers})}>
                         {this.state.hasMultipleSellers ? (
                             <SellersList
                                 onSellerSelect={this.onSellerSelect}

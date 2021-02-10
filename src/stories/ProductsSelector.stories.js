@@ -13,5 +13,5 @@ export const MultipleSellers = () => {
 };
 
 export const SingleSeller = () => {
-    return <ProductsSelector sellers={sellers[0]} products={products} />;
+    return <ProductsSelector products={products} />;
 };
