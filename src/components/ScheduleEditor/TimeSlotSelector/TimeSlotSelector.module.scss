@@ -1,0 +1,31 @@
+@import "../../../styles/variables.scss";
+
+.slotpicker {
+    width: 80px;
+    display: block;
+    position: relative;
+    margin-right: 10px;
+    .timepicker-btn {
+        width: 100% !important;
+    }
+    .clear-button {
+        display: none;
+        position: absolute;
+        cursor: pointer;
+        top: -8px;
+        right: -8px;
+        width: 16px;
+        height: 16px;
+        color: white;
+        background-color: theme-color("secondary");
+        text-align: center;
+        font-size: 16px;
+        line-height: 16px;
+        border-radius: 50%;
+    }
+    &:hover {
+        .clear-button {
+            display: block;
+        }
+    }
+}
