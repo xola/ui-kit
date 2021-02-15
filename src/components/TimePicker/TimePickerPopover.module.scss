@@ -1,0 +1,76 @@
+@import "../../styles/variables.scss";
+
+.timepicker-popover {
+    margin-top: 5px;
+    margin-left: 5px;
+    position: absolute;
+    z-index: 200;
+    background: white;
+    border-radius: 2px;
+    padding: 10px;
+    width: 500px;
+    color: rgba(theme-color("secondary"), 0.8);
+    box-shadow: 0 0 5px $box-shadow-color;
+    -webkit-box-shadow: 0 0 5px $box-shadow-color;
+}
+
+.hour-container {
+    width: 334px;
+    // border-left: solid 1px #e1e1e1;
+    .hour-heading {
+        text-align: center;
+        padding: 5px;
+    }
+    .hour-content {
+        display: inline-block;
+        .meridian {
+            float: left;
+            text-align: center;
+            width: 58px;
+            p {
+                margin-top: 40px;
+            }
+        }
+        .hours {
+            float: left;
+            width: 252px;
+        }
+    }
+}
+
+.slotbutton {
+    margin: 2px;
+    width: 38px !important;
+    height: 38px !important;
+    text-align: center;
+    font-size: 14px;
+    border-radius: 5px;
+    background: white;
+    border: solid 1px rgba(theme-color("secondary"), 0.6);
+    color: $body-color;
+    outline: none;
+    &:hover {
+        background-color: theme-color("primary");
+        color: white;
+    }
+}
+
+.selected {
+    background-color: theme-color("primary");
+    color: white;
+}
+
+.minute-container {
+    width: 126px;
+    .minute-heading {
+        text-align: center;
+        padding: 5px;
+    }
+    .minute-content {
+        display: inline-block;
+        .minutes {
+            float: left;
+            width: 126px;
+        }
+    }
+}
