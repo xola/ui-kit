@@ -35,7 +35,7 @@ class ProductsList extends Component {
 
     filterProductsBySeller = (products, seller) => {
         let sellerProducts;
-        if(seller && seller.id) {
+        if (seller && seller.id) {
             sellerProducts = [...products].filter((product) => product.seller.id === seller.id);
         } else {
             sellerProducts = [...products];
