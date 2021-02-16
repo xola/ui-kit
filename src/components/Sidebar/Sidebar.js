@@ -12,7 +12,7 @@ const Sidebar = (props) => {
     };
 
     return (
-        <div className={styles.sidebar} style={{ width: props.width }}>
+        <div className={styles.sidebar} style={{ width: props.width, top: props.top, left: props.left }}>
             <Nav vertical>
                 {items.map((item, index) => {
                     return (

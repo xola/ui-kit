@@ -1,7 +1,7 @@
 @import "../../styles/variables.scss";
 
 .sidebar {
-    position: fixed; /* Fixed Sidebar (stay in place on scroll and position relative to viewport) */
+    position: fixed;
     top: 0px;
     left: 0px;
     background: white;
@@ -15,7 +15,6 @@
     min-height: 50px;
     width: 100%;
     padding: 10px;
-
     &:hover,
     &.active {
         background-color: theme-color("primary");
