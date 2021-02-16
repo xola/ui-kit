@@ -2,6 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import MultiDatePicker, { Calendar, DateObject } from "react-multi-date-picker";
 import { DatePanel } from "react-multi-date-picker/plugins";
 import styles from "./DatePicker.module.scss";
+import { Button } from "../../";
 import _ from "lodash";
 
 const DatePicker = (props) => {
@@ -21,9 +22,12 @@ const DatePicker = (props) => {
         } else {
             formattedValue = value.format(childProps.format);
         }
-        // console.log("got value", _.isArray(value), value, formattedValue);
         setValue(formattedValue);
         props.onChange(formattedValue);
+    }
+
+    function clearValue() {
+        props.onChange(undefined);
     }
 
     return (
@@ -35,7 +39,15 @@ const DatePicker = (props) => {
                     inputClass={styles["datepicker-input"]}
                     {...childProps}
                     plugins={plugins}
-                />
+                >
+                    {childProps.clearButtonText && (
+                        <div className={styles["datepicker-footer"]}>
+                            <Button onClick={() => clearValue()} className={styles["clear-button"]}>
+                                {childProps.clearButtonText}
+                            </Button>
+                        </div>
+                    )}
+                </MultiDatePicker>
             ) : (
                 <Calendar value={value} onChange={handleChange} {...childProps} plugins={plugins} />
             )}

@@ -1,5 +1,15 @@
+@import "../../styles/variables.scss";
+
 .datepicker-input {
     height: 30px;
     font-size: 14px;
     padding-left: 10px;
+}
+
+.datepicker-footer {
+    float: right;
+    .clear-button {
+        margin: 5px;
+        background: theme-color("primary");
+    }
 }
