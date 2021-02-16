@@ -9,7 +9,10 @@ export default {
 };
 
 export const MultipleSellers = () => {
-    return <ProductsSelector sellers={sellers} products={products} />;
+    const onChange = (selectedProducts) => {
+        console.log("Selected Products are", selectedProducts);
+    };
+    return <ProductsSelector onChange={onChange} sellers={sellers} products={products} />;
 };
 
 export const SingleSeller = () => {

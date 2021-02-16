@@ -35,8 +35,21 @@ class ProductsSelector extends Component {
         });
     };
 
-    updateSelectedProductCount = () => {
-        let count = _.filter([...this.state.products], (product) => product.selected).length;
+    getSelectedProducts = (products) => {
+        return _.filter(products, (product) => product.selected);
+    };
+
+    updateProps = (products) => {
+        if (this.props.onChange) {
+            let selectedProducts = _.map(this.getSelectedProducts(products), (product) =>
+                _.omit(product, ["selected"]),
+            );
+            this.props.onChange(selectedProducts);
+        }
+    };
+
+    updateSelectedProductCount = (products) => {
+        let count = this.getSelectedProducts(products).length;
         this.setState({
             selectedProductsCount: count,
         });
@@ -51,7 +64,8 @@ class ProductsSelector extends Component {
         this.setState({
             products: products,
         });
-        this.updateSelectedProductCount();
+        this.updateSelectedProductCount(products);
+        this.updateProps(products);
     };
 
     render() {
@@ -69,7 +83,10 @@ class ProductsSelector extends Component {
                     </Col>
                 </Row>
                 <Row className={styles.selector}>
-                    <Col xs={3} className={classNames("border-right", "p-0", {"d-none": !this.state.hasMultipleSellers})}>
+                    <Col
+                        xs={3}
+                        className={classNames("border-right", "p-0", { "d-none": !this.state.hasMultipleSellers })}
+                    >
                         {this.state.hasMultipleSellers ? (
                             <SellersList
                                 onSellerSelect={this.onSellerSelect}
