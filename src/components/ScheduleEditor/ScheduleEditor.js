@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { Col, Form, FormGroup, Label, Input, FormText, InputGroup, InputGroupAddon, InputGroupText } from "reactstrap";
+import { Form, Input, InputGroup, InputGroupAddon, InputGroupText } from "reactstrap";
 import ScheduleSummary from "./ScheduleSummary";
 import ScheduleEditorRow from "./ScheduleEditorRow";
 import styles from "./ScheduleEditor.module.scss";
@@ -164,6 +164,7 @@ class ScheduleEditor extends Component {
                             value={this.state.schedule.from}
                             format="DD MMM, YYYY"
                             placeholder="Now"
+                            clearButtonText="Now"
                         />
                         <span> untill </span>
                         <DatePicker
@@ -174,6 +175,7 @@ class ScheduleEditor extends Component {
                             value={this.state.schedule.to}
                             format="DD MMM, YYYY"
                             placeholder="Forever"
+                            clearButtonText="Forever"
                         />
                     </div>
                 </ScheduleEditorRow>
