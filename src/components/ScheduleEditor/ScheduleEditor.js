@@ -7,28 +7,27 @@ import WeekSelector from "./WeekSelector";
 import { DatePicker, TimePicker } from "../..";
 import TimeSlotSelector from "./TimeSlotSelector/TimeSlotSelector";
 import TimeRangeSelector from "./TimeRangeSelector/TimeRangeSelector";
+import * as _ from "lodash";
 
 class ScheduleEditor extends Component {
     constructor(props) {
         super(props);
+        const defaultScheduleEditorValues = {
+            name: "",
+            type: "available",
+            repeat: "weekly",
+            days: [0, 1, 2, 3, 4, 5, 6],
+            dates: [],
+            departure: "fixed",
+            priceDelta: null,
+            priceDeltaType: "",
+            times: [],
+            timeRanges: [],
+        };
         this.state = {
             today: new Date(),
-            price: 100.89,
-            schedule: {
-                name: "",
-                type: "unavailable",
-                repeat: "weekly",
-                days: [0, 1, 2, 3, 4, 5, 6],
-                dates: [],
-                departure: "fixed",
-                priceDelta: 40,
-                priceDeltaType: "",
-                times: [],
-                timeRanges: [
-                    { startTime: 1545, endTime: 1845 },
-                    { startTime: 105, endTime: 1215 },
-                ],
-            },
+            price: this.props.price,
+            schedule: _.extend(defaultScheduleEditorValues, this.props.value),
         };
     }
 

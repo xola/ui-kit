@@ -6,19 +6,13 @@ import _ from "lodash";
 const TimeSlotSelector = (props) => {
     const initialDisplayCount = 4;
     let selectedValues;
-    if (props.values && _.isArray(props.values) && props.values.length > 0) {
-        selectedValues = props.values;
-    } else {
-        selectedValues = new Array(initialDisplayCount).fill();
-    }
 
     const addEmptySlot = () => {
         let undefinedCount = [...props.values].filter((v) => !v).length;
         if (undefinedCount === 0) {
-            selectedValues.push(undefined);
+            selectedValues.push(null);
         }
     };
-    addEmptySlot();
 
     const handleChange = (value, index) => {
         let currentValues = [...selectedValues];
@@ -31,6 +25,13 @@ const TimeSlotSelector = (props) => {
         let currentValues = [...selectedValues].filter((v, i) => i !== index);
         props.onChange(currentValues, props.name);
     };
+
+    if (props.values && _.isArray(props.values) && props.values.length > 0) {
+        selectedValues = props.values;
+        addEmptySlot();
+    } else {
+        selectedValues = new Array(initialDisplayCount).fill(null);
+    }
 
     return (
         <div className="form-check-inline">
