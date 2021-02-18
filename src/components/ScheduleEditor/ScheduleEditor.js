@@ -27,7 +27,7 @@ class ScheduleEditor extends Component {
         this.state = {
             today: new Date(),
             price: this.props.price,
-            schedule: _.extend(defaultScheduleEditorValues, this.props.value),
+            schedule: _.extend(defaultScheduleEditorValues, JSON.parse(JSON.stringify(this.props.value))),
         };
     }
 
