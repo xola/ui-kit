@@ -9,12 +9,24 @@ import { Container, Row, Col } from "reactstrap";
 class ProductsSelector extends Component {
     constructor(props) {
         super(props);
+
+        let products = this.props.products ? [...this.props.products] : [];
+        let selectedProducts = this.props.value ? [...this.props.value] : [];
+        if (selectedProducts && selectedProducts.length > 0) {
+            _.forEach(this.props.value, (product) => {
+                let index = _.findIndex(products, (p) => p.id === product.id);
+                products[index].selected = true;
+            });
+        }
+
         this.state = {
             hasMultipleSellers: this.props.sellers && this.props.sellers.length > 1,
             selectedSeller: this.props.sellers ? this.props.sellers[0] : {},
-            selectedProductsCount: 0,
+            selectedProductsCount: selectedProducts.length,
             sellers: this.props.sellers,
-            products: [...this.props.products],
+            selectedProducts: selectedProducts,
+            products: products,
+            invalid: this.props.invalid,
         };
     }
 
@@ -82,7 +94,7 @@ class ProductsSelector extends Component {
                         <span className="float-right"> {this.state.selectedProductsCount} Listing(s) selected</span>
                     </Col>
                 </Row>
-                <Row className={styles.selector}>
+                <Row className={classNames(styles.selector, { [`${styles.invalid}`]: this.state.invalid })}>
                     <Col
                         xs={3}
                         className={classNames("border-right", "p-0", { "d-none": !this.state.hasMultipleSellers })}

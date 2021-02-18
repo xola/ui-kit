@@ -13,6 +13,10 @@
         min-height: 70vh;
     }
 
+    .invalid {
+        border: solid 1px theme-color("danger");
+    }
+
     .text-hyperlink {
         cursor: pointer;
         text-decoration: underline;
