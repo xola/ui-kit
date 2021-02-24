@@ -1,22 +1,16 @@
-import { ProductsSelector } from "..";
+import { ProductSelector } from "..";
 import React from "react";
-import sellers from "../values/sellers";
 import products from "../values/products";
 
 export default {
-    title: "ProductsSelector",
-    component: ProductsSelector,
+    title: "ProductSelector",
 };
 
-export const MultipleSellers = () => {
+export const Default = () => {
     const onChange = (selectedProducts) => {
         console.log("Selected Products are", selectedProducts);
     };
-    return <ProductsSelector onChange={onChange} sellers={sellers} products={products} />;
-};
-
-export const SingleSeller = () => {
-    return <ProductsSelector products={products} />;
+    return <ProductSelector onChange={onChange} products={products} />;
 };
 
 export const withValues = () => {
@@ -43,5 +37,5 @@ export const withValues = () => {
             photo: { src: "https://placeimg.com/140/105/nature" },
         },
     ];
-    return <ProductsSelector onChange={onChange} value={selectedProducts} sellers={sellers} products={products} />;
+    return <ProductSelector onChange={onChange} value={selectedProducts} products={products} />;
 };
