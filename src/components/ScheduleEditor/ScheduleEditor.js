@@ -44,7 +44,7 @@ class ScheduleEditor extends Component {
 
     render() {
         return (
-            <Form>
+            <div>
                 <ScheduleEditorRow label="Name" for="scheduleName">
                     <Input
                         value={this.state.schedule.name}
@@ -208,7 +208,7 @@ class ScheduleEditor extends Component {
                 <ScheduleEditorRow label="Summary">
                     <ScheduleSummary price={this.state.price} schedule={this.state.schedule} />
                 </ScheduleEditorRow>
-            </Form>
+            </div>
         );
     }
 }
