@@ -1,15 +1,18 @@
 import React from "react";
 import { Col, FormGroup, Label } from "reactstrap";
+import classNames from "classnames";
 
 const ScheduleEditorRow = (props) => {
     return (
         <FormGroup row>
-            <Col sm={4}>
-                <Label className="float-right" for={props.for}>
+            <Col className={classNames("d-flex py-1 align-items-center")} sm={2}>
+                <Label className="font-14 m-0" for={props.for}>
                     {props.label}
                 </Label>
             </Col>
-            <Col sm={8}>{props.children}</Col>
+            <Col className={classNames("font-14 d-flex py-1 align-items-center")} sm={8}>
+                {props.children}
+            </Col>
         </FormGroup>
     );
 };

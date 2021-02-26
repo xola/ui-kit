@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { Button } from "reactstrap";
 import TimeSlotPopOver from "./TimePickerPopover";
 import styles from "./TimePicker.module.scss";
+import classNames from "classnames";
 
 function toggleComponent(initialIsOpen) {
     const [isOpen, setIsOpen] = useState(initialIsOpen);
@@ -57,10 +58,10 @@ const TimePicker = (props) => {
     };
 
     return (
-        <div className={styles.timepicker} ref={ref}>
-            <button className={styles["timepicker-btn"]} onClick={(e) => openPopover(e, isOpen)}>
+        <div className={styles.timePicker} ref={ref}>
+            <Button className={classNames(styles.button, "p-0", "text-center")} onClick={(e) => openPopover(e, isOpen)}>
                 {formatDisplayValue(value)}
-            </button>
+            </Button>
             {isOpen && (
                 <TimeSlotPopOver
                     value={value}

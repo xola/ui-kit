@@ -1,39 +1,14 @@
 @import "../../../styles/variables.scss";
 
-.add-new-row {
-    text-decoration: underline;
-    cursor: pointer;
-}
-
-.timerange-row {
-    font-size: 14px;
-    margin-bottom: 10px;
-    margin-left: 15px;
-    width: 100%;
-    .timerange-label {
-        margin-right: 10px;
-    }
-
-    .timerange-timepicker {
-        margin-right: 30px;
-    }
-
-    .timerange-delete {
-        cursor: pointer;
-        margin-left: 10px;
-        width: 26px;
-        height: 26px;
-        color: white;
-        background-color: theme-color("danger");
-        padding: 5px;
-        border-radius: 50%;
-        text-align: center;
-        font-size: 12px;
+.row {
+    align-items: center;
+    .delete {
+        width: 28px;
+        height: 28px;
         display: none;
     }
-
     &:hover {
-        .timerange-delete {
+        .delete {
             display: block;
         }
     }

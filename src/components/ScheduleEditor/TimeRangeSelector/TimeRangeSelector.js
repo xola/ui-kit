@@ -1,72 +1,70 @@
-import React, { useState, Fragment } from "react";
-import { Row } from "reactstrap";
+import React, { Fragment } from "react";
 import styles from "./TimeRangeSelector.module.scss";
-import { TimePicker } from "../../../";
 import classNames from "classnames";
+import { TimePicker } from "../../../";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 const TimeRangeSelector = (props) => {
-    let selectedTimeRanges;
+    let timeRanges;
     if (props.values && props.values.length > 0) {
-        selectedTimeRanges = props.values;
+        timeRanges = props.values;
     } else {
-        selectedTimeRanges = [{}];
+        timeRanges = [{}];
     }
-    const [timeRanges, setTimeRanges] = useState(selectedTimeRanges);
 
     const addNewRow = () => {
-        let newTimeRange = { startTime: null, endTime: null };
-        let existingRows = [...timeRanges];
-        existingRows.push(newTimeRange);
-        setTimeRanges(existingRows);
+        timeRanges.push({ startTime: null, endTime: null });
+        props.onChange(timeRanges, props.name);
     };
 
     const deleteRow = (event, index) => {
-        let currentTimeRanges = [...timeRanges];
-        currentTimeRanges.splice(index, 1);
-        setTimeRanges(currentTimeRanges);
+        timeRanges.splice(index, 1);
+        props.onChange(timeRanges, props.name);
         event.preventDefault();
     };
 
     const handleChange = (value, index, key) => {
-        let currentTImeRanges = [...timeRanges];
-        currentTImeRanges[index][key] = value;
-        setTimeRanges(currentTImeRanges);
+        timeRanges[index][key] = value;
+        props.onChange(timeRanges, props.name);
     };
 
     return (
         <Fragment>
             <div>
-                {timeRanges.map((timeRange, index) => (
-                    <Row xs={12} key={index}>
-                        <div className={classNames("form-check-inline", styles["timerange-row"])}>
-                            <span className={styles["timerange-label"]}>Start Time</span>
-                            <span className={styles["timerange-timepicker"]}>
+                <div className="d-block">
+                    {timeRanges.map((timeRange, index) => (
+                        <div key={index} className={classNames("d-flex mb-2", styles.row)}>
+                            <span className="mr-2">Start Time</span>
+                            <span className="mr-4">
                                 <TimePicker
                                     value={timeRange.startTime}
                                     onChange={(v) => handleChange(v, index, "startTime")}
                                 />
                             </span>
-
-                            <span className={styles["timerange-label"]}>End Time</span>
-                            <span className={styles["timerange-timepicker"]}>
+                            <span className="mr-2">End Time</span>
+                            <span className="mr-4">
                                 <TimePicker
                                     value={timeRange.endTime}
                                     onChange={(v) => handleChange(v, index, "endTime")}
                                 />
                             </span>
-                            <span onClick={(e) => deleteRow(e, index)} className={styles["timerange-delete"]}>
+                            <span
+                                onClick={(e) => deleteRow(e, index)}
+                                className={classNames(
+                                    styles.delete,
+                                    "cursor-pointer ml-2 text-center p-1 rounded-circle bg-danger text-white",
+                                )}
+                            >
                                 <FontAwesomeIcon icon={faTrash} />
                             </span>
                         </div>
-                    </Row>
-                ))}
+                    ))}
+                </div>
+                <a onClick={addNewRow} className={classNames("cursor-pointer d-block")}>
+                    + add time range
+                </a>
             </div>
-
-            <a onClick={addNewRow} className={styles["add-new-row"]}>
-                + add time range
-            </a>
         </Fragment>
     );
 };

@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { FormGroup, Label, Input } from "reactstrap";
+import React from "react";
+import { CustomInput } from "reactstrap";
 
 const WeekSelector = (props) => {
     const weekConfig = [
@@ -12,7 +12,7 @@ const WeekSelector = (props) => {
         { label: "S", value: 6 },
     ];
 
-    const [values, setValues] = useState(props.selected ? props.selected : []);
+    let values = props.value ? props.value : [];
 
     const handleChange = (value) => {
         let selectedValues = [...values];
@@ -23,26 +23,24 @@ const WeekSelector = (props) => {
             selectedValues.push(value);
         }
         selectedValues.sort((a, b) => a - b);
-        setValues(selectedValues);
         props.onChange(selectedValues, props.name);
     };
 
     return (
-        <div>
+        <div className="d-inline-block float-left w-100 position-relative">
             {weekConfig.map((week, index) => {
                 return (
-                    <FormGroup key={index} check inline>
-                        <Label>
-                            <Input
-                                type="checkbox"
-                                name={props.name}
-                                value={week.value}
-                                checked={values.indexOf(week.value) >= 0}
-                                onChange={(e) => handleChange(week.value)}
-                            />{" "}
-                            {week.label}
-                        </Label>
-                    </FormGroup>
+                    <CustomInput
+                        inline
+                        type="checkbox"
+                        name={props.name}
+                        key={index}
+                        id={`day-${index}`}
+                        label={week.label}
+                        value={week.value}
+                        checked={values.indexOf(week.value) >= 0}
+                        onChange={(e) => handleChange(week.value)}
+                    />
                 );
             })}
         </div>

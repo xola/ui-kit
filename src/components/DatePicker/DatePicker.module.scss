@@ -1,15 +1,23 @@
 @import "../../styles/variables.scss";
 
-.datepicker-input {
-    height: 30px;
-    font-size: 14px;
-    padding-left: 10px;
+.input {
+    height: 40px;
+    width: 120px;
+    padding: 6px 12px;
+    border: solid 1px $input-border;
+    border-radius: 4px;
+    color: $input-color;
+    &:active,
+    &:focus {
+        border-color: #97d6f2;
+        outline: 0;
+        box-shadow: 0 0 0 0.2rem rgba(38, 170, 227, 0.25);
+    }
 }
 
-.datepicker-footer {
+.footer {
     float: right;
-    .clear-button {
+    .clear {
         margin: 5px;
-        background: theme-color("primary");
     }
 }
