@@ -24,6 +24,7 @@ class ScheduleEditor extends Component {
             today: new Date(),
             price: this.props.price ? this.props.price : 0,
             schedule: _.extend(defaultScheduleEditorValues, value),
+            isNew: _.isUndefined(this.props.isNew) ? true : this.props.isNew,
         };
     }
 
@@ -54,48 +55,76 @@ class ScheduleEditor extends Component {
                     />
                 </ScheduleEditorRow>
                 <ScheduleEditorRow label="Availability">
-                    <CustomInput
-                        inline
-                        type="radio"
-                        name="type"
-                        id="type-available"
-                        label="Open"
-                        value="available"
-                        checked={this.state.schedule.type === "available"}
-                        onChange={(e) => this.handleChange(e.target.value, "type")}
-                    />
-                    <CustomInput
-                        inline
-                        type="radio"
-                        name="type"
-                        id="type-unavailable"
-                        label="Blackout"
-                        value="unavailable"
-                        checked={this.state.schedule.type === "unavailable"}
-                        onChange={(e) => this.handleChange(e.target.value, "type")}
-                    />
+                    {(() => {
+                        if (this.state.isNew) {
+                            return (
+                                <div>
+                                    <CustomInput
+                                        inline
+                                        type="radio"
+                                        name="type"
+                                        id="type-available"
+                                        label="Open"
+                                        value="available"
+                                        checked={this.state.schedule.type === "available"}
+                                        onChange={(e) => this.handleChange(e.target.value, "type")}
+                                    />
+                                    <CustomInput
+                                        inline
+                                        type="radio"
+                                        name="type"
+                                        id="type-unavailable"
+                                        label="Blackout"
+                                        value="unavailable"
+                                        checked={this.state.schedule.type === "unavailable"}
+                                        onChange={(e) => this.handleChange(e.target.value, "type")}
+                                    />
+                                </div>
+                            );
+                        } else {
+                            if (this.state.schedule.type === "available") {
+                                return <div class="pl-1">Available</div>;
+                            } else {
+                                return <div class="pl-1">Unavailable</div>;
+                            }
+                        }
+                    })()}
                 </ScheduleEditorRow>
                 <ScheduleEditorRow label="Repeats">
-                    <CustomInput
-                        inline
-                        type="radio"
-                        name="repeat"
-                        id="repeat-weekly"
-                        label="Weekly"
-                        value="weekly"
-                        checked={this.state.schedule.repeat === "weekly"}
-                        onChange={(e) => this.handleChange(e.target.value, "repeat")}
-                    />
-                    <CustomInput
-                        inline
-                        type="radio"
-                        name="repeat"
-                        id="repeat-custom"
-                        label="Custom"
-                        value="custom"
-                        checked={this.state.schedule.repeat === "custom"}
-                        onChange={(e) => this.handleChange(e.target.value, "repeat")}
-                    />
+                    {(() => {
+                        if (this.state.isNew) {
+                            return (
+                                <div>
+                                    <CustomInput
+                                        inline
+                                        type="radio"
+                                        name="repeat"
+                                        id="repeat-weekly"
+                                        label="Weekly"
+                                        value="weekly"
+                                        checked={this.state.schedule.repeat === "weekly"}
+                                        onChange={(e) => this.handleChange(e.target.value, "repeat")}
+                                    />
+                                    <CustomInput
+                                        inline
+                                        type="radio"
+                                        name="repeat"
+                                        id="repeat-custom"
+                                        label="Custom"
+                                        value="custom"
+                                        checked={this.state.schedule.repeat === "custom"}
+                                        onChange={(e) => this.handleChange(e.target.value, "repeat")}
+                                    />
+                                </div>
+                            );
+                        } else {
+                            if (this.state.schedule.repeat === "weekly") {
+                                return <div class="pl-1">Weekly</div>;
+                            } else {
+                                return <div class="pl-1">Custom</div>;
+                            }
+                        }
+                    })()}
                 </ScheduleEditorRow>
                 {this.state.schedule.repeat === "weekly" && (
                     <ScheduleEditorRow label="Repeat on">
@@ -120,26 +149,40 @@ class ScheduleEditor extends Component {
                                 className="form-check-inline"
                                 onChange={(e) => this.handleChange(e.target.value, "departure")}
                             > */}
-                            <CustomInput
-                                inline
-                                type="radio"
-                                name="departure"
-                                id="departure-fixed"
-                                label="Fixed Times"
-                                value="fixed"
-                                checked={this.state.schedule.departure === "fixed"}
-                                onChange={(e) => this.handleChange(e.target.value, "departure")}
-                            />
-                            <CustomInput
-                                inline
-                                type="radio"
-                                name="departure"
-                                id="departure-varies"
-                                label="No Fixed Times"
-                                value="varies"
-                                checked={this.state.schedule.departure === "varies"}
-                                onChange={(e) => this.handleChange(e.target.value, "departure")}
-                            />
+                            {(() => {
+                                if (this.state.isNew) {
+                                    return (
+                                        <div>
+                                            <CustomInput
+                                                inline
+                                                type="radio"
+                                                name="departure"
+                                                id="departure-fixed"
+                                                label="Fixed Times"
+                                                value="fixed"
+                                                checked={this.state.schedule.departure === "fixed"}
+                                                onChange={(e) => this.handleChange(e.target.value, "departure")}
+                                            />
+                                            <CustomInput
+                                                inline
+                                                type="radio"
+                                                name="departure"
+                                                id="departure-varies"
+                                                label="No Fixed Times"
+                                                value="varies"
+                                                checked={this.state.schedule.departure === "varies"}
+                                                onChange={(e) => this.handleChange(e.target.value, "departure")}
+                                            />
+                                        </div>
+                                    );
+                                } else {
+                                    if (this.state.schedule.departure === "fixed") {
+                                        return <div class="pl-1">Fixed Times</div>;
+                                    } else {
+                                        return <div class="pl-1">No Varies</div>;
+                                    }
+                                }
+                            })()}
                         </ScheduleEditorRow>
                         {this.state.schedule.departure === "fixed" && (
                             <ScheduleEditorRow label="">

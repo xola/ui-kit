@@ -10,7 +10,7 @@ const ScheduleEditorRow = (props) => {
                     {props.label}
                 </Label>
             </Col>
-            <Col className={classNames("font-14 d-flex py-1 align-items-center")} sm={8}>
+            <Col className={classNames("font-14 d-flex py-1 align-items-center")} sm={10}>
                 {props.children}
             </Col>
         </FormGroup>
