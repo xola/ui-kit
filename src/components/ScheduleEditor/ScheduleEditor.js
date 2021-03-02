@@ -188,7 +188,7 @@ class ScheduleEditor extends Component {
                             <ScheduleEditorRow label="">
                                 <TimeSlotSelector
                                     name="times"
-                                    values={this.state.schedule.times}
+                                    value={this.state.schedule.times}
                                     onChange={(v) => this.handleChange(v, "times")}
                                 />
                             </ScheduleEditorRow>
@@ -199,7 +199,7 @@ class ScheduleEditor extends Component {
                     <ScheduleEditorRow label="Time ranges">
                         <TimeRangeSelector
                             name="timeRanges"
-                            values={this.state.schedule.timeRanges}
+                            value={this.state.schedule.timeRanges}
                             onChange={(v) => this.handleChange(v, "timeRanges")}
                         />
                     </ScheduleEditorRow>

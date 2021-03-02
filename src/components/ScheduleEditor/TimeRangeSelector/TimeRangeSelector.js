@@ -5,28 +5,28 @@ import { TimePicker } from "../../../";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
-const TimeRangeSelector = (props) => {
+const TimeRangeSelector = ({ value, name, ...rest }) => {
     let timeRanges;
-    if (props.values && props.values.length > 0) {
-        timeRanges = props.values;
+    if (value && value.length > 0) {
+        timeRanges = value;
     } else {
         timeRanges = [{}];
     }
 
     const addNewRow = () => {
         timeRanges.push({ startTime: null, endTime: null });
-        props.onChange(timeRanges, props.name);
+        rest.onChange(timeRanges, name);
     };
 
     const deleteRow = (event, index) => {
         timeRanges.splice(index, 1);
-        props.onChange(timeRanges, props.name);
+        rest.onChange(timeRanges, name);
         event.preventDefault();
     };
 
     const handleChange = (value, index, key) => {
         timeRanges[index][key] = value;
-        props.onChange(timeRanges, props.name);
+        rest.onChange(timeRanges, name);
     };
 
     return (

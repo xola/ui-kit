@@ -1,16 +1,16 @@
 import React, { useState } from "react";
-import { Container, Row, Col, Button } from "reactstrap";
-import styles from "./TimePickerPopover.module.scss";
 import classNames from "classnames";
+import { Container, Row, Button } from "reactstrap";
+import styles from "./TimePickerPopover.module.scss";
 
-const TimePickerPopover = (props) => {
+const TimePickerPopover = ({ value, ...rest }) => {
     const hourArray = Array.from(Array(24).keys());
     const minuteArray = Array.from([...Array(12).keys()].map((m) => m * 5));
-    let initialValue = {};
+    let selectedValue = {};
 
-    if (props.value && !isNaN(props.value)) {
-        const inputValue = parseInt(props.value);
-        initialValue = {
+    if (value && !isNaN(value)) {
+        const inputValue = parseInt(value);
+        selectedValue = {
             minute: inputValue % 100,
             hour: parseInt(inputValue / 100),
         };
@@ -21,7 +21,6 @@ const TimePickerPopover = (props) => {
         hour: false,
     };
 
-    const [selectedValue, setSelectedValue] = useState(initialValue);
     const [actions, setActions] = useState(initialActions);
 
     const handleClick = (value, key) => {
@@ -32,32 +31,35 @@ const TimePickerPopover = (props) => {
             selectedValue.hour = 0;
         }
         actions[key] = true;
-        setSelectedValue(selectedValue);
         setActions(actions);
-        props.onChange(selectedValue.hour * 100 + selectedValue.minute);
+        rest.onChange(selectedValue.hour * 100 + selectedValue.minute);
         if (actions.hour && actions.minute) {
-            props.onClose();
+            rest.onClose();
         }
     };
 
     return (
-        <Container className={styles["timepicker-popover"]}>
+        <Container className={classNames(styles.timepickerPopover, "position-absolute mt-1 ml-1 bg-white rounded p-3")}>
             <Row>
-                <div className={styles["hour-container"]}>
-                    <div className={styles["hour-heading"]}>HOUR</div>
-                    <div className={styles["hour-content"]}>
-                        <div className={styles.meridian}>
+                <div className={styles.hourContainer}>
+                    <div className="p-1 text-center">HOUR</div>
+                    <div className={classNames(styles.content, "d-inline-block")}>
+                        <div className={classNames(styles.meridian, "float-left text-center")}>
                             <p>AM</p>
                             <p>PM</p>
                         </div>
-                        <div className={styles.hours}>
+                        <div className={classNames(styles.hours, "float-left")}>
                             {hourArray.map((hour) => (
                                 <Button
                                     key={hour}
                                     onClick={(e) => handleClick(hour, "hour")}
-                                    className={classNames(styles.slotbutton, {
-                                        [`${styles.selected}`]: hour === selectedValue.hour,
-                                    })}
+                                    className={classNames(
+                                        styles.slotButton,
+                                        "d-inline-flex align-items-center justify-content-center",
+                                        {
+                                            [`${styles.selected}`]: hour === selectedValue.hour,
+                                        },
+                                    )}
                                 >
                                     {hour}
                                 </Button>
@@ -65,15 +67,19 @@ const TimePickerPopover = (props) => {
                         </div>
                     </div>
                 </div>
-                <div className={styles["minute-container"]}>
-                    <div className={styles["minute-heading"]}>MINUTE</div>
-                    <div className={styles["minute-content"]}>
-                        <div className={styles.minutes}>
+                <div className={styles.minuteContainer}>
+                    <div className="p-1 text-center">MINUTE</div>
+                    <div className={classNames(styles.content, "d-inline-block")}>
+                        <div className={classNames(styles.minutes, "float-left")}>
                             {minuteArray.map((minute) => (
                                 <Button
-                                    className={classNames(styles.slotbutton, {
-                                        [`${styles.selected}`]: minute === selectedValue.minute,
-                                    })}
+                                    className={classNames(
+                                        styles.slotButton,
+                                        "rounded border-secondary d-inline-flex align-items-center justify-content-center",
+                                        {
+                                            [`${styles.selected}`]: minute === selectedValue.minute,
+                                        },
+                                    )}
                                     key={minute}
                                     onClick={(e) => handleClick(minute, "minute")}
                                 >

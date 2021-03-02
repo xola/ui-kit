@@ -4,13 +4,12 @@ import classNames from "classnames";
 import { TimePicker } from "../../../";
 import styles from "./TimeSlotSelector.module.scss";
 
-const TimeSlotSelector = (props) => {
+const TimeSlotSelector = ({ name, value, ...rest }) => {
     const initialDisplayCount = 4;
     let selectedValues;
-    const { name, values } = props;
 
     const addEmptySlot = () => {
-        let undefinedCount = [...values].filter((v) => !v).length;
+        let undefinedCount = [...value].filter((v) => !v).length;
         if (undefinedCount === 0) {
             selectedValues.push(null);
         }
@@ -19,17 +18,17 @@ const TimeSlotSelector = (props) => {
     const handleChange = (value, index) => {
         let currentValues = [...selectedValues];
         currentValues[index] = value;
-        props.onChange(currentValues, name);
+        rest.onChange(currentValues, name);
         addEmptySlot();
     };
 
     const deleteTimeSlot = (index) => {
         let currentValues = [...selectedValues].filter((v, i) => i !== index);
-        props.onChange(currentValues, name);
+        rest.onChange(currentValues, name);
     };
 
-    if (values && _.isArray(values) && values.length > 0) {
-        selectedValues = values;
+    if (value && _.isArray(value) && value.length > 0) {
+        selectedValues = value;
         addEmptySlot();
     } else {
         selectedValues = new Array(initialDisplayCount).fill(null);

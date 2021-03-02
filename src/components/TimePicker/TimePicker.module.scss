@@ -4,19 +4,15 @@
     .button {
         width: 50px;
         height: 40px;
-        font-size: 14px;
         border: solid 1px $input-border;
-        border-radius: 4px;
-        background-color: white;
         color: $input-color;
 
         &:active:focus,
         &:active:hover,
         &:focus {
             outline: none;
-            background-color: white;
             border: none;
-            color: $body-color;
+            color: $input-color;
             box-shadow: 0 0 0 0.2rem rgba(38, 170, 227, 0.25);
         }
     }

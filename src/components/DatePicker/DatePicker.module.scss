@@ -3,7 +3,6 @@
 .input {
     height: 40px;
     width: 120px;
-    padding: 6px 12px;
     border: solid 1px $input-border;
     border-radius: 4px;
     color: $input-color;
@@ -12,12 +11,5 @@
         border-color: #97d6f2;
         outline: 0;
         box-shadow: 0 0 0 0.2rem rgba(38, 170, 227, 0.25);
-    }
-}
-
-.footer {
-    float: right;
-    .clear {
-        margin: 5px;
     }
 }

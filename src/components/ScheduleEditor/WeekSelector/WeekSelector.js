@@ -1,7 +1,7 @@
 import React from "react";
 import { CustomInput } from "reactstrap";
 
-const WeekSelector = (props) => {
+const WeekSelector = ({ value, name, ...rest }) => {
     const weekConfig = [
         { label: "S", value: 0 },
         { label: "M", value: 1 },
@@ -12,7 +12,7 @@ const WeekSelector = (props) => {
         { label: "S", value: 6 },
     ];
 
-    let values = props.value ? props.value : [];
+    let values = value ? value : [];
 
     const handleChange = (value) => {
         let selectedValues = [...values];
@@ -23,7 +23,7 @@ const WeekSelector = (props) => {
             selectedValues.push(value);
         }
         selectedValues.sort((a, b) => a - b);
-        props.onChange(selectedValues, props.name);
+        rest.onChange(selectedValues, name);
     };
 
     return (
@@ -33,7 +33,7 @@ const WeekSelector = (props) => {
                     <CustomInput
                         inline
                         type="checkbox"
-                        name={props.name}
+                        name={name}
                         key={index}
                         id={`day-${index}`}
                         label={week.label}

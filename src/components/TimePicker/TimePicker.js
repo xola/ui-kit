@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
+import classNames from "classnames";
 import { Button } from "reactstrap";
 import TimeSlotPopOver from "./TimePickerPopover";
 import styles from "./TimePicker.module.scss";
-import classNames from "classnames";
 
 function toggleComponent(initialIsOpen) {
     const [isOpen, setIsOpen] = useState(initialIsOpen);
@@ -32,40 +32,45 @@ function toggleComponent(initialIsOpen) {
     return { ref, isOpen, setIsOpen };
 }
 
-const TimePicker = (props) => {
+const TimePicker = ({ value, ...rest }) => {
     const { ref, isOpen, setIsOpen } = toggleComponent(false);
-    const [value, setValue] = useState(props.value);
-    const handleChange = (value) => {
-        setValue(value);
-        if (props.onChange) {
-            props.onChange(value);
+    const [selectedValue, setSelectedValue] = useState(value);
+
+    const handleChange = (updatedValue) => {
+        setSelectedValue(updatedValue);
+        if (rest.onChange) {
+            rest.onChange(updatedValue);
         }
     };
 
     useEffect(() => {
-        setValue(props.value);
-    }, [props.value]);
+        setSelectedValue(value);
+    }, [value]);
 
     const openPopover = (e, isOpen) => {
         e.preventDefault();
         setIsOpen(!isOpen);
     };
-    const formatDisplayValue = (value) => {
-        if (!value) {
+
+    const formatDisplayValue = (v) => {
+        if (!v) {
             return "";
         }
-        return parseInt(value / 100) + ":" + (value % 100 < 10 ? "0" + (value % 100) : value % 100);
+        return parseInt(v / 100) + ":" + (v % 100 < 10 ? "0" + (v % 100) : v % 100);
     };
 
     return (
         <div className={styles.timePicker} ref={ref}>
-            <Button className={classNames(styles.button, "p-0", "text-center")} onClick={(e) => openPopover(e, isOpen)}>
-                {formatDisplayValue(value)}
+            <Button
+                className={classNames(styles.button, "p-0 font-14 bg-white rounded text-center")}
+                onClick={(e) => openPopover(e, isOpen)}
+            >
+                {formatDisplayValue(selectedValue)}
             </Button>
             {isOpen && (
                 <TimeSlotPopOver
-                    value={value}
-                    onChange={(value) => handleChange(value)}
+                    value={selectedValue}
+                    onChange={(v) => handleChange(v)}
                     onClose={() => setIsOpen(false)}
                 />
             )}
