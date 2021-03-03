@@ -1,55 +1,73 @@
-import React, { Fragment, useEffect, useState } from "react";
-import MultiDatePicker, { Calendar, DateObject } from "react-multi-date-picker";
-import classNames from "classnames";
-import { DatePanel } from "react-multi-date-picker/plugins";
-import styles from "./DatePicker.module.scss";
-import { Button } from "../../";
-import _ from "lodash";
+import React from "react";
+import { Fragment } from "react";
+import DayPicker, { DateUtils } from "react-day-picker";
+import DayPickerInput from "react-day-picker/DayPickerInput";
+import dateFnsFormat from "date-fns/format";
+import * as _ from "lodash";
+import "react-day-picker/lib/style.css";
 
-const DatePicker = (props) => {
-    const childProps = _.omit(props, ["onChange"]);
-    const plugins = [];
-    if (props.showDatePanel) {
-        plugins.push(<DatePanel />);
+const formatDate = (date, format, locale) => {
+    return dateFnsFormat(date, format, { locale });
+};
+
+const DatePicker = ({
+    isDatePicker,
+    isMultiple = false,
+    value,
+    minDate,
+    maxDate,
+    placeholder,
+    format = "MM-dd-yyyy",
+    ...rest
+}) => {
+    const disableDays = {};
+    const dayPickerProps = {};
+    if (minDate) {
+        disableDays["before"] = minDate;
+    }
+    if (maxDate) {
+        disableDays["after"] = maxDate;
+    }
+    dayPickerProps["disabledDays"] = disableDays;
+
+    if (_.isArray(value)) {
+        isMultiple = true;
     }
 
-    const [value, setValue] = useState(props.value);
+    if (isDatePicker) {
+        dayPickerProps["selectedDays"] = value;
+    }
 
-    function handleChange(value) {  
-        let formattedValue;
-        if (_.isArray(value)) {
-            formattedValue = _.sortBy(_.map(value, (v) => v.format(childProps.format)));
+    const handleChange = (v) => {
+        if (isMultiple) {
+            if (value) {
+                if (_.some(value, (item) => DateUtils.isSameDay(item, v))) {
+                    _.remove(value, (item) => DateUtils.isSameDay(item, v));
+                } else {
+                    value.push(v);
+                }
+            } else {
+                value = [v];
+            }
+            rest.onChange(value);
         } else {
-            formattedValue = value.format(childProps.format);
+            rest.onChange(v);
         }
-        setValue(formattedValue);
-        props.onChange(formattedValue);
-    }
-
-    function clearValue() {
-        props.onChange(undefined);
-    }
+    };
 
     return (
         <Fragment>
-            {props.datePickerType === "datePicker" ? (
-                <MultiDatePicker
-                    onChange={handleChange}
+            {isDatePicker ? (
+                <DayPickerInput
                     value={value}
-                    inputClass={styles.input}
-                    {...childProps}
-                    plugins={plugins}
-                >
-                    {childProps.clearButtonText && (
-                        <div className={styles.footer}>
-                            <Button color="primary" onClick={() => clearValue()} className={classNames(styles.clear)}>
-                                {childProps.clearButtonText}
-                            </Button>
-                        </div>
-                    )}
-                </MultiDatePicker>
+                    placeholder={placeholder}
+                    format={format}
+                    formatDate={formatDate}
+                    onDayChange={(v) => handleChange(v)}
+                    dayPickerProps={dayPickerProps}
+                />
             ) : (
-                <Calendar value={value} onChange={handleChange} {...childProps} plugins={plugins} />
+                <DayPicker selectedDays={value} onDayClick={(v) => handleChange(v)} dayPickerProps={dayPickerProps} />
             )}
         </Fragment>
     );
