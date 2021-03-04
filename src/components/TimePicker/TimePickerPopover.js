@@ -57,7 +57,7 @@ const TimePickerPopover = ({ value, ...rest }) => {
                                         styles.slotButton,
                                         "d-inline-flex align-items-center justify-content-center",
                                         {
-                                            [`${styles.selected}`]: hour === selectedValue.hour,
+                                            [styles.selected]: hour === selectedValue.hour,
                                         },
                                     )}
                                 >
@@ -77,7 +77,7 @@ const TimePickerPopover = ({ value, ...rest }) => {
                                         styles.slotButton,
                                         "rounded border-secondary d-inline-flex align-items-center justify-content-center",
                                         {
-                                            [`${styles.selected}`]: minute === selectedValue.minute,
+                                            [styles.selected]: minute === selectedValue.minute,
                                         },
                                     )}
                                     key={minute}
