@@ -1,7 +1,7 @@
 import React from "react";
 import { CustomInput } from "reactstrap";
 
-const WeekSelector = ({ value, name, ...rest }) => {
+const WeekSelector = ({ value, name, onChange }) => {
     const weekConfig = [
         { label: "S", value: 0 },
         { label: "M", value: 1 },
@@ -23,7 +23,7 @@ const WeekSelector = ({ value, name, ...rest }) => {
             selectedValues.push(value);
         }
         selectedValues.sort((a, b) => a - b);
-        rest.onChange(selectedValues, name);
+        onChange(selectedValues, name);
     };
 
     return (

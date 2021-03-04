@@ -3,7 +3,7 @@ import { Fragment } from "react";
 import DayPicker, { DateUtils } from "react-day-picker";
 import DayPickerInput from "react-day-picker/DayPickerInput";
 import dateFnsFormat from "date-fns/format";
-import * as _ from "lodash";
+import _ from "lodash";
 import "react-day-picker/lib/style.css";
 
 const formatDate = (date, format, locale) => {
@@ -17,8 +17,8 @@ const DatePicker = ({
     minDate,
     maxDate,
     placeholder,
+    onChange,
     format = "MM-dd-yyyy",
-    ...rest
 }) => {
     const disableDays = {};
     const dayPickerProps = {};
@@ -49,9 +49,9 @@ const DatePicker = ({
             } else {
                 value = [v];
             }
-            rest.onChange(value);
+            onChange(value);
         } else {
-            rest.onChange(v);
+            onChange(v);
         }
     };
 

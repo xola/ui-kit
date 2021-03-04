@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { CustomInput, Input, InputGroup, InputGroupAddon, InputGroupText } from "reactstrap";
-import * as _ from "lodash";
+import _ from "lodash";
 import classNames from "classnames";
 import ScheduleEditorRow from "./ScheduleEditorRow";
 import { DatePicker } from "../..";
@@ -60,7 +60,7 @@ class ScheduleEditor extends Component {
 
         return (
             <div>
-                <ScheduleEditorRow label="Name" for="scheduleName">
+                <ScheduleEditorRow label="Name" htmlFor="scheduleName">
                     <Input
                         value={this.state.schedule.name}
                         onChange={(e) => this.handleChange(e.target.value, "name")}
