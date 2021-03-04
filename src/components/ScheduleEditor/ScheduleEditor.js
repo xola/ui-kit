@@ -40,6 +40,21 @@ class ScheduleEditor extends Component {
         }
     };
 
+    handlePriceDeltaType = (value, key) => {
+        let schedule = { ...this.state.schedule };
+
+        schedule[key] = value;
+
+        if (!value) {
+            schedule = _.omit(schedule, "priceDelta");
+            this.props.onChange(schedule);
+        }
+
+        this.setState({
+            schedule: schedule,
+        });
+    };
+
     render() {
         const { errors } = this.props;
 
@@ -239,7 +254,7 @@ class ScheduleEditor extends Component {
                                 className="w-50"
                                 type="select"
                                 value={this.state.schedule.priceDeltaType}
-                                onChange={(e) => this.handleChange(e.target.value, "priceDeltaType")}
+                                onChange={(e) => this.handlePriceDeltaType(e.target.value, "priceDeltaType")}
                                 name="priceDeltaType"
                             >
                                 <option value="">No change</option>
