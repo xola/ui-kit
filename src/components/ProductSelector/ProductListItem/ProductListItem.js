@@ -5,13 +5,13 @@ import { Row, Col } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
-const ProductListItem = ({ product, ...rest }) => {
+const ProductListItem = ({ product, onProductSelect }) => {
     return (
         <Col
             xs={12}
             md={6}
             className={classNames(styles.item, "cursor-pointer px-0 my-2")}
-            onClick={() => rest.onProductSelect(product.id)}
+            onClick={() => onProductSelect(product.id)}
         >
             <Row className={classNames({ [styles.selected]: product.selected }, styles.row, "mx-3 p-3")}>
                 <Col xs={3} md={2} className={classNames(styles.thumbnailContainer, "p-0")}>
