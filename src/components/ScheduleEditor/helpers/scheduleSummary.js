@@ -54,8 +54,16 @@ function getPriceDescription(schedule, basePrice) {
 
 function formatNumberToTime(time) {
     const minute = time % 100;
-    const hour = parseInt(time / 100) > 12 ? parseInt(time / 100) - 12 : parseInt(time / 100);
-    const meridian = hour >= 12 ? "PM" : "AM";
+    let meridian = "AM";
+    let hour = parseInt(time / 100);
+    if (hour === 0) {
+        hour = 12;
+    } else if (hour === 12) {
+        meridian = "PM";
+    } else if (hour > 12) {
+        hour -= 12;
+        meridian = "PM";
+    }
     return `${hour}:${minute < 10 ? "0" + minute : minute} ${meridian}`;
 }
 
