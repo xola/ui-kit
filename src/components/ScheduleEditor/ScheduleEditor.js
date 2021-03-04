@@ -9,6 +9,7 @@ import TimeSlotSelector from "./TimeSlotSelector/TimeSlotSelector";
 import TimeRangeSelector from "./TimeRangeSelector/TimeRangeSelector";
 import { getScheduleSummary } from "./helpers/scheduleSummary";
 import { getScheduleDefaultValues } from "./helpers/schedule";
+import FormFeedback from "reactstrap/lib/FormFeedback";
 class ScheduleEditor extends Component {
     constructor(props) {
         super(props);
@@ -40,6 +41,8 @@ class ScheduleEditor extends Component {
     };
 
     render() {
+        const { errors } = this.props;
+
         return (
             <div>
                 <ScheduleEditorRow label="Name" for="scheduleName">
@@ -132,7 +135,7 @@ class ScheduleEditor extends Component {
                     </ScheduleEditorRow>
                 )}
                 {this.state.schedule.repeat === "custom" && (
-                    <ScheduleEditorRow label="Select dates">
+                    <ScheduleEditorRow error={errors && errors.dates} label="Select dates">
                         <DatePicker
                             isDatePicker={false}
                             isMultiple={true}
@@ -186,7 +189,7 @@ class ScheduleEditor extends Component {
                             })()}
                         </ScheduleEditorRow>
                         {this.state.schedule.departure === "fixed" && (
-                            <ScheduleEditorRow label="">
+                            <ScheduleEditorRow error={errors && errors.times} label="">
                                 <TimeSlotSelector
                                     name="times"
                                     value={this.state.schedule.times}
@@ -230,7 +233,7 @@ class ScheduleEditor extends Component {
                     </div>
                 </ScheduleEditorRow>
                 {this.state.schedule.type === "available" && (
-                    <ScheduleEditorRow label="Price">
+                    <ScheduleEditorRow label="Price" error={errors && errors.priceDelta}>
                         <div className="w-75 form-check-inline">
                             <Input
                                 className="w-50"
