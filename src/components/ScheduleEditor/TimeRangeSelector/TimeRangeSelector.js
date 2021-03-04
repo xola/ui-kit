@@ -13,12 +13,12 @@ const TimeRangeSelector = ({ value, name, ...rest }) => {
         timeRanges = [{}];
     }
 
-    const addNewRow = () => {
+    const handleAddNewRow = () => {
         timeRanges.push({ startTime: null, endTime: null });
         rest.onChange(timeRanges, name);
     };
 
-    const deleteRow = (event, index) => {
+    const handleDeleteRow = (event, index) => {
         timeRanges.splice(index, 1);
         rest.onChange(timeRanges, name);
         event.preventDefault();
@@ -50,7 +50,7 @@ const TimeRangeSelector = ({ value, name, ...rest }) => {
                                 />
                             </span>
                             <span
-                                onClick={(e) => deleteRow(e, index)}
+                                onClick={(e) => handleDeleteRow(e, index)}
                                 className={classNames(
                                     styles.delete,
                                     "cursor-pointer ml-2 text-center p-1 rounded-circle bg-danger text-white",
@@ -61,7 +61,7 @@ const TimeRangeSelector = ({ value, name, ...rest }) => {
                         </div>
                     ))}
                 </div>
-                <a onClick={addNewRow} className={classNames("cursor-pointer d-block")}>
+                <a onClick={handleAddNewRow} className={classNames("cursor-pointer d-block")}>
                     + add time range
                 </a>
             </div>

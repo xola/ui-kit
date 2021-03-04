@@ -59,6 +59,7 @@ const DatePicker = ({
         <Fragment>
             {isDatePicker ? (
                 <DayPickerInput
+                    component={(props) => <input className="form-control" {...props} />}
                     value={value}
                     placeholder={placeholder}
                     format={format}

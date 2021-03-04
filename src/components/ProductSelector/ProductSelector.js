@@ -5,15 +5,12 @@ import { Container, Row, Col, Label, Input } from "reactstrap";
 import ProductListItem from "./ProductListItem/ProductListItem";
 
 class ProductSelector extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            products: [],
-            filteredProducts: [],
-            selectedProductsCount: 0,
-            searchQuery: "",
-        };
-    }
+    state = {
+        products: [],
+        filteredProducts: [],
+        selectedProductsCount: 0,
+        searchQuery: "",
+    };
 
     componentDidMount = () => {
         this.updateProducts(this.props.products, this.props.value);

@@ -6,7 +6,10 @@ export default {
 };
 
 export const Default = () => {
-    return <ScheduleEditor />;
+    const handleChange = (schedule) => {
+        console.log("Updated Schedule", schedule);
+    };
+    return <ScheduleEditor onChange={handleChange} />;
 };
 
 export const WithValues = () => {

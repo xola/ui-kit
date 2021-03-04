@@ -134,10 +134,11 @@ class ScheduleEditor extends Component {
                 {this.state.schedule.repeat === "custom" && (
                     <ScheduleEditorRow label="Select dates">
                         <DatePicker
+                            isDatePicker={false}
+                            isMultiple={true}
                             onChange={(dates) => this.handleChange(dates, "dates")}
                             value={this.state.schedule.dates}
                             datePickerType="calendar"
-                            multiple={true}
                             format="YYYY-MM-DD"
                         />
                     </ScheduleEditorRow>
@@ -207,24 +208,22 @@ class ScheduleEditor extends Component {
                 <ScheduleEditorRow label="Valid from">
                     <div>
                         <DatePicker
+                            isDatePicker={true}
                             onChange={(v) => this.handleChange(v, "from")}
-                            datePickerType="datePicker"
                             minDate={this.state.today}
                             maxDate={new Date(this.state.schedule.to)}
-                            editable={false}
                             value={this.state.schedule.from}
-                            format="DD MMM, YYYY"
+                            format="dd MMM, yyyy"
                             placeholder="Now"
                             clearButtonText="Now"
                         />
                         <span className="mx-2"> untill </span>
                         <DatePicker
+                            isDatePicker={true}
                             onChange={(v) => this.handleChange(v, "to")}
-                            datePickerType="datePicker"
-                            editable={false}
                             minDate={new Date(this.state.schedule.from)}
                             value={this.state.schedule.to}
-                            format="DD MMM, YYYY"
+                            format="dd MMM, yyyy"
                             placeholder="Forever"
                             clearButtonText="Forever"
                         />

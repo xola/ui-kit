@@ -8,7 +8,7 @@ const TimeSlotSelector = ({ name, value, ...rest }) => {
     const initialDisplayCount = 4;
     let selectedValues;
 
-    const addEmptySlot = () => {
+    const handleAddEmptySlot = () => {
         let undefinedCount = [...value].filter((v) => !v).length;
         if (undefinedCount === 0) {
             selectedValues.push(null);
@@ -19,17 +19,17 @@ const TimeSlotSelector = ({ name, value, ...rest }) => {
         let currentValues = [...selectedValues];
         currentValues[index] = value;
         rest.onChange(currentValues, name);
-        addEmptySlot();
+        handleAddEmptySlot();
     };
 
-    const deleteTimeSlot = (index) => {
+    const handleDeleteTimeSlot = (index) => {
         let currentValues = [...selectedValues].filter((v, i) => i !== index);
         rest.onChange(currentValues, name);
     };
 
     if (value && _.isArray(value) && value.length > 0) {
         selectedValues = value;
-        addEmptySlot();
+        handleAddEmptySlot();
     } else {
         selectedValues = new Array(initialDisplayCount).fill(null);
     }
@@ -43,7 +43,7 @@ const TimeSlotSelector = ({ name, value, ...rest }) => {
                     id={`timeslot-${index}`}
                 >
                     <span
-                        onClick={() => deleteTimeSlot(index)}
+                        onClick={() => handleDeleteTimeSlot(index)}
                         className={classNames(
                             styles.clearButton,
                             "position-absolute cursor-pointer text-white rounded-circle bg-secondary text-center cursor-pointer",
