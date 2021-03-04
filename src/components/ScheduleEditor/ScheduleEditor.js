@@ -9,7 +9,6 @@ import TimeSlotSelector from "./TimeSlotSelector/TimeSlotSelector";
 import TimeRangeSelector from "./TimeRangeSelector/TimeRangeSelector";
 import { getScheduleSummary } from "./helpers/scheduleSummary";
 import { getScheduleDefaultValues } from "./helpers/schedule";
-import FormFeedback from "reactstrap/lib/FormFeedback";
 class ScheduleEditor extends Component {
     constructor(props) {
         super(props);
@@ -36,7 +35,7 @@ class ScheduleEditor extends Component {
             schedule: schedule,
         });
         if (this.props.onChange) {
-            this.props.onChange(schedule);
+            this.props.onChange({ ...schedule, summary: getScheduleSummary(schedule) });
         }
     };
 
