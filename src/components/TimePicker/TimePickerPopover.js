@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { Container, Row, Button } from "reactstrap";
 import styles from "./TimePickerPopover.module.scss";
 
-const TimePickerPopover = ({ value, ...rest }) => {
+const TimePickerPopover = ({ value, onChange, onClose }) => {
     const hourArray = Array.from(Array(24).keys());
     const minuteArray = Array.from([...Array(12).keys()].map((m) => m * 5));
     let selectedValue = {};
@@ -32,9 +32,9 @@ const TimePickerPopover = ({ value, ...rest }) => {
         }
         actions[key] = true;
         setActions(actions);
-        rest.onChange(selectedValue.hour * 100 + selectedValue.minute);
+        onChange(selectedValue.hour * 100 + selectedValue.minute);
         if (actions.hour && actions.minute) {
-            rest.onClose();
+            onClose();
         }
     };
 

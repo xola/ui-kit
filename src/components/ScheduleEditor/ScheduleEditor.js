@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { CustomInput, Input, InputGroup, InputGroupAddon, InputGroupText } from "reactstrap";
-import * as _ from "lodash";
+import _ from "lodash";
 import classNames from "classnames";
 import ScheduleEditorRow from "./ScheduleEditorRow";
 import { DatePicker } from "../..";
@@ -9,7 +9,6 @@ import TimeSlotSelector from "./TimeSlotSelector/TimeSlotSelector";
 import TimeRangeSelector from "./TimeRangeSelector/TimeRangeSelector";
 import { getScheduleSummary } from "./helpers/scheduleSummary";
 import { getScheduleDefaultValues } from "./helpers/schedule";
-import FormFeedback from "reactstrap/lib/FormFeedback";
 class ScheduleEditor extends Component {
     constructor(props) {
         super(props);
@@ -36,8 +35,23 @@ class ScheduleEditor extends Component {
             schedule: schedule,
         });
         if (this.props.onChange) {
+            this.props.onChange({ ...schedule, summary: getScheduleSummary(schedule) });
+        }
+    };
+
+    handlePriceDeltaType = (value, key) => {
+        let schedule = { ...this.state.schedule };
+
+        schedule[key] = value;
+
+        if (!value) {
+            schedule = _.omit(schedule, "priceDelta");
             this.props.onChange(schedule);
         }
+
+        this.setState({
+            schedule: schedule,
+        });
     };
 
     render() {
@@ -45,7 +59,7 @@ class ScheduleEditor extends Component {
 
         return (
             <div>
-                <ScheduleEditorRow label="Name" for="scheduleName">
+                <ScheduleEditorRow label="Name" htmlFor="scheduleName">
                     <Input
                         value={this.state.schedule.name}
                         onChange={(e) => this.handleChange(e.target.value, "name")}
@@ -239,7 +253,7 @@ class ScheduleEditor extends Component {
                                 className="w-50"
                                 type="select"
                                 value={this.state.schedule.priceDeltaType}
-                                onChange={(e) => this.handleChange(e.target.value, "priceDeltaType")}
+                                onChange={(e) => this.handlePriceDeltaType(e.target.value, "priceDeltaType")}
                                 name="priceDeltaType"
                             >
                                 <option value="">No change</option>

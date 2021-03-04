@@ -5,7 +5,7 @@ import { TimePicker } from "../../../";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
-const TimeRangeSelector = ({ value, name, ...rest }) => {
+const TimeRangeSelector = ({ value, name, onChange }) => {
     let timeRanges;
     if (value && value.length > 0) {
         timeRanges = value;
@@ -15,18 +15,18 @@ const TimeRangeSelector = ({ value, name, ...rest }) => {
 
     const handleAddNewRow = () => {
         timeRanges.push({ startTime: null, endTime: null });
-        rest.onChange(timeRanges, name);
+        onChange(timeRanges, name);
     };
 
     const handleDeleteRow = (event, index) => {
         timeRanges.splice(index, 1);
-        rest.onChange(timeRanges, name);
+        onChange(timeRanges, name);
         event.preventDefault();
     };
 
     const handleChange = (value, index, key) => {
         timeRanges[index][key] = value;
-        rest.onChange(timeRanges, name);
+        onChange(timeRanges, name);
     };
 
     return (

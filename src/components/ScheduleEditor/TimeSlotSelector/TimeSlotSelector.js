@@ -4,7 +4,7 @@ import classNames from "classnames";
 import { TimePicker } from "../../../";
 import styles from "./TimeSlotSelector.module.scss";
 
-const TimeSlotSelector = ({ name, value, ...rest }) => {
+const TimeSlotSelector = ({ name, value, onChange }) => {
     const initialDisplayCount = 4;
     let selectedValues;
 
@@ -18,13 +18,13 @@ const TimeSlotSelector = ({ name, value, ...rest }) => {
     const handleChange = (value, index) => {
         let currentValues = [...selectedValues];
         currentValues[index] = value;
-        rest.onChange(currentValues, name);
+        onChange(currentValues, name);
         handleAddEmptySlot();
     };
 
     const handleDeleteTimeSlot = (index) => {
         let currentValues = [...selectedValues].filter((v, i) => i !== index);
-        rest.onChange(currentValues, name);
+        onChange(currentValues, name);
     };
 
     if (value && _.isArray(value) && value.length > 0) {

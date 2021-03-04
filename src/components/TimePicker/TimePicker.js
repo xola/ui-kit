@@ -32,14 +32,14 @@ function toggleComponent(initialIsOpen) {
     return { ref, isOpen, setIsOpen };
 }
 
-const TimePicker = ({ value, ...rest }) => {
+const TimePicker = ({ value, onChange }) => {
     const { ref, isOpen, setIsOpen } = toggleComponent(false);
     const [selectedValue, setSelectedValue] = useState(value);
 
     const handleChange = (updatedValue) => {
         setSelectedValue(updatedValue);
-        if (rest.onChange) {
-            rest.onChange(updatedValue);
+        if (onChange) {
+            onChange(updatedValue);
         }
     };
 
