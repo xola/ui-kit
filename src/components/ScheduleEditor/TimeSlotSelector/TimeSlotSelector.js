@@ -9,7 +9,7 @@ const TimeSlotSelector = ({ name, value, onChange }) => {
     let selectedValues;
 
     const handleAddEmptySlot = () => {
-        let undefinedCount = [...value].filter((v) => !v).length;
+        let undefinedCount = [...value].filter((v) => _.isNull(v)).length;
         if (undefinedCount === 0) {
             selectedValues.push(null);
         }

@@ -27,7 +27,8 @@ const TimePickerPopover = ({ value, onChange, onClose }) => {
         selectedValue[key] = value;
         if (!selectedValue.minute) {
             selectedValue.minute = 0;
-        } else if (!selectedValue.hour) {
+        }
+        if (!selectedValue.hour) {
             selectedValue.hour = 0;
         }
         actions[key] = true;
