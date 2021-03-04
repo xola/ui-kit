@@ -86,9 +86,9 @@ class ScheduleEditor extends Component {
                             );
                         } else {
                             if (this.state.schedule.type === "available") {
-                                return <div class="pl-1">Available</div>;
+                                return <div className="pl-1">Open</div>;
                             } else {
-                                return <div class="pl-1">Unavailable</div>;
+                                return <div className="pl-1">Blackout</div>;
                             }
                         }
                     })()}
@@ -122,9 +122,9 @@ class ScheduleEditor extends Component {
                             );
                         } else {
                             if (this.state.schedule.repeat === "weekly") {
-                                return <div class="pl-1">Weekly</div>;
+                                return <div className="pl-1">Weekly</div>;
                             } else {
-                                return <div class="pl-1">Custom</div>;
+                                return <div className="pl-1">Custom</div>;
                             }
                         }
                     })()}
@@ -181,9 +181,9 @@ class ScheduleEditor extends Component {
                                     );
                                 } else {
                                     if (this.state.schedule.departure === "fixed") {
-                                        return <div class="pl-1">Fixed Times</div>;
+                                        return <div className="pl-1">Fixed Times</div>;
                                     } else {
-                                        return <div class="pl-1">No Varies</div>;
+                                        return <div className="pl-1">No Varies</div>;
                                     }
                                 }
                             })()}
