@@ -6,7 +6,7 @@ export default {
     title: "DatePicker",
 };
 
-export const Calender = () => {
+export const Calendar = () => {
     const [selectedValue, setSelectedValue] = useState(new Date("2021-03-17"));
     const handleChange = (value) => {
         setSelectedValue(value);
@@ -14,7 +14,7 @@ export const Calender = () => {
     return <DatePicker onChange={handleChange} isDatePicker={false} value={selectedValue} />;
 };
 
-export const CalenderWithMultipleDates = () => {
+export const CalendarWithMultipleDates = () => {
     const [selectedDates, setSelectedDates] = useState([
         new Date("2021-03-01"),
         new Date("2021-03-14"),
