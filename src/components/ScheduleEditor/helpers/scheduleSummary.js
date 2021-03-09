@@ -1,15 +1,16 @@
 import _ from "lodash";
+import { formatDate } from "../../../";
 
 function getDateRangeDescription(schedule) {
     let dateRangeDescription = "";
-    if (!schedule.from && !schedule.to) {
+    if (!schedule.start && !schedule.end) {
         return dateRangeDescription;
     }
-    if (schedule.from) {
-        dateRangeDescription += ` Starting on ${schedule.from}`;
+    if (schedule.start) {
+        dateRangeDescription += ` Starting on ${formatDate(new Date(schedule.start), "MM/dd/yyyy")}`;
     }
-    if (schedule.to) {
-        dateRangeDescription += ` untill ${schedule.to}`;
+    if (schedule.end) {
+        dateRangeDescription += ` untill ${formatDate(new Date(schedule.end), "MM/dd/yyyy")}`;
     }
     return dateRangeDescription;
 }
@@ -54,8 +55,16 @@ function getPriceDescription(schedule, basePrice) {
 
 function formatNumberToTime(time) {
     const minute = time % 100;
-    const hour = parseInt(time / 100) > 12 ? parseInt(time / 100) - 12 : parseInt(time / 100);
-    const meridian = hour >= 12 ? "PM" : "AM";
+    let meridian = "AM";
+    let hour = parseInt(time / 100);
+    if (hour === 0) {
+        hour = 12;
+    } else if (hour === 12) {
+        meridian = "PM";
+    } else if (hour > 12) {
+        hour -= 12;
+        meridian = "PM";
+    }
     return `${hour}:${minute < 10 ? "0" + minute : minute} ${meridian}`;
 }
 

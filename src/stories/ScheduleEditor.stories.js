@@ -24,6 +24,8 @@ export const WithValues = () => {
         priceDeltaType: "increase",
         times: [1235, 855],
         timeRanges: [],
+        start: new Date("2021-03-18"),
+        end: new Date("2021-03-25"),
     };
 
     const handleChange = (schedule) => {

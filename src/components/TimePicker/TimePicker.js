@@ -53,7 +53,7 @@ const TimePicker = ({ value, onChange }) => {
     };
 
     const formatDisplayValue = (v) => {
-        if (!v) {
+        if (_.isNull(v) || _.isUndefined(v)) {
             return "";
         }
         return parseInt(v / 100) + ":" + (v % 100 < 10 ? "0" + (v % 100) : v % 100);
