@@ -1,15 +1,16 @@
 import _ from "lodash";
+import { formatDate } from "../../../";
 
 function getDateRangeDescription(schedule) {
     let dateRangeDescription = "";
-    if (!schedule.from && !schedule.to) {
+    if (!schedule.start && !schedule.end) {
         return dateRangeDescription;
     }
-    if (schedule.from) {
-        dateRangeDescription += ` Starting on ${schedule.from}`;
+    if (schedule.start) {
+        dateRangeDescription += ` Starting on ${formatDate(new Date(schedule.start), "MM/dd/yyyy")}`;
     }
-    if (schedule.to) {
-        dateRangeDescription += ` untill ${schedule.to}`;
+    if (schedule.end) {
+        dateRangeDescription += ` untill ${formatDate(new Date(schedule.end), "MM/dd/yyyy")}`;
     }
     return dateRangeDescription;
 }

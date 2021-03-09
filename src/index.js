@@ -7,7 +7,7 @@ export { PhoneInput } from "./components/PhoneInput";
 export { MiniStepper } from "./components/MiniStepper";
 export { ProductSelector } from "./components/ProductSelector";
 export { ScheduleEditor } from "./components/ScheduleEditor";
-export { DatePicker } from "./components/DatePicker";
+export { DatePicker, formatDate } from "./components/DatePicker";
 export { TimePicker } from "./components/TimePicker";
 
 export * from "reactstrap";

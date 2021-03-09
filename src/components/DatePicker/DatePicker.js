@@ -6,7 +6,7 @@ import dateFnsFormat from "date-fns/format";
 import _ from "lodash";
 import "react-day-picker/lib/style.css";
 
-const formatDate = (date, format, locale) => {
+export const formatDate = (date, format, locale) => {
     return dateFnsFormat(date, format, { locale });
 };
 
@@ -59,7 +59,7 @@ const DatePicker = ({
         <Fragment>
             {isDatePicker ? (
                 <DayPickerInput
-                    component={(props) => <input className="form-control" {...props} />}
+                    component={(props) => <input className="dayPickerInput form-control" {...props} />}
                     value={value}
                     placeholder={placeholder}
                     format={format}

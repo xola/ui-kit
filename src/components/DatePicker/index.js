@@ -1,3 +1,3 @@
-import DatePicker from "./DatePicker";
+import DatePicker, { formatDate } from "./DatePicker";
 
-export { DatePicker };
+export { DatePicker, formatDate };

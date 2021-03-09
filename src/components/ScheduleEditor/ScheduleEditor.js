@@ -226,10 +226,10 @@ class ScheduleEditor extends Component {
                     <div>
                         <DatePicker
                             isDatePicker={true}
-                            onChange={(v) => this.handleChange(v, "from")}
+                            onChange={(v) => this.handleChange(v, "start")}
                             minDate={this.state.today}
-                            maxDate={new Date(this.state.schedule.to)}
-                            value={this.state.schedule.from}
+                            maxDate={new Date(this.state.schedule.end)}
+                            value={this.state.schedule.start ? new Date(this.state.schedule.start) : null}
                             format="dd MMM, yyyy"
                             placeholder="Now"
                             clearButtonText="Now"
@@ -237,9 +237,9 @@ class ScheduleEditor extends Component {
                         <span className="mx-2"> untill </span>
                         <DatePicker
                             isDatePicker={true}
-                            onChange={(v) => this.handleChange(v, "to")}
-                            minDate={new Date(this.state.schedule.from)}
-                            value={this.state.schedule.to}
+                            onChange={(v) => this.handleChange(v, "end")}
+                            minDate={new Date(this.state.schedule.start)}
+                            value={this.state.schedule.end ? new Date(this.state.schedule.end) : null}
                             format="dd MMM, yyyy"
                             placeholder="Forever"
                             clearButtonText="Forever"
