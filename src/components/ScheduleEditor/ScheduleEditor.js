@@ -14,11 +14,8 @@ class ScheduleEditor extends Component {
         super(props);
         const defaultScheduleEditorValues = getScheduleDefaultValues();
         const value = this.props.value ? JSON.parse(JSON.stringify(this.props.value)) : {};
-        if (value.priceDelta < 0) {
-            value.priceDelta = 0 - value.priceDelta;
-            value.priceDeltaType = "decrease";
-        } else if (value.priceDelta > 0) {
-            value.priceDeltaType = "increase";
+        if (value.dates?.length > 0) {
+            value.dates = value.dates.map((date) => new Date(date));
         }
         this.state = {
             today: new Date(),
@@ -37,21 +34,6 @@ class ScheduleEditor extends Component {
         if (this.props.onChange) {
             this.props.onChange({ ...schedule, summary: getScheduleSummary(schedule) });
         }
-    };
-
-    handlePriceDeltaType = (value, key) => {
-        let schedule = { ...this.state.schedule };
-
-        schedule[key] = value;
-
-        if (!value) {
-            schedule = _.omit(schedule, "priceDelta");
-            this.props.onChange(schedule);
-        }
-
-        this.setState({
-            schedule: schedule,
-        });
     };
 
     render() {
@@ -144,7 +126,7 @@ class ScheduleEditor extends Component {
                     })()}
                 </ScheduleEditorRow>
                 {this.state.schedule.repeat === "weekly" && (
-                    <ScheduleEditorRow label="Repeat on">
+                    <ScheduleEditorRow error={errors && errors.days} label="Repeat on">
                         <WeekSelector name="days" value={this.state.schedule.days} onChange={this.handleChange} />
                     </ScheduleEditorRow>
                 )}
@@ -163,10 +145,6 @@ class ScheduleEditor extends Component {
                 {this.state.schedule.type === "available" && (
                     <Fragment>
                         <ScheduleEditorRow label="Time Slots">
-                            {/* <div
-                                className="form-check-inline"
-                                onChange={(e) => this.handleChange(e.target.value, "departure")}
-                            > */}
                             {(() => {
                                 if (this.state.isNew) {
                                     return (
@@ -234,7 +212,7 @@ class ScheduleEditor extends Component {
                             placeholder="Now"
                             clearButtonText="Now"
                         />
-                        <span className="mx-2"> untill </span>
+                        <span className="mx-2"> until </span>
                         <DatePicker
                             isDatePicker={true}
                             onChange={(v) => this.handleChange(v, "end")}
@@ -253,7 +231,7 @@ class ScheduleEditor extends Component {
                                 className="w-50"
                                 type="select"
                                 value={this.state.schedule.priceDeltaType}
-                                onChange={(e) => this.handlePriceDeltaType(e.target.value, "priceDeltaType")}
+                                onChange={(e) => this.handleChange(e.target.value, "priceDeltaType")}
                                 name="priceDeltaType"
                             >
                                 <option value="">No change</option>
