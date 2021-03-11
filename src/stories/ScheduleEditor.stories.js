@@ -16,14 +16,14 @@ export const WithValues = () => {
     const schedule = {
         name: "Every Thursday",
         type: "available",
-        repeat: "weekly",
+        repeat: "custom",
         days: [4],
-        dates: [],
+        dates: ["2021-04-14", "2021-03-14", "2021-03-21"],
         departure: "fixed",
         priceDelta: 60,
         priceDeltaType: "increase",
         times: [1235, 855],
-        timeRanges: [],
+        timeRanges: [{ startTime: 600, endTime: 1645 }, { endTime: 2240 }],
         start: new Date("2021-03-18"),
         end: new Date("2021-03-25"),
     };

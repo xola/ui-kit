@@ -13,13 +13,11 @@ const ScheduleEditorRow = ({ label, error, htmlFor, children }) => {
             <Col className={classNames("font-14 d-flex py-1 align-items-center")} sm={10}>
                 {children}
             </Col>
-            {error ? (
-                <Col sm={4}>
-                    <Input className={"d-lg-none"} invalid />
+            {error && (
+                <Col sm={{ size: 12, offset: 2 }}>
+                    <Input className="d-none" invalid />
                     <FormFeedback valid={false}> {error}</FormFeedback>
                 </Col>
-            ) : (
-                ""
             )}
         </FormGroup>
     );
