@@ -1,9 +1,8 @@
-import React from "react";
 import classNames from "classnames";
+import React from "react";
+import { Col, Row } from "reactstrap";
+import { CheckIcon } from "../../../";
 import styles from "./ProductListItem.module.scss";
-import { Row, Col } from "reactstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
 const ProductListItem = ({ product, onProductSelect }) => {
     return (
@@ -26,7 +25,7 @@ const ProductListItem = ({ product, onProductSelect }) => {
                                     "w-100 h-100 text-white d-flex text-center align-items-center justify-content-center",
                                 )}
                             >
-                                <FontAwesomeIcon icon={faCheck} />
+                                <CheckIcon style={{ width: 28, height: 28 }} />
                             </div>
                         ) : null}
                     </div>
