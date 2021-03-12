@@ -12,12 +12,15 @@
     color: theme-color("secondary");
 }
 
-.DayPicker-Caption,
 .DayPicker-Day {
-    color: $body-color;
     line-height: normal !important;
 }
 
+.DayPicker-Caption,
+.DayPicker-Day:not(.DayPicker-Day--disabled) {
+    color: $body-color;
+}
+
 .DayPicker-Day--today {
-    color: theme-color("danger");
+    color: theme-color("danger") !important;
 }
