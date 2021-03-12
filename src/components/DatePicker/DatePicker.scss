@@ -1,0 +1,23 @@
+@import "../../styles/variables.scss";
+
+.DayPicker-Day--selected {
+    background-color: theme-color("primary") !important;
+}
+
+.DayPicker-Weekday {
+    color: theme-color("secondary");
+}
+
+.DayPicker-NavButton {
+    color: theme-color("secondary");
+}
+
+.DayPicker-Caption,
+.DayPicker-Day {
+    color: $body-color;
+    line-height: normal !important;
+}
+
+.DayPicker-Day--today {
+    color: theme-color("danger");
+}

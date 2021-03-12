@@ -4,7 +4,10 @@ import DayPicker, { DateUtils } from "react-day-picker";
 import DayPickerInput from "react-day-picker/DayPickerInput";
 import dateFnsFormat from "date-fns/format";
 import _ from "lodash";
+import classNames from "classnames";
 import "react-day-picker/lib/style.css";
+import "./DatePicker.scss"; // Not using CSS modules here since we need to override styles from react-day-picker.
+import styles from "./DatePicker.module.scss";
 
 export const formatDate = (date, format, locale) => {
     return dateFnsFormat(date, format, { locale });
@@ -59,7 +62,7 @@ const DatePicker = ({
         <Fragment>
             {isDatePicker ? (
                 <DayPickerInput
-                    component={(props) => <input className="dayPickerInput form-control" {...props} />}
+                    component={(props) => <input className={classNames(styles.input, "form-control")} {...props} />}
                     value={value}
                     placeholder={placeholder}
                     format={format}
