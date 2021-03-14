@@ -40,3 +40,21 @@
 .cursor-pointer {
     cursor: pointer;
 }
+
+.modal-header {
+    border-bottom: none;
+    justify-content: center;
+
+    .modal-title {
+        flex: 1;
+        text-align: center;
+    }
+
+    .close {
+        margin-left: 0;
+    }
+}
+
+.modal-footer {
+    border-top: none;
+}
