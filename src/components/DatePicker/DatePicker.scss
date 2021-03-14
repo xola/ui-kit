@@ -1,19 +1,11 @@
 @import "../../styles/variables.scss";
 
-.DayPicker-Day--selected {
-    background-color: theme-color("primary") !important;
-}
-
-.DayPicker-Weekday {
-    color: theme-color("secondary");
-}
-
-.DayPicker-NavButton {
-    color: theme-color("secondary");
-}
-
 .DayPicker-Day {
     line-height: normal !important;
+}
+
+.DayPicker-Day--selected {
+    background-color: theme-color("primary") !important;
 }
 
 .DayPicker-Caption,
@@ -21,6 +13,6 @@
     color: $body-color;
 }
 
-.DayPicker-Day--today {
-    color: theme-color("danger") !important;
+.DayPicker-Day--today:not(.DayPicker-Day--selected):not(.DayPicker-Day--disabled) {
+    color: theme-color("danger");
 }
