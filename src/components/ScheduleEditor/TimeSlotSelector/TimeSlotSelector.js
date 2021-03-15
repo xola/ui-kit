@@ -38,7 +38,7 @@ const TimeSlotSelector = ({ name, value, onChange }) => {
         <div>
             {selectedValues.map((selectedValue, index) => (
                 <div
-                    className={classNames(styles.slot, "position-relative d-inline-block m-1")}
+                    className={classNames(styles.slot, "position-relative d-inline-block mr-2")}
                     key={index}
                     id={`timeslot-${index}`}
                 >
@@ -46,11 +46,12 @@ const TimeSlotSelector = ({ name, value, onChange }) => {
                         onClick={() => handleDeleteTimeSlot(index)}
                         className={classNames(
                             styles.clearButton,
-                            "position-absolute cursor-pointer text-white rounded-circle bg-secondary text-center cursor-pointer",
+                            "position-absolute cursor-pointer text-white rounded-circle bg-secondary text-center",
                         )}
                     >
                         &times;
                     </span>
+
                     <TimePicker value={selectedValue} onChange={(v) => handleChange(v, index)} />
                 </div>
             ))}
