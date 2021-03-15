@@ -1,40 +1,24 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import classNames from "classnames";
-import { Button } from "reactstrap";
+import { Dropdown, DropdownToggle, DropdownMenu } from "reactstrap";
 import TimeSlotPopOver from "./TimePickerPopover";
 import styles from "./TimePicker.module.scss";
 
-function toggleComponent(initialIsOpen) {
-    const [isOpen, setIsOpen] = useState(initialIsOpen);
-    const ref = useRef(null);
+const formatValue = (value) => {
+    if (_.isNil(value)) {
+        return null;
+    }
 
-    const handleHideComponent = (event) => {
-        if (event.key === "Escape") {
-            setIsOpen(false);
-        }
-    };
-
-    const handleClickOutside = (event) => {
-        if (ref.current && !ref.current.contains(event.target)) {
-            setIsOpen(false);
-        }
-    };
-
-    useEffect(() => {
-        document.addEventListener("keydown", handleHideComponent, true);
-        document.addEventListener("click", handleClickOutside, true);
-        return () => {
-            document.removeEventListener("keydown", handleHideComponent, true);
-            document.removeEventListener("click", handleClickOutside, true);
-        };
-    });
-
-    return { ref, isOpen, setIsOpen };
-}
+    return parseInt(value / 100) + ":" + (value % 100 < 10 ? "0" + (value % 100) : value % 100);
+};
 
 const TimePicker = ({ value, onChange }) => {
-    const { ref, isOpen, setIsOpen } = toggleComponent(false);
+    const [isOpen, setIsOpen] = useState(false);
     const [selectedValue, setSelectedValue] = useState(value);
+
+    useEffect(() => {
+        setSelectedValue(value);
+    }, [value]);
 
     const handleChange = (updatedValue) => {
         setSelectedValue(updatedValue);
@@ -43,38 +27,24 @@ const TimePicker = ({ value, onChange }) => {
         }
     };
 
-    useEffect(() => {
-        setSelectedValue(value);
-    }, [value]);
-
-    const openPopover = (e, isOpen) => {
-        e.preventDefault();
+    const handleToggle = () => {
         setIsOpen(!isOpen);
     };
 
-    const formatDisplayValue = (v) => {
-        if (_.isNull(v) || _.isUndefined(v)) {
-            return "";
-        }
-        return parseInt(v / 100) + ":" + (v % 100 < 10 ? "0" + (v % 100) : v % 100);
-    };
-
     return (
-        <div className={styles.timePicker} ref={ref}>
-            <Button
-                className={classNames(styles.button, "p-0 font-14 bg-white rounded text-center")}
-                onClick={(e) => openPopover(e, isOpen)}
+        <Dropdown isOpen={isOpen} toggle={handleToggle}>
+            <DropdownToggle
+                color="primary"
+                className={classNames(styles.button, "p-0 bg-white rounded text-center")}
+                outline
             >
-                {formatDisplayValue(selectedValue)}
-            </Button>
-            {isOpen && (
-                <TimeSlotPopOver
-                    value={selectedValue}
-                    onChange={(v) => handleChange(v)}
-                    onClose={() => setIsOpen(false)}
-                />
-            )}
-        </div>
+                {formatValue(selectedValue)}
+            </DropdownToggle>
+
+            <DropdownMenu className={classNames(styles.dropdownMenu, "p-4")}>
+                <TimeSlotPopOver value={selectedValue} onChange={handleChange} onClose={() => setIsOpen(false)} />
+            </DropdownMenu>
+        </Dropdown>
     );
 };
 

@@ -200,30 +200,32 @@ class ScheduleEditor extends Component {
                         />
                     </ScheduleEditorRow>
                 )}
-                <ScheduleEditorRow label="Valid from">
-                    <div>
-                        <DatePicker
-                            isDatePicker={true}
-                            onChange={(v) => this.handleChange(v, "start")}
-                            minDate={this.state.today}
-                            maxDate={new Date(this.state.schedule.end)}
-                            value={this.state.schedule.start ? new Date(this.state.schedule.start) : null}
-                            format="dd MMM, yyyy"
-                            placeholder="Now"
-                            clearButtonText="Now"
-                        />
-                        <span className="mx-2"> until </span>
-                        <DatePicker
-                            isDatePicker={true}
-                            onChange={(v) => this.handleChange(v, "end")}
-                            minDate={new Date(this.state.schedule.start)}
-                            value={this.state.schedule.end ? new Date(this.state.schedule.end) : null}
-                            format="dd MMM, yyyy"
-                            placeholder="Forever"
-                            clearButtonText="Forever"
-                        />
-                    </div>
-                </ScheduleEditorRow>
+                {this.state.schedule.repeat === "weekly" && (
+                    <ScheduleEditorRow label="Valid from">
+                        <div>
+                            <DatePicker
+                                isDatePicker={true}
+                                onChange={(v) => this.handleChange(v, "start")}
+                                minDate={this.state.today}
+                                maxDate={new Date(this.state.schedule.end)}
+                                value={this.state.schedule.start ? new Date(this.state.schedule.start) : null}
+                                format="dd MMM, yyyy"
+                                placeholder="Now"
+                                clearButtonText="Now"
+                            />
+                            <span className="mx-2"> until </span>
+                            <DatePicker
+                                isDatePicker={true}
+                                onChange={(v) => this.handleChange(v, "end")}
+                                minDate={new Date(this.state.schedule.start)}
+                                value={this.state.schedule.end ? new Date(this.state.schedule.end) : null}
+                                format="dd MMM, yyyy"
+                                placeholder="Forever"
+                                clearButtonText="Forever"
+                            />
+                        </div>
+                    </ScheduleEditorRow>
+                )}
                 {this.state.schedule.type === "available" && (
                     <ScheduleEditorRow label="Price" error={errors && errors.priceDelta}>
                         <div className="w-75 form-check-inline">

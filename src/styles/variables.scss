@@ -1,19 +1,22 @@
+$font-size-base: 0.875rem; // ~14px
+
 // Base body color.
-$body-color: #666666;
-$dark: #333333;
+$body-color: #222324;
+$dark: #222324;
+$light: #f0f2f4;
 
 // Theme colors.
 $theme-colors: (
-    "primary": #26aae3,
-    "secondary": $body-color,
-    "danger": #f23c3c,
-    "success": #8bc43f,
+    "primary": #1352c6,
+    "secondary": #505254,
+    "success": #27ce70,
+    "info": #3fe2ee,
+    "danger": #ff5a5a,
+    "warning": #ffc03d,
 );
 
-$headings-color: $dark;
-
 // Fonts.
-$font-family-sans-serif: "Helvetica Neue", Helvetica, Arial, sans-serif;
+$font-family-sans-serif: "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
 
 // Fixes button label contrast issue when theme colors are changed.
 // The yiq lightness value that determines when the lightness of color changes from "dark" to "light".

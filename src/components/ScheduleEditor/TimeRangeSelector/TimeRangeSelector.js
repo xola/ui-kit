@@ -1,9 +1,7 @@
-import React, { Fragment } from "react";
-import styles from "./TimeRangeSelector.module.scss";
 import classNames from "classnames";
-import { TimePicker } from "../../../";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import React, { Fragment } from "react";
+import { TimePicker, TrashIcon } from "../../../";
+import styles from "./TimeRangeSelector.module.scss";
 
 const TimeRangeSelector = ({ value, name, onChange }) => {
     let timeRanges;
@@ -56,7 +54,7 @@ const TimeRangeSelector = ({ value, name, onChange }) => {
                                     "cursor-pointer ml-2 text-center p-1 rounded-circle bg-danger text-white",
                                 )}
                             >
-                                <FontAwesomeIcon icon={faTrash} />
+                                <TrashIcon />
                             </span>
                         </div>
                     ))}

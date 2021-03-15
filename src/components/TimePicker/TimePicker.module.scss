@@ -1,19 +1,16 @@
 @import "../../styles/variables.scss";
 
-.timePicker {
-    .button {
-        width: 50px;
-        height: 40px;
-        border: solid 1px $input-border;
-        color: $input-color;
+.button {
+    width: 50px;
+    height: 35px; // Same height as form inputs.
+    border: solid 1px $input-border;
 
-        &:active:focus,
-        &:active:hover,
-        &:focus {
-            outline: none;
-            border: none;
-            color: $input-color;
-            box-shadow: 0 0 0 0.2rem rgba(38, 170, 227, 0.25);
-        }
+    &,
+    &:hover {
+        color: $input-color;
     }
+}
+
+.dropdownMenu {
+    width: 500px;
 }
