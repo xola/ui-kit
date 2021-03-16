@@ -3,27 +3,21 @@ import React, { Fragment } from "react";
 import { TimePicker, TrashIcon } from "../../../";
 import styles from "./TimeRangeSelector.module.scss";
 
-const TimeRangeSelector = ({ value, name, onChange }) => {
-    let timeRanges;
-    if (value && value.length > 0) {
-        timeRanges = value;
-    } else {
-        timeRanges = [{}];
-    }
-
+const TimeRangeSelector = ({ value = [{}], name, onChange }) => {
     const handleAddNewRow = () => {
-        timeRanges.push({ startTime: null, endTime: null });
-        onChange(timeRanges, name);
+        onChange([...value, { startTime: null, endTime: null }], name);
     };
 
     const handleDeleteRow = (event, index) => {
+        let timeRanges = [...value];
         timeRanges.splice(index, 1);
         onChange(timeRanges, name);
         event.preventDefault();
     };
 
-    const handleChange = (value, index, key) => {
-        timeRanges[index][key] = value;
+    const handleChange = (v, index, key) => {
+        let timeRanges = [...value];
+        timeRanges[index][key] = v;
         onChange(timeRanges, name);
     };
 
@@ -31,7 +25,7 @@ const TimeRangeSelector = ({ value, name, onChange }) => {
         <Fragment>
             <div>
                 <div className="d-block">
-                    {timeRanges.map((timeRange, index) => (
+                    {value.map((timeRange, index) => (
                         <div key={index} className={classNames("d-flex mb-2", styles.row)}>
                             <span className="mr-2">Start Time</span>
                             <span className="mr-4">
