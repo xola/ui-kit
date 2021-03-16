@@ -1,5 +1,5 @@
 import { ProductSelector } from "..";
-import React from "react";
+import React, { useState } from "react";
 import products from "../values/products";
 
 export default {
@@ -14,10 +14,7 @@ export const Default = () => {
 };
 
 export const withValues = () => {
-    const onChange = (selectedProducts) => {
-        console.log("Selected Products are", selectedProducts);
-    };
-    const selectedProducts = [
+    const [selectedProducts, setSelectedProducts] = useState([
         {
             id: "1",
             name: "Bird Watching Experience",
@@ -36,6 +33,10 @@ export const withValues = () => {
             seller: { id: "1" },
             photo: { src: "https://placeimg.com/140/105/nature" },
         },
-    ];
+    ]);
+    const onChange = (selectedProducts) => {
+        console.log("Selected Products are", selectedProducts);
+        setSelectedProducts(selectedProducts);
+    };
     return <ProductSelector onChange={onChange} value={selectedProducts} products={products} />;
 };
