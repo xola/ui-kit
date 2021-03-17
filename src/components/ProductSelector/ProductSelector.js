@@ -11,19 +11,15 @@ const filterProductsBySearch = (searchQuery = "", products = []) => {
 };
 
 const ProductSelector = ({ products = [], value = [], onChange }) => {
-    products = JSON.parse(JSON.stringify(products));
-    if (value.length > 0) {
-        _.forEach(value, (product) => {
-            const index = products.findIndex((p) => p.id === product.id);
-            products[index].selected = true;
-        });
-    }
-
     const [searchQuery, setSearchQuery] = useState("");
     const filteredProducts = filterProductsBySearch(searchQuery, products);
 
+    const isProductSelected = (productId) => {
+        return value.some((selectedProduct) => selectedProduct.id === productId);
+    };
+
     const onProductSelect = (productId) => {
-        if (value.findIndex((v) => v.id === productId) >= 0) {
+        if (isProductSelected(productId)) {
             onChange(value.filter((v) => productId !== v.id));
         } else {
             onChange([...value, products.find((p) => p.id === productId)]);
@@ -57,10 +53,16 @@ const ProductSelector = ({ products = [], value = [], onChange }) => {
                 </Col>
             </Row>
             <Row>
-                {filteredProducts &&
-                    filteredProducts.map((product) => {
-                        return <ProductListItem key={product.id} onProductSelect={onProductSelect} product={product} />;
-                    })}
+                {filteredProducts.map((product) => {
+                    return (
+                        <ProductListItem
+                            key={product.id}
+                            onProductSelect={onProductSelect}
+                            isSelected={isProductSelected(product)}
+                            product={product}
+                        />
+                    );
+                })}
             </Row>
         </Container>
     );
