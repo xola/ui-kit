@@ -15,7 +15,6 @@ const ProductSelector = ({ products = [], value = [], onChange }) => {
     const filteredProducts = filterProductsBySearch(searchQuery, products);
 
     const isProductSelected = (productId) => {
-        console.log(productId);
         return value.some((selectedProduct) => selectedProduct.id === productId);
     };
 
