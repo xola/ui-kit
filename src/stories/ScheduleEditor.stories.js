@@ -1,5 +1,5 @@
+import React, { useState } from "react";
 import { ScheduleEditor } from "..";
-import React from "react";
 
 export default {
     title: "ScheduleEditor",
@@ -13,7 +13,7 @@ export const Default = () => {
 };
 
 export const WithValues = () => {
-    const schedule = {
+    const [schedule, setSchedule] = useState({
         name: "Every Thursday",
         type: "available",
         repeat: "custom",
@@ -26,10 +26,11 @@ export const WithValues = () => {
         timeRanges: [{ startTime: 600, endTime: 1645 }, { endTime: 2240 }],
         start: new Date("2021-03-18"),
         end: new Date("2021-03-25"),
-    };
+    });
 
     const handleChange = (schedule) => {
-        console.log("Updated Schedule", schedule);
+        console.log("Updated Schedule in STORIES", schedule);
+        setSchedule(schedule);
     };
 
     return <ScheduleEditor value={schedule} price={200} onChange={handleChange} />;
