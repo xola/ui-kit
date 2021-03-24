@@ -13,6 +13,7 @@
     "devDependencies": {
         "@babel/cli": "^7.11.6",
         "@babel/core": "^7.11.6",
+        "@babel/plugin-proposal-class-properties": "^7.12.13",
         "@babel/preset-env": "^7.11.5",
         "@babel/preset-react": "^7.10.4",
         "@storybook/addon-actions": "^6.1.21",
@@ -33,12 +34,15 @@
     },
     "peerDependencies": {
         "react": ">=16.2.0",
-        "react-dom": ">=16.2.0"
+        "react-dom": ">=16.2.0",
+        "lodash": "^4.17.20"
     },
     "dependencies": {
         "bootstrap": "^4.5.2",
         "cleave.js": "^1.6.0",
+        "date-fns": "^2.18.0",
         "libphonenumber-js": "^1.7.58",
+        "react-day-picker": "^7.4.8",
         "reactstrap": "^8.5.1"
     }
 }

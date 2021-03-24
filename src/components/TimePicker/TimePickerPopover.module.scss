@@ -1,0 +1,48 @@
+@import "../../styles/variables.scss";
+
+.timepickerPopover {
+    z-index: 200;
+    width: 500px;
+    box-shadow: 0 0 5px $box-shadow-color;
+}
+
+.minuteContainer {
+    width: 126px;
+    .minutes {
+        width: 126px;
+    }
+}
+
+.hourContainer {
+    width: 334px;
+    .meridian {
+        width: 58px;
+        p {
+            margin-top: 40px;
+        }
+    }
+    .hours {
+        width: 252px;
+    }
+}
+
+.slotButton {
+    margin: 2px;
+    width: 38px !important;
+    height: 38px !important;
+    font-size: 14px;
+    background: white;
+    color: $input-color;
+    outline: none;
+    &:hover,
+    &:active,
+    &:focus {
+        background-color: theme-color("primary");
+        color: white;
+    }
+}
+
+.selected {
+    background-color: theme-color("primary");
+    color: white;
+}
