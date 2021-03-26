@@ -3,6 +3,28 @@
     "version": "2.0.0-alpha1",
     "description": "Xola UI Kit",
     "license": "MIT",
+    "files": [
+        "build"
+    ],
+    "main": "./build/xola-ui-kit.umd.js",
+    "module": "./build/xola-ui-kit.es.js",
+    "exports": {
+        ".": {
+            "import": "./build/xola-ui-kit.es.js",
+            "require": "./build/xola-ui-kit.umd.js"
+        }
+    },
+    "scripts": {
+        "build": "vite build"
+    },
+    "dependencies": {
+        "react": "^17.0.0",
+        "react-dom": "^17.0.0"
+    },
+    "devDependencies": {
+        "@vitejs/plugin-react-refresh": "^1.3.1",
+        "vite": "^2.1.3"
+    },
     "prettier": {
         "semi": true,
         "printWidth": 120,
