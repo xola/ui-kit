@@ -1,5 +1,5 @@
 import React from "react";
 
-export const Button = (props) => {
-    return <button {...props} />;
+export const Button = ({ backgroundColor, ...rest }) => {
+    return <button style={{ backgroundColor }} {...rest} />;
 };
