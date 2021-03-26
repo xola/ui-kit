@@ -2,47 +2,11 @@
     "name": "xola-ui-kit",
     "version": "2.0.0-alpha1",
     "description": "Xola UI Kit",
-    "main": "lib/index.js",
     "license": "MIT",
-    "scripts": {
-        "prepare": "webpack",
-        "build": "webpack",
-        "storybook": "start-storybook -p 6006",
-        "build-storybook": "build-storybook"
-    },
-    "devDependencies": {
-        "@babel/cli": "^7.11.6",
-        "@babel/core": "^7.11.6",
-        "@babel/plugin-proposal-class-properties": "^7.12.13",
-        "@babel/preset-env": "^7.11.5",
-        "@babel/preset-react": "^7.10.4",
-        "@storybook/addon-actions": "^6.1.21",
-        "@storybook/addon-essentials": "^6.1.21",
-        "@storybook/addon-links": "^6.1.21",
-        "@storybook/react": "^6.1.21",
-        "babel-loader": "^8.1.0",
-        "css-loader": "^4.3.0",
-        "node-sass": "^4.14.1",
-        "react": "^16.13.1",
-        "react-dom": "^16.13.1",
-        "react-is": "^16.13.1",
-        "sass-loader": "^10.0.2",
-        "style-loader": "^1.2.1",
-        "webpack": "^4.44.1",
-        "webpack-cli": "^3.3.12",
-        "webpack-node-externals": "^2.5.2"
-    },
-    "peerDependencies": {
-        "react": ">=16.2.0",
-        "react-dom": ">=16.2.0",
-        "lodash": "^4.17.20"
-    },
-    "dependencies": {
-        "bootstrap": "^4.5.2",
-        "cleave.js": "^1.6.0",
-        "date-fns": "^2.18.0",
-        "libphonenumber-js": "^1.7.58",
-        "react-day-picker": "^7.4.8",
-        "reactstrap": "^8.5.1"
+    "prettier": {
+        "semi": true,
+        "printWidth": 120,
+        "trailingComma": "all",
+        "tabWidth": 4
     }
 }
