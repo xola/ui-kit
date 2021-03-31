@@ -1,3 +1,6 @@
+const colors = require("./colors");
+const defaultTheme = require("tailwindcss/defaultTheme");
+
 module.exports = {
     purge: [
         "./src/**/*.js",
@@ -9,12 +12,31 @@ module.exports = {
     darkMode: false,
 
     theme: {
-        extend: {},
+        colors: {
+            transparent: "transparent",
+            current: "currentColor",
+            black: "#222324",
+            white: "#ffffff",
+            ...colors,
+            primary: colors.blue,
+            secondary: colors.gray,
+            warning: colors.yellow,
+            success: colors.green,
+            danger: colors.red,
+        },
+
+        extend: {
+            fontFamily: {
+                sans: ["SF Pro Display", ...defaultTheme.fontFamily.sans],
+            },
+        },
     },
 
     variants: {
-        extend: {},
+        extend: {
+            opacity: ["disabled"],
+        },
     },
 
-    plugins: [],
+    plugins: [require("@tailwindcss/forms")],
 };

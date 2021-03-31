@@ -4,11 +4,35 @@ import { Button } from "..";
 export default {
     title: "Button",
     component: Button,
-    argTypes: {
-        backgroundColor: { control: "color" },
-    },
 };
 
-export const Default = (props) => {
-    return <Button {...props}>Hello</Button>;
+export const Default = () => {
+    return (
+        <div className="space-x-4">
+            <Button>Default</Button>
+        </div>
+    );
+};
+
+export const Colors = () => {
+    return (
+        <div className="space-x-4">
+            <Button color="primary">Primary</Button>
+            <Button color="secondary">Secondary</Button>
+            <Button color="success">Success</Button>
+            <Button color="warning">Warning</Button>
+            <Button color="danger">Danger</Button>
+            <Button color="outline">Outline</Button>
+        </div>
+    );
+};
+
+export const Sizes = () => {
+    return (
+        <div className="space-x-4">
+            <Button size="small">Small</Button>
+            <Button size="medium">Medium</Button>
+            <Button size="large">Large</Button>
+        </div>
+    );
 };
