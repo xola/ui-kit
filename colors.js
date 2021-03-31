@@ -14,11 +14,11 @@ const getColor = (value) => {
     const color = new Color(value);
 
     return {
-        lightest: color.lighten(0.5).hex(),
+        lightest: color.lighten(0.75).hex(),
         light: color.lighten(0.25).hex(),
         DEFAULT: color.hex(),
         dark: color.darken(0.25).hex(),
-        darkest: color.darken(0.5).hex(),
+        darkest: color.darken(0.75).hex(),
     };
 };
 
