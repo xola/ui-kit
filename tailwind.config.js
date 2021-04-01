@@ -67,11 +67,9 @@ module.exports = {
 
     theme: {
         colors: {
-            transparent: "transparent",
-            current: "currentColor",
-            black: "#222324",
-            white: "#ffffff",
             ...colors,
+
+            // Color aliases.
             primary: colors.blue,
             secondary: colors.gray,
             warning: colors.yellow,
