@@ -8,6 +8,7 @@ const colors = {
     warning: "bg-warning border-warning hover:bg-warning-dark hover:border-warning-dark text-white",
     danger: "bg-danger border-danger hover:bg-danger-dark hover:border-danger-dark text-white text-white",
     outline: "bg-white border-secondary-lightest hover:border-secondary text-black hover:text-secondary",
+    link: "border-transparent hover:underline",
 };
 
 const sizes = {

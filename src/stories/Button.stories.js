@@ -23,6 +23,7 @@ export const Colors = () => {
             <Button color="warning">Warning</Button>
             <Button color="danger">Danger</Button>
             <Button color="outline">Outline</Button>
+            <Button color="link">Link</Button>
         </div>
     );
 };
