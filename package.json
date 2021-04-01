@@ -15,6 +15,7 @@
         }
     },
     "scripts": {
+        "start": "start-storybook -p 6006",
         "dev": "start-storybook -p 6006",
         "storybook": "start-storybook -p 6006",
         "build": "vite build",
