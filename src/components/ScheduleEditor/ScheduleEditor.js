@@ -156,6 +156,7 @@ const ScheduleEditor = ({ value = {}, errors = {}, price = 0, isNew = true, onCh
             {schedule.type === "unavailable" && (
                 <ScheduleEditorRow label="Time ranges">
                     <TimeRangeSelector
+                        error={errors && errors.timeRanges}
                         name="timeRanges"
                         value={schedule.timeRanges}
                         onChange={(v) => handleChange(v, "timeRanges")}
