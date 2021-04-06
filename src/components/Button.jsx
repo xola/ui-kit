@@ -22,7 +22,7 @@ export const Button = ({ className, color = "primary", size = "medium", ...rest 
         <button
             className={clsx(
                 className,
-                "transition-colors border font-semibold focus:outline-none focus:ring disabled:opacity-50 rounded-md",
+                "transition-colors border font-semibold focus:ring disabled:opacity-50 rounded-md",
                 colors[color],
                 sizes[size],
             )}

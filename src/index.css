@@ -5,3 +5,7 @@
 html {
     font-size: 14px;
 }
+
+button:focus {
+    @apply outline-none;
+}

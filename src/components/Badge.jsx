@@ -9,11 +9,17 @@ const colors = {
     danger: "bg-danger",
 };
 
-export const Badge = ({ className, color = "primary", ...rest }) => {
+const sizes = {
+    small: "px-1",
+    medium: "px-2 py-0.5",
+    large: "px-3 py-1",
+};
+
+export const Badge = ({ className, color = "primary", size = "medium", ...rest }) => {
     return (
         <span
             style={{ minWidth: 20 }}
-            className={clsx(className, "font-semibold px-2 py-1 text-white rounded-full text-center", colors[color])}
+            className={clsx(className, "font-semibold text-white rounded-full text-center", colors[color], sizes[size])}
             {...rest}
         />
     );
