@@ -35,28 +35,3 @@ export const WithValues = () => {
 
     return <ScheduleEditor value={schedule} price={200} onChange={handleChange} />;
 };
-
-export const withTimeRangeErrors = () => {
-    const [schedule, setSchedule] = useState({
-        name: "Every Thursday",
-        type: "unavailable",
-        repeat: "weekly",
-        days: [4],
-        departure: "fixed",
-        priceDelta: 60,
-        priceDeltaType: "increase",
-        times: [1235, 855],
-        timeRanges: [{ startTime: 600, endTime: 1645 }, { endTime: 2240 }],
-        start: new Date("2021-03-18"),
-        end: new Date("2021-03-25"),
-    });
-    const errors = {
-        timeRanges: {
-            "1": { startTime: "Required", endTime: "End time cannot be before the start time" },
-        },
-    };
-    const handleChange = (schedule) => {
-        setSchedule(schedule);
-    };
-    return <ScheduleEditor value={schedule} errors={errors} onChange={handleChange} />;
-};

@@ -2,7 +2,6 @@ import classNames from "classnames";
 import React, { Fragment } from "react";
 import { TimePicker, TrashIcon } from "../../../";
 import styles from "./TimeRangeSelector.module.scss";
-import { Input, FormFeedback } from "reactstrap";
 
 const TimeRangeSelector = ({ value = [{}], name, onChange, error }) => {
     const handleAddNewRow = () => {
@@ -40,14 +39,13 @@ const TimeRangeSelector = ({ value = [{}], name, onChange, error }) => {
                                 </div>
                                 {error && error[index] && (
                                     <Fragment>
-                                        <Input className="d-none" invalid />
-                                        <FormFeedback valid={false}>
+                                        <div className="invalid-feedback d-block">
                                             {error[index].startTime ? (
                                                 <span>{error[index].startTime}</span>
                                             ) : (
                                                 <span>&nbsp;</span>
                                             )}
-                                        </FormFeedback>
+                                        </div>
                                     </Fragment>
                                 )}
                             </div>
@@ -72,14 +70,13 @@ const TimeRangeSelector = ({ value = [{}], name, onChange, error }) => {
                                 </div>
                                 {error && error[index] && (
                                     <Fragment>
-                                        <Input className="d-none" invalid />
-                                        <FormFeedback valid={false}>
+                                        <div className="invalid-feedback d-block">
                                             {error[index].endTime ? (
                                                 <span>{error[index].endTime}</span>
                                             ) : (
                                                 <span>&nbsp;</span>
                                             )}
-                                        </FormFeedback>
+                                        </div>
                                     </Fragment>
                                 )}
                             </div>
