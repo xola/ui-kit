@@ -15,6 +15,12 @@ const ScheduleEditor = ({ value = {}, errors = {}, price = 0, isNew = true, onCh
     if (value.dates?.length > 0) {
         value.dates = value.dates.map((date) => new Date(date));
     }
+    if (value.start) {
+        value.start = new Date(value.start);
+    }
+    if (value.end) {
+        value.end = new Date(value.end);
+    }
     const today = new Date();
     const defaultScheduleEditorValues = getScheduleDefaultValues();
     const schedule = _.extend(defaultScheduleEditorValues, value);
