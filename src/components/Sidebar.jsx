@@ -3,7 +3,18 @@ import React from "react";
 import { ChevronRightIcon } from "../icons/ChevronRightIcon";
 import { StarIcon } from "../icons/StarIcon";
 import { XolaLogoCircle } from "../images/XolaLogoCircle";
-import { Badge } from "./Badge";
+
+export const SidebarNotificationCount = ({className, count}) => {
+    return (
+        <span
+            className={clsx(
+                className,
+                "inline-flex items-center justify-center h-6 w-6 rounded-full bg-red-dark text-white text-center",
+            )}>
+            {count}
+        </span>
+    );
+};
 
 export const SidebarLink = ({ active, icon: Icon, children, size = "small", ...rest }) => {
     return (
@@ -28,9 +39,7 @@ export const Sidebar = () => {
     return (
         <div className="bg-black p-2 text-white h-screen w-24 md:w-56 overflow-y-auto">
             <div className="p-2 text-center md:text-left">
-                <Badge className="text-sm" color="danger">
-                    3
-                </Badge>
+                <SidebarNotificationCount className="text-sm" count={3} />
             </div>
 
             <div className="text-center mb-10">
