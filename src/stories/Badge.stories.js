@@ -4,12 +4,37 @@ import { Badge } from "..";
 export default {
     title: "Badge",
     component: Badge,
+    argTypes: {
+        text: {
+            type: { required: false },
+            defaultValue: "Default",
+            control:{
+                type: "text"
+            }
+        },
+        color: {
+            type: { required: true },
+            defaultValue: "primary",
+            control: {
+                type: "radio",
+                options: ["primary", "secondary", "success", "warning", "danger"],
+            },
+        },
+        size: {
+            control: {
+                type: "radio",
+                options: ["small", "medium", "large"],
+            },
+        },
+    },
 };
 
-export const Default = () => {
+export const Default = ({ className, color, size, text='Default' }) => {
     return (
         <div className="space-x-4">
-            <Badge>Default</Badge>
+            <Badge className={className} color={color} size={size}>
+                {text}
+            </Badge>
         </div>
     );
 };

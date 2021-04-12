@@ -6,27 +6,23 @@ import PropTypes from "prop-types";
  * @enum {string}
  */
 const colors = {
-    primary: "bg-primary",
-    secondary: "bg-secondary",
-    success: "bg-success",
-    warning: "bg-warning",
-    danger: "bg-danger",
+    primary: "bg-primary-lighter text-primary-dark",
+    secondary: "bg-secondary-lighter text-secondary-dark",
+    success: "bg-success-lighter text-success-dark",
+    warning: "bg-warning-lighter text-warning-dark",
+    danger: "bg-red-lighter text-red-dark",
 };
 
 const sizes = {
-    small: "px-1",
-    medium: "px-2 py-0.5",
-    large: "px-3 py-1",
+    small: "text-xs px-2.5 py-0.5",
+    medium: "text-sm  px-3 py-0.5",
+    large: "text-md px-4 py-2",
 };
 
-/**
- * @param {colors} props.color
- * @returns
- */
 export const Badge = ({ className, color = "primary", size = "medium", ...rest }) => {
     return (
         <span
-            className={clsx(className, "font-semibold text-white rounded-full text-center", colors[color], sizes[size])}
+            className={clsx(className, "rounded-full text-center", colors[color], sizes[size])}
             {...rest}
         />
     );
