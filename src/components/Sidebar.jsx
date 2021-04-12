@@ -28,8 +28,8 @@ export const SidebarLink = ({ active, icon: Icon, children, size = "small", ...r
             )}
             {...rest}
         >
-            <Icon className="w-5 h-5 mr-3" />
-            <span className="hidden md:inline">{children}</span>
+            <Icon className="hidden md:inline w-5 h-5 mr-3" />
+            <span className="sm:px-2">{children}</span>
             <ChevronRightIcon className="ml-auto w-3 h-3 hidden md:inline" />
         </button>
     );
