@@ -14,7 +14,7 @@ export default {
             },
         },
         size: {
-            description: "Badge Size",
+            description: "Avatar Size",
             defaultValue: "large",
             table: {
                 type: { summary: "one of the options" },
@@ -28,18 +28,15 @@ export default {
     },
 };
 
-export const Default = ({ name, size }) => {
-    name = name || "John Doe";
+export const Default = ({ name = 'John Doe', size }) => {
     return component(name, size);
 };
 
-export const OneName = ({ name, size }) => {
-    name = name || "Cher";
+export const OneName = ({ name = 'Cher', size }) => {
     return component(name, size);
 };
 
-export const TripleName = ({ name, size }) => {
-    name = name || "James Scott Zimmerman";
+export const TripleName = ({ name = 'James Scott Zimmerman', size }) => {
     return component(name, size);
 };
 
