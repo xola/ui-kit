@@ -1,7 +1,7 @@
 // Components.
 export { Button } from "./components/Button";
 export { Badge } from "./components/Badge";
-export { Sidebar, SidebarLink } from "./components/Sidebar";
+export { Sidebar, SidebarLink, SidebarFooter } from "./components/Sidebar";
 export { Avatar } from "./components/Avatar";
 
 // Icons.

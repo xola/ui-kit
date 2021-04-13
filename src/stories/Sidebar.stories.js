@@ -1,5 +1,5 @@
 import React from "react";
-import { Sidebar, SidebarLink, StarIcon } from "..";
+import { Sidebar, SidebarLink, StarIcon, SidebarFooter } from "..";
 
 export default {
     title: "Sidebar",
@@ -8,7 +8,7 @@ export default {
 
 export const Default = () => {
     return (
-        <Sidebar>
+        <Sidebar notifications={3} footer={<SidebarFooter name="Scott" />}>
             <SidebarLink icon={StarIcon} active>
                 Hello
             </SidebarLink>
