@@ -9,3 +9,7 @@ html {
 button:focus {
     @apply outline-none;
 }
+
+tbody tr:nth-child(2) {
+    @apply bg-gray-lighter;
+}
