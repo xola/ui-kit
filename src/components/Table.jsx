@@ -9,12 +9,12 @@ export const TableHead = ({ className, ...rest }) => {
     return <thead className={clsx(className, "bg-gray-lighter")} {...rest} />;
 };
 
-export const TableBody = ({ className, ...rest }) => {
-    return <tbody className={clsx(className, "border-none")} {...rest} />;
-};
-
 export const TableHeader = ({ className, ...rest }) => {
     return <th className={clsx(className, "px-6 py-3 text-left text-sm font-bold")} {...rest} />;
+};
+
+export const TableBody = ({ className, ...rest }) => {
+    return <tbody className={clsx(className, "border-none")} {...rest} />;
 };
 
 export const TableCell = ({ className, ...rest }) => {
