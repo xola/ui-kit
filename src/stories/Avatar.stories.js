@@ -10,7 +10,7 @@ export default {
             type: { required: true },
             control: { type: "text" },
             table: {
-                type: { summary: "example: John Doe" }
+                type: { summary: "example: John Doe" },
             },
         },
         size: {
@@ -28,16 +28,16 @@ export default {
     },
 };
 
-export const Default = ({ name = 'John Doe', size }) => {
-    return component(name, size);
+export const Default = ({ className, name = "John Doe", size }) => {
+    return component(className, name, size);
 };
 
-export const OneName = ({ name = 'Cher', size }) => {
-    return component(name, size);
+export const OneNameLikeCher = ({ className, name = "Cher", size }) => {
+    return component(className, name, size);
 };
 
-export const TripleName = ({ name = 'James Scott Zimmerman', size }) => {
-    return component(name, size);
+export const TripleNameLikeJScottZ = ({ className, name = "James Scott Zimmerman", size }) => {
+    return component(className, name, size);
 };
 
-const component = (name, size) => <Avatar name={name} size={size} />;
+const component = (className, name, size) => <Avatar className={className} name={name} size={size} />;
