@@ -1,6 +1,11 @@
-import { Button } from "./components/Button";
-import { Badge } from "./components/Badge";
-import { Sidebar } from "./components/Sidebar";
-import { Avatar } from "./components/Avatar";
+// Components.
+export { Button } from "./components/Button";
+export { Badge } from "./components/Badge";
+export { Sidebar, SidebarLink, SidebarFooter } from "./components/Sidebar";
+export { Avatar } from "./components/Avatar";
+export { Table, TableBody, TableCell, TableHead, TableRow, TableHeader } from "./components/Table";
 
-export { Button, Badge, Sidebar, Avatar };
+// Icons.
+export { ChevronRightIcon } from "./icons/ChevronRightIcon";
+export { StarIcon } from "./icons/StarIcon";
+export { UserIcon } from "./icons/UserIcon";

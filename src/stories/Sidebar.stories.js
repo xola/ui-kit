@@ -1,5 +1,5 @@
 import React from "react";
-import { Sidebar } from "..";
+import { Sidebar, SidebarLink, StarIcon, UserIcon, SidebarFooter } from "..";
 
 export default {
     title: "Sidebar",
@@ -7,5 +7,13 @@ export default {
 };
 
 export const Default = () => {
-    return <Sidebar />;
+    return (
+        <Sidebar notifications={3} footer={<SidebarFooter name="Scott" />}>
+            <SidebarLink icon={UserIcon} active>
+                Sellers
+            </SidebarLink>
+
+            <SidebarLink icon={StarIcon}>Favorites</SidebarLink>
+        </Sidebar>
+    );
 };
