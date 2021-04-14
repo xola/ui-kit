@@ -3,6 +3,7 @@ export { Button } from "./components/Button";
 export { Badge } from "./components/Badge";
 export { Sidebar, SidebarLink, SidebarFooter } from "./components/Sidebar";
 export { Avatar } from "./components/Avatar";
+export { Tooltip } from "./components/Tooltip";
 export { Table, TableBody, TableCell, TableHead, TableRow, TableHeader } from "./components/Table";
 
 // Icons.
