@@ -1,27 +1,98 @@
 import React, { useState } from "react";
 import clsx from "clsx";
-import { Button } from "..";
-import { Tooltip } from "..";
+import { Button, Tooltip, UserIcon } from "..";
 
 export default {
     title: "Tooltip",
     component: Tooltip,
+    argTypes: {
+        text: {
+            type: { required: false },
+            defaultValue: "Default",
+            control: {
+                type: "text",
+            },
+        },
+        trigger: {
+            type: { required: false },
+            defaultValue: "hover",
+            control: {
+                type: "radio",
+                options: ["hover", "click"],
+            },
+        },
+        placement: {
+            type: { required: false },
+            defaultValue: "right",
+            control: {
+                type: "radio",
+                options: ["top", "bottom", "left", "right", "auto"],
+            },
+        },
+        offset: {
+            defaultValue: [0, 2],
+            control: {
+                type: "array",
+            },
+        },
+        delayHide: {
+            type: { required: false },
+            defaultValue: 0,
+            control: {
+                type: "number",
+            },
+        },
+        delayShow: {
+            type: { required: false },
+            defaultValue: 0,
+            control: {
+                type: "number",
+            },
+        },
+        followCursor: {
+            type: { required: false },
+            defaultValue: false,
+            control: {
+                type: "boolean",
+            },
+        },
+        interactive: {
+            type: { required: false },
+            defaultValue: false,
+            control: {
+                type: "boolean",
+            },
+        },
+        closeOnOutsideClick: {
+            type: { required: false },
+            defaultValue: true,
+            control: {
+                type: "boolean",
+            },
+        },
+        closeOnTriggerHidden: {
+            type: { required: false },
+            defaultValue: false,
+            control: {
+                type: "boolean",
+            },
+        },
+    },
 };
 
-export const Hover = () => {
-    const offset = [0, 15];
-    const isVisible = true;
+export const Default = (config) => {
     return (
-        <Tooltip text="Lorem Ipsum" trigger="hover" placement="bottom" offset={offset}>
-            <Button>Hover over me</Button>
+        <Tooltip {...config}>
+            <Button>{config.text}</Button>
         </Tooltip>
     );
 };
 
-export const Click = () => {
+export const OnAnIcon = (config) => {
+    config.text = "Hello, I am user icon";
     return (
-        <Tooltip text="Lorem Ipsum" trigger="click" placement="right">
-            <Button>Click Me</Button>
+        <Tooltip {...config}>
+            <UserIcon className="inline" />
         </Tooltip>
     );
 };
