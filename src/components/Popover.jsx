@@ -18,24 +18,24 @@ Popover.Content = ({ className, children }) => {
     const classes = clsx(className, "popover max-w-xs");
     const hasTitle = children.length > 1;
     children = Array.isArray(children) ? children : [children];
-    
+
     return (
         <div className={classes}>
-            {
-                children.map((child, idx) => {
-                    if (hasTitle && idx === 0) {
-                        return (
-                            <div key={idx} className="popover-title px-3 pt-2 pb-1">{child}</div>
-                        );
-                    } else {
-                        return (
-                            <div key={idx}  className="popover-content px-3 py-1">
-                                {child}
-                            </div>
-                        );
-                    }
-                })
-            }
+            {children.map((child, idx) => {
+                if (hasTitle && idx === 0) {
+                    return (
+                        <div key={idx} className="popover-title px-3 pt-2 pb-1">
+                            {child}
+                        </div>
+                    );
+                } else {
+                    return (
+                        <div key={idx} className="popover-content px-3 py-1">
+                            {child}
+                        </div>
+                    );
+                }
+            })}
         </div>
     );
 };
