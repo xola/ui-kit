@@ -2,88 +2,78 @@ import React, { useState } from "react";
 import clsx from "clsx";
 import { Button, Tooltip, UserIcon } from "..";
 
+// More props in docs
+const docs = "https://atomiks.github.io/tippyjs/v6/all-props/";
+
 export default {
     title: "Tooltip",
     component: Tooltip,
     argTypes: {
-        text: {
-            type: { required: false },
-            defaultValue: "Default",
-            control: {
-                type: "text",
-            },
-        },
-        trigger: {
-            type: { required: false },
-            defaultValue: "hover",
-            control: {
-                type: "radio",
-                options: ["hover", "click"],
-            },
-        },
-        placement: {
-            type: { required: false },
-            defaultValue: "right",
-            control: {
-                type: "radio",
-                options: ["top", "bottom", "left", "right", "auto"],
-            },
-        },
-        offset: {
-            defaultValue: [0, 2],
-            control: {
-                type: "array",
-            },
-        },
-        delayHide: {
-            type: { required: false },
-            defaultValue: 0,
-            control: {
-                type: "number",
-            },
-        },
-        delayShow: {
-            type: { required: false },
-            defaultValue: 0,
-            control: {
-                type: "number",
-            },
-        },
-        followCursor: {
-            type: { required: false },
-            defaultValue: false,
-            control: {
-                type: "boolean",
-            },
-        },
-        interactive: {
-            type: { required: false },
-            defaultValue: false,
-            control: {
-                type: "boolean",
-            },
-        },
-        closeOnOutsideClick: {
-            type: { required: false },
-            defaultValue: true,
-            control: {
-                type: "boolean",
-            },
-        },
-        closeOnTriggerHidden: {
-            type: { required: false },
-            defaultValue: false,
-            control: {
-                type: "boolean",
-            },
-        },
+        demoText: getArg("Default", "text", null, "The value for the button", "for this demo only"),
+        content: getArg("My tooltip text", "text", null, "The text of the tooltip"),
+        trigger: getArg(
+            "mouseenter",
+            "radio",
+            ["mouseenter", "click", "focus", "focusin", "manual"],
+            "One or multiple values to indicate what causes the tooltip to show up",
+        ),
+        placement: getArg(
+            "right",
+            "radio",
+            ["top", "bottom", "left", "right", "auto"],
+            `Where to place the tooltip. [More in the docs](${docs})`
+        ),
+        allowHTML: getArg(false, "boolean", false, "Allow HTML content in tooltip"),
+        interactive: getArg(
+            false,
+            "boolean",
+            false,
+            "Determines if the tippy has interactive content inside of it, so that it can be hovered over and clicked inside without hiding",
+        ),
+        delay: getArg(0, "number", null, "Delay in ms once a trigger event is fired before a tippy shows or hides"),
+        maxWidth: getArg(
+            350,
+            "number",
+            null,
+            "Specifies the maximum width of the tippy. Useful to prevent it from being too horizontally wide to read",
+        ),
+        duration: getArg([300, 250], "array", null, "Duration in ms of the transition animation"),
+        offset: getArg(
+            [0, 10],
+            "array",
+            null,
+            "Displaces the tippy from its reference element in pixels _(skidding and distance)_",
+        ),
+        followCursor: getArg(
+            "false",
+            "radio",
+            [false, true, "vertical", "horizontal", "initial"],
+            "Determines if tooltip follows the user's cursor",
+        ),
+        zIndex: getArg(9999, "number", null, "Specifies the `z-index` CSS on the root popper node"),
     },
 };
+
+function getArg(defaultValue, type, options, description, summary = null) {
+    return {
+        type: { required: false },
+        defaultValue,
+        description,
+        control: {
+            type,
+            options,
+        },
+        table: {
+            type: { summary },
+            defaultValue: { summary: defaultValue },
+        },
+    };
+}
 
 export const Default = (config) => {
     return (
         <Tooltip {...config}>
-            <Button>{config.text}</Button>
+            <Button>{config.demoText}</Button>
         </Tooltip>
     );
 };
