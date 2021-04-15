@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 import { Button, Popover } from "..";
 
 // More props in docs
@@ -7,13 +7,13 @@ const docs = "https://atomiks.github.io/tippyjs/v6/all-props/";
 export default {
     title: "Popover",
     component: Popover,
-    decorators: [
-        (Story) => (
-            <div style={{ margin: "2em" }}>
-                <Story />
-            </div>
-        ),
-    ],
+    // decorators: [
+    //     (Popover) => (
+    //         <div style={{ margin: "2em" }}>
+    //             <Popover />
+    //         </div>
+    //     ),
+    // ],
     argTypes: {
         demoText: getArg("Default", "text", null, "The value for the button", "for this demo only"),
         trigger: getArg(
