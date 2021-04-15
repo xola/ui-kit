@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import clsx from "clsx";
+import React from "react";
 import { Button, Tooltip, UserIcon } from "..";
 
 // More props in docs
@@ -21,7 +20,7 @@ export default {
             "right",
             "radio",
             ["top", "bottom", "left", "right", "auto"],
-            `Where to place the tooltip. [More in the docs](${docs})`
+            `Where to place the tooltip. [More in the docs](${docs})`,
         ),
         allowHTML: getArg(false, "boolean", false, "Allow HTML content in tooltip"),
         interactive: getArg(
