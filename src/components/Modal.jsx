@@ -1,45 +1,16 @@
 import clsx from "clsx";
-import { Button } from "./Button";
-import React, { Fragment, useState, useRef, useEffect } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 
-const CancelButton = React.forwardRef((props, ref) => {
-    return (
-        <Button
-            className={clsx(props.cancelButtonClass, "w-full sm:w-auto sm:text-sm sm:ml-3")}
-            color="outline"
-            ref={ref}
-            onClick={props.onClose}
-        >
-            {props.cancelText}
-        </Button>
-    );
-});
-
-export const Modal = ({ primaryText = "Cancel Booking", cancelText = "Cancel", onHide, children }) => {
+export const Modal = ({ size, onHide, children }) => {
     const [open, setOpen] = useState(true);
-    const Header = children[0];
-    const Body = children[1];
+    const [Header, Body, Footer] = children; // Needs to be an array
 
-    const cancelButtonRef = useRef();
-
-    const size = "sm:max-w-2xl"; // props.rable value
-    const primaryButtonClass = "";
-    const cancelButtonClass = "";
-
-    const modalArgs = {
-        size,
-        primaryText,
-        cancelText,
-        primaryButtonClass,
-        cancelButtonClass,
-        Header,
-        Body,
-    };
+    size = size ? size : "sm:max-w-2xl";
+    const modalArgs = { size, Header, Body, Footer };
 
     useEffect(() => {
-        console.log("use effect", open);
-        !open && setTimeout(onHide, 1000);
+        !open && setTimeout(onHide, 500);
     });
 
     console.log("Open is now", open);
@@ -50,7 +21,6 @@ export const Modal = ({ primaryText = "Cancel Booking", cancelText = "Cancel", o
                 as="div"
                 static
                 className="fixed z-10 inset-0 overflow-y-auto"
-                initialFocus={cancelButtonRef}
                 open={open}
                 onClose={setOpen}
             >
@@ -84,7 +54,7 @@ export const Modal = ({ primaryText = "Cancel Booking", cancelText = "Cancel", o
             </Dialog>
         </Transition.Root>
     );
-};
+};;
 
 Modal.Core = React.forwardRef((props, ref) => {
     console.log("props on click", props);
@@ -95,7 +65,7 @@ Modal.Core = React.forwardRef((props, ref) => {
     );
     return (
         <div ref={ref} className={modalClasses}>
-            <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+            <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 w-">
                 <div className="sm:flex sm:items-start">
                     <div className="mt-3 text-center sm:mt-0 sm:ml-4 w-full">
                         {props.Header}
@@ -104,17 +74,7 @@ Modal.Core = React.forwardRef((props, ref) => {
                 </div>
             </div>
 
-            <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                <Button
-                    className={clsx(props.primaryButtonClass, "w-full sm:w-auto sm:text-sm sm:ml-3")}
-                    color="danger"
-                    onClick={props.onClick}
-                >
-                    {props.primaryText}
-                </Button>
-
-                <CancelButton {...props} onClose={props.onHide} />
-            </div>
+            <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex float-right">{props.Footer}</div>
         </div>
     );
 });
@@ -129,4 +89,8 @@ Modal.Header = ({ children }) => {
 
 Modal.Body = ({ children }) => {
     return <div className="mt-2 text-left">{children}</div>;
+};
+
+Modal.Footer = ({ children }) => {
+    return children;
 };
