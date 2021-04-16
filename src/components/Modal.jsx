@@ -2,26 +2,49 @@ import clsx from "clsx";
 import React, { Fragment, useState, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 
-export const Modal = ({ size, show, children }) => {
-    const [open, setOpen] = useState(show);
-    const [Header, Body, Footer] = children; // Needs to be an array
+const sizes = {
+    xs: "sm:max-w-xs",
+    sm: "sm:max-w-sm",
+    md: "sm:max-w-md",
+    lg: "sm:max-w-lg",
+    xl: "sm:max-w-xl",
+    "2xl": "sm:max-w-2xl",
+    "3xl": "sm:max-w-3xl",
+    "4xl": "sm:max-w-4xl",
+    "5xl": "sm:max-w-5xl",
+};
 
-    size = size ? size : "sm:max-w-2xl";
-    const modalArgs = { size, Header, Body, Footer };
+export const Modal = ({ size, show, showClose, closeOnClickOutside, onHide, children }) => {
+    const childCount = React.Children.count(children);
+    if (childCount < 3) {
+        console.warn(`You have an insufficient number of children ${childCount}, the modal may not behave as expected`);
+    }
+
+    const [open, setOpen] = useState(show);
+    const [Header, Body, Footer] = children;
+
+    const width = sizes[size || "lg"];
+    const modalArgs = { width, showClose, Header, Body, Footer };
+
+    // Decide what method to call when the user click's outside the modal
+    const onClickOutside = closeOnClickOutside ? setOpen : () => {};
 
     useEffect(() => {
+        // Invoked when someone outside this component wants the modal to open or close
         setOpen(show);
-    });
+    }, [show]);
+
+    useEffect(() => {
+        // Invoked when the modal asked itself to close (clicking "X" or outside the modal). Tell the parent the modal
+        // has closed
+        if (open !== show) {
+            onHide();
+        }
+    }, [open]);
 
     return (
         <Transition.Root show={open} as={Fragment}>
-            <Dialog
-                as="div"
-                static
-                className="fixed z-10 inset-0 overflow-y-auto"
-                open={open}
-                onClose={setOpen}
-            >
+            <Dialog as="div" static className="fixed z-10 inset-0 overflow-y-auto" open={open} onClose={onClickOutside}>
                 <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                     <Transition.Child
                         as={Fragment}
@@ -52,18 +75,24 @@ export const Modal = ({ size, show, children }) => {
             </Dialog>
         </Transition.Root>
     );
-};;
+};
 
 Modal.Core = React.forwardRef((props, ref) => {
-    console.log("props on click", props);
-
     const modalClasses = clsx(
-        props.size,
-        "modal sm:w-full inline-block align-bottom bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle",
+        props.width,
+        "modal sm:w-full inline-block align-bottom bg-white rounded-lg overflow-hidden shadow-xl transform",
+        "transition-all sm:my-8 sm:align-middle",
     );
     return (
         <div ref={ref} className={modalClasses}>
-            <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 w-">
+            <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                <div className="hidden sm:block absolute top-0 right-0 pt-4 pr-4">
+                    {props.showClose && (
+                        <div className="cursor-pointer text-xl text-gray hover:text-black" onClick={props.onClick}>
+                            ×
+                        </div>
+                    )}
+                </div>
                 <div className="sm:flex sm:items-start">
                     <div className="mt-3 text-center sm:mt-0 sm:ml-4 w-full">
                         {props.Header}
@@ -76,6 +105,7 @@ Modal.Core = React.forwardRef((props, ref) => {
         </div>
     );
 });
+Modal.Core.displayName = "Modal.Core";
 
 Modal.Header = ({ children }) => {
     return (
@@ -84,11 +114,14 @@ Modal.Header = ({ children }) => {
         </Dialog.Title>
     );
 };
+Modal.Header.displayName = "Modal.Header";
 
 Modal.Body = ({ children }) => {
     return <div className="mt-2 text-left">{children}</div>;
 };
+Modal.Body.displayName = "Modal.Body";
 
 Modal.Footer = ({ children }) => {
     return children;
 };
+Modal.Footer.displayName = "Modal.Footer";
