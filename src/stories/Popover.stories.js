@@ -7,13 +7,6 @@ const docs = "https://atomiks.github.io/tippyjs/v6/all-props/";
 export default {
     title: "Popover",
     component: Popover,
-    // decorators: [
-    //     (Popover) => (
-    //         <div style={{ margin: "2em" }}>
-    //             <Popover />
-    //         </div>
-    //     ),
-    // ],
     argTypes: {
         demoText: getArg("Default", "text", null, "The value for the button", "for this demo only"),
         trigger: getArg(
@@ -75,7 +68,7 @@ function getArg(defaultValue, type, options, description, summary = null) {
 export const Default = (config) => {
     config.content = (
         <Popover.Content>
-            <div className="text-md font-bold">Popover title</div>
+            <div className="text-md font-bold pt-2 pb-1">Popover title</div>
             <div className="text-sm">And here's some amazing content. It's very engaging. Right?</div>
             <div className="text-sm">Here is some more because I am crazy</div>
         </Popover.Content>
