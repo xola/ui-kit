@@ -27,7 +27,7 @@ export default {
 };
 
 export const Default = ({ className, name = "John Doe", size }) => {
-    return <Avatar className={className} name={name} size={size} />
+    return <Avatar className={className} name={name} size={size} />;
 };
 
 export const OneNameLikeCher = ({ className, name = "Cher", size }) => {

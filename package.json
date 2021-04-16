@@ -20,7 +20,7 @@
         "storybook": "start-storybook -p 6006 -s public",
         "build": "vite build",
         "build:storybook": "build-storybook -s public",
-        "format": "prettier --write ."
+        "format": "prettier --write src"
     },
     "dependencies": {
         "@headlessui/react": "^1.0.0",

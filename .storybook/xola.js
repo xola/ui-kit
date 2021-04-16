@@ -34,5 +34,5 @@ export default create({
     inputBorderRadius: 4,
 
     brandTitle: "Xola's UI Components",
-    brandImage: "https://c02.xola.com/images/xola-logo-header.png"
+    brandImage: "https://c02.xola.com/images/xola-logo-header.png",
 });
