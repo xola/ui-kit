@@ -8,6 +8,7 @@ export { Popover } from "./components/Popover";
 export { Modal } from "./components/Modal";
 export { Table, TableBody, TableCell, TableHead, TableRow, TableHeader } from "./components/Table";
 export { ButtonGroup } from "./components/ButtonGroup";
+export { NotificationCount } from "./components/NotificationCount";
 
 // Icons.
 export { ChevronRightIcon } from "./icons/ChevronRightIcon";

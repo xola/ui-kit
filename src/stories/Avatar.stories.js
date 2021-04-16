@@ -7,7 +7,8 @@ export default {
     parameters: {
         docs: {
             description: {
-                component: "The avatar component is used to represent a user or seller. If the seller has a profile image that should be used instead",
+                component:
+                    "The avatar component is used to represent a user or seller. If the seller has a profile image that should be used instead",
             },
         },
     },

@@ -3,19 +3,7 @@ import React from "react";
 import { ChevronRightIcon } from "../icons/ChevronRightIcon";
 import { XolaLogoCircle } from "../images/XolaLogoCircle";
 import { Avatar } from "./Avatar";
-
-export const SidebarNotificationCount = ({ className, count }) => {
-    return (
-        <span
-            className={clsx(
-                className,
-                "inline-block px-1.5 py-0.5 font-semibold items-center justify-center rounded-full bg-red-dark text-white leading-none",
-            )}
-        >
-            {count}
-        </span>
-    );
-};
+import { NotificationCount } from "./NotificationCount";
 
 export const SidebarLink = ({ active, icon: Icon, children, size = "small", ...rest }) => {
     return (
@@ -51,7 +39,7 @@ export const Sidebar = ({ children, footer, notifications }) => {
         <div className="bg-black p-2 text-white h-screen w-24 md:w-56 overflow-y-auto relative">
             {notifications ? (
                 <div className="p-2 text-center md:text-left">
-                    <SidebarNotificationCount className="text-sm" count={notifications} />
+                    <NotificationCount className="text-sm">{notifications}</NotificationCount>
                 </div>
             ) : null}
 
