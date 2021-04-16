@@ -58,10 +58,8 @@ function getArg(defaultValue, type, options, description, summary = null) {
         type: { required: false },
         defaultValue,
         description,
-        control: {
-            type,
-            options,
-        },
+        options,
+        control: { type },
         table: {
             type: { summary },
             defaultValue: { summary: defaultValue },

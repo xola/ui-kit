@@ -1,4 +1,4 @@
-.tippy-box {
+.xola-popover {
     --tooltipBackground: white;
 
     background: white;
@@ -6,23 +6,23 @@
     border-radius: 8px;
 }
 
-.tippy-arrow {
+.xola-popover .tippy-arrow {
     fill: white;
 }
 
-.tippy-box[data-placement^="top"] > .tippy-arrow::before {
+.xola-popover[data-placement^="top"] > .tippy-arrow::before {
     border-top-color: var(--tooltipBackground);
 }
-.tippy-box[data-placement^="bottom"] > .tippy-arrow::before {
+.xola-popover[data-placement^="bottom"] > .tippy-arrow::before {
     border-bottom-color: var(--tooltipBackground);
 }
-.tippy-box[data-placement^="left"] > .tippy-arrow::before {
+.xola-popover[data-placement^="left"] > .tippy-arrow::before {
     border-left-color: var(--tooltipBackground);
 }
-.tippy-box[data-placement^="right"] > .tippy-arrow::before {
+.xola-popover[data-placement^="right"] > .tippy-arrow::before {
     border-right-color: var(--tooltipBackground);
 }
 
-.tippy-content {
+.xola-popover .tippy-content {
     color: #222324;
 }
