@@ -21,7 +21,16 @@ export const Default = (config) => {
     return (
         <div>
             <Button onClick={() => setShow(true)}>Click me to launch a modal</Button>
-            {show && <Modal onHide={onHide} />}
+            {show && (
+                <Modal onHide={onHide}>
+                    <Modal.Header>
+                        My Modal Header
+                    </Modal.Header>
+                    <Modal.Body>
+                        My Modal Body
+                    </Modal.Body>
+                </Modal>
+            )}
         </div>
     );
 };

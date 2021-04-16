@@ -16,14 +16,10 @@ const CancelButton = React.forwardRef((props, ref) => {
     );
 });
 
-export const Modal = ({
-    title = "Modal Title",
-    body = "Modal Body",
-    primaryText = "Cancel Booking",
-    cancelText = "Cancel",
-    onHide,
-}) => {
+export const Modal = ({ primaryText = "Cancel Booking", cancelText = "Cancel", onHide, children }) => {
     const [open, setOpen] = useState(true);
+    const Header = children[0];
+    const Body = children[1];
 
     const cancelButtonRef = useRef();
 
@@ -33,12 +29,12 @@ export const Modal = ({
 
     const modalArgs = {
         size,
-        title,
-        body,
         primaryText,
         cancelText,
         primaryButtonClass,
         cancelButtonClass,
+        Header,
+        Body,
     };
 
     useEffect(() => {
@@ -102,12 +98,8 @@ Modal.Core = React.forwardRef((props, ref) => {
             <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                 <div className="sm:flex sm:items-start">
                     <div className="mt-3 text-center sm:mt-0 sm:ml-4 w-full">
-                        <Dialog.Title as="h3" className="text-xl leading-6 font-medium text-black text-center">
-                            {props.title}
-                        </Dialog.Title>
-                        <div className="mt-2 text-left">
-                            <p className="text-md text-black">{props.body}</p>
-                        </div>
+                        {props.Header}
+                        {props.Body}
                     </div>
                 </div>
             </div>
@@ -126,3 +118,15 @@ Modal.Core = React.forwardRef((props, ref) => {
         </div>
     );
 });
+
+Modal.Header = ({ children }) => {
+    return (
+        <Dialog.Title as="h3" className="text-xl leading-6 font-medium text-black text-center">
+            {children}
+        </Dialog.Title>
+    );
+};
+
+Modal.Body = ({ children }) => {
+    return <div className="mt-2 text-left">{children}</div>;
+};
