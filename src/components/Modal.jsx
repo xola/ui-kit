@@ -16,43 +16,6 @@ const CancelButton = React.forwardRef((props, ref) => {
     );
 });
 
-const CoreModal = React.forwardRef((props, ref) => {
-    console.log("props on click", props);
-
-    const modalClasses = clsx(
-        props.size,
-        "modal sm:w-full inline-block align-bottom bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle",
-    );
-    return (
-        <div ref={ref} className={modalClasses}>
-            <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                <div className="sm:flex sm:items-start">
-                    <div className="mt-3 text-center sm:mt-0 sm:ml-4 w-full">
-                        <Dialog.Title as="h3" className="text-xl leading-6 font-medium text-black text-center">
-                            {props.title}
-                        </Dialog.Title>
-                        <div className="mt-2 text-left">
-                            <p className="text-md text-black">{props.body}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                <Button
-                    className={clsx(props.primaryButtonClass, "w-full sm:w-auto sm:text-sm sm:ml-3")}
-                    color="danger"
-                    onClick={props.onClick}
-                >
-                    {props.primaryText}
-                </Button>
-
-                <CancelButton {...props} onClose={props.onHide} />
-            </div>
-        </div>
-    );
-});
-
 export const Modal = ({
     title = "Modal Title",
     body = "Modal Body",
@@ -119,10 +82,47 @@ export const Modal = ({
                         leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                         leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                     >
-                        <CoreModal {...modalArgs} onClick={() => setOpen(false)} onHide={() => setOpen(false)} />
+                        <Modal.Core {...modalArgs} onClick={() => setOpen(false)} onHide={() => setOpen(false)} />
                     </Transition.Child>
                 </div>
             </Dialog>
         </Transition.Root>
     );
 };
+
+Modal.Core = React.forwardRef((props, ref) => {
+    console.log("props on click", props);
+
+    const modalClasses = clsx(
+        props.size,
+        "modal sm:w-full inline-block align-bottom bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle",
+    );
+    return (
+        <div ref={ref} className={modalClasses}>
+            <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                <div className="sm:flex sm:items-start">
+                    <div className="mt-3 text-center sm:mt-0 sm:ml-4 w-full">
+                        <Dialog.Title as="h3" className="text-xl leading-6 font-medium text-black text-center">
+                            {props.title}
+                        </Dialog.Title>
+                        <div className="mt-2 text-left">
+                            <p className="text-md text-black">{props.body}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                <Button
+                    className={clsx(props.primaryButtonClass, "w-full sm:w-auto sm:text-sm sm:ml-3")}
+                    color="danger"
+                    onClick={props.onClick}
+                >
+                    {props.primaryText}
+                </Button>
+
+                <CancelButton {...props} onClose={props.onHide} />
+            </div>
+        </div>
+    );
+});
