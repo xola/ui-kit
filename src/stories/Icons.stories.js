@@ -14,7 +14,7 @@ const getIcon = (icon, idx) => {
     return (
         <div key={idx}>
             {icon}
-            <div class="pt-3 text-gray-dark">{icon.type.displayName}</div>
+            <div className="pt-3 text-gray-dark">{icon.type.displayName}</div>
         </div>
     );
 };

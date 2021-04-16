@@ -15,16 +15,12 @@ export default {
         color: {
             type: { required: true },
             defaultValue: "primary",
-            control: {
-                type: "radio",
-                options: ["primary", "secondary", "success", "warning", "danger"],
-            },
+            options: ["primary", "secondary", "success", "warning", "danger"],
+            control: { type: "radio" },
         },
         size: {
-            control: {
-                type: "radio",
-                options: ["small", "medium", "large"],
-            },
+            options: ["small", "medium", "large"],
+            control: { type: "radio" },
         },
     },
 };

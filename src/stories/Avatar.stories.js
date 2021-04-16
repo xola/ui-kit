@@ -20,10 +20,8 @@ export default {
                 type: { summary: "one of the options" },
                 defaultValue: { summary: "large" },
             },
-            control: {
-                type: "radio",
-                options: ["medium", "large"],
-            },
+            options: ["medium", "large"],
+            control: { type: "radio" },
         },
     },
 };

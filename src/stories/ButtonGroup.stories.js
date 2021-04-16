@@ -6,10 +6,11 @@ export default {
     component: ButtonGroup,
     argTypes: {
         size: {
-            control: {
-                type: "radio",
-                options: ["small", "medium", "large"],
-                defaultValue: "medium",
+            defaultValue: "medium",
+            options: ["small", "medium", "large"],
+            control: { type: "radio" },
+            table: {
+                defaultValue: { summary: "medium" },
             },
         },
     },
