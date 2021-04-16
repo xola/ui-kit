@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import { Button, Popover } from "..";
 
 // More props in docs

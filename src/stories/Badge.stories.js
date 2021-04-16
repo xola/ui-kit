@@ -8,9 +8,9 @@ export default {
         text: {
             type: { required: false },
             defaultValue: "Default",
-            control:{
-                type: "text"
-            }
+            control: {
+                type: "text",
+            },
         },
         color: {
             type: { required: true },
@@ -29,7 +29,7 @@ export default {
     },
 };
 
-export const Default = ({ className, color, size, text='Default' }) => {
+export const Default = ({ className, color, size, text = "Default" }) => {
     return (
         <div className="space-x-4">
             <Badge className={className} color={color} size={size}>

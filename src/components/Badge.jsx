@@ -20,12 +20,7 @@ const sizes = {
 };
 
 export const Badge = ({ className, color = "primary", size = "medium", ...rest }) => {
-    return (
-        <span
-            className={clsx(className, "rounded-full text-center", colors[color], sizes[size])}
-            {...rest}
-        />
-    );
+    return <span className={clsx(className, "rounded-full text-center", colors[color], sizes[size])} {...rest} />;
 };
 
 Badge.propTypes = {
