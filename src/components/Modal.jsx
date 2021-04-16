@@ -2,6 +2,18 @@ import clsx from "clsx";
 import React, { Fragment, useState, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 
+const sizes = {
+    xs: "sm:max-w-xs",
+    sm: "sm:max-w-sm",
+    md: "sm:max-w-md",
+    lg: "sm:max-w-lg",
+    xl: "sm:max-w-xl",
+    "2xl": "sm:max-w-2xl",
+    "3xl": "sm:max-w-3xl",
+    "4xl": "sm:max-w-4xl",
+    "5xl": "sm:max-w-5xl",
+};
+
 export const Modal = ({ size, show, showClose, closeOnClickOutside, onHide, children }) => {
     const childCount = React.Children.count(children);
     if (childCount < 3) {
@@ -11,8 +23,7 @@ export const Modal = ({ size, show, showClose, closeOnClickOutside, onHide, chil
     const [open, setOpen] = useState(show);
     const [Header, Body, Footer] = children;
 
-    size = size || "md";
-    const width = `sm:max-w-${size}`; // Tailwind JIT won't pick this up
+    const width = sizes[size || "lg"];
     const modalArgs = { width, showClose, Header, Body, Footer };
 
     // Decide what method to call when the user click's outside the modal
@@ -103,7 +114,7 @@ Modal.Header = ({ children }) => {
         </Dialog.Title>
     );
 };
-Modal.Header.displayName = 'Modal.Header';
+Modal.Header.displayName = "Modal.Header";
 
 Modal.Body = ({ children }) => {
     return <div className="mt-2 text-left">{children}</div>;
