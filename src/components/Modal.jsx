@@ -2,18 +2,16 @@ import clsx from "clsx";
 import React, { Fragment, useState, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 
-export const Modal = ({ size, onHide, children }) => {
-    const [open, setOpen] = useState(true);
+export const Modal = ({ size, show, children }) => {
+    const [open, setOpen] = useState(show);
     const [Header, Body, Footer] = children; // Needs to be an array
 
     size = size ? size : "sm:max-w-2xl";
     const modalArgs = { size, Header, Body, Footer };
 
     useEffect(() => {
-        !open && setTimeout(onHide, 500);
+        setOpen(show);
     });
-
-    console.log("Open is now", open);
 
     return (
         <Transition.Root show={open} as={Fragment}>
@@ -48,7 +46,7 @@ export const Modal = ({ size, onHide, children }) => {
                         leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                         leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                     >
-                        <Modal.Core {...modalArgs} onClick={() => setOpen(false)} onHide={() => setOpen(false)} />
+                        <Modal.Core {...modalArgs} onClick={() => setOpen(false)} />
                     </Transition.Child>
                 </div>
             </Dialog>
