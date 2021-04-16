@@ -15,6 +15,18 @@ export default {
                 defaultValue: { summary: "xl" },
             },
         },
+        showClose: {
+            type: { required: false },
+            defaultValue: true,
+            description: "If the 'x' button should be shown",
+            control: { type: "boolean" },
+        },
+        closeOnClickOutside: {
+            type: { required: false },
+            defaultValue: true,
+            description: "Close the modal if user clicks outside it",
+            control: { type: "boolean" },
+        },
     },
 };
 
@@ -25,7 +37,7 @@ export const Default = (config) => {
     return (
         <div>
             <Button onClick={toggle}>Click me to launch a modal</Button>
-            <Modal show={show} toggle={toggle} size={config.size}>
+            <Modal {...config} show={show} toggle={toggle} onHide={toggle}>
                 <Modal.Header>My Modal Header</Modal.Header>
                 <Modal.Body>My Modal Body</Modal.Body>
                 <Modal.Footer>
