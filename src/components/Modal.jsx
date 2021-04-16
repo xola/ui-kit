@@ -5,7 +5,7 @@ import { Dialog, Transition } from "@headlessui/react";
 export const Modal = ({ size, show, showClose, closeOnClickOutside, onHide, children }) => {
     const childCount = React.Children.count(children);
     if (childCount < 3) {
-        console.warn(`You have an insufficient number of children ${childCount}, the modal may not behave as expected`)
+        console.warn(`You have an insufficient number of children ${childCount}, the modal may not behave as expected`);
     }
 
     const [open, setOpen] = useState(show);
@@ -77,10 +77,7 @@ Modal.Core = React.forwardRef((props, ref) => {
             <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                 <div className="hidden sm:block absolute top-0 right-0 pt-4 pr-4">
                     {props.showClose && (
-                        <div
-                            className="cursor-pointer text-xl text-gray hover:text-black"
-                            onClick={props.onClick}
-                        >
+                        <div className="cursor-pointer text-xl text-gray hover:text-black" onClick={props.onClick}>
                             ×
                         </div>
                     )}
@@ -97,6 +94,7 @@ Modal.Core = React.forwardRef((props, ref) => {
         </div>
     );
 });
+Modal.Core.displayName = "Modal.Core";
 
 Modal.Header = ({ children }) => {
     return (
@@ -105,11 +103,14 @@ Modal.Header = ({ children }) => {
         </Dialog.Title>
     );
 };
+Modal.Header.displayName = 'Modal.Header';
 
 Modal.Body = ({ children }) => {
     return <div className="mt-2 text-left">{children}</div>;
 };
+Modal.Body.displayName = "Modal.Body";
 
 Modal.Footer = ({ children }) => {
     return children;
 };
+Modal.Footer.displayName = "Modal.Footer";

@@ -24,3 +24,4 @@ Popover.Content = ({ className, children }) => {
         </div>
     );
 };
+Popover.Content.displayName = 'Popover.Content';
