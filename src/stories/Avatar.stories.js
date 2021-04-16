@@ -20,22 +20,30 @@ export default {
                 type: { summary: "one of the options" },
                 defaultValue: { summary: "large" },
             },
-            options: ["medium", "large"],
+            options: ["small", "medium", "large"],
             control: { type: "radio" },
         },
     },
 };
 
 export const Default = ({ className, name = "John Doe", size }) => {
-    return component(className, name, size);
+    return <Avatar className={className} name={name} size={size} />
 };
 
 export const OneNameLikeCher = ({ className, name = "Cher", size }) => {
-    return component(className, name, size);
+    return <Avatar className={className} name={name} size={size} />;
 };
 
-export const TripleNameLikeJScottZ = ({ className, name = "James Scott Zimmerman", size }) => {
-    return component(className, name, size);
+export const ThreeNames = ({ className, name = "James Scott Zimmerman", size }) => {
+    return <Avatar className={className} name={name} size={size} />;
 };
 
-const component = (className, name, size) => <Avatar className={className} name={name} size={size} />;
+export const AllSizes = ({ className, name = "John Doe" }) => {
+    return (
+        <div className="space-x-3">
+            <Avatar className={className} name={name} size="small" />
+            <Avatar className={className} name={name} size="medium" />
+            <Avatar className={className} name={name} size="large" />
+        </div>
+    );
+};

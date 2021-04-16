@@ -6,8 +6,9 @@ export const Modal = ({ size, show, children }) => {
     const [open, setOpen] = useState(show);
     const [Header, Body, Footer] = children; // Needs to be an array
 
-    size = size ? size : "sm:max-w-2xl";
-    const modalArgs = { size, Header, Body, Footer };
+    size = size || 'md';
+    const width = `sm:max-w-${size}`;
+    const modalArgs = { width, Header, Body, Footer };
 
     useEffect(() => {
         setOpen(show);
@@ -15,13 +16,7 @@ export const Modal = ({ size, show, children }) => {
 
     return (
         <Transition.Root show={open} as={Fragment}>
-            <Dialog
-                as="div"
-                static
-                className="fixed z-10 inset-0 overflow-y-auto"
-                open={open}
-                onClose={setOpen}
-            >
+            <Dialog as="div" static className="fixed z-10 inset-0 overflow-y-auto" open={open} onClose={setOpen}>
                 <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                     <Transition.Child
                         as={Fragment}
@@ -52,23 +47,19 @@ export const Modal = ({ size, show, children }) => {
             </Dialog>
         </Transition.Root>
     );
-};;
+};
 
 Modal.Core = React.forwardRef((props, ref) => {
-    console.log("props on click", props);
-
     const modalClasses = clsx(
-        props.size,
-        "modal sm:w-full inline-block align-bottom bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle",
+        props.width,
+        "modal sm:w-full inline-block align-bottom bg-white rounded-lg overflow-hidden shadow-xl transform",
+        "transition-all sm:my-8 sm:align-middle",
     );
     return (
         <div ref={ref} className={modalClasses}>
-            <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 w-">
+            <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                 <div className="sm:flex sm:items-start">
-                    <div className="mt-3 text-center sm:mt-0 sm:ml-4 w-full">
-                        {props.Header}
-                        {props.Body}
-                    </div>
+                    <div className="mt-3 text-center sm:mt-0 sm:ml-4 w-full">{props.Header}{props.Body}</div>
                 </div>
             </div>
 
