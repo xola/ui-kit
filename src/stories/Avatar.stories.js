@@ -4,6 +4,13 @@ import { Avatar } from "..";
 export default {
     title: "Avatar",
     component: Avatar,
+    parameters: {
+        docs: {
+            description: {
+                component: "The avatar component is used to represent a user or seller. If the seller has a profile image that should be used instead",
+            },
+        },
+    },
     argTypes: {
         name: {
             description: "A user's full name",
