@@ -4,13 +4,6 @@ import { Button, Modal } from "..";
 export default {
     title: "Modal",
     component: Modal,
-    decorators: [
-        (Story) => (
-            <div style={{ margin: "2em" }}>
-                <Story />
-            </div>
-        ),
-    ],
 };
 
 export const Default = (config) => {
