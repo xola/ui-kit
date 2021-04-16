@@ -46,3 +46,13 @@ export const Colors = () => {
         </div>
     );
 };
+
+export const AllSizes = () => {
+    return (
+        <div className="space-x-4">
+            <Badge size="small">Small</Badge>
+            <Badge size="medium">Medium</Badge>
+            <Badge size="large">Large</Badge>
+        </div>
+    );
+};
