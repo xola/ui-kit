@@ -2,6 +2,14 @@ import { Dialog, Transition } from "@headlessui/react";
 import clsx from "clsx";
 import React, { forwardRef, Fragment } from "react";
 
+/**
+ * TODO:
+ *  1. Narrow down the sizes into small, medium, large & xl
+ *  2. Get the padding, margins *perfect*  - Title, body & buttons
+ *  3. Give tripe button story
+ *  4.
+ */
+
 const sizes = {
     xs: "sm:max-w-xs",
     sm: "sm:max-w-sm",
@@ -14,7 +22,7 @@ const sizes = {
     "5xl": "sm:max-w-5xl",
 };
 
-export const Modal = ({ size = "lg", show, showClose, closeOnClickOutside, onHide, children }) => {
+export const Modal = ({ size = "lg", show = false, showClose = true, closeOnClickOutside = false, onHide, children }) => {
     const childCount = React.Children.count(children);
     if (childCount < 3) {
         console.warn(`You have an insufficient number of children ${childCount}, the modal may not behave as expected`);
@@ -71,17 +79,17 @@ Modal.Core = forwardRef(({ width, showClose, onClick, Header, Body, Footer }, re
 
     return (
         <div ref={ref} className={modalClasses}>
-            <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                <div className="hidden sm:block absolute top-0 right-0 pt-4 pr-4">
+            <div className="bg-white px-8 pt-5">
+                <div className="hidden sm:block absolute top-0 right-0 px-8 pt-7">
                     {showClose && (
-                        <div className="cursor-pointer text-xl text-gray hover:text-black" onClick={onClick}>
+                        <div className="cursor-pointer text-xl text-gray hover:text-gray-darker" onClick={onClick}>
                             ×
                         </div>
                     )}
                 </div>
 
                 <div className="sm:flex sm:items-start">
-                    <div className="mt-3 text-center sm:mt-0 sm:ml-4 w-full">
+                    <div className="text-center w-full pt-3">
                         {Header}
                         {Body}
                     </div>
@@ -97,7 +105,7 @@ Modal.Core.displayName = "Modal.Core";
 
 Modal.Header = ({ children }) => {
     return (
-        <Dialog.Title as="h3" className="text-xl leading-6 font-medium text-black text-center">
+        <Dialog.Title as="h3" className="modal-header text-2xl leading-6 font-medium text-black text-center">
             {children}
         </Dialog.Title>
     );
@@ -106,13 +114,13 @@ Modal.Header = ({ children }) => {
 Modal.Header.displayName = "Modal.Header";
 
 Modal.Body = ({ children }) => {
-    return <div className="mt-2 text-left">{children}</div>;
+    return <div className="modal-body mt-2 text-left pt-8 pb-2">{children}</div>;
 };
 
 Modal.Body.displayName = "Modal.Body";
 
 Modal.Footer = ({ children }) => {
-    return <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex float-right">{children}</div>;
+    return <div className="modal-footer sm:flex float-right px-8 py-8">{children}</div>;
 };
 
 Modal.Footer.displayName = "Modal.Footer";

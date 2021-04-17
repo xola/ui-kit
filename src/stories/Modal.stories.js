@@ -38,8 +38,10 @@ export const Default = (config) => {
         <div>
             <Button onClick={toggle}>Click me to launch a modal</Button>
             <Modal {...config} show={show} toggle={toggle} onHide={toggle}>
-                <Modal.Header>My Modal Header</Modal.Header>
-                <Modal.Body>My Modal Body</Modal.Body>
+                <Modal.Header>Apply Code</Modal.Header>
+                <Modal.Body>
+                    <input type="text" placeholder="Coupon of Affiliate" className="w-full placeholder-gray-dark border-gray-light rounded-md" />
+                </Modal.Body>
                 <Modal.Footer>
                     <Button className="w-full sm:w-auto sm:text-sm sm:ml-3" color="outline" onClick={toggle}>
                         Cancel
