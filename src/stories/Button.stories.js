@@ -52,8 +52,8 @@ export const WithIconAtEnd = () => {
 export const IconOnly = () => {
     return (
         <div className="space-x-4">
-            <IconButton icon={<UserIcon className="inline" />} color="primary" size="small" />{" "}
-            <IconButton icon={<UserIcon className="inline" />} color="outline" size="medium" />{" "}
+            <IconButton icon={<UserIcon className="inline" />} color="primary" size="small" />
+            <IconButton icon={<UserIcon className="inline" />} color="outline" size="medium" />
             <IconButton icon={<UserIcon className="inline" />} color="success" size="large" />
         </div>
     );

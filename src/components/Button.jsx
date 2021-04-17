@@ -67,9 +67,12 @@ const iconSizes = {
     large: "h-5 w-5",
 };
 
-export const IconButton = ({ className, icon, color, size = "small" }) => {
+export const IconButton = ({ className, icon, color, size = "small", ...rest }) => {
     return (
-        <button className={clsx(className, "border inline-flex rounded", iconButtonSizes[size], colors[color])}>
+        <button
+            className={clsx(className, "border inline-flex rounded", iconButtonSizes[size], colors[color])}
+            {...rest}
+        >
             <IconWrapper className={clsx("inline-flex items-center justify-center", iconSizes[size])}>
                 {icon}
             </IconWrapper>
