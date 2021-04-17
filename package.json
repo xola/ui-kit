@@ -26,9 +26,12 @@
         "@headlessui/react": "^1.0.0",
         "@tailwindcss/forms": "^0.3.2",
         "@tippyjs/react": "^4.2.5",
+        "async-lodash": "^1.0.9",
         "clsx": "^1.1.1",
+        "lodash": "^4.17.21",
         "prop-types": "^15.7.2",
-        "react-popper-tooltip": "^4.2.0"
+        "react-popper-tooltip": "^4.2.0",
+        "react-select": "^4.3.0"
     },
     "devDependencies": {
         "@babel/core": "^7.13.15",
