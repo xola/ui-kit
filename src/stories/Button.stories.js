@@ -1,9 +1,10 @@
 import React from "react";
-import { Button } from "..";
+import { Button, IconButton } from "..";
+import { UserIcon } from "../icons/UserIcon";
 
 export default {
     title: "Button",
-    component: Button,
+    component: Button
 };
 
 export const Default = () => {
@@ -13,6 +14,7 @@ export const Default = () => {
         </div>
     );
 };
+
 
 export const Colors = () => {
     return (
@@ -24,6 +26,36 @@ export const Colors = () => {
             <Button color="danger">Danger</Button>
             <Button color="outline">Outline</Button>
             <Button color="link">Link</Button>
+        </div>
+    );
+};
+
+export const WithIconAtStart = () => {
+    return (
+        <div className="space-x-4">
+            <Button iconStart={<UserIcon className="inline" />} size="medium">
+                Medium
+            </Button>
+        </div>
+    );
+};
+
+export const WithIconAtEnd = () => {
+    return (
+        <div className="space-x-4">
+            <Button iconEnd={<UserIcon className="inline" />} color="success" size="large">
+                Large
+            </Button>
+        </div>
+    );
+};
+
+export const IconOnly = () => {
+    return (
+        <div className="space-x-4">
+            <IconButton icon={<UserIcon className="inline" />} color="success" size="small" />{" "}
+            <IconButton icon={<UserIcon className="inline" />} color="success" size="medium" />{" "}
+            <IconButton icon={<UserIcon className="inline" />} color="success" size="large" />
         </div>
     );
 };

@@ -17,7 +17,13 @@ const sizes = {
     large: "px-5 py-2.5 text-lg",
 };
 
-export const Button = ({ className, color = "primary", size = "medium", ...rest }) => {
+export const Button = ({ className, color = "primary", size = "medium", iconStart, iconEnd, children }) => {
+    const icon = iconStart || iconEnd;
+    if (icon && !children) {
+        console.log('Icon only with', icon);
+        return <IconButton className={className} icon={icon} color={color} size={size} />
+    }
+
     return (
         <button
             className={clsx(
@@ -26,7 +32,38 @@ export const Button = ({ className, color = "primary", size = "medium", ...rest 
                 colors[color],
                 sizes[size],
             )}
-            {...rest}
-        />
+        >
+            {iconStart && <IconWrapper className="mr-2">{iconStart}</IconWrapper>}
+            {children}
+            {iconEnd && <IconWrapper className="ml-2">{iconEnd}</IconWrapper>}
+        </button>
     );
+};
+
+/**
+ * Wrapper to give clases to the icon component
+ */
+const IconWrapper = (props) => {
+    const { children, className, ...rest } = props;
+    const _children = React.cloneElement(children);
+    return (
+        <span className={clsx(className, "inline")} {...rest}>{_children}</span>
+    )
+}
+
+// These are Icon only buttons which require a custom padding and modification
+
+const iconSizes = {
+    small: 'px-1 py-0.50',
+    medium: 'px-2 py-0.5',
+    large: 'px-3 py-1.5',
+}
+
+export const IconButton = ({className, icon, color, size = 'small'}) => {
+    console.log('Icon', color, size);
+    return (
+        <button className={clsx(className, "rounded", iconSizes[size], colors[color])}>
+            <IconWrapper size={size}>{icon}</IconWrapper>
+        </button>
+    )
 };
