@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import clsx from "clsx";
 import _ from "lodash";
-import employees from "./data.json";
-import { resolveConfigFile } from "prettier";
 
 //
 // ASSUME THIS IS USER SEARCH
@@ -24,8 +22,6 @@ const keys = {
 
 const linkRefs = [];
 
-const _fetchData = (term) => new Promise((resolve) => setTimeout(() => resolve(employees), 2000));
-
 const initialState = {
     searchTerm: "",
     searchResults: [],
@@ -33,7 +29,7 @@ const initialState = {
     focusIndex: 0,
 };
 
-export const Search = ({ placeholder = "Customer Name or tag", onSelect }) => {
+export const Search = ({ size = "full", placeholder = "Customer Name or tag", idLength = 24, searchFn, onSelect }) => {
     const [searchTerm, setSearchTerm] = useState(initialState.searchTerm);
     const [searchResults, setSearchResults] = useState(initialState.searchResults);
     const [hideResults, setHideResults] = useState(initialState.hideResults);
@@ -60,7 +56,7 @@ export const Search = ({ placeholder = "Customer Name or tag", onSelect }) => {
         }
 
         reset();
-        const results = await _fetchData(term);
+        const results = await searchFn(term);
 
         if (evt.target.value.trim().length > 0) {
             setSearchResults(results);
@@ -84,9 +80,11 @@ export const Search = ({ placeholder = "Customer Name or tag", onSelect }) => {
                     // Callback
                     try {
                         const selectedItem = linkRefs[focusIndex].current;
-                        console.log("Selected", selectedItem.getAttribute("data-id"));
+                        const id = selectedItem.getAttribute("data-id");
+                        console.log("Selected", id);
+                        onSelect(id);
                     } catch (err) {
-                        console.error("Error opening window", err.message);
+                        console.error("Error fetching results. Something went wrong", err.message);
                     }
                 }
 
@@ -98,14 +96,14 @@ export const Search = ({ placeholder = "Customer Name or tag", onSelect }) => {
                 }
                 break;
             case keys.DOWN:
-                if (focusIndex < searchResults.length - 1) {
+                if (focusIndex < searchResults.length) {
                     setFocusIndex(focusIndex + 1);
                 }
                 break;
         }
     };
 
-    const isMongoID = searchTerm.length === 3; // Should be 24
+    const isMongoID = searchTerm.length === idLength;
     const initialFocusIndex = isMongoID ? 1 : 0;
 
     let SearchElements = React.Fragment;
@@ -127,8 +125,8 @@ export const Search = ({ placeholder = "Customer Name or tag", onSelect }) => {
                 onKeyDown={handleNavigation}
                 onBlur={hideAutoSuggest}
                 onFocus={showAutoSuggest}
-                onChange={_.debounce(search, 100)}
-                className="w-full focus:ring-0"
+                onChange={_.debounce(search, 500)}
+                className={clsx(sizes[size], "focus:ring-0")}
             />
             <ul
                 className={clsx("divide-y divide-gray-light w-96 table", {
