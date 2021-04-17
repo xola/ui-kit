@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { Button, Modal } from "..";
 
 export default {
@@ -7,12 +7,11 @@ export default {
     argTypes: {
         size: {
             type: { required: false },
-            defaultValue: "xl",
-            description: "A Tailwind size like `2xl`",
-            options: ["xs", "sm", "md", "lg", "xl", "2xl", "3xl"],
+            defaultValue: "medium",
+            options: ["small", "medium", "large", "xlarge"],
             control: { type: "select" },
             table: {
-                defaultValue: { summary: "xl" },
+                defaultValue: { summary: "medium" },
             },
         },
         showClose: {
@@ -40,7 +39,11 @@ export const Default = (config) => {
             <Modal {...config} show={show} toggle={toggle} onHide={toggle}>
                 <Modal.Header>Apply Code</Modal.Header>
                 <Modal.Body>
-                    <input type="text" placeholder="Coupon of Affiliate" className="w-full placeholder-gray-dark border-gray-light rounded-md" />
+                    <input
+                        type="text"
+                        placeholder="Coupon of Affiliate"
+                        className="w-full placeholder-gray-dark border-gray-light rounded-md"
+                    />
                 </Modal.Body>
                 <Modal.Footer>
                     <Button className="w-full sm:w-auto sm:text-sm sm:ml-3" color="outline" onClick={toggle}>

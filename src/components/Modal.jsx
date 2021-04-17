@@ -2,35 +2,21 @@ import { Dialog, Transition } from "@headlessui/react";
 import clsx from "clsx";
 import React, { forwardRef, Fragment } from "react";
 
-/**
- * TODO:
- *  1. Narrow down the sizes into small, medium, large & xl
- *  2. Get the padding, margins *perfect*  - Title, body & buttons
- *  3. Give tripe button story
- *  4.
- */
-
 const sizes = {
-    xs: "sm:max-w-xs",
-    sm: "sm:max-w-sm",
-    md: "sm:max-w-md",
-    lg: "sm:max-w-lg",
-    xl: "sm:max-w-xl",
-    "2xl": "sm:max-w-2xl",
-    "3xl": "sm:max-w-3xl",
-    "4xl": "sm:max-w-4xl",
-    "5xl": "sm:max-w-5xl",
+    small: "sm:max-w-md",
+    medium: "sm:max-w-lg",
+    large: "sm:max-w-2xl",
+    xlarge: "sm:max-w-3xl",
 };
 
-export const Modal = ({ size = "lg", show = false, showClose = true, closeOnClickOutside = false, onHide, children }) => {
+export const Modal = ({ size = "medium", show = false, showClose = true, closeOnClickOutside = false, onHide, children }) => {
     const childCount = React.Children.count(children);
     if (childCount < 3) {
         console.warn(`You have an insufficient number of children ${childCount}, the modal may not behave as expected`);
     }
 
     const [Header, Body, Footer] = children;
-    const width = sizes[size];
-    const modalProps = { width, showClose, Header, Body, Footer };
+    const modalProps = { width: sizes[size], showClose, Header, Body, Footer };
 
     // Decide what method to call when the user click's outside the modal
     const onClickOutside = closeOnClickOutside ? onHide : () => {};
@@ -105,7 +91,7 @@ Modal.Core.displayName = "Modal.Core";
 
 Modal.Header = ({ children }) => {
     return (
-        <Dialog.Title as="h3" className="modal-header text-2xl leading-6 font-medium text-black text-center">
+        <Dialog.Title as="h3" className="modal-header text-2xl leading-6 font-semibold text-black text-center">
             {children}
         </Dialog.Title>
     );
