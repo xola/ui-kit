@@ -17,7 +17,7 @@ const sizes = {
     large: "px-5 py-2.5 text-lg",
 };
 
-export const Button = ({ className, color = "primary", size = "medium", iconStart, iconEnd, children }) => {
+export const Button = ({ className, color = "primary", size = "medium", iconStart, iconEnd, children, ...rest }) => {
     const icon = iconStart || iconEnd;
     if (icon && React.Children.count(children) === 0) {
         return <IconButton className={className} icon={icon} color={color} size={size} />;
@@ -31,6 +31,7 @@ export const Button = ({ className, color = "primary", size = "medium", iconStar
                 colors[color],
                 sizes[size],
             )}
+            {...rest}
         >
             {iconStart && <IconWrapper className="mr-2">{iconStart}</IconWrapper>}
             {children}
