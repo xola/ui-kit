@@ -19,9 +19,8 @@ const sizes = {
 
 export const Button = ({ className, color = "primary", size = "medium", iconStart, iconEnd, children }) => {
     const icon = iconStart || iconEnd;
-    if (icon && !children) {
-        console.log('Icon only with', icon);
-        return <IconButton className={className} icon={icon} color={color} size={size} />
+    if (icon && React.Children.count(children) === 0) {
+        return <IconButton className={className} icon={icon} color={color} size={size} />;
     }
 
     return (
@@ -47,23 +46,32 @@ const IconWrapper = (props) => {
     const { children, className, ...rest } = props;
     const _children = React.cloneElement(children);
     return (
-        <span className={clsx(className, "inline")} {...rest}>{_children}</span>
-    )
-}
+        <span className={clsx(className)} {...rest}>
+            {_children}
+        </span>
+    );
+};
 
 // These are Icon only buttons which require a custom padding and modification
 
-const iconSizes = {
-    small: 'px-1 py-0.50',
-    medium: 'px-2 py-0.5',
-    large: 'px-3 py-1.5',
-}
+const iconButtonSizes = {
+    small: "p-1.5",
+    medium: "p-2",
+    large: "p-2.5",
+};
 
-export const IconButton = ({className, icon, color, size = 'small'}) => {
-    console.log('Icon', color, size);
+const iconSizes = {
+    small: "h-3 w-3",
+    medium: "h-4 w-4",
+    large: "h-5 w-5",
+};
+
+export const IconButton = ({ className, icon, color, size = "small" }) => {
     return (
-        <button className={clsx(className, "rounded", iconSizes[size], colors[color])}>
-            <IconWrapper size={size}>{icon}</IconWrapper>
+        <button className={clsx(className, "border inline-flex rounded", iconButtonSizes[size], colors[color])}>
+            <IconWrapper className={clsx("inline-flex items-center justify-center", iconSizes[size])}>
+                {icon}
+            </IconWrapper>
         </button>
-    )
+    );
 };

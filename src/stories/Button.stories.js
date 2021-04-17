@@ -4,7 +4,7 @@ import { UserIcon } from "../icons/UserIcon";
 
 export default {
     title: "Button",
-    component: Button
+    component: Button,
 };
 
 export const Default = () => {
@@ -14,7 +14,6 @@ export const Default = () => {
         </div>
     );
 };
-
 
 export const Colors = () => {
     return (
@@ -53,8 +52,8 @@ export const WithIconAtEnd = () => {
 export const IconOnly = () => {
     return (
         <div className="space-x-4">
-            <IconButton icon={<UserIcon className="inline" />} color="success" size="small" />{" "}
-            <IconButton icon={<UserIcon className="inline" />} color="success" size="medium" />{" "}
+            <IconButton icon={<UserIcon className="inline" />} color="primary" size="small" />{" "}
+            <IconButton icon={<UserIcon className="inline" />} color="outline" size="medium" />{" "}
             <IconButton icon={<UserIcon className="inline" />} color="success" size="large" />
         </div>
     );
