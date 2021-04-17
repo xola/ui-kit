@@ -9,7 +9,14 @@ const sizes = {
     xlarge: "sm:max-w-3xl",
 };
 
-export const Modal = ({ size = "medium", show = false, showClose = true, closeOnClickOutside = false, onHide, children }) => {
+export const Modal = ({
+    size = "medium",
+    show = false,
+    showClose = true,
+    closeOnClickOutside = false,
+    onHide,
+    children,
+}) => {
     const childCount = React.Children.count(children);
     if (childCount < 3) {
         console.warn(`You have an insufficient number of children ${childCount}, the modal may not behave as expected`);
