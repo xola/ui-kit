@@ -1,5 +1,5 @@
-import React from "react";
-import employees from "./data.json";
+import { result } from "lodash";
+import React, { useState, useEffect } from "react";
 import { Search } from "..";
 
 export default {
@@ -14,31 +14,53 @@ export default {
     },
 };
 
-const getEmployee = (id) => employees.find((e) => e.id == id);
-
 export const Default = () => {
-    const onSelect = (results) => {
-        // console.log("Got results", results);
-        if (results == "all") {
-            document.querySelector(".search-data").innerHTML = JSON.stringify(employees, null, 4);
-        } else {
-            const employee = getEmployee(results);
-            document.querySelector(".search-data").innerHTML = JSON.stringify(employee, null, 4);
+    const [searchResults, setSearchResults] = useState([]);
+    const [matchingRecord, setMatchingRecord] = useState(null);
+
+    const searchFn = async (term) => {
+        console.log("searchFn Searching for", term);
+        setSearchResults([]);
+        const results = await fetch("https://dummyapi.io/data/api/user?limit=50", {
+            headers: { "app-id": "lTE5abbDxdjGplutvTuc" },
+        });
+
+        const resp = await results.json();
+        setSearchResults(resp.data);
+        return resp.data;
+    };
+
+    const getSearchItem = (id) => searchResults.find((e) => e.id == id);
+
+    useEffect(() => {
+        if (matchingRecord && searchResults.length > 0) {
+            setSearchResults([getSearchItem(matchingRecord)]);
+            setMatchingRecord(null); // Prevent infinite loop inside useEffect
+        }
+    }, [searchResults, matchingRecord]);
+
+    const onSelect = (selectedItem) => {
+        if (selectedItem !== "all") {
+            setMatchingRecord(selectedItem);
+            const searchResult = searchResults && getSearchItem(selectedItem);
+            if (searchResult) {
+                setSearchResults([searchResult]);
+            }
         }
     };
 
-    const searchFn = (term) => {
-        console.log("Searching for", term);
-        return new Promise((resolve) => setTimeout(() => resolve(employees), 2000));
-    };
+    // TODO: Search without the drop down - old school Xola.
+    // TODO: Story should specify the way to format a record (give a component)
+    // TODO: Shortcut key display & binding
+    // TODO: Search spinner
 
     return (
         <>
-            <Search searchFn={searchFn} idLength={4} onSelect={onSelect} />
+            <Search searchFn={searchFn} idLength={20} onSelect={onSelect} />
             <div className="my-5 search-results">
-                <div className="text-xl">Search Results</div>
+                <div className="text-xl pb-2">Search Results</div>
                 <div className="search-data whitespace-pre font-mono">
-                    <span className="font-sans text-sm">The result will come here</span>
+                    {searchResults && searchResults.length > 0 && JSON.stringify(searchResults, null, 4)}
                 </div>
             </div>
         </>

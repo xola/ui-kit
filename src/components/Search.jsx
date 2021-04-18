@@ -91,12 +91,12 @@ export const Search = ({ size = "full", placeholder = "Customer Name or tag", id
                 hideAutoSuggest(e);
                 break;
             case keys.UP:
-                if (focusIndex > -1) {
+                if (focusIndex > 0) {
                     setFocusIndex(focusIndex - 1);
                 }
                 break;
             case keys.DOWN:
-                if (focusIndex < searchResults.length) {
+                if (focusIndex < dropdownLength - 1) {
                     setFocusIndex(focusIndex + 1);
                 }
                 break;
@@ -105,6 +105,7 @@ export const Search = ({ size = "full", placeholder = "Customer Name or tag", id
 
     const isMongoID = searchTerm.length === idLength;
     const initialFocusIndex = isMongoID ? 1 : 0;
+    const dropdownLength = searchResults.length + initialFocusIndex + 1;
 
     let SearchElements = React.Fragment;
     if (!hideResults && searchResults.length > 0) {
@@ -174,7 +175,7 @@ const searchItem = (index, result, isActive) => {
             ref={linkRefs[index]}
         >
             <div className="flex">
-                <img className="rounded-full w-12 h-12" src={result.imageUrl} />
+                <img className="rounded-full w-12 h-12" src={result.picture} />
                 <div className="pl-3">
                     <div className={clsx("text-black", { "text-white": isActive })}>
                         {result.firstName} {result.lastName}
