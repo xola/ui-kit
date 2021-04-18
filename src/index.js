@@ -11,6 +11,7 @@ export { ButtonGroup } from "./components/ButtonGroup";
 export { NotificationCount } from "./components/NotificationCount";
 export { Logo } from "./components/Logo";
 export { Search } from "./components/Search";
+export { Spinner } from "./components/Spinner";
 
 // Icons.
 export { ChevronRightIcon } from "./icons/ChevronRightIcon";
