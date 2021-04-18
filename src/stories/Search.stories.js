@@ -1,4 +1,3 @@
-import { result } from "lodash";
 import React, { useState, useEffect } from "react";
 import { Search } from "..";
 
@@ -15,38 +14,24 @@ export default {
 };
 
 export const Default = () => {
-    const [searchResults, setSearchResults] = useState([]); // The results of your search
-    const [matchingRecord, setMatchingRecord] = useState(null); // The one item you selected from your search
-    const previewEnabled = false;
+    const [matchingRecords, setMatchingRecord] = useState([]);
+    const previewEnabled = true;
 
     const searchFn = async (term) => {
-        console.log("searchFn Searching for", term);
-        setSearchResults([]);
+        setMatchingRecord([]);
         const results = await fetch("https://dummyapi.io/data/api/user?limit=50", {
             headers: { "app-id": "lTE5abbDxdjGplutvTuc" },
         });
 
         const resp = await results.json();
-        setSearchResults(resp.data);
+        setMatchingRecord(resp.data);
         return resp.data;
     };
 
-    const getSearchItem = (id) => searchResults.filter((e) => e.id == id);
-
-    useEffect(() => {
-        if (matchingRecord && searchResults.length > 0) {
-            setSearchResults([getSearchItem(matchingRecord)]);
-            setMatchingRecord(null); // Prevent infinite loop inside useEffect
-        }
-    }, [searchResults, matchingRecord]);
-
     const onSelect = (selectedItem) => {
-        if (previewEnabled && selectedItem !== "all") {
+        // console.log('onSelect', selectedItem);
+        if (previewEnabled && selectedItem && selectedItem !== "all") {
             setMatchingRecord(selectedItem);
-            const searchResult = getSearchItem(selectedItem);
-            if (searchResult) {
-                setSearchResults(searchResult);
-            }
         }
     };
 
@@ -54,15 +39,14 @@ export const Default = () => {
 
     // TODO: Story should specify the way to format a record (give a component)
     // TODO: Shortcut key display & binding
-    // TODO: Search spinner
 
     return (
         <>
-            <Search searchFn={searchFn} idLength={20} previewEnabled={previewEnabled} onSelect={onSelect} onClear={onClear} />
+            <Search searchFn={searchFn} idLength={20} previewEnabled={true} onSelect={onSelect} onClear={onClear} />
             <div className="my-5 search-results">
-                <div className="text-xl pb-2">Search Results</div>
+                <div className="text-xl pb-2">Search Results ({matchingRecords.length})</div>
                 <div className="search-data whitespace-pre font-mono">
-                    {searchResults && searchResults.length > 0 && JSON.stringify(searchResults, null, 4)}
+                    {matchingRecords && matchingRecords.length > 0 && JSON.stringify(matchingRecords, null, 4)}
                 </div>
             </div>
         </>

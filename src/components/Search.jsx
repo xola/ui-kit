@@ -1,10 +1,7 @@
-import React, { useState, useEffect } from "react";
-import clsx from "clsx";
 import _ from "lodash";
-
-//
-// ASSUME THIS IS USER SEARCH
-//
+import clsx from "clsx";
+import { Spinner } from "./Spinner";
+import React, { useState, useEffect } from "react";
 
 const sizes = {
     small: "w-32",
@@ -23,27 +20,30 @@ const keys = {
 const linkRefs = [];
 
 const initialState = {
-    searchTerm: "",
+    searchTerm: false,
     searchResults: [],
     hideResults: false,
     focusIndex: 0,
 };
 
 export const Search = ({
-    size = "full",
+    size = "full", // TODO: I'm not sure
     placeholder = "Customer Name or tag",
     idLength = 24,
-    previewEnabled=true,
+    previewEnabled = true,
     searchFn,
     onClear,
     onSelect,
 }) => {
+    const [searching, setSearching] = useState(false);
     const [searchTerm, setSearchTerm] = useState(initialState.searchTerm);
     const [searchResults, setSearchResults] = useState(initialState.searchResults);
     const [hideResults, setHideResults] = useState(initialState.hideResults);
     const [focusIndex, setFocusIndex] = useState(initialState.focusIndex);
+    let isMongoID = searchTerm.length === idLength;
 
     const reset = () => {
+        console.log('Resetting');
         hideAutoSuggest();
         setSearchResults(initialState.searchResults);
         setHideResults(initialState.hideResults);
@@ -53,26 +53,36 @@ export const Search = ({
     useEffect(() => {
         if (searchTerm.length === 0) {
             reset();
-            onClear && onClear();
+            return () => {
+                onClear && onClear();
+            }
         }
     }, [searchTerm]);
 
     const search = async (evt) => {
         const term = evt.target.value.trim();
         setSearchTerm(term);
+        isMongoID = term.length === idLength;
         if (term.length === 0) {
             return;
         }
 
-        reset();
+        setSearching(true);
         const results = await searchFn(term);
 
         if (evt.target.value.trim().length > 0) {
             setSearchResults(results);
-            if (!previewEnabled) {
+            // 5aZRSdkcBOM6j3lkWEoP 8YL1aG0vwRBXTzeZ0jRC
+            if (isMongoID) {
+                onSelect(getResults(term, results));
+                hideAutoSuggest();
+            } else if (!previewEnabled) {
                 onSelect(results);
+                hideAutoSuggest();
             }
         }
+
+        setSearching(false);
     };
 
     const hideAutoSuggest = () => {
@@ -84,23 +94,32 @@ export const Search = ({
         setHideResults(false);
     };
 
-    const handleNavigation = (e) => {
+    const getResults = (key, results = []) => {
+        results = results.length > 0 ? results : searchResults;
+        if (key === "all") {
+            return results;
+        } else {
+            return results.filter((result) => result.id === key);
+        }
+    };
+
+    const handleNavigation = async (e) => {
         switch (e.keyCode) {
             case keys.ENTER:
                 if (focusIndex >= 0) {
-                    // User has selected a result, perform whatever action is required
-                    // Callback
+                    // User has selected a result invoke the callback and pass in the results
                     try {
-                        const selectedItem = linkRefs[focusIndex].current;
-                        const id = selectedItem.getAttribute("data-id");
-                        console.log("Selected", id);
-                        onSelect(id);
+                        const resultId = linkRefs[focusIndex].current.getAttribute("data-id");
+                        const results = getResults(resultId);
+                        if (results.length > 0) {
+                            onSelect(results);
+                        }
                     } catch (err) {
                         console.error("Error fetching results. Something went wrong", err.message);
                     }
                 }
 
-                hideAutoSuggest(e);
+                hideAutoSuggest();
                 break;
             case keys.UP:
                 if (focusIndex > 0) {
@@ -115,7 +134,6 @@ export const Search = ({
         }
     };
 
-    const isMongoID = searchTerm.length === idLength;
     const initialFocusIndex = isMongoID ? 1 : 0;
     const dropdownLength = searchResults.length + initialFocusIndex + 1;
     const showResultList = previewEnabled && !hideResults && searchTerm.length > 0;
@@ -132,16 +150,20 @@ export const Search = ({
     }
 
     return (
-        <section>
-            <input
-                type="search"
-                placeholder={placeholder}
-                onKeyDown={handleNavigation}
-                onBlur={hideAutoSuggest}
-                onFocus={showAutoSuggest}
-                onChange={_.debounce(search, 500)}
-                className={clsx(sizes[size], "focus:ring-0")}
-            />
+        <section className="">
+            <div className="w-full flex">
+                <input
+                    type="text"
+                    placeholder={placeholder}
+                    onKeyDown={handleNavigation}
+                    onBlur={hideAutoSuggest}
+                    onFocus={showAutoSuggest}
+                    onChange={_.debounce(search, 1000)}
+                    className={clsx("border-gray rounded-sm flex-initial w-full focus:ring-0")}
+                />
+
+                {searching && <Spinner className="absolute top-[20px] right-7" />}
+            </div>
             <ul
                 className={clsx("divide-y divide-gray-light w-96 table", {
                     "border border-blue-light border-t-0": showResultList,
