@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import clsx from "clsx";
-import _ from 'lodash';
+import _ from "lodash";
 import Select, { components } from "react-select";
 import AsyncSelect from "react-select/async";
 import { data } from "autoprefixer";
@@ -22,8 +22,6 @@ const sizes = {
 //         />
 //     );
 // };
-
-
 
 // const loadOptions = (inputValue) => {
 //     // console.log("Searching for", inputValue, new Date());
@@ -55,7 +53,7 @@ const ValueContainerStyles = (base, state) => ({
 
 const ClearIndicatorStyles = (base, state) => ({
     ...base,
-    cursor: 'pointer'
+    cursor: "pointer",
 });
 
 const Input = (props) => {
@@ -128,7 +126,7 @@ const handleInputChange = _.debounce((newValue) => {
 }, 500);
 
 const onChange = (selected) => {
-    console.log('Selected', selected);
+    console.log("Selected", selected);
 };
 
 export const Search = () => {
@@ -171,5 +169,5 @@ const loadOptions = _.debounce((inputValue, callback) => {
 }, 500);
 
 const formatOptionLabel = (option) => {
-    return <span className="" dangerouslySetInnerHTML={{__html: option.label}}></span>;
+    return <span className="" dangerouslySetInnerHTML={{ __html: option.label }}></span>;
 };

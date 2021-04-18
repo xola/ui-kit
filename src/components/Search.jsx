@@ -54,7 +54,7 @@ export const Search = ({
 
     useHotkeys("ctrl+k", focusSearchField);
     useHotkeys("cmd+k", focusSearchField);
-    useHotkeys("esc", blurSearchField, {enableOnTags: ['INPUT'] } );
+    useHotkeys("esc", blurSearchField, { enableOnTags: ["INPUT"] });
 
     let isMongoID = searchTerm.length === idLength;
 
