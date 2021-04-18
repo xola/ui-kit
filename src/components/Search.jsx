@@ -33,6 +33,7 @@ export const Search = ({
     previewEnabled = true,
     searchFn,
     onClear,
+    resultItem,
     onSelect,
 }) => {
     const [searching, setSearching] = useState(false);
@@ -43,7 +44,7 @@ export const Search = ({
     let isMongoID = searchTerm.length === idLength;
 
     const reset = () => {
-        console.log('Resetting');
+        console.log("Resetting");
         hideAutoSuggest();
         setSearchResults(initialState.searchResults);
         setHideResults(initialState.hideResults);
@@ -55,7 +56,7 @@ export const Search = ({
             reset();
             return () => {
                 onClear && onClear();
-            }
+            };
         }
     }, [searchTerm]);
 
@@ -85,7 +86,7 @@ export const Search = ({
         setSearching(false);
     };
 
-    const hideAutoSuggest = () => {
+    const hideAutoSuggest = (e) => {
         setHideResults(true);
         setFocusIndex(0);
     };
@@ -145,7 +146,7 @@ export const Search = ({
             index++;
             const isActive = focusIndex === index;
             linkRefs[index] = React.createRef();
-            return searchItem(index, result, isActive);
+            return resultItem(index, linkRefs[index], result, isActive);
         });
     }
 
@@ -156,7 +157,7 @@ export const Search = ({
                     type="text"
                     placeholder={placeholder}
                     onKeyDown={handleNavigation}
-                    onBlur={hideAutoSuggest}
+                    onBlur={_.debounce(hideAutoSuggest, 300)}
                     onFocus={showAutoSuggest}
                     onChange={_.debounce(search, 1000)}
                     className={clsx("border-gray rounded-sm flex-initial w-full focus:ring-0")}
@@ -165,8 +166,8 @@ export const Search = ({
                 {searching && <Spinner className="absolute top-[20px] right-7" />}
             </div>
             <ul
-                className={clsx("divide-y divide-gray-light w-96 table", {
-                    "border border-blue-light border-t-0": showResultList,
+                className={clsx("divide-y divide-gray-light w-3/6 table mt-1 rounded-sm shadow-md z-50", {
+                    "border border-blue-light": showResultList,
                 })}
             >
                 {showResultList && isMongoID && (
@@ -174,9 +175,7 @@ export const Search = ({
                         key={0}
                         data-id={searchTerm}
                         className={clsx("text-black p-2", { "bg-blue-light text-white": focusIndex === 0 })}
-                        ref={(link) => {
-                            linkRefs[0] = { current: link };
-                        }}
+                        ref={(link) => (linkRefs[0] = { current: link })}
                     >
                         Jump to MongoID: <b>{searchTerm}</b>
                     </li>
@@ -187,9 +186,7 @@ export const Search = ({
                         key={initialFocusIndex}
                         className={clsx("p-2", { "bg-blue-light  text-white": focusIndex === initialFocusIndex })}
                         data-id="all"
-                        ref={(link) => {
-                            linkRefs[initialFocusIndex] = { current: link };
-                        }}
+                        ref={(link) => (linkRefs[initialFocusIndex] = { current: link })}
                     >
                         Show all results for <b>{searchTerm}</b>
                     </li>
@@ -198,26 +195,5 @@ export const Search = ({
                 {previewEnabled && SearchElements}
             </ul>
         </section>
-    );
-};
-
-const searchItem = (index, result, isActive) => {
-    return (
-        <li
-            key={index}
-            data-id={result.id}
-            className={clsx("p-2 flex", { "bg-blue-light text-white p-2": isActive })}
-            ref={linkRefs[index]}
-        >
-            <div className="flex">
-                <img className="rounded-full w-12 h-12" src={result.picture} />
-                <div className="pl-3">
-                    <div className={clsx("text-black", { "text-white": isActive })}>
-                        {result.firstName} {result.lastName}
-                    </div>
-                    <div className={clsx("text-sm text-black", { "text-white": isActive })}>{result.email}</div>
-                </div>
-            </div>
-        </li>
     );
 };
