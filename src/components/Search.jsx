@@ -5,10 +5,9 @@ import { useHotkeys } from "react-hotkeys-hook";
 import React, { useState, useEffect } from "react";
 
 const sizes = {
-    small: "w-32",
-    medium: "w-64",
-    large: "w-72",
-    xlarge: "w-96",
+    small: "w-72",
+    medium: "w-80",
+    large: "w-96",
     full: "w-full",
 };
 
@@ -39,7 +38,7 @@ const blurSearchField = () => {
 
 export const Search = ({
     size = "full", // TODO: I'm not sure
-    placeholder = "Customer Name or tag",
+    placeholder = "Customer name or tag",
     idLength = 24,
     previewEnabled = true,
     searchFn,
@@ -174,20 +173,24 @@ export const Search = ({
 
     return (
         <section className="">
-            <div className="w-full flex">
+            <div className={clsx("mt-1 relative", sizes[size])}>
                 <input
                     type="text"
                     placeholder={placeholder}
                     onKeyDown={handleNavigation}
                     onBlur={_.debounce(hideAutoSuggest, 300)}
                     onFocus={showAutoSuggest}
-                    onChange={_.debounce(search, 1000)}
-                    className={clsx("border-gray rounded-sm flex-initial w-full focus:ring-0")}
+                    onChange={_.debounce(search, 500)}
+                    className={clsx("block pr-10 border-gray rounded-sm focus:ring-0", sizes[size])}
                 />
 
-                {searching && <Spinner className="absolute top-[20px] right-7" />}
+                {searching && (
+                    <div className="absolute right-3 inset-y-1.5 flex items-center pointer-events-none">
+                        <Spinner />
+                    </div>
+                )}
 
-                <div className="shortcut-key absolute text-gray-dark border border-gray-light bg-gray-lighter rounded-md p-0.5 px-1 mt-1.5 right-7">
+                <div className="shortcut-key absolute right-3 inset-y-1.5 px-2 h-8 flex items-center pointer-events-none text-gray-dark border border-gray-light bg-gray-lighter rounded-md">
                     {isOSX ? "⌘ K" : "Ctrl K"}
                 </div>
             </div>

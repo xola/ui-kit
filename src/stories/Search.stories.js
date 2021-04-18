@@ -8,15 +8,73 @@ export default {
     parameters: {
         docs: {
             description: {
-                component: "The ultimate search box",
+                component: "The ultimate search box with a lot of flexibility",
             },
+        },
+    },
+    argTypes: {
+        idLength: {
+            description: "Describe the length of the ID that will allow the search to auto-dump",
+            defaultValue: 24,
+            control: { type: "number" },
+            table: {
+                type: { summary: null },
+                defaultValue: { summary: 24 },
+            },
+        },
+        size: {
+            description: "The size of the search box",
+            defaultValue: "full",
+            control: { type: "select" },
+            options: ["small", "medium", "large", "full"],
+            table: {
+                type: { summary: null },
+                defaultValue: { summary: "full" },
+            },
+        },
+        placeholder: {
+            description: "The placeholder text for the search box",
+            defaultValue: "Customer name or tag",
+            control: { type: "text" },
+            table: {
+                type: { summary: null },
+                defaultValue: { summary: "Customer name or tag" },
+            },
+        },
+        previewEnabled: {
+            description: "If a preview of the search results should be shown",
+            control: { type: "boolean" },
+            defaultValue: true,
+            table: {
+                type: { summary: null },
+                defaultValue: { summary: true },
+            },
+        },
+        searchFn: {
+            description: "This function is required to make an API call and return the results to the search component",
+            type: { required: true },
+            control: { type: "function" },
+        },
+        onClear: {
+            description: "Callback invoked when the text field is cleared",
+            control: { type: "function" },
+        },
+        onSelect: {
+            description: "Callback invoked when with the results of the search",
+            type: { required: true },
+            control: { type: "function" },
+        },
+        resultItem: {
+            description:
+                "This function should return React elements to describe the elements of search results in the preview dropdown. Not required if `previewEnabled` is `false`",
+            type: { required: true },
+            control: { type: "function" },
         },
     },
 };
 
-export const Default = () => {
+export const Default = ({ idLength = 20, previewEnabled = true, size = "full" }) => {
     const [matchingRecords, setMatchingRecord] = useState([]);
-    const previewEnabled = true;
 
     const searchFn = async (term) => {
         setMatchingRecord([]);
@@ -32,7 +90,7 @@ export const Default = () => {
     const resultItem = (key, ref, result, isActive) => {
         const onClickItem = (e) => {
             const resultId = e.target.getAttribute("data-id");
-            const record = matchingRecords.filter(r => r.id === resultId);
+            const record = matchingRecords.filter((r) => r.id === resultId);
             setMatchingRecord(record);
         };
 
@@ -76,14 +134,13 @@ export const Default = () => {
 
     const onClear = () => console.info("Search term cleared");
 
-    // TODO: Shortcut key display & binding
-
     return (
         <>
             <Search
+                size={size}
                 searchFn={searchFn}
-                idLength={20}
-                previewEnabled={true}
+                idLength={idLength}
+                previewEnabled={previewEnabled}
                 resultItem={resultItem}
                 onSelect={onSelect}
                 onClear={onClear}
