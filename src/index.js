@@ -13,6 +13,8 @@ export { Logo } from "./components/Logo";
 export { Search } from "./components/Search";
 export { Spinner } from "./components/Spinner";
 export { Breadcrumb } from "./components/Breadcrumb";
+export { Input } from "./components/Input";
+export { Label } from "./components/Label";
 
 // Icons.
 export { ChevronRightIcon } from "./icons/ChevronRightIcon";
