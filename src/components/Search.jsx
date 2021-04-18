@@ -1,6 +1,7 @@
 import _ from "lodash";
 import clsx from "clsx";
 import { Spinner } from "./Spinner";
+import { useHotkeys } from "react-hotkeys-hook";
 import React, { useState, useEffect } from "react";
 
 const sizes = {
@@ -26,6 +27,16 @@ const initialState = {
     focusIndex: 0,
 };
 
+const isOSX = () => navigator.userAgent.indexOf("Macintosh") >= 0;
+
+const focusSearchField = () => {
+    document.querySelector("input[type=text]").focus();
+};
+
+const blurSearchField = () => {
+    document.querySelector("input[type=text]").blur();
+};
+
 export const Search = ({
     size = "full", // TODO: I'm not sure
     placeholder = "Customer Name or tag",
@@ -41,6 +52,11 @@ export const Search = ({
     const [searchResults, setSearchResults] = useState(initialState.searchResults);
     const [hideResults, setHideResults] = useState(initialState.hideResults);
     const [focusIndex, setFocusIndex] = useState(initialState.focusIndex);
+
+    useHotkeys("ctrl+k", focusSearchField);
+    useHotkeys("cmd+k", focusSearchField);
+    useHotkeys("esc", blurSearchField, {enableOnTags: ['INPUT'] } );
+
     let isMongoID = searchTerm.length === idLength;
 
     const reset = () => {
@@ -87,12 +103,18 @@ export const Search = ({
     };
 
     const hideAutoSuggest = (e) => {
-        setHideResults(true);
-        setFocusIndex(0);
+        const shortcutKey = document.querySelector(".shortcut-key");
+        if (shortcutKey) {
+            setHideResults(true);
+            setFocusIndex(0);
+            shortcutKey.classList.remove("hidden");
+        }
     };
 
     const showAutoSuggest = () => {
         setHideResults(false);
+        const shortcutKey = document.querySelector(".shortcut-key");
+        shortcutKey && shortcutKey.classList.add("hidden");
     };
 
     const getResults = (key, results = []) => {
@@ -164,6 +186,10 @@ export const Search = ({
                 />
 
                 {searching && <Spinner className="absolute top-[20px] right-7" />}
+
+                <div className="shortcut-key absolute text-gray-dark border border-gray-light bg-gray-lighter rounded-md p-0.5 px-1 mt-1.5 right-7">
+                    {isOSX ? "⌘ K" : "Ctrl K"}
+                </div>
             </div>
             <ul
                 className={clsx("divide-y divide-gray-light w-3/6 table mt-1 rounded-sm shadow-md z-50", {
