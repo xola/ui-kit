@@ -29,7 +29,15 @@ const initialState = {
     focusIndex: 0,
 };
 
-export const Search = ({ size = "full", placeholder = "Customer Name or tag", idLength = 24, searchFn, onSelect }) => {
+export const Search = ({
+    size = "full",
+    placeholder = "Customer Name or tag",
+    idLength = 24,
+    previewEnabled=true,
+    searchFn,
+    onClear,
+    onSelect,
+}) => {
     const [searchTerm, setSearchTerm] = useState(initialState.searchTerm);
     const [searchResults, setSearchResults] = useState(initialState.searchResults);
     const [hideResults, setHideResults] = useState(initialState.hideResults);
@@ -45,6 +53,7 @@ export const Search = ({ size = "full", placeholder = "Customer Name or tag", id
     useEffect(() => {
         if (searchTerm.length === 0) {
             reset();
+            onClear && onClear();
         }
     }, [searchTerm]);
 
@@ -60,6 +69,9 @@ export const Search = ({ size = "full", placeholder = "Customer Name or tag", id
 
         if (evt.target.value.trim().length > 0) {
             setSearchResults(results);
+            if (!previewEnabled) {
+                onSelect(results);
+            }
         }
     };
 
@@ -106,6 +118,7 @@ export const Search = ({ size = "full", placeholder = "Customer Name or tag", id
     const isMongoID = searchTerm.length === idLength;
     const initialFocusIndex = isMongoID ? 1 : 0;
     const dropdownLength = searchResults.length + initialFocusIndex + 1;
+    const showResultList = previewEnabled && !hideResults && searchTerm.length > 0;
 
     let SearchElements = React.Fragment;
     if (!hideResults && searchResults.length > 0) {
@@ -131,10 +144,10 @@ export const Search = ({ size = "full", placeholder = "Customer Name or tag", id
             />
             <ul
                 className={clsx("divide-y divide-gray-light w-96 table", {
-                    "border border-blue-light border-t-0": !hideResults && searchTerm,
+                    "border border-blue-light border-t-0": showResultList,
                 })}
             >
-                {!hideResults && searchTerm && isMongoID && (
+                {showResultList && isMongoID && (
                     <li
                         key={0}
                         data-id={searchTerm}
@@ -147,7 +160,7 @@ export const Search = ({ size = "full", placeholder = "Customer Name or tag", id
                     </li>
                 )}
 
-                {!hideResults && searchTerm.length > 0 && (
+                {showResultList && (
                     <li
                         key={initialFocusIndex}
                         className={clsx("p-2", { "bg-blue-light  text-white": focusIndex === initialFocusIndex })}
@@ -160,7 +173,7 @@ export const Search = ({ size = "full", placeholder = "Customer Name or tag", id
                     </li>
                 )}
 
-                {SearchElements}
+                {previewEnabled && SearchElements}
             </ul>
         </section>
     );

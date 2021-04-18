@@ -15,8 +15,9 @@ export default {
 };
 
 export const Default = () => {
-    const [searchResults, setSearchResults] = useState([]);
-    const [matchingRecord, setMatchingRecord] = useState(null);
+    const [searchResults, setSearchResults] = useState([]); // The results of your search
+    const [matchingRecord, setMatchingRecord] = useState(null); // The one item you selected from your search
+    const previewEnabled = false;
 
     const searchFn = async (term) => {
         console.log("searchFn Searching for", term);
@@ -30,7 +31,7 @@ export const Default = () => {
         return resp.data;
     };
 
-    const getSearchItem = (id) => searchResults.find((e) => e.id == id);
+    const getSearchItem = (id) => searchResults.filter((e) => e.id == id);
 
     useEffect(() => {
         if (matchingRecord && searchResults.length > 0) {
@@ -40,23 +41,24 @@ export const Default = () => {
     }, [searchResults, matchingRecord]);
 
     const onSelect = (selectedItem) => {
-        if (selectedItem !== "all") {
+        if (previewEnabled && selectedItem !== "all") {
             setMatchingRecord(selectedItem);
-            const searchResult = searchResults && getSearchItem(selectedItem);
+            const searchResult = getSearchItem(selectedItem);
             if (searchResult) {
-                setSearchResults([searchResult]);
+                setSearchResults(searchResult);
             }
         }
     };
 
-    // TODO: Search without the drop down - old school Xola.
+    const onClear = () => console.info("Search term cleared");
+
     // TODO: Story should specify the way to format a record (give a component)
     // TODO: Shortcut key display & binding
     // TODO: Search spinner
 
     return (
         <>
-            <Search searchFn={searchFn} idLength={20} onSelect={onSelect} />
+            <Search searchFn={searchFn} idLength={20} previewEnabled={previewEnabled} onSelect={onSelect} onClear={onClear} />
             <div className="my-5 search-results">
                 <div className="text-xl pb-2">Search Results</div>
                 <div className="search-data whitespace-pre font-mono">
