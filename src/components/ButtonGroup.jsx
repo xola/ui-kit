@@ -2,7 +2,7 @@ import clsx from "clsx";
 import React, { Children, cloneElement } from "react";
 
 const sizes = {
-    small: "px-2 py-1.5 text-sm",
+    small: "px-1.5 py-1 text-sm",
     medium: "py-3 px-2.5 text-base",
     large: "px-4 py-3.5 text-lg",
 };
