@@ -12,6 +12,7 @@ export { NotificationCount } from "./components/NotificationCount";
 export { Logo } from "./components/Logo";
 export { Search } from "./components/Search";
 export { Spinner } from "./components/Spinner";
+export { Breadcrumb } from "./components/Breadcrumb";
 
 // Icons.
 export { ChevronRightIcon } from "./icons/ChevronRightIcon";

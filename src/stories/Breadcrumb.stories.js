@@ -1,0 +1,58 @@
+import React from "react";
+import { Breadcrumb } from "..";
+
+export default {
+    title: "Breadcrumb",
+    component: Breadcrumb,
+    parameters: {
+        docs: {
+            description: {
+                component: "Breadcrumbs are generally used by Xola in the header",
+            },
+        },
+    },
+    argTypes: {
+        spacing: {
+            description: "Spacing between elements",
+            defaultValue: 2,
+            control: { type: "number" },
+            table: {
+                defaultValue: { summary: 2 },
+                type: { summary: null },
+            },
+        },
+        separator: {
+            description: "The string that separates the items",
+            defaultValue: "/",
+            control: { type: "text" },
+            table: {
+                type: { summary: null },
+                defaultValue: { summary: "/" },
+            },
+        },
+    },
+};
+
+export const Default = ({ spacing, separator }) => {
+    return (
+        <div className="space-x-6">
+            <Breadcrumb spacing={spacing} separator={separator}>
+                <Breadcrumb.Item>Settings</Breadcrumb.Item>
+                <Breadcrumb.Item>Preferences</Breadcrumb.Item>
+                <Breadcrumb.Item current>Gifts</Breadcrumb.Item>
+            </Breadcrumb>
+        </div>
+    );
+};
+
+export const Header = () => {
+    return (
+        <div className="space-x-6">
+            <Breadcrumb className="text-2xl" spacing={3} separator="/">
+                <Breadcrumb.Item className="text-2xl">Settings</Breadcrumb.Item>
+                <Breadcrumb.Item className="text-2xl">Preferences</Breadcrumb.Item>
+                <Breadcrumb.Item className="text-2xl">Gifts</Breadcrumb.Item>
+            </Breadcrumb>
+        </div>
+    );
+};
