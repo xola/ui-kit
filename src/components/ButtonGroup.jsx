@@ -2,16 +2,16 @@ import clsx from "clsx";
 import React, { Children, cloneElement } from "react";
 
 const sizes = {
-    small: "px-3 py-1.5 text-sm",
-    medium: "px-4 py-2 text-base",
-    large: "px-5 py-2.5 text-lg",
+    small: "px-2 py-1.5 text-sm",
+    medium: "py-3 px-2.5 text-base",
+    large: "px-4 py-3.5 text-lg",
 };
 
 const ButtonGroup = ({ children, size, ...rest }) => {
     const childrenCount = Children.count(children);
 
     return (
-        <span className="relative z-0 inline-flex" {...rest}>
+        <span className="inline-flex" {...rest}>
             {Children.map(children, (child, index) => {
                 const isFirst = index === 0;
                 const isLast = index + 1 === childrenCount;
@@ -23,13 +23,13 @@ const ButtonGroup = ({ children, size, ...rest }) => {
 
 const Button = ({ isActive, isFirst, isLast, size = "medium", ...rest }) => {
     const className = clsx(
-        "-ml-px border transition-colors font-semibold focus:ring disabled:opacity-50 focus:z-10",
+        "border-t border-l border-b transition-colors focus:ring disabled:opacity-50 focus:z-10",
         sizes[size],
         {
             "rounded-l-md": isFirst,
-            "rounded-r-md": isLast,
+            "rounded-r-md border-r": isLast,
             "bg-primary border-primary text-white hover:bg-primary-dark": isActive,
-            "border-gray-light hover:bg-gray-lighter": !isActive,
+            "border-gray-light hover:bg-gray-lighter text-gray-darker": !isActive,
         },
     );
 
