@@ -39,7 +39,7 @@ export const Default = ({ spacing, separator }) => {
             <Breadcrumb spacing={spacing} separator={separator}>
                 <Breadcrumb.Item>Settings</Breadcrumb.Item>
                 <Breadcrumb.Item>Preferences</Breadcrumb.Item>
-                <Breadcrumb.Item current>Gifts</Breadcrumb.Item>
+                <Breadcrumb.Item>Gifts</Breadcrumb.Item>
             </Breadcrumb>
         </div>
     );
