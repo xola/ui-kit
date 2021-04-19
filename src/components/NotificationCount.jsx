@@ -6,7 +6,7 @@ export const NotificationCount = ({ className, ...rest }) => {
         <span
             className={clsx(
                 className,
-                "inline-block px-1.5 py-0.5 font-semibold items-center justify-center rounded-full bg-red-dark text-white leading-none",
+                "px-2 py-1 font-semibold inline-flex items-center justify-center rounded-full bg-red-dark text-white leading-none",
             )}
             {...rest}
         />
