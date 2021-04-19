@@ -1,7 +1,7 @@
 import React from "react";
 
 export const BookmarkIcon = (props) => (
-    <svg width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <svg viewBox="0 0 14 14" width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
         <path
             d="M8.518 5.498a.22.22 0 01-.216.217.204.204 0 01-.113-.035l-1.085-.65-1.31.68v-.004a.222.222 0 01-.321-.2V2H8.51l.008 3.498z"
             stroke="currentColor"

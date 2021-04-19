@@ -1,7 +1,7 @@
 import React from "react";
 
 export const BellIcon = (props) => (
-    <svg width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <svg viewBox="0 0 14 14" width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
         <path
             d="M5.663 10.7v.214a1.337 1.337 0 002.674 0V10.7M8.07 3.355v-.536a1.07 1.07 0 10-2.14 0v.536"
             stroke="currentColor"

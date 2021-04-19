@@ -1,7 +1,7 @@
 import React from "react";
 
 export const CakeIcon = (props) => (
-    <svg width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <svg viewBox="0 0 14 14" width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
         <path
             d="M2.506 7.739v3.712l-.006-.006c0 .628.508 1.136 1.136 1.142h6.723a1.146 1.146 0 001.136-1.148V7.727"
             stroke="currentColor"

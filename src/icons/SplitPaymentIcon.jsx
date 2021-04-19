@@ -1,7 +1,7 @@
 import React from "react";
 
 export const SplitPaymentIcon = (props) => (
-    <svg width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <svg viewBox="0 0 14 14" width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
         <path
             d="M10.5 7.5L8.746 9.003A5 5 0 007 12.8v.125"
             stroke="currentColor"

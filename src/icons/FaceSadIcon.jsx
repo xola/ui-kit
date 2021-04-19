@@ -1,7 +1,7 @@
 import React from "react";
 
 export const FaceSadIcon = (props) => (
-    <svg width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <svg viewBox="0 0 14 14" width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
         <path
             d="M6.854.729a6.271 6.271 0 100 12.542 6.271 6.271 0 000-12.542v0z"
             stroke="currentColor"

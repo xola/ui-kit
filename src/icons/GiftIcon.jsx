@@ -1,7 +1,7 @@
 import React from "react";
 
 export const GiftIcon = (props) => (
-    <svg width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <svg viewBox="0 0 14 14" width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
         <path
             d="M5.945 6.988H2.788A.791.791 0 012 6.191v-.788a.78.78 0 01.78-.795h8.662-.008a.778.778 0 01.788.78v.787a.79.79 0 01-.788.787h-3.15"
             stroke="currentColor"

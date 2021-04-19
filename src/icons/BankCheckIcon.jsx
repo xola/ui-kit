@@ -1,7 +1,7 @@
 import React from "react";
 
 export const BankCheckIcon = (props) => (
-    <svg width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <svg viewBox="0 0 14 14" width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
         <path
             d="M5.106 7.819l-1.86.265.265-1.86L8.28 1.45h-.005c.435-.44 1.15-.44 1.59-.005.435.435.435 1.15 0 1.59l-4.76 4.784z"
             stroke="currentColor"

@@ -1,7 +1,7 @@
 import React from "react";
 
 export const EyeIcon = (props) => (
-    <svg width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <svg viewBox="0 0 14 14" width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
         <path
             d="M7.017 5.218a1.828 1.828 0 100 3.656 1.828 1.828 0 000-3.656v0z"
             stroke="currentColor"

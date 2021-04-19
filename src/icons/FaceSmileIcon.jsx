@@ -1,7 +1,7 @@
 import React from "react";
 
 export const FaceSmileIcon = (props) => (
-    <svg width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <svg viewBox="0 0 14 14" width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
         <path
             d="M4.07 5.92h-.005c.069-.005.133.06.133.131a.14.14 0 01-.133.136c-.075 0-.133-.065-.139-.136a.134.134 0 01.128-.141M9.93 5.92h-.006a.133.133 0 00-.133.137c0 .07.059.135.133.13.07-.005.133-.065.128-.141a.137.137 0 00-.133-.136M3.804 9.046L3.8 9.041c.735 1.799 2.759 2.652 4.527 1.902A3.51 3.51 0 0010.19 9.04"
             stroke="currentColor"

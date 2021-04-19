@@ -1,7 +1,7 @@
 import React from "react";
 
 export const SearchAltIcon = (props) => (
-    <svg width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <svg viewBox="0 0 14 14" width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
         <path
             d="M7 4.083H2.917A1.17 1.17 0 001.75 5.25v5.833a1.17 1.17 0 001.167 1.167H8.75a1.17 1.17 0 001.167-1.167V7"
             stroke="currentColor"

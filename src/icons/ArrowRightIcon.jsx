@@ -1,7 +1,7 @@
 import React from "react";
 
 export const ArrowRightIcon = (props) => (
-    <svg width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <svg viewBox="0 0 14 14" width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
         <path
             d="M8.714 2.714L13 7l-4.286 4.286M13 7.003H1"
             stroke="currentColor"

@@ -1,7 +1,7 @@
 import React from "react";
 
 export const MoneyBackIcon = (props) => (
-    <svg width={14} height={15} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <svg viewBox="0 0 14 14" width={14} height={15} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
         <path
             d="M6.008 9.972A.972.972 0 106.981 9a.972.972 0 11.972-.972M6.98 6.083v.973M6.98 10.944v.973"
             stroke="currentColor"

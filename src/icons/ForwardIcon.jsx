@@ -1,7 +1,7 @@
 import React from "react";
 
 export const ForwardIcon = (props) => (
-    <svg width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <svg viewBox="0 0 14 14" width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
         <path
             d="M9.65 10.651v1.438l2.875-2.636L9.65 6.818v1.437H6.296v2.396H9.65z"
             stroke="currentColor"

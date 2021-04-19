@@ -1,7 +1,7 @@
 import React from "react";
 
 export const ImageIcon = (props) => (
-    <svg width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <svg viewBox="0 0 14 14" width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
         <path
             d="M11.565 2h-9.13A.435.435 0 002 2.435v9.13c0 .24.195.435.435.435h9.13c.24 0 .435-.195.435-.435v-9.13A.435.435 0 0011.565 2zM2 10.26h10"
             stroke="currentColor"
