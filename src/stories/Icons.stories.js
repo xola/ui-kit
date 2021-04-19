@@ -14,7 +14,7 @@ export const Default = () => {
             {icons.map((Icon, index) => (
                 <div className="border border-gray-lighter p-2 rounded text-center" key={index}>
                     <Icon className="inline-block w-10 h-10 mb-2" />
-                    <div className="text-gray-dark">{Icon.displayName}</div>
+                    <div className="text-gray-dark w-40">{Icon.displayName}</div>
                 </div>
             ))}
         </div>
