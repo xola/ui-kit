@@ -1,4 +1,5 @@
 const defaultTheme = require("tailwindcss/defaultTheme");
+const path = require("path");
 
 const colors = {
     transparent: "transparent",
@@ -62,8 +63,9 @@ module.exports = {
     purge: [
         "./src/**/*.js",
         "./src/**/*.jsx",
-        "./node_modules/xola-ui-kit/src/**/*.js",
-        "./node_modules/xola-ui-kit/src/**/*.jsx",
+        "./src/**/*.ts",
+        "./src/**/*.tsx",
+        path.join(__dirname, "build/xola-ui-kit.umd.js"),
     ],
 
     theme: {
