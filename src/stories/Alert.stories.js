@@ -8,7 +8,8 @@ export default {
         text: {
             type: { required: false },
             description: "The text in the component",
-            defaultValue: "Default",
+            defaultValue:
+                "Space, the final frontier. These are the voyages of the starship Enterprise. Its five year mission: to explore strange new worlds, to seek out new life and new civilizations, to boldly go where no man has gone before!",
             control: { type: "text" },
             table: {
                 type: { summary: "For demo only" },

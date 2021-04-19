@@ -14,15 +14,15 @@ const colors = {
 };
 
 const sizes = {
-    small: "text-sm h-9",
-    medium: "text-md h-11",
-    large: "text-lg h-14",
+    small: "text-sm px-2 py-3",
+    medium: "text-md px-3 py-4",
+    large: "text-lg px-4 py-5",
 };
 
 export const Alert = ({ className, color = "primary", size = "medium", ...rest }) => {
     return (
         <div
-            className={clsx("flex justify-center items-center rounded", colors[color], sizes[size], className)}
+            className={clsx("flex rounded", colors[color], sizes[size], className)}
             {...rest}
         />
     );
