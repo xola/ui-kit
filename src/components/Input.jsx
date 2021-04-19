@@ -15,7 +15,9 @@ export const Input = ({ size = "medium", className, type = "text", disabled, err
             className={clsx(
                 className,
                 sizes[size],
-                error ? "border-danger" : "border-gray-light",
+                error
+                    ? "border-danger focus:ring-danger focus:border-danger"
+                    : "border-gray-light focus:ring-primary focus:border-primary",
                 "block w-full placeholder-gray-dark text-gray-darker rounded-md leading-none",
                 disabled && "bg-gray-lighter",
             )}
