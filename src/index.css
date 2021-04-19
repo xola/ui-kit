@@ -13,3 +13,22 @@ button:focus {
 tbody tr:nth-child(2) {
     @apply bg-gray-lighter;
 }
+
+h1 {
+    @apply text-2xl; /* ~21px */
+    @apply font-bold;
+}
+
+h2 {
+    @apply text-xl; /* ~18px */
+    @apply font-bold;
+}
+
+h3 {
+    @apply text-lg; /* ~16px */
+    @apply font-bold;
+}
+
+h4 {
+    @apply font-bold;
+}
