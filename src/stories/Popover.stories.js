@@ -42,7 +42,7 @@ export default {
             "Displaces the tippy from its reference element in pixels _(skidding and distance)_",
         ),
         followCursor: getArg(
-            "false",
+            false,
             "radio",
             [false, true, "vertical", "horizontal", "initial"],
             "Determines if tooltip follows the user's cursor",
