@@ -1,5 +1,9 @@
 import path from "path";
 import { defineConfig } from "vite";
+import pkg from "./package.json";
+
+const dependencies = Object.keys(pkg.dependencies);
+const devDependencies = Object.keys(pkg.devDependencies);
 
 export default defineConfig({
     build: {
@@ -11,13 +15,8 @@ export default defineConfig({
         },
 
         rollupOptions: {
-            external: ["react"],
-
-            output: {
-                globals: {
-                    react: "React",
-                },
-            },
+            // Make sure none of the dependencies are bundled.
+            external: [...dependencies, ...devDependencies],
         },
     },
 });
