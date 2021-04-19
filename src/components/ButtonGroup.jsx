@@ -2,7 +2,7 @@ import clsx from "clsx";
 import React, { Children, cloneElement } from "react";
 
 const sizes = {
-    small: "px-1.5 py-1 text-sm",
+    small: "px-2 py-1.5 text-sm",
     medium: "py-3 px-2.5 text-base",
     large: "px-4 py-3.5 text-lg",
 };
@@ -23,7 +23,7 @@ const ButtonGroup = ({ children, size, ...rest }) => {
 
 const Button = ({ isActive, isFirst, isLast, size = "medium", ...rest }) => {
     const className = clsx(
-        "border-t border-l border-b transition-colors focus:ring disabled:opacity-50 focus:z-10",
+        "border-t border-l border-b transition-colors focus:ring disabled:opacity-50 focus:z-10 leading-none",
         sizes[size],
         {
             "rounded-l-md": isFirst,

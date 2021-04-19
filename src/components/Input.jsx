@@ -16,7 +16,7 @@ export const Input = ({ size = "medium", className, type = "text", disabled, err
                 className,
                 sizes[size],
                 error ? "border-danger" : "border-gray-light",
-                "block w-full placeholder-gray-dark text-gray-darker rounded-md",
+                "block w-full placeholder-gray-dark text-gray-darker rounded-md leading-none",
                 disabled && "bg-gray-lighter",
             )}
             {...rest}
