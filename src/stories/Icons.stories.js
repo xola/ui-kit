@@ -1,20 +1,25 @@
 import React from "react";
-import { ChevronRightIcon, StarIcon, UserIcon, SearchIcon } from "..";
+import * as all from "..";
+import _ from "lodash";
+
+const icons = _.filter(all, (component, name) => name.endsWith("Icon"));
 
 export default {
     title: "Icons",
 };
 
 export const Default = () => {
-    const icons = [<ChevronRightIcon />, <StarIcon />, <UserIcon />, <SearchIcon />];
-    return <div className="flex flex-row flex-wrap gap-8">{icons.map((icon, idx) => getIcon(icon, idx))}</div>;
-};
-
-const getIcon = (icon, idx) => {
     return (
-        <div key={idx}>
-            {icon}
-            <div className="pt-3 text-gray-dark">{icon.type.displayName}</div>
+        <div className="flex flex-row flex-wrap gap-8">
+            {icons.map((Icon, index) => (
+                <div className="border border-gray-lighter p-2 rounded" key={index}>
+                    <div className="inline-block mr-2">
+                        <Icon />
+                    </div>
+
+                    <span className="text-gray">{Icon.displayName}</span>
+                </div>
+            ))}
         </div>
     );
 };

@@ -1,9 +1,9 @@
 import React from "react";
 
-export const SearchIcon = (props) => (
+export const CalendarIcon = (props) => (
     <svg width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
         <path
-            d="M6.217 10.878a4.661 4.661 0 100-9.322 4.661 4.661 0 000 9.322zM9.514 9.514l2.93 2.93"
+            d="M11.76 2.87H2.24a.24.24 0 00-.24.24v8.65c0 .133.108.24.24.24h9.52a.24.24 0 00.24-.24V3.11a.24.24 0 00-.24-.24zM4.174 2v2.174M9.826 2v2.174"
             stroke="currentColor"
             strokeLinecap="round"
             strokeLinejoin="round"

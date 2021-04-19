@@ -20,12 +20,7 @@ const sizes = {
 };
 
 export const Alert = ({ className, color = "primary", size = "medium", ...rest }) => {
-    return (
-        <div
-            className={clsx("flex rounded", colors[color], sizes[size], className)}
-            {...rest}
-        />
-    );
+    return <div className={clsx("flex rounded", colors[color], sizes[size], className)} {...rest} />;
 };
 
 Alert.propTypes = {
