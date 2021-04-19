@@ -1,6 +1,5 @@
 import React from "react";
-import { ChevronRightIcon, StarIcon, UserIcon } from "..";
-import { SearchIcon } from "../icons/SearchIcon";
+import { ChevronRightIcon, StarIcon, UserIcon, SearchIcon } from "..";
 
 export default {
     title: "Icons",

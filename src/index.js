@@ -22,3 +22,4 @@ export { FormGroup } from "./components/FormGroup";
 export { ChevronRightIcon } from "./icons/ChevronRightIcon";
 export { StarIcon } from "./icons/StarIcon";
 export { UserIcon } from "./icons/UserIcon";
+export { SearchIcon } from "./icons/SearchIcon";
