@@ -20,8 +20,7 @@ export const Spinner = ({ className, size = "small", color = "standard" }) => {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
-            style={{ margin: "auto" }}
-            className={clsx("spinner", className, sizes[size], "inline")}
+            className={clsx("spinner m-auto", className, sizes[size], "inline")}
             display="block"
             preserveAspectRatio="xMidYMid"
             viewBox="0 0 100 100"
