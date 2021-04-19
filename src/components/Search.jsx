@@ -1,6 +1,7 @@
 import _ from "lodash";
 import clsx from "clsx";
 import { Spinner } from "./Spinner";
+import { SearchIcon } from "../icons/SearchIcon";
 import { useHotkeys } from "react-hotkeys-hook";
 import React, { useState, useEffect } from "react";
 
@@ -174,6 +175,9 @@ export const Search = ({
     return (
         <section className="">
             <div className={clsx("mt-1 relative", sizes[size])}>
+                <div className="absolute inset-y-0 left-0 pl-3 text-gray-dark flex items-center pointer-events-none">
+                    <SearchIcon />
+                </div>
                 <input
                     type="text"
                     placeholder={placeholder}
@@ -181,7 +185,7 @@ export const Search = ({
                     onBlur={_.debounce(hideAutoSuggest, 300)}
                     onFocus={showAutoSuggest}
                     onChange={_.debounce(search, 500)}
-                    className={clsx("block pr-10 border-gray rounded-sm focus:ring-0", sizes[size])}
+                    className={clsx("block px-10 border-gray rounded-sm focus:ring-0", sizes[size])}
                 />
 
                 {searching && (

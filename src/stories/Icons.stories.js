@@ -1,12 +1,13 @@
 import React from "react";
 import { ChevronRightIcon, StarIcon, UserIcon } from "..";
+import { SearchIcon } from "../icons/SearchIcon";
 
 export default {
     title: "Icons",
 };
 
 export const Default = () => {
-    const icons = [<ChevronRightIcon />, <StarIcon />, <UserIcon />];
+    const icons = [<ChevronRightIcon />, <StarIcon />, <UserIcon />, <SearchIcon />];
     return <div className="flex flex-row flex-wrap gap-8">{icons.map((icon, idx) => getIcon(icon, idx))}</div>;
 };
 
