@@ -4,7 +4,7 @@ import clsx from "clsx";
 export const Breadcrumb = ({ className, spacing = 2, separator = "/", children }) => {
     const count = React.Children.count(children) - 1;
     return (
-        <div className={className, clsx(`space-x-${spacing}`)}>
+        <div className={(className, clsx(`space-x-${spacing}`))}>
             {React.Children.map(children, (child, idx) => {
                 const isLast = idx >= count;
                 return (

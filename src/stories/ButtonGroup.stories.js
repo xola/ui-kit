@@ -17,7 +17,7 @@ export default {
 };
 
 export const Default = ({ size }) => {
-    const [active, setActive] = useState(1);
+    const [active, setActive] = useState(-1);
 
     return (
         <ButtonGroup size={size}>
