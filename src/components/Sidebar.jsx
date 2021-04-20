@@ -10,7 +10,7 @@ export const Sidebar = ({ children, footer, notifications, fixed }) => {
         <div
             className={clsx(
                 fixed ? "fixed" : "relative",
-                "w-24 h-screen p-2 overflow-y-auto text-white bg-black md:w-56",
+                "w-24 md:w-56 h-screen p-2 overflow-y-auto bg-black text-white",
             )}
         >
             {notifications ? (
@@ -33,7 +33,7 @@ Sidebar.Link = ({ active, icon: Icon, children, size = "small", ...rest }) => {
     return (
         <button
             className={clsx(
-                "transition-colors leading-none flex items-center text-left w-full md:px-6 md:text-center py-3 rounded",
+                "transition-colors leading-none flex items-center justify-center md:justify-start w-full md:px-6 py-3 rounded",
                 {
                     "bg-primary text-white hover:bg-primary-dark": active,
                     "hover:bg-gray-darker text-gray": !active,
@@ -41,9 +41,9 @@ Sidebar.Link = ({ active, icon: Icon, children, size = "small", ...rest }) => {
             )}
             {...rest}
         >
-            <Icon className="hidden w-5 h-5 mr-3 md:inline" />
-            <span className="sm:px-1">{children}</span>
-            <ChevronRightIcon className="hidden w-3 h-3 ml-auto md:inline" />
+            <Icon className="w-5 h-5 md:mr-3" />
+            <span className="hidden md:inline px-1">{children}</span>
+            <ChevronRightIcon className="hidden md:inline w-3 h-3 ml-auto" />
         </button>
     );
 };
