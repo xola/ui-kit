@@ -106,14 +106,14 @@ Modal.Header = ({ children }) => {
 
 Modal.Header.displayName = "Modal.Header";
 
-Modal.Body = ({ children }) => {
-    return <div className="pt-8 pb-2 mt-2 text-left modal-body">{children}</div>;
+Modal.Body = ({ className, ...rest }) => {
+    return <div className={clsx(className, "pt-8 pb-2 mt-2 text-left modal-body")} {...rest} />;
 };
 
 Modal.Body.displayName = "Modal.Body";
 
-Modal.Footer = ({ children }) => {
-    return <div className="float-right px-8 py-8 modal-footer sm:flex">{children}</div>;
+Modal.Footer = ({ className, ...rest }) => {
+    return <div className={clsx(className, "float-right px-8 py-8 modal-footer sm:flex")} {...rest} />;
 };
 
 Modal.Footer.displayName = "Modal.Footer";
