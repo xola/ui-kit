@@ -2,7 +2,7 @@ import React from "react";
 import { NotificationCount } from "..";
 
 export default {
-    title: "NotificationCount",
+    title: "Components/NotificationCount",
     component: NotificationCount,
 };
 

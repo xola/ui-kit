@@ -2,7 +2,7 @@ import React from "react";
 import { Table, TableBody, TableCell, TableHead, TableRow, TableHeader } from "..";
 
 export default {
-    title: "Table",
+    title: "Components/Table",
     component: Table,
 };
 

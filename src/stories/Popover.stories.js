@@ -5,7 +5,7 @@ import { Button, Popover } from "..";
 const docs = "https://atomiks.github.io/tippyjs/v6/all-props/";
 
 export default {
-    title: "Popover",
+    title: "Components/Popover",
     component: Popover,
     argTypes: {
         demoText: getArg("Default", "text", null, "The value for the button", "for this demo only"),
@@ -68,7 +68,7 @@ function getArg(defaultValue, type, options, description, summary = null) {
 export const Default = (config) => {
     config.content = (
         <Popover.Content>
-            <div className="text-md font-bold pt-2 pb-1">Popover title</div>
+            <div className="pt-2 pb-1 font-bold text-md">Popover title</div>
             <div className="text-sm">And here's some amazing content. It's very engaging. Right?</div>
             <div className="text-sm">Here is some more because I am crazy</div>
         </Popover.Content>
@@ -84,21 +84,21 @@ export const NoTitle = (config) => {
     config.content = (
         <Popover.Content>
             <dl className="text-sm">
-                <div className="py-1 grid grid-cols-2 gap-4 px-2">
-                    <dt className="text-black font-bold">Demo Request</dt>
-                    <dd className="mt-1 text-black mt-0">Dec 21, 2020</dd>
+                <div className="px-2 py-1 grid grid-cols-2 gap-4">
+                    <dt className="font-bold text-black">Demo Request</dt>
+                    <dd className="mt-0 mt-1 text-black">Dec 21, 2020</dd>
                 </div>
-                <div className="py-1 grid grid-cols-2 gap-4 px-2">
-                    <dt className="text-black font-bold">Join Request</dt>
-                    <dd className="mt-1 text-black mt-0">Dec 24, 2020</dd>
+                <div className="px-2 py-1 grid grid-cols-2 gap-4">
+                    <dt className="font-bold text-black">Join Request</dt>
+                    <dd className="mt-0 mt-1 text-black">Dec 24, 2020</dd>
                 </div>
-                <div className="py-1 grid grid-cols-2 gap-4 px-2">
-                    <dt className="text-black font-bold">Account Created</dt>
-                    <dd className="mt-1 text-black mt-0">Dec 31, 2020</dd>
+                <div className="px-2 py-1 grid grid-cols-2 gap-4">
+                    <dt className="font-bold text-black">Account Created</dt>
+                    <dd className="mt-0 mt-1 text-black">Dec 31, 2020</dd>
                 </div>
-                <div className="py-1 grid grid-cols-2 gap-4 px-2">
-                    <dt className="text-black font-bold">Account Verified</dt>
-                    <dd className="mt-1 text-black mt-0">Jan 5, 2021</dd>
+                <div className="px-2 py-1 grid grid-cols-2 gap-4">
+                    <dt className="font-bold text-black">Account Verified</dt>
+                    <dd className="mt-0 mt-1 text-black">Jan 5, 2021</dd>
                 </div>
             </dl>
         </Popover.Content>
