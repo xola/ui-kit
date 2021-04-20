@@ -15,6 +15,7 @@
         }
     },
     "scripts": {
+        "prepare": "vite build",
         "start": "start-storybook -p 6006 -s public",
         "dev": "start-storybook -p 6006 -s public --no-manager-cache",
         "storybook": "start-storybook -p 6006 -s public",
