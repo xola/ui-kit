@@ -15,7 +15,7 @@ const colors = {
 
 const sizes = {
     small: "text-sm px-2 py-3",
-    medium: "text-md px-3 py-4",
+    medium: "text-base px-3 py-4",
     large: "text-lg px-4 py-5",
 };
 

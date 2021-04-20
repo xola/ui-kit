@@ -81,6 +81,11 @@ module.exports = {
         },
 
         extend: {
+            fontSize: {
+                xs: "0.6525rem",
+                sm: "0.765625rem",
+                base: "0.875rem",
+            },
             fontFamily: {
                 sans: ["SF Pro Display", ...defaultTheme.fontFamily.sans],
             },

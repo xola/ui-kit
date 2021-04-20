@@ -16,7 +16,7 @@ const colors = {
 const sizes = {
     small: "text-xs px-2.5 py-0.5",
     medium: "text-sm  px-3.5 py-1",
-    large: "text-md px-4 py-1.5",
+    large: "text-base px-4 py-1.5",
 };
 
 export const Badge = ({ className, color = "primary", size = "medium", ...rest }) => {
