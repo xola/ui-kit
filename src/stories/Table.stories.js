@@ -1,5 +1,5 @@
 import React from "react";
-import { Table, TableBody, TableCell, TableHead, TableRow, TableHeader } from "..";
+import { Table } from "..";
 
 export default {
     title: "Components/Table",
@@ -9,41 +9,41 @@ export default {
 export const Default = () => {
     return (
         <Table>
-            <TableHead>
-                <TableRow>
-                    <TableHeader>Name</TableHeader>
-                    <TableHeader>Title</TableHeader>
-                    <TableHeader>Email</TableHeader>
-                    <TableHeader>Role</TableHeader>
-                    <TableHeader>Edit</TableHeader>
-                </TableRow>
-            </TableHead>
+            <Table.Head>
+                <Table.Row>
+                    <Table.Header>Name</Table.Header>
+                    <Table.Header>Title</Table.Header>
+                    <Table.Header>Email</Table.Header>
+                    <Table.Header>Role</Table.Header>
+                    <Table.Header>Edit</Table.Header>
+                </Table.Row>
+            </Table.Head>
 
-            <TableBody>
-                <TableRow>
-                    <TableCell>Jane Cooper</TableCell>
-                    <TableCell>Regional Paradigm Technician</TableCell>
-                    <TableCell>jane.cooper@example.com</TableCell>
-                    <TableCell>Admin</TableCell>
-                    <TableCell>Edit</TableCell>
-                </TableRow>
+            <Table.Body>
+                <Table.Row>
+                    <Table.Cell>Jane Cooper</Table.Cell>
+                    <Table.Cell>Regional Paradigm Technician</Table.Cell>
+                    <Table.Cell>jane.cooper@example.com</Table.Cell>
+                    <Table.Cell>Admin</Table.Cell>
+                    <Table.Cell>Edit</Table.Cell>
+                </Table.Row>
 
-                <TableRow>
-                    <TableCell>Jane Cooper</TableCell>
-                    <TableCell>Regional Paradigm Technician</TableCell>
-                    <TableCell>jane.cooper@example.com</TableCell>
-                    <TableCell>Admin</TableCell>
-                    <TableCell>Edit</TableCell>
-                </TableRow>
+                <Table.Row>
+                    <Table.Cell>Jane Cooper</Table.Cell>
+                    <Table.Cell>Regional Paradigm Technician</Table.Cell>
+                    <Table.Cell>jane.cooper@example.com</Table.Cell>
+                    <Table.Cell>Admin</Table.Cell>
+                    <Table.Cell>Edit</Table.Cell>
+                </Table.Row>
 
-                <TableRow>
-                    <TableCell>Jane Cooper</TableCell>
-                    <TableCell>Regional Paradigm Technician</TableCell>
-                    <TableCell>jane.cooper@example.com</TableCell>
-                    <TableCell>Admin</TableCell>
-                    <TableCell>Edit</TableCell>
-                </TableRow>
-            </TableBody>
+                <Table.Row>
+                    <Table.Cell>Jane Cooper</Table.Cell>
+                    <Table.Cell>Regional Paradigm Technician</Table.Cell>
+                    <Table.Cell>jane.cooper@example.com</Table.Cell>
+                    <Table.Cell>Admin</Table.Cell>
+                    <Table.Cell>Edit</Table.Cell>
+                </Table.Row>
+            </Table.Body>
         </Table>
     );
 };
