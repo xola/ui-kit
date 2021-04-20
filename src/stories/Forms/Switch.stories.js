@@ -9,3 +9,7 @@ export default {
 export const Default = () => {
     return <Switch />;
 };
+
+export const Small = () => {
+    return <Switch size="small" />;
+};
