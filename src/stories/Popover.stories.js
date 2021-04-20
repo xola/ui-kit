@@ -68,7 +68,7 @@ function getArg(defaultValue, type, options, description, summary = null) {
 export const Default = (config) => {
     config.content = (
         <Popover.Content>
-            <div className="pt-2 pb-1 font-bold text-base">Popover title</div>
+            <div className="pt-2 pb-1 text-base font-bold">Popover title</div>
             <div className="text-sm">And here's some amazing content. It's very engaging. Right?</div>
             <div className="text-sm">Here is some more because I am crazy</div>
         </Popover.Content>

@@ -36,18 +36,18 @@ export const Switch = ({ size = "medium" }) => {
     );
 };
 
-Switch.Group = ({ classNames, children }) => {
+Switch.Group = ({ className, children }) => {
     return (
-        <HeadlessSwitch.Group as="div" className={clsx("flex items-center", classNames)}>
+        <HeadlessSwitch.Group as="div" className={clsx("inline-flex items-center", className)}>
             {children}
         </HeadlessSwitch.Group>
     );
 };
 
-Switch.Label = ({ direction = "left", classNames, children }) => {
+Switch.Label = ({ direction = "left", className, children }) => {
     console.log(direction, direction === "left" ? "mr-5" : "ml-3");
     return (
-        <HeadlessSwitch.Label as="span" className={clsx(direction === "left" ? "mr-2" : "ml-2", classNames)}>
+        <HeadlessSwitch.Label as="span" className={clsx(direction === "left" ? "mr-2" : "ml-2", className)}>
             {children}
         </HeadlessSwitch.Label>
     );
