@@ -45,7 +45,6 @@ Switch.Group = ({ className, children }) => {
 };
 
 Switch.Label = ({ direction = "left", className, children }) => {
-    console.log(direction, direction === "left" ? "mr-5" : "ml-3");
     return (
         <HeadlessSwitch.Label as="span" className={clsx(direction === "left" ? "mr-2" : "ml-2", className)}>
             {children}
