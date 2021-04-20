@@ -2,7 +2,7 @@ import React from "react";
 import { Logo } from "..";
 
 export default {
-    title: "Logo",
+    title: "Components/Logo",
     component: Logo,
     parameters: {
         docs: {

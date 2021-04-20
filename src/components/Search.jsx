@@ -175,7 +175,7 @@ export const Search = ({
     return (
         <section className="">
             <div className={clsx("mt-1 relative", sizes[size])}>
-                <div className="absolute inset-y-0 left-0 pl-3 text-gray-dark flex items-center pointer-events-none">
+                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-dark">
                     <SearchIcon />
                 </div>
                 <input

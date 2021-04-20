@@ -2,7 +2,7 @@ import React from "react";
 import { Sidebar, SidebarLink, StarIcon, UserIcon, SidebarFooter } from "..";
 
 export default {
-    title: "Sidebar",
+    title: "Components/Sidebar",
     component: Sidebar,
 };
 

@@ -7,4 +7,11 @@ export const parameters = {
     docs: {
         theme: xola,
     },
+    options: {
+        storySort: {
+            method: "",
+            order: ["Introduction", "Components"],
+            locales: "",
+        },
+    },
 };

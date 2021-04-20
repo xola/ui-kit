@@ -1,8 +1,9 @@
 import React from "react";
-import { Input, Label, FormGroup } from "..";
+import { Input, Label, FormGroup } from "../..";
 
 export default {
-    title: "Forms",
+    primary: true,
+    title: "Components/Forms/Input",
 };
 
 export const Default = () => {

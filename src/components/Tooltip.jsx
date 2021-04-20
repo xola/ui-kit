@@ -5,7 +5,7 @@ import "tippy.js/dist/tippy.css"; // If we customize the style, the change this 
 
 export const Tooltip = ({ children, ...rest }) => {
     return (
-        <Tippy {...rest} className="xola-tooltip text-white" plugins={[followCursor]}>
+        <Tippy {...rest} className="text-white xola-tooltip" plugins={[followCursor]}>
             <span>{children}</span>
         </Tippy>
     );

@@ -5,7 +5,7 @@ import { Button, Tooltip, UserIcon } from "..";
 const docs = "https://atomiks.github.io/tippyjs/v6/all-props/";
 
 export default {
-    title: "Tooltip",
+    title: "Components/Tooltip",
     component: Tooltip,
     argTypes: {
         demoText: getArg("Default", "text", null, "The value for the button", "for this demo only"),

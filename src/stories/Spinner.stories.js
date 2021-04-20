@@ -2,7 +2,7 @@ import React from "react";
 import { Spinner } from "..";
 
 export default {
-    title: "Spinner",
+    title: "Components/Spinner",
     component: Spinner,
     argTypes: {
         color: {

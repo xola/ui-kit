@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { ButtonGroup } from "..";
 
 export default {
-    title: "ButtonGroup",
+    title: "Components/ButtonGroup",
     component: ButtonGroup,
     argTypes: {
         size: {

@@ -3,7 +3,7 @@ import { Button, IconButton } from "..";
 import { UserIcon } from "../icons/UserIcon";
 
 export default {
-    title: "Button",
+    title: "Components/Button",
     component: Button,
 };
 

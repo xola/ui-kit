@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Search } from "..";
 
 export default {
-    title: "Search",
+    title: "Components/Search",
     component: Search,
     parameters: {
         docs: {
@@ -105,7 +105,7 @@ export const Default = ({ idLength = 20, previewEnabled = true, size = "full" })
                 ref={ref}
             >
                 <div className="flex">
-                    <img className="rounded-full w-12 h-12" src={result.picture} />
+                    <img className="w-12 h-12 rounded-full" src={result.picture} />
                     <div className="pl-3">
                         <div>
                             {result.firstName} {result.lastName}
@@ -146,8 +146,8 @@ export const Default = ({ idLength = 20, previewEnabled = true, size = "full" })
                 onClear={onClear}
             />
             <div className="my-5 search-results">
-                <div className="text-xl pb-2">Search Results ({matchingRecords.length})</div>
-                <div className="search-data whitespace-pre font-mono">
+                <div className="pb-2 text-xl">Search Results ({matchingRecords.length})</div>
+                <div className="font-mono whitespace-pre search-data">
                     {matchingRecords && matchingRecords.length > 0 && JSON.stringify(matchingRecords, null, 4)}
                 </div>
             </div>

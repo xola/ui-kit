@@ -2,7 +2,7 @@ import React from "react";
 import { Badge } from "..";
 
 export default {
-    title: "Badge",
+    title: "Components/Badge",
     component: Badge,
     argTypes: {
         text: {

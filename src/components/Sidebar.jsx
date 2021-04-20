@@ -17,9 +17,9 @@ export const SidebarLink = ({ active, icon: Icon, children, size = "small", ...r
             )}
             {...rest}
         >
-            <Icon className="hidden md:inline w-5 h-5 mr-3" />
+            <Icon className="hidden w-5 h-5 mr-3 md:inline" />
             <span className="sm:px-1">{children}</span>
-            <ChevronRightIcon className="ml-auto w-3 h-3 hidden md:inline" />
+            <ChevronRightIcon className="hidden w-3 h-3 ml-auto md:inline" />
         </button>
     );
 };
@@ -27,7 +27,7 @@ export const SidebarLink = ({ active, icon: Icon, children, size = "small", ...r
 export const SidebarFooter = ({ name }) => {
     return (
         <div className="absolute bottom-0 left-0 w-full px-6 pb-6">
-            <div className="border-t border-secondary-darker pt-3">
+            <div className="pt-3 border-t border-secondary-darker">
                 <Avatar className="mr-2" size="small" name={name} /> {name}
             </div>
         </div>
@@ -36,14 +36,14 @@ export const SidebarFooter = ({ name }) => {
 
 export const Sidebar = ({ children, footer, notifications }) => {
     return (
-        <div className="bg-black p-2 text-white h-screen w-24 md:w-56 overflow-y-auto relative">
+        <div className="relative w-24 h-screen p-2 overflow-y-auto text-white bg-black md:w-56">
             {notifications ? (
                 <div className="p-2 text-center md:text-left">
                     <NotificationCount className="text-sm">{notifications}</NotificationCount>
                 </div>
             ) : null}
 
-            <div className="text-center mb-10">
+            <div className="mb-10 text-center">
                 <XolaLogoCircle className="inline-block w-12 h-12 md:w-24 md:h-24" />
             </div>
 

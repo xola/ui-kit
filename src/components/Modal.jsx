@@ -30,8 +30,8 @@ export const Modal = ({
 
     return (
         <Transition.Root show={show} as={Fragment}>
-            <Dialog as="div" static className="fixed z-10 inset-0 overflow-y-auto" open={show} onClose={onClickOutside}>
-                <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <Dialog as="div" static className="fixed inset-0 z-10 overflow-y-auto" open={show} onClose={onClickOutside}>
+                <div className="flex items-end justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
                     <Transition.Child
                         as={Fragment}
                         enter="ease-out duration-300"
@@ -72,17 +72,17 @@ Modal.Core = forwardRef(({ width, showClose, onClick, Header, Body, Footer }, re
 
     return (
         <div ref={ref} className={modalClasses}>
-            <div className="bg-white px-8 pt-5">
-                <div className="hidden sm:block absolute top-0 right-0 px-8 pt-7">
+            <div className="px-8 pt-5 bg-white">
+                <div className="absolute top-0 right-0 hidden px-8 sm:block pt-7">
                     {showClose && (
-                        <div className="cursor-pointer text-xl text-gray hover:text-gray-darker" onClick={onClick}>
+                        <div className="text-xl cursor-pointer text-gray hover:text-gray-darker" onClick={onClick}>
                             ×
                         </div>
                     )}
                 </div>
 
                 <div className="sm:flex sm:items-start">
-                    <div className="text-center w-full pt-3">
+                    <div className="w-full pt-3 text-center">
                         {Header}
                         {Body}
                     </div>
@@ -98,7 +98,7 @@ Modal.Core.displayName = "Modal.Core";
 
 Modal.Header = ({ children }) => {
     return (
-        <Dialog.Title as="h3" className="modal-header text-2xl leading-6 font-semibold text-black text-center">
+        <Dialog.Title as="h3" className="text-2xl font-semibold text-center text-black modal-header leading-6">
             {children}
         </Dialog.Title>
     );
@@ -107,13 +107,13 @@ Modal.Header = ({ children }) => {
 Modal.Header.displayName = "Modal.Header";
 
 Modal.Body = ({ children }) => {
-    return <div className="modal-body mt-2 text-left pt-8 pb-2">{children}</div>;
+    return <div className="pt-8 pb-2 mt-2 text-left modal-body">{children}</div>;
 };
 
 Modal.Body.displayName = "Modal.Body";
 
 Modal.Footer = ({ children }) => {
-    return <div className="modal-footer sm:flex float-right px-8 py-8">{children}</div>;
+    return <div className="float-right px-8 py-8 modal-footer sm:flex">{children}</div>;
 };
 
 Modal.Footer.displayName = "Modal.Footer";
