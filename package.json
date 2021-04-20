@@ -4,16 +4,13 @@
     "description": "Xola UI Kit",
     "license": "MIT",
     "files": [
-        "build"
+        "build",
+        "src/index.css",
+        "tailwind.config.js",
+        "postcss.config.js"
     ],
     "main": "./build/xola-ui-kit.umd.js",
     "module": "./build/xola-ui-kit.es.js",
-    "exports": {
-        ".": {
-            "import": "./build/xola-ui-kit.es.js",
-            "require": "./build/xola-ui-kit.umd.js"
-        }
-    },
     "scripts": {
         "prepare": "vite build",
         "start": "start-storybook -p 6006 -s public",
@@ -28,14 +25,10 @@
         "@tailwindcss/forms": "^0.3.2",
         "@tippyjs/react": "^4.2.5",
         "clsx": "^1.1.1",
-        "lodash": "^4.17.21",
         "prop-types": "^15.7.2",
         "react-hotkeys-hook": "^3.3.0",
         "react-select": "^4.3.0",
-        "tippy.js": "^6.3.1",
-        "autoprefixer": "^10.2.5",
-        "postcss": "^8.2.10",
-        "tailwindcss": "^2.1.1"
+        "tippy.js": "^6.3.1"
     },
     "devDependencies": {
         "@babel/core": "^7.13.15",
@@ -50,7 +43,19 @@
         "prettier": "^2.2.1",
         "react": "^17.0.2",
         "react-dom": "^17.0.2",
-        "vite": "^2.2.1"
+        "vite": "^2.2.1",
+        "autoprefixer": "^10.2.5",
+        "postcss": "^8.2.10",
+        "tailwindcss": "^2.1.1",
+        "lodash": "^4.17.21"
+    },
+    "peerDependencies": {
+        "react": "^17.0.2",
+        "react-dom": "^17.0.2",
+        "autoprefixer": "^10.2.5",
+        "postcss": "^8.2.10",
+        "tailwindcss": "^2.1.1",
+        "lodash": "^4.17.21"
     },
     "prettier": {
         "semi": true,
