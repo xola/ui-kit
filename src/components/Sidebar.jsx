@@ -5,35 +5,6 @@ import { XolaLogoCircle } from "../images/XolaLogoCircle";
 import { Avatar } from "./Avatar";
 import { NotificationCount } from "./NotificationCount";
 
-export const SidebarLink = ({ active, icon: Icon, children, size = "small", ...rest }) => {
-    return (
-        <button
-            className={clsx(
-                "transition-colors leading-none flex items-center text-left w-full md:px-6 md:text-center py-3 rounded",
-                {
-                    "bg-primary text-white hover:bg-primary-dark": active,
-                    "hover:bg-gray-darker text-gray": !active,
-                },
-            )}
-            {...rest}
-        >
-            <Icon className="hidden w-5 h-5 mr-3 md:inline" />
-            <span className="sm:px-1">{children}</span>
-            <ChevronRightIcon className="hidden w-3 h-3 ml-auto md:inline" />
-        </button>
-    );
-};
-
-export const SidebarFooter = ({ name }) => {
-    return (
-        <div className="absolute bottom-0 left-0 w-full px-6 pb-6">
-            <div className="pt-3 border-t border-secondary-darker">
-                <Avatar className="mr-2" size="small" name={name} /> {name}
-            </div>
-        </div>
-    );
-};
-
 export const Sidebar = ({ children, footer, notifications }) => {
     return (
         <div className="relative w-24 h-screen p-2 overflow-y-auto text-white bg-black md:w-56">
@@ -52,3 +23,36 @@ export const Sidebar = ({ children, footer, notifications }) => {
         </div>
     );
 };
+
+Sidebar.Link = ({ active, icon: Icon, children, size = "small", ...rest }) => {
+    return (
+        <button
+            className={clsx(
+                "transition-colors leading-none flex items-center text-left w-full md:px-6 md:text-center py-3 rounded",
+                {
+                    "bg-primary text-white hover:bg-primary-dark": active,
+                    "hover:bg-gray-darker text-gray": !active,
+                },
+            )}
+            {...rest}
+        >
+            <Icon className="hidden w-5 h-5 mr-3 md:inline" />
+            <span className="sm:px-1">{children}</span>
+            <ChevronRightIcon className="hidden w-3 h-3 ml-auto md:inline" />
+        </button>
+    );
+};
+
+Sidebar.Link.displayName = "Sidebar.Link";
+
+Sidebar.Footer = ({ name }) => {
+    return (
+        <div className="absolute bottom-0 left-0 w-full px-6 pb-6">
+            <div className="pt-3 border-t border-secondary-darker">
+                <Avatar className="mr-2" size="small" name={name} /> {name}
+            </div>
+        </div>
+    );
+};
+
+Sidebar.Footer.displayName = "Sidebar.Footer";
