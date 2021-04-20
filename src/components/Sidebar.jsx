@@ -54,7 +54,7 @@ Sidebar.Footer = ({ name }) => {
     return (
         <div className="absolute bottom-0 left-0 w-full px-6 pb-6">
             <div className="pt-3 border-t border-secondary-darker">
-                <Avatar className="mr-2" size="small" name={name} /> {name}
+                <Avatar className="mr-2" size="small" name={name} /> <span className="hidden md:inline">{name}</span>
             </div>
         </div>
     );
