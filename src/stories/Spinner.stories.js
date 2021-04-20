@@ -32,7 +32,7 @@ export const Default = (props) => {
 
 export const Sizes = () => {
     return (
-        <div class="space-x-8">
+        <div className="space-x-8">
             <Spinner size="small" />
             <Spinner size="medium" />
             <Spinner size="large" />

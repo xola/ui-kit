@@ -47,6 +47,7 @@ export const Search = ({
     onClear,
     resultItem,
     onSelect,
+    className,
 }) => {
     const [searching, setSearching] = useState(false);
     const [searchTerm, setSearchTerm] = useState(initialState.searchTerm);
@@ -174,9 +175,9 @@ export const Search = ({
     }
 
     return (
-        <section className="">
-            <div className={clsx("mt-1 relative", sizes[size])}>
-                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-dark">
+        <>
+            <div className={clsx("relative h-full", sizes[size])}>
+                <div className="absolute inset-y-0 left-0 flex items-center pl-2 pointer-events-none text-gray-dark">
                     <SearchIcon />
                 </div>
                 <Input
@@ -186,7 +187,7 @@ export const Search = ({
                     onBlur={_.debounce(hideAutoSuggest, 300)}
                     onFocus={showAutoSuggest}
                     onChange={_.debounce(search, 500)}
-                    className={clsx("px-10 rounded-sm")}
+                    className={clsx("px-7 pr-16 rounded-sm", className)}
                 />
 
                 {searching && (
@@ -195,7 +196,7 @@ export const Search = ({
                     </div>
                 )}
 
-                <div className="shortcut-key absolute right-3 inset-y-1.5 px-2 h-8 flex items-center pointer-events-none text-gray-dark border border-gray-light bg-gray-lighter rounded-md">
+                <div className="shortcut-key opacity-70 absolute right-3 inset-y-1.5 top-3 px-2 h-6 text-sm flex items-center pointer-events-none text-gray bg-gray-lighter rounded-md">
                     {isOSX ? "⌘ K" : "Ctrl K"}
                 </div>
             </div>
@@ -228,6 +229,6 @@ export const Search = ({
 
                 {previewEnabled && SearchElements}
             </ul>
-        </section>
+        </>
     );
 };
