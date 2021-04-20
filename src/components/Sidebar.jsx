@@ -5,9 +5,14 @@ import { XolaLogoCircle } from "../images/XolaLogoCircle";
 import { Avatar } from "./Avatar";
 import { NotificationCount } from "./NotificationCount";
 
-export const Sidebar = ({ children, footer, notifications }) => {
+export const Sidebar = ({ children, footer, notifications, fixed }) => {
     return (
-        <div className="relative w-24 h-screen p-2 overflow-y-auto text-white bg-black md:w-56">
+        <div
+            className={clsx(
+                fixed ? "fixed" : "relative",
+                "w-24 h-screen p-2 overflow-y-auto text-white bg-black md:w-56",
+            )}
+        >
             {notifications ? (
                 <div className="p-2 text-center md:text-left">
                     <NotificationCount className="text-sm">{notifications}</NotificationCount>
