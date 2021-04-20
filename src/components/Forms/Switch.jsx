@@ -1,6 +1,6 @@
-import clsx from "clsx";
-import { useState } from "react";
 import { Switch as HeadlessSwitch } from "@headlessui/react";
+import clsx from "clsx";
+import React, { useState } from "react";
 
 const parent = {
     medium: "h-6 w-11",

@@ -2,9 +2,6 @@ import React from "react";
 import clsx from "clsx";
 import PropTypes from "prop-types";
 
-/**
- * @enum {string}
- */
 const colors = {
     primary: "bg-primary-lighter text-primary-dark",
     secondary: "bg-secondary-lighter text-secondary-dark",

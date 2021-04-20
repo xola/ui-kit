@@ -8,5 +8,5 @@ const sizes = {
 };
 
 export const Logo = ({ className, src, size = "small" }) => {
-    return <img src={src} className={clsx(className, "inline-flex items-center rounded", sizes[size])} />;
+    return <img src={src} className={clsx(className, "inline-flex items-center rounded object-cover", sizes[size])} />;
 };
