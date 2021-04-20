@@ -1,5 +1,6 @@
 import _ from "lodash";
 import clsx from "clsx";
+import { Input } from "./Forms/Input";
 import { Spinner } from "./Spinner";
 import { SearchIcon } from "../icons/SearchIcon";
 import { useHotkeys } from "react-hotkeys-hook";
@@ -178,14 +179,14 @@ export const Search = ({
                 <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-dark">
                     <SearchIcon />
                 </div>
-                <input
+                <Input
                     type="text"
                     placeholder={placeholder}
                     onKeyDown={handleNavigation}
                     onBlur={_.debounce(hideAutoSuggest, 300)}
                     onFocus={showAutoSuggest}
                     onChange={_.debounce(search, 500)}
-                    className={clsx("block px-10 border-gray rounded-sm focus:ring-0", sizes[size])}
+                    className={clsx("px-10 rounded-sm")}
                 />
 
                 {searching && (
