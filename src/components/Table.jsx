@@ -13,12 +13,6 @@ export const Table = ({ className, ...rest }) => (
     </div>
 );
 
-Table.Row = (props) => {
-    return <tr {...props} />;
-};
-
-Table.Row.displayName = "Table.Row";
-
 Table.Head = ({ className, ...rest }) => {
     return <thead className={clsx(className, "bg-gray-lighter")} {...rest} />;
 };
@@ -26,19 +20,35 @@ Table.Head = ({ className, ...rest }) => {
 Table.Head.displayName = "Table.Head";
 
 Table.Header = ({ className, ...rest }) => {
-    return <th className={clsx(className, "px-6 py-3 text-left text-sm font-bold")} {...rest} />;
+    return <th className={clsx(className, "px-6 py-3 text-left text-base font-bold")} {...rest} />;
 };
 
 Table.Header.displayName = "Table.Header";
 
-Table.Body = ({ className, ...rest }) => {
-    return <tbody className={clsx(className, "border-none")} {...rest} />;
+Table.Body = ({ className, stripe = false, children, ...rest }) => {
+    let clonedChildren = stripe ? [] : children;
+    stripe && React.Children.forEach(children, (child, idx) => {
+        const className = (idx + 1) % 2 === 0 ? "bg-gray-lighter" : "";
+        clonedChildren.push(React.cloneElement(child, { className: className }));
+    });
+
+    return (
+        <tbody className={clsx(className, "border-none")} {...rest}>
+            {clonedChildren}
+        </tbody>
+    );
 };
 
 Table.Body.displayName = "Table.Body";
 
+Table.Row = (props) => {
+    return <tr {...props} />;
+};
+
+Table.Row.displayName = "Table.Row";
+
 Table.Cell = ({ className, ...rest }) => {
-    return <td className={clsx(className, "px-6 py-4 whitespace-nowrap text-gray-darker")} {...rest} />;
+    return <td className={clsx(className, "px-6 py-4 whitespace-nowrap text-base text-gray-darker")} {...rest} />;
 };
 
 Table.Cell.displayName = "Table.Cell";
