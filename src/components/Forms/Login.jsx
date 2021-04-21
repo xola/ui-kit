@@ -10,14 +10,13 @@ const links = [
 ];
 
 export const Login = ({ className, onSubmit, ...rest }) => {
-
     const onClick = (e) => {
         e.preventDefault();
-        const email = document.querySelector('input[type=email]').value;
-        const password = document.querySelector('input[type=password]').value;
-        console.log('Form should get email & password and give it to on submit');
+        const email = document.querySelector("input[type=email]").value;
+        const password = document.querySelector("input[type=password]").value;
+        console.log("Form should get email & password and give it to on submit");
         onSubmit(email, password);
-    }
+    };
 
     return (
         <div className="flex flex-col h-screen bg-opacity-40 bg-blue-lighter">
@@ -104,7 +103,10 @@ export const Login = ({ className, onSubmit, ...rest }) => {
                     <nav className="flex-wrap justify-center hidden -mx-5 -my-2 md:flex">
                         {links.map((link) => (
                             <div key={link.name} className="px-2 py-1 md:px-5 md:py-2">
-                                <a href={link.href} className="text-sm md:text-base text-gray-dark hover:text-gray-darker">
+                                <a
+                                    href={link.href}
+                                    className="text-sm md:text-base text-gray-dark hover:text-gray-darker"
+                                >
                                     {link.name}
                                 </a>
                             </div>

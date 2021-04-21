@@ -197,7 +197,7 @@ export const Search = ({
                 )}
 
                 <div className="shortcut-key opacity-70 absolute right-3 inset-y-1.5 top-3 px-2 h-6 text-sm flex items-center pointer-events-none text-gray bg-gray-lighter rounded-md">
-                    {(isOSX()) ? "⌘ K" : "Ctrl K"}
+                    {isOSX() ? "⌘ K" : "Ctrl K"}
                 </div>
             </div>
             <ul

@@ -27,7 +27,9 @@ export const Default = () => {
     return (
         <HeaderToolbar breadcrumb={ToolbarBreadcrumb} search={ToolbarSearch}>
             <Switch.Group>
-                <Switch.Label direction="left" className="text-base">Enable</Switch.Label>
+                <Switch.Label direction="left" className="text-base">
+                    Enable
+                </Switch.Label>
                 <Switch size="small" />
             </Switch.Group>
             <Button size="small">Impersonate</Button>
