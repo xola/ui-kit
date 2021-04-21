@@ -7,7 +7,7 @@ export { CountrySelect } from "./components/CountrySelect";
 export { PhoneInput } from "./components/PhoneInput";
 export { MiniStepper } from "./components/MiniStepper";
 export { ProductSelector } from "./components/ProductSelector";
-export { ScheduleEditor } from "./components/ScheduleEditor";
+export { ScheduleEditor, getScheduleSummary } from "./components/ScheduleEditor";
 export { DatePicker, formatDate } from "./components/DatePicker";
 export { TimePicker } from "./components/TimePicker";
 
