@@ -1,6 +1,8 @@
 import clsx from "clsx";
 import React, { Children, cloneElement } from "react";
 
+// TODO: Refactor active/onChange logic (like we did for Tabs).
+
 const sizes = {
     small: "px-2 py-1.5 text-sm",
     medium: "py-3 px-2.5 text-base",
