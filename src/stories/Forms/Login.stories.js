@@ -14,6 +14,11 @@ export default {
     }
 }
 
+const onSubmit = (email, password) => {
+    console.log('arguments', arguments);
+    alert(`Hello ${email} Password: ${password.slice(0, 2)}*** This is a WIP`)
+}
+
 export const Default = () => {
-    return <Login />;
+    return <Login onSubmit={onSubmit} />;
 }

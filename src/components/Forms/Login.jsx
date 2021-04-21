@@ -10,6 +10,15 @@ const links = [
 ];
 
 export const Login = ({ className, onSubmit, ...rest }) => {
+
+    const onClick = (e) => {
+        e.preventDefault();
+        const email = document.querySelector('input[type=email]').value;
+        const password = document.querySelector('input[type=password]').value;
+        console.log('Form should get email & password and give it to on submit');
+        onSubmit(email, password);
+    }
+
     return (
         <div className="flex flex-col h-screen bg-opacity-40 bg-blue-lighter">
             <div className="flex-grow">
@@ -26,9 +35,7 @@ export const Login = ({ className, onSubmit, ...rest }) => {
                             </h2>
                         </div>
                         {/* TODO Form */}
-                        <form className="mt-8 space-y-6" action="#" method="POST">
-                            {/* Do we need this? */}
-                            <input type="hidden" name="remember" defaultValue="true" />
+                        <form className="mt-8 space-y-6" onSubmit={onClick}>
                             <div className="-space-y-px rounded-md shadow-sm">
                                 <div>
                                     {/* Change component */}
@@ -103,10 +110,11 @@ export const Login = ({ className, onSubmit, ...rest }) => {
                             </div>
                         ))}
                     </nav>
-                    <p className="m-4 text-base text-center text-gray-dark">
-                        &copy; {new Date().getFullYear()} Xola, Inc.{" "}
-                        <br />
-                        <span class="text-xs text-gray">Handcrafted in Houston, Belgrade & Bengaluru</span>
+                    <p className="m-4 text-sm text-center text-gray">
+                        <a href="https://www.xola.com/team" target="blank" className="">
+                            Handcrafted in Houston, Belgrade & Bengaluru &nbsp;&nbsp; &copy; {new Date().getFullYear()}{" "}
+                            Xola, Inc. <br />
+                        </a>
                     </p>
                 </div>
             </footer>
