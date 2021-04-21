@@ -18,6 +18,7 @@ export { FormGroup } from "./components/Forms/FormGroup";
 export { Input } from "./components/Forms/Input";
 export { Switch } from "./components/Forms/Switch";
 export { Label } from "./components/Forms/Label";
+export { Login } from "./components/Forms/Login";
 export { HeaderToolbar } from "./components/HeaderToolbar";
 export { Tabs } from "./components/Tabs";
 
