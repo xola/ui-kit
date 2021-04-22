@@ -13,7 +13,7 @@ export default {
         },
         color: {
             defaultValue: "primary",
-            options: ["primary", "secondary", "success", "warning", "danger", "danger-secondary"],
+            options: ["primary", "secondary", "success", "warning", "danger", "caution"],
             control: { type: "select" },
         },
         size: {
@@ -52,7 +52,7 @@ export const WithIcons = () => {
             <Badge color="primary" color="danger" icon={<CakeIcon className="inline" />}>
                 Icon Badge
             </Badge>
-            <Badge color="primary" color="danger-secondary" icon={<CashIcon className="inline" />}>
+            <Badge color="primary" color="caution" icon={<CashIcon className="inline" />}>
                 Icon Badge
             </Badge>
         </div>
@@ -67,7 +67,7 @@ export const Colors = () => {
             <Badge color="success">Success</Badge>
             <Badge color="warning">Warning</Badge>
             <Badge color="danger">Danger</Badge>
-            <Badge color="danger-secondary">Danger Secondary</Badge>
+            <Badge color="caution">Caution</Badge>
         </div>
     );
 };

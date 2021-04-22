@@ -17,7 +17,7 @@ export default {
         },
         color: {
             defaultValue: "primary",
-            options: ["primary", "secondary", "success", "warning", "danger", "danger-secondary"],
+            options: ["primary", "secondary", "success", "warning", "danger", "caution"],
             control: { type: "select" },
             table: {
                 type: { summary: null },
@@ -52,7 +52,7 @@ export const Colors = () => {
             <Alert color="success">Success</Alert>
             <Alert color="warning">Warning</Alert>
             <Alert color="danger">Danger</Alert>
-            <Alert color="danger-secondary">Danger Secondary</Alert>
+            <Alert color="caution">Caution</Alert>
         </div>
     );
 };

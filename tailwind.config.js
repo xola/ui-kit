@@ -78,7 +78,7 @@ module.exports = {
             warning: colors.yellow,
             success: colors.green,
             danger: colors.red,
-            "danger-secondary": colors.orange,
+            caution: colors.orange,
         },
 
         spacing: {
