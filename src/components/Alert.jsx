@@ -7,21 +7,15 @@ const colors = {
     secondary: "bg-secondary-lighter text-secondary-dark",
     success: "bg-success-lighter text-success-dark",
     warning: "bg-warning-lighter text-warning-dark",
-    danger: "bg-red-lighter text-red-dark",
+    danger: "bg-danger-lighter text-danger-dark",
+    "danger-secondary": "bg-danger-secondary-lighter text-danger-secondary-dark",
 };
 
-const sizes = {
-    small: "text-sm px-2 py-3",
-    medium: "text-base px-3 py-4",
-    large: "text-lg px-4 py-5",
-};
-
-export const Alert = ({ className, color = "primary", size = "medium", ...rest }) => {
-    return <div className={clsx("flex rounded", colors[color], sizes[size], className)} {...rest} />;
+export const Alert = ({ className, color = "primary", ...rest }) => {
+    return <div className={clsx("flex rounded text-base px-2 py-3", colors[color], className)} {...rest} />;
 };
 
 Alert.propTypes = {
     className: PropTypes.string,
     color: PropTypes.oneOf(Object.keys(colors)),
-    size: PropTypes.oneOf(Object.keys(sizes)),
 };

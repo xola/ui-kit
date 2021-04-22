@@ -78,16 +78,61 @@ module.exports = {
             warning: colors.yellow,
             success: colors.green,
             danger: colors.red,
+            "danger-secondary": colors.orange,
+        },
+
+        spacing: {
+            px: "1px",
+            0.5: "2px",
+            0.75: "3px",
+            1: "4px",
+            1.5: "6px",
+            2: "8px",
+            2.5: "10px",
+            3: "12px",
+            3.5: "14px",
+            4: "16px",
+            5: "20px",
+            6: "24px",
+            7: "28px",
+            8: "32px",
+            9: "36px",
+            10: "40px",
+            11: "44px",
+            12: "48px",
+            14: "56px",
+            15: "60px",
+            16: "64px",
+            20: "80px",
+            24: "96px",
+            28: "112px",
+            32: "128px",
+            36: "144px",
+            40: "160px",
+            44: "176px",
+            48: "192px",
+            52: "208px",
+            56: "224px",
+            60: "240px",
+            64: "256px",
+            72: "288px",
+            80: "320px",
+            96: "384px",
+        },
+
+        fontSize: {
+            xs: "10px",
+            sm: "12px", // Figma - Small, H6
+            base: "14px", // Figma - Medium, H5
+            md: "16px", // Figma - Big, H4
+            lg: "18px", // Figma - H3
+            xl: "21px", // Figma - H2
+            "2xl": "24px", // Figma - H1
+            "3xl": "38px", // Figma - H0
+            "4xl": "42px",
         },
 
         extend: {
-            fontSize: {
-                xs: "0.6525rem",
-                sm: "0.765625rem",
-                base: "0.875rem",
-                lg: "0.985rem",
-            },
-
             fontFamily: {
                 sans: ["SF Pro Display", ...defaultTheme.fontFamily.sans],
             },

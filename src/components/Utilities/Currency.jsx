@@ -1,9 +1,11 @@
 import React from "react";
-import { format } from "./Number";
+import { format } from "../../utilities/number";
 import { round } from "mathjs";
 import getUserLocale from "get-user-locale";
 
 const userLocale = getUserLocale();
+
+// Split into utilities & components
 
 const isZeroDecimal = (currency) => {
     var zeroDecimalCurrencies = ["JPY", "CLP", "KRW", "LAK", "PYG", "VND", "VUV"];

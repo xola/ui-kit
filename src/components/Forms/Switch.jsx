@@ -27,7 +27,7 @@ export const Switch = ({ size = "medium" }) => {
         >
             <span
                 className={clsx(
-                    enabled ? "translate-x-4" : "translate-x-0",
+                    enabled ? "translate-x-5" : "translate-x-0",
                     "pointer-events-none inline-block rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200",
                     inner[size],
                 )}

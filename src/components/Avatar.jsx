@@ -3,9 +3,9 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const sizes = {
-    small: "h-8 w-8",
-    medium: "h-12 w-12 text-lg",
-    large: "h-16 w-16 text-2xl",
+    small: "h-10 w-10 text-base",
+    medium: "h-12 w-12 text-md",
+    large: "h-15 w-15 text-xl",
 };
 
 export const Avatar = ({ className, name, size = "large", ...rest }) => {

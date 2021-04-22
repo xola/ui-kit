@@ -7,17 +7,36 @@ const colors = {
     secondary: "bg-secondary-lighter text-secondary-dark",
     success: "bg-success-lighter text-success-dark",
     warning: "bg-warning-lighter text-warning-dark",
-    danger: "bg-red-lighter text-red-dark",
+    danger: "bg-danger-lighter text-danger-dark",
+    "danger-secondary": "bg-danger-secondary-lighter text-danger-secondary-dark",
 };
 
 const sizes = {
-    small: "text-xs px-2.5 py-0.5",
-    medium: "text-sm  px-3.5 py-1",
-    large: "text-base px-4 py-1.5",
+    small: "text-sm px-2 py-0.75",
+    large: "text-base px-3 py-1.5",
 };
 
-export const Badge = ({ className, color = "primary", size = "medium", ...rest }) => {
-    return <span className={clsx(className, "rounded-full text-center", colors[color], sizes[size])} {...rest} />;
+export const Badge = ({ className, color = "primary", size = "small", icon, children, ...rest }) => {
+    console.log("icon", icon);
+    return (
+        <span className={clsx("badge rounded-full text-center", colors[color], sizes[size], className)} {...rest}>
+            {icon && <IconWrapper className="mr-1 icon">{icon}</IconWrapper>}
+            {children}
+        </span>
+    );
+};
+
+/**
+ * Wrapper to give clases to the icon component
+ */
+const IconWrapper = (props) => {
+    const { children, className, ...rest } = props;
+    const _children = React.cloneElement(children);
+    return (
+        <span className={clsx("inline-flex align-middle text-2xl", className)} {...rest}>
+            {_children}
+        </span>
+    );
 };
 
 Badge.propTypes = {

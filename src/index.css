@@ -3,7 +3,8 @@
 @tailwind utilities;
 
 html {
-    font-size: 16px;
+    /* Never change this default! */
+    font-size: 14px;
 }
 
 button:focus {
@@ -11,20 +12,29 @@ button:focus {
 }
 
 h1 {
-    @apply text-2xl; /* ~21px */
+    @apply text-2xl; /* 24px */
     @apply font-bold;
 }
 
 h2 {
-    @apply text-xl; /* ~18px */
+    @apply text-xl; /* 21px */
     @apply font-bold;
 }
 
 h3 {
-    @apply text-lg; /* ~16px */
+    @apply text-lg; /* 18px */
     @apply font-bold;
 }
 
 h4 {
-    @apply font-bold;
+    @apply text-md; /* 16 px */
+}
+
+h5 {
+    @apply text-base; /* 14 px */
+}
+
+.badge .icon {
+    position: relative;
+    top: -1px;
 }
