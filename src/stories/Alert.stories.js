@@ -23,14 +23,21 @@ export default {
                 type: { summary: null },
                 defaultValue: { summary: "primary" },
             },
-        }
+        },
+        close: {
+            defaultValue: false,
+            control: { type: "boolean" },
+            table: {
+                type: { summary: null },
+            }
+        },
     },
 };
 
-export const Default = ({ className, color, text = "Default" }) => {
+export const Default = ({ className, color, close, text = "Default" }) => {
     return (
         <div className="space-x-4">
-            <Alert className={className} color={color}>
+            <Alert className={className} color={color} close={close}>
                 {text}
             </Alert>
         </div>
