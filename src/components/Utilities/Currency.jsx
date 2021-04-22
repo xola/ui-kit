@@ -1,26 +1,9 @@
 import React from "react";
-import { format } from "../../utilities/number";
-import { round } from "mathjs";
+import { format, roundNumber } from "../../helpers/numbers";
+import { isZeroDecimal } from "../../helpers/currency";
 import getUserLocale from "get-user-locale";
 
 const userLocale = getUserLocale();
-
-// Split into utilities & components
-
-const isZeroDecimal = (currency) => {
-    var zeroDecimalCurrencies = ["JPY", "CLP", "KRW", "LAK", "PYG", "VND", "VUV"];
-    return _.includes(zeroDecimalCurrencies, currency);
-};
-
-const getSymbol = (currency, locale = userLocale, amount = 0) => {
-    const str = new Intl.NumberFormat(locale, {
-        style: "currency",
-        currency,
-        maximumFractionDigits: 0,
-    }).format(amount);
-
-    return str.replace(/\d/g, "").trim();
-};
 
 export const Currency = ({ currency = "USD", locale = userLocale, removeTrailingZeroes = true, children }) => {
     const amount = children;
@@ -30,31 +13,14 @@ export const Currency = ({ currency = "USD", locale = userLocale, removeTrailing
     return <span className="currency-formatted-amount">{formattedAmount}</span>;
 };
 
-const round2 = (currency, amount) => {
-    let num = Number(amount);
-
-    if (isZeroDecimal(currency)) {
-        num = round(num);
-    } else {
-        // It's done this odd way to ensure JS rounds numbers the same way as PHP
-        if (round(num, 3) === round(num, 4)) {
-            num = round(num, 3);
-        }
-        num = round(num, 2);
-    }
-
-    return num;
-}
-
 Currency.Round = ({ currency, children }) => {
-    const num = round2(currency, children);
-
+    const num = roundNumber(currency, children);
     return <span className="currency-rounded">{num}</span>;
 };
 
 Currency.Split = ({ currency = "USD", locale = userLocale, children }) => {
     const amount = children;
-    const roundedAmountArray = round2(currency, amount).toString().split(".");
+    const roundedAmountArray = roundNumber(currency, amount).toString().split(".");
     const amountInt = roundedAmountArray[0];
     let amountDecimal = roundedAmountArray[1] || "0";
 
@@ -68,9 +34,11 @@ Currency.Split = ({ currency = "USD", locale = userLocale, children }) => {
     return (
         <span title={amount} className="currency-formatted-split-amount">
             <span className="amount-int">{formattedAmountInt}</span>
-            {!isZeroDecimal(currency) && <span className="pl-1 underline amount-decimal">
-                <sup>{amountDecimal}</sup>
-            </span>}
+            {!isZeroDecimal(currency) && (
+                <span className="pl-1 underline amount-decimal">
+                    <sup>{amountDecimal}</sup>
+                </span>
+            )}
         </span>
     );
 };

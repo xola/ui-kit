@@ -17,20 +17,27 @@ export default {
         },
         color: {
             defaultValue: "primary",
-            options: ["primary", "secondary", "success", "warning", "danger", "danger-secondary"],
+            options: ["primary", "secondary", "success", "warning", "danger", "caution"],
             control: { type: "select" },
             table: {
                 type: { summary: null },
                 defaultValue: { summary: "primary" },
             },
-        }
+        },
+        close: {
+            defaultValue: false,
+            control: { type: "boolean" },
+            table: {
+                type: { summary: null },
+            }
+        },
     },
 };
 
-export const Default = ({ className, color, text = "Default" }) => {
+export const Default = ({ className, color, close, text = "Default" }) => {
     return (
         <div className="space-x-4">
-            <Alert className={className} color={color}>
+            <Alert className={className} color={color} close={close}>
                 {text}
             </Alert>
         </div>
@@ -45,7 +52,7 @@ export const Colors = () => {
             <Alert color="success">Success</Alert>
             <Alert color="warning">Warning</Alert>
             <Alert color="danger">Danger</Alert>
-            <Alert color="danger-secondary">Danger Secondary</Alert>
+            <Alert color="caution">Caution</Alert>
         </div>
     );
 };

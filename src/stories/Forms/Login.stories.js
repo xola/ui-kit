@@ -2,7 +2,7 @@ import React from "react";
 import { Login } from "../..";
 
 export default {
-    title: "Screen/Login",
+    title: "Screens/Login",
     component: Login,
     parameters: {
         docs: {

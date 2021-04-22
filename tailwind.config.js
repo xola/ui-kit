@@ -78,10 +78,11 @@ module.exports = {
             warning: colors.yellow,
             success: colors.green,
             danger: colors.red,
-            "danger-secondary": colors.orange,
+            caution: colors.orange,
         },
 
         spacing: {
+            0: "0px",
             px: "1px",
             0.5: "2px",
             0.75: "3px",
@@ -117,6 +118,7 @@ module.exports = {
             64: "256px",
             72: "288px",
             80: "320px",
+            82: "350px",
             96: "384px",
         },
 

@@ -8,7 +8,7 @@ const colors = {
     success: "bg-success-lighter text-success-dark",
     warning: "bg-warning-lighter text-warning-dark",
     danger: "bg-danger-lighter text-danger-dark",
-    "danger-secondary": "bg-danger-secondary-lighter text-danger-secondary-dark",
+    "caution": "bg-caution-lighter text-caution-dark",
 };
 
 const sizes = {
