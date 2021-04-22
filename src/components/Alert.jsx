@@ -3,12 +3,12 @@ import clsx from "clsx";
 import PropTypes from "prop-types";
 
 const colors = {
-    primary: "bg-primary-lighter text-primary-dark",
-    secondary: "bg-secondary-lighter text-secondary-dark",
-    success: "bg-success-lighter text-success-dark",
-    warning: "bg-warning-lighter text-warning-dark",
-    danger: "bg-danger-lighter text-danger-dark",
-    "danger-secondary": "bg-danger-secondary-lighter text-danger-secondary-dark",
+    primary: "bg-primary-lighter text-black",
+    secondary: "bg-secondary-lighter text-black",
+    success: "bg-success-lighter text-black",
+    warning: "bg-warning-lighter text-black",
+    danger: "bg-danger-lighter text-black",
+    "danger-secondary": "bg-danger-secondary-lighter text-black",
 };
 
 export const Alert = ({ className, color = "primary", ...rest }) => {
