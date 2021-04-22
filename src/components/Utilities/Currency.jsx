@@ -10,28 +10,26 @@ const isZeroDecimal = (currency) => {
     return _.includes(zeroDecimalCurrencies, currency);
 };
 
-const getSymbol = (currency, locale = userLocale) => {
+const getSymbol = (currency, locale = userLocale, amount = 0) => {
     const str = new Intl.NumberFormat(locale, {
         style: "currency",
         currency,
-        minimumFractionDigits: 0,
         maximumFractionDigits: 0,
-    }).format(0);
+    }).format(amount);
 
     return str.replace(/\d/g, "").trim();
 };
 
 export const Currency = ({ currency = "USD", locale = userLocale, removeTrailingZeroes = true, children }) => {
     const amount = children;
-    let formattedAmount = format(amount, currency, locale);
+    let formattedAmount = format(amount, currency, locale, isZeroDecimal(currency) ? 0 : 2);
     formattedAmount = removeTrailingZeroes ? formattedAmount.replace(".00", "") : formattedAmount;
 
     return <span className="currency-formatted-amount">{formattedAmount}</span>;
 };
 
-Currency.Round = ({ currency, children }) => {
-    let num = Number(children);
-    console.log(currency, children, num);
+const round2 = (currency, amount) => {
+    let num = Number(amount);
 
     if (isZeroDecimal(currency)) {
         num = round(num);
@@ -43,5 +41,34 @@ Currency.Round = ({ currency, children }) => {
         num = round(num, 2);
     }
 
-    return (<span className="currency-rounded">{num}</span>)
+    return num;
+}
+
+Currency.Round = ({ currency, children }) => {
+    const num = round2(currency, children);
+
+    return <span className="currency-rounded">{num}</span>;
+};
+
+Currency.Split = ({ currency = "USD", locale = userLocale, children }) => {
+    const amount = children;
+    const roundedAmountArray = round2(currency, amount).toString().split(".");
+    const amountInt = roundedAmountArray[0];
+    let amountDecimal = roundedAmountArray[1] || "0";
+
+    // Appends '0' if the length of decimal value is 1 i.e 99.1 will become 99.10
+    if (amountDecimal.length == 1) {
+        amountDecimal += "0";
+    }
+
+    const formattedAmountInt = format(amountInt, currency, locale, 0);
+
+    return (
+        <span title={amount} className="currency-formatted-split-amount">
+            <span className="amount-int">{formattedAmountInt}</span>
+            {!isZeroDecimal(currency) && <span className="pl-1 underline amount-decimal">
+                <sup>{amountDecimal}</sup>
+            </span>}
+        </span>
+    );
 };

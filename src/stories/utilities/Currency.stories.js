@@ -55,7 +55,8 @@ export default {
     },
 };
 
-const amount1 = 109482.84;
+const amount = 109482.84;
+const locale = "en-US";
 
 export const Default = ({ currency, locale, removeTrailingZeroes, amount }) => {
     return (
@@ -65,53 +66,60 @@ export const Default = ({ currency, locale, removeTrailingZeroes, amount }) => {
     );
 };
 
-export const AllCurrencies = () => {
-    const locale = "en-US";
+export const AllCurrencies = ({amount, locale}) => {
     return (
         <div className="flex flex-col space-y-2">
-            <span className="font-semibold">Amount: {amount1}</span>
+            <span className="font-semibold">Amount: {amount}</span>
             <span className="pb-4 font-semibold">Locale: {locale}</span>
             <Currency locale={locale} currency="EUR">
-                {amount1}
+                {amount}
             </Currency>
             <Currency locale={locale} currency="GBP">
-                {amount1}
+                {amount}
             </Currency>
             <Currency locale={locale} currency="INR">
-                {amount1}
+                {amount}
             </Currency>
             <Currency locale={locale} currency="AUD">
-                {amount1}
+                {amount}
             </Currency>
             <Currency locale={locale} currency="CAD">
-                {amount1}
+                {amount}
             </Currency>
             <Currency locale={locale} currency="NZD">
-                {amount1}
+                {amount}
             </Currency>
             <Currency locale={locale} currency="MXN">
-                {amount1}
+                {amount}
             </Currency>
             <Currency locale={locale} currency="JPY">
-                {amount1}
+                {amount}
             </Currency>
             <Currency locale={locale} currency="CAD">
-                {amount1}
+                {amount}
             </Currency>
         </div>
     );
 };
 
-export const RoundOnly = () => {
+export const RoundOnly = ({amount}) => {
     return (
         <div className="flex flex-col space-y-2">
             <span className="mb-1 font-semibold">Amount: 109482.84</span>
             <span>
-                Euro: <Currency.Round currency="EUR">{amount1}</Currency.Round>
+                Euro: <Currency.Round currency="EUR">{amount}</Currency.Round>
             </span>
             <span>
-                JPY: <Currency.Round currency="JPY">{amount1}</Currency.Round> (Zero decimal)
+                JPY: <Currency.Round currency="JPY">{amount}</Currency.Round> (Zero decimal)
             </span>
         </div>
+    );
+};
+
+export const SplitAmountFormatting = ({ amount, currency = "USD", locale = "en-USD" }) => {
+    return (
+        <Currency.Split currency={currency} locale={locale}>
+            {amount}
+        </Currency.Split>
     );
 };
