@@ -19,7 +19,7 @@ export const Input = ({ size = "medium", className, type = "text", disabled, err
                     : "border-gray-light focus:ring-primary focus:border-primary",
                 "block w-full placeholder-gray-dark text-gray-darker rounded-md leading-none",
                 disabled && "bg-gray-lighter",
-                className
+                className,
             )}
             {...rest}
         />

@@ -27,10 +27,11 @@ Table.Header.displayName = "Table.Header";
 
 Table.Body = ({ className, stripe = false, children, ...rest }) => {
     let clonedChildren = stripe ? [] : children;
-    stripe && React.Children.forEach(children, (child, idx) => {
-        const className = (idx + 1) % 2 === 0 ? "bg-gray-lighter" : "";
-        clonedChildren.push(React.cloneElement(child, { className: className }));
-    });
+    stripe &&
+        React.Children.forEach(children, (child, idx) => {
+            const className = (idx + 1) % 2 === 0 ? "bg-gray-lighter" : "";
+            clonedChildren.push(React.cloneElement(child, { className: className }));
+        });
 
     return (
         <tbody className={clsx(className, "border-none")} {...rest}>

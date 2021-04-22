@@ -87,6 +87,7 @@ module.exports = {
                 base: "0.875rem",
                 lg: "0.985rem",
             },
+
             fontFamily: {
                 sans: ["SF Pro Display", ...defaultTheme.fontFamily.sans],
             },
