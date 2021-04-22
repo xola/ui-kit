@@ -22,6 +22,9 @@ export { Login } from "./components/Forms/Login";
 export { HeaderToolbar } from "./components/HeaderToolbar";
 export { Tabs } from "./components/Tabs";
 
+// Utilities
+export { Currency } from "./components/Utilities/Currency";
+
 // Icons.
 export { AddSquareIcon } from "./icons/AddSquareIcon";
 export { ArrowRightIcon } from "./icons/ArrowRightIcon";
