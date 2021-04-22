@@ -22,20 +22,17 @@ export const Login = ({ className, onSubmit, ...rest }) => {
         <div className="flex flex-col h-screen bg-opacity-40 bg-blue-lighter">
             <div className="flex-grow">
                 <div className="flex flex-col items-center justify-center w-full h-full space-y-8">
-                    <div className="w-11/12 md:w-2/5">
+                    <div className="py-10 rounded-lg w-82 px-9 md:bg-white">
+                        {/* md:w-2/5 */}
                         <div className="mb-4 md:mb-10">
                             <img
-                                className="w-auto h-10 mx-auto md:h-12"
+                                className="w-auto h-10 mx-auto md:h-12 md:mb-20 "
                                 src="https://www.xola.com/images/xola-logo-black-small.png"
                                 alt="Xola Logo"
                             />
-                            <h2 className="mt-6 text-xl font-bold text-center md:text-3xl text-gray-darker">
-                                Sign in to your account
-                            </h2>
                         </div>
-                        {/* TODO Form */}
                         <form className="space-y-6" onSubmit={onClick}>
-                            <div className="-space-y-px rounded-md shadow-sm">
+                            <div className="-space-y-px bg-white rounded-md shadow-sm">
                                 <div>
                                     {/* Change component */}
                                     <input
@@ -62,37 +59,31 @@ export const Login = ({ className, onSubmit, ...rest }) => {
                                 </div>
                             </div>
 
-                            <div className="flex items-center justify-between">
-                                <div className="flex items-center">
-                                    <input
-                                        id="remember_me"
-                                        name="remember_me"
-                                        type="checkbox"
-                                        className="w-4 h-4 rounded text-primary border-gray-light focus:primary"
-                                    />
-                                    <label htmlFor="remember_me" className="block ml-2 text-sm text-gray-dark">
-                                        Remember me
-                                    </label>
-                                </div>
+                            <div className="flex items-center">
+                                <input
+                                    id="remember_me"
+                                    name="remember_me"
+                                    type="checkbox"
+                                    className="w-4 h-4 rounded text-primary border-gray-light focus:primary"
+                                />
+                                <label htmlFor="remember_me" className="block ml-2 text-sm text-gray-dark">
+                                    Remember me
+                                </label>
+                            </div>
 
-                                <div className="text-sm">
+                            <div className="flex flex-col w-full">
+                                <Button color="primary" className="relative flex justify-center w-full">
+                                    Login
+                                </Button>
+                                <div className="mt-5 text-sm text-center">
                                     <a
                                         href="https://xola.com/resetting/form"
-                                        className="font-medium text-gray-dark hover:text-primary hover:underline"
+                                        className="font-semibold underline text-gray-darker hover:text-black"
                                         target="_blank"
                                     >
                                         Forgot your password?
                                     </a>
                                 </div>
-                            </div>
-
-                            <div>
-                                <Button color="success" className="relative flex justify-center w-full">
-                                    <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                                        <LockIcon className="w-5 h-5 text-white" />
-                                    </span>
-                                    Login to Xola
-                                </Button>
                             </div>
                         </form>
                     </div>
