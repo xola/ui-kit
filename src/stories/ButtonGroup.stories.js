@@ -21,15 +21,15 @@ export const Default = ({ size }) => {
 
     return (
         <ButtonGroup size={size}>
-            <ButtonGroup.Button isActive={active === 0} onClick={() => setActive(0)}>
+            <ButtonGroup.Button active={active === 0} onClick={() => setActive(0)}>
                 First
             </ButtonGroup.Button>
 
-            <ButtonGroup.Button isActive={active === 1} onClick={() => setActive(1)}>
+            <ButtonGroup.Button active={active === 1} onClick={() => setActive(1)}>
                 Second
             </ButtonGroup.Button>
 
-            <ButtonGroup.Button isActive={active === 2} onClick={() => setActive(2)}>
+            <ButtonGroup.Button active={active === 2} onClick={() => setActive(2)}>
                 Third
             </ButtonGroup.Button>
         </ButtonGroup>

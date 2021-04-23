@@ -10,28 +10,22 @@ const sizes = {
 };
 
 const ButtonGroup = ({ children, size, ...rest }) => {
-    const childrenCount = Children.count(children);
-
     return (
         <span className="inline-flex" {...rest}>
-            {Children.map(children, (child, index) => {
-                const isFirst = index === 0;
-                const isLast = index + 1 === childrenCount;
-                return cloneElement(child, { isFirst, isLast, size });
+            {Children.map(children, (child) => {
+                return cloneElement(child, { size });
             })}
         </span>
     );
 };
 
-const Button = ({ isActive, isFirst, isLast, size = "medium", ...rest }) => {
+const Button = ({ active, size = "medium", ...rest }) => {
     const className = clsx(
-        "border-t border-l border-b transition-colors focus:ring disabled:opacity-50 focus:z-10 leading-none",
+        "border-t border-l border-b last:border-r first:rounded-l-md last:rounded-r-md transition-colors focus:ring disabled:opacity-50 focus:z-10 leading-none",
         sizes[size],
         {
-            "rounded-l-md": isFirst,
-            "rounded-r-md border-r": isLast,
-            "bg-primary border-primary text-white hover:bg-primary-dark": isActive,
-            "border-gray-light hover:bg-gray-lighter text-gray-darker": !isActive,
+            "bg-primary border-primary text-white hover:bg-primary-dark": active,
+            "border-gray-light hover:bg-gray-lighter text-gray-darker": !active,
         },
     );
 
