@@ -38,3 +38,12 @@ h5 {
     position: relative;
     top: -1px;
 }
+
+/* Just Temp */
+.login-container {
+    /* linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),  */
+    background-image: url("https://images.unsplash.com/photo-1554629947-334ff61d85dc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1440&q=900");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
