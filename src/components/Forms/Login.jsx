@@ -19,7 +19,7 @@ export const Login = ({ className, onSubmit, ...rest }) => {
     };
 
     return (
-        <div className="flex flex-col h-screen bg-opacity-40 bg-blue-lighter">
+        <div className="flex flex-col h-screen login-container bg-opacity-40 bg-blue-lighter">
             <div className="flex-grow">
                 <div className="flex flex-col items-center justify-center w-full h-full space-y-8">
                     <div className="py-10 rounded-lg w-82 px-9 md:bg-white">
@@ -90,8 +90,8 @@ export const Login = ({ className, onSubmit, ...rest }) => {
                 </div>
             </div>
             <footer className="">
-                <div className="px-4 py-1 mx-auto overflow-hidden max-w-7xl sm:px-6 lg:px-8">
-                    <nav className="flex-wrap justify-center hidden -mx-5 -my-2 md:flex">
+                <div className="flex flex-col items-center justify-center w-full px-4 py-1 overflow-hidden sm:px-6 lg:px-8">
+                    {/* <nav className="flex-wrap justify-center hidden -mx-5 -my-2 md:flex">
                         {links.map((link) => (
                             <div key={link.name} className="px-2 py-1 md:px-5 md:py-2">
                                 <a
@@ -102,14 +102,13 @@ export const Login = ({ className, onSubmit, ...rest }) => {
                                 </a>
                             </div>
                         ))}
-                    </nav>
-                    <p className="m-4 text-xs text-center md:text-sm text-gray">
-                        <a href="https://www.xola.com/team" target="blank" className="">
+                    </nav> */}
+                    <div className="px-4 m-4 text-xs text-center rounded-lg w-82 md:text-sm opacity-30 hover:opacity-80">
+                        <a href="https://www.xola.com/team" target="blank" className="text-gray-dark">
                             Handcrafted in Houston, Belgrade & Bengaluru &nbsp;&nbsp;
-                            <div className="md:hidden" />
-                            &copy; {new Date().getFullYear()} Xola, Inc. <br />
+                            <div class="text-center">&copy; {new Date().getFullYear()} Xola, Inc.</div>
                         </a>
-                    </p>
+                    </div>
                 </div>
             </footer>
         </div>

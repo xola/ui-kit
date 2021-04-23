@@ -17,7 +17,7 @@ export default {
         },
         color: {
             defaultValue: "primary",
-            options: ["primary", "secondary", "success", "warning", "danger", "caution"],
+            options: ["primary", "success", "warning", "danger"],
             control: { type: "select" },
             table: {
                 type: { summary: null },
@@ -48,11 +48,9 @@ export const Colors = () => {
     return (
         <div className="space-y-4">
             <Alert color="primary">Primary</Alert>
-            <Alert color="secondary">Secondary</Alert>
             <Alert color="success">Success</Alert>
             <Alert color="warning">Warning</Alert>
             <Alert color="danger">Danger</Alert>
-            <Alert color="caution">Caution</Alert>
         </div>
     );
 };
