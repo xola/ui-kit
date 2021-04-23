@@ -9,7 +9,7 @@ const colors = {
     success: "bg-success-lighter text-black",
     warning: "bg-warning-lighter text-black",
     danger: "bg-danger-lighter text-black",
-    "caution": "bg-caution-lighter text-black",
+    caution: "bg-caution-lighter text-black",
 };
 
 export const Alert = ({ className, close = false, color = "primary", children, ...rest }) => {

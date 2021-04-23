@@ -12,23 +12,17 @@ export default {
         content: getArg("My tooltip text", "text", null, "The text of the tooltip"),
         trigger: getArg(
             "mouseenter",
-            "radio",
+            "select",
             ["mouseenter", "click", "focus", "focusin", "manual"],
             "One or multiple values to indicate what causes the tooltip to show up",
         ),
         placement: getArg(
             "right",
-            "radio",
+            "inline-radio",
             ["top", "bottom", "left", "right", "auto"],
             `Where to place the tooltip. [More in the docs](${docs})`,
         ),
         allowHTML: getArg(false, "boolean", false, "Allow HTML content in tooltip"),
-        interactive: getArg(
-            false,
-            "boolean",
-            false,
-            "Determines if the tooltip has interactive content inside of it, so that it can be hovered over and clicked inside without hiding",
-        ),
         delay: getArg(0, "number", null, "Delay in ms once a trigger event is fired before a tooltip shows or hides"),
         maxWidth: getArg(
             350,
@@ -42,12 +36,6 @@ export default {
             "array",
             null,
             "Displaces the tooltip from its reference element in pixels _(skidding and distance)_",
-        ),
-        followCursor: getArg(
-            false,
-            "radio",
-            [false, true, "vertical", "horizontal", "initial"],
-            "Determines if tooltip follows the user's cursor",
         ),
         zIndex: getArg(9999, "number", null, "Specifies the `z-index` CSS on the root popper node"),
     },

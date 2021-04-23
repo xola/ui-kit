@@ -11,21 +11,15 @@ export default {
         demoText: getArg("Default", "text", null, "The value for the button", "for this demo only"),
         trigger: getArg(
             "mouseenter",
-            "radio",
+            "select",
             ["mouseenter", "click", "focus", "focusin", "manual"],
             "One or multiple values to indicate what causes the tooltip to show up",
         ),
         placement: getArg(
             "right",
-            "radio",
+            "inline-radio",
             ["top", "bottom", "left", "right", "auto"],
             `Where to place the tooltip. [More in the docs](${docs})`,
-        ),
-        interactive: getArg(
-            true,
-            "boolean",
-            false,
-            "Determines if the tippy has interactive content inside of it, so that it can be hovered over and clicked inside without hiding",
         ),
         delay: getArg(0, "number", null, "Delay in ms once a trigger event is fired before a tippy shows or hides"),
         maxWidth: getArg(
@@ -40,12 +34,6 @@ export default {
             "array",
             null,
             "Displaces the tippy from its reference element in pixels _(skidding and distance)_",
-        ),
-        followCursor: getArg(
-            false,
-            "radio",
-            [false, true, "vertical", "horizontal", "initial"],
-            "Determines if tooltip follows the user's cursor",
         ),
         zIndex: getArg(9999, "number", null, "Specifies the `z-index` CSS on the root popper node"),
     },
@@ -84,19 +72,19 @@ export const NoTitle = (config) => {
     config.content = (
         <Popover.Content>
             <dl className="text-sm">
-                <div className="px-2 py-1 grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-4 px-2 py-1">
                     <dt className="font-bold text-black">Demo Request</dt>
                     <dd className="mt-0 mt-1 text-black">Dec 21, 2020</dd>
                 </div>
-                <div className="px-2 py-1 grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-4 px-2 py-1">
                     <dt className="font-bold text-black">Join Request</dt>
                     <dd className="mt-0 mt-1 text-black">Dec 24, 2020</dd>
                 </div>
-                <div className="px-2 py-1 grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-4 px-2 py-1">
                     <dt className="font-bold text-black">Account Created</dt>
                     <dd className="mt-0 mt-1 text-black">Dec 31, 2020</dd>
                 </div>
-                <div className="px-2 py-1 grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-4 px-2 py-1">
                     <dt className="font-bold text-black">Account Verified</dt>
                     <dd className="mt-0 mt-1 text-black">Jan 5, 2021</dd>
                 </div>
