@@ -1,3 +1,4 @@
+import React from "react";
 import { LockIcon } from "../../icons/LockIcon";
 import { Button } from "../Button";
 
@@ -106,7 +107,7 @@ export const Login = ({ className, onSubmit, ...rest }) => {
                     <div className="px-4 m-4 text-xs text-center rounded-lg w-82 md:text-sm opacity-30 hover:opacity-80">
                         <a href="https://www.xola.com/team" target="blank" className="text-gray-dark">
                             Handcrafted in Houston, Belgrade & Bengaluru &nbsp;&nbsp;
-                            <div class="text-center">&copy; {new Date().getFullYear()} Xola, Inc.</div>
+                            <div className="text-center">&copy; {new Date().getFullYear()} Xola, Inc.</div>
                         </a>
                     </div>
                 </div>
