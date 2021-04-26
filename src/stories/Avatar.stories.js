@@ -46,6 +46,10 @@ export const ThreeNames = ({ className, name = "James Scott Zimmerman", size }) 
     return <Avatar className={className} name={name} size={size} />;
 };
 
+export const SpecialChars = ({ className, name = "Rushi (Xola)", size }) => {
+    return <Avatar className={className} name={name} size={size} />;
+};
+
 export const AllSizes = ({ className, name = "John Doe" }) => {
     return (
         <div className="space-x-3">
