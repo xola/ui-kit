@@ -17,7 +17,6 @@ const sizes = {
 };
 
 export const Badge = ({ className, color = "primary", size = "small", icon, children, ...rest }) => {
-    console.log("icon", icon);
     return (
         <span className={clsx("badge rounded-full text-center", colors[color], sizes[size], className)} {...rest}>
             {icon && <IconWrapper className="mr-1 icon">{icon}</IconWrapper>}
