@@ -1,7 +1,5 @@
 import clsx from "clsx";
-import React, { Children, cloneElement } from "react";
-
-// TODO: Refactor active/onChange logic (like we did for Tabs).
+import React, { Children, cloneElement, createElement } from "react";
 
 const sizes = {
     small: "px-2 py-1.5 text-sm",
@@ -9,33 +7,39 @@ const sizes = {
     large: "px-4 py-3.5 text-lg",
 };
 
-const ButtonGroup = ({ children, size, ...rest }) => {
-    const childrenCount = Children.count(children);
-
+const ButtonGroup = ({ children, size, value, onChange, ...rest }) => {
     return (
         <span className="inline-flex" {...rest}>
             {Children.map(children, (child, index) => {
-                const isFirst = index === 0;
-                const isLast = index + 1 === childrenCount;
-                return cloneElement(child, { isFirst, isLast, size });
+                const buttonProps = { size };
+
+                // Conditionally adding props like this so that we
+                // are also able to control the props on `ButtonGroup.Button`
+                // directly, if `value` and `onChange` are not passed on the parent.
+                if (value !== undefined) {
+                    buttonProps.active = value === index;
+                }
+
+                if (onChange) {
+                    buttonProps.onClick = () => onChange(index);
+                }
+
+                return cloneElement(child, buttonProps);
             })}
         </span>
     );
 };
 
-const Button = ({ isActive, isFirst, isLast, size = "medium", ...rest }) => {
+const Button = ({ active, as = "button", size = "medium", ...rest }) => {
     const className = clsx(
-        "border-t border-l border-b transition-colors focus:ring disabled:opacity-50 focus:z-10 leading-none",
+        "border-t border-l border-b last:border-r first:rounded-l-md last:rounded-r-md transition-colors focus:ring disabled:opacity-50 focus:z-10 leading-none",
         sizes[size],
-        {
-            "rounded-l-md": isFirst,
-            "rounded-r-md border-r": isLast,
-            "bg-primary border-primary text-white hover:bg-primary-dark": isActive,
-            "border-gray-light hover:bg-gray-lighter text-gray-darker": !isActive,
-        },
+        active
+            ? "bg-primary border-primary text-white hover:bg-primary-dark"
+            : "border-gray-light hover:bg-gray-lighter text-gray-darker",
     );
 
-    return <button className={className} {...rest} />;
+    return createElement(as, { className, ...rest });
 };
 
 ButtonGroup.Button = Button;

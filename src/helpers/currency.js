@@ -1,4 +1,5 @@
 import getUserLocale from "get-user-locale";
+import _ from "lodash";
 
 const userLocale = getUserLocale();
 

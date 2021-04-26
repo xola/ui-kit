@@ -4,7 +4,7 @@ import React, { useState } from "react";
 
 const parent = {
     medium: "h-6 w-11",
-    small: "h-5 w-9",
+    small: "h-5 w-10",
 };
 
 const inner = {
