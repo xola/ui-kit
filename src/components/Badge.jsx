@@ -8,7 +8,7 @@ const colors = {
     success: "bg-success-lighter text-success-dark",
     warning: "bg-warning-lighter text-warning-dark",
     danger: "bg-danger-lighter text-danger-dark",
-    "caution": "bg-caution-lighter text-caution-dark",
+    caution: "bg-caution-lighter text-caution-dark",
 };
 
 const sizes = {
@@ -18,7 +18,10 @@ const sizes = {
 
 export const Badge = ({ className, color = "primary", size = "small", icon, children, ...rest }) => {
     return (
-        <span className={clsx("badge rounded-full text-center", colors[color], sizes[size], className)} {...rest}>
+        <span
+            className={clsx("badge rounded-full text-center whitespace-nowrap", colors[color], sizes[size], className)}
+            {...rest}
+        >
             {icon && <IconWrapper className="mr-1 icon">{icon}</IconWrapper>}
             {children}
         </span>

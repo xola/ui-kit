@@ -1,5 +1,5 @@
-import { Breadcrumb, Search, Switch, Button, HeaderToolbar } from "..";
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { Breadcrumb, Button, HeaderToolbar, Search, Switch } from "..";
 
 export default {
     title: "Components/Header Toolbar",
@@ -7,31 +7,29 @@ export default {
 };
 
 export const Default = () => {
-    const ToolbarBreadcrumb = (
-        <Breadcrumb>
-            <Breadcrumb.Item>Seller</Breadcrumb.Item>
-            <Breadcrumb.Item>Lasting Adventures with a long name</Breadcrumb.Item>
-        </Breadcrumb>
-    );
-
-    const ToolbarSearch = (
-        <Search
-            previewEnabled={false}
-            className="asdf"
-            onSelect={() => {
-                alert("Search bar not implemented");
-            }}
-        />
-    );
-
     return (
-        <HeaderToolbar breadcrumb={ToolbarBreadcrumb} search={ToolbarSearch}>
+        <HeaderToolbar>
+            <Breadcrumb className="text-xl border-r pr-8 border-gray-light">
+                <Breadcrumb.Item>Seller</Breadcrumb.Item>
+                <Breadcrumb.Item>Lasting Adventures with a long name</Breadcrumb.Item>
+            </Breadcrumb>
+
+            <Search
+                previewEnabled={false}
+                className="border-none"
+                onSelect={() => {
+                    alert("Search bar not implemented");
+                }}
+            />
+
             <Switch.Group>
                 <Switch.Label direction="left" className="text-base">
                     Enable
                 </Switch.Label>
+
                 <Switch size="small" />
             </Switch.Group>
+
             <Button size="small">Impersonate</Button>
         </HeaderToolbar>
     );
