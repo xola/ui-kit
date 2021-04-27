@@ -66,7 +66,7 @@ export const Default = ({ currency, locale, removeTrailingZeroes, amount }) => {
     );
 };
 
-export const AllCurrencies = ({amount, locale}) => {
+export const AllCurrencies = ({ amount, locale }) => {
     return (
         <div className="flex flex-col space-y-2">
             <span className="font-semibold">Amount: {amount}</span>
@@ -102,7 +102,7 @@ export const AllCurrencies = ({amount, locale}) => {
     );
 };
 
-export const RoundOnly = ({amount}) => {
+export const RoundOnly = ({ amount }) => {
     return (
         <div className="flex flex-col space-y-2">
             <span className="mb-1 font-semibold">Amount: 109482.84</span>
