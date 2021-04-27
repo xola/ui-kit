@@ -19,7 +19,7 @@ const colors = {
         lighter: "#D1E1FF",
         light: "#2979D0",
         DEFAULT: "#1352C6",
-        dark: "#0E44A8",
+        dark: "#3467C4",
         darker: "#0E44A8", // TBD
     },
 

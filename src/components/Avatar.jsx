@@ -8,10 +8,10 @@ const sizes = {
     large: "h-15 w-15 text-xl",
 };
 
-export const Avatar = ({ className, name, size = "large", ...rest }) => {
+export const Avatar = ({ className, name, color = "bg-primary-lighter", size = "large", ...rest }) => {
     let initials = "N/A";
     if (typeof name === "string" && name.trim().length > 0) {
-        const sanitizedName = name.replace(/[^a-z0-9\s]/i, '').trim();
+        const sanitizedName = name.replace(/[^a-z0-9\s]/i, "").trim();
         const pieces = sanitizedName.split(" ");
         initials = pieces[0].slice(0, 1);
         if (pieces.length > 1) {
@@ -20,9 +20,10 @@ export const Avatar = ({ className, name, size = "large", ...rest }) => {
     }
 
     const classes = clsx(
-        className,
+        "inline-flex items-center justify-center rounded-full cursor-default text-black",
         sizes[size],
-        "inline-flex items-center justify-center rounded-full bg-blue-lighter cursor-default text-black",
+        color,
+        className,
     );
 
     return (

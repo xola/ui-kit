@@ -1,5 +1,15 @@
+import clsx from "clsx";
 import React from "react";
 import { Avatar } from "..";
+
+const avatarColors = [
+    "bg-primary-lighter",
+    "bg-yellow-lighter",
+    "bg-green-lighter",
+    "bg-gray",
+    "bg-orange-lighter",
+    "bg-red-lighter",
+];
 
 export default {
     title: "Components/Avatar",
@@ -31,31 +41,43 @@ export default {
             options: ["small", "medium", "large"],
             control: { type: "radio" },
         },
+        color: {
+            description: "Colors",
+            defaultValue: "bg-primary-lighter",
+            table: {
+                type: { summary: "one of the options" },
+                defaultValue: { summary: "bg-primary-lighter" },
+            },
+            options: avatarColors,
+            control: { type: "select" },
+        },
     },
 };
 
-export const Default = ({ className, name = "John Doe", size }) => {
-    return <Avatar className={className} name={name} size={size} />;
+export const Default = ({ className, name = "John Doe", size, color }) => {
+    return <Avatar className={className} name={name} size={size} color={color} />;
 };
 
-export const OneNameLikeCher = ({ className, name = "Cher", size }) => {
-    return <Avatar className={className} name={name} size={size} />;
+export const OneNameLikeCher = ({ className, name = "Cher", size, color }) => {
+    return <Avatar className={className} name={name} size={size} color={color} />;
 };
 
-export const ThreeNames = ({ className, name = "James Scott Zimmerman", size }) => {
-    return <Avatar className={className} name={name} size={size} />;
+export const ThreeNames = ({ className, name = "James Scott Zimmerman", size, color }) => {
+    return <Avatar className={className} name={name} size={size} color={color} />;
 };
 
-export const SpecialChars = ({ className, name = "Rushi (Xola)", size }) => {
-    return <Avatar className={className} name={name} size={size} />;
+export const SpecialChars = ({ className, name = "Rushi (Xola)", size, color }) => {
+    return <Avatar className={className} name={name} size={size} color={color} />;
 };
 
-export const AllSizes = ({ className, name = "John Doe" }) => {
-    return (
-        <div className="space-x-3">
-            <Avatar className={className} name={name} size="small" />
-            <Avatar className={className} name={name} size="medium" />
-            <Avatar className={className} name={name} size="large" />
-        </div>
-    );
+export const AllColorsAndSizes = ({ className, name = "Barthélémy Chalvet" }) => {
+    const components = [];
+
+    ["large", "medium", "small"].forEach((size) => {
+        avatarColors.forEach((color) => {
+            components.push(<Avatar className={clsx("!flex", className)} name={name} size={size} color={color} />);
+        });
+    });
+
+    return <div className="grid grid-cols-6 space-y-2">{components}</div>;
 };
