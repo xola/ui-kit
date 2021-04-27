@@ -3,7 +3,7 @@ import { StackIcon, EditIcon, BoxIcon, BellIcon, CakeIcon, CashIcon } from "..";
 import { Badge } from "..";
 
 export default {
-    title: "Components/Badge",
+    title: "Components/Badges or Tags",
     component: Badge,
     argTypes: {
         text: {

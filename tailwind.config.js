@@ -131,7 +131,6 @@ module.exports = {
             xl: "21px", // Figma - H2
             "2xl": "24px", // Figma - H1
             "3xl": "38px", // Figma - H0
-            "4xl": "42px",
         },
 
         extend: {

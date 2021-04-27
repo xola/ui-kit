@@ -14,7 +14,7 @@ const colors = {
 
 export const Alert = ({ className, close = false, color = "primary", children, ...rest }) => {
     return (
-        <div className={clsx("flex rounded text-base px-2 py-3", colors[color], className)} {...rest}>
+        <div className={clsx("flex rounded text-base px-3 py-3", colors[color], className)} {...rest}>
             <span className="w-full">{children}</span>
             {close && (
                 <span className="flex pt-1 cursor-pointer group items-top h-w-screen">

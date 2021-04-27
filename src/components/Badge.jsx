@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 const colors = {
     primary: "bg-primary-lighter text-primary-dark",
-    secondary: "bg-secondary-lighter text-secondary-dark",
+    secondary: "bg-secondary-lighter text-black",
     success: "bg-success-lighter text-success-dark",
     warning: "bg-warning-lighter text-warning-dark",
     danger: "bg-danger-lighter text-danger-dark",

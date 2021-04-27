@@ -2,8 +2,15 @@ import React from "react";
 import { Alert } from "..";
 
 export default {
-    title: "Components/Alert",
+    title: "Components/Alerts & Banners",
     component: Alert,
+    parameters: {
+        docs: {
+            description: {
+                component: "Alerts are short one line components whereas banners are multi-line versions of banners",
+            },
+        },
+    },
     argTypes: {
         text: {
             type: { required: false },
@@ -29,7 +36,7 @@ export default {
             control: { type: "boolean" },
             table: {
                 type: { summary: null },
-            }
+            },
         },
     },
 };
