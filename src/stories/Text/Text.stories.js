@@ -13,9 +13,7 @@ export const Default = () => {
             <span className="text-md">text-md (16px)</span>
             <span className="text-lg">text-lg (18px)</span>
             <span className="text-xl">text-xl (21px)</span>
-            <span className="text-2xl">text-2xl (24px)</span>
-            <span className="text-3xl">text-3xl (38px)</span>
-            <span className="text-4xl">text-4xl (42px)</span>
+            <span className="text-3xl">text-2xl (24px)</span>
         </div>
     );
 };

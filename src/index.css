@@ -13,25 +13,50 @@ button:focus {
 
 h1 {
     @apply text-2xl; /* 24px */
+    @apply leading-p1;
     @apply font-bold;
 }
 
 h2 {
     @apply text-xl; /* 21px */
+    @apply leading-p1;
     @apply font-bold;
 }
 
 h3 {
     @apply text-lg; /* 18px */
+    @apply leading-p2;
     @apply font-bold;
 }
 
 h4 {
     @apply text-md; /* 16 px */
+    @apply leading-p2;
 }
 
 h5 {
     @apply text-base; /* 14 px */
+    @apply leading-p2;
+}
+
+h6 {
+    @apply text-sm; /* 14 px */
+    @apply leading-p3;
+}
+
+.p1 {
+    @apply text-md;
+    @apply leading-p1;
+}
+
+.p2 {
+    @apply text-base;
+    @apply leading-p2;
+}
+
+.p3 {
+    @apply text-sm;
+    @apply leading-p3;
 }
 
 .badge .icon {
