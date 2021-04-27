@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import React from "react";
+import React, { Fragment } from "react";
 import { Avatar } from "..";
 
 const avatarColors = [
@@ -71,13 +71,17 @@ export const SpecialChars = ({ className, name = "Rushi (Xola)", size, color }) 
 };
 
 export const AllColorsAndSizes = ({ className, name = "Barthélémy Chalvet" }) => {
-    const components = [];
-
-    ["large", "medium", "small"].forEach((size) => {
-        avatarColors.forEach((color) => {
-            components.push(<Avatar className={clsx("!flex", className)} name={name} size={size} color={color} />);
-        });
-    });
-
-    return <div className="grid grid-cols-6 space-y-2">{components}</div>;
+    return (
+        <div className="grid grid-cols-6 gap-2">
+            {["large", "medium", "small"].map((size) => (
+                <Fragment key={size}>
+                    {avatarColors.map((color) => (
+                        <div className="text-center" key={color}>
+                            <Avatar className={className} name={name} size={size} color={color} />
+                        </div>
+                    ))}
+                </Fragment>
+            ))}
+        </div>
+    );
 };
