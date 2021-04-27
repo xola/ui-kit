@@ -1,9 +1,10 @@
+import clsx from "clsx";
 import React from "react";
 import { StackIcon, EditIcon, BoxIcon, BellIcon, CakeIcon, CashIcon } from "..";
 import { Badge } from "..";
 
 export default {
-    title: "Components/Badges or Tags",
+    title: "Components/Badges",
     component: Badge,
     argTypes: {
         text: {

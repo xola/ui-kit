@@ -137,6 +137,15 @@ module.exports = {
             fontFamily: {
                 sans: ["SF Pro Display", ...defaultTheme.fontFamily.sans],
             },
+
+            // P1 - Big 16px 130%
+            // P2 - Med 14px 130%
+            // P3 - Small 12px 110%
+            lineHeight: {
+                p1: "130%",
+                p2: "130%",
+                p3: "110%",
+            },
         },
     },
 

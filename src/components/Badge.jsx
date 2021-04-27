@@ -12,14 +12,19 @@ const colors = {
 };
 
 const sizes = {
-    small: "text-sm px-2 py-0.75",
-    large: "text-base px-3 py-1.5",
+    small: "text-sm px-2 py-0.75 leading-p3 h-5",
+    large: "inline-flex text-base px-3 py-1.5 leading-p1",
 };
 
 export const Badge = ({ className, color = "primary", size = "small", icon, children, ...rest }) => {
     return (
         <span
-            className={clsx("badge rounded-full text-center whitespace-nowrap", colors[color], sizes[size], className)}
+            className={clsx(
+                "badge rounded-full text-center whitespace-nowrap",
+                colors[color],
+                sizes[size],
+                className,
+            )}
             {...rest}
         >
             {icon && <IconWrapper className="mr-1 icon">{icon}</IconWrapper>}
