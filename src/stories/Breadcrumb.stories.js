@@ -39,16 +39,15 @@ export const Default = ({ spacing, separator }) => {
             <Breadcrumb spacing={spacing} separator={separator}>
                 <Breadcrumb.Item>Settings</Breadcrumb.Item>
                 <Breadcrumb.Item>Preferences</Breadcrumb.Item>
-                <Breadcrumb.Item>Gifts</Breadcrumb.Item>
             </Breadcrumb>
         </div>
     );
 };
 
-export const Header = () => {
+export const MultipleLevels = () => {
     return (
         <div className="space-x-6">
-            <Breadcrumb className="text-2xl" spacing={3} separator="/">
+            <Breadcrumb spacing={3} separator="/">
                 <Breadcrumb.Item className="text-2xl">Settings</Breadcrumb.Item>
                 <Breadcrumb.Item className="text-2xl">Preferences</Breadcrumb.Item>
                 <Breadcrumb.Item className="text-2xl">Gifts</Breadcrumb.Item>
