@@ -18,7 +18,8 @@
         "storybook": "start-storybook -p 6006 -s public",
         "build": "vite build",
         "build:storybook": "build-storybook -s public",
-        "format": "prettier --write src"
+        "format": "prettier --write src",
+        "test": "jest"
     },
     "dependencies": {
         "@headlessui/react": "^1.0.0",
@@ -33,7 +34,8 @@
         "tippy.js": "^6.3.1"
     },
     "devDependencies": {
-        "@babel/core": "^7.13.15",
+        "@babel/core": "^7.13.16",
+        "@babel/preset-env": "^7.13.15",
         "@storybook/addon-actions": "^6.2.8",
         "@storybook/addon-essentials": "^6.2.8",
         "@storybook/addon-links": "^6.2.8",
@@ -41,15 +43,17 @@
         "@storybook/addons": "^6.2.8",
         "@storybook/react": "^6.2.8",
         "@storybook/theming": "^6.2.8",
+        "autoprefixer": "^10.2.5",
+        "babel-jest": "^26.6.3",
         "babel-loader": "^8.2.2",
+        "jest": "^26.6.3",
+        "lodash": "^4.17.21",
+        "postcss": "^8.2.10",
         "prettier": "^2.2.1",
         "react": "^17.0.2",
         "react-dom": "^17.0.2",
-        "vite": "^2.2.1",
-        "autoprefixer": "^10.2.5",
-        "postcss": "^8.2.10",
         "tailwindcss": "^2.1.1",
-        "lodash": "^4.17.21"
+        "vite": "^2.2.1"
     },
     "peerDependencies": {
         "react": "^17.0.2",
