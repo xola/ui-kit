@@ -2,14 +2,22 @@ import { Switch as HeadlessSwitch } from "@headlessui/react";
 import clsx from "clsx";
 import React, { useState } from "react";
 
-const parent = {
-    medium: "h-6 w-11",
-    small: "h-5 w-10",
-};
-
-const inner = {
-    medium: "h-5 w-5",
-    small: "h-4 w-4",
+const sizes = {
+    large: {
+        parent: "h-6 w-11",
+        inner: "h-5 w-5",
+        translate: "translate-x-5",
+    },
+    medium: {
+        parent: "h-5 w-8",
+        inner: "h-4 w-4",
+        translate: "translate-x-3",
+    },
+    small: {
+        parent: "h-3 w-5",
+        inner: "h-2 w-2",
+        translate: "translate-x-2",
+    },
 };
 
 export const Switch = ({ size = "medium" }) => {
@@ -22,14 +30,14 @@ export const Switch = ({ size = "medium" }) => {
             className={clsx(
                 enabled ? "bg-primary" : "bg-gray",
                 "switch relative inline-flex flex-shrink-0 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none",
-                parent[size],
+                sizes[size].parent,
             )}
         >
             <span
                 className={clsx(
-                    enabled ? "translate-x-5" : "translate-x-0",
+                    enabled ? sizes[size].translate : "translate-x-0",
                     "switch-inner pointer-events-none inline-block rounded-full bg-white transform ring-0 transition ease-in-out duration-200",
-                    inner[size],
+                    sizes[size].inner,
                 )}
             />
         </HeadlessSwitch>

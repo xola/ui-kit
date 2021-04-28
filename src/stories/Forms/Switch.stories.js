@@ -19,7 +19,7 @@ export default {
                 type: { summary: null },
                 defaultValue: { summary: "medium" },
             },
-            options: ["small", "medium"],
+            options: ["small", "medium", "large"],
             control: { type: "radio" },
         },
     },
