@@ -21,14 +21,14 @@ export const Switch = ({ size = "medium" }) => {
             onChange={setEnabled}
             className={clsx(
                 enabled ? "bg-primary" : "bg-gray",
-                "relative inline-flex flex-shrink-0 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary",
+                "switch relative inline-flex flex-shrink-0 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none",
                 parent[size],
             )}
         >
             <span
                 className={clsx(
                     enabled ? "translate-x-5" : "translate-x-0",
-                    "pointer-events-none inline-block rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200",
+                    "switch-inner pointer-events-none inline-block rounded-full bg-white transform ring-0 transition ease-in-out duration-200",
                     inner[size],
                 )}
             />

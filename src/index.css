@@ -72,3 +72,7 @@ h6 {
     background-position: center;
     background-size: cover;
 }
+
+.switch .switch-inner {
+    box-shadow: 0px 1.91176px 5.09804px rgba(0, 0, 0, 0.15), 0px 1.91176px 0.637255px rgba(0, 0, 0, 0.06);
+}
