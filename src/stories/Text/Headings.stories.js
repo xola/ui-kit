@@ -1,7 +1,7 @@
 import React from "react";
 
 export default {
-    title: "Components/Text/Headings",
+    title: "Components/Others/Headings",
 };
 
 export const Default = () => {
