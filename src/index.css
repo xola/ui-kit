@@ -66,7 +66,8 @@ h6 {
 
 @screen md {
     .login-container {
-        background-image: url("/images/login-image.png");
+        /* This image is included in this repo at /public/images/ but is used here like this for Github Pages path issues */
+        background-image: url("https://images.unsplash.com/photo-1554629947-334ff61d85dc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1440&q=900");
         background-repeat: no-repeat;
         background-position: center;
         background-size: cover;
