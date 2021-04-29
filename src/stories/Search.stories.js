@@ -1,156 +1,82 @@
 import clsx from "clsx";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Search } from "..";
 
 export default {
     title: "Components/Search",
-    component: Search,
-    parameters: {
-        docs: {
-            description: {
-                component: "The ultimate search box with a lot of flexibility",
-            },
-        },
-    },
-    argTypes: {
-        idLength: {
-            description: "Describe the length of the ID that will allow the search to auto-dump",
-            defaultValue: 24,
-            control: { type: "number" },
-            table: {
-                type: { summary: null },
-                defaultValue: { summary: 24 },
-            },
-        },
-        size: {
-            description: "The size of the search box",
-            defaultValue: "full",
-            control: { type: "select" },
-            options: ["small", "medium", "large", "full"],
-            table: {
-                type: { summary: null },
-                defaultValue: { summary: "full" },
-            },
-        },
-        placeholder: {
-            description: "The placeholder text for the search box",
-            defaultValue: "Customer name or tag",
-            control: { type: "text" },
-            table: {
-                type: { summary: null },
-                defaultValue: { summary: "Customer name or tag" },
-            },
-        },
-        previewEnabled: {
-            description: "If a preview of the search results should be shown",
-            control: { type: "boolean" },
-            defaultValue: true,
-            table: {
-                type: { summary: null },
-                defaultValue: { summary: true },
-            },
-        },
-        searchFn: {
-            description: "This function is required to make an API call and return the results to the search component",
-            type: { required: true },
-            control: { type: "function" },
-        },
-        onClear: {
-            description: "Callback invoked when the text field is cleared",
-            control: { type: "function" },
-        },
-        onSelect: {
-            description: "Callback invoked when with the results of the search",
-            type: { required: true },
-            control: { type: "function" },
-        },
-        resultItem: {
-            description:
-                "This function should return React elements to describe the elements of search results in the preview dropdown. Not required if `previewEnabled` is `false`",
-            type: { required: true },
-            control: { type: "function" },
-        },
-    },
 };
 
-export const Default = ({ idLength = 20, previewEnabled = true, size = "full" }) => {
-    const [matchingRecords, setMatchingRecord] = useState([]);
+const fetchUsers = async (search) => {
+    const results = await fetch("https://dummyapi.io/data/api/user?limit=10", {
+        headers: { "app-id": "lTE5abbDxdjGplutvTuc" }, // Some random dude's API key.
+    });
 
-    const searchFn = async (term) => {
-        setMatchingRecord([]);
-        const results = await fetch("https://dummyapi.io/data/api/user?limit=10", {
-            headers: { "app-id": "lTE5abbDxdjGplutvTuc" }, // Some random dude's API key
-        });
+    const response = await results.json();
+    return response.data.filter((user) => JSON.stringify(user).toLowerCase().includes(search.toLowerCase()));
+};
 
-        const resp = await results.json();
-        setMatchingRecord(resp.data);
-        return resp.data;
+export const Default = () => {
+    const [loading, setLoading] = useState(false);
+    const [items, setItems] = useState([]);
+
+    const handleSelect = (item) => {
+        console.log(`You selected "${item.firstName}"`);
     };
 
-    const resultItem = (key, ref, result, isActive) => {
-        const onClickItem = (e) => {
-            const resultId = e.target.getAttribute("data-id");
-            const record = matchingRecords.filter((r) => r.id === resultId);
-            setMatchingRecord(record);
-        };
+    const handleSubmit = (inputValue) => {
+        console.log(`You submitted "${inputValue}"`);
+    };
 
-        return (
-            <li
-                key={key}
-                data-id={result.id}
-                onClick={onClickItem}
-                className={clsx("group p-2 text-black hover:text-white hover:bg-blue-light flex hover:cursor-pointer", {
-                    "bg-blue-light text-white p-2": isActive,
-                })}
-                ref={ref}
-            >
-                <div className="flex">
-                    <img className="w-12 h-12 rounded-full" src={result.picture} />
+    const handleType = async (inputValue) => {
+        setLoading(true);
+        const items = await fetchUsers(inputValue);
+        setItems(items);
+        setLoading(false);
+    };
+
+    return (
+        <Search
+            items={items}
+            itemToString={(item) => item.firstName}
+            onType={handleType}
+            onSubmit={handleSubmit}
+            onSelect={handleSelect}
+            loading={loading}
+        >
+            {(item, active) => (
+                <div
+                    className={clsx(
+                        "group p-2 flex cursor-pointer",
+                        active ? "bg-blue-light text-white p-2" : "text-black",
+                    )}
+                >
+                    <img className="w-12 h-12 rounded-full" src={item.picture} />
+
                     <div className="pl-3">
                         <div>
-                            {result.firstName} {result.lastName}
+                            {item.firstName} {item.lastName}
                         </div>
+
                         <div
                             className={clsx(
                                 "text-sm",
-                                isActive ? "text-white" : "text-gray-dark",
+                                active ? "text-white" : "text-gray-dark",
                                 "group-hover:text-white",
                             )}
                         >
-                            {result.email}
+                            {item.email}
                         </div>
                     </div>
                 </div>
-            </li>
-        );
-    };
-
-    const onSelect = (selectedItem) => {
-        // console.log('onSelect', selectedItem);
-        if (previewEnabled && selectedItem && selectedItem !== "all") {
-            setMatchingRecord(selectedItem);
-        }
-    };
-
-    const onClear = () => console.info("Search term cleared");
-
-    return (
-        <>
-            <Search
-                size={size}
-                searchFn={searchFn}
-                idLength={idLength}
-                previewEnabled={previewEnabled}
-                resultItem={resultItem}
-                onSelect={onSelect}
-                onClear={onClear}
-            />
-            <div className="my-5 search-results">
-                <div className="pb-2 text-xl">Search Results ({matchingRecords.length})</div>
-                <div className="font-mono whitespace-pre search-data">
-                    {matchingRecords && matchingRecords.length > 0 && JSON.stringify(matchingRecords, null, 4)}
-                </div>
-            </div>
-        </>
+            )}
+        </Search>
     );
+};
+
+export const Simple = () => {
+    const handleSubmit = (inputValue) => {
+        console.log(`You submitted "${inputValue}"`);
+    };
+
+    return <Search onSubmit={handleSubmit} />;
 };
