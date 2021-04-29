@@ -20,12 +20,12 @@ export const Login = ({ className, onSubmit, ...rest }) => {
     };
 
     return (
-        <div className="flex flex-col h-screen login-container bg-opacity-40 bg-blue-lighter">
+        <div className="flex flex-col h-screen login-container bg-opacity-40 bg-white">
             <div className="flex-grow">
-                <div className="flex flex-col items-center justify-center w-full h-full space-y-8">
-                    <div className="py-10 rounded-lg w-82 px-9 md:bg-white">
+                <div className="flex flex-col items-center justify-center w-full h-screen md:full space-y-8">
+                    <div className="px-9 py-0 md:py-10 rounded-lg w-82 md:opacity-90 md:bg-white">
                         {/* md:w-2/5 */}
-                        <div className="mb-4 md:mb-10">
+                        <div className="mb-12 md:mb-10">
                             <img
                                 className="w-auto h-10 mx-auto md:h-12 md:mb-20 "
                                 src="https://www.xola.com/images/xola-logo-black-small.png"
