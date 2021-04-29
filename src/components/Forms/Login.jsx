@@ -1,5 +1,7 @@
 import React from "react";
-import { LockIcon } from "../../icons/LockIcon";
+import { FormGroup } from "../Forms/FormGroup";
+import { Label } from "../Forms/Label";
+import { Input } from "../Forms/Input";
 import { Button } from "../Button";
 
 const links = [
@@ -33,30 +35,34 @@ export const Login = ({ className, onSubmit, ...rest }) => {
                             />
                         </div>
                         <form className="space-y-6" onSubmit={onClick}>
-                            <div className="-space-y-px bg-white rounded-md shadow-sm">
-                                <div>
-                                    {/* Change component */}
-                                    <input
-                                        id="email-address"
-                                        name="email"
-                                        type="email"
-                                        autoComplete="email"
-                                        required
-                                        className="relative block w-full px-3 py-1 text-sm border rounded-none appearance-none md:px-3 md:py-2 border-gray-dark text-gray-darker placeholder-dark rounded-t-md focus:outline-none focus:ring-primary focus:border-blue-dark focus:z-10 sm:text-sm"
-                                        placeholder="Email address"
-                                    />
+                            <div className="-space-y-px bg-white rounded-md">
+                                <div className="md:mb-7">
+                                    <FormGroup>
+                                        <Label>Email Address</Label>
+                                        <input
+                                            id="email-address"
+                                            name="email"
+                                            type="email"
+                                            autoComplete="email"
+                                            required
+                                            className="relative block w-full px-3 py-1 text-sm rounded-md appearance-none md:px-3 md:py-2 border-gray-light text-gray-darker placeholder-dark focus:outline-none focus:ring-primary focus:border-blue-dark focus:z-10 sm:text-sm"
+                                            placeholder=""
+                                        />
+                                    </FormGroup>
                                 </div>
                                 <div>
-                                    {/* Change component */}
-                                    <input
-                                        id="password"
-                                        name="password"
-                                        type="password"
-                                        autoComplete="current-password"
-                                        required
-                                        className="relative block w-full px-3 py-1 text-sm border rounded-none appearance-none y-1 md:px-3 md:py-2 border-gray-dark placeholder-darker text-gray-darker rounded-b-md focus:outline-none focus:ring-primary focus:blue-dark focus:z-10 sm:text-sm"
-                                        placeholder="Password"
-                                    />
+                                    <FormGroup>
+                                        <Label>Password</Label>
+                                        <input
+                                            id="password"
+                                            name="password"
+                                            type="password"
+                                            autoComplete="current-password"
+                                            required
+                                            className="relative block w-full px-3 py-1 text-sm border border-gray-light rounded-md appearance-none y-1 md:px-3 md:py-2  placeholder-darker text-gray-darker rounded-b-md focus:outline-none focus:ring-primary focus:blue-dark focus:z-10 sm:text-sm"
+                                            placeholder=""
+                                        />
+                                    </FormGroup>
                                 </div>
                             </div>
 
