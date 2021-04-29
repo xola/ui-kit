@@ -1,7 +1,7 @@
 import React from "react";
 
 export default {
-    title: "Components/Text/Paragraph",
+    title: "Components/Others/Paragraph",
 };
 
 export const Default = () => {
