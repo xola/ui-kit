@@ -104,21 +104,21 @@ export const Search = ({
     // Show dropdown only when `isOpen` is set to `true` and there are items in the list.
     const open = isOpen && itemList.length > 0;
 
-    // Keyboard shortcuts.
+    // Keyboard shortcuts
     useHotkeys("ctrl+k", () => inputRef.current.focus());
     useHotkeys("cmd+k", () => inputRef.current.focus());
 
     return (
-        <div>
-            <div {...getComboboxProps({ className: "mt-1 relative rounded-md" })}>
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <SearchIcon className="h-4 w-4 text-gray" />
+        <div className="w-full relative">
+            <div {...getComboboxProps({ className: "w-full mt-1 relative rounded-md" })}>
+                <div className="absolute inset-y-0 top-[-2px] left-0 pl-3 flex items-center pointer-events-none">
+                    <SearchIcon className="h-4 w-4 text-gray-darker" />
                 </div>
 
                 <input
                     {...getInputProps({
                         type: "text",
-                        className: clsx(className, "focus:ring-0 border-none block w-full pl-10"),
+                        className: clsx(className, "block w-full border-none pl-10 text-gray-darker leading-p2 focus:ring-0"),
                         ref: inputRef,
                         onFocus: handleInputFocus,
                         onBlur: () => setShowShortcutKey(true),
@@ -132,10 +132,11 @@ export const Search = ({
                 </div>
             </div>
 
+            {/* Here */}
             <ul
                 {...getMenuProps({
                     className: clsx(
-                        "absolute bg-white divide-y divide-gray-light w-3/6 border border-blue-light mt-1 rounded overflow-hidden z-50",
+                        "absolute top-10 left-10 divide-y divide-gray-light w-3/6 border border-blue-light mt-1 rounded overflow-hidden z-50",
                         { hidden: !open },
                     ),
                 })}

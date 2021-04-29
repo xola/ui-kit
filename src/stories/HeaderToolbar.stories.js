@@ -9,28 +9,25 @@ export default {
 export const Default = () => {
     return (
         <HeaderToolbar>
-            <Breadcrumb className="text-xl border-r pr-8 border-gray-light">
+            <HeaderToolbar.Breadcrumb>
                 <Breadcrumb.Item>Seller</Breadcrumb.Item>
-                <Breadcrumb.Item>Lasting Adventures with a long name</Breadcrumb.Item>
-            </Breadcrumb>
-
-            <Search
-                previewEnabled={false}
-                className="border-none"
-                onSelect={() => {
+                <Breadcrumb.Item>Lasting Adventures</Breadcrumb.Item>
+            </HeaderToolbar.Breadcrumb>
+            <HeaderToolbar.Search
+                placeholder="Search for seller"
+                onSubmit={() => {
                     alert("Search bar not implemented");
                 }}
             />
-
             <Switch.Group>
                 <Switch.Label direction="left" className="text-base">
                     Enable
                 </Switch.Label>
 
-                <Switch size="small" />
+                <Switch size="medium" />
             </Switch.Group>
 
-            <Button size="small">Impersonate</Button>
+            <Button size="medium" color="success">Impersonate</Button>
         </HeaderToolbar>
     );
 };
