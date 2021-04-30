@@ -118,7 +118,10 @@ export const Search = ({
                 <input
                     {...getInputProps({
                         type: "text",
-                        className: clsx(className, "block w-full border-none pl-10 text-gray-darker leading-p2 focus:ring-0"),
+                        className: clsx(
+                            className,
+                            "block w-full border-none pl-10 text-gray-darker leading-p2 focus:ring-0",
+                        ),
                         ref: inputRef,
                         onFocus: handleInputFocus,
                         onBlur: () => setShowShortcutKey(true),
@@ -136,7 +139,7 @@ export const Search = ({
             <ul
                 {...getMenuProps({
                     className: clsx(
-                        "absolute top-10 left-10 divide-y divide-gray-light w-3/6 border border-blue-light mt-1 rounded overflow-hidden z-50",
+                        "absolute top-10 left-10 divide-y divide-gray-light w-96 border border-blue-light mt-1 rounded overflow-hidden z-50 bg-white",
                         { hidden: !open },
                     ),
                 })}
