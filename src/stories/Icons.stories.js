@@ -39,7 +39,7 @@ export default {
     },
 };
 
-export const Default14Px = ({color}) => {
+export const Default14Px = ({ color }) => {
     return (
         <div className="flex flex-row flex-wrap gap-3">
             {icons.map((Icon, index) => (
@@ -52,7 +52,7 @@ export const Default14Px = ({color}) => {
     );
 };
 
-export const Medium18px = ({color}) => {
+export const Medium18px = ({ color }) => {
     return (
         <div className="flex flex-row flex-wrap gap-8">
             {icons.map((Icon, index) => (
@@ -65,7 +65,7 @@ export const Medium18px = ({color}) => {
     );
 };
 
-export const Large32px = ({color}) => {
+export const Large32px = ({ color }) => {
     return (
         <div className="flex flex-row flex-wrap gap-8">
             {icons.map((Icon, index) => (

@@ -4,7 +4,12 @@ import { Breadcrumb, Search } from "..";
 
 export const HeaderToolbar = ({ classNames, children }) => {
     return (
-        <div className={clsx("header-toolbar flex w-full px-10 py-5 pb-6 space-x-6 border-b border-gray-light", classNames)}>
+        <div
+            className={clsx(
+                "header-toolbar flex w-full px-10 py-5 pb-6 space-x-6 border-b border-gray-light",
+                classNames,
+            )}
+        >
             {children}
         </div>
     );

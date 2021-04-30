@@ -27,7 +27,9 @@ export const Default = () => {
                 <Switch size="medium" />
             </Switch.Group>
 
-            <Button size="medium" color="success">Impersonate</Button>
+            <Button size="medium" color="success">
+                Impersonate
+            </Button>
         </HeaderToolbar>
     );
 };
