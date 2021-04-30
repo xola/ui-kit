@@ -25,7 +25,7 @@ export const Login = ({ className, onSubmit, ...rest }) => {
         <div className="flex flex-col h-screen login-container bg-opacity-40 bg-white">
             <div className="flex-grow">
                 <div className="flex flex-col items-center justify-center w-full h-screen md:full space-y-8">
-                    <div className="px-9 py-0 md:py-10 rounded-lg w-82 md:opacity-90 md:bg-white">
+                    <div className="px-9 py-0 md:py-10 rounded-lg w-82 md:bg-white">
                         {/* md:w-2/5 */}
                         <div className="mb-12 md:mb-10">
                             <img
