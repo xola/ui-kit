@@ -7,7 +7,7 @@ export default {
 };
 
 const fetchUsers = async (search) => {
-    const results = await fetch("https://dummyapi.io/data/api/user?limit=10", {
+    const results = await fetch("https://dummyapi.io/data/api/user?limit=100", {
         headers: { "app-id": "lTE5abbDxdjGplutvTuc" }, // Some random dude's API key.
     });
 
