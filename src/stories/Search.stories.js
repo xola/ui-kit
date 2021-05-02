@@ -29,6 +29,7 @@ export const Default = () => {
 
     const handleType = async (inputValue) => {
         setLoading(true);
+        setItems([]);
         const items = await fetchUsers(inputValue);
         setItems(items);
         setLoading(false);
@@ -37,7 +38,7 @@ export const Default = () => {
     return (
         <Search
             items={items}
-            itemToString={(item) => item && item.firstName || ""}
+            itemToString={(item) => item?.firstName ?? ""}
             onChange={handleType}
             onSubmit={handleSubmit}
             onSelect={handleSelect}
