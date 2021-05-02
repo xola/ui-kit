@@ -11,6 +11,7 @@ const colors = {
 };
 
 const sizes = {
+    xsmall: "w-5 h-5",
     small: "w-7 h-7",
     medium: "w-10 h-10",
     large: "w-14 h-14",
