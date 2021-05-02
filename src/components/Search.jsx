@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { useCombobox } from "downshift";
 import debounce from "lodash/debounce";
 import PropTypes from "prop-types";
-import React, { useRef, useState } from "react";
+import React, { Fragment, useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { SearchIcon } from "../icons/SearchIcon";
 import { Spinner } from "./Spinner";
@@ -134,7 +134,6 @@ export const Search = ({
 
                 <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                     {showShortcutKey ? <ShortcutKey /> : null}
-                    {loading ? <Spinner size="small" /> : null}
                 </div>
             </div>
 
@@ -151,14 +150,22 @@ export const Search = ({
                     ? itemList.map((item, index) => (
                           <li {...getItemProps({ key: index, item, index, disabled: isDisabled(item) })}>
                               {item === submitValueItem ? (
-                                  <div
-                                      className={clsx(
-                                          "p-2 cursor-pointer",
-                                          highlightedIndex === index ? "bg-blue-light text-white" : "",
-                                      )}
-                                  >
-                                      Show all results for <strong>{inputValue}</strong>
-                                  </div>
+                                  <Fragment>
+                                      <div
+                                          className={clsx(
+                                              "p-2 cursor-pointer",
+                                              highlightedIndex === index ? "bg-blue-light text-white" : "",
+                                          )}
+                                      >
+                                          Show all results for <strong>{inputValue}</strong>
+                                      </div>
+
+                                      {loading ? (
+                                          <div className="p-3 text-center">
+                                              <Spinner size="small" />
+                                          </div>
+                                      ) : null}
+                                  </Fragment>
                               ) : (
                                   children?.(item, highlightedIndex === index)
                               )}
