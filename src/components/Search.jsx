@@ -51,7 +51,7 @@ export const Search = ({
     const submitValueItem = { value: inputValue };
 
     // List of all items, including the submit value item.
-    const itemList = inputValue ? [submitValueItem, ...items] : items;
+    const itemList = inputValue ? [submitValueItem, ...items] : [];
 
     const handleSelectedItemChange = ({ selectedItem }) => {
         if (selectedItem === submitValueItem) {
@@ -106,6 +106,8 @@ export const Search = ({
 
     // Show dropdown only when `isOpen` is set to `true` and there are items in the list.
     const open = isOpen && itemList.length > 0;
+    const noResultFound = isOpen && inputValue.length > 0 && !loading && itemList.length <= 1;
+    console.log("no result?", noResultFound, inputValue, inputValue.length); // For debugging. Remove later
 
     // Keyboard shortcuts
     useHotkeys("ctrl+k", () => inputRef.current.focus());
@@ -172,6 +174,7 @@ export const Search = ({
                           </li>
                       ))
                     : null}
+                {open && noResultFound ? <li className="p-2 cursor-not-allowed">No results found</li> : ""}
             </ul>
         </div>
     );

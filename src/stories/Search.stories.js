@@ -37,8 +37,8 @@ export const Default = () => {
     return (
         <Search
             items={items}
-            itemToString={(item) => item.firstName}
-            onType={handleType}
+            itemToString={(item) => item && item.firstName || ""}
+            onChange={handleType}
             onSubmit={handleSubmit}
             onSelect={handleSelect}
             loading={loading}
