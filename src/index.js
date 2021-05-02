@@ -24,6 +24,7 @@ export { Tabs } from "./components/Tabs";
 
 // Utilities
 export { Currency } from "./components/Utilities/Currency";
+export { Phone } from "./components/Utilities/Phone";
 
 // Icons.
 export { AddSquareIcon } from "./icons/AddSquareIcon";
