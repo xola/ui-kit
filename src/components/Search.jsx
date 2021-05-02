@@ -19,17 +19,12 @@ const ShortcutKey = () => {
 
 const callDebounced = debounce((fn, value) => fn(value), 500);
 
-const pickFirstValueFromObject = (object) => {
-    const [firstKey] = Object.keys(object);
-    return object[firstKey];
-};
-
 /**
  * @param {string?}     props.className     Class name to apply to the input.
  * @param {any[]?}      props.items         Items to display in the dropdown menu.
  * @param {Function?}   props.itemToString  Convert item to string for showing it in the input.
- * @param {string?}     props.value         Search input default value.
- * @param {Function?}   props.onChange      Called when search input value is changed.
+ * @param {string?}     props.defaultValue  Search input default value.
+ * @param {Function?}   props.onChange      Debounced callback when search input is changed.
  * @param {Function}    props.onSubmit      Called when search input value is selected.
  * @param {Function?}   props.onSelect      Called when item is selected.
  * @param {Function?}   props.children      Render prop for items.
@@ -38,10 +33,9 @@ const pickFirstValueFromObject = (object) => {
 export const Search = ({
     className,
     items = [],
-    itemToString = pickFirstValueFromObject,
-    value = "",
+    itemToString,
+    defaultValue,
     onChange,
-    onType,
     onSubmit,
     onSelect,
     children,
@@ -49,7 +43,7 @@ export const Search = ({
     ...rest
 }) => {
     const [showShortcutKey, setShowShortcutKey] = useState(true);
-    const [inputValue, setInputValue] = useState(value);
+    const [inputValue, setInputValue] = useState(defaultValue ?? "");
     const inputRef = useRef();
 
     // Placeholder item for the current search input value.
@@ -67,10 +61,19 @@ export const Search = ({
         }
     };
 
-    const handleInputChange = ({ inputValue }) => {
+    const handleInputChange = ({ inputValue, selectedItem }) => {
         setInputValue(inputValue);
-        onChange && onChange(inputValue);
-        onType && callDebounced(onType, inputValue);
+
+        // Downshift will trigger another `onChange` call after we select an item.
+        // This will prevent that.
+        if (!selectedItem && onChange) {
+            callDebounced(onChange, inputValue);
+        }
+    };
+
+    // By default we will not change the search input after an item is selected.
+    const defaultItemToString = () => {
+        return inputValue;
     };
 
     const {
@@ -85,7 +88,7 @@ export const Search = ({
         items: itemList,
         inputValue,
         onInputValueChange: handleInputChange,
-        itemToString,
+        itemToString: itemToString ?? defaultItemToString,
         defaultHighlightedIndex: 0,
         onSelectedItemChange: handleSelectedItemChange,
     });
@@ -171,8 +174,8 @@ Search.propTypes = {
     className: PropTypes.string,
     items: PropTypes.arrayOf(PropTypes.any),
     itemToString: PropTypes.func,
-    value: PropTypes.string,
-    onType: PropTypes.func,
+    defaultValue: PropTypes.string,
+    onChange: PropTypes.func,
     onSubmit: PropTypes.func,
     onSelect: PropTypes.func,
     children: PropTypes.func,
