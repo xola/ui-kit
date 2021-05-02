@@ -37,7 +37,7 @@ export const Phone = ({ countryCode = "US", className, children }) => {
             </span>
         );
     } catch (err) {
-        console.log("Invalid phone number", number, err.message);
+        // console.log("Invalid phone number", number, err.message);
     }
 
     return (

@@ -5,9 +5,14 @@ import getUserLocale from "get-user-locale";
 
 const userLocale = getUserLocale();
 
-export const Currency = ({ currency = "USD", locale = userLocale, removeTrailingZeroes = true, children }) => {
+export const Currency = ({
+    currency = "USD",
+    locale = userLocale,
+    removeTrailingZeroes = true,
+    maximumFractionDigits = 2, children,
+}) => {
     const amount = children;
-    let formattedAmount = format(amount, currency, locale, isZeroDecimal(currency) ? 0 : 2);
+    let formattedAmount = format(amount, currency, locale, isZeroDecimal(currency) ? 0 : maximumFractionDigits);
     formattedAmount = removeTrailingZeroes ? formattedAmount.replace(".00", "") : formattedAmount;
 
     return <span className="currency-formatted-amount">{formattedAmount}</span>;
