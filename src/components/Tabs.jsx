@@ -22,7 +22,7 @@ Tabs.Tab = ({ className, active, as = "button", ...rest }) => {
     return createElement(as, {
         className: clsx(
             className,
-            "cursor-pointer py-3 px-5 flex-1 text-center text-base whitespace-nowrap font-bold border-b transition-colors",
+            "cursor-pointer py-3 w-full text-center text-base whitespace-nowrap font-bold border-b transition-colors",
             active
                 ? "border-primary text-black"
                 : "border-gray-light text-gray-dark hover:text-gray-darker hover:border-gray",
