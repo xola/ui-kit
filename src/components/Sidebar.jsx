@@ -10,7 +10,7 @@ export const Sidebar = ({ children, footer, notifications, fixed }) => {
         <div
             className={clsx(
                 fixed ? "fixed" : "relative",
-                "w-24 lg:w-56 h-screen p-2 overflow-y-auto bg-black text-white",
+                "w-24 lg:w-48 h-screen p-2 overflow-y-auto bg-black text-white",
             )}
         >
             {notifications ? (
