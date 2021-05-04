@@ -1,7 +1,7 @@
-import React from "react";
-import { format, roundNumber } from "../../helpers/numbers";
-import { isZeroDecimal } from "../../helpers/currency";
 import getUserLocale from "get-user-locale";
+import React from "react";
+import { isZeroDecimal } from "../../helpers/currency";
+import { format, roundNumber } from "../../helpers/numbers";
 
 const userLocale = getUserLocale();
 
@@ -9,7 +9,8 @@ export const Currency = ({
     currency = "USD",
     locale = userLocale,
     removeTrailingZeroes = true,
-    maximumFractionDigits = 2, children,
+    maximumFractionDigits = 2,
+    children,
 }) => {
     const amount = children;
     let formattedAmount = format(amount, currency, locale, isZeroDecimal(currency) ? 0 : maximumFractionDigits);

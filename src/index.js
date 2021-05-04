@@ -21,6 +21,7 @@ export { Label } from "./components/Forms/Label";
 export { Login } from "./components/Forms/Login";
 export { HeaderToolbar } from "./components/HeaderToolbar";
 export { Tabs } from "./components/Tabs";
+export { Skeleton } from "./components/Skeleton";
 
 // Utilities
 export { Currency } from "./components/Utilities/Currency";
