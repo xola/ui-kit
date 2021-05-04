@@ -83,5 +83,5 @@ $ npm run dev
 ```bash
 $ npm pack
 $ cd your-project
-$ npm install ../xola-ui-kit/xola-ui-kit@{version}.tgz
+$ npm install ../xola-ui-kit/xola-ui-kit@{version}.tgz --no-save
 ```
