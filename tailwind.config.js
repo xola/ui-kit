@@ -68,8 +68,8 @@ module.exports = {
         path.join(__dirname, "build/xola-ui-kit.umd.js"),
 
         // TODO: Remove these after xola-ui-kit is published on npm.
-        "../xola-ui-kit/src/**/*.js",
-        "../xola-ui-kit/src/**/*.jsx",
+        path.join(__dirname, "src/**/*.js"),
+        path.join(__dirname, "src/**/*.jsx"),
     ],
 
     theme: {
