@@ -56,7 +56,7 @@ export const USCountryAndIntlNumber = () => {
     const results = ["+919538057572", "9538057572", "612745471", "+16475368727"].map((number) => {
         return formatAndReturn("US", number);
     });
-    return <span className="space-y-4">{results}</span>
+    return <span className="space-y-4">{results}</span>;
 };
 
 export const SellerPhoneNumbers = () => {
