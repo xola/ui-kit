@@ -66,7 +66,10 @@ module.exports = {
         "./src/**/*.ts",
         "./src/**/*.tsx",
         path.join(__dirname, "build/xola-ui-kit.umd.js"),
-        "../xola-ui-kit/build/xola-ui-kit.umd.js", // TODO: Remove after xola-ui-kit is published on npm.
+
+        // TODO: Remove these after xola-ui-kit is published on npm.
+        "../xola-ui-kit/src/**/*.js",
+        "../xola-ui-kit/src/**/*.jsx",
     ],
 
     theme: {
