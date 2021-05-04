@@ -115,7 +115,7 @@ export const Search = ({
 
     return (
         <div className="w-full relative">
-            <div {...getComboboxProps({ className: "w-full mt-1 relative rounded-md" })}>
+            <div {...getComboboxProps({ className: "w-full relative rounded-md" })}>
                 <div className="absolute inset-y-0 top-[-2px] left-0 pl-3 flex items-center pointer-events-none">
                     <SearchIcon className="h-4 w-4 text-gray-darker" />
                 </div>
