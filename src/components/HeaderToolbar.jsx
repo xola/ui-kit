@@ -18,8 +18,7 @@ export const HeaderToolbar = ({ classNames, children }) => {
 HeaderToolbar.Breadcrumb = ({ children }) => {
     return (
         <>
-            <Breadcrumb className="text-xl h-full flex items-center flex-grow-0">{children}</Breadcrumb>
-            <span className="w-1 border-r border-gray-light" />
+            <Breadcrumb className="text-xl border-r border-gray-light pr-10">{children}</Breadcrumb>
         </>
     );
 };
