@@ -6,8 +6,8 @@ import "tippy.js/dist/tippy.css"; // If we customize the style, the change this 
 export const Tooltip = ({ children, ...rest }) => {
     return (
         <Tippy {...rest} className="text-white xola-tooltip" plugins={[followCursor]}>
-            {/* Needs a fragment otherwise causes problem when you wrap another component like Badge */}
-            <>{children}</>
+            {/* If you put a Badge inside the Tooltip it will cause a layout issue. To be fixed */}
+            <span>{children}</span>
         </Tippy>
     );
 };
