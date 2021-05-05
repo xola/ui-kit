@@ -134,7 +134,7 @@ export const Search = ({
                     })}
                 />
 
-                <div className="hidden lg:flex items-center absolute inset-y-0 right-0 pr-3 pointer-events-none">
+                <div className="hidden xl:flex items-center absolute inset-y-0 right-0 pr-3 pointer-events-none">
                     {showShortcutKey ? <ShortcutKey /> : null}
                 </div>
             </div>
