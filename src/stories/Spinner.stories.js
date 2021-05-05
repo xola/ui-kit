@@ -7,16 +7,17 @@ export default {
     argTypes: {
         color: {
             type: { required: true },
-            defaultValue: "standard",
-            options: ["standard", "primary", "secondary", "success", "warning", "danger"],
+            defaultValue: "secondary",
+            options: ["primary", "secondary", "success", "warning", "danger", "caution", "current"],
             control: { type: "select" },
             table: {
                 type: { summary: null },
-                defaultValue: { summary: "standard" },
+                defaultValue: { summary: "secondary" },
             },
         },
         size: {
-            options: ["small", "medium", "large"],
+            defaultValue: "small",
+            options: ["small", "medium", "large", "current"],
             control: { type: "select" },
             table: {
                 type: { summary: null },

@@ -9,7 +9,7 @@ export const Phone = ({ countryCode = "US", className, children }) => {
 
     try {
         let phoneObj = phoneUtil.parseAndKeepRawInput(number, countryCode);
-        
+
         const regionCode = phoneUtil.getRegionCodeForNumber(phoneObj);
         if (regionCode && regionCode !== countryCode) {
             // If the region code is different than what was passed in, reparse according to that format

@@ -14,7 +14,9 @@ export const Skeleton = ({ width = "w-full", color = "bg-gray-light", children }
                                     "skeleton-box relative group-hover:scale-110 transition-transform transform-center block h-full",
                                 )}
                             >
-                                <div className="text-gray-dark uppercase text-md h-full flex items-center justify-center">{children}</div>
+                                <div className="text-gray-dark uppercase text-md h-full flex items-center justify-center">
+                                    {children}
+                                </div>
                             </span>
                         </div>
                     </div>
