@@ -6,7 +6,7 @@ export const HeaderToolbar = ({ classNames, children }) => {
     return (
         <div
             className={clsx(
-                "header-toolbar flex items-center w-full px-10 py-5 pb-6 space-x-6 border-b border-gray-light",
+                "header-toolbar flex items-center w-full px-5 pr-3 py-3 xl:px-6 xl:py-5 space-x-6 border-b border-gray-light",
                 classNames,
             )}
         >
