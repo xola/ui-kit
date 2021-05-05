@@ -116,7 +116,7 @@ export const Search = ({
     return (
         <div className="w-full relative">
             <div {...getComboboxProps({ className: "w-full relative rounded-md" })}>
-                <div className="absolute inset-y-0 top-[-2px] left-0 pl-3 flex items-center pointer-events-none">
+                <div className="absolute inset-y-0 top-[-2px] left-0 hidden md:flex items-center pointer-events-none">
                     <SearchIcon className="h-4 w-4 text-gray-darker" />
                 </div>
 
@@ -125,7 +125,7 @@ export const Search = ({
                         type: "text",
                         className: clsx(
                             className,
-                            "block w-full border-none pl-10 text-gray-darker leading-p2 focus:ring-0",
+                            "block w-full border-none pl-0 md:pl-7 text-base md:text-md text-gray-darker leading-p2 focus:ring-0",
                         ),
                         ref: inputRef,
                         onFocus: handleInputFocus,
@@ -143,7 +143,7 @@ export const Search = ({
             <ul
                 {...getMenuProps({
                     className: clsx(
-                        "absolute top-10 left-10 divide-y divide-gray-light w-2/3 max-h-[75vh] border border-blue-light mt-1 rounded overflow-auto z-50 bg-white",
+                        "absolute top-10 divide-y divide-gray-light w-full xl:w-2/3 max-h-[75vh] border border-blue-light mt-1 rounded overflow-auto z-50 bg-white",
                         { hidden: !open },
                     ),
                 })}

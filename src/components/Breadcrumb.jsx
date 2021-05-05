@@ -24,7 +24,7 @@ export const Breadcrumb = ({ className, classNames = {}, separator = "/", childr
 };
 
 Breadcrumb.Item = ({ className, children }) => {
-    return <div className={clsx(className, "inline")}>{children}</div>;
+    return <div className={clsx("inline", className)}>{children}</div>;
 };
 
 Breadcrumb.Item.displayName = "Breadcrumb.Item";

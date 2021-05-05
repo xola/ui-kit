@@ -5,12 +5,13 @@ import { XolaLogoCircle } from "../images/XolaLogoCircle";
 import { Avatar } from "./Avatar";
 import { NotificationCount } from "./NotificationCount";
 
-export const Sidebar = ({ children, footer, notifications, fixed }) => {
+export const Sidebar = ({ children, className, footer, notifications, fixed }) => {
     return (
         <div
             className={clsx(
                 fixed ? "fixed" : "relative",
-                "w-24 xl:w-48 h-screen p-2 overflow-y-auto bg-black text-white",
+                "w-16 md:w-24 xl:w-48 h-screen p-2 overflow-y-auto bg-black text-white",
+                className,
             )}
         >
             {notifications ? (
@@ -52,9 +53,10 @@ Sidebar.Link.displayName = "Sidebar.Link";
 
 Sidebar.Footer = ({ name }) => {
     return (
-        <div className="absolute bottom-0 left-0 w-full px-6 pb-6">
+        <div className="absolute bottom-0 left-0 w-full px-3 md:px-6 pb-6">
             <div className="pt-3 border-t border-secondary-darker">
-                <Avatar className="mr-2" size="small" name={name} /> <span className="hidden xl:inline">{name}</span>
+                <Avatar className="mr-2" size="small" name={name} />{" "}
+                <span className="hidden xl:inline">{name}</span>
             </div>
         </div>
     );
