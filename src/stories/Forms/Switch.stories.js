@@ -1,5 +1,5 @@
 import React from "react";
-import { Input, Label, FormGroup, Switch } from "../..";
+import { Switch } from "../..";
 
 export default {
     primary: true,
@@ -12,6 +12,15 @@ export default {
         },
     },
     argTypes: {
+        checked: {
+            defaultValue: true,
+            description: "If the switch should be enabled",
+            control: { type: "boolean" },
+            table: {
+                type: { summary: null },
+                defaultValue: { summary: "true" },
+            },
+        },
         size: {
             description: "Switch Size",
             defaultValue: "medium",
@@ -25,12 +34,12 @@ export default {
     },
 };
 
-export const Default = ({ size }) => {
-    return <Switch size={size} />;
+export const Default = ({ checked, size }) => {
+    return <Switch checked={checked} size={size} />;
 };
 
-export const Small = () => {
-    return <Switch size="small" />;
+export const Small = ({ checked }) => {
+    return <Switch checked={checked} size="small" />;
 };
 
 export const SwitchWithLabel = () => {

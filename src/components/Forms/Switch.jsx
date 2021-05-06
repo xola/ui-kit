@@ -20,8 +20,8 @@ const sizes = {
     },
 };
 
-export const Switch = ({ size = "medium" }) => {
-    const [enabled, setEnabled] = useState(false);
+export const Switch = ({ checked = true, size = "medium", ...rest }) => {
+    const [enabled, setEnabled] = useState(checked);
 
     return (
         <HeadlessSwitch
@@ -32,6 +32,7 @@ export const Switch = ({ size = "medium" }) => {
                 "switch relative inline-flex flex-shrink-0 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none",
                 sizes[size].parent,
             )}
+            {...rest}
         >
             <span
                 className={clsx(
