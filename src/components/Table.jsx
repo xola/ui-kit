@@ -20,7 +20,7 @@ Table.Head = ({ className, ...rest }) => {
 Table.Head.displayName = "Table.Head";
 
 Table.Header = ({ className, ...rest }) => {
-    return <th className={clsx(className, "px-6 py-3 text-left text-base font-bold")} {...rest} />;
+    return <th className={clsx(className, "px-6 py-2 text-left text-base font-bold")} {...rest} />;
 };
 
 Table.Header.displayName = "Table.Header";
@@ -49,7 +49,7 @@ Table.Row = (props) => {
 Table.Row.displayName = "Table.Row";
 
 Table.Cell = ({ className, ...rest }) => {
-    return <td className={clsx(className, "px-6 py-4 whitespace-nowrap text-base text-gray-darker")} {...rest} />;
+    return <td className={clsx(className, "px-6 py-2 whitespace-nowrap text-base text-gray-darker")} {...rest} />;
 };
 
 Table.Cell.displayName = "Table.Cell";
