@@ -33,7 +33,6 @@ const callDebounced = debounce((fn, value) => fn(value), 500);
 export const Search = ({
     className,
     items = [],
-    itemToString,
     defaultValue,
     onChange,
     onSubmit,
@@ -56,24 +55,17 @@ export const Search = ({
     const handleSelectedItemChange = ({ selectedItem }) => {
         if (selectedItem === submitValueItem) {
             onSubmit?.(inputValue);
-        } else {
+        } else if (selectedItem) {
             onSelect?.(selectedItem);
         }
+
+        // Always close the menu after an item is selected.
+        closeMenu();
     };
 
-    const handleInputChange = ({ inputValue, selectedItem }) => {
+    const handleInputChange = ({ inputValue }) => {
         setInputValue(inputValue);
-
-        // Downshift will trigger another `onChange` call after we select an item.
-        // This will prevent that.
-        if (!selectedItem && onChange) {
-            callDebounced(onChange, inputValue);
-        }
-    };
-
-    // By default we will not change the search input after an item is selected.
-    const defaultItemToString = () => {
-        return inputValue;
+        onChange && callDebounced(onChange, inputValue);
     };
 
     const {
@@ -84,20 +76,15 @@ export const Search = ({
         getComboboxProps,
         highlightedIndex,
         getItemProps,
+        closeMenu,
     } = useCombobox({
         items: itemList,
         inputValue,
         onInputValueChange: handleInputChange,
-        itemToString: itemToString ?? defaultItemToString,
+        itemToString: () => inputValue, // We will not change the search input after an item is selected.
         defaultHighlightedIndex: 0,
         onSelectedItemChange: handleSelectedItemChange,
     });
-
-    // Items should not be selectable when loading is in progress.
-    // Exception is the submit value item.
-    const isDisabled = (item) => {
-        return loading && item === submitValueItem;
-    };
 
     const handleInputFocus = () => {
         setShowShortcutKey(false);
@@ -107,9 +94,8 @@ export const Search = ({
     // Show dropdown only when `isOpen` is set to `true` and there are items in the list.
     const open = isOpen && itemList.length > 0;
     const noResultFound = isOpen && inputValue.length > 0 && !loading && itemList.length <= 1;
-    // console.log("no result?", noResultFound, inputValue, inputValue.length); // For debugging. Remove later
 
-    // Keyboard shortcuts
+    // Keyboard shortcuts.
     useHotkeys("ctrl+k", () => inputRef.current.focus());
     useHotkeys("cmd+k", () => inputRef.current.focus());
 
@@ -139,7 +125,6 @@ export const Search = ({
                 </div>
             </div>
 
-            {/* Here */}
             <ul
                 {...getMenuProps({
                     className: clsx(
@@ -150,7 +135,7 @@ export const Search = ({
             >
                 {open
                     ? itemList.map((item, index) => (
-                          <li {...getItemProps({ key: index, item, index, disabled: isDisabled(item) })}>
+                          <li {...getItemProps({ key: index, item, index })}>
                               {item === submitValueItem ? (
                                   <Fragment>
                                       <div
@@ -174,7 +159,8 @@ export const Search = ({
                           </li>
                       ))
                     : null}
-                {open && noResultFound ? <li className="p-2 cursor-not-allowed">No results found</li> : ""}
+
+                {open && noResultFound ? <li className="p-2 cursor-not-allowed">No results found</li> : null}
             </ul>
         </div>
     );
