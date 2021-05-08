@@ -14,11 +14,9 @@ export const Sidebar = ({ children, className, footer, notifications, fixed }) =
                 className,
             )}
         >
-            {notifications ? (
-                <div className="p-2 text-center xl:text-left">
-                    <NotificationCount className="text-sm">{notifications}</NotificationCount>
-                </div>
-            ) : null}
+            <div className={clsx("p-2 text-center xl:text-left", notifications ? null : "invisible")}>
+                <NotificationCount className="text-sm">{notifications}</NotificationCount>
+            </div>
 
             <div className="mb-10 text-center">
                 <XolaLogoCircle className="inline-block w-12 h-12 xl:w-24 xl:h-24" />
@@ -55,8 +53,7 @@ Sidebar.Footer = ({ name }) => {
     return (
         <div className="absolute bottom-0 left-0 w-full px-3 md:px-6 pb-6">
             <div className="pt-3 border-t border-secondary-darker">
-                <Avatar className="mr-2" size="small" name={name} />{" "}
-                <span className="hidden xl:inline">{name}</span>
+                <Avatar className="mr-2" size="small" name={name} /> <span className="hidden xl:inline">{name}</span>
             </div>
         </div>
     );
