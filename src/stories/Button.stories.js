@@ -8,11 +8,7 @@ export default {
 };
 
 export const Default = () => {
-    return (
-        <div className="space-x-4">
-            <Button>Default</Button>
-        </div>
-    );
+    return <Button>Default</Button>;
 };
 
 export const Colors = () => {

@@ -2,12 +2,12 @@ import React from "react";
 import clsx from "clsx";
 
 const colors = {
-    primary: "bg-primary border-primary hover:bg-primary-dark hover:border-primary-dark text-white",
-    secondary: "bg-secondary border-secondary hover:bg-secondary-dark hover:border-secondary-dark text-white",
-    success: "bg-success border-success hover:bg-success-dark hover:border-success-dark text-white",
-    warning: "bg-warning border-warning hover:bg-warning-dark hover:border-warning-dark text-white",
-    danger: "bg-danger border-danger hover:bg-danger-dark hover:border-danger-dark text-white text-white",
-    outline: "text-black bg-white border-secondary-dark hover:border-black",
+    primary: "bg-primary hover:bg-primary-dark disabled:bg-primary border-transparent text-white",
+    secondary: "bg-secondary hover:bg-secondary-dark disabled:bg-secondary border-transparent text-white",
+    success: "bg-success hover:bg-success-dark disabled:bg-success border-transparent text-white",
+    warning: "bg-warning hover:bg-warning-dark disabled:bg-warning border-transparent text-white",
+    danger: "bg-danger hover:bg-danger-dark disabled:bg-danger border-transparent text-white",
+    outline: "bg-white border-secondary-dark hover:border-black disabled:border-secondary-dark text-black",
     link: "border-transparent hover:underline",
 };
 
@@ -27,7 +27,7 @@ export const Button = ({ className, color = "primary", size = "medium", iconStar
         <button
             className={clsx(
                 className,
-                "transition-colors border font-semibold focus:ring disabled:opacity-50 disabled:cursor-default rounded-md",
+                "transition-colors border font-semibold focus:ring disabled:opacity-60 disabled:cursor-default rounded-md",
                 colors[color],
                 sizes[size],
             )}
