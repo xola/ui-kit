@@ -5,11 +5,12 @@ import { Alert } from "../Alert";
 import { FormGroup } from "../Forms/FormGroup";
 import { Input } from "../Forms/Input";
 import { Label } from "../Forms/Label";
+import PropTypes from "prop-types";
 import Checkbox from "./Checkbox";
 import "./Login.css";
 
-export const Login = ({ email = "", password = "", remember = false, isLoading = false, error = null, onSubmit }) => {
-    const [values, setValues] = useState({ email, password, remember });
+export const Login = ({ defaultValues, loading = false, error = null, onSubmit }) => {
+    const [values, setValues] = useState({ email: "", password: "", remember: false, ...defaultValues });
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -26,17 +27,6 @@ export const Login = ({ email = "", password = "", remember = false, isLoading =
         onSubmit(values);
     };
 
-    let errorMessage = error && error.message ? error.message : null;
-    const status = error?.response?.status;
-    if (status) {
-        errorMessage = error?.message;
-        if (status === 401) {
-            errorMessage = "Invalid Credentials";
-        } else if (status === 403) {
-            errorMessage = "Access Denied!";
-        }
-    }
-
     return (
         <div className={"login-container h-screen bg-opacity-40 bg-white"}>
             <div className="flex-grow">
@@ -50,58 +40,62 @@ export const Login = ({ email = "", password = "", remember = false, isLoading =
                             />
                         </div>
 
-                        <form className="space-y-6">
-                            <div className="-space-y-px bg-white rounded-md">
-                                <FormGroup className="md:mb-7">
-                                    <Label>Email</Label>
+                        <form onSubmit={handleSubmit}>
+                            <fieldset className="space-y-6" disabled={loading}>
+                                <div className="-space-y-px bg-white rounded-md">
+                                    <FormGroup className="md:mb-7">
+                                        <Label>Email</Label>
 
-                                    <Input
-                                        name="email"
-                                        type="email"
-                                        autoComplete="email"
-                                        value={values.email}
-                                        onChange={handleInputChange}
-                                        required
-                                    />
-                                </FormGroup>
+                                        <Input
+                                            name="email"
+                                            type="email"
+                                            autoComplete="email"
+                                            value={values.email}
+                                            onChange={handleInputChange}
+                                            error={!!error}
+                                            required
+                                        />
+                                    </FormGroup>
 
-                                <FormGroup>
-                                    <Label>Password</Label>
+                                    <FormGroup>
+                                        <Label>Password</Label>
 
-                                    <Input
-                                        name="password"
-                                        type="password"
-                                        autoComplete="current-password"
-                                        value={values.password}
-                                        onChange={handleInputChange}
-                                        required
-                                    />
-                                </FormGroup>
-                            </div>
+                                        <Input
+                                            name="password"
+                                            type="password"
+                                            autoComplete="current-password"
+                                            value={values.password}
+                                            onChange={handleInputChange}
+                                            error={!!error}
+                                            required
+                                        />
+                                    </FormGroup>
+                                </div>
 
-                            <Checkbox
-                                name="remember"
-                                label="Remember me"
-                                checked={values.remember}
-                                onChange={handleCheckboxChange}
-                            />
+                                <Checkbox
+                                    name="remember"
+                                    label="Remember me"
+                                    checked={values.remember}
+                                    onChange={handleCheckboxChange}
+                                />
 
-                            {errorMessage && <Alert color="danger">{errorMessage}</Alert>}
+                                {error ? <Alert color="danger">{error}</Alert> : null}
 
-                            <Button className="w-full" color="primary" onClick={handleSubmit}>
-                                {isLoading ? <Spinner size="xsmall" className="mr-2" /> : null}
-                                Login
-                            </Button>
+                                <Button type="submit" className="w-full" color="primary">
+                                    {loading ? <Spinner size="current" color="current" className="mr-2" /> : null}
+                                    Login
+                                </Button>
 
-                            <div className="mt-5 text-sm text-center">
-                                <a
-                                    href="https://xola.com/resetting/form"
-                                    className="font-semibold underline text-gray-darker hover:text-black"
-                                    target="_blank"
-                                >
-                                    Forgot your password?
-                                </a>
-                            </div>
+                                <div className="mt-5 text-sm text-center">
+                                    <a
+                                        href="https://xola.com/resetting/form"
+                                        className="font-semibold underline text-gray-darker hover:text-black"
+                                        target="_blank"
+                                    >
+                                        Forgot your password?
+                                    </a>
+                                </div>
+                            </fieldset>
                         </form>
                     </div>
                 </div>
@@ -119,4 +113,15 @@ export const Login = ({ email = "", password = "", remember = false, isLoading =
             </footer>
         </div>
     );
+};
+
+Login.propTypes = {
+    defaultValues: PropTypes.shape({
+        email: PropTypes.string,
+        password: PropTypes.string,
+        remember: PropTypes.bool,
+    }),
+    loading: PropTypes.bool,
+    error: PropTypes.string,
+    onSubmit: PropTypes.func,
 };
