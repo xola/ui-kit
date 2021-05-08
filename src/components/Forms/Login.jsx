@@ -1,17 +1,15 @@
 import React, { useState } from "react";
 import { Button } from "../Button";
+import { Spinner } from "../Spinner";
+import { Alert } from "../Alert";
 import { FormGroup } from "../Forms/FormGroup";
 import { Input } from "../Forms/Input";
 import { Label } from "../Forms/Label";
 import Checkbox from "./Checkbox";
 import "./Login.css";
 
-export const Login = ({ onSubmit }) => {
-    const [values, setValues] = useState({
-        email: "",
-        password: "",
-        remember: false,
-    });
+export const Login = ({ email = "", password = "", remember = false, isLoading = false, error = null, onSubmit }) => {
+    const [values, setValues] = useState({ email, password, remember });
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -28,6 +26,17 @@ export const Login = ({ onSubmit }) => {
         onSubmit(values);
     };
 
+    let errorMessage = error && error.message ? error.message : null;
+    const status = error?.response?.status;
+    if (status) {
+        errorMessage = error?.message;
+        if (status === 401) {
+            errorMessage = "Invalid Credentials";
+        } else if (status === 403) {
+            errorMessage = "Access Denied!";
+        }
+    }
+
     return (
         <div className={"login-container h-screen bg-opacity-40 bg-white"}>
             <div className="flex-grow">
@@ -41,7 +50,7 @@ export const Login = ({ onSubmit }) => {
                             />
                         </div>
 
-                        <form className="space-y-6" onSubmit={handleSubmit}>
+                        <form className="space-y-6">
                             <div className="-space-y-px bg-white rounded-md">
                                 <FormGroup className="md:mb-7">
                                     <Label>Email</Label>
@@ -77,7 +86,10 @@ export const Login = ({ onSubmit }) => {
                                 onChange={handleCheckboxChange}
                             />
 
-                            <Button className="w-full" color="primary">
+                            {errorMessage && <Alert color="danger">{errorMessage}</Alert>}
+
+                            <Button className="w-full" color="primary" onClick={handleSubmit}>
+                                {isLoading ? <Spinner size="xsmall" className="mr-2" /> : null}
                                 Login
                             </Button>
 
