@@ -5,7 +5,7 @@ import { XolaLogoCircle } from "../images/XolaLogoCircle";
 import { Avatar } from "./Avatar";
 import { NotificationCount } from "./NotificationCount";
 
-export const Sidebar = ({ children, className, footer, notifications, fixed }) => {
+export const Sidebar = ({ children, className, footer, notifications, fixed, onLogoClick }) => {
     return (
         <div
             className={clsx(
@@ -19,7 +19,13 @@ export const Sidebar = ({ children, className, footer, notifications, fixed }) =
             </div>
 
             <div className="mb-10 text-center">
-                <XolaLogoCircle className="inline-block w-12 h-12 xl:w-24 xl:h-24" />
+                <XolaLogoCircle
+                    onClick={onLogoClick}
+                    className={clsx(
+                        "inline-block w-12 h-12 xl:w-24 xl:h-24",
+                        onLogoClick && "cursor-pointer hover:opacity-80 transition-opacity",
+                    )}
+                />
             </div>
 
             <div className="space-y-2">{children}</div>
