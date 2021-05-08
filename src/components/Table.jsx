@@ -1,5 +1,5 @@
-import React from "react";
 import clsx from "clsx";
+import React, { Children, cloneElement } from "react";
 
 export const Table = ({ className, ...rest }) => (
     <div className="flex flex-col">
@@ -25,25 +25,18 @@ Table.Header = ({ className, ...rest }) => {
 
 Table.Header.displayName = "Table.Header";
 
-Table.Body = ({ className, stripe = false, children, ...rest }) => {
-    let clonedChildren = stripe ? [] : children;
-    stripe &&
-        React.Children.forEach(children, (child, idx) => {
-            const className = (idx + 1) % 2 === 0 ? "bg-gray-lighter" : "";
-            clonedChildren.push(React.cloneElement(child, { className: className }));
-        });
-
+Table.Body = ({ className, striped = false, children, ...rest }) => {
     return (
         <tbody className={clsx(className, "border-none")} {...rest}>
-            {clonedChildren}
+            {Children.map(children, (child) => cloneElement(child, { striped }))}
         </tbody>
     );
 };
 
 Table.Body.displayName = "Table.Body";
 
-Table.Row = (props) => {
-    return <tr {...props} />;
+Table.Row = ({ striped, className, ...rest }) => {
+    return <tr className={clsx(className, striped && "even:bg-gray-lighter")} {...rest} />;
 };
 
 Table.Row.displayName = "Table.Row";
