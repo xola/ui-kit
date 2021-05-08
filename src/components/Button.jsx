@@ -27,7 +27,7 @@ export const Button = ({ className, color = "primary", size = "medium", iconStar
         <button
             className={clsx(
                 className,
-                "transition-colors border font-semibold focus:ring disabled:opacity-50 rounded-md",
+                "transition-colors border font-semibold focus:ring disabled:opacity-50 disabled:cursor-default rounded-md",
                 colors[color],
                 sizes[size],
             )}

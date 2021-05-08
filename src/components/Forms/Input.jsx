@@ -7,19 +7,17 @@ const sizes = {
     large: "px-4 py-3.5 text-lg",
 };
 
-export const Input = ({ size = "medium", className, type = "text", disabled, error, ...rest }) => {
+export const Input = ({ size = "medium", className, type = "text", error, ...rest }) => {
     return (
         <input
             type={type}
-            disabled={disabled}
             className={clsx(
+                className,
+                "block w-full placeholder-gray-dark text-gray-darker rounded-md leading-none disabled:bg-gray-lighter",
                 sizes[size],
                 error
                     ? "border-danger focus:ring-danger focus:border-danger"
                     : "border-gray-light focus:ring-primary focus:border-primary",
-                "block w-full placeholder-gray-dark text-gray-darker rounded-md leading-none",
-                disabled && "bg-gray-lighter",
-                className,
             )}
             {...rest}
         />

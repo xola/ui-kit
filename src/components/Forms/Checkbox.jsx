@@ -7,7 +7,7 @@ const Checkbox = ({ label, id = uniqueId("checkbox-"), ...rest }) => {
             <input
                 id={id}
                 type="checkbox"
-                className="w-4 h-4 rounded text-primary border-gray focus:primary"
+                className="w-4 h-4 rounded text-primary border-gray focus:primary disabled:bg-gray-lighter"
                 {...rest}
             />
 
