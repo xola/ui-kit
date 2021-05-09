@@ -8,12 +8,14 @@ export default {
 
 export const Default = () => {
     return (
-        <Sidebar notifications={3} footer={<Sidebar.Footer name="Scott" />}>
-            <Sidebar.Link icon={UserIcon} active>
-                Sellers
-            </Sidebar.Link>
+        <div className="h-screen">
+            <Sidebar notifications={3} footer={<Sidebar.Footer name="Scott" />}>
+                <Sidebar.Link icon={UserIcon} active>
+                    Sellers
+                </Sidebar.Link>
 
-            <Sidebar.Link icon={StarIcon}>Favorites</Sidebar.Link>
-        </Sidebar>
+                <Sidebar.Link icon={StarIcon}>Favorites</Sidebar.Link>
+            </Sidebar>
+        </div>
     );
 };
