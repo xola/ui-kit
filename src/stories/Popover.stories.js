@@ -53,47 +53,49 @@ function getArg(defaultValue, type, options, description, summary = null) {
     };
 }
 
-export const Default = (config) => {
-    config.content = (
+export const Default = ({ demoText, ...rest }) => {
+    const content = (
         <Popover.Content>
-            <div className="pt-2 pb-1 text-base font-bold">Popover title</div>
+            <div className="pb-1 text-base font-bold">Popover title</div>
             <div className="text-sm">And here's some amazing content. It's very engaging. Right?</div>
             <div className="text-sm">Here is some more because I am crazy</div>
         </Popover.Content>
     );
+
     return (
-        <Popover {...config}>
-            <Button>{config.demoText}</Button>
+        <Popover {...rest} content={content}>
+            <Button>{demoText}</Button>
         </Popover>
     );
 };
 
-export const NoTitle = (config) => {
-    config.content = (
+export const NoTitle = ({ demoText, ...rest }) => {
+    const content = (
         <Popover.Content>
-            <dl className="text-sm">
-                <div className="grid grid-cols-2 gap-4 px-2 py-1">
-                    <dt className="font-bold text-black">Demo Request</dt>
-                    <dd className="mt-0 mt-1 text-black">Dec 21, 2020</dd>
+            <dl className="text-sm space-y-2">
+                <div className="grid grid-cols-2 gap-4">
+                    <dt className="font-bold">Demo Request</dt>
+                    <dd>Dec 21, 2020</dd>
                 </div>
-                <div className="grid grid-cols-2 gap-4 px-2 py-1">
-                    <dt className="font-bold text-black">Join Request</dt>
-                    <dd className="mt-0 mt-1 text-black">Dec 24, 2020</dd>
+                <div className="grid grid-cols-2 gap-4">
+                    <dt className="font-bold">Join Request</dt>
+                    <dd>Dec 24, 2020</dd>
                 </div>
-                <div className="grid grid-cols-2 gap-4 px-2 py-1">
-                    <dt className="font-bold text-black">Account Created</dt>
-                    <dd className="mt-0 mt-1 text-black">Dec 31, 2020</dd>
+                <div className="grid grid-cols-2 gap-4">
+                    <dt className="font-bold">Account Created</dt>
+                    <dd>Dec 31, 2020</dd>
                 </div>
-                <div className="grid grid-cols-2 gap-4 px-2 py-1">
-                    <dt className="font-bold text-black">Account Verified</dt>
-                    <dd className="mt-0 mt-1 text-black">Jan 5, 2021</dd>
+                <div className="grid grid-cols-2 gap-4">
+                    <dt className="font-bold">Account Verified</dt>
+                    <dd>Jan 5, 2021</dd>
                 </div>
             </dl>
         </Popover.Content>
     );
+
     return (
-        <Popover {...config}>
-            <Button>{config.demoText}</Button>
+        <Popover {...rest} content={content}>
+            <Button>{demoText}</Button>
         </Popover>
     );
 };
