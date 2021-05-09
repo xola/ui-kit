@@ -100,7 +100,7 @@ export const StripedTabled = () => {
                 </Table.Row>
             </Table.Head>
 
-            <Table.Body stripe>
+            <Table.Body striped>
                 <Table.Row>
                     <Table.Cell>Michael Scott</Table.Cell>
                     <Table.Cell>Regional Manager</Table.Cell>
