@@ -2,7 +2,6 @@ import clsx from "clsx";
 import React from "react";
 import { ChevronDownIcon } from "../icons/ChevronDownIcon";
 import { ChevronRightIcon } from "../icons/ChevronRightIcon";
-import { ExportIcon } from "../icons/ExportIcon";
 import { XolaLogoCircle } from "../images/XolaLogoCircle";
 import { Avatar } from "./Avatar";
 import { NotificationCount } from "./NotificationCount";
@@ -12,7 +11,7 @@ export const Sidebar = ({ children, className, footer, notifications, fixed, onL
         <div
             className={clsx(
                 fixed ? "fixed" : "relative",
-                "w-16 md:w-24 xl:w-48 h-full p-2 overflow-y-auto bg-black text-white",
+                "w-16 md:w-24 xl:w-48 h-full p-2 overflow-y-auto bg-black text-white flex flex-col",
                 className,
             )}
         >
@@ -30,7 +29,7 @@ export const Sidebar = ({ children, className, footer, notifications, fixed, onL
                 />
             </div>
 
-            <div className="space-y-2">{children}</div>
+            <div className="space-y-2 flex-grow">{children}</div>
             {footer}
         </div>
     );
@@ -59,7 +58,7 @@ Sidebar.Link.displayName = "Sidebar.Link";
 
 Sidebar.Footer = ({ children, ...rest }) => {
     return (
-        <div className="absolute bottom-0 left-0 w-full p-2" {...rest}>
+        <div className="p-2" {...rest}>
             <div className="border-t border-secondary-darker pb-2 mx-6" />
             {children}
         </div>
