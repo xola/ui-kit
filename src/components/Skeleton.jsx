@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import React from "react";
+import styles from "./Skeleton.module.css";
 
 export const Skeleton = ({ width = "w-full", color = "bg-gray-light", children }) => {
     return (
@@ -10,8 +11,9 @@ export const Skeleton = ({ width = "w-full", color = "bg-gray-light", children }
                         <div className="absolute top-0 left-0 h-full w-full">
                             <span
                                 className={clsx(
+                                    styles.main,
                                     color,
-                                    "skeleton-box relative group-hover:scale-110 transition-transform transform-center block h-full",
+                                    "relative group-hover:scale-110 transition-transform transform-center block h-full",
                                 )}
                             >
                                 <div className="text-gray-dark uppercase text-md h-full flex items-center justify-center">
