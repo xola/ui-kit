@@ -21,7 +21,7 @@ export const Popover = (settings) => {
 };
 
 Popover.Content = ({ className, children }) => {
-    const classes = clsx(className, "popover max-w-lg px-3 py-1");
+    const classes = clsx(className, "popover max-w-lg px-3 py-3");
 
     return <div className={classes}>{children}</div>;
 };
