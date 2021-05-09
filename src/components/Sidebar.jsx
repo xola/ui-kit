@@ -1,6 +1,8 @@
 import clsx from "clsx";
 import React from "react";
+import { ChevronDownIcon } from "../icons/ChevronDownIcon";
 import { ChevronRightIcon } from "../icons/ChevronRightIcon";
+import { ExportIcon } from "../icons/ExportIcon";
 import { XolaLogoCircle } from "../images/XolaLogoCircle";
 import { Avatar } from "./Avatar";
 import { NotificationCount } from "./NotificationCount";
@@ -55,14 +57,42 @@ Sidebar.Link = ({ active, icon: Icon, children, size = "small", ...rest }) => {
 
 Sidebar.Link.displayName = "Sidebar.Link";
 
-Sidebar.Footer = ({ name }) => {
+Sidebar.Footer = ({ children, ...rest }) => {
     return (
-        <div className="absolute bottom-0 left-0 w-full px-3 md:px-6 pb-6">
-            <div className="pt-3 border-t border-secondary-darker">
-                <Avatar className="mr-2" size="small" name={name} /> <span className="hidden xl:inline">{name}</span>
-            </div>
+        <div className="absolute bottom-0 left-0 w-full p-2" {...rest}>
+            <div className="border-t border-secondary-darker pb-2 mx-6" />
+            {children}
         </div>
     );
 };
 
 Sidebar.Footer.displayName = "Sidebar.Footer";
+
+Sidebar.Footer.Avatar = ({ name, ...rest }) => {
+    return (
+        <button
+            className="xl:px-6 py-3 hover:bg-gray-darker rounded cursor-pointer flex items-center justify-center xl:justify-start w-full"
+            {...rest}
+        >
+            <Avatar size="small" name={name} />
+            <span className="hidden xl:inline ml-2">{name}</span>
+            <ChevronDownIcon className="ml-auto hidden xl:inline" />
+        </button>
+    );
+};
+
+Sidebar.Footer.Avatar.displayName = "Sidebar.Footer.Avatar";
+
+Sidebar.Footer.Button = ({ icon: Icon, label, ...rest }) => {
+    return (
+        <button
+            className="xl:px-6 py-3 hover:bg-gray-darker rounded cursor-pointer flex items-center justify-center xl:justify-start w-full"
+            {...rest}
+        >
+            <Icon className="w-5 h-5 xl:ml-2 xl:mr-5" />
+            <span className="hidden xl:inline">{label}</span>
+        </button>
+    );
+};
+
+Sidebar.Footer.Button.displayName = "Sidebar.Footer.Button";

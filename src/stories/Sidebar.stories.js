@@ -1,5 +1,6 @@
-import React from "react";
-import { Sidebar, UserIcon, StarIcon } from "..";
+import React, { useState } from "react";
+import { Sidebar, StarIcon, UserIcon } from "..";
+import { ExportIcon } from "../icons/ExportIcon";
 
 export default {
     title: "Components/Sidebar",
@@ -7,9 +8,23 @@ export default {
 };
 
 export const Default = () => {
+    const [openFooter, setOpenFooter] = useState(false);
+
+    const handleAvatarClick = () => {
+        setOpenFooter(!openFooter);
+    };
+
     return (
         <div className="h-screen">
-            <Sidebar notifications={3} footer={<Sidebar.Footer name="Scott" />}>
+            <Sidebar
+                notifications={3}
+                footer={
+                    <Sidebar.Footer>
+                        <Sidebar.Footer.Avatar name="Scott" onClick={handleAvatarClick} />
+                        {openFooter ? <Sidebar.Footer.Button icon={ExportIcon} label="Logout" /> : null}
+                    </Sidebar.Footer>
+                }
+            >
                 <Sidebar.Link icon={UserIcon} active>
                     Sellers
                 </Sidebar.Link>
