@@ -8,6 +8,7 @@ import { Label } from "../Forms/Label";
 import PropTypes from "prop-types";
 import Checkbox from "./Checkbox";
 import "./Login.css";
+import XolaLogo from "../../images/XolaLogo";
 
 export const Login = ({ defaultValues, loading = false, error = null, onSubmit }) => {
     const [values, setValues] = useState({ email: "", password: "", remember: false, ...defaultValues });
@@ -33,11 +34,7 @@ export const Login = ({ defaultValues, loading = false, error = null, onSubmit }
                 <div className="flex flex-col items-center justify-center w-full h-screen md:full space-y-8">
                     <div className="px-9 py-0 md:py-10 rounded-lg w-82 md:bg-white">
                         <div className="mb-12 md:mb-10">
-                            <img
-                                className="w-auto h-10 mx-auto md:h-12 md:mb-20 "
-                                src="https://www.xola.com/images/xola-logo-black-small.png"
-                                alt="Xola Logo"
-                            />
+                            <XolaLogo className="w-auto h-10 mx-auto md:h-12 md:mb-20" />
                         </div>
 
                         <form onSubmit={handleSubmit}>
