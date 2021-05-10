@@ -22,6 +22,9 @@ const sizes = {
 
 export const Switch = ({ checked = true, size = "medium", ...rest }) => {
     const [enabled, setEnabled] = useState(checked);
+    if (checked !== enabled) {
+        setEnabled(checked);
+    }
 
     return (
         <HeadlessSwitch
