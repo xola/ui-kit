@@ -4,7 +4,7 @@ import getUserLocale from "get-user-locale";
 
 const userLocale = getUserLocale();
 
-export const format = (amount, currency = null, locale = userLocale, maximumFractionDigits = 2) => {
+export const numberFormat = (amount, currency = null, locale = userLocale, maximumFractionDigits = 2) => {
     const style = currency ? "currency" : "decimal";
     if (currency) {
         return new Intl.NumberFormat(locale, { style, currency, maximumFractionDigits }).format(amount);

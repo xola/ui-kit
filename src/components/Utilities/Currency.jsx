@@ -1,7 +1,7 @@
 import getUserLocale from "get-user-locale";
 import React from "react";
 import { isZeroDecimal } from "../../helpers/currency";
-import { format, roundNumber } from "../../helpers/numbers";
+import { numberFormat, roundNumber } from "../../helpers/numbers";
 
 const userLocale = getUserLocale();
 
@@ -13,7 +13,7 @@ export const Currency = ({
     children,
 }) => {
     const amount = children;
-    let formattedAmount = format(amount, currency, locale, isZeroDecimal(currency) ? 0 : maximumFractionDigits);
+    let formattedAmount = numberFormat(amount, currency, locale, isZeroDecimal(currency) ? 0 : maximumFractionDigits);
     formattedAmount = removeTrailingZeroes ? formattedAmount.replace(".00", "") : formattedAmount;
 
     return <span className="currency-formatted-amount">{formattedAmount}</span>;
@@ -35,7 +35,7 @@ Currency.Split = ({ currency = "USD", locale = userLocale, children }) => {
         amountDecimal += "0";
     }
 
-    const formattedAmountInt = format(amountInt, currency, locale, 0);
+    const formattedAmountInt = numberFormat(amountInt, currency, locale, 0);
 
     return (
         <span title={amount} className="currency-formatted-split-amount">
