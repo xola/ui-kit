@@ -12,7 +12,13 @@ export const Currency = ({
     maximumFractionDigits = 2,
     children,
 }) => {
-    const amount = children;
+    let amount = children;
+    const absAmout = Math.abs(amount);
+    if (absAmout >= 0 && absAmout <= 0.001) {
+        // Handle numbers that are almost zeroes
+        amount = 0;
+    }
+
     let formattedAmount = numberFormat(amount, currency, locale, isZeroDecimal(currency) ? 0 : maximumFractionDigits);
     formattedAmount = removeTrailingZeroes ? formattedAmount.replace(".00", "") : formattedAmount;
 
