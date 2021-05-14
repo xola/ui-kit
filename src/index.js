@@ -29,7 +29,7 @@ export { Phone } from "./components/Utilities/Phone";
 export { Number } from "./components/Utilities/Number";
 
 // Helpers
-export { numberFormat, roundNumber } from "./helpers/numbers";
+export { almostZero, numberFormat, roundNumber } from "./helpers/numbers";
 export { getSymbol, isZeroDecimal } from "./helpers/currency";
 
 // Icons.

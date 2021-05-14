@@ -4,6 +4,11 @@ import getUserLocale from "get-user-locale";
 
 const userLocale = getUserLocale();
 
+export const almostZero = (number) => {
+    const absAmount = Math.abs(number);
+    return absAmount >= 0 && absAmount <= 0.001;
+};
+
 export const numberFormat = (amount, currency = null, locale = userLocale, maximumFractionDigits = 2) => {
     const style = currency ? "currency" : "decimal";
     if (currency) {

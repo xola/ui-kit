@@ -1,7 +1,7 @@
 import getUserLocale from "get-user-locale";
 import React from "react";
 import { isZeroDecimal } from "../../helpers/currency";
-import { numberFormat, roundNumber } from "../../helpers/numbers";
+import { almostZero, numberFormat, roundNumber } from "../../helpers/numbers";
 
 const userLocale = getUserLocale();
 
@@ -13,9 +13,7 @@ export const Currency = ({
     children,
 }) => {
     let amount = children;
-    const absAmout = Math.abs(amount);
-    if (absAmout >= 0 && absAmout <= 0.001) {
-        // Handle numbers that are almost zeroes
+    if (almostZero(amount)) {
         amount = 0;
     }
 
@@ -31,7 +29,11 @@ Currency.Round = ({ currency, children }) => {
 };
 
 Currency.Split = ({ currency = "USD", locale = userLocale, children }) => {
-    const amount = children;
+    let amount = children;
+    if (almostZero(amount)) {
+        amount = 0;
+    }
+    
     const roundedAmountArray = roundNumber(currency, amount).toString().split(".");
     const amountInt = roundedAmountArray[0];
     let amountDecimal = roundedAmountArray[1] || "0";
