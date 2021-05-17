@@ -124,3 +124,4 @@ export { SearchAltIcon } from "./icons/SearchAltIcon";
 export { ArchiveIcon } from "./icons/ArchiveIcon";
 export { LandscapeIcon } from "./icons/LandscapeIcon";
 export { AlertCircleIcon } from "./icons/AlertCircleIcon";
+export { KeyIcon } from "./icons/KeyIcon";
