@@ -58,7 +58,14 @@ export const Search = ({
     // List of all items, including the submit value item.
     const itemList = inputValue ? [submitValueItem, ...items] : [];
 
-    const handleSelectedItemChange = ({ selectedItem }) => {
+    const handleSelectedItemChange = ({ selectedItem, type }) => {
+        // Blur event also triggers `onSelectedItemChange`.
+        // Maybe there's a better way to do this, but this will
+        // prevent calling `onSubmit` or `onSelect` when we loose focus.
+        if (type === "__input_blur__") {
+            return;
+        }
+
         if (selectedItem === submitValueItem) {
             onSubmit?.(inputValue);
         } else if (selectedItem) {
