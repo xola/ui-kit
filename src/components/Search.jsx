@@ -170,7 +170,7 @@ export const Search = ({
                 {open && noResultFound ? <li className="p-2 cursor-not-allowed">No results found</li> : null}
 
                 {open && itemList.length < 5 && (
-                    <li className="search-footer text-gray-dark sticky bottom-0 flex p-2 space-x-5 pointer-events">
+                    <li className="search-footer text-sm text-gray-dark sticky bottom-0 flex p-2 space-x-5 pointer-events">
                         <span className="flex items-center">
                             <ShortcutKey char="↑↓" className="px-1 mr-2" /> to navigate
                         </span>
