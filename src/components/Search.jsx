@@ -104,6 +104,7 @@ export const Search = ({
     // Keyboard shortcuts.
     useHotkeys("ctrl+k", () => inputRef.current.focus());
     useHotkeys("cmd+k", () => inputRef.current.focus());
+    useHotkeys("esc", () => inputRef.current.blur(), { enableOnTags: ["INPUT"] });
 
     return (
         <div className="w-full relative">
