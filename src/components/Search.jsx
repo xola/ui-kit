@@ -9,10 +9,16 @@ import { Spinner } from "./Spinner";
 
 const isOSX = navigator.userAgent.includes("Macintosh");
 
-const ShortcutKey = () => {
+const ShortcutKey = ({ char, special = false, className }) => {
+    const str = (special ? (isOSX ? "⌘ " : "Ctrl ") : "") + char;
     return (
-        <div className="shortcut-key opacity-70 px-2 py-0.5 text-sm text-gray bg-gray-lighter rounded-md">
-            {isOSX ? "⌘ K" : "Ctrl K"}
+        <div
+            className={clsx(
+                "shortcut-key opacity-70 px-2 py-0.5 text-sm text-gray bg-gray-lighter rounded-md",
+                className,
+            )}
+        >
+            {str}
         </div>
     );
 };
@@ -120,8 +126,8 @@ export const Search = ({
                     })}
                 />
 
-                <div className="hidden xl:flex items-center absolute inset-y-0 right-0 pr-3 pointer-events-none">
-                    {showShortcutKey ? <ShortcutKey /> : null}
+                <div className="hidden lg:flex items-center absolute inset-y-0 right-0 pr-3 pointer-events-none">
+                    {showShortcutKey ? <ShortcutKey char="K" special={true} /> : null}
                 </div>
             </div>
 
@@ -161,6 +167,20 @@ export const Search = ({
                     : null}
 
                 {open && noResultFound ? <li className="p-2 cursor-not-allowed">No results found</li> : null}
+
+                {open && itemList.length < 5 && (
+                    <li className="search-footer text-gray-dark sticky bottom-0 flex p-2 space-x-5 pointer-events">
+                        <span className="flex items-center">
+                            <ShortcutKey char="↑↓" className="px-1 mr-2" /> to navigate
+                        </span>
+                        <span className="flex items-center">
+                            <ShortcutKey char="⮐" className="px-1 mr-2" /> to submit
+                        </span>
+                        <span className="flex items-center">
+                            <ShortcutKey char="ESC" className="text-xs px-1 mr-2" /> to close
+                        </span>
+                    </li>
+                )}
             </ul>
         </div>
     );
