@@ -3,6 +3,8 @@ import React from "react";
 
 const isOSX = navigator.userAgent.includes("Macintosh");
 
+// TODO: Handle OSX + Windows - Cmd, Ctrl, Alt, Option
+
 export const Key = ({ char, ...rest }) => {
     char = char === "cmd" ? (isOSX ? "⌘" : "ctrl") : char;
     const multiChar = char.length > 1 ? "px-4" : "";
