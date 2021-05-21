@@ -1,7 +1,7 @@
 import React from "react";
 
 export default {
-    title: "Components/Others/Links",
+    title: "Components/Text/Links",
 };
 
 export const Default = () => {

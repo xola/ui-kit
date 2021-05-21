@@ -1,4 +1,3 @@
-import clsx from "clsx";
 import React, { Fragment } from "react";
 import { Avatar } from "..";
 

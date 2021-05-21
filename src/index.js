@@ -22,6 +22,8 @@ export { Login } from "./components/Forms/Login";
 export { HeaderToolbar } from "./components/HeaderToolbar";
 export { Tabs } from "./components/Tabs";
 export { Skeleton } from "./components/Skeleton";
+export { Slideover } from "./components/Slideover";
+export { Key } from "./components/Key";
 
 // Utilities
 export { Currency } from "./components/Utilities/Currency";
@@ -126,3 +128,4 @@ export { LandscapeIcon } from "./icons/LandscapeIcon";
 export { AlertCircleIcon } from "./icons/AlertCircleIcon";
 export { KeyIcon } from "./icons/KeyIcon";
 export { GuestIcon } from "./icons/GuestIcon";
+export { XIcon } from "./icons/XIcon";
