@@ -4,7 +4,7 @@ import React from "react";
 const isOSX = navigator.userAgent.includes("Macintosh");
 
 export const Key = ({ char, ...rest }) => {
-    char = char === "cmd" ? (isOSX ? "⌘ " : "Ctrl ") : char;
+    char = char === "cmd" ? (isOSX ? "⌘" : "ctrl") : char;
     const multiChar = char.length > 1 ? "px-4" : "";
     return (
         <div
