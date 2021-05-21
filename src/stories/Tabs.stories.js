@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Tabs } from "..";
 
-// TODO: Update controls.
 export default {
     title: "Components/Tabs",
     component: Tabs,

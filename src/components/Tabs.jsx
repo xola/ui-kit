@@ -1,11 +1,9 @@
 import React, { createElement, Children, cloneElement } from "react";
 import clsx from "clsx";
 
-// TODO: Define sizes.
-
 export const Tabs = ({ className, children, value, onChange, ...rest }) => {
     return (
-        <div className={clsx("overflow-x-auto", className)} {...rest}>
+        <div className={clsx("bg-gray-lighter", className)} {...rest}>
             <nav className="flex">
                 {Children.map(children, (child, index) => {
                     return cloneElement(child, {
@@ -22,10 +20,8 @@ Tabs.Tab = ({ className, active, as = "button", ...rest }) => {
     return createElement(as, {
         className: clsx(
             className,
-            "cursor-pointer py-3 w-full text-center text-base whitespace-nowrap font-bold border-b transition-colors",
-            active
-                ? "border-primary text-black"
-                : "border-gray-light text-gray-dark hover:text-gray-darker hover:border-gray",
+            "cursor-pointer h-15 w-full text-center text-lg font-semibold whitespace-nowrap",
+            active ? "bg-white text-black" : "text-gray-dark hover:text-black hover:bg-gray-light",
         ),
         ...rest,
     });
