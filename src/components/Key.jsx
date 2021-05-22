@@ -1,21 +1,39 @@
 import clsx from "clsx";
 import React from "react";
+import { isOSX } from '../helpers/browser';
 
-const isOSX = navigator.userAgent.includes("Macintosh");
-
-// TODO: Handle OSX + Windows - Cmd, Ctrl, Alt, Option
-
-export const Key = ({ char, ...rest }) => {
-    char = char === "cmd" ? (isOSX ? "⌘" : "ctrl") : char;
-    const multiChar = char.length > 1 ? "px-4" : "";
+export const Key = ({ char, className, ...rest }) => {
+    char = getRealKey(char);
     return (
         <div
             className={clsx(
-                "inline-flex items-center justify-center h-5 w-5 bg-gray-lighter text-xs text-gray font-semibold p-2 rounded",
-                multiChar,
+                "inline-flex items-center justify-center h-5 py-1 px-2 bg-gray-lighter text-xs text-gray font-semibold rounded",
+                char.length === 1 ? "w-5" : "",
+                className,
             )}
+            {...rest}
         >
             {char}
         </div>
     );
+};
+
+/**
+ * Since initial devs are Mac based, we define the shortcuts in Mac and translate them to windows
+ */
+const getRealKey = (char) => {
+    switch (char) {
+        case "cmd":
+            return isOSX ? "⌘" : "ctrl";
+        case "option":
+            return isOSX ? "⌥" : "win";
+        case "ctrl":
+            return isOSX ? "ctrl" : "alt";
+        case "up":
+            return "↑";
+        case "down":
+            return "↓";
+        default:
+            return char;
+    }
 };

@@ -36,5 +36,6 @@ export const SpecialKeys = () => {
         <Key char="shift" />
         <Key char="esc" />
         <Key char="alt" />
+        <Key char="enter" />
     </div>)
 };

@@ -4,24 +4,10 @@ import debounce from "lodash/debounce";
 import PropTypes from "prop-types";
 import React, { Fragment, useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
+import { isOSX } from '../helpers/browser';
 import { SearchIcon } from "../icons/SearchIcon";
+import { Key } from './Key';
 import { Spinner } from "./Spinner";
-
-const isOSX = navigator.userAgent.includes("Macintosh");
-
-const ShortcutKey = ({ char, special = false, className }) => {
-    const str = (special ? (isOSX ? "⌘ " : "Ctrl ") : "") + char;
-    return (
-        <div
-            className={clsx(
-                "shortcut-key opacity-70 px-2 py-0.5 text-sm text-gray bg-gray-lighter rounded-md",
-                className,
-            )}
-        >
-            {str}
-        </div>
-    );
-};
 
 const callDebounced = debounce((fn, value) => fn(value), 500);
 
@@ -109,8 +95,8 @@ export const Search = ({
     const noResultFound = isOpen && inputValue.length > 0 && !loading && itemList.length <= 1;
 
     // Keyboard shortcuts.
-    useHotkeys("ctrl+k", () => inputRef.current.focus());
-    useHotkeys("cmd+k", () => inputRef.current.focus());
+    const shortcut = isOSX ? "cmd+k" : "ctrl+k";
+    useHotkeys(shortcut, () => inputRef.current.focus());
     useHotkeys("esc", () => inputRef.current.blur(), { enableOnTags: ["INPUT"] });
 
     return (
@@ -134,8 +120,8 @@ export const Search = ({
                     })}
                 />
 
-                <div className="hidden lg:flex items-center absolute inset-y-0 right-0 pr-3 pointer-events-none">
-                    {showShortcutKey ? <ShortcutKey char="K" special={true} /> : null}
+                <div className="hidden lg:flex items-center absolute inset-y-0 right-0 pr-3 pointer-events-none space-x-1">
+                    {showShortcutKey ? <><Key char="cmd" /> <Key char="K" /></> : null}
                 </div>
             </div>
 
@@ -179,13 +165,14 @@ export const Search = ({
                 {open && itemList.length < 5 && (
                     <li className="search-footer text-sm text-gray-dark sticky bottom-0 flex p-2 space-x-5 pointer-events">
                         <span className="flex items-center">
-                            <ShortcutKey char="↑↓" className="px-1 mr-2" /> to navigate
+                            <Key char="up" className="mr-0.5" />
+                            <Key char="down" className="mr-2" /> to navigate
                         </span>
                         <span className="flex items-center">
-                            <ShortcutKey char="⮐" className="px-1 mr-2" /> to submit
+                            <Key char="enter" className="mr-2" /> to submit
                         </span>
                         <span className="flex items-center">
-                            <ShortcutKey char="ESC" className="text-xs px-1 mr-2" /> to close
+                            <Key char="esc" className="mr-2" /> to close
                         </span>
                     </li>
                 )}

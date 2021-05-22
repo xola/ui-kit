@@ -42,7 +42,7 @@ export const Slideover = ({ open = false, title, content, onClose, classNames = 
                                             </Dialog.Title>
                                             <div className={clsx("ml-3 h-7 flex items-center")}>
                                                 <Button size="small" color="link" className="focus:hidden" onClick={onClose}>
-                                                    <XIcon ref={initialFocusRef} />
+                                                    <XIcon />
                                                 </Button>
                                             </div>
                                         </div>

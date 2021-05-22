@@ -33,6 +33,7 @@ export { Number } from "./components/Utilities/Number";
 // Helpers
 export { almostZero, numberFormat, roundNumber } from "./helpers/numbers";
 export { getSymbol, isZeroDecimal } from "./helpers/currency";
+export { isOSX } from './helpers/browser';
 
 // Icons.
 export { AddSquareIcon } from "./icons/AddSquareIcon";
