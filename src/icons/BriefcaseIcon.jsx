@@ -14,7 +14,7 @@ export const BriefcaseIcon = (props) => (
             strokeLinecap="round"
             strokeLinejoin="round"
         />
-        <path d="M5.83334 4.99988V19.1665" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
-        <path d="M14.1667 4.99988V19.1665" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+        <path d="M5.83334 4.99988V19.1665" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M14.1667 4.99988V19.1665" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
 );
