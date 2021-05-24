@@ -28,8 +28,11 @@ export const Default = ({ className }) => {
     return (
         <Tabs value={activeTab} onChange={(value) => setActiveTab(value)} className={className}>
             <Tabs.Tab>Seller Details</Tabs.Tab>
+            <Tabs.Panel>Seller Details Content</Tabs.Panel>
             <Tabs.Tab>More Stats</Tabs.Tab>
+            <Tabs.Panel>More Stats Content</Tabs.Panel>
             <Tabs.Tab>Invoices</Tabs.Tab>
+            <Tabs.Panel>Invoices Content</Tabs.Panel>
             <Tabs.Tab>App Store</Tabs.Tab>
             <Tabs.Tab>Admin Tools</Tabs.Tab>
         </Tabs>
