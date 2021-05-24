@@ -14,20 +14,20 @@ export const Table = ({ className, ...rest }) => (
 );
 
 Table.Head = ({ className, ...rest }) => {
-    return <thead className={clsx(className, "bg-gray-lighter")} {...rest} />;
+    return <thead className={clsx("bg-gray-lighter", className)} {...rest} />;
 };
 
 Table.Head.displayName = "Table.Head";
 
 Table.Header = ({ className, ...rest }) => {
-    return <th className={clsx(className, "px-4 py-2 text-left text-base font-bold")} {...rest} />;
+    return <th className={clsx("px-4 py-2 text-left text-base font-bold", className)} {...rest} />;
 };
 
 Table.Header.displayName = "Table.Header";
 
 Table.Body = ({ className, striped = false, children, ...rest }) => {
     return (
-        <tbody className={clsx(className, "border-none")} {...rest}>
+        <tbody className={clsx("border-none", className)} {...rest}>
             {Children.map(children, (child) => cloneElement(child, { striped }))}
         </tbody>
     );
@@ -36,13 +36,13 @@ Table.Body = ({ className, striped = false, children, ...rest }) => {
 Table.Body.displayName = "Table.Body";
 
 Table.Row = ({ striped, className, ...rest }) => {
-    return <tr className={clsx(className, striped && "even:bg-gray-lighter")} {...rest} />;
+    return <tr className={clsx(striped && "even:bg-gray-lighter", className)} {...rest} />;
 };
 
 Table.Row.displayName = "Table.Row";
 
 Table.Cell = ({ className, ...rest }) => {
-    return <td className={clsx(className, "px-4 py-2 whitespace-nowrap text-base text-gray-darker")} {...rest} />;
+    return <td className={clsx("px-4 py-2 whitespace-nowrap text-base text-gray-darker", className)} {...rest} />;
 };
 
 Table.Cell.displayName = "Table.Cell";
