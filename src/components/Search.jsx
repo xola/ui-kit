@@ -95,8 +95,12 @@ export const Search = ({
     const noResultFound = isOpen && inputValue.length > 0 && !loading && itemList.length <= 1;
 
     // Keyboard shortcuts.
-    const shortcut = isOSX ? "cmd+k" : "ctrl+k";
-    useHotkeys(shortcut, () => inputRef.current.focus());
+    const jumpToSearchShortcut = isOSX ? "cmd+k" : "ctrl+k";
+    useHotkeys(jumpToSearchShortcut, (e) => {
+        e.preventDefault(); // So in Firefox we don't jump to it's search bar
+        inputRef.current.focus()
+    });
+    // When `esc` is used inside the search box we should escape ot
     useHotkeys("esc", () => inputRef.current.blur(), { enableOnTags: ["INPUT"] });
 
     return (
