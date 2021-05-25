@@ -28,7 +28,7 @@ Tabs.Tab = ({ className, active, as = "button", ...rest }) => {
     return createElement(as, {
         className: clsx(
             className,
-            "transition-colors cursor-pointer p-4 flex-1 text-center text-lg font-semibold whitespace-nowrap focus:ring",
+            "transition-colors cursor-pointer p-4 flex-1 text-center text-lg font-semibold whitespace-nowrap focus-visible:ring",
             active ? "bg-white text-black" : "text-gray-dark hover:text-black hover:bg-gray-light",
         ),
         ...rest,
