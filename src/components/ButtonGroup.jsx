@@ -30,16 +30,17 @@ const ButtonGroup = ({ children, size, value, onChange, ...rest }) => {
     );
 };
 
-const Button = ({ active, as = "button", size = "medium", ...rest }) => {
-    const className = clsx(
+const Button = ({ active, as = "button", size = "medium", className, ...rest }) => {
+    const classes = clsx(
         "border-t border-l border-b last:border-r first:rounded-l-md last:rounded-r-md transition-colors focus:ring disabled:opacity-50 focus:z-10 leading-none",
         sizes[size],
         active
             ? "bg-primary border-primary text-white hover:bg-primary-dark"
             : "border-gray-light hover:bg-gray-lighter text-gray-darker",
+        className
     );
 
-    return createElement(as, { className, ...rest });
+    return createElement(as, { className: classes, ...rest });
 };
 
 ButtonGroup.Button = Button;
