@@ -140,7 +140,7 @@ module.exports = {
 
         extend: {
             fontFamily: {
-                sans: ["SF Pro Display", ...defaultTheme.fontFamily.sans],
+                sans: ["Helvetica Neue", "Helvetica", "Arial", "sans-serif"],
             },
 
             // P1 - Big 16px 130%
