@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import { Switch } from "../..";
 
 export default {
@@ -12,15 +13,6 @@ export default {
         },
     },
     argTypes: {
-        checked: {
-            defaultValue: true,
-            description: "If the switch should be enabled",
-            control: { type: "boolean" },
-            table: {
-                type: { summary: null },
-                defaultValue: { summary: "true" },
-            },
-        },
         size: {
             description: "Switch Size",
             defaultValue: "medium",
@@ -34,19 +26,21 @@ export default {
     },
 };
 
-export const Default = ({ checked, size }) => {
-    return <Switch checked={checked} size={size} />;
+export const Default = ({ size }) => {
+    const [checked, setChecked] = useState(false);
+    return <Switch checked={checked} onChange={setChecked} size={size} />;
 };
 
-export const Small = ({ checked }) => {
-    return <Switch checked={checked} size="small" />;
-};
-
-export const SwitchWithLabel = () => {
+export const WithLabel = () => {
     return (
         <Switch.Group>
             <Switch.Label direction="left">Hello World</Switch.Label>
             <Switch size="small" />
         </Switch.Group>
     );
+};
+
+export const Disabled = ({ size }) => {
+    const [checked, setChecked] = useState(false);
+    return <Switch checked={checked} onChange={setChecked} disabled size={size} />;
 };

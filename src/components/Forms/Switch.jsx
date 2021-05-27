@@ -1,6 +1,6 @@
 import { Switch as HeadlessSwitch } from "@headlessui/react";
 import clsx from "clsx";
-import React, { useState } from "react";
+import React from "react";
 
 const sizes = {
     large: {
@@ -20,26 +20,20 @@ const sizes = {
     },
 };
 
-export const Switch = ({ checked = true, size = "medium", ...rest }) => {
-    const [enabled, setEnabled] = useState(checked);
-    if (checked !== enabled) {
-        setEnabled(checked);
-    }
-
+export const Switch = ({ checked, size = "medium", ...rest }) => {
     return (
         <HeadlessSwitch
-            checked={enabled}
-            onChange={setEnabled}
+            checked={checked}
             className={clsx(
-                enabled ? "bg-primary" : "bg-gray",
-                "switch relative inline-flex flex-shrink-0 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none",
+                checked ? "bg-primary" : "bg-gray",
+                "switch relative inline-flex flex-shrink-0 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none disabled:opacity-60",
                 sizes[size].parent,
             )}
             {...rest}
         >
             <span
                 className={clsx(
-                    enabled ? sizes[size].translate : "translate-x-0",
+                    checked ? sizes[size].translate : "translate-x-0",
                     "switch-inner pointer-events-none inline-block rounded-full bg-white transform ring-0 transition ease-in-out duration-200",
                     sizes[size].inner,
                 )}
