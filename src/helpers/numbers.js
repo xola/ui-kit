@@ -10,13 +10,14 @@ export const almostZero = (number) => {
 };
 
 export const numberFormat = (amount, currency = null, locale = userLocale, maximumFractionDigits = 2) => {
-    const minimumFractionDigits = maximumFractionDigits; // This is required for the spec because it breaks in Safari https://github.com/andyearnshaw/Intl.js/issues/123
     const style = currency ? "currency" : "decimal";
+
+    const params = { style, minimumFractionDigits: maximumFractionDigits, maximumFractionDigits };
     if (currency) {
-        return new Intl.NumberFormat(locale, { style, currency, minimumFractionDigits, maximumFractionDigits }).format(amount);
-    } else {
-        return new Intl.NumberFormat(locale, { style, minimumFractionDigits, maximumFractionDigits }).format(amount);
+        params.currency = currency;
     }
+
+    return new Intl.NumberFormat(locale, params).format(amount);
 };
 
 export const roundNumber = (currency, amount) => {
