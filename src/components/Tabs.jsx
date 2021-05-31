@@ -19,7 +19,9 @@ export const Tabs = ({ className, children, value, onChange, ...rest }) => {
                 </nav>
             </div>
 
-            {panels[value] ?? null}
+            {panels.map((child, index) => {
+                return cloneElement(child, { active: index === value });
+            })}
         </>
     );
 };
@@ -37,8 +39,8 @@ Tabs.Tab = ({ className, active, as = "button", ...rest }) => {
 
 Tabs.Tab.displayName = "Tabs.Tab";
 
-Tabs.Panel = (props) => {
-    return <div {...props} />;
+Tabs.Panel = ({ active, className, ...rest }) => {
+    return <div className={clsx(className, active || "hidden")} {...rest} />;
 };
 
 Tabs.Panel.displayName = "Tabs.Panel";
