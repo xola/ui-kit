@@ -33,13 +33,15 @@ export default {
     },
 };
 
-export const Default = ({title = "Hello World", content = "Lorem Ipsum. Click the X to close"}) => {
+export const Default = ({ title = "Hello World", content = "Lorem Ipsum. Click the X to close" }) => {
     const [open, setOpen] = useState(false);
     const onClose = () => setOpen(false);
 
     return (
         <div>
-            <Button size="large" onClick={() => setOpen(true)}>Click Me to open the Slideover</Button>
+            <Button size="large" onClick={() => setOpen(true)}>
+                Click Me to open the Slideover
+            </Button>
             <Slideover title={title} content={content} open={open} onClose={onClose} />
         </div>
     );

@@ -20,7 +20,7 @@ export default {
                 type: { summary: "example: K" },
             },
         },
-    }
+    },
 };
 
 export const Default = ({ char = "K" }) => {
@@ -32,10 +32,12 @@ export const MacCommandKey = () => {
 };
 
 export const SpecialKeys = () => {
-    return (<div class="space-x-3">
-        <Key char="shift" />
-        <Key char="esc" />
-        <Key char="alt" />
-        <Key char="enter" />
-    </div>)
+    return (
+        <div class="space-x-3">
+            <Key char="shift" />
+            <Key char="esc" />
+            <Key char="alt" />
+            <Key char="enter" />
+        </div>
+    );
 };

@@ -4,9 +4,9 @@ import debounce from "lodash/debounce";
 import PropTypes from "prop-types";
 import React, { Fragment, useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
-import { isOSX } from '../helpers/browser';
+import { isOSX } from "../helpers/browser";
 import { SearchIcon } from "../icons/SearchIcon";
-import { Key } from './Key';
+import { Key } from "./Key";
 import { Spinner } from "./Spinner";
 
 const callDebounced = debounce((fn, value) => fn(value), 500);
@@ -99,7 +99,7 @@ export const Search = ({
     const jumpToSearchShortcut = isOSX ? "cmd+k" : "ctrl+k";
     useHotkeys(jumpToSearchShortcut, (e) => {
         e.preventDefault(); // So in Firefox we don't jump to it's search bar
-        inputRef.current.focus()
+        inputRef.current.focus();
     });
     // When `esc` is used inside the search box we should escape ot
     useHotkeys("esc", () => inputRef.current.blur(), { enableOnTags: ["INPUT"] });
@@ -126,7 +126,11 @@ export const Search = ({
                 />
 
                 <div className="hidden lg:flex items-center absolute inset-y-0 right-0 pr-3 pointer-events-none space-x-1">
-                    {showShortcutKey ? <><Key char="cmd" /> <Key char="K" /></> : null}
+                    {showShortcutKey ? (
+                        <>
+                            <Key char="cmd" /> <Key char="K" />
+                        </>
+                    ) : null}
                 </div>
             </div>
 

@@ -33,7 +33,7 @@ Currency.Split = ({ currency = "USD", locale = userLocale, children }) => {
     if (almostZero(amount)) {
         amount = 0;
     }
-    
+
     const roundedAmountArray = roundNumber(currency, amount).toString().split(".");
     const amountInt = roundedAmountArray[0];
     let amountDecimal = roundedAmountArray[1] || "0";

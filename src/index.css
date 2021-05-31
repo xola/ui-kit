@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -52,12 +52,12 @@ h6 {
 }
 
 .p2 {
-    @apply text-base;  /* 14px */
+    @apply text-base; /* 14px */
     @apply leading-p2 tracking-tightest;
 }
 
 .p3 {
-    @apply text-sm;  /* 12px */
+    @apply text-sm; /* 12px */
     @apply leading-p3 tracking-tightest;
 }
 

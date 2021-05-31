@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import React from "react";
-import { isOSX } from '../helpers/browser';
+import { isOSX } from "../helpers/browser";
 
 export const Key = ({ char, className, ...rest }) => {
     char = getRealKey(char);

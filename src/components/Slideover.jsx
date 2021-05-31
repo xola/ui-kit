@@ -1,8 +1,8 @@
 import { Dialog, Transition } from "@headlessui/react";
 import clsx from "clsx";
 import React, { Fragment, useRef } from "react";
-import { XIcon } from '../icons/XIcon';
-import { Button } from './Button';
+import { XIcon } from "../icons/XIcon";
+import { Button } from "./Button";
 
 export const Slideover = ({ open = false, title, content, onClose, classNames = {} }) => {
     const initialFocusRef = useRef();
@@ -41,14 +41,18 @@ export const Slideover = ({ open = false, title, content, onClose, classNames = 
                                                 {title}
                                             </Dialog.Title>
                                             <div className={clsx("ml-3 h-7 flex items-center")}>
-                                                <Button size="small" color="link" className="focus:hidden" onClick={onClose}>
+                                                <Button
+                                                    size="small"
+                                                    color="link"
+                                                    className="focus:hidden"
+                                                    onClick={onClose}
+                                                >
                                                     <XIcon />
                                                 </Button>
                                             </div>
                                         </div>
                                     </div>
-                                    <div
-                                        className={clsx("mt-3 relative flex-1 px-4 sm:px-6", classNames.content)}>
+                                    <div className={clsx("mt-3 relative flex-1 px-4 sm:px-6", classNames.content)}>
                                         {content}
                                     </div>
                                 </div>
