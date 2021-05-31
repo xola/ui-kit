@@ -36,27 +36,34 @@ export default {
     },
 };
 
-export const DefaultUS = ({ countryCode, number }) => {
-    return formatAndReturn(countryCode, number);
+export const Default = (props) => {
+    return <PhoneDisplay {...props} />;
 };
 
 export const InvalidNumbers = () => {
     const invalidNumbers = ["5551239830 extension 9", "Just email me", "1234567890", "540232222"];
-    const results = invalidNumbers.map((number) => {
-        return formatAndReturn("US", number);
-    });
-    return <div className="space-y-4">{results}</div>;
+
+    return (
+        <div className="space-y-4">
+            {invalidNumbers.map((number) => {
+                return <PhoneDisplay countryCode="US" number={number} />;
+            })}
+        </div>
+    );
 };
 
 export const WithCountryCode = () => {
-    return formatAndReturn("GB", "7576060661");
+    return <PhoneDisplay countryCode="GB" number="7576060661" />;
 };
 
 export const USCountryAndIntlNumber = () => {
-    const results = ["+919538057572", "9538057572", "612745471", "+16475368727"].map((number) => {
-        return formatAndReturn("US", number);
-    });
-    return <span className="space-y-4">{results}</span>;
+    return (
+        <span className="space-y-4">
+            {["+919538057572", "9538057572", "612745471", "+16475368727"].map((number) => {
+                return <PhoneDisplay countryCode="US" number={number} />;
+            })}
+        </span>
+    );
 };
 
 export const SellerPhoneNumbers = () => {
@@ -101,9 +108,6 @@ export const SellerPhoneNumbers = () => {
         "BZ Belize": "+5012522475",
         "KH Cambodia": "+85572261424",
     };
-    const results = Object.keys(list).map((countryCode) => {
-        return formatAndReturn(countryCode, list[countryCode]);
-    });
 
     return (
         <>
@@ -112,27 +116,37 @@ export const SellerPhoneNumbers = () => {
                     These are obfuscated numbers of various non-US/CA sellers. This is how their numbers will look in
                     their own regions
                 </p>
-                <div className="grid grid-cols-3 gap-6">{results}</div>
+
+                <div className="grid grid-cols-3 gap-6">
+                    {Object.keys(list).map((countryCode) => {
+                        return <PhoneDisplay countryCode={countryCode} number={list[countryCode]} />;
+                    })}
+                </div>
             </div>
         </>
     );
 };
 
-function formatAndReturn(countryCode, number) {
+const PhoneDisplay = ({ countryCode, number }) => {
     return (
         <div className="space-y-2">
             <div>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Country: <span className="font-mono">{countryCode}</span>
+                <span className="inline-block w-20 text-right mr-2">Country:</span>
+                <span className="font-mono">{countryCode}</span>
             </div>
+
             <div>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Original:&nbsp;<span className="font-mono">{number}</span>
+                <span className="inline-block w-20 text-right mr-2">Original:</span>
+                <span className="font-mono">{number}</span>
             </div>
+
             <div>
-                Formatted:&nbsp;
+                <span className="inline-block w-20 text-right mr-2">Formatted:</span>
+
                 <Phone className="font-mono" countryCode={countryCode.slice(0, 2)}>
                     {number}
                 </Phone>
             </div>
         </div>
     );
-}
+};
