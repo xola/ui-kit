@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -13,50 +15,50 @@ button:focus {
 
 h1 {
     @apply text-2xl; /* 24px */
-    @apply leading-p1;
     @apply font-bold;
+    @apply leading-p1 tracking-tightest;
 }
 
 h2 {
     @apply text-xl; /* 21px */
-    @apply leading-p1;
     @apply font-bold;
+    @apply leading-p1 tracking-tightest;
 }
 
 h3 {
     @apply text-lg; /* 18px */
-    @apply leading-p2;
     @apply font-bold;
+    @apply tracking-tightest;
 }
 
 h4 {
     @apply text-md; /* 16 px */
-    @apply leading-p2;
+    @apply leading-p2 tracking-tightest;
 }
 
 h5 {
     @apply text-base; /* 14 px */
-    @apply leading-p2;
+    @apply leading-p2 tracking-tightest;
 }
 
 h6 {
     @apply text-sm; /* 14 px */
-    @apply leading-p3;
+    @apply leading-p3 tracking-tightest;
 }
 
 .p1 {
-    @apply text-md;
-    @apply leading-p1;
+    @apply text-md; /* 16px */
+    @apply leading-p1 tracking-tightest;
 }
 
 .p2 {
-    @apply text-base;
-    @apply leading-p2;
+    @apply text-base;  /* 14px */
+    @apply leading-p2 tracking-tightest;
 }
 
 .p3 {
-    @apply text-sm;
-    @apply leading-p3;
+    @apply text-sm;  /* 12px */
+    @apply leading-p3 tracking-tightest;
 }
 
 .badge .icon {

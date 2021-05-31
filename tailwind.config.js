@@ -140,7 +140,7 @@ module.exports = {
 
         extend: {
             fontFamily: {
-                sans: ["Helvetica Neue", "Helvetica", "Arial", "sans-serif"],
+                sans: ["Inter", ...defaultTheme.fontFamily.sans],
             },
 
             // P1 - Big 16px 130%
@@ -151,6 +151,11 @@ module.exports = {
                 p2: "130%",
                 p3: "110%",
                 p4: "100%",
+            },
+
+            letterSpacing: {
+                tightest: "-.4px",
+                // TODO: Other letter spacings are in EM and need to be coverted to px
             },
         },
     },
