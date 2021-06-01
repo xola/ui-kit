@@ -15,7 +15,7 @@ export default create({
     appBorderRadius: 4,
 
     // Typography
-    fontBase: '"SF Pro Display", "Segoe UI", Arial, "Helvetica Neue",sans-serif',
+    fontBase: "Inter, system-ui -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji'",
     fontCode: "monospace",
 
     // Text colors
@@ -34,5 +34,5 @@ export default create({
     inputBorderRadius: 4,
 
     brandTitle: "Xola's UI Components",
-    brandImage: "https://c02.xola.com/images/xola-logo-header.png",
+    brandImage: "https://xola.com/images/xola-logo-header.png",
 });
