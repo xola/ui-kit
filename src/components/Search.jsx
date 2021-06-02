@@ -54,9 +54,10 @@ export const Search = ({
 
         if (selectedItem === submitValueItem) {
             onSubmit?.(inputValue);
+            inputRef.current.blur(); // Remove focus so that focusing away and coming doesn't open the search box
         } else if (selectedItem) {
             onSelect?.(selectedItem);
-            inputRef.current.blur(); // Remove focus from the search box so rest of UI can be used
+            inputRef.current.blur(); // Remove focus so that focusing away and coming doesn't open the search box
         }
 
         // Always close the menu after an item is selected.
