@@ -9,7 +9,7 @@ const sizes = {
 
 const ButtonGroup = ({ children, size, value, onChange, ...rest }) => {
     return (
-        <span className="inline-flex" {...rest}>
+        <span className="inline-flex whitespace-nowrap" {...rest}>
             {Children.map(children, (child, index) => {
                 const buttonProps = { size };
 

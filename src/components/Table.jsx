@@ -28,7 +28,7 @@ Table.Header.displayName = "Table.Header";
 Table.Body = ({ className, striped = false, children, ...rest }) => {
     return (
         <tbody className={clsx("border-none", className)} {...rest}>
-            {Children.map(children, (child) => cloneElement(child, { striped }))}
+            {Children.map(children, (child) => child && cloneElement(child, { striped }))}
         </tbody>
     );
 };
