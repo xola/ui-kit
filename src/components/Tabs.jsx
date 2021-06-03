@@ -8,7 +8,7 @@ export const Tabs = ({ className, children, value, onChange, ...rest }) => {
 
     return (
         <>
-            <div className={clsx("bg-gray-lighter", className)} {...rest}>
+            <div className={clsx("bg-gray-lighter overflow-x-auto", className)} {...rest}>
                 <nav className="flex">
                     {tabs.map((child, index) => {
                         return cloneElement(child, {
