@@ -7,9 +7,13 @@ export default {
 };
 
 export const Default = () => {
+    return <Skeleton>Loading...</Skeleton>;
+};
+
+export const WithoutAnimation = () => {
     return (
-        <div className="space-x-4">
-            <Skeleton width="w-1/2">Loading...</Skeleton>
-        </div>
+        <Skeleton className="w-1/2" animate={false}>
+            Not Available
+        </Skeleton>
     );
 };
