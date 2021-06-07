@@ -30,78 +30,76 @@ export const Login = ({ defaultValues, loading = false, error = null, onSubmit }
 
     return (
         <div className={"login-container h-screen bg-opacity-40 bg-white"}>
-            <div className="flex-grow">
-                <div className="flex flex-col justify-center items-center space-y-8 w-full h-screen md:full">
-                    <div className="py-0 px-9 rounded-lg md:py-10 w-82 md:bg-white">
-                        <div className="mb-12 md:mb-10">
-                            <XolaLogo className="mx-auto w-auto h-10 md:h-12 md:mb-20" />
-                        </div>
-
-                        <form onSubmit={handleSubmit}>
-                            <fieldset className="space-y-6" disabled={loading}>
-                                <div className="-space-y-px bg-white rounded-md">
-                                    <FormGroup className="md:mb-7">
-                                        <Label>Email</Label>
-
-                                        <Input
-                                            name="email"
-                                            type="email"
-                                            autoComplete="email"
-                                            value={values.email}
-                                            onChange={handleInputChange}
-                                            error={!!error}
-                                            required
-                                        />
-                                    </FormGroup>
-
-                                    <FormGroup>
-                                        <Label>Password</Label>
-
-                                        <Input
-                                            name="password"
-                                            type="password"
-                                            autoComplete="current-password"
-                                            value={values.password}
-                                            onChange={handleInputChange}
-                                            error={!!error}
-                                            required
-                                        />
-                                    </FormGroup>
-                                </div>
-
-                                <Checkbox
-                                    name="remember"
-                                    label="Remember me"
-                                    checked={values.remember}
-                                    onChange={handleCheckboxChange}
-                                />
-
-                                {error ? <Alert color="danger">{error}</Alert> : null}
-
-                                <Button type="submit" className="w-full" color="primary">
-                                    {loading ? <Spinner size="current" color="current" className="mr-2" /> : null}
-                                    Login
-                                </Button>
-
-                                <div className="mt-5 text-sm text-center">
-                                    <a
-                                        href="https://xola.com/resetting/form"
-                                        className="font-semibold underline text-gray-darker hover:text-black"
-                                        target="_blank"
-                                    >
-                                        Forgot your password?
-                                    </a>
-                                </div>
-                            </fieldset>
-                        </form>
+            <div className="flex flex-col justify-center items-center space-y-8 w-full h-[90%] md:full">
+                <div className="px-9 md:py-10 w-82 py-0 rounded-lg md:bg-white">
+                    <div className="md:mb-10 mb-12">
+                        <XolaLogo className="md:h-12 md:mb-20 w-auto h-10 mx-auto" />
                     </div>
+
+                    <form onSubmit={handleSubmit}>
+                        <fieldset className="space-y-6" disabled={loading}>
+                            <div className="-space-y-px bg-white rounded-md">
+                                <FormGroup className="md:mb-7">
+                                    <Label>Email</Label>
+
+                                    <Input
+                                        name="email"
+                                        type="email"
+                                        autoComplete="email"
+                                        value={values.email}
+                                        onChange={handleInputChange}
+                                        error={!!error}
+                                        required
+                                    />
+                                </FormGroup>
+
+                                <FormGroup>
+                                    <Label>Password</Label>
+
+                                    <Input
+                                        name="password"
+                                        type="password"
+                                        autoComplete="current-password"
+                                        value={values.password}
+                                        onChange={handleInputChange}
+                                        error={!!error}
+                                        required
+                                    />
+                                </FormGroup>
+                            </div>
+
+                            <Checkbox
+                                name="remember"
+                                label="Remember me"
+                                checked={values.remember}
+                                onChange={handleCheckboxChange}
+                            />
+
+                            {error ? <Alert color="danger">{error}</Alert> : null}
+
+                            <Button type="submit" className="w-full" color="primary">
+                                {loading ? <Spinner size="current" color="current" className="mr-2" /> : null}
+                                Login
+                            </Button>
+
+                            <div className="mt-5 text-sm text-center">
+                                <a
+                                    href="https://xola.com/resetting/form"
+                                    className="text-gray-darker hover:text-black font-semibold underline"
+                                    target="_blank"
+                                >
+                                    Forgot your password?
+                                </a>
+                            </div>
+                        </fieldset>
+                    </form>
                 </div>
             </div>
 
             <footer>
-                <div className="flex overflow-hidden flex-col justify-center items-center py-1 px-4 w-full sm:px-6 lg:px-8">
-                    <div className="px-4 m-4 text-xs text-center rounded-lg opacity-30 w-82 md:text-sm hover:opacity-80">
-                        <a href="https://www.xola.com/team" target="_blank" className="text-gray-dark">
+                <div className="flex flex-col items-center justify-center w-full px-4 py-1 overflow-hidden sm:px-6 lg:px-8">
+                    <div className="px-4 m-5 w-82 opacity-30 hover:opacity-80 md:text-sm text-xs text-center rounded-lg">
+                        <a href="https://www.xola.com/team" target="_blank" className="md:text-gray">
                             Handcrafted in Houston, Belgrade & Bengaluru
                             <div className="text-center">&copy; {new Date().getFullYear()} Xola, Inc.</div>
                         </a>
