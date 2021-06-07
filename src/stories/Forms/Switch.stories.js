@@ -4,7 +4,7 @@ import { Switch } from "../..";
 
 export default {
     primary: true,
-    title: "Components/Forms/Switch",
+    title: "Forms/Switch",
     parameters: {
         docs: {
             description: {

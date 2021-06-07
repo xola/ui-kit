@@ -1,5 +1,5 @@
 import React from "react";
-import * as all from "..";
+import * as all from "../..";
 import _ from "lodash";
 import clsx from "clsx";
 
@@ -24,7 +24,7 @@ const colors = [
 ];
 
 export default {
-    title: "Data Display/Icons",
+    title: "Media/Icons",
     argTypes: {
         color: {
             description: "Colors",
