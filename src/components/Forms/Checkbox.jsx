@@ -13,7 +13,7 @@ const Checkbox = ({ label, ...rest }) => {
                 id={id}
             />
 
-            <label htmlFor={id} className="ml-2 text-gray-darker leading-none">
+            <label htmlFor={id} className="ml-2 leading-none text-gray-darker">
                 {label}
             </label>
         </div>

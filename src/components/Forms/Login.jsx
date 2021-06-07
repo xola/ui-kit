@@ -31,10 +31,10 @@ export const Login = ({ defaultValues, loading = false, error = null, onSubmit }
     return (
         <div className={"login-container h-screen bg-opacity-40 bg-white"}>
             <div className="flex-grow">
-                <div className="flex flex-col items-center justify-center w-full h-screen md:full space-y-8">
-                    <div className="px-9 py-0 md:py-10 rounded-lg w-82 md:bg-white">
+                <div className="flex flex-col justify-center items-center space-y-8 w-full h-screen md:full">
+                    <div className="py-0 px-9 rounded-lg md:py-10 w-82 md:bg-white">
                         <div className="mb-12 md:mb-10">
-                            <XolaLogo className="w-auto h-10 mx-auto md:h-12 md:mb-20" />
+                            <XolaLogo className="mx-auto w-auto h-10 md:h-12 md:mb-20" />
                         </div>
 
                         <form onSubmit={handleSubmit}>
@@ -99,8 +99,8 @@ export const Login = ({ defaultValues, loading = false, error = null, onSubmit }
             </div>
 
             <footer>
-                <div className="flex flex-col items-center justify-center w-full px-4 py-1 overflow-hidden sm:px-6 lg:px-8">
-                    <div className="px-4 m-4 text-xs text-center rounded-lg w-82 md:text-sm opacity-30 hover:opacity-80">
+                <div className="flex overflow-hidden flex-col justify-center items-center py-1 px-4 w-full sm:px-6 lg:px-8">
+                    <div className="px-4 m-4 text-xs text-center rounded-lg opacity-30 w-82 md:text-sm hover:opacity-80">
                         <a href="https://www.xola.com/team" target="_blank" className="text-gray-dark">
                             Handcrafted in Houston, Belgrade & Bengaluru
                             <div className="text-center">&copy; {new Date().getFullYear()} Xola, Inc.</div>

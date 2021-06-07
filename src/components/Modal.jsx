@@ -30,8 +30,8 @@ export const Modal = ({
 
     return (
         <Transition.Root show={show} as={Fragment}>
-            <Dialog as="div" static className="fixed inset-0 z-10 overflow-y-auto" open={show} onClose={onClickOutside}>
-                <div className="flex items-end justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+            <Dialog as="div" static className="overflow-y-auto fixed inset-0 z-10" open={show} onClose={onClickOutside}>
+                <div className="flex justify-center items-end px-4 pt-4 pb-20 min-h-screen text-center sm:block sm:p-0">
                     <Transition.Child
                         as={Fragment}
                         enter="ease-out duration-300"
@@ -41,7 +41,7 @@ export const Modal = ({
                         leaveFrom="opacity-100"
                         leaveTo="opacity-0"
                     >
-                        <Dialog.Overlay className="fixed inset-0 bg-gray-dark bg-opacity-75 transition-opacity" />
+                        <Dialog.Overlay className="fixed inset-0 bg-opacity-75 transition-opacity bg-gray-dark" />
                     </Transition.Child>
 
                     {/* This element is to trick the browser into centering the modal contents. */}
@@ -73,7 +73,7 @@ Modal.Core = forwardRef(({ width, showClose, onClick, Header, Body, Footer }, re
     return (
         <div ref={ref} className={modalClasses}>
             <div className="px-8 pt-5 bg-white">
-                <div className="absolute top-0 right-0 hidden px-8 sm:block pt-7">
+                <div className="hidden absolute top-0 right-0 px-8 pt-7 sm:block">
                     {showClose && (
                         <div className="text-xl cursor-pointer text-gray hover:text-gray-darker" onClick={onClick}>
                             ×
@@ -82,7 +82,7 @@ Modal.Core = forwardRef(({ width, showClose, onClick, Header, Body, Footer }, re
                 </div>
 
                 <div className="sm:flex sm:items-start">
-                    <div className="w-full pt-3 text-center">
+                    <div className="pt-3 w-full text-center">
                         {Header}
                         {Body}
                     </div>
@@ -98,7 +98,7 @@ Modal.Core.displayName = "Modal.Core";
 
 Modal.Header = ({ children }) => {
     return (
-        <Dialog.Title as="h3" className="text-2xl font-semibold text-center text-black modal-header leading-6">
+        <Dialog.Title as="h3" className="text-2xl font-semibold leading-6 text-center text-black modal-header">
             {children}
         </Dialog.Title>
     );

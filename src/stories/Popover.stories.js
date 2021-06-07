@@ -72,7 +72,7 @@ export const Default = ({ demoText, ...rest }) => {
 export const NoTitle = ({ demoText, ...rest }) => {
     const content = (
         <Popover.Content>
-            <dl className="text-sm space-y-2">
+            <dl className="space-y-2 text-sm">
                 <div className="grid grid-cols-2 gap-4">
                     <dt className="font-bold">Demo Request</dt>
                     <dd>Dec 21, 2020</dd>

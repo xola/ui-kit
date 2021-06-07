@@ -26,5 +26,5 @@ HeaderToolbar.Breadcrumb = ({ className, children }) => {
 };
 
 HeaderToolbar.Search = (props) => {
-    return <Search className="w-full flex-grow pr-1" {...props} />;
+    return <Search className="flex-grow pr-1 w-full" {...props} />;
 };

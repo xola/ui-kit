@@ -7,11 +7,11 @@ export default {
 export const Default = () => {
     return (
         <div className="space-y-4">
-            <a href="https://xola.com" target="_blank" className="text-md font-semibold text-primary">
+            <a href="https://xola.com" target="_blank" className="font-semibold text-md text-primary">
                 Link with Colors
             </a>
             <br />
-            <a href="https://xola.com" target="_blank" className="text-md font-semibold">
+            <a href="https://xola.com" target="_blank" className="font-semibold text-md">
                 Link L1
             </a>
             <br />

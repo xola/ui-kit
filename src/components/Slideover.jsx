@@ -9,8 +9,8 @@ export const Slideover = ({ open = false, title, content, onClose, classNames = 
 
     return (
         <Transition.Root show={open} as={Fragment}>
-            <Dialog as="div" static className="fixed inset-0 overflow-hidden" open={open} onClose={onClose}>
-                <div className="absolute inset-0 overflow-hidden">
+            <Dialog as="div" static className="overflow-hidden fixed inset-0" open={open} onClose={onClose}>
+                <div className="overflow-hidden absolute inset-0">
                     <Transition.Child
                         as={Fragment}
                         enter="ease-in-out duration-500"
@@ -20,10 +20,10 @@ export const Slideover = ({ open = false, title, content, onClose, classNames = 
                         leaveFrom="opacity-100"
                         leaveTo="opacity-0"
                     >
-                        <Dialog.Overlay className="absolute inset-0 bg-gray bg-opacity-75 transition-opacity" />
+                        <Dialog.Overlay className="absolute inset-0 bg-opacity-75 transition-opacity bg-gray" />
                     </Transition.Child>
 
-                    <div className="fixed inset-y-0 right-0 pl-10 max-w-full flex">
+                    <div className="flex fixed inset-y-0 right-0 pl-10 max-w-full">
                         <Transition.Child
                             as={Fragment}
                             enter="transform transition ease-in-out duration-500 sm:duration-700"
@@ -34,9 +34,9 @@ export const Slideover = ({ open = false, title, content, onClose, classNames = 
                             leaveTo="translate-x-full"
                         >
                             <div className="w-screen max-w-md">
-                                <div className="h-full flex flex-col py-8 bg-white shadow-xl overflow-y-auto">
+                                <div className="flex overflow-y-auto flex-col py-8 h-full bg-white shadow-xl">
                                     <div className="px-4 sm:px-6">
-                                        <div className="flex items-start justify-between">
+                                        <div className="flex justify-between items-start">
                                             <Dialog.Title className={clsx("text-base font-semibold", classNames.title)}>
                                                 {title}
                                             </Dialog.Title>

@@ -29,7 +29,7 @@ export const Sidebar = ({ children, className, footer, notifications, fixed, onL
                 />
             </div>
 
-            <div className="space-y-2 flex-grow">{children}</div>
+            <div className="flex-grow space-y-2">{children}</div>
             {footer}
         </div>
     );
@@ -49,7 +49,7 @@ Sidebar.Link = ({ active, icon: Icon, children, size = "small", ...rest }) => {
         >
             <Icon className="w-5 h-5 xl:mr-3" />
             <span className="hidden px-1 xl:inline">{children}</span>
-            <ChevronRightIcon className="hidden w-3 h-3 ml-auto xl:inline" />
+            <ChevronRightIcon className="hidden ml-auto w-3 h-3 xl:inline" />
         </button>
     );
 };
@@ -59,7 +59,7 @@ Sidebar.Link.displayName = "Sidebar.Link";
 Sidebar.Footer = ({ children, ...rest }) => {
     return (
         <div className="p-2" {...rest}>
-            <div className="border-t border-secondary-darker pb-2 mx-6" />
+            <div className="pb-2 mx-6 border-t border-secondary-darker" />
             {children}
         </div>
     );
@@ -70,12 +70,12 @@ Sidebar.Footer.displayName = "Sidebar.Footer";
 Sidebar.Footer.Avatar = ({ name, ...rest }) => {
     return (
         <button
-            className="xl:px-6 py-3 hover:bg-gray-darker rounded cursor-pointer flex items-center justify-center xl:justify-start w-full"
+            className="flex justify-center items-center py-3 w-full rounded cursor-pointer xl:px-6 hover:bg-gray-darker xl:justify-start"
             {...rest}
         >
             <Avatar size="small" name={name} />
             <span className="hidden text-sm xl:inline ml-2 max-w-[50px]">{name}</span>
-            <ChevronDownIcon className="ml-auto hidden xl:inline" />
+            <ChevronDownIcon className="hidden ml-auto xl:inline" />
         </button>
     );
 };
@@ -85,7 +85,7 @@ Sidebar.Footer.Avatar.displayName = "Sidebar.Footer.Avatar";
 Sidebar.Footer.Button = ({ icon: Icon, label, ...rest }) => {
     return (
         <button
-            className="xl:px-6 py-3 hover:bg-gray-darker rounded cursor-pointer flex items-center justify-center xl:justify-start w-full"
+            className="flex justify-center items-center py-3 w-full rounded cursor-pointer xl:px-6 hover:bg-gray-darker xl:justify-start"
             {...rest}
         >
             <Icon className="w-5 h-5 xl:ml-2 xl:mr-5" />

@@ -3,8 +3,8 @@ import React, { Children, cloneElement } from "react";
 
 export const Table = ({ className, ...rest }) => (
     <div className="flex flex-col">
-        <div className="-my-2 overflow-x-auto">
-            <div className="inline-block min-w-full py-2 align-middle">
+        <div className="overflow-x-auto -my-2">
+            <div className="inline-block py-2 min-w-full align-middle">
                 <div className="overflow-hidden border-b border-gray-lighter sm:rounded-lg">
                     <table className={clsx(className, "min-w-full divide-y border border-gray-lighter")} {...rest} />
                 </div>

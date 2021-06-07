@@ -106,10 +106,10 @@ export const Search = ({
     useHotkeys("esc", () => inputRef.current.blur(), { enableOnTags: ["INPUT"] });
 
     return (
-        <div className="w-full relative">
+        <div className="relative w-full">
             <div {...getComboboxProps({ className: "w-full relative rounded-md" })}>
                 <div className="absolute inset-y-0 top-[-2px] left-0 hidden md:flex items-center pointer-events-none">
-                    <SearchIcon className="h-4 w-4 text-gray-darker" />
+                    <SearchIcon className="w-4 h-4 text-gray-darker" />
                 </div>
 
                 <input
@@ -126,7 +126,7 @@ export const Search = ({
                     })}
                 />
 
-                <div className="hidden lg:flex items-center absolute inset-y-0 right-0 pr-3 pointer-events-none space-x-1">
+                <div className="hidden absolute inset-y-0 right-0 items-center pr-3 space-x-1 pointer-events-none lg:flex">
                     {showShortcutKey ? (
                         <>
                             <Key char="cmd" /> <Key char="K" />
@@ -173,7 +173,7 @@ export const Search = ({
                 {open && noResultFound ? <li className="p-2 cursor-not-allowed">No results found</li> : null}
 
                 {open && itemList.length < 5 && (
-                    <li className="search-footer text-sm text-gray-dark sticky bottom-0 flex p-2 space-x-5 pointer-events">
+                    <li className="flex sticky bottom-0 p-2 space-x-5 text-sm search-footer text-gray-dark pointer-events">
                         <span className="flex items-center">
                             <Key char="up" className="mr-0.5" />
                             <Key char="down" className="mr-2" /> to navigate
