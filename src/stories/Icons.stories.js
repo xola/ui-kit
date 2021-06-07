@@ -24,7 +24,7 @@ const colors = [
 ];
 
 export default {
-    title: "Components/Others/Icons",
+    title: "Data Display/Icons",
     argTypes: {
         color: {
             description: "Colors",

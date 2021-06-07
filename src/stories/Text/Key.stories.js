@@ -2,7 +2,7 @@ import React from "react";
 import { Key } from "../..";
 
 export default {
-    title: "Components/Text/Key",
+    title: "Data Display/Text/Key",
     component: Key,
     parameters: {
         docs: {

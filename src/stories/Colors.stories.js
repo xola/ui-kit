@@ -2,7 +2,7 @@ import clsx from "clsx";
 import React from "react";
 
 export default {
-    title: "Components/Colors",
+    title: "Data Display/Colors",
 };
 
 const bgColors = [
