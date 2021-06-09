@@ -1,14 +1,14 @@
+import PropTypes from "prop-types";
 import React, { useState } from "react";
-import { Button } from "../Button";
-import { Spinner } from "../Spinner";
+import XolaLogo from "../../images/XolaLogo";
 import { Alert } from "../Alert";
+import { Button } from "../Button";
+import { Checkbox } from "../Forms/Checkbox";
 import { FormGroup } from "../Forms/FormGroup";
 import { Input } from "../Forms/Input";
 import { Label } from "../Forms/Label";
-import PropTypes from "prop-types";
-import Checkbox from "./Checkbox";
+import { Spinner } from "../Spinner";
 import "./Login.css";
-import XolaLogo from "../../images/XolaLogo";
 
 export const Login = ({ defaultValues, loading = false, error = null, onSubmit }) => {
     const [values, setValues] = useState({ email: "", password: "", remember: false, ...defaultValues });

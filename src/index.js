@@ -19,12 +19,12 @@ export { Input } from "./components/Forms/Input";
 export { Switch } from "./components/Forms/Switch";
 export { Checkbox } from "./components/Forms/Checkbox";
 export { Label } from "./components/Forms/Label";
-export { Login } from "./components/Forms/Login";
 export { HeaderToolbar } from "./components/HeaderToolbar";
 export { Tabs } from "./components/Tabs";
 export { Skeleton } from "./components/Skeleton";
 export { Slideover } from "./components/Slideover";
 export { Key } from "./components/Key";
+export { Login } from "./components/Screens/Login";
 
 // Utilities
 export { Currency } from "./components/Utilities/Currency";
