@@ -28,13 +28,11 @@ export const WithIcons = () => {
     return (
         <div className="space-x-4">
             <Button size="medium">
-                <UserIcon />
-                <span>Medium</span>
+                <UserIcon /> Medium
             </Button>
 
             <Button color="success" size="large">
-                <span>Large</span>
-                <UserIcon />
+                Large <UserIcon />
             </Button>
         </div>
     );

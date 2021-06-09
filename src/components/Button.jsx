@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import React from "react";
+import React, { Children } from "react";
 
 const colors = {
     primary: "bg-primary hover:bg-primary-dark disabled:bg-primary border-transparent text-white",
@@ -28,7 +28,10 @@ export const Button = ({ className, color = "primary", size = "medium", children
             )}
             {...rest}
         >
-            {children}
+            {Children.map(children, (child) => {
+                // Wrap only text nodes with a span to allow proper spacing with `space-x-2` class.
+                return typeof child === "string" ? <span>{child}</span> : child;
+            })}
         </button>
     );
 };
