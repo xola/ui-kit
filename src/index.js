@@ -17,6 +17,7 @@ export { Breadcrumb } from "./components/Breadcrumb";
 export { FormGroup } from "./components/Forms/FormGroup";
 export { Input } from "./components/Forms/Input";
 export { Switch } from "./components/Forms/Switch";
+export { Checkbox } from "./components/Forms/Checkbox";
 export { Label } from "./components/Forms/Label";
 export { Login } from "./components/Forms/Login";
 export { HeaderToolbar } from "./components/HeaderToolbar";
