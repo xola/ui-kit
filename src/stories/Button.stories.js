@@ -1,6 +1,5 @@
 import React from "react";
-import { Button, IconButton } from "..";
-import { UserIcon } from "../icons/UserIcon";
+import { Button, UserIcon } from "..";
 
 export default {
     title: "Components/Button",
@@ -25,21 +24,17 @@ export const Colors = () => {
     );
 };
 
-export const WithIconAtStart = () => {
+export const WithIcons = () => {
     return (
         <div className="space-x-4">
-            <Button iconStart={<UserIcon className="inline" />} size="medium">
-                Medium
+            <Button size="medium">
+                <UserIcon />
+                <span>Medium</span>
             </Button>
-        </div>
-    );
-};
 
-export const WithIconAtEnd = () => {
-    return (
-        <div className="space-x-4">
-            <Button iconEnd={<UserIcon className="inline" />} color="success" size="large">
-                Large
+            <Button color="success" size="large">
+                <span>Large</span>
+                <UserIcon />
             </Button>
         </div>
     );
@@ -48,9 +43,9 @@ export const WithIconAtEnd = () => {
 export const IconOnly = () => {
     return (
         <div className="space-x-4">
-            <IconButton icon={<UserIcon className="inline" />} color="primary" size="small" />
-            <IconButton icon={<UserIcon className="inline" />} color="outline" size="medium" />
-            <IconButton icon={<UserIcon className="inline" />} color="success" size="large" />
+            <Button.Icon as={UserIcon} color="primary" size="small" />
+            <Button.Icon as={UserIcon} color="outline" size="medium" />
+            <Button.Icon as={UserIcon} color="success" size="large" />
         </div>
     );
 };
