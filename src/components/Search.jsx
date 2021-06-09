@@ -172,20 +172,22 @@ export const Search = ({
 
                 {open && noResultFound ? <li className="p-2 cursor-not-allowed">No results found</li> : null}
 
-                {open && itemList.length < 5 && (
+                {open && itemList.length < 5 ? (
                     <li className="flex sticky bottom-0 p-2 space-x-5 text-sm search-footer text-gray-dark pointer-events">
                         <span className="flex items-center">
                             <Key char="up" className="mr-0.5" />
                             <Key char="down" className="mr-2" /> to navigate
                         </span>
+
                         <span className="flex items-center">
                             <Key char="enter" className="mr-2" /> to submit
                         </span>
+
                         <span className="flex items-center">
                             <Key char="esc" className="mr-2" /> to close
                         </span>
                     </li>
-                )}
+                ) : null}
             </ul>
         </div>
     );

@@ -1,12 +1,10 @@
 import { Dialog, Transition } from "@headlessui/react";
 import clsx from "clsx";
-import React, { Fragment, useRef } from "react";
+import React, { Fragment } from "react";
 import { XIcon } from "../icons/XIcon";
 import { Button } from "./Button";
 
 export const Slideover = ({ open = false, title, content, onClose, classNames = {} }) => {
-    const initialFocusRef = useRef();
-
     return (
         <Transition.Root show={open} as={Fragment}>
             <Dialog as="div" static className="overflow-hidden fixed inset-0" open={open} onClose={onClose}>
