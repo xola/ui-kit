@@ -1,19 +1,19 @@
 import getUserLocale from "get-user-locale";
-import _ from "lodash";
 
 const userLocale = getUserLocale();
 
+const zeroDecimalCurrencies = ["JPY", "CLP", "KRW", "LAK", "PYG", "VND", "VUV"];
+
 export const isZeroDecimal = (currency) => {
-    var zeroDecimalCurrencies = ["JPY", "CLP", "KRW", "LAK", "PYG", "VND", "VUV"];
-    return _.includes(zeroDecimalCurrencies, currency);
+    return zeroDecimalCurrencies.includes(currency);
 };
 
 export const getSymbol = (currency, locale = userLocale, amount = 0) => {
-    const str = new Intl.NumberFormat(locale, {
+    const string = new Intl.NumberFormat(locale, {
         style: "currency",
         currency,
         maximumFractionDigits: 0,
     }).format(amount);
 
-    return str.replace(/\d/g, "").trim();
+    return string.replace(/\d/g, "").trim();
 };

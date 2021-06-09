@@ -39,7 +39,7 @@ Currency.Split = ({ currency = "USD", locale = userLocale, children }) => {
     let amountDecimal = roundedAmountArray[1] || "0";
 
     // Appends '0' if the length of decimal value is 1 i.e 99.1 will become 99.10
-    if (amountDecimal.length == 1) {
+    if (amountDecimal.length === 1) {
         amountDecimal += "0";
     }
 
