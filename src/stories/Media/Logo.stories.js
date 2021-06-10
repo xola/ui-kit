@@ -38,8 +38,8 @@ export default {
     },
 };
 
-export const Default = ({ src = "http://placekitten.com/300/300", size = "small" }) => {
-    return <Logo src={src} size={size} />;
+export const Default = ({ src: source = "http://placekitten.com/300/300", size = "small" }) => {
+    return <Logo src={source} size={size} />;
 };
 
 export const AllSizes = () => {

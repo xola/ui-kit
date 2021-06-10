@@ -60,6 +60,7 @@ const Input = (props) => {
     if (props.isHidden) {
         return <components.Input {...props} />;
     }
+
     return (
         <div className="">
             <components.Input {...props} className="focus:ring-transparent" />
@@ -68,9 +69,9 @@ const Input = (props) => {
 };
 
 function getLength(options) {
-    return options.reduce((acc, curr) => {
-        if (curr.options) return acc + getLength(curr.options);
-        return acc + 1;
+    return options.reduce((accumulator, current) => {
+        if (current.options) return accumulator + getLength(current.options);
+        return accumulator + 1;
     }, 0);
 }
 
@@ -81,13 +82,14 @@ const menuHeaderStyle = {
 const Menu = (props) => {
     const optionsLength = getLength(props.options);
     if (optionsLength === 0) {
-        return <Fragment></Fragment>;
+        return <></>;
     }
+
     return (
-        <Fragment>
+        <>
             {/* <div style={menuHeaderStyle}>Custom Menu with {optionsLength} options</div> */}
             <components.Menu {...props}>{props.children}</components.Menu>
-        </Fragment>
+        </>
     );
 };
 
@@ -132,25 +134,25 @@ const onChange = (selected) => {
 export const Search = () => {
     return (
         <AsyncSelect
-            closeMenuOnSelect={true}
+            closeMenuOnSelect
             // components={{ ClearIndicator }}
-            components={{ Input, Menu }}
+            isClearable
             // components={{ Menu, Control: ControlComponent }}
             // styles={{ clearIndicator: ClearIndicatorStyles }}
+            components={{ Input, Menu }}
             placeholder="Customer name or tag"
+            // styles={customStyles}
+            // defaultValue={[options[1]]}
             styles={{
                 dropdownIndicator: DropdownIndicatorStyles,
                 indicatorSeparator: IndicatorSeparatorStyles,
                 valueContainer: ValueContainerStyles,
                 clearIndicator: ClearIndicatorStyles,
             }}
-            // styles={customStyles}
-            // defaultValue={[options[1]]}
             loadOptions={loadOptions}
-            isClearable={true}
+            formatOptionLabel={formatOptionLabel}
             onInputChange={handleInputChange}
             onChange={onChange}
-            formatOptionLabel={formatOptionLabel}
         />
     );
 };
@@ -169,5 +171,5 @@ const loadOptions = _.debounce((inputValue, callback) => {
 }, 500);
 
 const formatOptionLabel = (option) => {
-    return <span className="" dangerouslySetInnerHTML={{ __html: option.label }}></span>;
+    return <span className="" dangerouslySetInnerHTML={{ __html: option.label }} />;
 };

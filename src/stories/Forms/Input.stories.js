@@ -40,7 +40,7 @@ export const Disabled = () => {
     return (
         <FormGroup>
             <Label>ID</Label>
-            <Input value="f003e8a95139cd7b70999070838561e0" disabled />
+            <Input disabled value="f003e8a95139cd7b70999070838561e0" />
         </FormGroup>
     );
 };

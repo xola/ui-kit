@@ -1,7 +1,6 @@
 import clsx from "clsx";
 import React from "react";
-import { StackIcon, EditIcon, BoxIcon, BellIcon, CakeIcon, CashIcon } from "../..";
-import { Badge } from "../..";
+import { StackIcon, EditIcon, BoxIcon, BellIcon, CakeIcon, CashIcon, Badge } from "../..";
 
 export default {
     title: "Data Display/Badges",

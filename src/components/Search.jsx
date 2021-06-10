@@ -9,7 +9,7 @@ import { SearchIcon } from "../icons/SearchIcon";
 import { Key } from "./Key";
 import { Spinner } from "./Spinner";
 
-const callDebounced = debounce((fn, value) => fn(value), 500);
+const callDebounced = debounce((function_, value) => function_(value), 500);
 
 /**
  * @param {string?}     props.className     Class name to apply to the input.
@@ -35,7 +35,7 @@ export const Search = ({
 }) => {
     const [showShortcutKey, setShowShortcutKey] = useState(true);
     const [inputValue, setInputValue] = useState(defaultValue ?? "");
-    const inputRef = useRef();
+    const inputReference = useRef();
 
     // Placeholder item for the current search input value.
     // Will be added to the list only if not empty.
@@ -54,10 +54,10 @@ export const Search = ({
 
         if (selectedItem === submitValueItem) {
             onSubmit?.(inputValue);
-            inputRef.current.blur(); // Remove focus so that focusing away and coming doesn't open the search box
+            inputReference.current.blur(); // Remove focus so that focusing away and coming doesn't open the search box
         } else if (selectedItem) {
             onSelect?.(selectedItem);
-            inputRef.current.blur(); // Remove focus so that focusing away and coming doesn't open the search box
+            inputReference.current.blur(); // Remove focus so that focusing away and coming doesn't open the search box
         }
 
         // Always close the menu after an item is selected.
@@ -100,10 +100,10 @@ export const Search = ({
     const jumpToSearchShortcut = isOSX ? "cmd+k" : "ctrl+k";
     useHotkeys(jumpToSearchShortcut, (e) => {
         e.preventDefault(); // So in Firefox we don't jump to it's search bar
-        inputRef.current.focus();
+        inputReference.current.focus();
     });
     // When `esc` is used inside the search box we should escape ot
-    useHotkeys("esc", () => inputRef.current.blur(), { enableOnTags: ["INPUT"] });
+    useHotkeys("esc", () => inputReference.current.blur(), { enableOnTags: ["INPUT"] });
 
     return (
         <div className="relative w-full">
@@ -119,7 +119,7 @@ export const Search = ({
                             className,
                             "block w-full border-none pl-0 md:pl-7 text-base md:text-md text-gray-darker leading-p2 focus:ring-0",
                         ),
-                        ref: inputRef,
+                        ref: inputReference,
                         onFocus: handleInputFocus,
                         onBlur: () => setShowShortcutKey(true),
                         ...rest,
@@ -147,7 +147,7 @@ export const Search = ({
                     ? itemList.map((item, index) => (
                           <li {...getItemProps({ key: index, item, index })}>
                               {item === submitValueItem ? (
-                                  <Fragment>
+                                  <>
                                       <div
                                           className={clsx(
                                               "p-2 cursor-pointer",
@@ -162,7 +162,7 @@ export const Search = ({
                                               <Spinner size="small" />
                                           </div>
                                       ) : null}
-                                  </Fragment>
+                                  </>
                               ) : (
                                   children?.(item, highlightedIndex === index)
                               )}

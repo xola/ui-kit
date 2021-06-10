@@ -21,11 +21,11 @@ export const Sidebar = ({ children, className, footer, notifications, fixed, onL
 
             <div className="mb-10 text-center">
                 <XolaLogoCircle
-                    onClick={onLogoClick}
                     className={clsx(
                         "inline-block w-12 h-12 xl:w-24 xl:h-24",
                         onLogoClick && "cursor-pointer hover:opacity-80 transition-opacity",
                     )}
+                    onClick={onLogoClick}
                 />
             </div>
 

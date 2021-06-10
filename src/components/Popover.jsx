@@ -9,9 +9,9 @@ import styles from "./Popover.module.css";
 export const Popover = ({ className, children, ...rest }) => {
     return (
         <Tippy
+            interactive
             className={clsx(className, styles.main, "!border-gray-light !rounded-lg")}
             plugins={[followCursor]}
-            interactive
             {...rest}
         >
             <span>{children}</span>

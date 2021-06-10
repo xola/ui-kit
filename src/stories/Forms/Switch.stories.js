@@ -1,5 +1,5 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
+
 import { Switch } from "../..";
 
 export default {
@@ -28,7 +28,7 @@ export default {
 
 export const Default = ({ size }) => {
     const [checked, setChecked] = useState(false);
-    return <Switch checked={checked} onChange={setChecked} size={size} />;
+    return <Switch checked={checked} size={size} onChange={setChecked} />;
 };
 
 export const WithLabel = () => {
@@ -42,5 +42,5 @@ export const WithLabel = () => {
 
 export const Disabled = ({ size }) => {
     const [checked, setChecked] = useState(false);
-    return <Switch checked={checked} onChange={setChecked} disabled size={size} />;
+    return <Switch disabled checked={checked} size={size} onChange={setChecked} />;
 };

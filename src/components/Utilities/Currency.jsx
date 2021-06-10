@@ -24,8 +24,8 @@ export const Currency = ({
 };
 
 Currency.Round = ({ currency, children }) => {
-    const num = roundNumber(currency, children);
-    return <span className="currency-rounded">{num}</span>;
+    const number = roundNumber(currency, children);
+    return <span className="currency-rounded">{number}</span>;
 };
 
 Currency.Split = ({ currency = "USD", locale = userLocale, children }) => {

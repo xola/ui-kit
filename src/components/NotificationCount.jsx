@@ -12,3 +12,7 @@ export const NotificationCount = ({ className, ...rest }) => {
         />
     );
 };
+
+NotificationCount.propTypes = {
+    className: PropTypes.string,
+};

@@ -33,7 +33,7 @@ export const MacCommandKey = () => {
 
 export const SpecialKeys = () => {
     return (
-        <div class="space-x-3">
+        <div className="space-x-3">
             <Key char="shift" />
             <Key char="esc" />
             <Key char="alt" />

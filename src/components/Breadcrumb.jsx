@@ -25,7 +25,7 @@ export const Breadcrumb = ({ className, classNames = {}, separator = "/", childr
 
 Breadcrumb.Item = ({ className, onClick, children }) => {
     return (
-        <div onClick={onClick} className={clsx(className, "inline", onClick && "cursor-pointer hover:underline")}>
+        <div className={clsx(className, "inline", onClick && "cursor-pointer hover:underline")} onClick={onClick}>
             {children}
         </div>
     );

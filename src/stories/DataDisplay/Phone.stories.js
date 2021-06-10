@@ -110,20 +110,18 @@ export const SellerPhoneNumbers = () => {
     };
 
     return (
-        <>
-            <div class="">
-                <p className="mb-4">
-                    These are obfuscated numbers of various non-US/CA sellers. This is how their numbers will look in
-                    their own regions
-                </p>
+        <div className="">
+            <p className="mb-4">
+                These are obfuscated numbers of various non-US/CA sellers. This is how their numbers will look in their
+                own regions
+            </p>
 
-                <div className="grid grid-cols-3 gap-6">
-                    {Object.keys(list).map((countryCode) => {
-                        return <PhoneDisplay countryCode={countryCode} number={list[countryCode]} />;
-                    })}
-                </div>
+            <div className="grid grid-cols-3 gap-6">
+                {Object.keys(list).map((countryCode) => {
+                    return <PhoneDisplay countryCode={countryCode} number={list[countryCode]} />;
+                })}
             </div>
-        </>
+        </div>
     );
 };
 

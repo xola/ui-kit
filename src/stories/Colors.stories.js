@@ -35,16 +35,16 @@ const bgColors = [
 ];
 
 export const BackgroundColors = () => {
-    let components = [];
-    bgColors.forEach((color) => {
+    const components = [];
+    for (const color of bgColors) {
         const component = (
             <div>
-                <div key={color} className={clsx(`w-6 h-6 rounded-full ${color}`)}></div>
+                <div key={color} className={clsx(`w-6 h-6 rounded-full ${color}`)} />
                 <span className="font-mono">{color}</span>
             </div>
         );
         components.push(component);
-    });
+    }
 
     return <div className="grid grid-cols-3 gap-4 w-full">{components}</div>;
 };
@@ -79,8 +79,8 @@ const textColors = [
 ];
 
 export const TextColors = () => {
-    let components = [];
-    textColors.forEach((color) => {
+    const components = [];
+    for (const color of textColors) {
         const component = (
             <div className="flex flex-row space-x-5">
                 <span className={clsx(color, "font-mono")}>{color}</span>
@@ -88,7 +88,7 @@ export const TextColors = () => {
         );
 
         components.push(component);
-    });
+    }
 
     components.push(
         <div className="flex flex-row space-x-5">

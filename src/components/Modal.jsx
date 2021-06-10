@@ -30,7 +30,7 @@ export const Modal = ({
 
     return (
         <Transition.Root show={show} as={Fragment}>
-            <Dialog as="div" static className="overflow-y-auto fixed inset-0 z-10" open={show} onClose={onClickOutside}>
+            <Dialog static as="div" className="overflow-y-auto fixed inset-0 z-10" open={show} onClose={onClickOutside}>
                 <div className="flex justify-center items-end px-4 pt-4 pb-20 min-h-screen text-center sm:block sm:p-0">
                     <Transition.Child
                         as={Fragment}
@@ -63,7 +63,7 @@ export const Modal = ({
     );
 };
 
-Modal.Core = forwardRef(({ width, showClose, onClick, Header, Body, Footer }, ref) => {
+Modal.Core = forwardRef(({ width, showClose, onClick, Header, Body, Footer }, reference) => {
     const modalClasses = clsx(
         width,
         "modal sm:w-full inline-block align-bottom bg-white rounded-lg overflow-hidden shadow-xl transform",
@@ -71,7 +71,7 @@ Modal.Core = forwardRef(({ width, showClose, onClick, Header, Body, Footer }, re
     );
 
     return (
-        <div ref={ref} className={modalClasses}>
+        <div ref={reference} className={modalClasses}>
             <div className="px-8 pt-5 bg-white">
                 <div className="hidden absolute top-0 right-0 px-8 pt-7 sm:block">
                     {showClose && (

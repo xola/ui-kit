@@ -49,8 +49,8 @@ export const XolaLogoCircle = (props) => {
                     y2="57.367"
                     gradientUnits="userSpaceOnUse"
                 >
-                    <stop stopColor="#fff"></stop>
-                    <stop offset="1" stopColor="#626262"></stop>
+                    <stop stopColor="#fff" />
+                    <stop offset="1" stopColor="#626262" />
                 </linearGradient>
                 <linearGradient
                     id="paint1_linear"
@@ -60,8 +60,8 @@ export const XolaLogoCircle = (props) => {
                     y2="85.611"
                     gradientUnits="userSpaceOnUse"
                 >
-                    <stop stopColor="#fff"></stop>
-                    <stop offset="1" stopColor="#909191"></stop>
+                    <stop stopColor="#fff" />
+                    <stop offset="1" stopColor="#909191" />
                 </linearGradient>
                 <linearGradient
                     id="paint2_linear"
@@ -71,8 +71,8 @@ export const XolaLogoCircle = (props) => {
                     y2="201.184"
                     gradientUnits="userSpaceOnUse"
                 >
-                    <stop stopColor="#fff"></stop>
-                    <stop offset="1" stopColor="#909191"></stop>
+                    <stop stopColor="#fff" />
+                    <stop offset="1" stopColor="#909191" />
                 </linearGradient>
                 <linearGradient
                     id="paint3_linear"
@@ -82,8 +82,8 @@ export const XolaLogoCircle = (props) => {
                     y2="204.974"
                     gradientUnits="userSpaceOnUse"
                 >
-                    <stop stopColor="#fff"></stop>
-                    <stop offset="1" stopColor="#626262"></stop>
+                    <stop stopColor="#fff" />
+                    <stop offset="1" stopColor="#626262" />
                 </linearGradient>
             </defs>
         </svg>

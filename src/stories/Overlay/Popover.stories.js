@@ -8,38 +8,43 @@ export default {
     title: "Overlay/Popover",
     component: Popover,
     argTypes: {
-        demoText: getArg("Default", "text", null, "The value for the button", "for this demo only"),
-        trigger: getArg(
+        demoText: getArgument("Default", "text", null, "The value for the button", "for this demo only"),
+        trigger: getArgument(
             "mouseenter",
             "select",
             ["mouseenter", "click", "focus", "focusin", "manual"],
             "One or multiple values to indicate what causes the tooltip to show up",
         ),
-        placement: getArg(
+        placement: getArgument(
             "right",
             "inline-radio",
             ["top", "bottom", "left", "right", "auto"],
             `Where to place the tooltip. [More in the docs](${docs})`,
         ),
-        delay: getArg(0, "number", null, "Delay in ms once a trigger event is fired before a tippy shows or hides"),
-        maxWidth: getArg(
+        delay: getArgument(
+            0,
+            "number",
+            null,
+            "Delay in ms once a trigger event is fired before a tippy shows or hides",
+        ),
+        maxWidth: getArgument(
             350,
             "number",
             null,
             "Specifies the maximum width of the tippy. Useful to prevent it from being too horizontally wide to read",
         ),
-        duration: getArg([300, 250], "array", null, "Duration in ms of the transition animation"),
-        offset: getArg(
+        duration: getArgument([300, 250], "array", null, "Duration in ms of the transition animation"),
+        offset: getArgument(
             [0, 10],
             "array",
             null,
             "Displaces the tippy from its reference element in pixels _(skidding and distance)_",
         ),
-        zIndex: getArg(9999, "number", null, "Specifies the `z-index` CSS on the root popper node"),
+        zIndex: getArgument(9999, "number", null, "Specifies the `z-index` CSS on the root popper node"),
     },
 };
 
-function getArg(defaultValue, type, options, description, summary = null) {
+function getArgument(defaultValue, type, options, description, summary = null) {
     return {
         type: { required: false },
         defaultValue,

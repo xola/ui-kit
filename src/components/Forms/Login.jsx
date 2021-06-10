@@ -1,14 +1,14 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import { Button } from "../Button";
 import { Spinner } from "../Spinner";
 import { Alert } from "../Alert";
 import { FormGroup } from "../Forms/FormGroup";
 import { Input } from "../Forms/Input";
 import { Label } from "../Forms/Label";
-import PropTypes from "prop-types";
+import XolaLogo from "../../images/XolaLogo";
 import Checkbox from "./Checkbox";
 import "./Login.css";
-import XolaLogo from "../../images/XolaLogo";
 
 export const Login = ({ defaultValues, loading = false, error = null, onSubmit }) => {
     const [values, setValues] = useState({ email: "", password: "", remember: false, ...defaultValues });
@@ -29,7 +29,7 @@ export const Login = ({ defaultValues, loading = false, error = null, onSubmit }
     };
 
     return (
-        <div className={"login-container h-screen bg-opacity-40 bg-white"}>
+        <div className="login-container h-screen bg-opacity-40 bg-white">
             <div className="flex flex-col justify-center items-center space-y-8 w-full h-[90%] md:full">
                 <div className="px-9 md:py-10 w-82 py-0 rounded-lg md:bg-white">
                     <div className="md:mb-10 mb-12">
@@ -43,13 +43,13 @@ export const Login = ({ defaultValues, loading = false, error = null, onSubmit }
                                     <Label>Email</Label>
 
                                     <Input
+                                        required
                                         name="email"
                                         type="email"
                                         autoComplete="email"
                                         value={values.email}
-                                        onChange={handleInputChange}
                                         error={!!error}
-                                        required
+                                        onChange={handleInputChange}
                                     />
                                 </FormGroup>
 
@@ -57,13 +57,13 @@ export const Login = ({ defaultValues, loading = false, error = null, onSubmit }
                                     <Label>Password</Label>
 
                                     <Input
+                                        required
                                         name="password"
                                         type="password"
                                         autoComplete="current-password"
                                         value={values.password}
-                                        onChange={handleInputChange}
                                         error={!!error}
-                                        required
+                                        onChange={handleInputChange}
                                     />
                                 </FormGroup>
                             </div>
@@ -87,6 +87,7 @@ export const Login = ({ defaultValues, loading = false, error = null, onSubmit }
                                     href="https://xola.com/resetting/form"
                                     className="text-gray-darker hover:text-black font-semibold underline"
                                     target="_blank"
+                                    rel="noreferrer"
                                 >
                                     Forgot your password?
                                 </a>
@@ -99,7 +100,7 @@ export const Login = ({ defaultValues, loading = false, error = null, onSubmit }
             <footer>
                 <div className="flex flex-col items-center justify-center w-full px-4 py-1 overflow-hidden sm:px-6 lg:px-8">
                     <div className="px-4 m-5 w-82 opacity-30 hover:opacity-80 md:text-sm text-xs text-center rounded-lg">
-                        <a href="https://www.xola.com/team" target="_blank" className="md:text-gray">
+                        <a href="https://www.xola.com/team" target="_blank" className="md:text-gray" rel="noreferrer">
                             Handcrafted in Houston, Belgrade & Bengaluru
                             <div className="text-center">&copy; {new Date().getFullYear()} Xola, Inc.</div>
                         </a>

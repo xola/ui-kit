@@ -26,7 +26,7 @@ export const Default = ({ className }) => {
     const [activeTab, setActiveTab] = useState(0);
 
     return (
-        <Tabs value={activeTab} onChange={(value) => setActiveTab(value)} className={className}>
+        <Tabs value={activeTab} className={className} onChange={(value) => setActiveTab(value)}>
             <Tabs.Tab>Seller Details</Tabs.Tab>
             <Tabs.Panel>Seller Details Content</Tabs.Panel>
             <Tabs.Tab>More Stats</Tabs.Tab>

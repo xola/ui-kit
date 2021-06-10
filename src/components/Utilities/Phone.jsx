@@ -8,19 +8,19 @@ export const Phone = ({ countryCode = "US", className, children }) => {
     const number = children;
 
     try {
-        let phoneObj = phoneUtil.parseAndKeepRawInput(number, countryCode);
+        let phoneObject = phoneUtil.parseAndKeepRawInput(number, countryCode);
 
-        const regionCode = phoneUtil.getRegionCodeForNumber(phoneObj);
+        const regionCode = phoneUtil.getRegionCodeForNumber(phoneObject);
         if (regionCode && regionCode !== countryCode) {
             // If the region code is different than what was passed in, reparse according to that format
-            phoneObj = phoneUtil.parseAndKeepRawInput(number, regionCode);
+            phoneObject = phoneUtil.parseAndKeepRawInput(number, regionCode);
         }
 
         // Parse number for display in the region's format
         let formattedNumber;
         if (regionCode) {
             const format = regionCode === countryCode ? PNF.NATIONAL : PNF.INTERNATIONAL;
-            formattedNumber = phoneUtil.format(phoneObj, format);
+            formattedNumber = phoneUtil.format(phoneObject, format);
         } else {
             // If we didn't detect a region, don't guess and return the original thing
             formattedNumber = number;
@@ -36,8 +36,8 @@ export const Phone = ({ countryCode = "US", className, children }) => {
                 {formattedNumber}
             </span>
         );
-    } catch (err) {
-        // console.log("Invalid phone number", number, err.message);
+    } catch (error) {
+        console.debug("Invalid phone number", number, error.message);
     }
 
     return (

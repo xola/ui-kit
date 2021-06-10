@@ -1,6 +1,6 @@
 import { round } from "mathjs";
-import { isZeroDecimal } from "./currency";
 import getUserLocale from "get-user-locale";
+import { isZeroDecimal } from "./currency";
 
 const userLocale = getUserLocale();
 
@@ -21,17 +21,18 @@ export const numberFormat = (amount, currency = null, locale = userLocale, maxim
 };
 
 export const roundNumber = (currency, amount) => {
-    let num = Number(amount);
+    let number = Number(amount);
 
     if (isZeroDecimal(currency)) {
-        num = round(num);
+        number = round(number);
     } else {
         // It's done this odd way to ensure JS rounds numbers the same way as PHP
-        if (round(num, 3) === round(num, 4)) {
-            num = round(num, 3);
+        if (round(number, 3) === round(number, 4)) {
+            number = round(number, 3);
         }
-        num = round(num, 2);
+
+        number = round(number, 2);
     }
 
-    return num;
+    return number;
 };

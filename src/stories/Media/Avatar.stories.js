@@ -75,7 +75,7 @@ export const AllColorsAndSizes = ({ className, name = "Barthélémy Chalvet" }) 
             {["large", "medium", "small"].map((size) => (
                 <Fragment key={size}>
                     {avatarColors.map((color) => (
-                        <div className="text-center" key={color}>
+                        <div key={color} className="text-center">
                             <Avatar className={className} name={name} size={size} color={color} />
                         </div>
                     ))}

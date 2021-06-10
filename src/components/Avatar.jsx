@@ -26,6 +26,7 @@ export const Avatar = ({ className, name, color = "bg-primary-lighter", size = "
 
 Avatar.propTypes = {
     className: PropTypes.string,
+    color: PropTypes.string,
     name: PropTypes.string,
     size: PropTypes.oneOf(Object.keys(sizes)),
 };

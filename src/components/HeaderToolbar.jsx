@@ -17,11 +17,9 @@ export const HeaderToolbar = ({ classNames, children }) => {
 
 HeaderToolbar.Breadcrumb = ({ className, children }) => {
     return (
-        <>
-            <Breadcrumb className={clsx("text-xl border-r border-gray-light md:pr-4 xl:pr-6", className)}>
-                {children}
-            </Breadcrumb>
-        </>
+        <Breadcrumb className={clsx("text-xl border-r border-gray-light md:pr-4 xl:pr-6", className)}>
+            {children}
+        </Breadcrumb>
     );
 };
 

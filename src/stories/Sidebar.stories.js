@@ -25,7 +25,7 @@ export const Default = () => {
                     </Sidebar.Footer>
                 }
             >
-                <Sidebar.Link icon={UserIcon} active>
+                <Sidebar.Link active icon={UserIcon}>
                     Sellers
                 </Sidebar.Link>
 

@@ -1,6 +1,6 @@
 import _ from "lodash";
 import React from "react";
-import { Currency } from "../../";
+import { Currency } from "../..";
 
 export default {
     title: "Data Display/Currency",
@@ -55,7 +55,7 @@ export default {
     },
 };
 
-const amount = 109482.84;
+const amount = 109_482.84;
 const locale = "en-US";
 
 export const Default = ({ currency, locale, removeTrailingZeroes, amount }) => {
