@@ -1,5 +1,6 @@
 import getUserLocale from "get-user-locale";
 import React from "react";
+import PropTypes from "prop-types";
 import { isZeroDecimal } from "../../helpers/currency";
 import { almostZero, numberFormat, roundNumber } from "../../helpers/numbers";
 
@@ -23,9 +24,28 @@ export const Currency = ({
     return <span className="currency-formatted-amount">{formattedAmount}</span>;
 };
 
+Currency.propTypes = {
+    currency: PropTypes.string,
+    locale: PropTypes.string,
+    removeTrailingZeroes: PropTypes.bool,
+    maximumFractionDigits: PropTypes.number,
+    children: PropTypes.oneOfType([
+        PropTypes.arrayOf(PropTypes.node),
+        PropTypes.node
+    ]).isRequired,
+};
+
 Currency.Round = ({ currency, children }) => {
     const number = roundNumber(currency, children);
     return <span className="currency-rounded">{number}</span>;
+};
+
+Currency.Round.propTypes = {
+    currency: PropTypes.string,
+    children: PropTypes.oneOfType([
+        PropTypes.arrayOf(PropTypes.node),
+        PropTypes.node
+    ]).isRequired,
 };
 
 Currency.Split = ({ currency = "USD", locale = userLocale, children }) => {
@@ -39,7 +59,7 @@ Currency.Split = ({ currency = "USD", locale = userLocale, children }) => {
     let amountDecimal = roundedAmountArray[1] || "0";
 
     // Appends '0' if the length of decimal value is 1 i.e 99.1 will become 99.10
-    if (amountDecimal.length == 1) {
+    if (amountDecimal.length === 1) {
         amountDecimal += "0";
     }
 
@@ -55,4 +75,13 @@ Currency.Split = ({ currency = "USD", locale = userLocale, children }) => {
             )}
         </span>
     );
+};
+
+Currency.Split.propTypes = {
+    currency: PropTypes.string,
+    locale: PropTypes.string,
+    children: PropTypes.oneOfType([
+        PropTypes.arrayOf(PropTypes.node),
+        PropTypes.node
+    ]).isRequired,
 };

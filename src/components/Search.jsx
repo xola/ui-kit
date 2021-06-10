@@ -66,7 +66,9 @@ export const Search = ({
 
     const handleInputChange = ({ inputValue }) => {
         setInputValue(inputValue);
-        onChange && callDebounced(onChange, inputValue);
+        if (onChange) {
+            callDebounced(onChange, inputValue);
+        }
     };
 
     const {
@@ -98,8 +100,8 @@ export const Search = ({
 
     // Keyboard shortcuts.
     const jumpToSearchShortcut = isOSX ? "cmd+k" : "ctrl+k";
-    useHotkeys(jumpToSearchShortcut, (e) => {
-        e.preventDefault(); // So in Firefox we don't jump to it's search bar
+    useHotkeys(jumpToSearchShortcut, (event_) => {
+        event_.preventDefault(); // So in Firefox we don't jump to it's search bar
         inputReference.current.focus();
     });
     // When `esc` is used inside the search box we should escape ot
@@ -116,8 +118,8 @@ export const Search = ({
                     {...getInputProps({
                         type: "text",
                         className: clsx(
-                            className,
                             "block w-full border-none pl-0 md:pl-7 text-base md:text-md text-gray-darker leading-p2 focus:ring-0",
+                            className,
                         ),
                         ref: inputReference,
                         onFocus: handleInputFocus,
@@ -145,7 +147,7 @@ export const Search = ({
             >
                 {open
                     ? itemList.map((item, index) => (
-                          <li {...getItemProps({ key: index, item, index })}>
+                          <li key={item} {...getItemProps({ key: index, item, index })}>
                               {item === submitValueItem ? (
                                   <>
                                       <div
@@ -199,6 +201,10 @@ Search.propTypes = {
     onChange: PropTypes.func,
     onSubmit: PropTypes.func,
     onSelect: PropTypes.func,
-    children: PropTypes.func,
+    children: PropTypes.oneOfType([
+        PropTypes.arrayOf(PropTypes.node),
+        PropTypes.node,
+        PropTypes.func,
+    ]),
     loading: PropTypes.bool,
 };

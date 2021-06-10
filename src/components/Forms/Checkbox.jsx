@@ -1,7 +1,8 @@
 import uniqueId from "lodash/uniqueId";
+import PropTypes from "prop-types";
 import React, { useState } from "react";
 
-const Checkbox = ({ label, ...rest }) => {
+export const Checkbox = ({ label, ...rest }) => {
     const [id] = useState(rest.id ?? uniqueId("checkbox-"));
 
     return (
@@ -20,4 +21,6 @@ const Checkbox = ({ label, ...rest }) => {
     );
 };
 
-export default Checkbox;
+Checkbox.propTypes = {
+    label: PropTypes.string.isRequired,
+};

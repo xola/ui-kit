@@ -1,5 +1,6 @@
 import { Dialog, Transition } from "@headlessui/react";
 import clsx from "clsx";
+import PropTypes from "prop-types";
 import React, { forwardRef, Fragment } from "react";
 
 const sizes = {
@@ -63,6 +64,18 @@ export const Modal = ({
     );
 };
 
+Modal.propTypes = {
+    size: PropTypes.oneOf(Object.keys(sizes)),
+    show: PropTypes.bool,
+    showClose: PropTypes.bool,
+    closeOnClickOutside: PropTypes.bool,
+    onHide: PropTypes.func.isRequired,
+    children: PropTypes.oneOfType([
+        PropTypes.arrayOf(PropTypes.node),
+        PropTypes.node
+    ]).isRequired,
+};
+
 Modal.Core = forwardRef(({ width, showClose, onClick, Header, Body, Footer }, reference) => {
     const modalClasses = clsx(
         width,
@@ -96,6 +109,16 @@ Modal.Core = forwardRef(({ width, showClose, onClick, Header, Body, Footer }, re
 
 Modal.Core.displayName = "Modal.Core";
 
+// TODO: How todo proptypes for a forwardRef?
+// Modal.Core.propTypes = {
+//     width: PropTypes.oneOf(Object.keys(size)),
+//     showClose: PropTypes.bool.isRequired,
+//     onClick: PropTypes.func.isRequired,
+//     Header: PropTypes.element.isRequired,
+//     Body: PropTypes.element.isRequired,
+//     Footer: PropTypes.element.isRequired,
+// };
+
 Modal.Header = ({ children }) => {
     return (
         <Dialog.Title as="h3" className="text-2xl font-semibold leading-6 text-center text-black modal-header">
@@ -106,14 +129,29 @@ Modal.Header = ({ children }) => {
 
 Modal.Header.displayName = "Modal.Header";
 
+Modal.Header.propTypes = {
+    children: PropTypes.oneOfType([
+        PropTypes.arrayOf(PropTypes.node),
+        PropTypes.node
+    ]).isRequired,
+};
+
 Modal.Body = ({ className, ...rest }) => {
     return <div className={clsx(className, "pt-8 pb-2 mt-2 text-left modal-body")} {...rest} />;
 };
 
 Modal.Body.displayName = "Modal.Body";
 
+Modal.Body.propTypes = {
+    className: PropTypes.string,
+};
+
 Modal.Footer = ({ className, ...rest }) => {
     return <div className={clsx(className, "float-right px-8 py-8 modal-footer sm:flex")} {...rest} />;
 };
 
 Modal.Footer.displayName = "Modal.Footer";
+
+Modal.Footer.propTypes = {
+    className: PropTypes.string,
+};

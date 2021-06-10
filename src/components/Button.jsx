@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import clsx from "clsx";
 
 const colors = {
@@ -40,6 +41,18 @@ export const Button = ({ className, color = "primary", size = "medium", iconStar
     );
 };
 
+Button.propTypes = {
+    className: PropTypes.string,
+    color: PropTypes.oneOf(Object.keys(colors)),
+    size: PropTypes.oneOf(Object.keys(sizes)),
+    iconStart: PropTypes.element,
+    iconEnd: PropTypes.element,
+    children: PropTypes.oneOfType([
+        PropTypes.arrayOf(PropTypes.node),
+        PropTypes.node
+    ]).isRequired,
+};
+
 /**
  * Wrapper to give clases to the icon component
  */
@@ -51,6 +64,14 @@ const IconWrapper = (props) => {
             {_children}
         </span>
     );
+};
+
+IconWrapper.propTypes = {
+    children: PropTypes.oneOfType([
+        PropTypes.arrayOf(PropTypes.node),
+        PropTypes.node
+    ]).isRequired,
+    className: PropTypes.string,
 };
 
 // These are Icon only buttons which require a custom padding and modification
@@ -78,4 +99,11 @@ export const IconButton = ({ className, icon, color, size = "small", ...rest }) 
             </IconWrapper>
         </button>
     );
+};
+
+IconButton.propTypes = {
+    className: PropTypes.string,
+    icon: PropTypes.element.isRequired,
+    color: PropTypes.oneOf(Object.keys(colors)).isRequired,
+    size: PropTypes.oneOf(Object.keys(iconSizes)),
 };

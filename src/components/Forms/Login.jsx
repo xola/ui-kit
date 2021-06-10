@@ -7,24 +7,24 @@ import { FormGroup } from "../Forms/FormGroup";
 import { Input } from "../Forms/Input";
 import { Label } from "../Forms/Label";
 import XolaLogo from "../../images/XolaLogo";
-import Checkbox from "./Checkbox";
+import { Checkbox } from "./Checkbox";
 import "./Login.css";
 
 export const Login = ({ defaultValues, loading = false, error = null, onSubmit }) => {
     const [values, setValues] = useState({ email: "", password: "", remember: false, ...defaultValues });
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
+    const handleInputChange = (event_) => {
+        const { name, value } = event_.target;
         setValues({ ...values, [name]: value });
     };
 
-    const handleCheckboxChange = (e) => {
-        const { name, checked } = e.target;
+    const handleCheckboxChange = (event_) => {
+        const { name, checked } = event_.target;
         setValues({ ...values, [name]: checked });
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const handleSubmit = (event_) => {
+        event_.preventDefault();
         onSubmit(values);
     };
 

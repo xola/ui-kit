@@ -24,6 +24,7 @@ export const Default = () => {
                         {openFooter ? <Sidebar.Footer.Button icon={ExportIcon} label="Logout" /> : null}
                     </Sidebar.Footer>
                 }
+                onLogoClick={() => {}}
             >
                 <Sidebar.Link active icon={UserIcon}>
                     Sellers

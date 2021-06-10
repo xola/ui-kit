@@ -1,12 +1,11 @@
 import { Dialog, Transition } from "@headlessui/react";
 import clsx from "clsx";
-import React, { Fragment, useRef } from "react";
+import React, { Fragment } from "react";
+import PropTypes from "prop-types";
 import { XIcon } from "../icons/XIcon";
 import { Button } from "./Button";
 
 export const Slideover = ({ open = false, title, content, onClose, classNames = {} }) => {
-    const initialFocusReference = useRef();
-
     return (
         <Transition.Root show={open} as={Fragment}>
             <Dialog static as="div" className="overflow-hidden fixed inset-0" open={open} onClose={onClose}>
@@ -63,4 +62,18 @@ export const Slideover = ({ open = false, title, content, onClose, classNames = 
             </Dialog>
         </Transition.Root>
     );
+};
+
+Slideover.propTypes = {
+    open: PropTypes.bool,
+    title: PropTypes.oneOfType([
+        PropTypes.arrayOf(PropTypes.node),
+        PropTypes.node
+    ]),
+    content: PropTypes.oneOfType([
+        PropTypes.arrayOf(PropTypes.node),
+        PropTypes.node
+    ]),
+    onClose: PropTypes.func.isRequired,
+    classNames: PropTypes.object,
 };

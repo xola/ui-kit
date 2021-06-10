@@ -15,17 +15,11 @@ export const Default = () => {
             </HeaderToolbar.Breadcrumb>
             <HeaderToolbar.Search
                 placeholder="Search for seller"
+                className="border border-gray-lighter"
                 onSubmit={() => {
                     alert("Search bar not implemented");
                 }}
             />
-            <Switch.Group>
-                <Switch.Label direction="left" className="text-base">
-                    Enable
-                </Switch.Label>
-
-                <Switch size="medium" />
-            </Switch.Group>
 
             <Button size="medium" color="success">
                 Impersonate

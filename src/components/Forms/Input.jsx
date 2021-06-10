@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import PropTypes from "prop-types";
 import React from "react";
 
 const sizes = {
@@ -22,4 +23,11 @@ export const Input = ({ size = "medium", className, type = "text", error, ...res
             {...rest}
         />
     );
+};
+
+Input.propTypes = {
+    size: PropTypes.oneOf(Object.keys(sizes)),
+    className: PropTypes.string,
+    type: PropTypes.string,
+    error: PropTypes.bool,
 };

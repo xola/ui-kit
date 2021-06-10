@@ -29,7 +29,7 @@ export default {
     },
 };
 
-export const Default = (config) => {
+export const Default = ({ size, showClose, closeOnClickOutside }) => {
     const [show, setShow] = useState(false);
     const toggle = () => setShow(!show);
 
@@ -37,7 +37,14 @@ export const Default = (config) => {
         <div>
             <Button onClick={toggle}>Click me to launch a modal</Button>
 
-            <Modal {...config} show={show} toggle={toggle} onHide={toggle}>
+            <Modal
+                show={show}
+                toggle={toggle}
+                onHide={toggle}
+                size={size}
+                showClose={showClose}
+                closeOnClickOutside={closeOnClickOutside}
+            >
                 <Modal.Header>Apply Code</Modal.Header>
 
                 <Modal.Body>

@@ -1,5 +1,6 @@
 import React from "react";
 import phoneLib from "google-libphonenumber";
+import PropTypes from "prop-types";
 
 const PNF = phoneLib.PhoneNumberFormat;
 const phoneUtil = phoneLib.PhoneNumberUtil.getInstance();
@@ -45,4 +46,13 @@ export const Phone = ({ countryCode = "US", className, children }) => {
             {number}
         </span>
     );
+};
+
+Phone.propTypes = {
+    countryCode: PropTypes.string,
+    className: PropTypes.string,
+    children: PropTypes.oneOfType([
+        PropTypes.arrayOf(PropTypes.node),
+        PropTypes.node
+    ]).isRequired,
 };

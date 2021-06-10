@@ -1,5 +1,6 @@
 import React from "react";
 import clsx from "clsx";
+import PropTypes from "prop-types";
 
 const sizes = {
     small: "w-10 h-10",
@@ -9,4 +10,10 @@ const sizes = {
 
 export const Logo = ({ className, src, size = "small" }) => {
     return <img src={src} className={clsx(className, "inline-flex items-center rounded object-cover", sizes[size])} />;
+};
+
+Logo.propTypes = {
+    className: PropTypes.string,
+    src: PropTypes.string.isRequired,
+    size: PropTypes.string,
 };

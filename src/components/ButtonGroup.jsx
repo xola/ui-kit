@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import React, { Children, cloneElement, createElement } from "react";
+import PropTypes from "prop-types";
 
 const sizes = {
     small: "px-2 py-1.5 text-sm",
@@ -30,6 +31,16 @@ const ButtonGroup = ({ children, size, value, onChange, ...rest }) => {
     );
 };
 
+ButtonGroup.propTypes = {
+    children: PropTypes.oneOfType([
+        PropTypes.arrayOf(PropTypes.node),
+        PropTypes.node
+    ]).isRequired,
+    size: PropTypes.oneOf(Object.keys(sizes)),
+    value: PropTypes.number.isRequired,
+    onChange: PropTypes.func.isRequired,
+};
+
 const Button = ({ active, as = "button", size = "medium", className, ...rest }) => {
     const classes = clsx(
         "border-t border-l border-b last:border-r first:rounded-l-md last:rounded-r-md transition-colors focus:ring disabled:opacity-60 focus:z-10 leading-none",
@@ -44,5 +55,12 @@ const Button = ({ active, as = "button", size = "medium", className, ...rest }) 
 };
 
 ButtonGroup.Button = Button;
+
+Button.propTypes = {
+    active: PropTypes.bool,
+    as: PropTypes.string,
+    size: PropTypes.oneOf(Object.keys(sizes)),
+    className: PropTypes.string,
+};
 
 export { ButtonGroup };

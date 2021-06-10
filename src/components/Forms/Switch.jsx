@@ -1,6 +1,7 @@
 import { Switch as HeadlessSwitch } from "@headlessui/react";
 import clsx from "clsx";
 import React from "react";
+import PropTypes from "prop-types";
 
 const sizes = {
     large: {
@@ -20,7 +21,7 @@ const sizes = {
     },
 };
 
-export const Switch = ({ checked, size = "medium", ...rest }) => {
+export const Switch = ({ checked = false, size = "medium", ...rest }) => {
     return (
         <HeadlessSwitch
             checked={checked}
@@ -42,6 +43,11 @@ export const Switch = ({ checked, size = "medium", ...rest }) => {
     );
 };
 
+Switch.propTypes = {
+    checked: PropTypes.bool,
+    size: PropTypes.string,
+};
+
 Switch.Group = ({ className, children }) => {
     return (
         <HeadlessSwitch.Group as="div" className={clsx("inline-flex items-center", className)}>
@@ -50,10 +56,25 @@ Switch.Group = ({ className, children }) => {
     );
 };
 
+Switch.Group.displayName = "Switch.Group";
+
+Switch.Group.propTypes = {
+    className: PropTypes.string,
+    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
+};
+
 Switch.Label = ({ direction = "left", className, children }) => {
     return (
         <HeadlessSwitch.Label as="span" className={clsx(direction === "left" ? "mr-2" : "ml-2", className)}>
             {children}
         </HeadlessSwitch.Label>
     );
+};
+
+Switch.Label.displayName = "Switch.Label";
+
+Switch.Label.propTypes = {
+    direction: PropTypes.string,
+    className: PropTypes.string,
+    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
 };

@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import React, { Children } from "react";
+import PropTypes from "prop-types";
 
 export const Breadcrumb = ({ className, classNames = {}, separator = "/", children, ...rest }) => {
     const count = Children.count(children) - 1;
@@ -23,6 +24,16 @@ export const Breadcrumb = ({ className, classNames = {}, separator = "/", childr
     );
 };
 
+Breadcrumb.propTypes = {
+    className: PropTypes.string,
+    classNames: PropTypes.object,
+    separator: PropTypes.string,
+    children: PropTypes.oneOfType([
+        PropTypes.arrayOf(PropTypes.node),
+        PropTypes.node,
+    ]),
+};
+
 Breadcrumb.Item = ({ className, onClick, children }) => {
     return (
         <div className={clsx(className, "inline", onClick && "cursor-pointer hover:underline")} onClick={onClick}>
@@ -32,3 +43,12 @@ Breadcrumb.Item = ({ className, onClick, children }) => {
 };
 
 Breadcrumb.Item.displayName = "Breadcrumb.Item";
+
+Breadcrumb.Item.propTypes = {
+    className: PropTypes.string,
+    onClick: PropTypes.func,
+    children: PropTypes.oneOfType([
+        PropTypes.arrayOf(PropTypes.node),
+        PropTypes.node,
+    ]).isRequired,
+};

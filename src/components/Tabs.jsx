@@ -1,10 +1,11 @@
 import React, { createElement, Children, cloneElement } from "react";
+import PropTypes from "prop-types";
 import clsx from "clsx";
 
 export const Tabs = ({ className, children, value, onChange, ...rest }) => {
     const childrenArray = Children.toArray(children);
-    const tabs = childrenArray.filter((child) => child.type === Tabs.Tab);
-    const panels = childrenArray.filter((child) => child.type === Tabs.Panel);
+    const tabs = childrenArray.filter((child) => child.type === Tabs.Tab); // Checking it with Tabs.Tab causes propType validation to fial
+    const panels = childrenArray.filter((child) => child.type === Tabs.Panel); // Same as above
 
     return (
         <>
@@ -26,7 +27,17 @@ export const Tabs = ({ className, children, value, onChange, ...rest }) => {
     );
 };
 
-Tabs.Tab = ({ className, active, as = "button", ...rest }) => {
+Tabs.propTypes = {
+    className: PropTypes.string,
+    children: PropTypes.oneOfType([
+        PropTypes.arrayOf(PropTypes.node),
+        PropTypes.node
+    ]).isRequired,
+    value: PropTypes.number.isRequired,
+    onChange: PropTypes.func.isRequired,
+};
+
+Tabs.Tab = ({ className, active = false, as = "button", ...rest }) => {
     return createElement(as, {
         className: clsx(
             className,
@@ -39,8 +50,19 @@ Tabs.Tab = ({ className, active, as = "button", ...rest }) => {
 
 Tabs.Tab.displayName = "Tabs.Tab";
 
-Tabs.Panel = ({ active, className, ...rest }) => {
+Tabs.Tab.propTypes = {
+    className: PropTypes.string,
+    active: PropTypes.bool,
+    as: PropTypes.string,
+};
+
+Tabs.Panel = ({ active = false, className, ...rest }) => {
     return <div className={clsx(className, active || "hidden")} {...rest} />;
 };
 
 Tabs.Panel.displayName = "Tabs.Panel";
+
+Tabs.Panel.propTypes = {
+    active: PropTypes.bool,
+    className: PropTypes.string,
+};

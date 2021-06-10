@@ -46,7 +46,7 @@ export const InvalidNumbers = () => {
     return (
         <div className="space-y-4">
             {invalidNumbers.map((number) => {
-                return <PhoneDisplay countryCode="US" number={number} />;
+                return <PhoneDisplay key={number} countryCode="US" number={number} />;
             })}
         </div>
     );
@@ -60,7 +60,7 @@ export const USCountryAndIntlNumber = () => {
     return (
         <span className="space-y-4">
             {["+919538057572", "9538057572", "612745471", "+16475368727"].map((number) => {
-                return <PhoneDisplay countryCode="US" number={number} />;
+                return <PhoneDisplay key={number} countryCode="US" number={number} />;
             })}
         </span>
     );
@@ -118,7 +118,7 @@ export const SellerPhoneNumbers = () => {
 
             <div className="grid grid-cols-3 gap-6">
                 {Object.keys(list).map((countryCode) => {
-                    return <PhoneDisplay countryCode={countryCode} number={list[countryCode]} />;
+                    return <PhoneDisplay key={list[countryCode]} countryCode={countryCode} number={list[countryCode]} />;
                 })}
             </div>
         </div>

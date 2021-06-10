@@ -27,5 +27,10 @@ export const Alert = ({ className, close = false, color = "primary", children, .
 
 Alert.propTypes = {
     className: PropTypes.string,
+    close: PropTypes.bool,
     color: PropTypes.oneOf(Object.keys(colors)),
+    children: PropTypes.oneOfType([
+        PropTypes.arrayOf(PropTypes.node),
+        PropTypes.node
+    ]).isRequired
 };

@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import PropTypes from "prop-types";
 import React from "react";
 
 export const NotificationCount = ({ className, ...rest }) => {

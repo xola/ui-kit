@@ -38,8 +38,8 @@ export const BackgroundColors = () => {
     const components = [];
     for (const color of bgColors) {
         const component = (
-            <div>
-                <div key={color} className={clsx(`w-6 h-6 rounded-full ${color}`)} />
+            <div key={color} >
+                <div className={clsx(`w-6 h-6 rounded-full ${color}`)} />
                 <span className="font-mono">{color}</span>
             </div>
         );
@@ -82,7 +82,7 @@ export const TextColors = () => {
     const components = [];
     for (const color of textColors) {
         const component = (
-            <div className="flex flex-row space-x-5">
+            <div key={color} className="flex flex-row space-x-5">
                 <span className={clsx(color, "font-mono")}>{color}</span>
             </div>
         );
@@ -91,13 +91,13 @@ export const TextColors = () => {
     }
 
     components.push(
-        <div className="flex flex-row space-x-5">
+        <div key="text-black" className="flex flex-row space-x-5">
             <span className={clsx("text-black", "font-mono")}>text-black</span>
         </div>,
     );
 
     components.push(
-        <div className="flex flex-row space-x-5">
+        <div key="text-white" className="flex flex-row space-x-5">
             <span className={clsx("text-white bg-gray", "font-mono")}>text-white</span>
         </div>,
     );

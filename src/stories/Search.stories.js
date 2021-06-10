@@ -36,7 +36,7 @@ export const Default = () => {
     };
 
     return (
-        <Search items={items} loading={loading} onChange={handleType} onSubmit={handleSubmit} onSelect={handleSelect}>
+        <Search className="!border !border-gray-lighter" items={items} loading={loading} onChange={handleType} onSubmit={handleSubmit} onSelect={handleSelect}>
             {(item, active) => (
                 <div
                     className={clsx(

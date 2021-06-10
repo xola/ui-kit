@@ -58,7 +58,7 @@ export const Default = () => {
                 </Table.Row>
             </Table.Head>
 
-            <Table.Body stripe={false}>
+            <Table.Body striped={false}>
                 <Table.Row>
                     <Table.Cell>Michael Scott</Table.Cell>
                     <Table.Cell>Regional Manager</Table.Cell>

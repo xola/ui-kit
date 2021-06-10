@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import React from "react";
+import PropTypes from "prop-types";
 import { isOSX } from "../helpers/browser";
 
 export const Key = ({ char, className, ...rest }) => {
@@ -36,4 +37,9 @@ const getRealKey = (char) => {
         default:
             return char;
     }
+};
+
+Key.propTypes = {
+    char: PropTypes.string.isRequired,
+    className: PropTypes.string,
 };

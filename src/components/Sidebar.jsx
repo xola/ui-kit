@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import PropTypes from "prop-types";
 import React from "react";
 import { ChevronDownIcon } from "../icons/ChevronDownIcon";
 import { ChevronRightIcon } from "../icons/ChevronRightIcon";
@@ -6,7 +7,7 @@ import { XolaLogoCircle } from "../images/XolaLogoCircle";
 import { Avatar } from "./Avatar";
 import { NotificationCount } from "./NotificationCount";
 
-export const Sidebar = ({ children, className, footer, notifications, fixed, onLogoClick }) => {
+export const Sidebar = ({ children, className, footer, notifications, fixed = true, onLogoClick }) => {
     return (
         <div
             className={clsx(
@@ -35,7 +36,19 @@ export const Sidebar = ({ children, className, footer, notifications, fixed, onL
     );
 };
 
-Sidebar.Link = ({ active, icon: Icon, children, size = "small", ...rest }) => {
+Sidebar.propTypes = {
+    children: PropTypes.oneOfType([
+        PropTypes.arrayOf(PropTypes.node),
+        PropTypes.node
+    ]).isRequired,
+    className: PropTypes.string,
+    footer: PropTypes.element.isRequired,
+    notifications: PropTypes.number,
+    fixed: PropTypes.bool,
+    onLogoClick: PropTypes.func.isRequired,
+};
+
+Sidebar.Link = ({ active = false, icon: Icon, children, ...rest }) => {
     return (
         <button
             className={clsx(
@@ -56,6 +69,15 @@ Sidebar.Link = ({ active, icon: Icon, children, size = "small", ...rest }) => {
 
 Sidebar.Link.displayName = "Sidebar.Link";
 
+Sidebar.Link.propTypes = {
+    active: PropTypes.bool,
+    icon: PropTypes.func.isRequired,
+    children: PropTypes.oneOfType([
+        PropTypes.arrayOf(PropTypes.node),
+        PropTypes.node
+    ]).isRequired,
+};
+
 Sidebar.Footer = ({ children, ...rest }) => {
     return (
         <div className="p-2" {...rest}>
@@ -66,6 +88,13 @@ Sidebar.Footer = ({ children, ...rest }) => {
 };
 
 Sidebar.Footer.displayName = "Sidebar.Footer";
+
+Sidebar.Footer.propTypes = {
+    children: PropTypes.oneOfType([
+        PropTypes.arrayOf(PropTypes.node),
+        PropTypes.node
+    ]).isRequired,
+};
 
 Sidebar.Footer.Avatar = ({ name, ...rest }) => {
     return (
@@ -82,6 +111,10 @@ Sidebar.Footer.Avatar = ({ name, ...rest }) => {
 
 Sidebar.Footer.Avatar.displayName = "Sidebar.Footer.Avatar";
 
+Sidebar.Footer.Avatar.propTypes = {
+    name: PropTypes.string.isRequired,
+};
+
 Sidebar.Footer.Button = ({ icon: Icon, label, ...rest }) => {
     return (
         <button
@@ -95,3 +128,8 @@ Sidebar.Footer.Button = ({ icon: Icon, label, ...rest }) => {
 };
 
 Sidebar.Footer.Button.displayName = "Sidebar.Footer.Button";
+
+Sidebar.Footer.Button.propTypes = {
+    icon: PropTypes.element.isRequired,
+    label: PropTypes.string.isRequired,
+};

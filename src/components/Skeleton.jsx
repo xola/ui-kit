@@ -24,4 +24,8 @@ Skeleton.propTypes = {
     style: PropTypes.object,
     height: PropTypes.number,
     animate: PropTypes.bool,
+    children: PropTypes.oneOfType([
+        PropTypes.arrayOf(PropTypes.node),
+        PropTypes.node
+    ]).isRequired,
 };

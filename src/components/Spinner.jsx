@@ -1,5 +1,6 @@
 import React from "react";
 import clsx from "clsx";
+import PropTypes from "prop-types";
 import CircleNotch from "../icons/CircleNotch";
 
 const colors = {
@@ -21,5 +22,13 @@ const sizes = {
 };
 
 export const Spinner = ({ className, size = "small", color = "secondary", ...rest }) => {
-    return <CircleNotch className={clsx(className, sizes[size], colors[color], "animate-spin inline-block")} />;
+    return (
+        <CircleNotch className={clsx(className, sizes[size], colors[color], "animate-spin inline-block")} {...rest} />
+    );
+};
+
+Spinner.propTypes = {
+    className: PropTypes.string,
+    size: PropTypes.string,
+    color: PropTypes.string,
 };
