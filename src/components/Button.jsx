@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import React, { Children } from "react";
+import React, { Children, createElement } from "react";
 
 const colors = {
     primary: "bg-primary hover:bg-primary-dark disabled:bg-primary border-transparent text-white",
@@ -17,23 +17,22 @@ const sizes = {
     large: "px-5 py-2.5 text-lg",
 };
 
-export const Button = ({ className, color = "primary", size = "medium", children, ...rest }) => {
-    return (
-        <button
-            className={clsx(
-                className,
-                "transition-colors inline-flex items-center border font-semibold focus:ring disabled:opacity-60 disabled:cursor-default rounded-md space-x-2",
-                colors[color],
-                sizes[size],
-            )}
-            {...rest}
-        >
-            {Children.map(children, (child) => {
-                // Wrap only text nodes with a span to allow proper spacing with `space-x-2` class.
-                return typeof child === "string" ? <span>{child}</span> : child;
-            })}
-        </button>
-    );
+export const Button = ({ className, as = "button", color = "primary", size = "medium", children, ...rest }) => {
+    return createElement(as, {
+        className: clsx(
+            className,
+            "transition-colors inline-flex items-center border font-semibold focus:ring disabled:opacity-60 disabled:cursor-default rounded-md space-x-2",
+            colors[color],
+            sizes[size],
+        ),
+
+        children: Children.map(children, (child) => {
+            // Wrap only text nodes with a span to allow proper spacing with `space-x-2` class.
+            return typeof child === "string" ? <span>{child}</span> : child;
+        }),
+
+        ...rest,
+    });
 };
 
 // `Icon.Button` requires custom padding and icon sizes.
