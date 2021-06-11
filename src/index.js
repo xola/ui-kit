@@ -130,7 +130,6 @@ export { LandscapeIcon } from "./icons/LandscapeIcon";
 export { AlertCircleIcon } from "./icons/AlertCircleIcon";
 export { KeyIcon } from "./icons/KeyIcon";
 export { GuestIcon } from "./icons/GuestIcon";
-export { XIcon } from "./icons/XIcon";
 export { BriefcaseIcon } from "./icons/BriefcaseIcon";
 export { DisputesIcon } from "./icons/DisputesIcon";
 export { AnnounceIcon } from "./icons/AnnounceIcon";

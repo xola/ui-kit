@@ -1,7 +1,7 @@
 import { Dialog, Transition } from "@headlessui/react";
 import clsx from "clsx";
 import React, { Fragment } from "react";
-import { XIcon } from "../icons/XIcon";
+import { CloseIcon } from "../icons/CloseIcon";
 import { Button } from "./Button";
 
 export const Slideover = ({ open = false, title, content, onClose, classNames = {} }) => {
@@ -45,7 +45,7 @@ export const Slideover = ({ open = false, title, content, onClose, classNames = 
                                                     className="focus:hidden"
                                                     onClick={onClose}
                                                 >
-                                                    <XIcon />
+                                                    <CloseIcon />
                                                 </Button>
                                             </div>
                                         </div>
