@@ -12,31 +12,23 @@ const colors = {
 };
 
 const sizes = {
-    small: "text-sm px-2 py-0.75 leading-p3 h-5",
+    small: "text-sm px-2 py-0.75 leading-p3",
     large: "inline-flex text-base px-3 py-1.5 leading-p1",
 };
 
 export const Badge = ({ className, color = "primary", size = "small", icon, children, ...rest }) => {
     return (
         <span
-            className={clsx("badge rounded-full text-center whitespace-nowrap", colors[color], sizes[size], className)}
+            className={clsx(
+                "badge inline-flex items-center rounded-full text-center whitespace-nowrap",
+                colors[color],
+                sizes[size],
+                className,
+            )}
             {...rest}
         >
-            {icon && <IconWrapper className="mr-1 icon">{icon}</IconWrapper>}
+            {icon ? <span className="mr-1">{icon}</span> : null}
             {children}
-        </span>
-    );
-};
-
-/**
- * Wrapper to give clases to the icon component
- */
-const IconWrapper = (props) => {
-    const { children, className, ...rest } = props;
-    const _children = React.cloneElement(children);
-    return (
-        <span className={clsx("inline-flex align-middle text-2xl", className)} {...rest}>
-            {_children}
         </span>
     );
 };
