@@ -27,12 +27,12 @@ export const Colors = () => {
 export const WithIcons = () => {
     return (
         <div className="space-x-4">
-            <Button size="medium">
-                <UserIcon /> Medium
+            <Button icon={<UserIcon />} size="medium">
+                Medium
             </Button>
 
-            <Button color="success" size="large">
-                Large <UserIcon />
+            <Button icon={<UserIcon />} iconPlacement="right" color="success" size="large">
+                Large
             </Button>
         </div>
     );
@@ -41,9 +41,17 @@ export const WithIcons = () => {
 export const IconOnly = () => {
     return (
         <div className="space-x-4">
-            <Button.Icon as={UserIcon} color="primary" size="small" />
-            <Button.Icon as={UserIcon} color="outline" size="medium" />
-            <Button.Icon as={UserIcon} color="success" size="large" />
+            <Button.Icon color="primary" size="small">
+                <UserIcon className="text-red" />
+            </Button.Icon>
+
+            <Button.Icon color="outline" size="medium">
+                <UserIcon />
+            </Button.Icon>
+
+            <Button.Icon color="success" size="large">
+                <UserIcon />
+            </Button.Icon>
         </div>
     );
 };

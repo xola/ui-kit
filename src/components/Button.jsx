@@ -1,5 +1,6 @@
 import clsx from "clsx";
-import React, { Children, createElement } from "react";
+import React, { cloneElement, createElement } from "react";
+import PropTypes from "prop-types";
 
 const colors = {
     primary: "bg-primary hover:bg-primary-dark disabled:bg-primary border-transparent text-white",
@@ -17,27 +18,49 @@ const sizes = {
     large: "px-5 py-2.5 text-lg",
 };
 
-export const Button = ({ className, as = "button", color = "primary", size = "medium", children, ...rest }) => {
-    return createElement(as, {
-        className: clsx(
-            className,
-            "transition-colors inline-flex items-center border font-semibold focus:ring disabled:opacity-60 disabled:cursor-default rounded-md space-x-2",
-            colors[color],
-            sizes[size],
-        ),
+const buttonBaseClassName = "transition-colors border focus:ring disabled:opacity-60 disabled:cursor-default";
 
-        children: Children.map(children, (child) => {
-            // Wrap only text nodes with a span to allow proper spacing with `space-x-2` class.
-            return typeof child === "string" ? <span>{child}</span> : child;
-        }),
+export const Button = ({
+    className,
+    as = "button",
+    icon,
+    iconPlacement = "left",
+    color = "primary",
+    size = "medium",
+    children,
+    ...rest
+}) => {
+    return createElement(
+        as,
+        {
+            className: clsx(
+                className,
+                buttonBaseClassName,
+                "inline-flex items-center font-semibold rounded-md",
+                colors[color],
+                sizes[size],
+            ),
 
-        ...rest,
-    });
+            ...rest,
+        },
+        icon && iconPlacement === "left" ? <span className="flex-shrink-0 mr-2">{icon}</span> : null,
+        children,
+        icon && iconPlacement === "right" ? <span className="flex-shrink-0 ml-2">{icon}</span> : null,
+    );
 };
 
-// `Icon.Button` requires custom padding and icon sizes.
+Button.propTypes = {
+    className: PropTypes.string,
+    as: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+    icon: PropTypes.element,
+    iconPlacement: PropTypes.oneOf(["left", "right"]),
+    color: PropTypes.oneOf(Object.keys(colors)),
+    size: PropTypes.oneOf(Object.keys(sizes)),
+};
 
-const iconButtonSizes = {
+// `Button.Icon` requires custom padding and icon sizes.
+
+const buttonIconSizes = {
     small: "p-1.5",
     medium: "p-2",
     large: "p-2.5",
@@ -49,16 +72,20 @@ const iconSizes = {
     large: "h-5 w-5",
 };
 
-Button.Icon = ({ className, size = "medium", as: Icon, ...rest }) => {
-    // By explicitly setting the `size` prop to `null` we're disabling the default padding
-    // on the main `Button` component so we can easily add new values via `className`.
-    const buttonSize = null;
-
-    return (
-        <Button className={clsx(className, "rounded", iconButtonSizes[size])} size={buttonSize} {...rest}>
-            <Icon className={iconSizes[size]} />
-        </Button>
+Button.Icon = ({ className, as = "button", color = "primary", size = "medium", children: icon, ...rest }) => {
+    return createElement(
+        as,
+        { className: clsx(className, buttonBaseClassName, "rounded", colors[color], buttonIconSizes[size]), ...rest },
+        cloneElement(icon, { className: iconSizes[size] }),
     );
 };
 
 Button.Icon.displayName = "Button.Icon";
+
+Button.Icon.propTypes = {
+    className: PropTypes.string,
+    as: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+    color: PropTypes.oneOf(Object.keys(colors)),
+    size: PropTypes.oneOf(Object.keys(sizes)),
+    children: PropTypes.element,
+};
