@@ -34,7 +34,7 @@ Tabs.propTypes = {
     onChange: PropTypes.func.isRequired,
 };
 
-Tabs.Tab = ({ className, isActive = false, as = "button", ...rest }) => {
+const Tab = ({ className, isActive = false, as = "button", ...rest }) => {
     return createElement(as, {
         className: clsx(
             className,
@@ -45,19 +45,21 @@ Tabs.Tab = ({ className, isActive = false, as = "button", ...rest }) => {
     });
 };
 
-Tabs.Tab.displayName = "Tabs.Tab";
-Tabs.Tab.propTypes = {
+Tab.displayName = "Tabs.Tab";
+Tab.propTypes = {
     className: PropTypes.string,
     isActive: PropTypes.bool,
     as: PropTypes.string,
 };
+Tabs.Tab = Tab;
 
-Tabs.Panel = ({ active = false, className, ...rest }) => {
-    return <div className={clsx(className, active || "hidden")} {...rest} />;
+const Panel = ({ isActive = false, className, ...rest }) => {
+    return <div className={clsx(className, isActive || "hidden")} {...rest} />;
 };
 
-Tabs.Panel.displayName = "Tabs.Panel";
-Tabs.Panel.propTypes = {
-    active: PropTypes.bool,
+Panel.displayName = "Tabs.Panel";
+Panel.propTypes = {
+    isActive: PropTypes.bool,
     className: PropTypes.string,
 };
+Tabs.Panel = Panel;

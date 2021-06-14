@@ -45,9 +45,10 @@ Sidebar.propTypes = {
     onLogoClick: PropTypes.func.isRequired,
 };
 
-Sidebar.Link = ({ isActive = false, icon: Icon, children, ...rest }) => {
+const Link = ({ isActive = false, icon: Icon, children, ...rest }) => {
     return (
         <button
+            type="button"
             className={clsx(
                 "transition-colors leading-none flex items-center justify-center xl:justify-start w-full xl:px-6 py-3 rounded",
                 {
@@ -64,14 +65,15 @@ Sidebar.Link = ({ isActive = false, icon: Icon, children, ...rest }) => {
     );
 };
 
-Sidebar.Link.displayName = "Sidebar.Link";
-Sidebar.Link.propTypes = {
+Link.displayName = "Sidebar.Link";
+Link.propTypes = {
     isActive: PropTypes.bool,
     icon: PropTypes.func.isRequired,
     children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
 };
+Sidebar.Link = Link;
 
-Sidebar.Footer = ({ children, ...rest }) => {
+const Footer = ({ children, ...rest }) => {
     return (
         <div className="p-2" {...rest}>
             <div className="pb-2 mx-6 border-t border-secondary-darker" />
@@ -80,14 +82,16 @@ Sidebar.Footer = ({ children, ...rest }) => {
     );
 };
 
-Sidebar.Footer.displayName = "Sidebar.Footer";
-Sidebar.Footer.propTypes = {
+Footer.displayName = "Sidebar.Footer";
+Footer.propTypes = {
     children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
 };
+Sidebar.Footer = Footer;
 
-Sidebar.Footer.Avatar = ({ name, ...rest }) => {
+const SidebarAvatar = ({ name, ...rest }) => {
     return (
         <button
+            type="button"
             className="flex justify-center items-center py-3 w-full rounded cursor-pointer xl:px-6 hover:bg-gray-darker xl:justify-start"
             {...rest}
         >
@@ -98,14 +102,16 @@ Sidebar.Footer.Avatar = ({ name, ...rest }) => {
     );
 };
 
-Sidebar.Footer.Avatar.displayName = "Sidebar.Footer.Avatar";
-Sidebar.Footer.Avatar.propTypes = {
+SidebarAvatar.displayName = "Sidebar.Footer.Avatar";
+SidebarAvatar.propTypes = {
     name: PropTypes.string.isRequired,
 };
+Sidebar.Footer.Avatar = SidebarAvatar;
 
-Sidebar.Footer.Button = ({ icon: Icon, label, ...rest }) => {
+const Button = ({ icon: Icon, label, ...rest }) => {
     return (
         <button
+            type="button"
             className="flex justify-center items-center py-3 w-full rounded cursor-pointer xl:px-6 hover:bg-gray-darker xl:justify-start"
             {...rest}
         >
@@ -115,8 +121,9 @@ Sidebar.Footer.Button = ({ icon: Icon, label, ...rest }) => {
     );
 };
 
-Sidebar.Footer.Button.displayName = "Sidebar.Footer.Button";
-Sidebar.Footer.Button.propTypes = {
+Button.displayName = "Sidebar.Footer.Button";
+Button.propTypes = {
     icon: PropTypes.element.isRequired,
     label: PropTypes.string.isRequired,
 };
+Sidebar.Footer.Button = Button;

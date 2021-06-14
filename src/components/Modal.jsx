@@ -79,7 +79,7 @@ Modal.propTypes = {
     children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
 };
 
-Modal.Core = forwardRef(({ width, shouldShowClose, onClick, Header, Body, Footer }, reference) => {
+const Core = forwardRef(({ width, shouldShowClose, onClick, Header, Body, Footer }, reference) => {
     const modalClasses = clsx(
         width,
         "modal sm:w-full inline-block align-bottom bg-white rounded-lg overflow-hidden shadow-xl transform",
@@ -110,17 +110,16 @@ Modal.Core = forwardRef(({ width, shouldShowClose, onClick, Header, Body, Footer
     );
 });
 
-Modal.Core.displayName = "Modal.Core";
-
-// TODO: How todo proptypes for a forwardRef?
-// Modal.Core.propTypes = {
-//     width: PropTypes.oneOf(Object.keys(size)),
-//     showClose: PropTypes.bool.isRequired,
-//     onClick: PropTypes.func.isRequired,
-//     Header: PropTypes.element.isRequired,
-//     Body: PropTypes.element.isRequired,
-//     Footer: PropTypes.element.isRequired,
-// };
+Core.displayName = "Modal.Core";
+Core.propTypes = {
+    width: PropTypes.string.isRequired,
+    shouldShowClose: PropTypes.bool.isRequired,
+    onClick: PropTypes.func.isRequired,
+    Header: PropTypes.element.isRequired,
+    Body: PropTypes.element.isRequired,
+    Footer: PropTypes.element.isRequired,
+};
+Modal.Core = Core;
 
 Modal.Header = ({ children }) => {
     return (

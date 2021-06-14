@@ -14,13 +14,13 @@ const ModalStories = {
                 defaultValue: { summary: "medium" },
             },
         },
-        showClose: {
+        shouldShowClose: {
             type: { required: false },
             defaultValue: true,
             description: "If the 'x' button should be shown",
             control: { type: "boolean" },
         },
-        closeOnClickOutside: {
+        shouldCloseOnOutsideClick: {
             type: { required: false },
             defaultValue: true,
             description: "Close the modal if user clicks outside it",
@@ -29,7 +29,7 @@ const ModalStories = {
     },
 };
 
-export const Default = ({ size, showClose, closeOnClickOutside }) => {
+export const Default = ({ size, shouldShowClose, shouldCloseOnOutsideClick }) => {
     const [show, setShow] = useState(false);
     const toggle = () => setShow(!show);
 
@@ -38,11 +38,11 @@ export const Default = ({ size, showClose, closeOnClickOutside }) => {
             <Button onClick={toggle}>Click me to launch a modal</Button>
 
             <Modal
-                show={show}
                 toggle={toggle}
                 size={size}
-                showClose={showClose}
-                closeOnClickOutside={closeOnClickOutside}
+                shouldShow={show}
+                shouldShowClose={shouldShowClose}
+                shouldCloseOnOutsideClick={shouldCloseOnOutsideClick}
                 onHide={toggle}
             >
                 <Modal.Header>Apply Code</Modal.Header>
