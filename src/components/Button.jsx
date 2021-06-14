@@ -58,29 +58,6 @@ Button.propTypes = {
     children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
 };
 
-/**
- * Wrapper to give clases to the icon component
- */
-const IconWrapper = (props) => {
-    const { children, className, ...rest } = props;
-    const _children = React.cloneElement(children);
-    return (
-        <span className={clsx(className)} {...rest}>
-            {_children}
-        </span>
-    );
-};
-
-IconWrapper.propTypes = {
-    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
-    className: PropTypes.string,
-    as: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-    icon: PropTypes.element,
-    iconPlacement: PropTypes.oneOf(["left", "right"]),
-    color: PropTypes.oneOf(Object.keys(colors)),
-    size: PropTypes.oneOf(Object.keys(sizes)),
-};
-
 // `Button.Icon` requires custom padding and icon sizes.
 
 const buttonIconSizes = {
@@ -104,6 +81,7 @@ Button.Icon = ({ className, as = "button", color = "primary", size = "medium", c
 };
 
 Button.Icon.displayName = "Button.Icon";
+
 Button.Icon.propTypes = {
     className: PropTypes.string,
     as: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
