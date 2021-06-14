@@ -52,12 +52,10 @@ export const Button = ({
 Button.propTypes = {
     className: PropTypes.string,
     as: PropTypes.string,
-    color: PropTypes.oneOf(Object.keys(colors)),
-    size: PropTypes.oneOf(Object.keys(sizes)),
     icon: PropTypes.element,
     iconPlacement: PropTypes.string,
-    iconStart: PropTypes.element,
-    iconEnd: PropTypes.element,
+    color: PropTypes.oneOf(Object.keys(colors)),
+    size: PropTypes.oneOf(Object.keys(sizes)),
     children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
 };
 
@@ -107,6 +105,7 @@ Button.Icon = ({ className, as = "button", color = "primary", size = "medium", c
 };
 
 Button.Icon.displayName = "Button.Icon";
+
 Button.Icon.propTypes = {
     className: PropTypes.string,
     as: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
