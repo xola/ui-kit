@@ -1,6 +1,6 @@
-import React from "react";
 import clsx from "clsx";
 import PropTypes from "prop-types";
+import React from "react";
 
 const colors = {
     primary: "bg-primary-lighter text-primary-dark",
@@ -38,10 +38,5 @@ Badge.propTypes = {
     color: PropTypes.oneOf(Object.keys(colors)),
     size: PropTypes.oneOf(Object.keys(sizes)),
     icon: PropTypes.element,
-    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
-};
-
-IconWrapper.propTypes = {
-    className: PropTypes.string,
     children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
 };

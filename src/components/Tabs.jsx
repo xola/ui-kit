@@ -13,7 +13,7 @@ export const Tabs = ({ className, children, value, onChange, ...rest }) => {
                 <nav className="flex">
                     {tabs.map((child, index) => {
                         return cloneElement(child, {
-                            active: index === value,
+                            isActive: index === value,
                             onClick: () => onChange?.(index),
                         });
                     })}

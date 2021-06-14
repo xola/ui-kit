@@ -18,7 +18,7 @@ const ButtonGroup = ({ children, size, value, onChange, ...rest }) => {
                 // are also able to control the props on `ButtonGroup.Button`
                 // directly, if `value` and `onChange` are not passed on the parent.
                 if (value !== undefined) {
-                    buttonProps.active = value === index;
+                    buttonProps.isActive = value === index;
                 }
 
                 if (onChange) {

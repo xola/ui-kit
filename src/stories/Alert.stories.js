@@ -31,7 +31,7 @@ const AlertStories = {
                 defaultValue: { summary: "primary" },
             },
         },
-        close: {
+        shouldClose: {
             defaultValue: false,
             control: { type: "boolean" },
             table: {
@@ -41,10 +41,10 @@ const AlertStories = {
     },
 };
 
-export const Default = ({ className, color, close, text = "Default" }) => {
+export const Default = ({ className, color, shouldClose, text = "Default" }) => {
     return (
         <div className="space-x-4">
-            <Alert className={className} color={color} close={close}>
+            <Alert className={className} color={color} shouldClose={shouldClose}>
                 {text}
             </Alert>
         </div>

@@ -1,8 +1,7 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Checkbox } from "../..";
 
-export default {
+const CheckboxStories = {
     primary: true,
     title: "Forms/Checkbox",
     parameters: {
@@ -16,14 +15,16 @@ export default {
 
 export const Default = () => {
     const [checked, setChecked] = useState(false);
-    return <Checkbox label="Checkbox" checked={checked} onChange={(e) => setChecked(e.target.checked)} />;
+    return <Checkbox label="Checkbox" checked={checked} onChange={(event_) => setChecked(event_.target.checked)} />;
 };
 
 export const Disabled = () => {
     return (
         <div className="space-y-3">
-            <Checkbox label="Checkbox" checked disabled />
-            <Checkbox label="Checkbox" disabled />
+            <Checkbox checked disabled label="Checkbox" />
+            <Checkbox disabled label="Checkbox" />
         </div>
     );
 };
+
+export default CheckboxStories;

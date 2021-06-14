@@ -58,7 +58,7 @@ export const Default = () => {
                 </Table.Row>
             </Table.Head>
 
-            <Table.Body striped={false}>
+            <Table.Body isStriped={false}>
                 <Table.Row>
                     <Table.Cell>Michael Scott</Table.Cell>
                     <Table.Cell>Regional Manager</Table.Cell>
@@ -100,7 +100,7 @@ export const StripedTabled = () => {
                 </Table.Row>
             </Table.Head>
 
-            <Table.Body striped>
+            <Table.Body isStriped={false}>
                 <Table.Row>
                     <Table.Cell>Michael Scott</Table.Cell>
                     <Table.Cell>Regional Manager</Table.Cell>

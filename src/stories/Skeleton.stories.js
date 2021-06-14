@@ -12,7 +12,7 @@ export const Default = () => {
 
 export const WithoutAnimation = () => {
     return (
-        <Skeleton className="w-1/2" animate={false}>
+        <Skeleton className="w-1/2" shouldAnimate={false}>
             Not Available
         </Skeleton>
     );

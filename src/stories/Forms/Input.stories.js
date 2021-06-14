@@ -49,7 +49,7 @@ export const WithError = () => {
     return (
         <FormGroup>
             <Label className="text-danger">Text is invalid</Label>
-            <Input error />
+            <Input isError />
         </FormGroup>
     );
 };

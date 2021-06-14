@@ -1,8 +1,5 @@
 import PropTypes from "prop-types";
 import React, { useState } from "react";
-import PropTypes from "prop-types";
-import { Button } from "../Button";
-import { Spinner } from "../Spinner";
 import XolaLogo from "../../images/XolaLogo";
 import { Alert } from "../Alert";
 import { Button } from "../Button";
@@ -10,8 +7,6 @@ import { Checkbox } from "../Forms/Checkbox";
 import { FormGroup } from "../Forms/FormGroup";
 import { Input } from "../Forms/Input";
 import { Label } from "../Forms/Label";
-import XolaLogo from "../../images/XolaLogo";
-import { Checkbox } from "./Checkbox";
 import { Spinner } from "../Spinner";
 import "./Login.css";
 

@@ -2,7 +2,6 @@ import clsx from "clsx";
 import uniqueId from "lodash/uniqueId";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
-import PropTypes from "prop-types";
 
 export const Checkbox = ({ label, className, classNames = {}, ...rest }) => {
     const [id] = useState(rest.id ?? uniqueId("checkbox-"));
@@ -32,7 +31,5 @@ Checkbox.propTypes = {
     label: PropTypes.string.isRequired,
     className: PropTypes.string,
     classNames: PropTypes.shape({ checkbox: PropTypes.string, label: PropTypes.string }),
-    disabled: PropTypes.bool,
-    checked: PropTypes.bool,
     onChange: PropTypes.func,
 };

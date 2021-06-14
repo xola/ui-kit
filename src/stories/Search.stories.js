@@ -39,7 +39,7 @@ export const Default = () => {
         <Search
             className="!border !border-gray-lighter"
             items={items}
-            loading={loading}
+            isLoading={loading}
             onChange={handleType}
             onSubmit={handleSubmit}
             onSelect={handleSelect}

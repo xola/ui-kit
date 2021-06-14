@@ -26,7 +26,7 @@ export const Default = () => {
                 }
                 onLogoClick={() => {}}
             >
-                <Sidebar.Link active icon={UserIcon}>
+                <Sidebar.Link isActive icon={UserIcon}>
                     Sellers
                 </Sidebar.Link>
 
