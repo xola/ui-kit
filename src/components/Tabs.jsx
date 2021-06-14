@@ -1,11 +1,11 @@
-import React, { createElement, Children, cloneElement } from "react";
-import PropTypes from "prop-types";
 import clsx from "clsx";
+import PropTypes from "prop-types";
+import React, { Children, cloneElement } from "react";
 
-export const Tabs = ({ className, children, value, onChange, ...rest }) => {
+export const Tabs = ({ className, value, onChange, children, ...rest }) => {
     const childrenArray = Children.toArray(children);
-    const tabs = childrenArray.filter((child) => child.type === Tabs.Tab); // Checking it with Tabs.Tab causes propType validation to fial
-    const panels = childrenArray.filter((child) => child.type === Tabs.Panel); // Same as above
+    const tabs = childrenArray.filter((child) => child.type === Tabs.Tab);
+    const panels = childrenArray.filter((child) => child.type === Tabs.Panel);
 
     return (
         <>
@@ -29,27 +29,29 @@ export const Tabs = ({ className, children, value, onChange, ...rest }) => {
 
 Tabs.propTypes = {
     className: PropTypes.string,
-    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
     value: PropTypes.number.isRequired,
     onChange: PropTypes.func.isRequired,
+    children: PropTypes.node.isRequired,
 };
 
-const Tab = ({ className, isActive = false, as = "button", ...rest }) => {
-    return createElement(as, {
-        className: clsx(
-            className,
-            "transition-colors cursor-pointer p-4 flex-1 text-center text-lg font-semibold whitespace-nowrap focus-visible:ring",
-            isActive ? "bg-white text-black" : "text-gray-dark hover:text-black hover:bg-gray-light",
-        ),
-        ...rest,
-    });
+const Tab = ({ as: Tag = "button", className, isActive = false, ...rest }) => {
+    return (
+        <Tag
+            className={clsx(
+                className,
+                "transition-colors cursor-pointer p-4 flex-1 text-center text-lg font-semibold whitespace-nowrap focus-visible:ring",
+                isActive ? "bg-white text-black" : "text-gray-dark hover:text-black hover:bg-gray-light",
+            )}
+            {...rest}
+        />
+    );
 };
 
 Tab.displayName = "Tabs.Tab";
 Tab.propTypes = {
+    as: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]),
     className: PropTypes.string,
     isActive: PropTypes.bool,
-    as: PropTypes.string,
 };
 Tabs.Tab = Tab;
 

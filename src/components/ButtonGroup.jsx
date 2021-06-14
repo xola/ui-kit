@@ -1,6 +1,6 @@
 import clsx from "clsx";
-import React, { Children, cloneElement, createElement } from "react";
 import PropTypes from "prop-types";
+import React, { Children, cloneElement } from "react";
 
 const sizes = {
     small: "px-2 py-1.5 text-sm",
@@ -8,7 +8,7 @@ const sizes = {
     large: "px-4 py-3.5 text-lg",
 };
 
-const ButtonGroup = ({ children, size, value, onChange, ...rest }) => {
+const ButtonGroup = ({ size, value, onChange, children, ...rest }) => {
     return (
         <span className="inline-flex whitespace-nowrap" {...rest}>
             {Children.map(children, (child, index) => {
@@ -32,13 +32,13 @@ const ButtonGroup = ({ children, size, value, onChange, ...rest }) => {
 };
 
 ButtonGroup.propTypes = {
-    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
     size: PropTypes.oneOf(Object.keys(sizes)),
     value: PropTypes.number.isRequired,
     onChange: PropTypes.func.isRequired,
+    children: PropTypes.node.isRequired,
 };
 
-const Button = ({ isActive, as = "button", size = "medium", className, ...rest }) => {
+const Button = ({ as: Tag = "button", isActive, size = "medium", className, ...rest }) => {
     const classes = clsx(
         "border-t border-l border-b last:border-r first:rounded-l-md last:rounded-r-md transition-colors focus:ring disabled:opacity-60 focus:z-10 leading-none",
         sizes[size],
@@ -48,15 +48,16 @@ const Button = ({ isActive, as = "button", size = "medium", className, ...rest }
         className,
     );
 
-    return createElement(as, { className: classes, ...rest });
+    return <Tag className={classes} {...rest} />;
 };
 
-ButtonGroup.Button = Button;
+Button.displayName = "ButtonGroup.Button";
 Button.propTypes = {
+    as: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]),
     isActive: PropTypes.bool,
-    as: PropTypes.string,
     size: PropTypes.oneOf(Object.keys(sizes)),
     className: PropTypes.string,
 };
+ButtonGroup.Button = Button;
 
 export { ButtonGroup };

@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import React, { cloneElement, createElement } from "react";
+import React, { cloneElement } from "react";
 
 const colors = {
     primary: "bg-primary hover:bg-primary-dark disabled:bg-primary border-transparent text-white",
@@ -21,41 +21,40 @@ const sizes = {
 const buttonBaseClassName = "transition-colors border focus:ring disabled:opacity-60 disabled:cursor-default";
 
 export const Button = ({
+    as: Tag = "button",
     className,
-    as = "button",
-    icon,
-    iconPlacement = "left",
     color = "primary",
     size = "medium",
+    icon,
+    iconPlacement = "left",
     children,
     ...rest
 }) => {
-    return createElement(
-        as,
-        {
-            className: clsx(
+    return (
+        <Tag
+            className={clsx(
                 className,
                 buttonBaseClassName,
                 "inline-flex items-center font-semibold rounded-md",
                 colors[color],
                 sizes[size],
-            ),
-
-            ...rest,
-        },
-        icon && iconPlacement === "left" ? <span className="flex-shrink-0 mr-2">{icon}</span> : null,
-        children,
-        icon && iconPlacement === "right" ? <span className="flex-shrink-0 ml-2">{icon}</span> : null,
+            )}
+            {...rest}
+        >
+            {icon && iconPlacement === "left" ? <span className="flex-shrink-0 mr-2">{icon}</span> : null}
+            {children}
+            {icon && iconPlacement === "right" ? <span className="flex-shrink-0 ml-2">{icon}</span> : null}
+        </Tag>
     );
 };
 
 Button.propTypes = {
+    as: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]),
     className: PropTypes.string,
-    as: PropTypes.string,
-    icon: PropTypes.element,
-    iconPlacement: PropTypes.string,
     color: PropTypes.oneOf(Object.keys(colors)),
     size: PropTypes.oneOf(Object.keys(sizes)),
+    icon: PropTypes.element,
+    iconPlacement: PropTypes.oneOf(["left", "right"]),
     children: PropTypes.node.isRequired,
 };
 
@@ -73,20 +72,23 @@ const iconSizes = {
     large: "h-5 w-5",
 };
 
-Button.Icon = ({ className, as = "button", color = "primary", size = "medium", children: icon, ...rest }) => {
-    return createElement(
-        as,
-        { className: clsx(className, buttonBaseClassName, "rounded", colors[color], buttonIconSizes[size]), ...rest },
-        cloneElement(icon, { className: iconSizes[size] }),
+const Icon = ({ className, as: Tag = "button", color = "primary", size = "medium", children: icon, ...rest }) => {
+    return (
+        <Tag
+            className={clsx(className, buttonBaseClassName, "rounded", colors[color], buttonIconSizes[size])}
+            {...rest}
+        >
+            {cloneElement(icon, { className: iconSizes[size] })}
+        </Tag>
     );
 };
 
-Button.Icon.displayName = "Button.Icon";
-
-Button.Icon.propTypes = {
+Icon.displayName = "Button.Icon";
+Icon.propTypes = {
+    as: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]),
     className: PropTypes.string,
-    as: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
     color: PropTypes.oneOf(Object.keys(colors)),
     size: PropTypes.oneOf(Object.keys(sizes)),
-    children: PropTypes.element,
+    children: PropTypes.node.isRequired,
 };
+Button.Icon = Icon;

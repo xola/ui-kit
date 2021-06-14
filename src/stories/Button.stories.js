@@ -38,6 +38,14 @@ export const WithIcons = () => {
     );
 };
 
+export const AsLink = () => {
+    return (
+        <Button as="a" href="https://xola.com" target="_blank" rel="noopener" size="medium">
+            Xola Website
+        </Button>
+    );
+};
+
 export const IconOnly = () => {
     return (
         <div className="space-x-4">
