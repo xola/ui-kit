@@ -1,8 +1,7 @@
-import clsx from "clsx";
 import React from "react";
-import { StackIcon, EditIcon, BoxIcon, BellIcon, CakeIcon, CashIcon, Badge } from "../..";
+import { Badge, BellIcon, BoxIcon, CakeIcon, CashIcon, EditIcon, StackIcon } from "../..";
 
-export default {
+const BadgeStories = {
     title: "Data Display/Badges",
     component: Badge,
     argTypes: {
@@ -38,22 +37,22 @@ export const WithIcons = () => {
     return (
         <div className="space-x-4">
             <Badge color="primary" icon={<StackIcon className="inline" />}>
-                Icon Badge
+                Primary Badge
             </Badge>
             <Badge color="secondary" icon={<EditIcon className="inline" />}>
-                Icon Badge
+                Secondary Badge
             </Badge>
-            <Badge color="primary" color="success" icon={<BoxIcon className="inline" />}>
-                Icon Badge
+            <Badge color="success" icon={<BoxIcon className="inline" />}>
+                Success Badge
             </Badge>
-            <Badge color="primary" color="warning" icon={<BellIcon className="inline" />}>
-                Icon Badge
+            <Badge color="warning" icon={<BellIcon className="inline" />}>
+                Warning Badge
             </Badge>
-            <Badge color="primary" color="danger" icon={<CakeIcon className="inline" />}>
-                Icon Badge
+            <Badge color="danger" icon={<CakeIcon className="inline" />}>
+                Danger Badge
             </Badge>
-            <Badge color="primary" color="caution" icon={<CashIcon className="inline" />}>
-                Icon Badge
+            <Badge color="caution" icon={<CashIcon className="inline" />}>
+                Caution Badge
             </Badge>
         </div>
     );
@@ -80,3 +79,5 @@ export const AllSizes = () => {
         </div>
     );
 };
+
+export default BadgeStories;

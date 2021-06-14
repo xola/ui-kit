@@ -1,6 +1,6 @@
 import React from "react";
 
-export default {
+const HeadingsStories = {
     title: "Typography/Headings",
 };
 
@@ -16,3 +16,5 @@ export const Default = () => {
         </div>
     );
 };
+
+export default HeadingsStories;

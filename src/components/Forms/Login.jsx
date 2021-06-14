@@ -10,8 +10,8 @@ import XolaLogo from "../../images/XolaLogo";
 import { Checkbox } from "./Checkbox";
 import "./Login.css";
 
-export const Login = ({ defaultValues, loading = false, error = null, onSubmit }) => {
-    const [values, setValues] = useState({ email: "", password: "", remember: false, ...defaultValues });
+export const Login = ({ defaultValues, isLoading = false, isError = null, onSubmit }) => {
+    const [values, setValues] = useState({ email: "", password: "", shouldRemember: false, ...defaultValues });
 
     const handleInputChange = (event_) => {
         const { name, value } = event_.target;
@@ -37,7 +37,7 @@ export const Login = ({ defaultValues, loading = false, error = null, onSubmit }
                     </div>
 
                     <form onSubmit={handleSubmit}>
-                        <fieldset className="space-y-6" disabled={loading}>
+                        <fieldset className="space-y-6" disabled={isLoading}>
                             <div className="-space-y-px bg-white rounded-md">
                                 <FormGroup className="md:mb-7">
                                     <Label>Email</Label>
@@ -48,7 +48,7 @@ export const Login = ({ defaultValues, loading = false, error = null, onSubmit }
                                         type="email"
                                         autoComplete="email"
                                         value={values.email}
-                                        error={!!error}
+                                        error={!!isError}
                                         onChange={handleInputChange}
                                     />
                                 </FormGroup>
@@ -62,7 +62,7 @@ export const Login = ({ defaultValues, loading = false, error = null, onSubmit }
                                         type="password"
                                         autoComplete="current-password"
                                         value={values.password}
-                                        error={!!error}
+                                        error={!!isError}
                                         onChange={handleInputChange}
                                     />
                                 </FormGroup>
@@ -71,14 +71,14 @@ export const Login = ({ defaultValues, loading = false, error = null, onSubmit }
                             <Checkbox
                                 name="remember"
                                 label="Remember me"
-                                checked={values.remember}
+                                checked={values.shouldRemember}
                                 onChange={handleCheckboxChange}
                             />
 
-                            {error ? <Alert color="danger">{error}</Alert> : null}
+                            {isError ? <Alert color="danger">{isError}</Alert> : null}
 
                             <Button type="submit" className="w-full" color="primary">
-                                {loading ? <Spinner size="current" color="current" className="mr-2" /> : null}
+                                {isLoading ? <Spinner size="current" color="current" className="mr-2" /> : null}
                                 Login
                             </Button>
 
@@ -115,9 +115,9 @@ Login.propTypes = {
     defaultValues: PropTypes.shape({
         email: PropTypes.string,
         password: PropTypes.string,
-        remember: PropTypes.bool,
+        shouldRemember: PropTypes.bool,
     }),
-    loading: PropTypes.bool,
-    error: PropTypes.string,
+    isLoading: PropTypes.bool,
+    isError: PropTypes.string,
     onSubmit: PropTypes.func,
 };

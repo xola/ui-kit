@@ -51,8 +51,5 @@ export const Phone = ({ countryCode = "US", className, children }) => {
 Phone.propTypes = {
     countryCode: PropTypes.string,
     className: PropTypes.string,
-    children: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.node),
-        PropTypes.node
-    ]).isRequired,
+    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
 };

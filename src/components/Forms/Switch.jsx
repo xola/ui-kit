@@ -21,12 +21,12 @@ const sizes = {
     },
 };
 
-export const Switch = ({ checked = false, size = "medium", ...rest }) => {
+export const Switch = ({ isChecked = false, size = "medium", ...rest }) => {
     return (
         <HeadlessSwitch
-            checked={checked}
+            checked={isChecked}
             className={clsx(
-                checked ? "bg-primary" : "bg-gray",
+                isChecked ? "bg-primary" : "bg-gray",
                 "switch relative inline-flex flex-shrink-0 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none disabled:opacity-60",
                 sizes[size].parent,
             )}
@@ -34,7 +34,7 @@ export const Switch = ({ checked = false, size = "medium", ...rest }) => {
         >
             <span
                 className={clsx(
-                    checked ? sizes[size].translate : "translate-x-0",
+                    isChecked ? sizes[size].translate : "translate-x-0",
                     "switch-inner pointer-events-none inline-block rounded-full bg-white transform ring-0 transition ease-in-out duration-200 shadow",
                     sizes[size].inner,
                 )}
@@ -44,7 +44,7 @@ export const Switch = ({ checked = false, size = "medium", ...rest }) => {
 };
 
 Switch.propTypes = {
-    checked: PropTypes.bool,
+    isChecked: PropTypes.bool,
     size: PropTypes.string,
 };
 

@@ -1,6 +1,6 @@
 import React from "react";
 
-export default {
+const TextStories = {
     title: "Typography/Body Text",
 };
 
@@ -17,3 +17,5 @@ export const Default = () => {
         </div>
     );
 };
+
+export default TextStories;

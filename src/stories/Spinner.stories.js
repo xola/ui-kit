@@ -1,7 +1,7 @@
 import React from "react";
 import { Spinner } from "..";
 
-export default {
+const SpinnerStories = {
     title: "Components/Spinner",
     component: Spinner,
     argTypes: {
@@ -40,3 +40,5 @@ export const Sizes = () => {
         </div>
     );
 };
+
+export default SpinnerStories;

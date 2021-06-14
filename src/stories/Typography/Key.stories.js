@@ -1,7 +1,7 @@
 import React from "react";
 import { Key } from "../..";
 
-export default {
+const KeyStories = {
     title: "Typography/Key",
     component: Key,
     parameters: {
@@ -41,3 +41,5 @@ export const SpecialKeys = () => {
         </div>
     );
 };
+
+export default KeyStories;

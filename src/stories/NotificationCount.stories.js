@@ -1,7 +1,7 @@
 import React from "react";
 import { NotificationCount } from "..";
 
-export default {
+const NotificationCountStories = {
     title: "Components/NotificationCount",
     component: NotificationCount,
 };
@@ -15,3 +15,5 @@ export const Default = () => {
         </div>
     );
 };
+
+export default NotificationCountStories;

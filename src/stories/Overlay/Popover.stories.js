@@ -2,9 +2,9 @@ import React from "react";
 import { Button, Popover } from "../..";
 
 // More props in docs
-const docs = "https://atomiks.github.io/tippyjs/v6/all-props/";
+const documentationUrl = "https://atomiks.github.io/tippyjs/v6/all-props/";
 
-export default {
+const PopoverStories = {
     title: "Overlay/Popover",
     component: Popover,
     argTypes: {
@@ -19,7 +19,7 @@ export default {
             "right",
             "inline-radio",
             ["top", "bottom", "left", "right", "auto"],
-            `Where to place the tooltip. [More in the docs](${docs})`,
+            `Where to place the tooltip. [More in the docs](${documentationUrl})`,
         ),
         delay: getArgument(
             0,
@@ -62,7 +62,7 @@ export const Default = ({ demoText, ...rest }) => {
     const content = (
         <Popover.Content>
             <div className="pb-1 text-base font-bold">Popover title</div>
-            <div className="text-sm">And here's some amazing content. It's very engaging. Right?</div>
+            <div className="text-sm">And here is some amazing content and it is very engaging. Right?</div>
             <div className="text-sm">Here is some more because I am crazy</div>
         </Popover.Content>
     );
@@ -105,4 +105,4 @@ export const NoTitle = ({ demoText, ...rest }) => {
     );
 };
 
-// TODO: Assign guides
+export default PopoverStories;

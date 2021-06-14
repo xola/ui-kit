@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ButtonGroup } from "..";
 
-export default {
+const ButtonGroupStories = {
     title: "Components/ButtonGroup",
     component: ButtonGroup,
     argTypes: {
@@ -27,3 +27,5 @@ export const Default = ({ size }) => {
         </ButtonGroup>
     );
 };
+
+export default ButtonGroupStories;

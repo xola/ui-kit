@@ -47,10 +47,7 @@ Button.propTypes = {
     size: PropTypes.oneOf(Object.keys(sizes)),
     iconStart: PropTypes.element,
     iconEnd: PropTypes.element,
-    children: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.node),
-        PropTypes.node
-    ]).isRequired,
+    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
 };
 
 /**
@@ -67,10 +64,7 @@ const IconWrapper = (props) => {
 };
 
 IconWrapper.propTypes = {
-    children: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.node),
-        PropTypes.node
-    ]).isRequired,
+    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
     className: PropTypes.string,
 };
 

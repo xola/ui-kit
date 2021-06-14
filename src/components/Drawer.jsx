@@ -5,10 +5,10 @@ import PropTypes from "prop-types";
 import { XIcon } from "../icons/XIcon";
 import { Button } from "./Button";
 
-export const Slideover = ({ open = false, title, content, onClose, classNames = {} }) => {
+export const Drawer = ({ isOpen = false, title, content, onClose, classNames = {} }) => {
     return (
-        <Transition.Root show={open} as={Fragment}>
-            <Dialog static as="div" className="overflow-hidden fixed inset-0" open={open} onClose={onClose}>
+        <Transition.Root show={isOpen} as={Fragment}>
+            <Dialog static as="div" className="overflow-hidden fixed inset-0" open={isOpen} onClose={onClose}>
                 <div className="overflow-hidden absolute inset-0">
                     <Transition.Child
                         as={Fragment}
@@ -64,16 +64,10 @@ export const Slideover = ({ open = false, title, content, onClose, classNames = 
     );
 };
 
-Slideover.propTypes = {
-    open: PropTypes.bool,
-    title: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.node),
-        PropTypes.node
-    ]),
-    content: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.node),
-        PropTypes.node
-    ]),
+Drawer.propTypes = {
+    isOpen: PropTypes.bool,
+    title: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
+    content: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
     onClose: PropTypes.func.isRequired,
     classNames: PropTypes.object,
 };

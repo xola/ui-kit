@@ -7,11 +7,11 @@ import { XolaLogoCircle } from "../images/XolaLogoCircle";
 import { Avatar } from "./Avatar";
 import { NotificationCount } from "./NotificationCount";
 
-export const Sidebar = ({ children, className, footer, notifications, fixed = true, onLogoClick }) => {
+export const Sidebar = ({ children, className, footer, notifications, isFixed = true, onLogoClick }) => {
     return (
         <div
             className={clsx(
-                fixed ? "fixed" : "relative",
+                isFixed ? "fixed" : "relative",
                 "w-16 md:w-24 xl:w-50 h-full p-2 overflow-y-auto bg-black text-white flex flex-col",
                 className,
             )}
@@ -37,25 +37,22 @@ export const Sidebar = ({ children, className, footer, notifications, fixed = tr
 };
 
 Sidebar.propTypes = {
-    children: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.node),
-        PropTypes.node
-    ]).isRequired,
+    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
     className: PropTypes.string,
     footer: PropTypes.element.isRequired,
     notifications: PropTypes.number,
-    fixed: PropTypes.bool,
+    isFixed: PropTypes.bool,
     onLogoClick: PropTypes.func.isRequired,
 };
 
-Sidebar.Link = ({ active = false, icon: Icon, children, ...rest }) => {
+Sidebar.Link = ({ isActive = false, icon: Icon, children, ...rest }) => {
     return (
         <button
             className={clsx(
                 "transition-colors leading-none flex items-center justify-center xl:justify-start w-full xl:px-6 py-3 rounded",
                 {
-                    "bg-primary text-white hover:bg-primary-dark": active,
-                    "hover:bg-gray-darker text-gray": !active,
+                    "bg-primary text-white hover:bg-primary-dark": isActive,
+                    "hover:bg-gray-darker text-gray": !isActive,
                 },
             )}
             {...rest}
@@ -68,14 +65,10 @@ Sidebar.Link = ({ active = false, icon: Icon, children, ...rest }) => {
 };
 
 Sidebar.Link.displayName = "Sidebar.Link";
-
 Sidebar.Link.propTypes = {
-    active: PropTypes.bool,
+    isActive: PropTypes.bool,
     icon: PropTypes.func.isRequired,
-    children: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.node),
-        PropTypes.node
-    ]).isRequired,
+    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
 };
 
 Sidebar.Footer = ({ children, ...rest }) => {
@@ -88,12 +81,8 @@ Sidebar.Footer = ({ children, ...rest }) => {
 };
 
 Sidebar.Footer.displayName = "Sidebar.Footer";
-
 Sidebar.Footer.propTypes = {
-    children: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.node),
-        PropTypes.node
-    ]).isRequired,
+    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
 };
 
 Sidebar.Footer.Avatar = ({ name, ...rest }) => {
@@ -110,7 +99,6 @@ Sidebar.Footer.Avatar = ({ name, ...rest }) => {
 };
 
 Sidebar.Footer.Avatar.displayName = "Sidebar.Footer.Avatar";
-
 Sidebar.Footer.Avatar.propTypes = {
     name: PropTypes.string.isRequired,
 };
@@ -128,7 +116,6 @@ Sidebar.Footer.Button = ({ icon: Icon, label, ...rest }) => {
 };
 
 Sidebar.Footer.Button.displayName = "Sidebar.Footer.Button";
-
 Sidebar.Footer.Button.propTypes = {
     icon: PropTypes.element.isRequired,
     label: PropTypes.string.isRequired,

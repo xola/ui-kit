@@ -2,9 +2,9 @@ import React from "react";
 import { Button, Tooltip, UserIcon } from "../..";
 
 // More props in docs
-const docs = "https://atomiks.github.io/tippyjs/v6/all-props/";
+const documentationUrl = "https://atomiks.github.io/tippyjs/v6/all-props/";
 
-export default {
+const TooltipStories = {
     title: "Overlay/Tooltip",
     component: Tooltip,
     argTypes: {
@@ -20,7 +20,7 @@ export default {
             "right",
             "inline-radio",
             ["top", "bottom", "left", "right", "auto"],
-            `Where to place the tooltip. [More in the docs](${docs})`,
+            `Where to place the tooltip. [More in the docs](${documentationUrl})`,
         ),
         allowHTML: getArgument(false, "boolean", false, "Allow HTML content in tooltip"),
         delay: getArgument(
@@ -76,3 +76,5 @@ export const OnAnIcon = (config) => {
         </Tooltip>
     );
 };
+
+export default TooltipStories;

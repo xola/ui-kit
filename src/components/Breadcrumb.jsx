@@ -28,10 +28,7 @@ Breadcrumb.propTypes = {
     className: PropTypes.string,
     classNames: PropTypes.object,
     separator: PropTypes.string,
-    children: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.node),
-        PropTypes.node,
-    ]),
+    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
 };
 
 Breadcrumb.Item = ({ className, onClick, children }) => {
@@ -47,8 +44,5 @@ Breadcrumb.Item.displayName = "Breadcrumb.Item";
 Breadcrumb.Item.propTypes = {
     className: PropTypes.string,
     onClick: PropTypes.func,
-    children: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.node),
-        PropTypes.node,
-    ]).isRequired,
+    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
 };

@@ -1,7 +1,7 @@
 import React from "react";
 import { Alert } from "..";
 
-export default {
+const AlertStories = {
     title: "Components/Alerts & Banners",
     component: Alert,
     parameters: {
@@ -61,3 +61,5 @@ export const Colors = () => {
         </div>
     );
 };
+
+export default AlertStories;

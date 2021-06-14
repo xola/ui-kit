@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import { Button, Slideover } from "../..";
+import { Button, Drawer } from "../..";
 
-export default {
-    title: "Overlay/Slideover",
-    component: Slideover,
+const DrawerStories = {
+    title: "Overlay/Drawer",
+    component: Drawer,
     parameters: {
         docs: {
             description: {
-                component: "The Slideover component is a dynamic sidebar that is used to show data on the right side",
+                component: "The Drawer component is a dynamic sidebar that is used to show data on the right side",
             },
         },
     },
@@ -18,16 +18,16 @@ export default {
             control: { type: "boolean" },
         },
         title: {
-            description: "The title of the Slideover",
+            description: "The title of the Drawer",
             type: { required: true },
             control: { type: "text" },
         },
         content: {
-            description: "The body of the Slideover",
+            description: "The body of the Drawer",
             control: { type: "text" },
         },
         onClose: {
-            description: "Function to callback to close the Slideover",
+            description: "Function to callback to close the Drawer",
             control: { type: "function" },
         },
     },
@@ -40,9 +40,11 @@ export const Default = ({ title = "Hello World", content = "Lorem Ipsum. Click t
     return (
         <div>
             <Button size="large" onClick={() => setOpen(true)}>
-                Click Me to open the Slideover
+                Click Me to open the Drawer
             </Button>
-            <Slideover title={title} content={content} open={open} onClose={onClose} />
+            <Drawer title={title} content={content} open={open} onClose={onClose} />
         </div>
     );
 };
+
+export default DrawerStories;

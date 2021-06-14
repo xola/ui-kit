@@ -23,7 +23,6 @@ Table.Head = ({ className, ...rest }) => {
 };
 
 Table.Head.displayName = "Table.Head";
-
 Table.Head.propTypes = {
     className: PropTypes.string,
 };
@@ -33,38 +32,32 @@ Table.Header = ({ className, ...rest }) => {
 };
 
 Table.Header.displayName = "Table.Header";
-
 Table.Header.propTypes = {
     className: PropTypes.string,
 };
 
-Table.Body = ({ className, striped = false, children, ...rest }) => {
+Table.Body = ({ className, isStriped = false, children, ...rest }) => {
     return (
         <tbody className={clsx("border-none", className)} {...rest}>
-            {Children.map(children, (child) => child && cloneElement(child, { striped }))}
+            {Children.map(children, (child) => child && cloneElement(child, { isStriped }))}
         </tbody>
     );
 };
 
 Table.Body.displayName = "Table.Body";
-
 Table.Body.propTypes = {
     className: PropTypes.string,
-    children: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.node),
-        PropTypes.node
-    ]).isRequired,
-    striped: PropTypes.bool,
+    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
+    isStriped: PropTypes.bool,
 };
 
-Table.Row = ({ striped = false, className, ...rest }) => {
-    return <tr className={clsx(striped && "even:bg-gray-lighter", className)} {...rest} />;
+Table.Row = ({ isStriped = false, className, ...rest }) => {
+    return <tr className={clsx(isStriped && "even:bg-gray-lighter", className)} {...rest} />;
 };
 
 Table.Row.displayName = "Table.Row";
-
 Table.Row.propTypes = {
-    striped: PropTypes.bool,
+    isStriped: PropTypes.bool,
     className: PropTypes.string,
 };
 
@@ -73,7 +66,6 @@ Table.Cell = ({ className, ...rest }) => {
 };
 
 Table.Cell.displayName = "Table.Cell";
-
 Table.Cell.propTypes = {
     className: PropTypes.string,
 };

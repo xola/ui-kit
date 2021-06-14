@@ -1,7 +1,7 @@
 import React from "react";
 import { Table } from "../..";
 
-export default {
+const TableStories = {
     title: "Data Display/Table",
     component: Table,
     parameters: {
@@ -136,3 +136,5 @@ export const StripedTabled = () => {
         </Table>
     );
 };
+
+export default TableStories;

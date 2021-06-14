@@ -8,7 +8,7 @@ const sizes = {
     large: "px-4 py-3.5 text-lg",
 };
 
-export const Input = ({ size = "medium", className, type = "text", error, ...rest }) => {
+export const Input = ({ size = "medium", className, type = "text", isError, ...rest }) => {
     return (
         <input
             type={type}
@@ -16,7 +16,7 @@ export const Input = ({ size = "medium", className, type = "text", error, ...res
                 className,
                 "block w-full placeholder-gray-dark text-gray-darker rounded-md leading-none disabled:bg-gray-lighter",
                 sizes[size],
-                error
+                isError
                     ? "border-danger focus:ring-danger focus:border-danger"
                     : "border-gray-light focus:ring-primary focus:border-primary",
             )}
@@ -29,5 +29,5 @@ Input.propTypes = {
     size: PropTypes.oneOf(Object.keys(sizes)),
     className: PropTypes.string,
     type: PropTypes.string,
-    error: PropTypes.bool,
+    isError: PropTypes.bool,
 };

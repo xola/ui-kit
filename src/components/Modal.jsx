@@ -12,9 +12,9 @@ const sizes = {
 
 export const Modal = ({
     size = "medium",
-    show = false,
-    showClose = true,
-    closeOnClickOutside = false,
+    shouldShow = false,
+    shouldShowClose = true,
+    shouldCloseOnOutsideClick = false,
     onHide,
     children,
 }) => {
@@ -24,14 +24,20 @@ export const Modal = ({
     }
 
     const [Header, Body, Footer] = children;
-    const modalProps = { width: sizes[size], showClose, Header, Body, Footer };
+    const modalProps = { width: sizes[size], shouldShowClose, Header, Body, Footer };
 
     // Decide what method to call when the user click's outside the modal
-    const onClickOutside = closeOnClickOutside ? onHide : () => {};
+    const onClickOutside = shouldCloseOnOutsideClick ? onHide : () => {};
 
     return (
-        <Transition.Root show={show} as={Fragment}>
-            <Dialog static as="div" className="overflow-y-auto fixed inset-0 z-10" open={show} onClose={onClickOutside}>
+        <Transition.Root show={shouldShow} as={Fragment}>
+            <Dialog
+                static
+                as="div"
+                className="overflow-y-auto fixed inset-0 z-10"
+                open={shouldShow}
+                onClose={onClickOutside}
+            >
                 <div className="flex justify-center items-end px-4 pt-4 pb-20 min-h-screen text-center sm:block sm:p-0">
                     <Transition.Child
                         as={Fragment}
@@ -66,17 +72,14 @@ export const Modal = ({
 
 Modal.propTypes = {
     size: PropTypes.oneOf(Object.keys(sizes)),
-    show: PropTypes.bool,
-    showClose: PropTypes.bool,
-    closeOnClickOutside: PropTypes.bool,
+    shouldShow: PropTypes.bool,
+    shouldShowClose: PropTypes.bool,
+    shouldCloseOnOutsideClick: PropTypes.bool,
     onHide: PropTypes.func.isRequired,
-    children: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.node),
-        PropTypes.node
-    ]).isRequired,
+    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
 };
 
-Modal.Core = forwardRef(({ width, showClose, onClick, Header, Body, Footer }, reference) => {
+Modal.Core = forwardRef(({ width, shouldShowClose, onClick, Header, Body, Footer }, reference) => {
     const modalClasses = clsx(
         width,
         "modal sm:w-full inline-block align-bottom bg-white rounded-lg overflow-hidden shadow-xl transform",
@@ -87,7 +90,7 @@ Modal.Core = forwardRef(({ width, showClose, onClick, Header, Body, Footer }, re
         <div ref={reference} className={modalClasses}>
             <div className="px-8 pt-5 bg-white">
                 <div className="hidden absolute top-0 right-0 px-8 pt-7 sm:block">
-                    {showClose && (
+                    {shouldShowClose && (
                         <div className="text-xl cursor-pointer text-gray hover:text-gray-darker" onClick={onClick}>
                             ×
                         </div>
@@ -128,12 +131,8 @@ Modal.Header = ({ children }) => {
 };
 
 Modal.Header.displayName = "Modal.Header";
-
 Modal.Header.propTypes = {
-    children: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.node),
-        PropTypes.node
-    ]).isRequired,
+    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
 };
 
 Modal.Body = ({ className, ...rest }) => {
@@ -141,7 +140,6 @@ Modal.Body = ({ className, ...rest }) => {
 };
 
 Modal.Body.displayName = "Modal.Body";
-
 Modal.Body.propTypes = {
     className: PropTypes.string,
 };
@@ -151,7 +149,6 @@ Modal.Footer = ({ className, ...rest }) => {
 };
 
 Modal.Footer.displayName = "Modal.Footer";
-
 Modal.Footer.propTypes = {
     className: PropTypes.string,
 };

@@ -9,7 +9,7 @@ const userLocale = getUserLocale();
 export const Currency = ({
     currency = "USD",
     locale = userLocale,
-    removeTrailingZeroes = true,
+    shouldRemoveTrailingZeroes = true,
     maximumFractionDigits = 2,
     children,
 }) => {
@@ -19,7 +19,7 @@ export const Currency = ({
     }
 
     let formattedAmount = numberFormat(amount, currency, locale, isZeroDecimal(currency) ? 0 : maximumFractionDigits);
-    formattedAmount = removeTrailingZeroes ? formattedAmount.replace(".00", "") : formattedAmount;
+    formattedAmount = shouldRemoveTrailingZeroes ? formattedAmount.replace(".00", "") : formattedAmount;
 
     return <span className="currency-formatted-amount">{formattedAmount}</span>;
 };
@@ -27,12 +27,9 @@ export const Currency = ({
 Currency.propTypes = {
     currency: PropTypes.string,
     locale: PropTypes.string,
-    removeTrailingZeroes: PropTypes.bool,
+    shouldRemoveTrailingZeroes: PropTypes.bool,
     maximumFractionDigits: PropTypes.number,
-    children: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.node),
-        PropTypes.node
-    ]).isRequired,
+    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
 };
 
 Currency.Round = ({ currency, children }) => {
@@ -42,10 +39,7 @@ Currency.Round = ({ currency, children }) => {
 
 Currency.Round.propTypes = {
     currency: PropTypes.string,
-    children: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.node),
-        PropTypes.node
-    ]).isRequired,
+    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
 };
 
 Currency.Split = ({ currency = "USD", locale = userLocale, children }) => {
@@ -80,8 +74,5 @@ Currency.Split = ({ currency = "USD", locale = userLocale, children }) => {
 Currency.Split.propTypes = {
     currency: PropTypes.string,
     locale: PropTypes.string,
-    children: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.node),
-        PropTypes.node
-    ]).isRequired,
+    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
 };

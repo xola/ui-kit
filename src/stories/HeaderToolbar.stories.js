@@ -1,7 +1,7 @@
 import React from "react";
-import { Breadcrumb, Button, HeaderToolbar, Search, Switch } from "..";
+import { Breadcrumb, Button, HeaderToolbar } from "..";
 
-export default {
+const HeaderToolbarStories = {
     title: "Components/Header Toolbar",
     component: HeaderToolbar,
 };
@@ -17,6 +17,7 @@ export const Default = () => {
                 placeholder="Search for seller"
                 className="border border-gray-lighter"
                 onSubmit={() => {
+                    // eslint-disable-next-line no-alert
                     alert("Search bar not implemented");
                 }}
             />
@@ -27,3 +28,5 @@ export const Default = () => {
         </HeaderToolbar>
     );
 };
+
+export default HeaderToolbarStories;

@@ -32,20 +32,17 @@ const ButtonGroup = ({ children, size, value, onChange, ...rest }) => {
 };
 
 ButtonGroup.propTypes = {
-    children: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.node),
-        PropTypes.node
-    ]).isRequired,
+    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
     size: PropTypes.oneOf(Object.keys(sizes)),
     value: PropTypes.number.isRequired,
     onChange: PropTypes.func.isRequired,
 };
 
-const Button = ({ active, as = "button", size = "medium", className, ...rest }) => {
+const Button = ({ isActive, as = "button", size = "medium", className, ...rest }) => {
     const classes = clsx(
         "border-t border-l border-b last:border-r first:rounded-l-md last:rounded-r-md transition-colors focus:ring disabled:opacity-60 focus:z-10 leading-none",
         sizes[size],
-        active
+        isActive
             ? "bg-primary border-primary text-white hover:bg-primary-dark"
             : "border-gray-light hover:bg-gray-lighter text-gray-darker",
         className,
@@ -55,9 +52,8 @@ const Button = ({ active, as = "button", size = "medium", className, ...rest }) 
 };
 
 ButtonGroup.Button = Button;
-
 Button.propTypes = {
-    active: PropTypes.bool,
+    isActive: PropTypes.bool,
     as: PropTypes.string,
     size: PropTypes.oneOf(Object.keys(sizes)),
     className: PropTypes.string,

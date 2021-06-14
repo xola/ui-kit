@@ -1,6 +1,6 @@
 import React from "react";
 
-export default {
+const LinksStories = {
     title: "Typography/Links",
 };
 
@@ -25,3 +25,5 @@ export const Default = () => {
         </div>
     );
 };
+
+export default LinksStories;

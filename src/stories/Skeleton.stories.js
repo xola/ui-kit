@@ -1,7 +1,7 @@
 import React from "react";
 import { Skeleton } from "..";
 
-export default {
+const SkeletonStories = {
     title: "Components/Skeleton",
     component: Skeleton,
 };
@@ -17,3 +17,5 @@ export const WithoutAnimation = () => {
         </Skeleton>
     );
 };
+
+export default SkeletonStories;

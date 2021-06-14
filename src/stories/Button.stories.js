@@ -2,7 +2,7 @@ import React from "react";
 import { Button, IconButton } from "..";
 import { UserIcon } from "../icons/UserIcon";
 
-export default {
+const ButtonStories = {
     title: "Components/Button",
     component: Button,
 };
@@ -64,3 +64,5 @@ export const Sizes = () => {
         </div>
     );
 };
+
+export default ButtonStories;

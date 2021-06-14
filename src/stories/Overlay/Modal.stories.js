@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Modal, Input } from "../..";
 
-export default {
+const ModalStories = {
     title: "Overlay/Modal",
     component: Modal,
     argTypes: {
@@ -40,10 +40,10 @@ export const Default = ({ size, showClose, closeOnClickOutside }) => {
             <Modal
                 show={show}
                 toggle={toggle}
-                onHide={toggle}
                 size={size}
                 showClose={showClose}
                 closeOnClickOutside={closeOnClickOutside}
+                onHide={toggle}
             >
                 <Modal.Header>Apply Code</Modal.Header>
 
@@ -64,3 +64,5 @@ export const Default = ({ size, showClose, closeOnClickOutside }) => {
         </div>
     );
 };
+
+export default ModalStories;

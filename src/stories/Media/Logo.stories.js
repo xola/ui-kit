@@ -1,7 +1,7 @@
 import React from "react";
 import { Logo } from "../..";
 
-export default {
+const LogoStories = {
     title: "Media/Logo",
     component: Logo,
     parameters: {
@@ -51,3 +51,5 @@ export const AllSizes = () => {
         </div>
     );
 };
+
+export default LogoStories;

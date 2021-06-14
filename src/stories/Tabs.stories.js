@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Tabs } from "..";
 
-export default {
+const TabsStories = {
     title: "Components/Tabs",
     component: Tabs,
     parameters: {
@@ -38,3 +38,5 @@ export const Default = ({ className }) => {
         </Tabs>
     );
 };
+
+export default TabsStories;

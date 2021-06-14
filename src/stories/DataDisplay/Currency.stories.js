@@ -1,8 +1,7 @@
-import _ from "lodash";
 import React from "react";
 import { Currency } from "../..";
 
-export default {
+const CurrencyStories = {
     title: "Data Display/Currency",
     component: Currency,
     parameters: {
@@ -54,9 +53,6 @@ export default {
         },
     },
 };
-
-const amount = 109_482.84;
-const locale = "en-US";
 
 export const Default = ({ currency, locale, removeTrailingZeroes, amount }) => {
     return (
@@ -123,3 +119,5 @@ export const SplitAmountFormatting = ({ amount, currency = "USD", locale = "en-U
         </Currency.Split>
     );
 };
+
+export default CurrencyStories;

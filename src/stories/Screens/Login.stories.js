@@ -1,7 +1,7 @@
 import React from "react";
 import { Login } from "../..";
 
-export default {
+const LoginStories = {
     title: "Screens/Login",
     component: Login,
     parameters: {
@@ -14,10 +14,12 @@ export default {
 };
 
 const onSubmit = (email, password) => {
-    console.log("arguments", arguments);
+    // eslint-disable-next-line no-alert
     alert(`Hello ${email} Password: ${password.slice(0, 2)}*** This is a WIP`);
 };
 
 export const Default = () => {
     return <Login onSubmit={onSubmit} />;
 };
+
+export default LoginStories;

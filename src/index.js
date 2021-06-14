@@ -22,7 +22,7 @@ export { Login } from "./components/Forms/Login";
 export { HeaderToolbar } from "./components/HeaderToolbar";
 export { Tabs } from "./components/Tabs";
 export { Skeleton } from "./components/Skeleton";
-export { Slideover } from "./components/Slideover";
+export { Drawer } from "./components/Drawer";
 export { Key } from "./components/Key";
 
 // Utilities

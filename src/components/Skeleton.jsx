@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import styles from "./Skeleton.module.css";
 
-export const Skeleton = ({ className, style, height = 300, animate = true, children, ...rest }) => {
+export const Skeleton = ({ className, style, height = 300, isAnimate = true, children, ...rest }) => {
     return (
         <div
             className={clsx(
@@ -13,7 +13,7 @@ export const Skeleton = ({ className, style, height = 300, animate = true, child
             style={{ height, ...style }}
             {...rest}
         >
-            {animate ? <div className={clsx(styles.shimmer, "absolute w-full h-full")} /> : null}
+            {isAnimate ? <div className={clsx(styles.shimmer, "absolute w-full h-full")} /> : null}
             <div className="text-gray">{children}</div>
         </div>
     );
@@ -23,9 +23,6 @@ Skeleton.propTypes = {
     className: PropTypes.string,
     style: PropTypes.object,
     height: PropTypes.number,
-    animate: PropTypes.bool,
-    children: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.node),
-        PropTypes.node
-    ]).isRequired,
+    isAnimate: PropTypes.bool,
+    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
 };

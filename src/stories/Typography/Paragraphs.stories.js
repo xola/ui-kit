@@ -1,6 +1,6 @@
 import React from "react";
 
-export default {
+const ParagraphsStories = {
     title: "Typography/Paragraph",
 };
 
@@ -22,10 +22,13 @@ export const Default = () => {
             </p>
             <p className="p3">
                 This is <b>paragraph P3</b>. Yogi Bear is smarter than the average bear, Yogi Bear is always in the
-                ranger's hair. At a picnic table you will find him there, stuffing down more goodies than the average
-                bear. He will sleep till noon but before it's dark, he'll have every picnic basket that's in Jellystone
-                Park. Yogi has it better than a millionaire. That's because he's smarter than the average bear!
+                ranger&apos;s hair. At a picnic table you will find him there, stuffing down more goodies than the
+                average bear. He will sleep till noon but before it&apos;s dark, he&apos;ll have every picnic basket
+                that&apos;s in Jellystone Park. Yogi has it better than a millionaire. That&apos;s because he&apos;s
+                smarter than the average bear!
             </p>
         </div>
     );
 };
+
+export default ParagraphsStories;

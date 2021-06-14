@@ -23,7 +23,7 @@ const colors = [
     "text-danger",
 ];
 
-export default {
+const IconsStories = {
     title: "Media/Icons",
     argTypes: {
         color: {
@@ -42,8 +42,8 @@ export default {
 export const Default14Px = ({ color }) => {
     return (
         <div className="flex flex-row flex-wrap gap-3">
-            {icons.map((Icon, index) => (
-                <div key={index} className="p-2 text-center rounded border border-gray-lighter">
+            {icons.map((Icon) => (
+                <div key={Icon.displayName} className="p-2 text-center rounded border border-gray-lighter">
                     <Icon className={clsx("inline-block w-6 h-6 mb-2", sizes.small, color)} />
                     <div className="w-40 text-gray-dark">{Icon.displayName}</div>
                 </div>
@@ -55,8 +55,8 @@ export const Default14Px = ({ color }) => {
 export const Medium18px = ({ color }) => {
     return (
         <div className="flex flex-row flex-wrap gap-8">
-            {icons.map((Icon, index) => (
-                <div key={index} className="p-2 text-center rounded border border-gray-lighter">
+            {icons.map((Icon) => (
+                <div key={Icon.displayName} className="p-2 text-center rounded border border-gray-lighter">
                     <Icon className={clsx("inline-block mb-2", sizes.medium, color)} />
                     <div className="w-40 text-gray-dark">{Icon.displayName}</div>
                 </div>
@@ -68,8 +68,8 @@ export const Medium18px = ({ color }) => {
 export const Large32px = ({ color }) => {
     return (
         <div className="flex flex-row flex-wrap gap-8">
-            {icons.map((Icon, index) => (
-                <div key={index} className="p-2 text-center rounded border border-gray-lighter">
+            {icons.map((Icon) => (
+                <div key={Icon.displayName} className="p-2 text-center rounded border border-gray-lighter">
                     <Icon className={clsx("inline-block w-10 h-10 mb-2", sizes.large, color)} />
                     <div className="w-40 text-gray-dark">{Icon.displayName}</div>
                 </div>
@@ -77,3 +77,5 @@ export const Large32px = ({ color }) => {
         </div>
     );
 };
+
+export default IconsStories;

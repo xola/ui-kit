@@ -30,7 +30,7 @@ export const Search = ({
     onSubmit,
     onSelect,
     children,
-    loading = false,
+    isLoading = false,
     ...rest
 }) => {
     const [showShortcutKey, setShowShortcutKey] = useState(true);
@@ -96,7 +96,7 @@ export const Search = ({
 
     // Show dropdown only when `isOpen` is set to `true` and there are items in the list.
     const open = isOpen && itemList.length > 0;
-    const noResultFound = isOpen && inputValue.length > 0 && !loading && itemList.length <= 1;
+    const noResultFound = isOpen && inputValue.length > 0 && !isLoading && itemList.length <= 1;
 
     // Keyboard shortcuts.
     const jumpToSearchShortcut = isOSX ? "cmd+k" : "ctrl+k";
@@ -159,7 +159,7 @@ export const Search = ({
                                           Show all results for <strong>{inputValue}</strong>
                                       </div>
 
-                                      {loading ? (
+                                      {isLoading ? (
                                           <div className="p-3 text-center">
                                               <Spinner size="small" />
                                           </div>
@@ -201,10 +201,6 @@ Search.propTypes = {
     onChange: PropTypes.func,
     onSubmit: PropTypes.func,
     onSelect: PropTypes.func,
-    children: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.node),
-        PropTypes.node,
-        PropTypes.func,
-    ]),
-    loading: PropTypes.bool,
+    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node, PropTypes.func]),
+    isLoading: PropTypes.bool,
 };

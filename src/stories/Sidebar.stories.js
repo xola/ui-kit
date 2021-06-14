@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Sidebar, StarIcon, UserIcon } from "..";
 import { ExportIcon } from "../icons/ExportIcon";
 
-export default {
+const SidebarStories = {
     title: "Components/Sidebar",
     component: Sidebar,
 };
@@ -35,3 +35,5 @@ export const Default = () => {
         </div>
     );
 };
+
+export default SidebarStories;

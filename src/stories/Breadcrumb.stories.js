@@ -1,7 +1,7 @@
 import React from "react";
 import { Breadcrumb } from "..";
 
-export default {
+const BreadcrumbStories = {
     title: "Components/Breadcrumb",
     component: Breadcrumb,
     parameters: {
@@ -55,3 +55,5 @@ export const MultipleLevels = () => {
         </div>
     );
 };
+
+export default BreadcrumbStories;

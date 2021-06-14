@@ -1,8 +1,7 @@
-import _ from "lodash";
 import React from "react";
 import { Phone } from "../..";
 
-export default {
+const PhoneStories = {
     title: "Data Display/Phone",
     component: Phone,
     parameters: {
@@ -118,7 +117,9 @@ export const SellerPhoneNumbers = () => {
 
             <div className="grid grid-cols-3 gap-6">
                 {Object.keys(list).map((countryCode) => {
-                    return <PhoneDisplay key={list[countryCode]} countryCode={countryCode} number={list[countryCode]} />;
+                    return (
+                        <PhoneDisplay key={list[countryCode]} countryCode={countryCode} number={list[countryCode]} />
+                    );
                 })}
             </div>
         </div>
@@ -148,3 +149,5 @@ const PhoneDisplay = ({ countryCode, number }) => {
         </div>
     );
 };
+
+export default PhoneStories;

@@ -12,11 +12,11 @@ const colors = {
     caution: "bg-caution-lighter text-black",
 };
 
-export const Alert = ({ className, close = false, color = "primary", children, ...rest }) => {
+export const Alert = ({ className, isClosed = false, color = "primary", children, ...rest }) => {
     return (
         <div className={clsx("flex rounded text-base px-3 py-3", colors[color], className)} {...rest}>
             <span className="w-full">{children}</span>
-            {close && (
+            {isClosed && (
                 <span className="flex pt-1 cursor-pointer group items-top h-w-screen">
                     <CloseIcon className="inline group-hover:text-gray-dark" />
                 </span>
@@ -27,10 +27,7 @@ export const Alert = ({ className, close = false, color = "primary", children, .
 
 Alert.propTypes = {
     className: PropTypes.string,
-    close: PropTypes.bool,
+    isClosed: PropTypes.bool,
     color: PropTypes.oneOf(Object.keys(colors)),
-    children: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.node),
-        PropTypes.node
-    ]).isRequired
+    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
 };

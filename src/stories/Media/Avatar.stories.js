@@ -10,7 +10,7 @@ const avatarColors = [
     "bg-red-lighter",
 ];
 
-export default {
+const AvatarStories = {
     title: "Media/Avatar",
     component: Avatar,
     parameters: {
@@ -84,3 +84,5 @@ export const AllColorsAndSizes = ({ className, name = "Barthélémy Chalvet" }) 
         </div>
     );
 };
+
+export default AvatarStories;

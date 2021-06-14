@@ -2,7 +2,7 @@ import clsx from "clsx";
 import React, { useState } from "react";
 import { Search } from "..";
 
-export default {
+const SearchStories = {
     title: "Components/Search",
 };
 
@@ -36,7 +36,14 @@ export const Default = () => {
     };
 
     return (
-        <Search className="!border !border-gray-lighter" items={items} loading={loading} onChange={handleType} onSubmit={handleSubmit} onSelect={handleSelect}>
+        <Search
+            className="!border !border-gray-lighter"
+            items={items}
+            loading={loading}
+            onChange={handleType}
+            onSubmit={handleSubmit}
+            onSelect={handleSelect}
+        >
             {(item, active) => (
                 <div
                     className={clsx(
@@ -74,3 +81,5 @@ export const Simple = () => {
 
     return <Search onSubmit={handleSubmit} />;
 };
+
+export default SearchStories;

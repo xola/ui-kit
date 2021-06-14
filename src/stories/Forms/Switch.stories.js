@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { Switch } from "../..";
 
-export default {
+const SwitchStories = {
     primary: true,
     title: "Forms/Switch",
     parameters: {
@@ -44,3 +44,5 @@ export const Disabled = ({ size }) => {
     const [checked, setChecked] = useState(false);
     return <Switch disabled checked={checked} size={size} onChange={setChecked} />;
 };
+
+export default SwitchStories;

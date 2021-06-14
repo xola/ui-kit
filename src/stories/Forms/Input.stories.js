@@ -1,7 +1,7 @@
 import React from "react";
 import { Input, Label, FormGroup } from "../..";
 
-export default {
+const InputStories = {
     primary: true,
     title: "Forms/Input",
 };
@@ -62,3 +62,5 @@ export const CustomWidth = () => {
         </FormGroup>
     );
 };
+
+export default InputStories;

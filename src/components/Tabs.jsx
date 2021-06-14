@@ -29,30 +29,26 @@ export const Tabs = ({ className, children, value, onChange, ...rest }) => {
 
 Tabs.propTypes = {
     className: PropTypes.string,
-    children: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.node),
-        PropTypes.node
-    ]).isRequired,
+    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
     value: PropTypes.number.isRequired,
     onChange: PropTypes.func.isRequired,
 };
 
-Tabs.Tab = ({ className, active = false, as = "button", ...rest }) => {
+Tabs.Tab = ({ className, isActive = false, as = "button", ...rest }) => {
     return createElement(as, {
         className: clsx(
             className,
             "transition-colors cursor-pointer p-4 flex-1 text-center text-lg font-semibold whitespace-nowrap focus-visible:ring",
-            active ? "bg-white text-black" : "text-gray-dark hover:text-black hover:bg-gray-light",
+            isActive ? "bg-white text-black" : "text-gray-dark hover:text-black hover:bg-gray-light",
         ),
         ...rest,
     });
 };
 
 Tabs.Tab.displayName = "Tabs.Tab";
-
 Tabs.Tab.propTypes = {
     className: PropTypes.string,
-    active: PropTypes.bool,
+    isActive: PropTypes.bool,
     as: PropTypes.string,
 };
 
@@ -61,7 +57,6 @@ Tabs.Panel = ({ active = false, className, ...rest }) => {
 };
 
 Tabs.Panel.displayName = "Tabs.Panel";
-
 Tabs.Panel.propTypes = {
     active: PropTypes.bool,
     className: PropTypes.string,

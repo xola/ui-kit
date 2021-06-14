@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import React from "react";
 
-export default {
+const ColorsStories = {
     title: "Data Display/Colors",
 };
 
@@ -38,7 +38,7 @@ export const BackgroundColors = () => {
     const components = [];
     for (const color of bgColors) {
         const component = (
-            <div key={color} >
+            <div key={color}>
                 <div className={clsx(`w-6 h-6 rounded-full ${color}`)} />
                 <span className="font-mono">{color}</span>
             </div>
@@ -94,9 +94,6 @@ export const TextColors = () => {
         <div key="text-black" className="flex flex-row space-x-5">
             <span className={clsx("text-black", "font-mono")}>text-black</span>
         </div>,
-    );
-
-    components.push(
         <div key="text-white" className="flex flex-row space-x-5">
             <span className={clsx("text-white bg-gray", "font-mono")}>text-white</span>
         </div>,
@@ -104,3 +101,5 @@ export const TextColors = () => {
 
     return <div className="grid grid-cols-3 gap-4">{components}</div>;
 };
+
+export default ColorsStories;
