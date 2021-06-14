@@ -51,11 +51,12 @@ export const Button = ({
 
 Button.propTypes = {
     className: PropTypes.string,
+    as: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+    icon: PropTypes.element,
+    iconPlacement: PropTypes.oneOf(["left", "right"]),
     color: PropTypes.oneOf(Object.keys(colors)),
     size: PropTypes.oneOf(Object.keys(sizes)),
-    iconStart: PropTypes.element,
-    iconEnd: PropTypes.element,
-    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
+    children: PropTypes.node,
 };
 
 // `Button.Icon` requires custom padding and icon sizes.
