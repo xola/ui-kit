@@ -21,6 +21,8 @@ const sizes = {
     },
 };
 
+// TODO: Native checkbox input `checked` and `disabled` properties are not prefixed with `is`.
+// Decide on the naming convention.
 export const Switch = ({ isChecked = false, size = "medium", ...rest }) => {
     return (
         <HeadlessSwitch
