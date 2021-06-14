@@ -1,8 +1,8 @@
 import { Dialog, Transition } from "@headlessui/react";
 import clsx from "clsx";
-import React, { Fragment } from "react";
 import PropTypes from "prop-types";
-import { XIcon } from "../icons/XIcon";
+import React, { Fragment } from "react";
+import { CloseIcon } from "../icons/CloseIcon";
 import { Button } from "./Button";
 
 export const Drawer = ({ isOpen = false, title, content, onClose, classNames = {} }) => {
@@ -46,7 +46,7 @@ export const Drawer = ({ isOpen = false, title, content, onClose, classNames = {
                                                     className="focus:hidden"
                                                     onClick={onClose}
                                                 >
-                                                    <XIcon />
+                                                    <CloseIcon />
                                                 </Button>
                                             </div>
                                         </div>

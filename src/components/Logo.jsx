@@ -8,8 +8,8 @@ const sizes = {
     large: "w-20 h-20",
 };
 
-export const Logo = ({ className, src, size = "small" }) => {
-    return <img src={src} className={clsx(className, "inline-flex items-center rounded object-cover", sizes[size])} />;
+export const Logo = ({ className, size = "small", ...rest }) => {
+    return <img className={clsx(className, "inline-block rounded object-cover", sizes[size])} {...rest} />;
 };
 
 Logo.propTypes = {

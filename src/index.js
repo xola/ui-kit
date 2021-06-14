@@ -1,5 +1,5 @@
 // Components.
-export { Button, IconButton } from "./components/Button";
+export { Button } from "./components/Button";
 export { Badge } from "./components/Badge";
 export { Alert } from "./components/Alert";
 export { Sidebar } from "./components/Sidebar";
@@ -17,13 +17,14 @@ export { Breadcrumb } from "./components/Breadcrumb";
 export { FormGroup } from "./components/Forms/FormGroup";
 export { Input } from "./components/Forms/Input";
 export { Switch } from "./components/Forms/Switch";
+export { Checkbox } from "./components/Forms/Checkbox";
 export { Label } from "./components/Forms/Label";
-export { Login } from "./components/Forms/Login";
 export { HeaderToolbar } from "./components/HeaderToolbar";
 export { Tabs } from "./components/Tabs";
 export { Skeleton } from "./components/Skeleton";
 export { Drawer } from "./components/Drawer";
 export { Key } from "./components/Key";
+export { Login } from "./components/Screens/Login";
 
 // Utilities
 export { Currency } from "./components/Utilities/Currency";
@@ -129,7 +130,6 @@ export { LandscapeIcon } from "./icons/LandscapeIcon";
 export { AlertCircleIcon } from "./icons/AlertCircleIcon";
 export { KeyIcon } from "./icons/KeyIcon";
 export { GuestIcon } from "./icons/GuestIcon";
-export { XIcon } from "./icons/XIcon";
 export { BriefcaseIcon } from "./icons/BriefcaseIcon";
 export { DisputesIcon } from "./icons/DisputesIcon";
 export { AnnounceIcon } from "./icons/AnnounceIcon";

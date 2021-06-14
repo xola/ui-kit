@@ -1,6 +1,6 @@
-import React from "react";
-import PropTypes from "prop-types";
 import clsx from "clsx";
+import PropTypes from "prop-types";
+import { cloneElement, createElement, React } from "react";
 
 const colors = {
     primary: "bg-primary hover:bg-primary-dark disabled:bg-primary border-transparent text-white",
@@ -18,26 +18,34 @@ const sizes = {
     large: "px-5 py-2.5 text-lg",
 };
 
-export const Button = ({ className, color = "primary", size = "medium", iconStart, iconEnd, children, ...rest }) => {
-    const icon = iconStart || iconEnd;
-    if (icon && React.Children.count(children) === 0) {
-        return <IconButton className={className} icon={icon} color={color} size={size} />;
-    }
+const buttonBaseClassName = "transition-colors border focus:ring disabled:opacity-60 disabled:cursor-default";
 
-    return (
-        <button
-            className={clsx(
+export const Button = ({
+    className,
+    as = "button",
+    icon,
+    iconPlacement = "left",
+    color = "primary",
+    size = "medium",
+    children,
+    ...rest
+}) => {
+    return createElement(
+        as,
+        {
+            className: clsx(
                 className,
-                "transition-colors border font-semibold focus:ring disabled:opacity-60 disabled:cursor-default rounded-md",
+                buttonBaseClassName,
+                "inline-flex items-center font-semibold rounded-md",
                 colors[color],
                 sizes[size],
-            )}
-            {...rest}
-        >
-            {iconStart && <IconWrapper className="mr-2">{iconStart}</IconWrapper>}
-            {children}
-            {iconEnd && <IconWrapper className="ml-2">{iconEnd}</IconWrapper>}
-        </button>
+            ),
+
+            ...rest,
+        },
+        icon && iconPlacement === "left" ? <span className="flex-shrink-0 mr-2">{icon}</span> : null,
+        children,
+        icon && iconPlacement === "right" ? <span className="flex-shrink-0 ml-2">{icon}</span> : null,
     );
 };
 
@@ -66,11 +74,16 @@ const IconWrapper = (props) => {
 IconWrapper.propTypes = {
     children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
     className: PropTypes.string,
+    as: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+    icon: PropTypes.element,
+    iconPlacement: PropTypes.oneOf(["left", "right"]),
+    color: PropTypes.oneOf(Object.keys(colors)),
+    size: PropTypes.oneOf(Object.keys(sizes)),
 };
 
-// These are Icon only buttons which require a custom padding and modification
+// `Button.Icon` requires custom padding and icon sizes.
 
-const iconButtonSizes = {
+const buttonIconSizes = {
     small: "p-1.5",
     medium: "p-2",
     large: "p-2.5",
@@ -82,22 +95,19 @@ const iconSizes = {
     large: "h-5 w-5",
 };
 
-export const IconButton = ({ className, icon, color, size = "small", ...rest }) => {
-    return (
-        <button
-            className={clsx(className, "border inline-flex rounded", iconButtonSizes[size], colors[color])}
-            {...rest}
-        >
-            <IconWrapper className={clsx("inline-flex items-center justify-center", iconSizes[size])}>
-                {icon}
-            </IconWrapper>
-        </button>
+Button.Icon = ({ className, as = "button", color = "primary", size = "medium", children: icon, ...rest }) => {
+    return createElement(
+        as,
+        { className: clsx(className, buttonBaseClassName, "rounded", colors[color], buttonIconSizes[size]), ...rest },
+        cloneElement(icon, { className: iconSizes[size] }),
     );
 };
 
-IconButton.propTypes = {
+Button.Icon.displayName = "Button.Icon";
+Button.Icon.propTypes = {
     className: PropTypes.string,
-    icon: PropTypes.element.isRequired,
-    color: PropTypes.oneOf(Object.keys(colors)).isRequired,
-    size: PropTypes.oneOf(Object.keys(iconSizes)),
+    as: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+    color: PropTypes.oneOf(Object.keys(colors)),
+    size: PropTypes.oneOf(Object.keys(sizes)),
+    children: PropTypes.element,
 };
