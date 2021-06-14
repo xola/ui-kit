@@ -21,7 +21,7 @@ export const Tabs = ({ className, children, value, onChange, ...rest }) => {
             </div>
 
             {panels.map((child, index) => {
-                return cloneElement(child, { active: index === value });
+                return cloneElement(child, { isActive: index === value });
             })}
         </>
     );
