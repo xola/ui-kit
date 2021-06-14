@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import { cloneElement, createElement, React } from "react";
+import React, { cloneElement, createElement } from "react";
 
 const colors = {
     primary: "bg-primary hover:bg-primary-dark disabled:bg-primary border-transparent text-white",
