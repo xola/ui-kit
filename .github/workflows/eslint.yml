@@ -1,0 +1,51 @@
+name: Run ES Lint
+
+on:
+    push:
+    pull_request:
+        types: [assigned, opened, synchronize, reopened]
+    pull_request_target:
+        types: [assigned, opened, synchronize, reopened]
+
+jobs:
+    RunLint:
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v2
+              with:
+                  token: "${{ secrets.ES_LINT_TOKEN }}"
+                  ref: ${{github.event.pull_request.head.sha}}
+                  repository: ${{github.event.pull_request.head.repo.full_name}}
+
+            - name: Node.JS 14
+              uses: actions/setup-node@v2
+              with:
+                  node-version: 14
+
+            - name: Install Node Dependencies
+              run: npm install
+              env:
+                  CI: TRUE
+
+            - name: Test Code Linting
+              # This is to show the failures in Github actions
+              run: npm run lint
+              continue-on-error: true
+
+            - name: Save Code Linting Report to JSON
+              # This is to show failures in Github pull request using the action below
+              run: npm run lint:report
+              continue-on-error: true
+
+            - name: Annotate Code Linting Results
+              uses: ataylorme/eslint-annotate-action@1.2.0
+              with:
+                  repo-token: "${{ secrets.GITHUB_TOKEN }}"
+                  report-json: "eslint_report.json"
+
+            - name: Upload ESLint report
+              uses: actions/upload-artifact@v2
+              with:
+                  name: eslint_report.json
+                  path: eslint_report.json

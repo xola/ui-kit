@@ -1,3 +1,8 @@
-lib/
-node_modules/
-storybook-static/
+.DS_Store
+*.local
+dist
+build
+lib
+node_modules
+storybook-static
+*.tgz
