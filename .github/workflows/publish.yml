@@ -3,7 +3,7 @@ name: Publish to GitHub Pages
 on:
     push:
         branches:
-            - XOL-5923
+            - "**" # matches every branch
 
 jobs:
     publish:
