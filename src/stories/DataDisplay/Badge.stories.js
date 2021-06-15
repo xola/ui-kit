@@ -36,22 +36,22 @@ export const Default = ({ className, color, size, text = "Default" }) => {
 export const WithIcons = () => {
     return (
         <div className="space-x-4">
-            <Badge color="primary" icon={<StackIcon className="inline" />}>
+            <Badge color="primary" icon={<StackIcon />}>
                 Primary Badge
             </Badge>
-            <Badge color="secondary" icon={<EditIcon className="inline" />}>
+            <Badge color="secondary" icon={<EditIcon />}>
                 Secondary Badge
             </Badge>
-            <Badge color="success" icon={<BoxIcon className="inline" />}>
+            <Badge color="success" icon={<BoxIcon />}>
                 Success Badge
             </Badge>
-            <Badge color="warning" icon={<BellIcon className="inline" />}>
+            <Badge color="warning" icon={<BellIcon />}>
                 Warning Badge
             </Badge>
-            <Badge color="danger" icon={<CakeIcon className="inline" />}>
+            <Badge color="danger" icon={<CakeIcon />}>
                 Danger Badge
             </Badge>
-            <Badge color="caution" icon={<CashIcon className="inline" />}>
+            <Badge color="caution" icon={<CashIcon />}>
                 Caution Badge
             </Badge>
         </div>
@@ -75,7 +75,10 @@ export const AllSizes = () => {
     return (
         <div className="space-x-4">
             <Badge size="small">Small</Badge>
-            <Badge size="large">A Large One</Badge>
+
+            <Badge size="large" icon={<StackIcon />}>
+                A Large One
+            </Badge>
         </div>
     );
 };

@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { cloneElement } from "react";
 
 const colors = {
     primary: "bg-primary-lighter text-primary-dark",
@@ -13,7 +13,7 @@ const colors = {
 
 const sizes = {
     small: "text-sm px-2 py-0.75 leading-p3",
-    large: "inline-flex text-base px-3 py-1.5 leading-p1",
+    large: "text-base px-3 py-1.5 leading-p1",
 };
 
 export const Badge = ({ className, color = "primary", size = "small", icon, children, ...rest }) => {
@@ -27,7 +27,7 @@ export const Badge = ({ className, color = "primary", size = "small", icon, chil
             )}
             {...rest}
         >
-            {icon ? <span className="mr-1 -my-2">{icon}</span> : null}
+            {icon ? cloneElement(icon, { className: "mr-1 w-[1em] h-[1em]" }) : null}
             {children}
         </span>
     );
