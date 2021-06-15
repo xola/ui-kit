@@ -7,7 +7,7 @@ React component library for the next generation of Xola apps.
 Install the UI kit.
 
 ```bash
-$ npm install xola-ui-kit
+$ npm install @xola/ui-kit
 ```
 
 Install peer dependencies.
@@ -19,15 +19,15 @@ $ npm install autoprefixer postcss tailwindcss lodash
 Create PostCSS and Tailwind config files.
 
 ```bash
-$ echo 'module.exports = require("xola-ui-kit/tailwind.config");' > tailwind.config.js
-$ echo 'module.exports = require("xola-ui-kit/postcss.config");' > postcss.config.js
+$ echo 'module.exports = require("@xola/ui-kit/tailwind.config");' > tailwind.config.js
+$ echo 'module.exports = require("@xola/ui-kit/postcss.config");' > postcss.config.js
 ```
 
 Import main CSS files in your project.
 
 ```js
-import "xola-ui-kit/src/index.css";
-import "xola-ui-kit/build/style.css";
+import "@xola/ui-kit/index.css";
+import "@xola/ui-kit/build/style.css";
 ```
 
 UI kit expects you already have a working React dev environment with PostCSS support.
@@ -35,7 +35,7 @@ UI kit expects you already have a working React dev environment with PostCSS sup
 Import and use the components.
 
 ```js
-import { Button } from "xola-ui-kit";
+import { Button } from "@xola/ui-kit";
 ```
 
 ## Available Components
@@ -83,5 +83,5 @@ $ npm run dev
 ```bash
 $ npm pack
 $ cd your-project
-$ npm install ../xola-ui-kit/xola-ui-kit@{version}.tgz --no-save
+$ npm install ../ui-kit/xola-ui-kit@{version}.tgz --no-save
 ```

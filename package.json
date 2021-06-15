@@ -5,12 +5,12 @@
     "license": "MIT",
     "files": [
         "build",
-        "src/index.css",
+        "index.css",
         "tailwind.config.js",
         "postcss.config.js"
     ],
-    "main": "./build/xola-ui-kit.umd.js",
-    "module": "./build/xola-ui-kit.es.js",
+    "main": "./build/ui-kit.umd.js",
+    "module": "./build/ui-kit.es.js",
     "scripts": {
         "prepare": "vite build",
         "start": "start-storybook -p 6006 -s public",
