@@ -1,0 +1,26 @@
+name: Publish to GitHub Pages
+
+on:
+    push:
+        branches:
+            - XOL-5923
+
+jobs:
+    publish:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Check out
+              uses: actions/checkout@v1
+
+            - name: Install dependencies
+              run: npm ci
+
+            - name: Generate storybook
+              run: npm run build:storybook
+
+            - name: Publish generated content to GitHub Pages
+              uses: tsunematsu21/actions-publish-gh-pages@v1.0.1
+              with:
+                  dir: storybook-static
+                  branch: gh-pages
+                  token: ${{ secrets.ACCESS_TOKEN }}
