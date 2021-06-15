@@ -27,7 +27,7 @@ export const Badge = ({ className, color = "primary", size = "small", icon, chil
             )}
             {...rest}
         >
-            {icon ? <span className="mr-1">{icon}</span> : null}
+            {icon ? <span className="mr-1 -my-2">{icon}</span> : null}
             {children}
         </span>
     );

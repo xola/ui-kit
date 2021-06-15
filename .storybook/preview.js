@@ -1,5 +1,4 @@
-import "../src/index.css";
-
+import "../index.css";
 import xola from "./xola";
 
 export const parameters = {
