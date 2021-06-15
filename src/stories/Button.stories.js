@@ -1,8 +1,8 @@
-import { Button } from "..";
 import React from "react";
+import { Button, UserIcon } from "..";
 
-export default {
-    title: "Button",
+const ButtonStories = {
+    title: "Components/Button",
     component: Button,
 };
 
@@ -12,55 +12,66 @@ export const Default = () => {
 
 export const Colors = () => {
     return (
-        <div>
-            <Button color="primary">Primary</Button> <Button color="secondary">Secondary</Button>{" "}
-            <Button color="success">Success</Button> <Button color="info">Info</Button>{" "}
-            <Button color="warning">Warning</Button> <Button color="danger">Danger</Button>{" "}
-            <Button color="link">Link</Button>{" "}
+        <div className="space-x-4">
+            <Button color="primary">Primary</Button>
+            <Button color="secondary">Secondary</Button>
+            <Button color="success">Success</Button>
+            <Button color="warning">Warning</Button>
+            <Button color="danger">Danger</Button>
+            <Button color="outline">Outline</Button>
+            <Button color="link">Link</Button>
         </div>
     );
 };
 
-export const Outlined = () => {
+export const WithIcons = () => {
     return (
-        <div>
-            <Button color="primary" outline>
-                Primary
-            </Button>{" "}
-            <Button color="secondary" outline>
-                Secondary
-            </Button>{" "}
-            <Button color="success" outline>
-                Success
-            </Button>{" "}
-            <Button color="info" outline>
-                Info
-            </Button>{" "}
-            <Button color="warning" outline>
-                Warning
-            </Button>{" "}
-            <Button color="danger" outline>
-                Danger
-            </Button>{" "}
-            <Button color="link" outline>
-                Link
+        <div className="space-x-4">
+            <Button icon={<UserIcon />} size="medium">
+                Medium
             </Button>
+
+            <Button icon={<UserIcon />} iconPlacement="right" color="success" size="large">
+                Large
+            </Button>
+        </div>
+    );
+};
+
+export const AsLink = () => {
+    return (
+        <Button as="a" href="https://xola.com" target="_blank" rel="noopener" size="medium">
+            Xola Website
+        </Button>
+    );
+};
+
+export const IconOnly = () => {
+    return (
+        <div className="space-x-4">
+            <Button.Icon color="primary" size="small">
+                <UserIcon className="text-red" />
+            </Button.Icon>
+
+            <Button.Icon color="outline" size="medium">
+                <UserIcon />
+            </Button.Icon>
+
+            <Button.Icon color="success" size="large">
+                <UserIcon />
+            </Button.Icon>
         </div>
     );
 };
 
 export const Sizes = () => {
     return (
-        <div>
-            <Button size="sm" color="primary">
-                Small
-            </Button>{" "}
-            <Button size="md" color="secondary">
-                Medium
-            </Button>{" "}
-            <Button size="lg" color="success">
-                Large
-            </Button>
+        <div className="space-x-4">
+            <Button size="small">Small</Button>
+            <Button size="medium">Medium</Button>
+            <Button size="large">Large</Button>
         </div>
     );
 };
+
+export default ButtonStories;

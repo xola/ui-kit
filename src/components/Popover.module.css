@@ -1,0 +1,29 @@
+.main {
+    background: white;
+    border-width: 1px !important;
+    border-style: solid !important;
+}
+
+.main :global(.tippy-arrow) {
+    fill: white;
+}
+
+.main[data-placement^="top"] > :global(.tippy-arrow::before) {
+    border-top-color: white;
+}
+
+.main[data-placement^="bottom"] > :global(.tippy-arrow::before) {
+    border-bottom-color: white;
+}
+
+.main[data-placement^="left"] > :global(.tippy-arrow::before) {
+    border-left-color: white;
+}
+
+.main[data-placement^="right"] > :global(.tippy-arrow::before) {
+    border-right-color: white;
+}
+
+.main :global(.tippy-content) {
+    @apply text-black;
+}
