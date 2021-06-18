@@ -1,6 +1,5 @@
-import React, { useState } from "react";
-import { Sidebar, StarIcon, UserIcon } from "..";
-import { ExportIcon } from "../icons/ExportIcon";
+import React from "react";
+import { CheckIcon, ExportIcon, Sidebar, StarIcon, UserIcon } from "..";
 
 const SidebarStories = {
     title: "Components/Sidebar",
@@ -8,20 +7,28 @@ const SidebarStories = {
 };
 
 export const Default = () => {
-    const [openFooter, setOpenFooter] = useState(false);
-
-    const handleAvatarClick = () => {
-        setOpenFooter(!openFooter);
-    };
-
     return (
         <div className="h-screen">
             <Sidebar
                 notifications={3}
                 footer={
                     <Sidebar.Footer>
-                        <Sidebar.Footer.Avatar name="Scott" onClick={handleAvatarClick} />
-                        {openFooter ? <Sidebar.Footer.Button icon={ExportIcon} label="Logout" /> : null}
+                        <Sidebar.Menu
+                            content={
+                                <div className="space-y-2">
+                                    <Sidebar.Account
+                                        name="Twitter"
+                                        description="San Francisco, CA"
+                                        icon={<CheckIcon className="text-green" />}
+                                    />
+
+                                    <Sidebar.Account name="Slack" description="San Francisco, CA" />
+                                    <Sidebar.Button icon={ExportIcon} label="Logout" />
+                                </div>
+                            }
+                        >
+                            <Sidebar.Account responsive name="Scott" />
+                        </Sidebar.Menu>
                     </Sidebar.Footer>
                 }
                 onLogoClick={() => {}}
