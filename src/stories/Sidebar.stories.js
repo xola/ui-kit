@@ -27,7 +27,7 @@ export const Default = () => {
                                 </div>
                             }
                         >
-                            <Sidebar.Account responsive name="Scott" />
+                            <Sidebar.Account name="Scott" isResponsive />
                         </Sidebar.Menu>
                     </Sidebar.Footer>
                 }

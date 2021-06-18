@@ -20,6 +20,6 @@ export const SidebarButton = ({ icon: Icon, label, ...rest }) => {
 SidebarButton.displayName = "Sidebar.Button";
 
 SidebarButton.propTypes = {
-    icon: PropTypes.element.isRequired,
+    icon: PropTypes.elementType.isRequired,
     label: PropTypes.string.isRequired,
 };
