@@ -46,6 +46,18 @@ export const AsLink = () => {
     );
 };
 
+export const FullWidth = () => {
+    return (
+        <div className="space-y-4 w-60">
+            <Button className="w-full">Default</Button>
+
+            <Button icon={<UserIcon />} className="w-full">
+                Icon
+            </Button>
+        </div>
+    );
+};
+
 export const IconOnly = () => {
     return (
         <div className="space-x-4">
