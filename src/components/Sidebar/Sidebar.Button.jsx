@@ -5,11 +5,14 @@ export const SidebarButton = ({ icon: Icon, label, ...rest }) => {
     return (
         <button
             type="button"
-            className="flex items-center py-3 w-full rounded cursor-pointer px-6 hover:bg-gray-darker"
+            className="flex items-center px-4 py-2 w-full rounded cursor-pointer hover:bg-gray-darker"
             {...rest}
         >
-            <Icon className="w-5 h-5 ml-2 mr-5" />
-            <span>{label}</span>
+            <div className="p-1.5">
+                <Icon className="w-4 h-4" />
+            </div>
+
+            <span className="ml-2">{label}</span>
         </button>
     );
 };

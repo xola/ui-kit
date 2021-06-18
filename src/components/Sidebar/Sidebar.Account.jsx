@@ -12,22 +12,22 @@ export const SidebarAccount = ({
     isResponsive = false,
     ...rest
 }) => {
-    const accountImage = image ?? <Avatar size="small" name={name} />;
+    const accountImage = image ?? <Avatar size="tiny" name={name} />;
 
     return (
         <button
             type="button"
             className={clsx(
                 "flex justify-center items-center py-3 w-full rounded cursor-pointer hover:bg-gray-darker xl:justify-start",
-                isResponsive ? "xl:px-6" : "px-6",
+                isResponsive ? "xl:px-4" : "px-4",
             )}
             {...rest}
         >
             <div className="flex-shrink-0">{accountImage}</div>
 
-            <div className={clsx("ml-2 max-w-[88px] text-left", isResponsive && "hidden xl:inline")}>
+            <div className={clsx("ml-2 text-left", isResponsive && "hidden xl:inline")}>
                 <div className="truncate">{name}</div>
-                {description ? <div className="text-gray-dark truncate">{description}</div> : null}
+                {description ? <div className="text-gray-dark text-sm truncate">{description}</div> : null}
             </div>
 
             <span className={clsx("ml-auto", isResponsive && "hidden xl:inline")}>{icon}</span>

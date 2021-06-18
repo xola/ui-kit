@@ -11,7 +11,7 @@ export const SidebarMenu = ({ children, content, ...rest }) => {
             trigger="click" // Required otherwise menu will be truncated by the sidebar.
             appendTo={document.body}
             placement="right"
-            offset={[0, 16]}
+            offset={[0, 20]}
             arrow={false}
             className={clsx(styles.main, "!rounded-none bg-black/90 p-2 w-56")}
             content={content}
