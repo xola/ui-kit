@@ -4,6 +4,7 @@ import React from "react";
 import { getInitials } from "../helpers/avatar";
 
 const sizes = {
+    tiny: "h-7 w-7 text-base",
     small: "h-10 w-10 text-base",
     medium: "h-12 w-12 text-md",
     large: "h-15 w-15 text-xl",
@@ -11,7 +12,7 @@ const sizes = {
 
 export const Avatar = ({ className, name, color = "bg-primary-lighter", size = "large", ...rest }) => {
     const classes = clsx(
-        "inline-flex items-center justify-center rounded-full cursor-default text-black",
+        "inline-flex items-center justify-center rounded-full text-black leading-none",
         sizes[size],
         color,
         className,
