@@ -19,7 +19,7 @@ jobs:
               run: npm run build:storybook
 
             - name: Publish generated content to GitHub Pages
-              uses: tsunematsu21/actions-publish-gh-pages@v1.0.1
+              uses: tsunematsu21/actions-publish-gh-pages@v1.0.2
               with:
                   dir: storybook-static
                   branch: gh-pages
