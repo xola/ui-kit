@@ -35,7 +35,7 @@ export const Button = ({
             className={clsx(
                 className,
                 buttonBaseClassName,
-                "inline-flex items-center font-semibold rounded-md",
+                "inline-flex justify-center items-center font-semibold rounded-md",
                 colors[color],
                 sizes[size],
             )}

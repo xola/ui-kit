@@ -13,18 +13,18 @@ import "./Login.css";
 export const Login = ({ defaultValues, isLoading = false, isError = null, onSubmit }) => {
     const [values, setValues] = useState({ email: "", password: "", shouldRemember: false, ...defaultValues });
 
-    const handleInputChange = (event_) => {
-        const { name, value } = event_.target;
+    const handleInputChange = (event) => {
+        const { name, value } = event.target;
         setValues({ ...values, [name]: value });
     };
 
-    const handleCheckboxChange = (event_) => {
-        const { name, checked } = event_.target;
+    const handleCheckboxChange = (event) => {
+        const { name, checked } = event.target;
         setValues({ ...values, [name]: checked });
     };
 
-    const handleSubmit = (event_) => {
-        event_.preventDefault();
+    const handleSubmit = (event) => {
+        event.preventDefault();
         onSubmit(values);
     };
 
@@ -69,7 +69,7 @@ export const Login = ({ defaultValues, isLoading = false, isError = null, onSubm
                             </div>
 
                             <Checkbox
-                                name="remember"
+                                name="shouldRemember"
                                 label="Remember me"
                                 checked={values.shouldRemember}
                                 onChange={handleCheckboxChange}
