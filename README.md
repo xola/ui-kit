@@ -10,14 +10,12 @@ Install the UI kit.
 $ npm install @xola/ui-kit
 ```
 
-Install peer dependencies.
-
+Install peer dependencies:
 ```bash
 $ npm install autoprefixer postcss tailwindcss lodash
 ```
 
-Create PostCSS and Tailwind config files.
-
+Create PostCSS and Tailwind config files:
 ```bash
 $ echo 'module.exports = require("@xola/ui-kit/tailwind.config");' > tailwind.config.js
 $ echo 'module.exports = require("@xola/ui-kit/postcss.config");' > postcss.config.js
