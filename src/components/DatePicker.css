@@ -1,0 +1,51 @@
+.DayPickerInput-Overlay {
+    @apply mt-1 shadow-sm border border-gray-lighter;
+}
+
+.DayPickerInput-Overlay .DayPicker-wrapper {
+    width: 300px;
+}
+
+.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) {
+    @apply bg-blue;
+}
+
+.DayPicker-Day--today {
+    @apply font-normal;
+}
+
+.DayPicker-Day {
+    @apply w-10 h-10 text-sm;
+}
+
+.DayPicker-Month .DayPicker-Caption[role="heading"] div {
+    @apply relative top-[2px] inline-block font-semibold text-lg;
+}
+
+.DayPicker-Month .DayPicker-Caption .month-selector {
+    @apply py-[3px] pl-2 pr-6 mr-2 mt-[1px] bg-right;
+    @apply bg-white text-gray-darker border-2 border-solid border-gray rounded-md;
+    background-position: right 0.2rem center;
+}
+
+.DayPicker-Month .DayPicker-Caption .year-selector {
+    @apply py-[3px] pl-2 pr-6 mr-2.5 mt-[1px];
+    @apply bg-white text-gray-darker border-2 border-solid border-gray rounded-md;
+    background-position: right 0.2rem center;
+}
+
+.DayPicker-Weekday {
+    @apply font-semibold text-black text-base;
+    @apply pt-6;
+}
+
+.DayPicker-NavBar {
+    @apply relative top-[5px];
+}
+
+.DayPicker-TodayButton {
+    /* A lot of specific vaules which I normally wouldn't use.
+    But this is a third party lib where I cannot change the markup */
+    @apply absolute top-[15px] right-[67px] w-15 h-[31px] px-1.5 py-3 text-sm leading-[30%];
+    @apply bg-white text-gray-darker font-semibold border-2 border-solid border-gray rounded-md;
+}
