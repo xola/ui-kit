@@ -25,7 +25,8 @@ export const SidebarAccount = ({
         >
             <div className="flex-shrink-0">{accountImage}</div>
 
-            <div className={clsx("ml-2 text-left", isResponsive && "hidden xl:inline")}>
+            {/* Adding `min-w-0` on the flex item prevents the overflow for wider text. */}
+            <div className={clsx("ml-2 text-left min-w-0", isResponsive && "hidden xl:inline")}>
                 <div className="truncate">{name}</div>
                 {description ? <div className="text-gray-dark text-sm truncate">{description}</div> : null}
             </div>
