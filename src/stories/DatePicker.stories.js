@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import _ from "lodash";
-import React from "react";
+import React, { useState } from "react";
 import { DatePicker, DatePickerInput } from "..";
 import twConfig from "../../tailwind.config";
 
@@ -13,12 +13,14 @@ const DatePickerStories = {
                 type: "code",
             },
             description: {
-                component: "Rendering a date picker with various functionality",
+                component:
+                    "Rendering a date picker with various functionality based on [React Day Picker](https://react-day-picker.js.org) library",
             },
         },
     },
 };
 
+const debugFormat = "ddd, MMM DD, YYYY";
 const today = new Date(new Date().getFullYear(), new Date().getMonth());
 const Colors = twConfig.theme.colors;
 
@@ -123,6 +125,38 @@ export const PickerWithInput = () => {
 addDescription(
     PickerWithInput,
     "The `DatePickerInput` component binds the DatePicker with an input field, displaying the calendar in an overlay",
+);
+
+export const EventHandlers = () => {
+    const [month, setMonth] = useState(dayjs().format("MMMM YYYY"));
+    const [date, setDate] = useState(dayjs().format("ddd, DD MMMM YYYY"));
+
+    const onMonthChange = (newMonth) => {
+        setMonth(dayjs(newMonth).format("MMMM YYYY"));
+    };
+
+    const onDayClick = (today) => {
+        setDate(dayjs(today).format("ddd, DD MMMM YYYY"));
+    };
+
+    return (
+        <>
+            <div>
+                Selected Date <code className="p-1 mr-1 text-sm bg-gray-lighter">onDayClick</code>
+                <span className="inline-block pb-3 font-semibold">{date}</span>
+            </div>
+            <div>
+                Current Month <code className="p-1 mr-1 text-sm bg-gray-lighter">onMonthChange</code>
+                <span className="inline-block pb-3 font-semibold">{month}</span>
+            </div>
+            <DatePicker onMonthChange={onMonthChange} onDayClick={onDayClick} />
+        </>
+    );
+};
+
+addDescription(
+    EventHandlers,
+    "This shows various useful [event handlers](https://react-day-picker.js.org/api/DayPicker#onBlur) with `DatePicker` ",
 );
 
 // Only for reference, to be removed later
