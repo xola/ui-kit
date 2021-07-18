@@ -2,6 +2,7 @@ import clsx from "clsx";
 import uniqueId from "lodash/uniqueId";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
+import styles from "./Checkbox.module.css";
 
 export const Checkbox = ({ label, className, classNames = {}, ...rest }) => {
     const [id] = useState(rest.id ?? uniqueId("checkbox-"));
@@ -12,7 +13,8 @@ export const Checkbox = ({ label, className, classNames = {}, ...rest }) => {
                 type="checkbox"
                 className={clsx(
                     classNames.checkbox,
-                    "w-4 h-4 rounded text-primary border-gray focus:primary disabled:bg-gray-light disabled:text-gray-light disabled:border-none transition-colors",
+                    styles.checkbox,
+                    "w-4 h-4 rounded text-white !border-primary disabled:bg-gray-light disabled:text-gray-light disabled:border-none transition-colors",
                 )}
                 {...rest}
                 id={id}
