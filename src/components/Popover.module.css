@@ -25,5 +25,5 @@
 }
 
 .main :global(.tippy-content) {
-    @apply text-black;
+    @apply text-black p-0;
 }

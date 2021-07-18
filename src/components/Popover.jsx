@@ -7,11 +7,18 @@ import "tippy.js/dist/tippy.css";
 import "tippy.js/dist/border.css";
 import styles from "./Popover.module.css";
 
+// Padding for various sizes
+const sizes = {
+    small: "p-6",
+    medium: "p-5",
+    large: "p-4",
+};
+
 export const Popover = ({ className, children, ...rest }) => {
     return (
         <Tippy
             interactive
-            className={clsx(className, styles.main, "!border-gray-light !rounded-lg")}
+            className={clsx("popover", styles.main, "p-0 !border-gray-light !rounded-lg", className)}
             plugins={[followCursor]}
             {...rest}
         >
@@ -20,10 +27,8 @@ export const Popover = ({ className, children, ...rest }) => {
     );
 };
 
-Popover.Content = ({ className, children }) => {
-    // TODO: Should we add padding by default?
-    // Use case: https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/Xola---Design-System-(Desktop-App)?node-id=374%3A774
-    return <div className={clsx(className, "max-w-lg px-3 py-3")}>{children}</div>;
+Popover.Content = ({ className, size = "large", children }) => {
+    return <div className={clsx("popover-content", sizes[size], className)}>{children}</div>;
 };
 
 Popover.Content.displayName = "Popover.Content";
@@ -35,5 +40,6 @@ Popover.propTypes = {
 
 Popover.Content.propTypes = {
     className: PropTypes.string,
+    size: PropTypes.oneOf(Object.keys(sizes)),
     children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
 };

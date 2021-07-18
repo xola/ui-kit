@@ -21,6 +21,12 @@ const PopoverStories = {
             ["top", "bottom", "left", "right", "auto"],
             `Where to place the tooltip. [More in the docs](${documentationUrl})`,
         ),
+        size: getArgument(
+            "large",
+            "inline-radio",
+            ["small", "medium", "large"],
+            "The expected size of this popover which will defined the appropriate padding for the *content*",
+        ),
         delay: getArgument(
             0,
             "number",
@@ -60,17 +66,19 @@ function getArgument(defaultValue, type, options, description, summary = null) {
 
 export const Default = ({ demoText, ...rest }) => {
     const content = (
-        <Popover.Content>
-            <div className="pb-1 text-base font-bold">Popover title</div>
-            <div className="text-sm">And here is some amazing content and it is very engaging. Right?</div>
-            <div className="text-sm">Here is some more because I am crazy</div>
+        <Popover.Content className="space-y-2">
+            <p className="p1 font-bold">Popover Title</p>
+            <p className="p2">And here is some amazing content and it is very engaging. Right?</p>
+            <p className="p2">Here is some more because I am crazy</p>
         </Popover.Content>
     );
 
     return (
-        <Popover {...rest} content={content}>
-            <Button>{demoText}</Button>
-        </Popover>
+        <div className="mt-10 h-20">
+            <Popover {...rest} content={content}>
+                <Button>{demoText}</Button>
+            </Popover>
+        </div>
     );
 };
 
@@ -99,9 +107,11 @@ export const NoTitle = ({ demoText, ...rest }) => {
     );
 
     return (
-        <Popover {...rest} content={content}>
-            <Button>{demoText}</Button>
-        </Popover>
+        <div className="mt-10 h-20">
+            <Popover {...rest} content={content}>
+                <Button>{demoText}</Button>
+            </Popover>
+        </div>
     );
 };
 
