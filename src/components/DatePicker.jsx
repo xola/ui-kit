@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import dayjs from "dayjs";
-import { forwardRef, useState } from "react";
+import React, { forwardRef, useState } from "react";
+import PropTypes from "prop-types";
 import DayPicker from "react-day-picker";
 import DayPickerInput from "react-day-picker/DayPickerInput";
 import "react-day-picker/lib/style.css";
@@ -10,21 +11,21 @@ import { Input } from "./Forms/Input";
 const expectedFormat = "ddd, MMM DD, YYYY";
 const today = dayjs();
 
-const InputComponent = forwardRef((props, ref) => {
-    return <Input size="small" readOnly={true} className="cursor-pointer" {...props} />;
+const InputComponent = forwardRef((props, _reference) => {
+    return <Input readOnly size="small" className="cursor-pointer" {...props} />;
 });
 
 export const DatePickerInput = ({
     inputComponent = InputComponent,
-    selectedDay = new Date(2021, 6, 22),
-    showOverlay = false,
+    selectedDay = new Date(),
+    shouldShowOverlay = false,
     datePickerProps = { todayButton: "Today" },
 }) => {
     const [date, setDate] = useState(selectedDay);
 
     const handleDayChange = (day, options) => {
         console.assert(!options.disabled, "Date is disabled");
-        console.log("Day is " + dayjs(day).format("ddd, YYYY-MMDD"));
+        console.log("DatePickerInput Day is " + dayjs(day).format("ddd, YYYY-MM-DD"));
         setDate(day);
     };
 
@@ -33,38 +34,57 @@ export const DatePickerInput = ({
         return dayjs(selectedDate).format(expectedFormat);
     };
 
+    datePickerProps.selectedDays = [date];
+
     return (
         <DayPickerInput
             component={inputComponent}
             placeholder={dayjs().format(expectedFormat)}
-            onDayChange={handleDayChange}
-            showOverlay={showOverlay}
+            showOverlay={shouldShowOverlay}
             formatDate={formatSelectedDate}
             dayPickerProps={datePickerProps}
+            onDayChange={handleDayChange}
         />
     );
+};
+
+DatePickerInput.propTypes = {
+    inputComponent: PropTypes.element,
+    selectedDay: PropTypes.oneOfType([Date]),
+    shouldShowOverlay: PropTypes.bool,
+    datePickerProps: PropTypes.object,
 };
 
 export const DatePicker = ({
     selectedDay,
     month = new Date(),
     disabledDays = [],
-    modifiers = {},
-    showYearPicker = false,
+    shouldShowYearPicker = false,
     customContent = {},
+    modifiers = {},
     modifiersStyles = {}, // This can be hard-coded in the UI Kit component
     ...rest
 }) => {
     const [date, setDate] = useState(selectedDay);
+    if (date) {
+        month = date;
+    }
 
     const handleDayClick = (day, options = {}) => {
-        console.log(options.disabled, "Day is", dayjs(day).format("YYYY-MM-DD"));
+        console.assert(!options.disabled, "Date is disabled");
+        console.log("Day is", dayjs(day).format("YYYY-MM-DD"));
         setDate(day);
     };
 
     let captionElement;
-    if (showYearPicker) {
-        captionElement = ({ date }) => <YearMonthForm date={date} onChange={handleDayClick} />;
+    if (shouldShowYearPicker) {
+        captionElement = ({ date }) => {
+            return <YearMonthForm date={date} onChange={handleDayClick} />;
+        };
+
+        captionElement.propTypes = {
+            date: PropTypes.objectOf(Date).isRequired,
+        };
     }
 
     let renderDay;
@@ -81,21 +101,31 @@ export const DatePicker = ({
         <div className="date-picker">
             <DayPicker
                 modifiers={modifiers}
-                onDayClick={handleDayClick}
-                selectedDays={date}
+                selectedDays={[date]}
                 month={month}
                 modifiersStyles={modifiersStyles}
                 disabledDays={disabledDays}
-                todayButton={"Today"}
+                todayButton="Today"
                 captionElement={captionElement}
                 renderDay={renderDay}
+                onDayClick={handleDayClick}
                 {...rest}
             />
         </div>
     );
 };
 
-function renderContent(currentDate, day, content) {
+DatePicker.propTypes = {
+    selectedDay: PropTypes.objectOf(Date),
+    month: PropTypes.objectOf(Date),
+    disabledDays: PropTypes.array,
+    modifiers: PropTypes.object,
+    shouldShowYearPicker: PropTypes.bool,
+    customContent: PropTypes.array,
+    modifiersStyles: PropTypes.object,
+};
+
+const renderContent = (currentDate, day, content) => {
     const date = day.getDate();
     const value = content[date] ?? "N/A";
     const isSameDay = dayjs(currentDate).isSame(day, "day");
@@ -106,27 +136,33 @@ function renderContent(currentDate, day, content) {
             <span className={clsx("text-sm", isSameDay ? "text-white" : "text-gray-dark")}>{value}</span>
         </div>
     );
-}
+};
 
-function YearMonthForm({ date, onChange }) {
-    const months = [...Array(12).keys()].map((m) => today.month(m).format("MMM"));
-    const years = [...Array(10).keys()].map((y) => today.year(2021 + y).format("YYYY"));
+renderContent.propTypes = {
+    currentDate: PropTypes.objectOf(Date).isRequired,
+    day: PropTypes.objectOf(Date).isRequired,
+    content: PropTypes.object.isRequired,
+};
 
-    const handleChange = function handleChange(e) {
-        const { year, month } = e.target.form;
+const YearMonthForm = ({ date, onChange }) => {
+    const months = [...Array.from({ length: 12 }).keys()].map((m) => today.month(m).format("MMM"));
+    const years = [...Array.from({ length: 12 }).keys()].map((y) => today.year(2021 + y).format("YYYY"));
+
+    const handleChange = (event_) => {
+        const { year, month } = event_.target.form;
         onChange(new Date(year.value, month.value));
     };
 
     return (
         <form className="DayPicker-Caption">
-            <select name="month" onChange={handleChange} value={date.getMonth()} className="month-selector">
-                {months.map((month, i) => (
-                    <option key={month} value={i}>
+            <select name="month" value={date.getMonth()} className="month-selector" onChange={handleChange}>
+                {months.map((month, index) => (
+                    <option key={month} value={index}>
                         {month}
                     </option>
                 ))}
             </select>
-            <select name="year" onChange={handleChange} value={date.getFullYear()} className="year-selector">
+            <select name="year" value={date.getFullYear()} className="year-selector" onChange={handleChange}>
                 {years.map((year) => (
                     <option key={year} value={year}>
                         {year}
@@ -135,9 +171,9 @@ function YearMonthForm({ date, onChange }) {
             </select>
         </form>
     );
-}
+};
 
-// TODO: Describe structure of disabledDays http://react-day-picker.js.org/examples/disabled
-// TODO: Describe structure of modifiers
-// TODO: Describe structure of modifiersStyles
-// TODO: Locationlization http://react-day-picker.js.org/docs/localization#advanced
+YearMonthForm.propTypes = {
+    date: PropTypes.objectOf(Date).isRequired,
+    onChange: PropTypes.func.isRequired,
+};
