@@ -47,6 +47,7 @@ export const DatePickerInput = ({
 
 export const DatePicker = ({
     selectedDay,
+    month = new Date(),
     disabledDays = [],
     modifiers = {},
     showYearPicker = false,
@@ -82,7 +83,7 @@ export const DatePicker = ({
                 modifiers={modifiers}
                 onDayClick={handleDayClick}
                 selectedDays={date}
-                month={date}
+                month={month}
                 modifiersStyles={modifiersStyles}
                 disabledDays={disabledDays}
                 todayButton={"Today"}

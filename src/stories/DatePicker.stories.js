@@ -28,14 +28,16 @@ export const Default = () => {
 
 export const DisabledDays = () => {
     const disabledDays = [
+        // Disable two specific dates
         new Date(today.setDate(14)),
         new Date(today.setDate(2)),
         {
+            // All days between these two dates
             after: new Date(today.setDate(18)),
             before: new Date(today.setDate(25)),
         },
         {
-            // Disabled Sunday
+            // Disabled all Sundays
             daysOfWeek: [0],
         },
     ];
@@ -43,7 +45,19 @@ export const DisabledDays = () => {
     return <DatePicker month={today} disabledDays={disabledDays} />;
 };
 
-addDescription(DisabledDays, "Set disabled dates by supplying specific dates or a range of dates");
+addDescription(
+    DisabledDays,
+    'Use the `disabledDays` prop to display days with a "disabled" style. You can match a wide range of days by passing one or more [different modifiers](http://react-day-picker.js.org/docs/matching-days) to disabledDays',
+);
+
+export const RestrictNavigation = () => {
+    return <DatePicker month={today} fromMonth={today} toMonth={dayjs().add(2, "month").toDate()} />;
+};
+
+addDescription(
+    RestrictNavigation,
+    "Use the `fromMonth` and `toMonth` props to restrict the navigation between months.",
+);
 
 export const ModifyCellStyle = () => {
     const modifiers = {
@@ -69,13 +83,19 @@ export const ModifyCellStyle = () => {
     return <DatePicker month={today} modifiers={modifiers} modifiersStyles={modifiersStyles} fromMonth={new Date()} />;
 };
 
-addDescription(ModifyCellStyle, "Customize the display of a cell for special situations for example, Waitlist");
+addDescription(
+    ModifyCellStyle,
+    "You can apply a custom inline style to day cells using [modifiers](https://react-day-picker.js.org/docs/matching-days). For example you can style certain cells in the Waitlist yellow.",
+);
 
 export const SelectYearMonth = () => {
-    return <DatePicker showYearPicker={true} />;
+    return <DatePicker month={new Date(2021, 4, 21)} showYearPicker={true} />;
 };
 
-addDescription(SelectYearMonth, "Jump to a specific year or month by selecting them from a dropdown");
+addDescription(
+    SelectYearMonth,
+    "This example shows how to use the `month` and `showYearPicker` prop to change the calendar's caption. For example, we can use these props to start in the month of April and to add a form to switch between months and years.",
+);
 
 export const AddContentToDays = () => {
     const customContent = {};
@@ -87,7 +107,10 @@ export const AddContentToDays = () => {
     return <DatePicker customContent={customContent} />;
 };
 
-addDescription(AddContentToDays, "**WIP:** Add custom content to any day cell");
+addDescription(
+    AddContentToDays,
+    "**WIP:** Add custom content to any day cell for example the maximum price for a specific date",
+);
 
 export const PickerWithInput = () => {
     return (
@@ -97,7 +120,10 @@ export const PickerWithInput = () => {
     );
 };
 
-addDescription(PickerWithInput, "Show an input field with a given date and click to show a date picker");
+addDescription(
+    PickerWithInput,
+    "The `DatePickerInput` component binds the DatePicker with an input field, displaying the calendar in an overlay",
+);
 
 // Only for reference, to be removed later
 export const FigmaDesign = () => {
