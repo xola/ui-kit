@@ -9,12 +9,12 @@ import "./DatePicker.css";
 import { formatDate } from "../helpers/date";
 import { Input } from "./Forms/Input";
 
-const expectedFormat = "ddd, MMM DD, YYYY";
 const today = dayjs();
 
 export const DatePickerInput = ({
     inputComponent = InputComponent,
     selectedDay = new Date(),
+    dateFormat = "ddd, MMM DD, YYYY",
     shouldShowOverlay = false,
     datePickerProps = { todayButton: "Today" },
 }) => {
@@ -22,21 +22,21 @@ export const DatePickerInput = ({
 
     const handleDayChange = (day, options) => {
         console.assert(!options.disabled, "Date is disabled");
-        console.log("DatePickerInput Day is " + formatDate(date, expectedFormat));
+        console.log("DatePickerInput Day is " + formatDate(date, dateFormat));
         setDate(day);
     };
 
-    const formatSelectedDate = (date) => formatDate(date, expectedFormat);
+    const formatSelectedDate = (date) => formatDate(date, dateFormat);
 
     datePickerProps.selectedDays = [date];
 
     return (
         <DayPickerInput
             component={inputComponent}
-            placeholder={dayjs().format(expectedFormat)}
+            placeholder={dayjs().format(dateFormat)}
             showOverlay={shouldShowOverlay}
             formatDate={formatSelectedDate}
-            dayPickerProps={datePickerProps}
+            dayPickerProps={datePickerProps} // TODO: overlayComponent
             onDayChange={handleDayChange}
         />
     );
@@ -55,17 +55,17 @@ DatePickerInput.propTypes = {
 
 export const DatePicker = ({
     selectedDate,
-    startDate = new Date(),
+    startMonth = new Date(),
     handleDayClick,
     handleMonthChange,
     disabledDays = [],
     shouldShowYearPicker = false,
-    customContent = {},
+    customContent = [],
     modifiers = {},
     ...rest
 }) => {
-    const [date, setDate] = useState(selectedDate ?? startDate);
-    const [start, setStart] = useState(startDate ?? selectedDate);
+    const [date, setDate] = useState(selectedDate ?? startMonth);
+    const [initialMonth, setInitialMonth] = useState(startMonth ?? selectedDate);
 
     if (!handleDayClick) {
         // Default wrapper so that we can show the date, and a warning for user to handle this
@@ -82,7 +82,7 @@ export const DatePicker = ({
     };
 
     const handleMonthChangeWrapper = (month) => {
-        setStart(month);
+        setInitialMonth(month);
         if (handleMonthChange) {
             handleMonthChange.call(this, month);
         } else {
@@ -101,7 +101,7 @@ export const DatePicker = ({
     }
 
     let renderDay;
-    if (Object.keys(customContent).length > 0) {
+    if (customContent && customContent.length > 0) {
         renderDay = (day) => RenderCustomContent(date, day, customContent);
     }
 
@@ -110,7 +110,7 @@ export const DatePicker = ({
             <DayPicker
                 modifiers={modifiers}
                 selectedDays={[date]} // Xola date picker doesn't support selecting multiple days yet
-                month={start}
+                month={initialMonth}
                 disabledDays={disabledDays}
                 todayButton="Today"
                 captionElement={captionElement}
@@ -124,7 +124,7 @@ export const DatePicker = ({
 
 DatePicker.propTypes = {
     selectedDay: PropTypes.objectOf(Date),
-    startDate: PropTypes.objectOf(Date),
+    startMonth: PropTypes.objectOf(Date),
     disabledDays: PropTypes.array,
     modifiers: PropTypes.object,
     shouldShowYearPicker: PropTypes.bool,

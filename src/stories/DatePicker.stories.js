@@ -9,18 +9,29 @@ const DatePickerStories = {
     component: DatePicker,
     parameters: {
         docs: {
-            source: {
-                type: "code",
-            },
             description: {
                 component:
                     "Rendering a date picker with various functionality based on [React Day Picker](https://react-day-picker.js.org) library",
             },
         },
     },
+    argTypes: {
+        selectedDate: {
+            description: "Overwritten description",
+            table: {
+                type: {
+                    summary: "Something short",
+                    detail: "Something really really long",
+                },
+            },
+            control: {
+                type: "text",
+            },
+        },
+    },
 };
 
-const today = new Date(new Date().getFullYear(), new Date().getMonth());
+const today = dayjs().set("date", 1).toDate();
 const Colors = twConfig.theme.colors;
 
 export const Default = () => {
@@ -43,7 +54,7 @@ export const DisabledDays = () => {
         },
     ];
 
-    return <DatePicker startDate={today} disabledDays={disabledDays} />;
+    return <DatePicker startMonth={today} disabledDays={disabledDays} />;
 };
 
 addDescription(
@@ -52,7 +63,7 @@ addDescription(
 );
 
 export const RestrictNavigation = () => {
-    return <DatePicker startDate={today} fromMonth={today} toMonth={dayjs().add(2, "month").toDate()} />;
+    return <DatePicker startMonth={today} fromMonth={today} toMonth={dayjs().add(2, "month").toDate()} />;
 };
 
 addDescription(
@@ -81,7 +92,9 @@ export const ModifyCellStyle = () => {
         },
     };
 
-    return <DatePicker startDate={today} modifiers={modifiers} modifiersStyles={modifiersStyles} fromMonth={new Date()} />;
+    return (
+        <DatePicker startMonth={today} modifiers={modifiers} modifiersStyles={modifiersStyles} fromMonth={new Date()} />
+    );
 };
 
 addDescription(
@@ -90,7 +103,7 @@ addDescription(
 );
 
 export const SelectYearMonth = () => {
-    return <DatePicker shouldShowYearPicker startDate={new Date(2021, 3, 21)} />;
+    return <DatePicker shouldShowYearPicker startMonth={new Date(2021, 3, 21)} />;
 };
 
 addDescription(
