@@ -24,7 +24,7 @@ const today = new Date(new Date().getFullYear(), new Date().getMonth());
 const Colors = twConfig.theme.colors;
 
 export const Default = () => {
-    return <DatePicker selectedDays={new Date()} />;
+    return <DatePicker selectedDate={new Date()} />;
 };
 
 export const DisabledDays = () => {
@@ -43,7 +43,7 @@ export const DisabledDays = () => {
         },
     ];
 
-    return <DatePicker month={today} disabledDays={disabledDays} />;
+    return <DatePicker startDate={today} disabledDays={disabledDays} />;
 };
 
 addDescription(
@@ -52,7 +52,7 @@ addDescription(
 );
 
 export const RestrictNavigation = () => {
-    return <DatePicker month={today} fromMonth={today} toMonth={dayjs().add(2, "month").toDate()} />;
+    return <DatePicker startDate={today} fromMonth={today} toMonth={dayjs().add(2, "month").toDate()} />;
 };
 
 addDescription(
@@ -81,7 +81,7 @@ export const ModifyCellStyle = () => {
         },
     };
 
-    return <DatePicker month={today} modifiers={modifiers} modifiersStyles={modifiersStyles} fromMonth={new Date()} />;
+    return <DatePicker startDate={today} modifiers={modifiers} modifiersStyles={modifiersStyles} fromMonth={new Date()} />;
 };
 
 addDescription(
@@ -90,7 +90,7 @@ addDescription(
 );
 
 export const SelectYearMonth = () => {
-    return <DatePicker shouldShowYearPicker month={new Date(2021, 3, 21)} />;
+    return <DatePicker shouldShowYearPicker startDate={new Date(2021, 3, 21)} />;
 };
 
 addDescription(

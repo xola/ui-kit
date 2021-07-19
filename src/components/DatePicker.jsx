@@ -6,14 +6,11 @@ import DayPicker from "react-day-picker";
 import DayPickerInput from "react-day-picker/DayPickerInput";
 import "react-day-picker/lib/style.css";
 import "./DatePicker.css";
+import { formatDate } from "../helpers/date";
 import { Input } from "./Forms/Input";
 
 const expectedFormat = "ddd, MMM DD, YYYY";
 const today = dayjs();
-
-const InputComponent = forwardRef((props, _reference) => {
-    return <Input readOnly size="small" className="cursor-pointer" {...props} />;
-});
 
 export const DatePickerInput = ({
     inputComponent = InputComponent,
@@ -25,14 +22,11 @@ export const DatePickerInput = ({
 
     const handleDayChange = (day, options) => {
         console.assert(!options.disabled, "Date is disabled");
-        console.log("DatePickerInput Day is " + dayjs(day).format("ddd, YYYY-MM-DD"));
+        console.log("DatePickerInput Day is " + formatDate(date, expectedFormat));
         setDate(day);
     };
 
-    const formatSelectedDate = (selectedDate) => {
-        // console.log("formatDate", selectedDate);
-        return dayjs(selectedDate).format(expectedFormat);
-    };
+    const formatSelectedDate = (date) => formatDate(date, expectedFormat);
 
     datePickerProps.selectedDays = [date];
 
@@ -48,6 +42,10 @@ export const DatePickerInput = ({
     );
 };
 
+const InputComponent = forwardRef((props, _reference) => {
+    return <Input readOnly size="small" className="cursor-pointer" {...props} />;
+});
+
 DatePickerInput.propTypes = {
     inputComponent: PropTypes.element,
     selectedDay: PropTypes.oneOfType([Date]),
@@ -56,59 +54,68 @@ DatePickerInput.propTypes = {
 };
 
 export const DatePicker = ({
-    selectedDay,
-    month = new Date(),
+    selectedDate,
+    startDate = new Date(),
+    handleDayClick,
+    handleMonthChange,
     disabledDays = [],
     shouldShowYearPicker = false,
     customContent = {},
     modifiers = {},
-    modifiersStyles = {}, // This can be hard-coded in the UI Kit component
     ...rest
 }) => {
-    const [date, setDate] = useState(selectedDay);
-    if (date) {
-        month = date;
+    const [date, setDate] = useState(selectedDate ?? startDate);
+    const [start, setStart] = useState(startDate ?? selectedDate);
+
+    if (!handleDayClick) {
+        // Default wrapper so that we can show the date, and a warning for user to handle this
+        handleDayClick = (day, options = {}) => {
+            console.warn("`handleDayClick` callback undefined. Please use it listening to date changes");
+            console.log("Selected date", formatDate(day, "YYYY-MM-DD"), options);
+        };
     }
 
-    const handleDayClick = (day, options = {}) => {
-        console.assert(!options.disabled, "Date is disabled");
-        console.log("Day is", dayjs(day).format("YYYY-MM-DD"));
+    // A wrapper for the callback so we can use local state and invoke the call back
+    const handleDayClickWrapper = (day, options) => {
         setDate(day);
+        handleDayClick.call(this, day, options);
+    };
+
+    const handleMonthChangeWrapper = (month) => {
+        setStart(month);
+        if (handleMonthChange) {
+            handleMonthChange.call(this, month);
+        } else {
+            console.warn("`handleMonthChange` callback undefined. Please use it listening to month changes");
+            console.log("Selected month", formatDate(month, "YYYY-MM"));
+        }
     };
 
     let captionElement;
     if (shouldShowYearPicker) {
         captionElement = ({ date }) => {
-            return <YearMonthForm date={date} onChange={handleDayClick} />;
+            return <MonthYearSelector date={date} onChange={handleMonthChangeWrapper} />;
         };
 
-        captionElement.propTypes = {
-            date: PropTypes.objectOf(Date).isRequired,
-        };
+        captionElement.propTypes = { date: PropTypes.objectOf(Date).isRequired };
     }
 
     let renderDay;
     if (Object.keys(customContent).length > 0) {
-        renderDay = (day) => renderContent(date, day, customContent);
+        renderDay = (day) => RenderCustomContent(date, day, customContent);
     }
-
-    // onChange
-    // selectsStart selectsEnd
-    // minDate
-    // selec
 
     return (
         <div className="date-picker">
             <DayPicker
                 modifiers={modifiers}
-                selectedDays={[date]}
-                month={month}
-                modifiersStyles={modifiersStyles}
+                selectedDays={[date]} // Xola date picker doesn't support selecting multiple days yet
+                month={start}
                 disabledDays={disabledDays}
                 todayButton="Today"
                 captionElement={captionElement}
                 renderDay={renderDay}
-                onDayClick={handleDayClick}
+                onDayClick={handleDayClickWrapper}
                 {...rest}
             />
         </div>
@@ -117,15 +124,14 @@ export const DatePicker = ({
 
 DatePicker.propTypes = {
     selectedDay: PropTypes.objectOf(Date),
-    month: PropTypes.objectOf(Date),
+    startDate: PropTypes.objectOf(Date),
     disabledDays: PropTypes.array,
     modifiers: PropTypes.object,
     shouldShowYearPicker: PropTypes.bool,
     customContent: PropTypes.array,
-    modifiersStyles: PropTypes.object,
 };
 
-const renderContent = (currentDate, day, content) => {
+const RenderCustomContent = (currentDate, day, content) => {
     const date = day.getDate();
     const value = content[date] ?? "N/A";
     const isSameDay = dayjs(currentDate).isSame(day, "day");
@@ -138,13 +144,13 @@ const renderContent = (currentDate, day, content) => {
     );
 };
 
-renderContent.propTypes = {
+RenderCustomContent.propTypes = {
     currentDate: PropTypes.objectOf(Date).isRequired,
     day: PropTypes.objectOf(Date).isRequired,
     content: PropTypes.object.isRequired,
 };
 
-const YearMonthForm = ({ date, onChange }) => {
+const MonthYearSelector = ({ date, onChange }) => {
     const months = [...Array.from({ length: 12 }).keys()].map((m) => today.month(m).format("MMM"));
     const years = [...Array.from({ length: 12 }).keys()].map((y) => today.year(2021 + y).format("YYYY"));
 
@@ -173,7 +179,7 @@ const YearMonthForm = ({ date, onChange }) => {
     );
 };
 
-YearMonthForm.propTypes = {
+MonthYearSelector.propTypes = {
     date: PropTypes.objectOf(Date).isRequired,
     onChange: PropTypes.func.isRequired,
 };
