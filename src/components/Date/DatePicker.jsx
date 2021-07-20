@@ -1,74 +1,19 @@
 import clsx from "clsx";
 import dayjs from "dayjs";
-import React, { forwardRef, useState } from "react";
 import PropTypes from "prop-types";
+import React, { useState } from "react";
 import DayPicker from "react-day-picker";
-import DayPickerInput from "react-day-picker/DayPickerInput";
 import "react-day-picker/lib/style.css";
+import { formatDate } from "../../helpers/date";
+import { ChevronLeftIcon } from "../../icons/ChevronLeftIcon";
+import { ChevronRightIcon } from "../../icons/ChevronRightIcon";
 import "./DatePicker.css";
-import { formatDate } from "../helpers/date";
-import { Input } from "./Forms/Input";
-import { ChevronLeftIcon } from "../icons/ChevronLeftIcon";
-import { ChevronRightIcon } from "../icons/ChevronRightIcon";
 
 const today = dayjs();
 
 /**
  * Figma Design link: https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%F0%9F%9B%A0-Xola-DS-Desktop-Master-%F0%9F%9B%A0?node-id=2689%3A101580
  */
-
-export const DatePickerInput = ({
-    inputComponent = InputComponent,
-    selectedDate = new Date(),
-    dateFormat = "ddd, MMM DD, YYYY",
-    shouldShowOverlay = false,
-    datePickerProps = { todayButton: "Today" },
-    handleDayChange,
-}) => {
-    const [date, setDate] = useState(selectedDate);
-
-    if (!handleDayChange) {
-        // TODO: Cleanup handling
-        handleDayChange = (day, options) => {
-            console.assert(!options.disabled, "Date is disabled");
-            console.log("DatePickerInput Day is " + formatDate(date, dateFormat));
-            setDate(day);
-        };
-    }
-
-    const formatSelectedDate = (date) => formatDate(date, dateFormat);
-
-    datePickerProps.selectedDays = [date];
-    datePickerProps.navbarElement = navbarElement;
-    datePickerProps.onTodayButtonClick = (today) => {
-        console.log("DatePickerInput onTodayButtonClick", formatDate(today));
-        setDate(today);
-    };
-
-    return (
-        <DayPickerInput
-            component={inputComponent}
-            placeholder={dayjs().format(dateFormat)}
-            showOverlay={shouldShowOverlay}
-            formatDate={formatSelectedDate}
-            dayPickerProps={datePickerProps} // TODO: overlayComponent
-            onDayChange={handleDayChange}
-        />
-    );
-};
-
-const InputComponent = forwardRef((props, _reference) => {
-    return <Input readOnly size="small" className="cursor-pointer" {...props} />;
-});
-
-DatePickerInput.propTypes = {
-    inputComponent: PropTypes.element,
-    selectedDate: PropTypes.oneOfType([Date]),
-    dateFormat: PropTypes.string,
-    shouldShowOverlay: PropTypes.bool,
-    datePickerProps: PropTypes.object,
-    handleDayChange: PropTypes.func,
-};
 
 export const DatePicker = ({
     selectedDate,
@@ -96,7 +41,6 @@ export const DatePicker = ({
 
     let renderDay;
     if (customContent && customContent.length > 0) {
-        console.log("CC", selectedDate, "-", date);
         renderDay = (day) => renderCustomContent({ selectedDate: date, day, customContent });
     }
 
@@ -165,13 +109,16 @@ DatePicker.propTypes = {
     handleTodayButtonClick: PropTypes.func,
 };
 
-const navbarElement = ({ nextMonth, previousMonth, onPreviousClick, onNextClick, className, localeUtils }) => {
+export const navbarElement = ({ onPreviousClick, onNextClick, className, showNextButton, showPreviousButton }) => {
     return (
         <div className={clsx(className, "absolute top-2.5 right-2")}>
-            <button onClick={() => onPreviousClick()}>
+            <button className={clsx(showPreviousButton ? "inline-block" : "hidden")} onClick={() => onPreviousClick()}>
                 <ChevronLeftIcon />
             </button>
-            <button className="ml-2" onClick={() => onNextClick()}>
+            <button
+                className={clsx("ml-2", showNextButton ? "inline-block" : "invisible")}
+                onClick={() => onNextClick()}
+            >
                 <ChevronRightIcon />
             </button>
         </div>

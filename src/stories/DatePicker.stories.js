@@ -127,7 +127,7 @@ addDescription(
 
 export const PickerWithInput = () => {
     return (
-        <div className="h-[350px]">
+        <div className="h-[480px]">
             <DatePickerInput />
         </div>
     );
