@@ -15,20 +15,6 @@ const DatePickerStories = {
             },
         },
     },
-    argTypes: {
-        selectedDate: {
-            description: "Overwritten description",
-            table: {
-                type: {
-                    summary: "Something short",
-                    detail: "Something really really long",
-                },
-            },
-            control: {
-                type: "text",
-            },
-        },
-    },
 };
 
 const today = dayjs().set("date", 1).toDate();
@@ -157,10 +143,10 @@ export const EventHandlers = () => {
                 <span className="inline-block pb-3 font-semibold">{dayjs(date).format("ddd, DD MMMM YYYY")}</span>
             </div>
             <div>
-                Current Month <code className="p-1 mr-1 text-sm bg-gray-lighter">onMonthChange</code>
+                Current Month <code className="p-1 mr-1 text-sm bg-gray-lighter">handleMonthChange</code>
                 <span className="inline-block pb-3 font-semibold">{dayjs(month).format("MMMM YYYY")}</span>
             </div>
-            <DatePicker selectedDate={date} onMonthChange={onMonthChange} onDayClick={onDayClick} />
+            <DatePicker selectedDate={date} handleMonthChange={onMonthChange} onDayClick={onDayClick} />
         </>
     );
 };

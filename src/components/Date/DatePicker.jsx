@@ -14,7 +14,6 @@ const today = dayjs();
 /**
  * Figma Design link: https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%F0%9F%9B%A0-Xola-DS-Desktop-Master-%F0%9F%9B%A0?node-id=2689%3A101580
  */
-
 export const DatePicker = ({
     selectedDate,
     startMonth = new Date(),
@@ -78,22 +77,21 @@ export const DatePicker = ({
     const selectedDays = selectedDate ?? date;
 
     return (
-        <div className="date-picker">
-            <DayPicker
-                showOutsideDays
-                modifiers={modifiers}
-                selectedDays={[selectedDays]} // Xola date picker doesn't support selecting multiple dates
-                month={initialMonth}
-                disabledDays={disabledDays}
-                todayButton="Today"
-                captionElement={captionElement}
-                renderDay={renderDay}
-                navbarElement={navbarElement}
-                onDayClick={handleDayClickWrapper}
-                onTodayButtonClick={handleTodayButtonClick}
-                {...rest}
-            />
-        </div>
+        <DayPicker
+            showOutsideDays
+            modifiers={modifiers}
+            selectedDays={[selectedDays]} // Xola date picker doesn't support selecting multiple dates
+            month={initialMonth}
+            disabledDays={disabledDays}
+            todayButton="Today"
+            captionElement={captionElement}
+            renderDay={renderDay}
+            navbarElement={navbarElement}
+            onDayClick={handleDayClickWrapper}
+            onMonthChange={handleMonthChangeWrapper}
+            onTodayButtonClick={handleTodayButtonClick}
+            {...rest}
+        />
     );
 };
 
