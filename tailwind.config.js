@@ -69,6 +69,7 @@ module.exports = {
     ],
 
     theme: {
+        // Figma: https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%F0%9F%9B%A0-Xola-DS-Desktop-Master-%F0%9F%9B%A0?node-id=1885%3A51992
         colors: {
             ...colors,
 
@@ -83,7 +84,7 @@ module.exports = {
 
         spacing: {
             0: "0px",
-            px: "1px",
+            0.25: "1px",
             0.5: "2px",
             0.75: "3px",
             1: "4px",
@@ -123,6 +124,7 @@ module.exports = {
             96: "384px",
         },
 
+        // Figma: https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%F0%9F%9B%A0-Xola-DS-Desktop-Master-%F0%9F%9B%A0?node-id=1885%3A51905
         fontSize: {
             xs: "10px",
             sm: "12px", // Figma - Small, H6
@@ -134,6 +136,7 @@ module.exports = {
             "3xl": "38px", // Figma - H0
         },
 
+        // Figma: https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%F0%9F%9B%A0-Xola-DS-Desktop-Master-%F0%9F%9B%A0?node-id=1885%3A51905
         extend: {
             fontFamily: {
                 sans: ["Inter", ...defaultTheme.fontFamily.sans],

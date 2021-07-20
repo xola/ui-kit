@@ -1,51 +1,91 @@
+/* The overlay is the date picker shown when you click an input field */
 .DayPickerInput-Overlay {
-    @apply mt-1 shadow-sm border border-gray-lighter;
+    @apply mt-1 shadow-sm;
 }
 
 .DayPickerInput-Overlay .DayPicker-wrapper {
-    width: 300px;
+    width: 360px;
 }
 
-.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) {
-    @apply bg-blue;
+/* The parent component of the entire date picker */
+.DayPicker {
+    letter-spacing: -0.4px;
 }
 
-.DayPicker-Day--today {
-    @apply font-normal;
+/* Month block which includes the month name 'July 2021' and the weeks, days etc.
+    This does not include the today button */
+.DayPicker-Month {
+    border-collapse: inherit;
+    border-spacing: 1px 13px;
+    @apply p-0 m-0;
 }
 
-.DayPicker-Day {
-    @apply w-10 h-10 text-sm;
+.DayPicker-Month .DayPicker-Caption {
+    @apply pt-1.5 mb-0;
 }
 
+/* The name of the month July 2021 */
 .DayPicker-Month .DayPicker-Caption[role="heading"] div {
-    @apply relative top-[2px] inline-block font-semibold text-lg;
+    @apply inline-block font-semibold text-lg;
 }
 
+/* The month select dropdown that is injected into the date picker at the top */
 .DayPicker-Month .DayPicker-Caption .month-selector {
     @apply py-[3px] pl-2 pr-6 mr-2 mt-[1px] bg-right;
     @apply bg-white text-gray-darker border-2 border-solid border-gray rounded-md;
     background-position: right 0.2rem center;
 }
 
+/* The year select dropdown that is injected into the date picker at the top */
 .DayPicker-Month .DayPicker-Caption .year-selector {
     @apply py-[3px] pl-2 pr-6 mr-2.5 mt-[1px];
     @apply bg-white text-gray-darker border-2 border-solid border-gray rounded-md;
     background-position: right 0.2rem center;
 }
 
+/* Sunday, Monday, Tuesday headers */
 .DayPicker-Weekday {
-    @apply font-semibold text-black text-base;
-    @apply pt-6;
+    @apply pt-3.5 font-semibold text-black text-base;
 }
 
 .DayPicker-NavBar {
-    @apply relative top-[5px];
+    @apply relative top-[-6px];
 }
 
+/* The left and right navbars */
+.DayPicker-NavButton {
+    right: 10px;
+}
+
+/* The "Today" button.
+    A lot of specific vaules which I normally wouldn't use. But this is a third party lib where I cannot change the markup */
 .DayPicker-TodayButton {
-    /* A lot of specific vaules which I normally wouldn't use.
-    But this is a third party lib where I cannot change the markup */
-    @apply absolute top-[15px] right-[67px] w-15 h-[31px] px-1.5 py-3 text-sm leading-[30%];
+    @apply absolute top-1 right-[60px] w-15 h-[31px] px-1.5 py-3 text-sm leading-[30%];
     @apply bg-white text-gray-darker font-semibold border-2 border-solid border-gray rounded-md;
+}
+
+.DayPicker-Day {
+    @apply w-[50px] h-[50px] p-0 text-md;
+}
+
+/* The style for today's date */
+.DayPicker-Day--today {
+    @apply font-normal text-black border border-gray-lighter;
+}
+
+/* Days which are outside the current month */
+.DayPicker-Day--outside {
+    @apply text-gray-light;
+}
+
+/* State when a day is selected */
+.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside),
+.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside):hover {
+    @apply bg-blue;
+}
+
+/* State when you hover over a day */
+.DayPicker:not(.DayPicker--interactionDisabled)
+    .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):hover {
+    @apply bg-white border border-black;
 }

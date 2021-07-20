@@ -11,6 +11,10 @@ import { Input } from "./Forms/Input";
 
 const today = dayjs();
 
+/**
+ * Figma Design link: https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%F0%9F%9B%A0-Xola-DS-Desktop-Master-%F0%9F%9B%A0?node-id=2689%3A101580
+ */
+
 export const DatePickerInput = ({
     inputComponent = InputComponent,
     selectedDate = new Date(),
@@ -89,7 +93,8 @@ export const DatePicker = ({
 
     let renderDay;
     if (customContent && customContent.length > 0) {
-        renderDay = (day) => renderCustomContent({ date, day, customContent });
+        console.log("CC", selectedDate, "-", date);
+        renderDay = (day) => renderCustomContent({ selectedDate: date, day , customContent });
     }
 
     if (!handleDayClick) {
@@ -128,6 +133,7 @@ export const DatePicker = ({
     return (
         <div className="date-picker">
             <DayPicker
+                showOutsideDays
                 modifiers={modifiers}
                 selectedDays={[selectedDays]} // Xola date picker doesn't support selecting multiple dates
                 month={initialMonth}
@@ -155,16 +161,17 @@ DatePicker.propTypes = {
     handleTodayButtonClick: PropTypes.func,
 };
 
-const renderCustomContent = ({ currentDate, day, customContent }) => {
+const renderCustomContent = ({ selectedDate, day, customContent }) => {
     const date = day.getDate();
     const value = customContent[date] ?? "N/A";
-    const isSameDay = dayjs(currentDate).isSame(day, "day");
+    const isSameDay = selectedDate && dayjs(selectedDate).isSame(day, "day");
+    const isSameMonth = dayjs().isSame(day, "month")
 
     return (
-        <div className="w-10 h-10">
-            <div className={clsx(isSameDay ? "text-white" : "text-black")}>{date}</div>
-            <span className={clsx("text-sm", isSameDay ? "text-white" : "text-gray-dark")}>{value}</span>
-        </div>
+        <>
+            <div className={clsx("mb-1 leading-p1", isSameDay ? "text-white" : null)}>{date}</div>
+            <div className={clsx("text-xs leading-p3", isSameDay ? "text-white" : isSameMonth ? "text-gray-dark" : "text-gray-light")}>{value}</div>
+        </>
     );
 };
 
