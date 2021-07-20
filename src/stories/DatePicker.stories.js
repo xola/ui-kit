@@ -35,7 +35,7 @@ const today = dayjs().set("date", 1).toDate();
 const Colors = twConfig.theme.colors;
 
 export const Default = () => {
-    return <DatePicker selectedDate={new Date()} />;
+    return <DatePicker />;
 };
 
 export const DisabledDays = () => {
@@ -139,28 +139,28 @@ addDescription(
 );
 
 export const EventHandlers = () => {
-    const [month, setMonth] = useState(dayjs().format("MMMM YYYY"));
-    const [date, setDate] = useState(dayjs().format("ddd, DD MMMM YYYY"));
+    const [date, setDate] = useState(new Date());
+    const [month, setMonth] = useState(new Date());
 
     const onMonthChange = (newMonth) => {
-        setMonth(dayjs(newMonth).format("MMMM YYYY"));
+        setMonth(newMonth);
     };
 
     const onDayClick = (today) => {
-        setDate(dayjs(today).format("ddd, DD MMMM YYYY"));
+        setDate(today);
     };
 
     return (
         <>
             <div>
                 Selected Date <code className="p-1 mr-1 text-sm bg-gray-lighter">onDayClick</code>
-                <span className="inline-block pb-3 font-semibold">{date}</span>
+                <span className="inline-block pb-3 font-semibold">{dayjs(date).format("ddd, DD MMMM YYYY")}</span>
             </div>
             <div>
                 Current Month <code className="p-1 mr-1 text-sm bg-gray-lighter">onMonthChange</code>
-                <span className="inline-block pb-3 font-semibold">{month}</span>
+                <span className="inline-block pb-3 font-semibold">{dayjs(month).format("MMMM YYYY")}</span>
             </div>
-            <DatePicker onMonthChange={onMonthChange} onDayClick={onDayClick} />
+            <DatePicker selectedDate={date} onMonthChange={onMonthChange} onDayClick={onDayClick} />
         </>
     );
 };

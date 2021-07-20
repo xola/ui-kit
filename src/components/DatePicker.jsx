@@ -13,22 +13,30 @@ const today = dayjs();
 
 export const DatePickerInput = ({
     inputComponent = InputComponent,
-    selectedDay = new Date(),
+    selectedDate = new Date(),
     dateFormat = "ddd, MMM DD, YYYY",
     shouldShowOverlay = false,
     datePickerProps = { todayButton: "Today" },
+    handleDayChange,
 }) => {
-    const [date, setDate] = useState(selectedDay);
+    const [date, setDate] = useState(selectedDate);
 
-    const handleDayChange = (day, options) => {
-        console.assert(!options.disabled, "Date is disabled");
-        console.log("DatePickerInput Day is " + formatDate(date, dateFormat));
-        setDate(day);
-    };
+    if (!handleDayChange) {
+        // TODO: Cleanup handling
+        handleDayChange = (day, options) => {
+            console.assert(!options.disabled, "Date is disabled");
+            console.log("DatePickerInput Day is " + formatDate(date, dateFormat));
+            setDate(day);
+        };
+    }
 
     const formatSelectedDate = (date) => formatDate(date, dateFormat);
 
     datePickerProps.selectedDays = [date];
+    datePickerProps.onTodayButtonClick = (today) => {
+        console.log("DatePickerInput onTodayButtonClick", formatDate(today));
+        setDate(today);
+    };
 
     return (
         <DayPickerInput
@@ -48,24 +56,41 @@ const InputComponent = forwardRef((props, _reference) => {
 
 DatePickerInput.propTypes = {
     inputComponent: PropTypes.element,
-    selectedDay: PropTypes.oneOfType([Date]),
+    selectedDate: PropTypes.oneOfType([Date]),
+    dateFormat: PropTypes.string,
     shouldShowOverlay: PropTypes.bool,
     datePickerProps: PropTypes.object,
+    handleDayChange: PropTypes.func,
 };
 
 export const DatePicker = ({
     selectedDate,
     startMonth = new Date(),
-    handleDayClick,
-    handleMonthChange,
     disabledDays = [],
     shouldShowYearPicker = false,
     customContent = [],
     modifiers = {},
+    handleDayClick,
+    handleMonthChange,
+    handleTodayButtonClick,
     ...rest
 }) => {
-    const [date, setDate] = useState(selectedDate ?? startMonth);
+    const [date, setDate] = useState(selectedDate);
     const [initialMonth, setInitialMonth] = useState(startMonth ?? selectedDate);
+
+    let captionElement;
+    if (shouldShowYearPicker) {
+        captionElement = ({ date }) => {
+            return <MonthYearSelector date={date} onChange={handleMonthChangeWrapper} />;
+        };
+
+        captionElement.propTypes = { date: PropTypes.objectOf(Date).isRequired };
+    }
+
+    let renderDay;
+    if (customContent && customContent.length > 0) {
+        renderDay = (day) => renderCustomContent({ date, day, customContent });
+    }
 
     if (!handleDayClick) {
         // Default wrapper so that we can show the date, and a warning for user to handle this
@@ -91,31 +116,27 @@ export const DatePicker = ({
         }
     };
 
-    let captionElement;
-    if (shouldShowYearPicker) {
-        captionElement = ({ date }) => {
-            return <MonthYearSelector date={date} onChange={handleMonthChangeWrapper} />;
+    if (!handleTodayButtonClick) {
+        handleTodayButtonClick = (today) => {
+            console.log("DatePicker today", formatDate(today));
+            setDate(today);
         };
-
-        captionElement.propTypes = { date: PropTypes.objectOf(Date).isRequired };
     }
 
-    let renderDay;
-    if (customContent && customContent.length > 0) {
-        renderDay = (day) => RenderCustomContent(date, day, customContent);
-    }
+    const selectedDays = selectedDate ?? date;
 
     return (
         <div className="date-picker">
             <DayPicker
                 modifiers={modifiers}
-                selectedDays={[date]} // Xola date picker doesn't support selecting multiple days yet
+                selectedDays={[selectedDays]} // Xola date picker doesn't support selecting multiple dates
                 month={initialMonth}
                 disabledDays={disabledDays}
                 todayButton="Today"
                 captionElement={captionElement}
                 renderDay={renderDay}
                 onDayClick={handleDayClickWrapper}
+                onTodayButtonClick={handleTodayButtonClick}
                 {...rest}
             />
         </div>
@@ -123,17 +144,20 @@ export const DatePicker = ({
 };
 
 DatePicker.propTypes = {
-    selectedDay: PropTypes.objectOf(Date),
+    selectedDate: PropTypes.objectOf(Date),
     startMonth: PropTypes.objectOf(Date),
     disabledDays: PropTypes.array,
     modifiers: PropTypes.object,
     shouldShowYearPicker: PropTypes.bool,
     customContent: PropTypes.array,
+    handleDayClick: PropTypes.func,
+    handleMonthChange: PropTypes.func,
+    handleTodayButtonClick: PropTypes.func,
 };
 
-const RenderCustomContent = (currentDate, day, content) => {
+const renderCustomContent = ({ currentDate, day, customContent }) => {
     const date = day.getDate();
-    const value = content[date] ?? "N/A";
+    const value = customContent[date] ?? "N/A";
     const isSameDay = dayjs(currentDate).isSame(day, "day");
 
     return (
@@ -144,7 +168,7 @@ const RenderCustomContent = (currentDate, day, content) => {
     );
 };
 
-RenderCustomContent.propTypes = {
+renderCustomContent.propTypes = {
     currentDate: PropTypes.objectOf(Date).isRequired,
     day: PropTypes.objectOf(Date).isRequired,
     content: PropTypes.object.isRequired,
