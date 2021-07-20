@@ -48,10 +48,6 @@
     @apply pt-3.5 font-semibold text-black text-base;
 }
 
-.DayPicker-NavBar {
-    @apply relative top-[-6px];
-}
-
 /* The left and right navbars */
 .DayPicker-NavButton {
     right: 10px;

@@ -8,6 +8,8 @@ import "react-day-picker/lib/style.css";
 import "./DatePicker.css";
 import { formatDate } from "../helpers/date";
 import { Input } from "./Forms/Input";
+import { ChevronLeftIcon } from "../icons/ChevronLeftIcon";
+import { ChevronRightIcon } from "../icons/ChevronRightIcon";
 
 const today = dayjs();
 
@@ -37,6 +39,7 @@ export const DatePickerInput = ({
     const formatSelectedDate = (date) => formatDate(date, dateFormat);
 
     datePickerProps.selectedDays = [date];
+    datePickerProps.navbarElement = navbarElement;
     datePickerProps.onTodayButtonClick = (today) => {
         console.log("DatePickerInput onTodayButtonClick", formatDate(today));
         setDate(today);
@@ -94,7 +97,7 @@ export const DatePicker = ({
     let renderDay;
     if (customContent && customContent.length > 0) {
         console.log("CC", selectedDate, "-", date);
-        renderDay = (day) => renderCustomContent({ selectedDate: date, day , customContent });
+        renderDay = (day) => renderCustomContent({ selectedDate: date, day, customContent });
     }
 
     if (!handleDayClick) {
@@ -141,6 +144,7 @@ export const DatePicker = ({
                 todayButton="Today"
                 captionElement={captionElement}
                 renderDay={renderDay}
+                navbarElement={navbarElement}
                 onDayClick={handleDayClickWrapper}
                 onTodayButtonClick={handleTodayButtonClick}
                 {...rest}
@@ -161,16 +165,36 @@ DatePicker.propTypes = {
     handleTodayButtonClick: PropTypes.func,
 };
 
+const navbarElement = ({ nextMonth, previousMonth, onPreviousClick, onNextClick, className, localeUtils }) => {
+    return (
+        <div className={clsx(className, "absolute top-2.5 right-2")}>
+            <button onClick={() => onPreviousClick()}>
+                <ChevronLeftIcon />
+            </button>
+            <button className="ml-2" onClick={() => onNextClick()}>
+                <ChevronRightIcon />
+            </button>
+        </div>
+    );
+};
+
 const renderCustomContent = ({ selectedDate, day, customContent }) => {
     const date = day.getDate();
     const value = customContent[date] ?? "N/A";
     const isSameDay = selectedDate && dayjs(selectedDate).isSame(day, "day");
-    const isSameMonth = dayjs().isSame(day, "month")
+    const isSameMonth = dayjs().isSame(day, "month");
 
     return (
         <>
             <div className={clsx("mb-1 leading-p1", isSameDay ? "text-white" : null)}>{date}</div>
-            <div className={clsx("text-xs leading-p3", isSameDay ? "text-white" : isSameMonth ? "text-gray-dark" : "text-gray-light")}>{value}</div>
+            <div
+                className={clsx(
+                    "text-xs leading-p3",
+                    isSameDay ? "text-white" : isSameMonth ? "text-gray-dark" : "text-gray-light",
+                )}
+            >
+                {value}
+            </div>
         </>
     );
 };
