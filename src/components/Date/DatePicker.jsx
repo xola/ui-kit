@@ -126,7 +126,7 @@ const ChevronButton = ({ chevron, showIcon = true, onClick }) => {
         <button
             className={clsx(
                 showIcon ? "inline-block" : "invisible",
-                "rounded-full border border-transparent hover:border-black p-1.5",
+                "rounded-full border border-transparent text-black hover:border-black p-1.5",
             )}
             onClick={() => onClick()}
         >

@@ -80,7 +80,7 @@
 
 /* Days which are outside the current month */
 .DayPicker-Day--outside {
-    @apply text-gray-light cursor-pointer;
+    @apply text-gray-dark cursor-pointer;
 }
 
 /* Days which are disabled */
@@ -108,7 +108,7 @@
 
 .has-custom-content
     .DayPicker:not(.DayPicker--interactionDisabled)
-    .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside):hover
+    .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):hover
     .date-value {
     @apply bg-blue-lighter border border-blue;
 }
@@ -155,11 +155,11 @@
 }
 
 .has-custom-content .DayPicker .DayPicker-Day:not(.DayPicker-Day--disabled):hover {
-    @apply bg-white text-gray-light;
+    @apply bg-white text-gray-dark;
 }
 
-.has-custom-content .DayPicker-Day--outside .custom-content {
-    @apply text-gray-light;
+.has-custom-content .DayPicker-Day .custom-content {
+    @apply text-gray-dark;
 }
 
 /***************/
