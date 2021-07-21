@@ -4,7 +4,7 @@
 }
 
 .DayPickerInput-Overlay .DayPicker-wrapper {
-    width: 288px;
+    width: 358px;
 }
 
 /* The parent component of the entire date picker */
@@ -89,8 +89,7 @@
 }
 
 /**
- * These are stylings for the Date Picker Day, but only when they have custom content
- *
+ * These are stylings for the Date Picker, but only when they have custom content like prices or seller messaging
  */
  .has-custom-content .DayPicker-Month {
     border-spacing: 1px 16px;
