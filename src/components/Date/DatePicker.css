@@ -20,7 +20,7 @@
     This does not include the today button */
 .DayPicker-Month {
     border-collapse: inherit;
-    border-spacing: 1px 16px;
+    border-spacing: 10px 16px;
     @apply p-0 m-0;
 }
 
@@ -88,7 +88,14 @@
     @apply text-gray-light;
 }
 
-/*** These are stylings for the Date Picker Day, but only when they have custom content ***/
+/**
+ * These are stylings for the Date Picker Day, but only when they have custom content
+ *
+ */
+ .has-custom-content .DayPicker-Month {
+    border-spacing: 1px 16px;
+}
+
 .has-custom-content .DayPicker-Day,
 .has-custom-content .DayPicker-Day:hover {
     @apply w-[50px] h-[66px] border border-transparent;
