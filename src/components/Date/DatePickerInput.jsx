@@ -38,7 +38,7 @@ export const DatePickerInput = ({
             onFocus(event_);
             setTimeout(() => {
                 datePickerInputRef.hideDayPicker();
-            }, 100);
+            }, 500);
         };
 
         return (

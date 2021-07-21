@@ -4,53 +4,52 @@
 }
 
 .DayPickerInput-Overlay .DayPicker-wrapper {
-    width: 360px;
+    width: 288px;
 }
 
 /* The parent component of the entire date picker */
-.DayPicker {
-    letter-spacing: -0.4px;
+.date-picker {
+    @apply leading-p1 tracking-tightest;
+}
+
+.DayPicker-NavBar {
+    @apply text-gray-darker;
 }
 
 /* Month block which includes the month name 'July 2021' and the weeks, days etc.
     This does not include the today button */
 .DayPicker-Month {
     border-collapse: inherit;
-    border-spacing: 1px 9px;
+    border-spacing: 1px 16px;
     @apply p-0 m-0;
 }
 
 .DayPicker-Month .DayPicker-Caption {
-    @apply relative top-0.75 mb-0;
+    @apply h-10 p-0 m-0;
 }
 
 /* The name of the month July 2021 */
 .DayPicker-Month .DayPicker-Caption[role="heading"] div {
-    @apply relative top-0.75 inline-block font-semibold text-lg;
+    @apply h-10 leading-10 font-semibold text-lg;
 }
 
 /* The "Today" button.
     A lot of specific vaules which I normally wouldn't use. But this is a third party lib where I cannot change the markup */
 .DayPicker-TodayButton {
-    @apply absolute top-1 right-[60px] w-15 h-[31px] px-1.5 py-3 text-sm leading-[30%];
-    @apply bg-white text-gray-darker font-semibold border border-solid border-gray rounded-md;
+    @apply absolute top-0 right-[60px] px-3.5 py-2.5;
+    @apply bg-white text-base tracking-tightest text-black font-semibold border border-solid border-gray rounded-md;
 }
 
-/* The month select dropdown that is injected into the date picker at the top */
+/* The month & year select dropdown that is injected into the date picker at the top */
 .DayPicker-Month .DayPicker-Caption select {
-    @apply py-[4px] pl-2 pr-6 mr-2 mt-[1px] bg-right;
+    @apply h-10 pl-2 pr-6 mr-2.5;
     @apply bg-white text-gray-darker border border-solid border-gray rounded-md;
     background-position: right 0.2rem center;
 }
 
-/* The year select dropdown that is injected into the date picker at the top */
-.DayPicker-Month .DayPicker-Caption .year-selector {
-    @apply mr-2.5;
-}
-
 /* Sunday, Monday, Tuesday headers */
 .DayPicker-Weekday {
-    @apply pt-3.5 font-semibold text-black text-base;
+    @apply py-3 m-0 font-semibold text-black text-base;
 }
 
 .DayPicker-Day {
@@ -90,10 +89,6 @@
 }
 
 /*** These are stylings for the Date Picker Day, but only when they have custom content ***/
-.has-custom-content .DayPicker-Month {
-    border-spacing: 1px 13px;
-}
-
 .has-custom-content .DayPicker-Day,
 .has-custom-content .DayPicker-Day:hover {
     @apply w-[50px] h-[66px] border border-transparent;

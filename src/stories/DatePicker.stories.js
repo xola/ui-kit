@@ -67,7 +67,6 @@ export const ModifyCellStyle = () => {
         thursdays: {
             color: Colors.white,
             backgroundColor: Colors.blue.light,
-            borderRadius: 0,
         },
         waitlist: {
             color: Colors.white,
@@ -104,13 +103,14 @@ export const AddContentToDays = () => {
     }
     customContent[_.random(1, dayjs().daysInMonth())] = "Please Call/Email";
     customContent[_.random(1, dayjs().daysInMonth())] = "Sold Out";
+    customContent[_.random(1, dayjs().daysInMonth())] = "Sold Out";
 
     return <DatePicker customContent={customContent} />;
 };
 
 addDescription(
     AddContentToDays,
-    "**WIP:** Add custom content to any day cell for example the maximum price for a specific date",
+    "Add custom content to any day cell for example the maximum price for a specific date",
 );
 
 export const PickerWithInput = () => {
