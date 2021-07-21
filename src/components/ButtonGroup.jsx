@@ -38,9 +38,18 @@ ButtonGroup.propTypes = {
     children: PropTypes.node.isRequired,
 };
 
-const Button = ({ as: Tag = "button", isActive, size = "medium", className, ...rest }) => {
+const Button = ({
+    as: Tag = "button",
+    isActive,
+    size = "medium",
+    icon,
+    iconPlacement = "left",
+    className,
+    children,
+    ...rest
+}) => {
     const classes = clsx(
-        "border-t border-l border-b last:border-r first:rounded-l-md last:rounded-r-md transition-colors focus:ring disabled:opacity-60 focus:z-10 leading-none",
+        "inline-flex border-t border-l border-b last:border-r first:rounded-l-md last:rounded-r-md transition-colors focus:ring disabled:opacity-60 focus:z-10 leading-none",
         sizes[size],
         isActive
             ? "bg-primary border-primary text-white hover:bg-primary-dark"
@@ -48,7 +57,13 @@ const Button = ({ as: Tag = "button", isActive, size = "medium", className, ...r
         className,
     );
 
-    return <Tag className={classes} {...rest} />;
+    return (
+        <Tag className={classes} {...rest}>
+            {icon && iconPlacement === "left" ? <span className="flex-shrink-0 mr-2">{icon}</span> : null}
+            {children}
+            {icon && iconPlacement === "right" ? <span className="flex-shrink-0 ml-2">{icon}</span> : null}
+        </Tag>
+    );
 };
 
 Button.displayName = "ButtonGroup.Button";
@@ -56,7 +71,10 @@ Button.propTypes = {
     as: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]),
     isActive: PropTypes.bool,
     size: PropTypes.oneOf(Object.keys(sizes)),
+    icon: PropTypes.element,
+    iconPlacement: PropTypes.oneOf(["left", "right"]),
     className: PropTypes.string,
+    children: PropTypes.node.isRequired,
 };
 ButtonGroup.Button = Button;
 

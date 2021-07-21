@@ -8,8 +8,12 @@ const colors = {
     success: "bg-success hover:bg-success-dark disabled:bg-success border-transparent text-white",
     warning: "bg-warning hover:bg-warning-dark disabled:bg-warning border-transparent text-white",
     danger: "bg-danger hover:bg-danger-dark disabled:bg-danger border-transparent text-white",
-    outline: "bg-white border-secondary-dark hover:border-black disabled:border-secondary-dark text-black",
     link: "border-transparent hover:underline",
+    outline: "bg-white border-secondary-dark hover:border-black disabled:border-secondary-dark text-black",
+    "outline.primary": "bg-white border-primary hover:border-black disabled:border-secondary-dark text-primary",
+    "outline.success": "bg-white border-success hover:border-black disabled:border-secondary-dark text-success",
+    "outline.warning": "bg-white border-warning hover:border-black disabled:border-secondary-dark text-warning",
+    "outline.danger": "bg-white border-danger hover:border-black disabled:border-secondary-dark text-danger",
 };
 
 const sizes = {

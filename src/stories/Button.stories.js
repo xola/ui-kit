@@ -4,10 +4,31 @@ import { Button, UserIcon } from "..";
 const ButtonStories = {
     title: "Components/Button",
     component: Button,
+    args: {
+        as: "button",
+        size: "medium",
+        color: "primary",
+    },
+    argTypes: {
+        size: {
+            options: ["small", "medium", "large"],
+            control: { type: "radio" },
+            table: {
+                defaultValue: { summary: "medium" },
+            },
+        },
+        color: {
+            options: ["primary", "secondary", "success", "warning", "danger", "outline", "link"],
+            control: { type: "select" },
+            table: {
+                defaultValue: { summary: "primary" },
+            },
+        },
+    },
 };
 
-export const Default = () => {
-    return <Button>Default</Button>;
+export const Default = (props) => {
+    return <Button {...props}>Default</Button>;
 };
 
 export const Colors = () => {
@@ -65,11 +86,37 @@ export const IconOnly = () => {
                 <UserIcon className="text-red" />
             </Button.Icon>
 
-            <Button.Icon color="outline" size="medium">
+            <Button.Icon color="success" size="medium">
                 <UserIcon />
             </Button.Icon>
 
-            <Button.Icon color="success" size="large">
+            <Button.Icon color="danger" size="large">
+                <UserIcon />
+            </Button.Icon>
+        </div>
+    );
+};
+
+export const OutlineIcons = () => {
+    return (
+        <div className="space-x-4">
+            <Button.Icon color="outline" size="small">
+                <UserIcon />
+            </Button.Icon>
+
+            <Button.Icon color="outline.primary" size="small">
+                <UserIcon />
+            </Button.Icon>
+
+            <Button.Icon color="outline.success" size="medium">
+                <UserIcon />
+            </Button.Icon>
+
+            <Button.Icon color="outline.warning" size="medium">
+                <UserIcon />
+            </Button.Icon>
+
+            <Button.Icon color="outline.danger" size="large">
                 <UserIcon />
             </Button.Icon>
         </div>
