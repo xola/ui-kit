@@ -70,7 +70,7 @@
 /* State when you hover on a day */
 .DayPicker:not(.DayPicker--interactionDisabled)
     .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside):hover {
-    @apply bg-white text-black border border-gray-light;
+    @apply bg-blue-lighter text-black border border-blue;
 }
 
 /* State when you hover on a **selected** day */
@@ -97,14 +97,14 @@
 .has-custom-content
     .DayPicker:not(.DayPicker--interactionDisabled)
     .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside):hover {
-    @apply border border-transparent;
+    @apply border border-transparent bg-white;
 }
 
 .has-custom-content
     .DayPicker:not(.DayPicker--interactionDisabled)
     .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside):hover
     .date-value {
-    @apply bg-blue text-white border border-transparent;
+    @apply bg-blue-lighter border border-blue;
 }
 
 .has-custom-content .DayPicker-Day.DayPicker-Day--selected {
