@@ -77,21 +77,23 @@ export const DatePicker = ({
     const selectedDays = selectedDate ?? date;
 
     return (
-        <DayPicker
-            showOutsideDays
-            modifiers={modifiers}
-            selectedDays={[selectedDays]} // Xola date picker doesn't support selecting multiple dates
-            month={initialMonth}
-            disabledDays={disabledDays}
-            todayButton="Today"
-            captionElement={captionElement}
-            renderDay={renderDay}
-            navbarElement={navbarElement}
-            onDayClick={handleDayClickWrapper}
-            onMonthChange={handleMonthChangeWrapper}
-            onTodayButtonClick={handleTodayButtonClick}
-            {...rest}
-        />
+        <div className={clsx("date-picker", renderDay ? "has-custom-content" : null)}>
+            <DayPicker
+                showOutsideDays
+                modifiers={modifiers}
+                selectedDays={[selectedDays]} // Xola date picker doesn't support selecting multiple dates
+                month={initialMonth}
+                disabledDays={disabledDays}
+                todayButton="Today"
+                captionElement={captionElement}
+                renderDay={renderDay}
+                navbarElement={navbarElement}
+                onDayClick={handleDayClickWrapper}
+                onMonthChange={handleMonthChangeWrapper}
+                onTodayButtonClick={handleTodayButtonClick}
+                {...rest}
+            />
+        </div>
     );
 };
 
@@ -107,22 +109,35 @@ DatePicker.propTypes = {
     handleTodayButtonClick: PropTypes.func,
 };
 
+/**
+ * Render the custom left & right arrows to change the current month
+ */
 export const navbarElement = ({ onPreviousClick, onNextClick, className, showNextButton, showPreviousButton }) => {
     return (
-        <div className={clsx(className, "absolute top-2.5 right-2")}>
-            <button className={clsx(showPreviousButton ? "inline-block" : "hidden")} onClick={() => onPreviousClick()}>
-                <ChevronLeftIcon />
-            </button>
-            <button
-                className={clsx("ml-2", showNextButton ? "inline-block" : "invisible")}
-                onClick={() => onNextClick()}
-            >
-                <ChevronRightIcon />
-            </button>
+        <div className={clsx("absolute z-50 top-2 right-2", className)}>
+            <ChevronButton chevron={<ChevronLeftIcon />} showIcon={showPreviousButton} onClick={onPreviousClick} />
+            <ChevronButton chevron={<ChevronRightIcon />} showIcon={showNextButton} onClick={onNextClick} />
         </div>
     );
 };
 
+const ChevronButton = ({ chevron, showIcon = true, onClick }) => {
+    return (
+        <button
+            className={clsx(
+                showIcon ? "inline-block" : "invisible",
+                "rounded-full border border-transparent hover:border-black p-1",
+            )}
+            onClick={() => onClick()}
+        >
+            {chevron}
+        </button>
+    );
+};
+
+/**
+ * Render custom content in the cell and mark the active day
+ */
 const renderCustomContent = ({ selectedDate, day, customContent }) => {
     const date = day.getDate();
     const value = customContent[date] ?? "N/A";
@@ -131,10 +146,12 @@ const renderCustomContent = ({ selectedDate, day, customContent }) => {
 
     return (
         <>
-            <div className={clsx("mb-1 leading-p1", isSameDay ? "text-white" : null)}>{date}</div>
+            {/* The date itself */}
+            <div className={clsx("date-value mb-1 leading-p1", isSameDay ? "text-white selected" : null)}>{date}</div>
+            {/* The custom content below it */}
             <div
                 className={clsx(
-                    "text-xs leading-p3",
+                    "custom-content text-xs leading-p3",
                     isSameDay ? "text-white" : isSameMonth ? "text-gray-dark" : "text-gray-light",
                 )}
             >
@@ -150,6 +167,9 @@ renderCustomContent.propTypes = {
     content: PropTypes.object.isRequired,
 };
 
+/**
+ * Show year and month as dropdowns to change the currently selected date
+ */
 const MonthYearSelector = ({ date, onChange }) => {
     const months = [...Array.from({ length: 12 }).keys()].map((m) => today.month(m).format("MMM"));
     const years = [...Array.from({ length: 12 }).keys()].map((y) => today.year(2021 + y).format("YYYY"));

@@ -16,31 +16,36 @@
     This does not include the today button */
 .DayPicker-Month {
     border-collapse: inherit;
-    border-spacing: 1px 13px;
+    border-spacing: 1px 9px;
     @apply p-0 m-0;
 }
 
 .DayPicker-Month .DayPicker-Caption {
-    @apply pt-1.5 mb-0;
+    @apply relative top-0.75 mb-0;
 }
 
 /* The name of the month July 2021 */
 .DayPicker-Month .DayPicker-Caption[role="heading"] div {
-    @apply inline-block font-semibold text-lg;
+    @apply relative top-0.75 inline-block font-semibold text-lg;
+}
+
+/* The "Today" button.
+    A lot of specific vaules which I normally wouldn't use. But this is a third party lib where I cannot change the markup */
+.DayPicker-TodayButton {
+    @apply absolute top-1 right-[60px] w-15 h-[31px] px-1.5 py-3 text-sm leading-[30%];
+    @apply bg-white text-gray-darker font-semibold border border-solid border-gray rounded-md;
 }
 
 /* The month select dropdown that is injected into the date picker at the top */
-.DayPicker-Month .DayPicker-Caption .month-selector {
-    @apply py-[3px] pl-2 pr-6 mr-2 mt-[1px] bg-right;
-    @apply bg-white text-gray-darker border-2 border-solid border-gray rounded-md;
+.DayPicker-Month .DayPicker-Caption select {
+    @apply py-[4px] pl-2 pr-6 mr-2 mt-[1px] bg-right;
+    @apply bg-white text-gray-darker border border-solid border-gray rounded-md;
     background-position: right 0.2rem center;
 }
 
 /* The year select dropdown that is injected into the date picker at the top */
 .DayPicker-Month .DayPicker-Caption .year-selector {
-    @apply py-[3px] pl-2 pr-6 mr-2.5 mt-[1px];
-    @apply bg-white text-gray-darker border-2 border-solid border-gray rounded-md;
-    background-position: right 0.2rem center;
+    @apply mr-2.5;
 }
 
 /* Sunday, Monday, Tuesday headers */
@@ -48,25 +53,30 @@
     @apply pt-3.5 font-semibold text-black text-base;
 }
 
-/* The left and right navbars */
-.DayPicker-NavButton {
-    right: 10px;
-}
-
-/* The "Today" button.
-    A lot of specific vaules which I normally wouldn't use. But this is a third party lib where I cannot change the markup */
-.DayPicker-TodayButton {
-    @apply absolute top-1 right-[60px] w-15 h-[31px] px-1.5 py-3 text-sm leading-[30%];
-    @apply bg-white text-gray-darker font-semibold border-2 border-solid border-gray rounded-md;
-}
-
 .DayPicker-Day {
-    @apply w-[50px] h-[50px] p-0 text-md;
+    @apply w-[40px] h-[40px] p-0 text-md;
 }
 
 /* The style for today's date */
 .DayPicker-Day--today {
-    @apply font-normal text-black border border-gray-lighter;
+    @apply font-normal text-black border border-gray-light;
+}
+
+/* State when a day is selected */
+.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside),
+.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside):hover {
+    @apply bg-blue text-white border-transparent;
+}
+
+/* State when you hover on a day */
+.DayPicker:not(.DayPicker--interactionDisabled)
+    .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside):hover {
+    @apply bg-white text-black border border-gray-light;
+}
+
+/* State when you hover on a **selected** day */
+.DayPicker .DayPicker-Day:not(.DayPicker-Day--disabled):hover {
+    @apply bg-blue-light text-white border-transparent;
 }
 
 /* Days which are outside the current month */
@@ -74,14 +84,73 @@
     @apply text-gray-light;
 }
 
-/* State when a day is selected */
-.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside),
-.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside):hover {
-    @apply bg-blue;
+/* Days which are disabled */
+.DayPicker-Day--disabled:not(.DayPicker-Day--today) {
+    @apply text-gray-light;
 }
 
-/* State when you hover over a day */
-.DayPicker:not(.DayPicker--interactionDisabled)
-    .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):hover {
-    @apply bg-white border border-black;
+/*** These are stylings for the Date Picker Day, but only when they have custom content ***/
+.has-custom-content .DayPicker-Month {
+    border-spacing: 1px 13px;
 }
+
+.has-custom-content .DayPicker-Day,
+.has-custom-content .DayPicker-Day:hover {
+    @apply w-[50px] h-[66px] border border-transparent;
+}
+
+.has-custom-content
+    .DayPicker:not(.DayPicker--interactionDisabled)
+    .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside):hover {
+    @apply border border-transparent;
+}
+
+.has-custom-content
+    .DayPicker:not(.DayPicker--interactionDisabled)
+    .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside):hover
+    .date-value {
+    @apply bg-blue text-white border border-transparent;
+}
+
+.has-custom-content .DayPicker-Day.DayPicker-Day--selected {
+    @apply bg-white border border-transparent;
+}
+
+.has-custom-content .DayPicker-Day .date-value {
+    @apply w-10 h-10 border border-transparent rounded-full leading-[38px];
+}
+
+.has-custom-content .DayPicker-Day .date-value:hover {
+    @apply w-10 h-10 border border-transparent rounded-full leading-[38px];
+}
+
+.has-custom-content .DayPicker-Day {
+    @apply space-y-0;
+}
+
+.has-custom-content .DayPicker-Day .custom-content {
+    @apply w-10 h-6;
+}
+
+.has-custom-content .DayPicker-Day.DayPicker-Day--selected:hover,
+.has-custom-content .DayPicker-Day.DayPicker-Day--selected {
+    @apply bg-white;
+}
+
+.has-custom-content .DayPicker-Day.DayPicker-Day--selected .selected {
+    @apply bg-blue rounded-full leading-[38px] text-white;
+}
+
+.has-custom-content .DayPicker-Day.DayPicker-Day--selected .custom-content {
+    @apply text-gray-dark;
+}
+
+.has-custom-content .DayPicker-Day--today {
+    @apply bg-white border border-transparent;
+}
+
+.has-custom-content .DayPicker-Day--today .date-value {
+    @apply bg-white border border-gray-light;
+}
+
+/***************/
