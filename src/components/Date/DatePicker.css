@@ -53,7 +53,7 @@
 }
 
 .DayPicker-Day {
-    @apply w-[40px] h-[40px] p-0 text-md;
+    @apply w-[40px] h-[40px] p-0 text-md ring-0 focus:ring-0 focus:outline-none;
 }
 
 /* The style for today's date */
