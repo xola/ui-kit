@@ -75,7 +75,7 @@
 
 /* State when you hover on a **selected** day */
 .DayPicker .DayPicker-Day:not(.DayPicker-Day--disabled):hover {
-    @apply bg-blue-light text-white border-transparent;
+    @apply bg-blue-darker text-white border-transparent;
 }
 
 /* Days which are outside the current month */
