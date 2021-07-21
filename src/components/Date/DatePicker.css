@@ -30,13 +30,13 @@
 
 /* The name of the month July 2021 */
 .DayPicker-Month .DayPicker-Caption[role="heading"] div {
-    @apply h-10 leading-10 font-semibold text-lg;
+    @apply h-10 relative top-[1px] leading-10 font-semibold text-lg;
 }
 
 /* The "Today" button.
     A lot of specific vaules which I normally wouldn't use. But this is a third party lib where I cannot change the markup */
 .DayPicker-TodayButton {
-    @apply absolute top-0 right-[60px] px-3.5 py-2.5;
+    @apply absolute top-0 right-[78px] px-3.5 py-2.5;
     @apply bg-white text-base tracking-tightest text-black font-semibold border border-solid border-gray rounded-md;
 }
 

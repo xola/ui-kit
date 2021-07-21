@@ -114,7 +114,7 @@ DatePicker.propTypes = {
  */
 export const navbarElement = ({ onPreviousClick, onNextClick, className, showNextButton, showPreviousButton }) => {
     return (
-        <div className={clsx("absolute z-50 top-2 right-1", className)}>
+        <div className={clsx("absolute z-50 top-1.5 right-1", className)}>
             <ChevronButton chevron={<ChevronLeftIcon />} showIcon={showPreviousButton} onClick={onPreviousClick} />
             <ChevronButton chevron={<ChevronRightIcon />} showIcon={showNextButton} onClick={onNextClick} />
         </div>
@@ -126,7 +126,7 @@ const ChevronButton = ({ chevron, showIcon = true, onClick }) => {
         <button
             className={clsx(
                 showIcon ? "inline-block" : "invisible",
-                "rounded-full border border-transparent hover:border-black p-1",
+                "rounded-full border border-transparent hover:border-black p-1.5",
             )}
             onClick={() => onClick()}
         >
