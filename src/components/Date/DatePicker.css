@@ -80,7 +80,7 @@
 
 /* Days which are outside the current month */
 .DayPicker-Day--outside {
-    @apply text-gray-light;
+    @apply text-gray-light cursor-pointer;
 }
 
 /* Days which are disabled */
@@ -146,6 +146,14 @@
 
 .has-custom-content .DayPicker-Day--today .date-value {
     @apply bg-white border border-gray-light;
+}
+
+.has-custom-content .DayPicker .DayPicker-Day:not(.DayPicker-Day--disabled):hover {
+    @apply bg-white text-gray-light;
+}
+
+.has-custom-content .DayPicker-Day--outside .custom-content {
+    @apply text-gray-light;
 }
 
 /***************/
