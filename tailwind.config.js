@@ -20,7 +20,7 @@ const colors = {
         light: "#2979D0",
         DEFAULT: "#1352C6",
         dark: "#3467C4",
-        darker: "#0E44A8", // TBD
+        darker: "#0E44A8",
     },
 
     green: {
@@ -28,31 +28,31 @@ const colors = {
         light: "#33E781",
         DEFAULT: "#27CE70",
         dark: "#23B965",
-        darker: "#23B965", // TBD
+        darker: "#1B8E4E", // Made up by Rushi till Barth gives us a color
     },
 
     red: {
         lighter: "#FFEAEA",
         light: "#FFA1A1",
         DEFAULT: "#FF5A5A",
-        dark: "#FF5A5A", // TBD
-        darker: "#FF5A5A", // TBD
+        dark: "#EB4646",
+        darker: "#E51919", // Made up by Rushi till Barth gives us a color
     },
 
     yellow: {
         lighter: "#FFFAF0",
         light: "#FFDB8E",
         DEFAULT: "#FFC03D",
-        dark: "#FFC03D", // TBD
-        darker: "#FFC03D", // TBD
+        dark: "#FFAF0A", // Made up by Rushi till Barth gives us a color
+        darker: "#F0A200", // Made up by Rushi till Barth gives us a color
     },
 
     orange: {
         lighter: "#FFF1E7",
         light: "#FFB493",
         DEFAULT: "#FF9668",
-        dark: "#FF9668", // TBD
-        darker: "#FF9668", // TBD
+        dark: "#FF854F", // Made up by Rushi till Barth gives us a color
+        darker: "#ff7336", // Made up by Rushi till Barth gives us a color
     },
 };
 

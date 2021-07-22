@@ -6,6 +6,7 @@ const ColorsStories = {
 };
 
 const bgColors = [
+    "bg-red-darker",
     "bg-red-dark",
     "bg-red",
     "bg-red-light",
@@ -15,14 +16,17 @@ const bgColors = [
     "bg-blue",
     "bg-blue-light",
     "bg-blue-lighter",
+    "bg-green-darker",
     "bg-green-dark",
     "bg-green",
     "bg-green-light",
     "bg-green-lighter",
+    "bg-yellow-darker",
     "bg-yellow-dark",
     "bg-yellow",
     "bg-yellow-light",
     "bg-yellow-lighter",
+    "bg-orange-darker",
     "bg-orange-dark",
     "bg-orange",
     "bg-orange-light",
@@ -50,6 +54,7 @@ export const BackgroundColors = () => {
 };
 
 const textColors = [
+    "text-red-darker",
     "text-red-dark",
     "text-red",
     "text-red-light",
@@ -59,14 +64,17 @@ const textColors = [
     "text-blue",
     "text-blue-light",
     "text-blue-lighter",
+    "text-green-darker",
     "text-green-dark",
     "text-green",
     "text-green-light",
     "text-green-lighter",
+    "text-yellow-darker",
     "text-yellow-dark",
     "text-yellow",
     "text-yellow-light",
     "text-yellow-lighter",
+    "text-orange-darker",
     "text-orange-dark",
     "text-orange",
     "text-orange-light",
