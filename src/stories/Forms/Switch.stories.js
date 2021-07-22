@@ -28,7 +28,7 @@ const SwitchStories = {
 
 export const Default = ({ size }) => {
     const [checked, setChecked] = useState(false);
-    return <Switch checked={checked} size={size} onChange={setChecked} />;
+    return <Switch isChecked={checked} size={size} onChange={setChecked} />;
 };
 
 export const WithLabel = () => {
@@ -42,7 +42,7 @@ export const WithLabel = () => {
 
 export const Disabled = ({ size }) => {
     const [checked, setChecked] = useState(false);
-    return <Switch disabled checked={checked} size={size} onChange={setChecked} />;
+    return <Switch disabled isChecked={checked} size={size} onChange={setChecked} />;
 };
 
 export default SwitchStories;
