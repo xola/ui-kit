@@ -8,7 +8,7 @@ const sizes = {
     large: "px-4 py-3.5 text-lg",
 };
 
-const ButtonGroup = ({ size, value, onChange, children, ...rest }) => {
+const ButtonGroup = ({ size, value, shouldHideInactiveText = false, onChange, children, ...rest }) => {
     return (
         <span className="inline-flex whitespace-nowrap" {...rest}>
             {Children.map(children, (child, index) => {
@@ -19,6 +19,10 @@ const ButtonGroup = ({ size, value, onChange, children, ...rest }) => {
                 // directly, if `value` and `onChange` are not passed on the parent.
                 if (value !== undefined) {
                     buttonProps.isActive = value === index;
+                }
+
+                if (shouldHideInactiveText && value >= 0 && value !== index) {
+                    buttonProps.shouldShowText = false;
                 }
 
                 if (onChange) {
@@ -41,6 +45,7 @@ ButtonGroup.propTypes = {
 const Button = ({
     as: Tag = "button",
     isActive,
+    shouldShowText = true,
     size = "medium",
     icon,
     iconPlacement = "left",
@@ -60,7 +65,7 @@ const Button = ({
     return (
         <Tag className={classes} {...rest}>
             {icon && iconPlacement === "left" ? <span className="flex-shrink-0 mr-2">{icon}</span> : null}
-            {children}
+            {shouldShowText ? children : null}
             {icon && iconPlacement === "right" ? <span className="flex-shrink-0 ml-2">{icon}</span> : null}
         </Tag>
     );
