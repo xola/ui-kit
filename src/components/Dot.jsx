@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import React, { cloneElement } from "react";
+import React from "react";
 
 const colors = {
     primary: "bg-primary",
@@ -12,5 +12,15 @@ const colors = {
 };
 
 export const Dot = ({ color = "primary", className, ...rest }) => {
-    return <span className={clsx("inline-block w-1 h-1 rounded-full text-white", colors[color], className)} {...rest}></span>;
+    return (
+        <span
+            className={clsx("inline-block w-1 h-1 rounded-full text-white", colors[color], className)}
+            {...rest}
+        ></span>
+    );
+};
+
+Dot.propTypes = {
+    className: PropTypes.string,
+    color: PropTypes.oneOf(Object.keys(colors)),
 };
