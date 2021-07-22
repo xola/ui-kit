@@ -53,11 +53,21 @@ export const Colors = () => {
 export const OutlineVariants = () => {
     return (
         <div className="space-x-4">
-            <Button color="primary" variant="outline">Primary</Button>
-            <Button color="secondary" variant="outline">Secondary</Button>
-            <Button color="success" variant="outline">Success</Button>
-            <Button color="warning" variant="outline">Warning</Button>
-            <Button color="danger" variant="outline">Danger</Button>
+            <Button color="primary" variant="outline">
+                Primary
+            </Button>
+            <Button color="secondary" variant="outline">
+                Secondary
+            </Button>
+            <Button color="success" variant="outline">
+                Success
+            </Button>
+            <Button color="warning" variant="outline">
+                Warning
+            </Button>
+            <Button color="danger" variant="outline">
+                Danger
+            </Button>
         </div>
     );
 };
@@ -65,11 +75,21 @@ export const OutlineVariants = () => {
 export const LinkVariants = () => {
     return (
         <div className="space-x-4">
-            <Button color="primary" variant="link">Primary</Button>
-            <Button color="secondary" variant="link">Secondary</Button>
-            <Button color="success" variant="link">Success</Button>
-            <Button color="warning" variant="link">Warning</Button>
-            <Button color="danger" variant="link">Danger</Button>
+            <Button color="primary" variant="link">
+                Primary
+            </Button>
+            <Button color="secondary" variant="link">
+                Secondary
+            </Button>
+            <Button color="success" variant="link">
+                Success
+            </Button>
+            <Button color="warning" variant="link">
+                Warning
+            </Button>
+            <Button color="danger" variant="link">
+                Danger
+            </Button>
         </div>
     );
 };

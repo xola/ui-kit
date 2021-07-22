@@ -115,17 +115,22 @@ DatePicker.propTypes = {
 export const navbarElement = ({ onPreviousClick, onNextClick, className, showNextButton, showPreviousButton }) => {
     return (
         <div className={clsx("absolute z-50 top-1.5 right-1", className)}>
-            <ChevronButton chevron={<ChevronLeftIcon />} showIcon={showPreviousButton} onClick={onPreviousClick} />
-            <ChevronButton chevron={<ChevronRightIcon />} showIcon={showNextButton} onClick={onNextClick} />
+            <ChevronButton
+                chevron={<ChevronLeftIcon />}
+                shouldShowIcon={showPreviousButton}
+                onClick={onPreviousClick}
+            />
+            <ChevronButton chevron={<ChevronRightIcon />} shouldShowIcon={showNextButton} onClick={onNextClick} />
         </div>
     );
 };
 
-const ChevronButton = ({ chevron, showIcon = true, onClick }) => {
+const ChevronButton = ({ chevron, shouldShowIcon = true, onClick }) => {
     return (
         <button
+            type="button"
             className={clsx(
-                showIcon ? "inline-block" : "invisible",
+                shouldShowIcon ? "inline-block" : "invisible",
                 "rounded-full border border-transparent text-black hover:border-black p-1.5",
             )}
             onClick={() => onClick()}
@@ -133,6 +138,12 @@ const ChevronButton = ({ chevron, showIcon = true, onClick }) => {
             {chevron}
         </button>
     );
+};
+
+ChevronButton.propTypes = {
+    chevron: PropTypes.element.isRequired,
+    shouldShowIcon: PropTypes.bool,
+    onClick: PropTypes.func.isRequired,
 };
 
 /**

@@ -45,6 +45,7 @@ Tag.propTypes = {
     className: PropTypes.string,
     color: PropTypes.oneOf(Object.keys(colors)),
     size: PropTypes.oneOf(Object.keys(sizes)),
+    shouldAllowRemoval: PropTypes.bool,
     onClickClose: PropTypes.func,
     children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
 };

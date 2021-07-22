@@ -36,8 +36,9 @@ const ButtonGroup = ({ size, value, shouldHideInactiveText = false, onChange, ch
 };
 
 ButtonGroup.propTypes = {
-    size: PropTypes.oneOf(Object.keys(sizes)),
+    size: PropTypes.oneOf(Object.keys(sizes)).isRequired,
     value: PropTypes.number.isRequired,
+    shouldHideInactiveText: PropTypes.bool,
     onChange: PropTypes.func.isRequired,
     children: PropTypes.node.isRequired,
 };
@@ -75,6 +76,7 @@ Button.displayName = "ButtonGroup.Button";
 Button.propTypes = {
     as: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]),
     isActive: PropTypes.bool,
+    shouldShowText: PropTypes.bool,
     size: PropTypes.oneOf(Object.keys(sizes)),
     icon: PropTypes.element,
     iconPlacement: PropTypes.oneOf(["left", "right"]),

@@ -101,6 +101,7 @@ export const AddContentToDays = () => {
     for (let day = 1; day <= dayjs().daysInMonth(); day++) {
         customContent.push("$" + _.random(1, 200));
     }
+
     customContent[_.random(1, dayjs().daysInMonth())] = "Please Call/Email";
     customContent[_.random(1, dayjs().daysInMonth())] = "Sold Out";
     customContent[_.random(1, dayjs().daysInMonth())] = "Sold Out";

@@ -56,7 +56,7 @@ export const Button = ({
                 "inline-flex justify-center items-center font-semibold rounded",
                 colors[color],
                 sizes[size],
-                variant ? variants[variant]["global"] : "",
+                variant ? variants[variant].global : "",
                 variant ? variants[variant][color] : "",
             )}
             {...rest}
@@ -73,6 +73,7 @@ Button.propTypes = {
     className: PropTypes.string,
     color: PropTypes.oneOf(Object.keys(colors)),
     size: PropTypes.oneOf(Object.keys(sizes)),
+    variant: PropTypes.oneOf(Object.keys(variants)),
     icon: PropTypes.element,
     iconPlacement: PropTypes.oneOf(["left", "right"]),
     children: PropTypes.node.isRequired,
@@ -117,7 +118,7 @@ const Icon = ({
                 "rounded",
                 colors[color],
                 buttonIconSizes[size],
-                variant ? variants[variant]["global"] : "",
+                variant ? variants[variant].global : "",
                 variant ? iconVariants[color] : "",
             )}
             {...rest}
@@ -133,6 +134,7 @@ Icon.propTypes = {
     className: PropTypes.string,
     color: PropTypes.oneOf(Object.keys(colors)),
     size: PropTypes.oneOf(Object.keys(sizes)),
+    variant: PropTypes.oneOf(Object.keys(variants)),
     children: PropTypes.node.isRequired,
 };
 Button.Icon = Icon;

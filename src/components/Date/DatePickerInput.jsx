@@ -7,7 +7,7 @@ import { formatDate } from "../../helpers/date";
 import { Input } from "../Forms/Input";
 import { DatePicker, navbarElement } from "./DatePicker";
 
-let datePickerInputRef = null;
+let datePickerInputReference = null;
 export const DatePickerInput = ({
     inputComponent = InputComponent,
     selectedDate = new Date(),
@@ -37,16 +37,16 @@ export const DatePickerInput = ({
         const focusWrapper = (event_) => {
             onFocus(event_);
             setTimeout(() => {
-                datePickerInputRef.hideDayPicker();
+                datePickerInputReference.hideDayPicker();
             }, 500);
         };
 
         return (
             <div
                 className={clsx(classNames.overlayWrapper, "z-50")}
+                tabIndex={tabIndex}
                 onBlur={onBlur}
                 onFocus={focusWrapper}
-                tabIndex={tabIndex}
             >
                 <div className={classNames.overlay}>
                     <DatePicker
@@ -70,21 +70,18 @@ export const DatePickerInput = ({
 
     return (
         <DayPickerInput
-            ref={(ref) => (datePickerInputRef = ref)}
+            // eslint-disable-next-line no-return-assign
+            ref={(reference) => (datePickerInputReference = reference)}
             inputProps={{ date: formatDate(date, dateFormat) }}
             component={inputComponent}
             placeholder={dayjs().format(dateFormat)}
             showOverlay={shouldShowOverlay}
             formatDate={formatSelectedDate}
-            onDayChange={handleDayChange}
             overlayComponent={overlayComponent}
+            onDayChange={handleDayChange}
         />
     );
 };
-
-const InputComponent = forwardRef((props, _reference) => {
-    return <Input readOnly size="small" className="cursor-pointer" {...props} value={props.date} />;
-});
 
 DatePickerInput.propTypes = {
     inputComponent: PropTypes.element,
@@ -94,3 +91,7 @@ DatePickerInput.propTypes = {
     datePickerProps: PropTypes.object,
     handleDayChange: PropTypes.func,
 };
+
+const InputComponent = forwardRef((props, _reference) => {
+    return <Input readOnly size="small" className="cursor-pointer" value={props.date} {...props} />;
+});
