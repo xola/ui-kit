@@ -10,7 +10,7 @@ import { Label } from "../Forms/Label";
 import { Spinner } from "../Spinner";
 import "./Login.css";
 
-export const Login = ({ defaultValues, isLoading = false, isError = null, onSubmit }) => {
+export const Login = ({ defaultValues, isLoading = false, error = null, onSubmit }) => {
     const [values, setValues] = useState({ email: "", password: "", shouldRemember: false, ...defaultValues });
 
     const handleInputChange = (event) => {
@@ -48,7 +48,7 @@ export const Login = ({ defaultValues, isLoading = false, isError = null, onSubm
                                         type="email"
                                         autoComplete="email"
                                         value={values.email}
-                                        error={!!isError}
+                                        isError={!!error}
                                         onChange={handleInputChange}
                                     />
                                 </FormGroup>
@@ -62,7 +62,7 @@ export const Login = ({ defaultValues, isLoading = false, isError = null, onSubm
                                         type="password"
                                         autoComplete="current-password"
                                         value={values.password}
-                                        error={!!isError}
+                                        isError={!!error}
                                         onChange={handleInputChange}
                                     />
                                 </FormGroup>
@@ -75,7 +75,7 @@ export const Login = ({ defaultValues, isLoading = false, isError = null, onSubm
                                 onChange={handleCheckboxChange}
                             />
 
-                            {isError ? <Alert color="danger">{isError}</Alert> : null}
+                            {error ? <Alert color="danger">{error}</Alert> : null}
 
                             <Button type="submit" className="w-full" color="primary">
                                 {isLoading ? <Spinner size="current" color="current" className="mr-2" /> : null}
@@ -118,6 +118,6 @@ Login.propTypes = {
         shouldRemember: PropTypes.bool,
     }),
     isLoading: PropTypes.bool,
-    isError: PropTypes.string,
+    error: PropTypes.string,
     onSubmit: PropTypes.func,
 };
