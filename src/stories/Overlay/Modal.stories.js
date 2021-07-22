@@ -52,7 +52,7 @@ export const Default = ({ size, shouldShowClose, shouldCloseOnOutsideClick }) =>
                 </Modal.Body>
 
                 <Modal.Footer className="space-x-4">
-                    <Button color="outline" onClick={toggle}>
+                    <Button color="secondary" variant="outline" onClick={toggle}>
                         Cancel
                     </Button>
 

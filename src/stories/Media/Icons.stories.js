@@ -12,6 +12,13 @@ const sizes = {
     old: "w-10 h-10",
 };
 
+/**
+ * ok so let me summaries this:
+Small - 1px thickness
+Medium - 1.3px thickness
+Big - 1.5px thickness
+ */
+
 const colors = [
     "text-black",
     "text-gray-dark",
