@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ButtonGroup, ChecklistIcon, EmptyChecklistIcon, WaitlistIcon } from "..";
+import { ButtonGroup, ChecklistIcon, EmptyChecklistIcon, MixedChecklistIcon, WaitlistIcon } from "..";
 
 const ButtonGroupStories = {
     title: "Components/ButtonGroup",
@@ -43,8 +43,9 @@ export const WithIcons = ({ size, value = -1 }) => {
     return (
         <ButtonGroup size={size} value={active} onChange={(index) => setActive(index)}>
             <ButtonGroup.Button icon={<ChecklistIcon />}>Reserved</ButtonGroup.Button>
-            <ButtonGroup.Button icon={<EmptyChecklistIcon />}>All</ButtonGroup.Button>
             <ButtonGroup.Button icon={<WaitlistIcon />}>Waitlist</ButtonGroup.Button>
+            <ButtonGroup.Button icon={<EmptyChecklistIcon />}>Available</ButtonGroup.Button>
+            <ButtonGroup.Button icon={<MixedChecklistIcon />}>All</ButtonGroup.Button>
         </ButtonGroup>
     );
 };
@@ -63,8 +64,9 @@ export const Collapsible = ({ size, value = 0 }) => {
     return (
         <ButtonGroup shouldHideInactiveText size={size} value={active} onChange={(index) => setActive(index)}>
             <ButtonGroup.Button icon={<ChecklistIcon />}>Reserved</ButtonGroup.Button>
-            <ButtonGroup.Button icon={<EmptyChecklistIcon />}>All</ButtonGroup.Button>
             <ButtonGroup.Button icon={<WaitlistIcon />}>Waitlist</ButtonGroup.Button>
+            <ButtonGroup.Button icon={<EmptyChecklistIcon />}>Available</ButtonGroup.Button>
+            <ButtonGroup.Button icon={<MixedChecklistIcon />}>All</ButtonGroup.Button>
         </ButtonGroup>
     );
 };
