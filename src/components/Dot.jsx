@@ -12,5 +12,5 @@ const colors = {
 };
 
 export const Dot = ({ color = "primary", className, ...rest }) => {
-    return <span className={clsx("inline-block w-1 h-1 rounded-full text-white", colors[color])} {...rest}></span>;
+    return <span className={clsx("inline-block w-1 h-1 rounded-full text-white", colors[color], className)} {...rest}></span>;
 };
