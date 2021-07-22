@@ -37,7 +37,7 @@
     A lot of specific vaules which I normally wouldn't use. But this is a third party lib where I cannot change the markup */
 .DayPicker-TodayButton {
     @apply absolute top-0 right-[78px] px-3.5 py-2.5;
-    @apply bg-white text-base tracking-tightest text-black font-semibold border border-solid border-gray rounded-md;
+    @apply bg-white hover:bg-blue-lighter text-base tracking-tightest text-black font-semibold border border-solid border-gray hover:border-blue rounded;
 }
 
 /* The month & year select dropdown that is injected into the date picker at the top */
@@ -91,7 +91,7 @@
 /**
  * These are stylings for the Date Picker, but only when they have custom content like prices or seller messaging
  */
- .has-custom-content .DayPicker-Month {
+.has-custom-content .DayPicker-Month {
     border-spacing: 1px 16px;
 }
 
