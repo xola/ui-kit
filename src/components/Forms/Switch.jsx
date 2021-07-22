@@ -67,7 +67,10 @@ Switch.Group.propTypes = {
 
 Switch.Label = ({ direction = "left", className, children }) => {
     return (
-        <HeadlessSwitch.Label as="span" className={clsx(direction === "left" ? "mr-2" : "ml-2", className)}>
+        <HeadlessSwitch.Label
+            as="span"
+            className={clsx("cursor-pointer", direction === "left" ? "mr-2" : "ml-2", className)}
+        >
             {children}
         </HeadlessSwitch.Label>
     );
