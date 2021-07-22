@@ -1,6 +1,7 @@
 // Components.
 export { Button } from "./components/Button";
 export { Badge } from "./components/Badge";
+export { Dot } from "./components/Dot";
 export { Alert } from "./components/Alert";
 export { Sidebar } from "./components/Sidebar";
 export { Avatar } from "./components/Avatar";
