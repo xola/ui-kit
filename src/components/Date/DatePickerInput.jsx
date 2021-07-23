@@ -61,13 +61,6 @@ export const DatePickerInput = ({
         );
     };
 
-    datePickerProps.selectedDays = [date];
-    datePickerProps.navbarElement = navbarElement;
-    datePickerProps.onTodayButtonClick = (today) => {
-        console.log("DatePickerInput onTodayButtonClick", formatDate(today));
-        setDate(today);
-    };
-
     return (
         <DayPickerInput
             // eslint-disable-next-line no-return-assign
@@ -93,5 +86,6 @@ DatePickerInput.propTypes = {
 };
 
 const InputComponent = forwardRef((props, _reference) => {
-    return <Input readOnly size="small" className="cursor-pointer" value={props.date} {...props} />;
+    const { date, value, ...newProps } = props;
+    return <Input readOnly size="small" className="cursor-pointer" value={date} {...newProps} />;
 });
