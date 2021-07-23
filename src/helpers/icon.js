@@ -1,9 +1,9 @@
 import clsx from "clsx";
+import React from "react";
 import { iconSizes } from "../icons/iconSizes";
-import { cloneElement } from "react";
 
-export const renderIcon = (props = { size: "small" }, icon) => {
-    let { className, size, ...newProps } = props;
-    className = clsx(iconSizes[size ?? "small"], className);
-    return cloneElement(icon, { className, ...newProps });
+export const createIcon = (Icon) => {
+    return ({ size = "small", className, ...rest }) => {
+        return <Icon className={clsx(iconSizes[size], className)} {...rest} />;
+    };
 };
