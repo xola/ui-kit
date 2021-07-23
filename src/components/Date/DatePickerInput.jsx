@@ -5,17 +5,18 @@ import React, { forwardRef, useState } from "react";
 import DayPickerInput from "react-day-picker/DayPickerInput";
 import { formatDate } from "../../helpers/date";
 import { Input } from "../Forms/Input";
-import { DatePicker, navbarElement } from "./DatePicker";
+import { DatePicker } from "./DatePicker";
 
 let datePickerInputReference = null;
 export const DatePickerInput = ({
     inputComponent = InputComponent,
     selectedDate = new Date(),
+    range,
     dateFormat = "ddd, MMM DD, YYYY",
     shouldShowOverlay = false,
-    datePickerProps = { todayButton: "Today" },
     handleDayChange,
 }) => {
+    // TODO: Refactor to use date ranges
     const [date, setDate] = useState(selectedDate);
 
     if (!handleDayChange) {
@@ -24,33 +25,26 @@ export const DatePickerInput = ({
             console.assert(!options.disabled, "Date is disabled");
             console.log("DatePickerInput Day is " + formatDate(date, dateFormat));
             setDate(day);
+            setTimeout(() => {
+                datePickerInputReference.hideDayPicker();
+            }, 100);
         };
     }
 
-    const formatSelectedDate = (date) => {
-        console.log("Formatting", date);
-        return formatDate(date, dateFormat);
-    };
+    const formatSelectedDate = (date) => formatDate(date, dateFormat);
 
     const overlayComponent = ({ month, onBlur, onFocus, selectedDay, classNames, tabIndex }) => {
-        // Wrap the onFocus call to solve a bug about hiding it. Too many bug reports on GH & SO
-        const focusWrapper = (event_) => {
-            onFocus(event_);
-            setTimeout(() => {
-                datePickerInputReference.hideDayPicker();
-            }, 500);
-        };
-
         return (
             <div
                 className={clsx(classNames.overlayWrapper, "z-50")}
                 tabIndex={tabIndex}
                 onBlur={onBlur}
-                onFocus={focusWrapper}
+                onFocus={onFocus}
             >
                 <div className={classNames.overlay}>
                     <DatePicker
                         selectedDate={selectedDay}
+                        range={range}
                         startMonth={month}
                         handleDayClick={handleDayChange}
                         // handleMonthChange={onMonthChange}
@@ -59,13 +53,6 @@ export const DatePickerInput = ({
                 </div>
             </div>
         );
-    };
-
-    datePickerProps.selectedDays = [date];
-    datePickerProps.navbarElement = navbarElement;
-    datePickerProps.onTodayButtonClick = (today) => {
-        console.log("DatePickerInput onTodayButtonClick", formatDate(today));
-        setDate(today);
     };
 
     return (
@@ -86,12 +73,13 @@ export const DatePickerInput = ({
 DatePickerInput.propTypes = {
     inputComponent: PropTypes.element,
     selectedDate: PropTypes.oneOfType([Date]),
+    range: PropTypes.number,
     dateFormat: PropTypes.string,
     shouldShowOverlay: PropTypes.bool,
-    datePickerProps: PropTypes.object,
     handleDayChange: PropTypes.func,
 };
 
 const InputComponent = forwardRef((props, _reference) => {
-    return <Input readOnly size="small" className="cursor-pointer" value={props.date} {...props} />;
+    const { date, value, ...newProps } = props;
+    return <Input readOnly size="small" className="cursor-pointer" value={date} {...newProps} />;
 });

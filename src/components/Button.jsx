@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import React, { cloneElement } from "react";
+import React from "react";
 
 const colors = {
     primary: "bg-primary hover:bg-primary-dark disabled:bg-primary border-transparent text-white",
@@ -70,13 +70,7 @@ const buttonIconSizes = {
 const Icon = ({ className, as: Tag = "button", color = "primary", size = "medium", children: icon, ...rest }) => {
     return (
         <Tag
-            className={clsx(
-                className,
-                buttonBaseClassName,
-                "rounded",
-                colors[color],
-                buttonIconSizes[size],
-            )}
+            className={clsx(className, buttonBaseClassName, "rounded", colors[color], buttonIconSizes[size])}
             {...rest}
         >
             {icon}

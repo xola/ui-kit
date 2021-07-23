@@ -7,9 +7,13 @@
     width: 358px;
 }
 
+.DayPicker-wrapper {
+    @apply ring-0 focus:ring-0 focus:outline-none;
+}
+
 /* The parent component of the entire date picker */
 .date-picker {
-    @apply leading-p1 tracking-tightest;
+    @apply leading-p1 tracking-tightest ring-0 focus:ring-0 focus:outline-none;
 }
 
 .DayPicker-NavBar {
@@ -19,13 +23,13 @@
 /* Month block which includes the month name 'July 2021' and the weeks, days etc.
     This does not include the today button */
 .DayPicker-Month {
+    @apply p-0 my-0 ml-0 mr-5 ring-0 focus:ring-0 focus:outline-none;
     border-collapse: inherit;
-    border-spacing: 10px 16px;
-    @apply p-0 m-0;
+    border-spacing: 0 16px;
 }
 
 .DayPicker-Month .DayPicker-Caption {
-    @apply h-10 p-0 m-0;
+    @apply h-10 p-0 pl-4 m-0;
 }
 
 /* The name of the month July 2021 */
@@ -49,43 +53,82 @@
 
 /* Sunday, Monday, Tuesday headers */
 .DayPicker-Weekday {
-    @apply py-3 m-0 font-semibold text-black text-base;
+    @apply p-0 m-0 font-semibold text-black text-base;
 }
 
 .DayPicker-Day {
-    @apply w-[40px] h-[40px] p-0 text-md ring-0 focus:ring-0 focus:outline-none;
+    @apply px-[5px] py-0 ring-0 focus:ring-0 focus:outline-none;
+}
+
+.DayPicker-Day .date {
+    @apply w-[40px] h-[40px] p-0 rounded-full text-md ring-0 focus:ring-0 focus:outline-none;
 }
 
 /* The style for today's date */
-.DayPicker-Day--today {
-    @apply font-normal text-black border border-gray-light;
+.DayPicker-Day--today .date {
+    @apply border border-gray-light font-normal text-black;
+}
+
+/* Neutralize the parent div's styles */
+.DayPicker:not(.DayPicker--interactionDisabled)
+    .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside):hover,
+.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside),
+.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside):hover {
+    @apply bg-transparent ring-0 focus:ring-0 focus:outline-none;
 }
 
 /* State when a day is selected */
-.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside),
-.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside):hover {
+.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) .date,
+.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) .date:hover {
     @apply bg-blue text-white border-transparent;
 }
 
 /* State when you hover on a day */
 .DayPicker:not(.DayPicker--interactionDisabled)
-    .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside):hover {
+    .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside)
+    .date:hover {
     @apply bg-blue-lighter text-black border border-blue;
 }
 
 /* State when you hover on a **selected** day */
-.DayPicker .DayPicker-Day:not(.DayPicker-Day--disabled):hover {
+.DayPicker .DayPicker-Day:not(.DayPicker-Day--disabled) .date:hover {
     @apply bg-blue-darker text-white border-transparent;
 }
 
 /* Days which are outside the current month */
-.DayPicker-Day--outside {
+.DayPicker-Day--outside .date {
     @apply text-gray-dark cursor-pointer;
 }
 
 /* Days which are disabled */
-.DayPicker-Day--disabled:not(.DayPicker-Day--today) {
+.DayPicker-Day--disabled:not(.DayPicker-Day--today) .date {
     @apply text-gray-light;
+}
+
+.Selectable .DayPicker-Day--selected:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside) {
+    @apply bg-blue-lighter text-black rounded-none;
+}
+
+.Selectable .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) .date,
+.Selectable .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) .date:hover {
+    @apply bg-blue-lighter text-black;
+}
+
+.Selectable .DayPicker-Day--start:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) .date,
+.Selectable .DayPicker-Day--start:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) .date:hover,
+.Selectable .DayPicker-Day--end:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) .date,
+.Selectable .DayPicker-Day--end:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) .date:hover {
+    @apply bg-blue text-white;
+}
+
+.Selectable .DayPicker-Day--start {
+    @apply rounded-none;
+    background: linear-gradient(90deg, #ffffff 50%, #d1e1ff 25%);
+}
+
+.Selectable .DayPicker-Day--end {
+    @apply rounded-none;
+    background: linear-gradient(90deg, #d1e1ff 50%, #ffffff 25%);
 }
 
 /**
