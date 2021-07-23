@@ -35,7 +35,7 @@ const colors = {
         lighter: "#FFEAEA",
         light: "#FFA1A1",
         DEFAULT: "#FF5A5A",
-        dark: "#EB4646",
+        dark: "#E93737",
         darker: "#E51919", // Made up by Rushi till Barth gives us a color
     },
 
@@ -43,7 +43,7 @@ const colors = {
         lighter: "#FFFAF0",
         light: "#FFDB8E",
         DEFAULT: "#FFC03D",
-        dark: "#FFAF0A", // Made up by Rushi till Barth gives us a color
+        dark: "#EBAA24",
         darker: "#F0A200", // Made up by Rushi till Barth gives us a color
     },
 
@@ -51,7 +51,7 @@ const colors = {
         lighter: "#FFF1E7",
         light: "#FFB493",
         DEFAULT: "#FF9668",
-        dark: "#FF854F", // Made up by Rushi till Barth gives us a color
+        dark: "#EC743F",
         darker: "#ff7336", // Made up by Rushi till Barth gives us a color
     },
 };
