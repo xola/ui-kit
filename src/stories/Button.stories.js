@@ -24,13 +24,6 @@ const ButtonStories = {
                 defaultValue: { summary: "primary" },
             },
         },
-        variant: {
-            options: ["outline", "link"],
-            control: { type: "select" },
-            table: {
-                defaultValue: { summary: null },
-            },
-        },
     },
 };
 
@@ -46,50 +39,8 @@ export const Colors = () => {
             <Button color="success">Success</Button>
             <Button color="warning">Warning</Button>
             <Button color="danger">Danger</Button>
-        </div>
-    );
-};
-
-export const OutlineVariants = () => {
-    return (
-        <div className="space-x-4">
-            <Button color="primary" variant="outline">
-                Primary
-            </Button>
-            <Button color="secondary" variant="outline">
-                Secondary
-            </Button>
-            <Button color="success" variant="outline">
-                Success
-            </Button>
-            <Button color="warning" variant="outline">
-                Warning
-            </Button>
-            <Button color="danger" variant="outline">
-                Danger
-            </Button>
-        </div>
-    );
-};
-
-export const LinkVariants = () => {
-    return (
-        <div className="space-x-4">
-            <Button color="primary" variant="link">
-                Primary
-            </Button>
-            <Button color="secondary" variant="link">
-                Secondary
-            </Button>
-            <Button color="success" variant="link">
-                Success
-            </Button>
-            <Button color="warning" variant="link">
-                Warning
-            </Button>
-            <Button color="danger" variant="link">
-                Danger
-            </Button>
+            <Button color="outline">Outline</Button>
+            <Button color="link">Link</Button>
         </div>
     );
 };
@@ -135,38 +86,16 @@ export const IconOnly = () => {
                 <UserIcon size="small" />
             </Button.Icon>
 
+            <Button.Icon color="outline" size="medium">
+                <UserIcon />
+            </Button.Icon>
+
             <Button.Icon color="success" size="medium">
                 <UserIcon size="small" />
             </Button.Icon>
 
             <Button.Icon color="danger" size="large">
                 <UserIcon size="large" />
-            </Button.Icon>
-        </div>
-    );
-};
-
-export const OutlineIcons = () => {
-    return (
-        <div className="space-x-4">
-            <Button.Icon color="primary" variant="outline" size="medium">
-                <UserIcon />
-            </Button.Icon>
-
-            <Button.Icon color="secondary" variant="outline" size="medium">
-                <UserIcon />
-            </Button.Icon>
-
-            <Button.Icon color="success" variant="outline" size="medium">
-                <UserIcon />
-            </Button.Icon>
-
-            <Button.Icon color="warning" variant="outline" size="medium">
-                <UserIcon />
-            </Button.Icon>
-
-            <Button.Icon color="danger" variant="outline" size="medium">
-                <UserIcon />
             </Button.Icon>
         </div>
     );
