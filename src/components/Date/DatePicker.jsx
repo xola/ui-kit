@@ -21,13 +21,15 @@ export const DatePicker = ({
     shouldShowYearPicker = false,
     customContent = [],
     modifiers = {},
+    range,
     handleDayClick,
     handleMonthChange,
     handleTodayButtonClick,
     ...rest
 }) => {
-    const [date, setDate] = useState(selectedDate);
+    const [date, setDate] = useState({ from: selectedDate, to: null });
     const [initialMonth, setInitialMonth] = useState(startMonth ?? selectedDate);
+    const hasRange = range && range > 1;
 
     let captionElement;
     if (shouldShowYearPicker) {
@@ -39,8 +41,11 @@ export const DatePicker = ({
     }
 
     let renderDay;
-    if (customContent && customContent.length > 0) {
-        renderDay = (day) => renderCustomContent({ selectedDate: date, day, customContent });
+    const hasCustomContent = customContent && customContent.length > 0;
+    if (hasCustomContent) {
+        renderDay = (day) => renderCustomContent({ selectedDate: date.from, day, customContent });
+    } else {
+        renderDay = (day) => dayStylingWrapper({ selectedDate: date.from, day });
     }
 
     if (!handleDayClick) {
@@ -53,8 +58,16 @@ export const DatePicker = ({
 
     // A wrapper for the callback so we can use local state and invoke the call back
     const handleDayClickWrapper = (day, options) => {
-        setDate(day);
-        handleDayClick.call(this, day, options);
+        let newValue = { from: day }; // This single date mode, but we still need to check if this is a range picker
+        if (hasRange && date.from) {
+            // Check if the user selected an end date or starting date
+            newValue = date.from > day ? { from: day, to: date.from } : { from: date.from, to: day };
+        }
+
+        setDate(newValue);
+
+        const callbackValue = newValue.from && newValue.to ? newValue : newValue.from;
+        handleDayClick.call(this, callbackValue, options);
     };
 
     const handleMonthChangeWrapper = (month) => {
@@ -70,19 +83,32 @@ export const DatePicker = ({
     if (!handleTodayButtonClick) {
         handleTodayButtonClick = (today) => {
             console.log("DatePicker today", formatDate(today));
-            setDate(today);
+            handleDayClickWrapper(today);
         };
     }
 
-    const selectedDays = selectedDate ?? date;
+    let selectedDays = [date && date.from ? date.from : selectedDate];
+    const rangesSet = date.from && date.to;
+    if (rangesSet) {
+        selectedDays = [date.from, { from: date.from, to: date.to }];
+        modifiers = { start: date.from, end: date.to };
+    }
 
+    console.log("Selected days", selectedDays);
     return (
-        <div className={clsx("date-picker", renderDay ? "has-custom-content" : null)}>
+        <div
+            className={clsx(
+                "date-picker",
+                rangesSet ? "Selectable" : "",
+                hasCustomContent ? "has-custom-content" : null,
+            )}
+        >
             <DayPicker
                 showOutsideDays
                 modifiers={modifiers}
-                selectedDays={[selectedDays]} // Xola date picker doesn't support selecting multiple dates
+                selectedDays={selectedDays}
                 month={initialMonth}
+                numberOfMonths={range}
                 disabledDays={disabledDays}
                 todayButton="Today"
                 captionElement={captionElement}
@@ -102,6 +128,7 @@ DatePicker.propTypes = {
     startMonth: PropTypes.objectOf(Date),
     disabledDays: PropTypes.array,
     modifiers: PropTypes.object,
+    range: PropTypes.number,
     shouldShowYearPicker: PropTypes.bool,
     customContent: PropTypes.array,
     handleDayClick: PropTypes.func,
@@ -144,6 +171,22 @@ ChevronButton.propTypes = {
     chevron: PropTypes.element.isRequired,
     shouldShowIcon: PropTypes.bool,
     onClick: PropTypes.func.isRequired,
+};
+
+const dayStylingWrapper = ({ selectedDate, day }) => {
+    const date = day.getDate();
+    const isSameDay = selectedDate && dayjs(selectedDate).isSame(day, "day");
+
+    return (
+        <div
+            className={clsx(
+                "date flex items-center w-full h-full justify-center",
+                isSameDay ? "text-white selected" : null,
+            )}
+        >
+            {date}
+        </div>
+    );
 };
 
 /**

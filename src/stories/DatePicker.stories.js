@@ -114,6 +114,14 @@ addDescription(
     "Add custom content to any day cell for example the maximum price for a specific date",
 );
 
+export const DateRange = () => {
+    return (
+        <div className="h-[480px]">
+            <DatePicker range={2} />
+        </div>
+    );
+};
+
 export const PickerWithInput = () => {
     return (
         <div className="h-[480px]">
