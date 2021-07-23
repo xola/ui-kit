@@ -5,7 +5,7 @@ import React, { forwardRef, useState } from "react";
 import DayPickerInput from "react-day-picker/DayPickerInput";
 import { formatDate } from "../../helpers/date";
 import { Input } from "../Forms/Input";
-import { DatePicker, navbarElement } from "./DatePicker";
+import { DatePicker } from "./DatePicker";
 
 let datePickerInputReference = null;
 export const DatePickerInput = ({
@@ -76,7 +76,6 @@ DatePickerInput.propTypes = {
     range: PropTypes.number,
     dateFormat: PropTypes.string,
     shouldShowOverlay: PropTypes.bool,
-    datePickerProps: PropTypes.object,
     handleDayChange: PropTypes.func,
 };
 

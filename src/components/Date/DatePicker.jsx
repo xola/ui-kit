@@ -40,13 +40,14 @@ export const DatePicker = ({
         captionElement.propTypes = { date: PropTypes.objectOf(Date).isRequired };
     }
 
-    let renderDay;
     const hasCustomContent = customContent && customContent.length > 0;
-    if (hasCustomContent) {
-        renderDay = (day) => renderCustomContent({ selectedDate: date.from, day, customContent });
-    } else {
-        renderDay = (day) => dayStylingWrapper({ selectedDate: date.from, day });
-    }
+    const renderDay = (day) => {
+        if (hasCustomContent) {
+            return renderCustomContent({ selectedDate: date.from, day, customContent });
+        }
+
+        return dayStylingWrapper({ selectedDate: date.from, day });
+    };
 
     if (!handleDayClick) {
         // Default wrapper so that we can show the date, and a warning for user to handle this

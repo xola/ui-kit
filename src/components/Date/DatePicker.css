@@ -114,23 +114,21 @@
     @apply bg-blue-lighter text-black;
 }
 
-
 .Selectable .DayPicker-Day--start:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) .date,
 .Selectable .DayPicker-Day--start:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) .date:hover,
 .Selectable .DayPicker-Day--end:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) .date,
 .Selectable .DayPicker-Day--end:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) .date:hover {
     @apply bg-blue text-white;
-    
 }
 
 .Selectable .DayPicker-Day--start {
     @apply rounded-none;
-    background: linear-gradient(90deg, #FFFFFF 50%, #D1E1FF 25%);
+    background: linear-gradient(90deg, #ffffff 50%, #d1e1ff 25%);
 }
 
 .Selectable .DayPicker-Day--end {
     @apply rounded-none;
-    background: linear-gradient(90deg, #D1E1FF 50%, #FFFFFF 25%);
+    background: linear-gradient(90deg, #d1e1ff 50%, #ffffff 25%);
 }
 
 /**
