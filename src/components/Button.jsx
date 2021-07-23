@@ -123,7 +123,7 @@ const Icon = ({
             )}
             {...rest}
         >
-            {cloneElement(icon, { className: iconSizes[size] })}
+            {icon}
         </Tag>
     );
 };

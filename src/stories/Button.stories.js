@@ -132,15 +132,15 @@ export const IconOnly = () => {
     return (
         <div className="space-x-4">
             <Button.Icon color="primary" size="small">
-                <UserIcon />
+                <UserIcon size="small" />
             </Button.Icon>
 
             <Button.Icon color="success" size="medium">
-                <UserIcon />
+                <UserIcon size="medium" />
             </Button.Icon>
 
             <Button.Icon color="danger" size="large">
-                <UserIcon />
+                <UserIcon size="large" />
             </Button.Icon>
         </div>
     );
