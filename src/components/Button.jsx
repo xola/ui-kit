@@ -115,7 +115,7 @@ const Icon = ({
             className={clsx(
                 className,
                 buttonBaseClassName,
-                "rounded",
+                "rounded border-none",
                 colors[color],
                 buttonIconSizes[size],
                 variant ? variants[variant].global : "",

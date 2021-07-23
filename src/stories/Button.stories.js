@@ -136,7 +136,7 @@ export const IconOnly = () => {
             </Button.Icon>
 
             <Button.Icon color="success" size="medium">
-                <UserIcon size="medium" />
+                <UserIcon size="small" />
             </Button.Icon>
 
             <Button.Icon color="danger" size="large">
