@@ -105,28 +105,33 @@
     @apply text-gray-light;
 }
 
-.Selectable .DayPicker-Day--selected:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside) {
+/* Change the dates within the date to have the full light blue to show that it's a part of the range */
+.date-range-picker .DayPicker-Day--selected:not(.DayPicker-Day--start):not(.DayPicker-Day--end) {
     @apply bg-blue-lighter text-black rounded-none;
 }
 
-.Selectable .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) .date,
-.Selectable .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) .date:hover {
+/* A date which is the part of the date range */
+.date-range-picker .DayPicker-Day--selected:not(.DayPicker-Day--disabled) .date,
+.date-range-picker .DayPicker-Day--selected:not(.DayPicker-Day--disabled) .date:hover {
     @apply bg-blue-lighter text-black;
 }
 
-.Selectable .DayPicker-Day--start:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) .date,
-.Selectable .DayPicker-Day--start:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) .date:hover,
-.Selectable .DayPicker-Day--end:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) .date,
-.Selectable .DayPicker-Day--end:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) .date:hover {
+/* The explicit start date & end date of the range */
+.date-range-picker .DayPicker-Day--start:not(.DayPicker-Day--disabled) .date,
+.date-range-picker .DayPicker-Day--start:not(.DayPicker-Day--disabled) .date:hover,
+.date-range-picker .DayPicker-Day--end:not(.DayPicker-Day--disabled) .date,
+.date-range-picker .DayPicker-Day--end:not(.DayPicker-Day--disabled) .date:hover {
     @apply bg-blue text-white;
 }
 
-.Selectable .DayPicker-Day--start {
+/* Make the start date have a 50% light blue background towards the RIGHT side */
+.date-range-picker .DayPicker-Day--start {
     @apply rounded-none;
     background: linear-gradient(90deg, #ffffff 50%, #d1e1ff 25%);
 }
 
-.Selectable .DayPicker-Day--end {
+/* Make the end date have a 50% light blue background towards the LEFT side */
+.date-range-picker .DayPicker-Day--end {
     @apply rounded-none;
     background: linear-gradient(90deg, #d1e1ff 50%, #ffffff 25%);
 }

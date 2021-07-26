@@ -95,12 +95,12 @@ export const DatePicker = ({
         modifiers = { start: date.from, end: date.to };
     }
 
-    console.log("Selected days", selectedDays);
+    console.log("Selected days", date);
     return (
         <div
             className={clsx(
                 "date-picker",
-                rangesSet ? "Selectable" : "",
+                rangesSet ? "date-range-picker" : null,
                 hasCustomContent ? "has-custom-content" : null,
             )}
         >
