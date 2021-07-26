@@ -84,7 +84,7 @@ export const ModifyCellStyle = () => {
 
 addDescription(
     ModifyCellStyle,
-    "You can apply a custom inline style to day cells using [modifiers](https://react-day-picker.js.org/docs/matching-days). For example you can style certain cells in the Waitlist yellow.",
+    "*WIP** (based on design changes of date picker) You can apply a custom inline style to day cells using [modifiers](https://react-day-picker.js.org/docs/matching-days). For example you can style certain cells in the Waitlist yellow.",
 );
 
 export const SelectYearMonth = () => {
@@ -111,7 +111,7 @@ export const AddContentToDays = () => {
 
 addDescription(
     AddContentToDays,
-    "Add custom content to any day cell for example the maximum price for a specific date",
+    "**WIP** (pending designs) Add custom content to any day cell for example the maximum price for a specific date",
 );
 
 export const DateRange = () => {
