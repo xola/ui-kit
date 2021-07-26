@@ -83,3 +83,8 @@ const InputComponent = forwardRef((props, _reference) => {
     const { date, value, ...newProps } = props;
     return <Input readOnly size="small" className="cursor-pointer" value={date} {...newProps} />;
 });
+
+InputComponent.propTypes = {
+    date: PropTypes.oneOfType([Date]).isRequired,
+    value: PropTypes.oneOfType([Date]).isRequired,
+};
