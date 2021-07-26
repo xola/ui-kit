@@ -36,7 +36,7 @@ const AlertStories = {
         shouldClose: {
             control: { type: "boolean" },
             table: {
-                type: { summary: null },
+                defaultValue: { summary: false },
             },
         },
     },

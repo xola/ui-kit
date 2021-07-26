@@ -4,10 +4,14 @@ import { Button, Modal, Input } from "../..";
 const ModalStories = {
     title: "Overlay/Modal",
     component: Modal,
+    args: {
+        size: "medium",
+        shouldShowClose: true,
+        shouldCloseOnOutsideClick: true,
+    },
     argTypes: {
         size: {
             type: { required: false },
-            defaultValue: "medium",
             options: ["small", "medium", "large", "xlarge"],
             control: { type: "select" },
             table: {
@@ -16,13 +20,11 @@ const ModalStories = {
         },
         shouldShowClose: {
             type: { required: false },
-            defaultValue: true,
             description: "If the 'x' button should be shown",
             control: { type: "boolean" },
         },
         shouldCloseOnOutsideClick: {
             type: { required: false },
-            defaultValue: true,
             description: "Close the modal if user clicks outside it",
             control: { type: "boolean" },
         },

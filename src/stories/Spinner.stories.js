@@ -4,10 +4,13 @@ import { Spinner } from "..";
 const SpinnerStories = {
     title: "Components/Spinner",
     component: Spinner,
+    args: {
+        color: "secondary",
+        size: "small",
+    },
     argTypes: {
         color: {
             type: { required: true },
-            defaultValue: "secondary",
             options: ["primary", "secondary", "success", "warning", "danger", "caution", "current"],
             control: { type: "select" },
             table: {
@@ -16,7 +19,6 @@ const SpinnerStories = {
             },
         },
         size: {
-            defaultValue: "small",
             options: ["small", "medium", "large", "current"],
             control: { type: "select" },
             table: {

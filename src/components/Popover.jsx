@@ -15,6 +15,7 @@ const sizes = {
 };
 
 export const Popover = ({ className, children, ...rest }) => {
+    delete rest.size; // size is not a valid prop for tippy.js Without this tippy will throw a massive console error
     return (
         <Tippy
             interactive

@@ -11,11 +11,15 @@ const CurrencyStories = {
             },
         },
     },
+    args: {
+        amount: 109482.84,
+        locale: "en-US",
+        removeTrailingZeroes: true
+    },
     argTypes: {
         amount: {
             description: "A number",
             type: { required: true },
-            defaultValue: "109482.84",
             control: { type: "number" },
             table: {
                 type: { summary: "For demo only" },
@@ -24,7 +28,6 @@ const CurrencyStories = {
         locale: {
             description: "A locale string",
             type: { required: true },
-            defaultValue: "en-US",
             control: { type: "select" },
             options: ["en-IN", "en-US", "fr-FR", "ja-JP", "de-DE", "ar-AE"],
             table: {
@@ -44,7 +47,6 @@ const CurrencyStories = {
         },
         removeTrailingZeroes: {
             description: "Strip trailing `.00`",
-            defaultValue: true,
             control: { type: "boolean" },
             table: {
                 type: { summary: null },

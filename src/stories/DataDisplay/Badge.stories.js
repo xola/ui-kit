@@ -4,20 +4,22 @@ import { Badge, BellIcon, BoxIcon, CakeIcon, CashIcon, EditIcon, StackIcon } fro
 const BadgeStories = {
     title: "Data Display/Badges",
     component: Badge,
+    args: {
+        text: "Default",
+        color: "primary",
+        size: "small",
+    },
     argTypes: {
         text: {
             type: { required: true },
-            defaultValue: "Default",
             control: { type: "text" },
         },
         color: {
-            defaultValue: "primary",
             options: ["primary", "secondary", "success", "warning", "danger", "caution"],
             control: { type: "select" },
         },
         size: {
             options: ["small", "large"],
-            defaultValue: "small",
             control: { type: "radio" },
         },
     },

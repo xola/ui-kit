@@ -7,6 +7,15 @@ const documentationUrl = "https://atomiks.github.io/tippyjs/v6/all-props/";
 const PopoverStories = {
     title: "Overlay/Popover",
     component: Popover,
+    args: {
+        trigger: "mouseenter",
+        placement: "right",
+        size: "large",
+        delay: 0,
+        maxWidth: 350,
+        duration: [300, 250],
+        offset: [0, 10],
+    },
     argTypes: {
         demoText: getArgument("Default", "text", null, "The value for the button", "for this demo only"),
         trigger: getArgument(
@@ -53,7 +62,6 @@ const PopoverStories = {
 function getArgument(defaultValue, type, options, description, summary = null) {
     return {
         type: { required: false },
-        defaultValue,
         description,
         options,
         control: { type },

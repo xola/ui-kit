@@ -12,10 +12,12 @@ const SwitchStories = {
             },
         },
     },
+    args: {
+        size: "medium",
+    },
     argTypes: {
         size: {
             description: "Switch Size",
-            defaultValue: "medium",
             table: {
                 type: { summary: null },
                 defaultValue: { summary: "medium" },

@@ -12,10 +12,12 @@ const LogoStories = {
             },
         },
     },
+    args: {
+        "size": "medium"
+    },
     argTypes: {
         src: {
             type: { required: true },
-            defaultValue: "http://placekitten.com/300/300",
             description: "The URL to the logo",
             control: {
                 type: "text",
@@ -27,7 +29,6 @@ const LogoStories = {
         },
         size: {
             description: "The size of the image",
-            defaultValue: "medium",
             options: ["small", "medium", "large"],
             control: { type: "radio" },
             table: {

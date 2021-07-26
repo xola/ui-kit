@@ -19,10 +19,12 @@ const colors = [
 
 const IconsStories = {
     title: "Media/Icons",
+    args: {
+        color: "text-black"
+    },
     argTypes: {
         color: {
             description: "Colors",
-            defaultValue: "text-black",
             table: {
                 type: { summary: null },
                 defaultValue: { summary: "text-black" },

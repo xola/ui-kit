@@ -11,10 +11,13 @@ const BreadcrumbStories = {
             },
         },
     },
+    args: {
+        spacing: 2,
+        separator: "/",
+    },
     argTypes: {
         spacing: {
             description: "Spacing between elements",
-            defaultValue: 2,
             control: { type: "number" },
             table: {
                 defaultValue: { summary: 2 },
@@ -23,7 +26,6 @@ const BreadcrumbStories = {
         },
         separator: {
             description: "The string that separates the items",
-            defaultValue: "/",
             control: { type: "text" },
             table: {
                 type: { summary: null },
