@@ -11,19 +11,21 @@ const AlertStories = {
             },
         },
     },
+    args: {
+        text: "Space, the final frontier. These are the voyages of the starship Enterprise. Its five year mission: to explore strange new worlds, to seek out new life and new civilizations, to boldly go where no man has gone before!",
+        color: "primary",
+        shouldClose: false,
+    },
     argTypes: {
         text: {
             type: { required: false },
             description: "The text in the component",
-            defaultValue:
-                "Space, the final frontier. These are the voyages of the starship Enterprise. Its five year mission: to explore strange new worlds, to seek out new life and new civilizations, to boldly go where no man has gone before!",
             control: { type: "text" },
             table: {
                 type: { summary: "For demo only" },
             },
         },
         color: {
-            defaultValue: "primary",
             options: ["primary", "success", "warning", "danger"],
             control: { type: "select" },
             table: {
@@ -32,7 +34,6 @@ const AlertStories = {
             },
         },
         shouldClose: {
-            defaultValue: false,
             control: { type: "boolean" },
             table: {
                 type: { summary: null },
