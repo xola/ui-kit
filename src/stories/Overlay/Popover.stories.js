@@ -8,13 +8,6 @@ const PopoverStories = {
     id: "Popover",
     title: "Overlay/Popover",
     component: Popover,
-    decorators: [
-        (Story) => (
-            <div className="m-5">
-                <Story />
-            </div>
-        ),
-    ],
     args: {
         trigger: "mouseenter",
         placement: "right",
@@ -34,13 +27,13 @@ const PopoverStories = {
         ),
         placement: getArgument(
             "right",
-            "inline-radio",
+            "select",
             ["top", "bottom", "left", "right", "auto"],
             `Where to place the tooltip. [More in the docs](${documentationUrl})`,
         ),
         size: getArgument(
             "large",
-            "inline-radio",
+            "select",
             ["small", "medium", "large"],
             "The expected size of this popover which will defined the appropriate padding for the *content*",
         ),
@@ -90,9 +83,11 @@ export const Default = ({ demoText = "Hello World", ...rest }) => {
     );
 
     return (
-        <Popover {...rest} content={content}>
-            <Button>{demoText}</Button>
-        </Popover>
+        <div className="h-20 mt-10">
+            <Popover content={content} {...rest}>
+                <Button>{demoText}</Button>
+            </Popover>
+        </div>
     );
 };
 
@@ -121,9 +116,11 @@ export const NoTitle = ({ demoText = "Detailed", ...rest }) => {
     );
 
     return (
-        <Popover {...rest} content={content}>
-            <Button>{demoText}</Button>
-        </Popover>
+        <div className="h-20 mt-10">
+            <Popover content={content} {...rest}>
+                <Button>{demoText}</Button>
+            </Popover>
+        </div>
     );
 };
 

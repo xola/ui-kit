@@ -1,26 +1,10 @@
 import React from "react";
-import {
-    Button,
-    CalendarDayIcon,
-    CalendarMonthIcon,
-    CalendarWeekIcon,
-    EquipmentIcon,
-    MoveIcon,
-    PopoverList,
-    ProductIcon
-} from "../..";
+import { Button, CalendarDayIcon, CalendarMonthIcon, CalendarWeekIcon, MoveIcon, PopoverList } from "../..";
 
 const PopoverStories = {
     id: "PopoverList",
     title: "Overlay/Popover List",
     component: PopoverList,
-    decorators: [
-        (Story) => (
-            <div className="h-64 mb-20">
-                <Story />
-            </div>
-        ),
-    ],
     args: {
         placement: "bottom",
         trigger: "mouseenter",
@@ -59,42 +43,44 @@ const PopoverStories = {
 export const Default = (props) => {
     const onClickItem = (event_, element) => console.log("Clicked on", event_, element);
     return (
-        <PopoverList {...props}>
-            <Button>Hover over me</Button>
-            <PopoverList.Item name="list" onClickItem={onClickItem}>
-                <MoveIcon /> <span>List</span>
-            </PopoverList.Item>
-            <PopoverList.Item name="day" onClickItem={onClickItem}>
-                <CalendarDayIcon /> <span>Day</span>
-            </PopoverList.Item>
-            <PopoverList.Item name="week" onClickItem={onClickItem}>
-                <CalendarWeekIcon /> <span>Week</span>
-            </PopoverList.Item>
-            <PopoverList.Item name="month" onClickItem={onClickItem}>
-                <CalendarMonthIcon /> <span>Month</span>
-            </PopoverList.Item>
-            <PopoverList.Item name="product" onClickItem={onClickItem}>
-                <ProductIcon /> <span>Product</span>
-            </PopoverList.Item>
-            <PopoverList.Item name="equipment" onClickItem={onClickItem}>
-                <EquipmentIcon /> <span>Equipment</span>
-            </PopoverList.Item>
-        </PopoverList>
+        <div className="h-64">
+            <PopoverList offset={[0, 18]} {...props}>
+                <Button>Hover over me</Button>
+                <PopoverList.Item name="list" onClickItem={onClickItem}>
+                    <MoveIcon />
+                    <span>List</span>
+                </PopoverList.Item>
+                <PopoverList.Item name="day" onClickItem={onClickItem}>
+                    <CalendarDayIcon />
+                    <span>Day</span>
+                </PopoverList.Item>
+                <PopoverList.Item name="week" onClickItem={onClickItem}>
+                    <CalendarWeekIcon />
+                    <span>Week</span>
+                </PopoverList.Item>
+                <PopoverList.Item name="month" onClickItem={onClickItem}>
+                    <CalendarMonthIcon />
+                    <span>Month</span>
+                </PopoverList.Item>
+            </PopoverList>
+        </div>
     );
 };
 
 export const NoIcons = (props) => {
     const onClickItem = (event_, element) => console.log("Clicked on", event_, element);
     return (
-        <PopoverList {...props}>
-            <Button>Hover over me</Button>
-            <PopoverList.Item name="list" onClickItem={onClickItem}>
-                Listing
-            </PopoverList.Item>
-            <PopoverList.Item name="guides" onClickItem={onClickItem}>
-                Guides
-            </PopoverList.Item>
-        </PopoverList>
+        <div className="h-32">
+            <PopoverList offset={[0, 18]} {...props}>
+                <Button>Hover over me</Button>
+                <PopoverList.Item name="list" onClickItem={onClickItem}>
+                    Listing
+                </PopoverList.Item>
+                <PopoverList.Item name="guides" onClickItem={onClickItem}>
+                    Guides
+                </PopoverList.Item>
+            </PopoverList>
+        </div>
     );
 };
 
