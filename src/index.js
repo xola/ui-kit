@@ -12,7 +12,7 @@ export { PopoverList } from "./components/Popover/PopoverList";
 export { Modal } from "./components/Modal";
 export { Table } from "./components/Table";
 export { ButtonGroup } from "./components/ButtonGroup";
-export { NotificationCount } from "./components/NotificationCount";
+export { Counter } from "./components/Counter";
 export { Logo } from "./components/Logo";
 export { Search } from "./components/Search";
 export { Spinner } from "./components/Spinner";

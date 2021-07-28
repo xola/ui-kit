@@ -2,7 +2,7 @@ import clsx from "clsx";
 import PropTypes from "prop-types";
 import React from "react";
 
-export const NotificationCount = ({ className, ...rest }) => {
+export const Counter = ({ className, ...rest }) => {
     return (
         <span
             className={clsx(
@@ -14,6 +14,6 @@ export const NotificationCount = ({ className, ...rest }) => {
     );
 };
 
-NotificationCount.propTypes = {
+Counter.propTypes = {
     className: PropTypes.string,
 };
