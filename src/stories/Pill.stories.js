@@ -2,6 +2,7 @@ import React from "react";
 import { StackIcon, EditIcon, BoxIcon, Pill } from "..";
 
 const PillStories = {
+    id: "Pill",
     title: "Components/Pill",
     component: Pill,
     args: {

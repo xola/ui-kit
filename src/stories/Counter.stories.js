@@ -2,6 +2,7 @@ import React from "react";
 import { Counter } from "..";
 
 const CounterStories = {
+    id: "Counter",
     title: "Components/Counter",
     component: Counter,
     parameters: {
