@@ -63,4 +63,8 @@ export const CustomWidth = () => {
     );
 };
 
+export const Textarea = () => {
+    return <Input as="textarea" rows={5} />;
+};
+
 export default InputStories;

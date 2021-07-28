@@ -8,9 +8,9 @@ const sizes = {
     large: "px-4 py-3.5 text-lg",
 };
 
-export const Input = ({ size = "medium", className, type = "text", isError, ...rest }) => {
+export const Input = ({ as: Tag = "input", size = "medium", className, type = "text", isError, ...rest }) => {
     return (
-        <input
+        <Tag
             type={type}
             className={clsx(
                 className,
@@ -26,6 +26,7 @@ export const Input = ({ size = "medium", className, type = "text", isError, ...r
 };
 
 Input.propTypes = {
+    as: PropTypes.oneOf("input", "textarea"),
     size: PropTypes.oneOf(Object.keys(sizes)),
     className: PropTypes.string,
     type: PropTypes.string,
