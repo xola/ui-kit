@@ -36,29 +36,6 @@ Import and use the components.
 import { Button } from "@xola/ui-kit";
 ```
 
-## Available Components
-
--   Alert
--   Avatar
--   Badge
--   Breadcrumb
--   Button
--   ButtonGroup
--   FormGroup
--   HeaderToolbar
--   Input
--   Label
--   Logo
--   Modal
--   NotificationCount
--   Popover
--   Search
--   Sidebar
--   Spinner
--   Switch
--   Table
--   Tooltip
-
 ## Development
 
 ### Installation
@@ -66,7 +43,7 @@ import { Button } from "@xola/ui-kit";
 Install all required dependencies:
 
 ```bash
-$ nvm use
+$ nvm use # Project needs vode V14
 $ npm install
 ```
 
@@ -82,4 +59,12 @@ $ npm run dev
 $ npm pack
 $ cd your-project
 $ npm install ../ui-kit/xola-ui-kit@{version}.tgz --no-save
+```
+
+### Lint & Auto-fix
+
+To automatically fix lint issues in this project you have the following commands:
+```bash
+npm run lint # Run lint on `src` and output issues
+npm run lint:fix # Run lint and automatically fix any issues. Any that are not fixed are output to screen
 ```
