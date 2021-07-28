@@ -5,8 +5,16 @@ import { Button, Popover } from "../..";
 const documentationUrl = "https://atomiks.github.io/tippyjs/v6/all-props/";
 
 const PopoverStories = {
+    id: "Popover",
     title: "Overlay/Popover",
     component: Popover,
+    decorators: [
+        (Story) => (
+            <div className="m-5">
+                <Story />
+            </div>
+        ),
+    ],
     args: {
         trigger: "mouseenter",
         placement: "right",
@@ -82,15 +90,13 @@ export const Default = ({ demoText = "Hello World", ...rest }) => {
     );
 
     return (
-        <div className="mt-10 h-20">
-            <Popover {...rest} content={content}>
-                <Button>{demoText}</Button>
-            </Popover>
-        </div>
+        <Popover {...rest} content={content}>
+            <Button>{demoText}</Button>
+        </Popover>
     );
 };
 
-export const NoTitle = ({ demoText, ...rest }) => {
+export const NoTitle = ({ demoText = "Detailed", ...rest }) => {
     const content = (
         <Popover.Content>
             <dl className="space-y-2 text-sm">
@@ -115,11 +121,9 @@ export const NoTitle = ({ demoText, ...rest }) => {
     );
 
     return (
-        <div className="mt-10 h-20">
-            <Popover {...rest} content={content}>
-                <Button>{demoText}</Button>
-            </Popover>
-        </div>
+        <Popover {...rest} content={content}>
+            <Button>{demoText}</Button>
+        </Popover>
     );
 };
 

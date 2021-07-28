@@ -17,3 +17,5 @@ export const CalendarDayIcon = createIcon((props) => (
         />
     </svg>
 ));
+
+CalendarDayIcon.displayName = "CalendarDayIcon";
