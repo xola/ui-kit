@@ -1,9 +1,6 @@
 name: Publish to GitHub Pages
 
-on:
-    push:
-        branches:
-            - "**" # matches every branch
+on: push
 
 jobs:
     publish:
