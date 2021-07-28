@@ -1,10 +1,10 @@
-import clsx from "clsx";
-import React from "react";
 import Tippy from "@tippyjs/react";
+import clsx from "clsx";
 import PropTypes from "prop-types";
+import React from "react";
 import { followCursor } from "tippy.js";
-import "tippy.js/dist/tippy.css";
 import "tippy.js/dist/border.css";
+import "tippy.js/dist/tippy.css";
 import styles from "./Popover.module.css";
 
 // Padding for various sizes
@@ -28,16 +28,16 @@ export const Popover = ({ className, children, ...rest }) => {
     );
 };
 
+Popover.propTypes = {
+    className: PropTypes.string,
+    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
+};
+
 Popover.Content = ({ className, size = "large", children }) => {
     return <div className={clsx("popover-content", sizes[size], className)}>{children}</div>;
 };
 
 Popover.Content.displayName = "Popover.Content";
-
-Popover.propTypes = {
-    className: PropTypes.string,
-    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
-};
 
 Popover.Content.propTypes = {
     className: PropTypes.string,

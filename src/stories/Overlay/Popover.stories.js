@@ -72,7 +72,7 @@ function getArgument(defaultValue, type, options, description, summary = null) {
     };
 }
 
-export const Default = ({ demoText, ...rest }) => {
+export const Default = ({ demoText = "Hello World", ...rest }) => {
     const content = (
         <Popover.Content className="space-y-2">
             <p className="p1 font-bold">Popover Title</p>
