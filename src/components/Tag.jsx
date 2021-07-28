@@ -17,6 +17,8 @@ const sizes = {
     medium: "px-2 py-1 text-base",
 };
 
+// Dashboard - height 25 Padding 6, 8Purchases - 20 padding 3,4
+
 export const Tag = ({
     color = "primary",
     size = "small",
