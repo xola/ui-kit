@@ -1,16 +1,16 @@
 import React from "react";
-import { Input, Label, FormGroup } from "../..";
+import { Textarea, Label, FormGroup } from "../..";
 
-const InputStories = {
+const TextareaStories = {
     primary: true,
-    title: "Forms/Input",
+    title: "Forms/Textarea",
 };
 
 export const Default = () => {
     return (
         <FormGroup>
             <Label>Text</Label>
-            <Input />
+            <Textarea rows={5} />
         </FormGroup>
     );
 };
@@ -20,17 +20,17 @@ export const Sizes = () => {
         <div>
             <FormGroup>
                 <Label>Small</Label>
-                <Input size="small" />
+                <Textarea size="small" />
             </FormGroup>
 
             <FormGroup>
                 <Label>Medium</Label>
-                <Input size="medium" />
+                <Textarea size="medium" />
             </FormGroup>
 
             <FormGroup>
                 <Label>Large</Label>
-                <Input size="large" />
+                <Textarea size="large" />
             </FormGroup>
         </div>
     );
@@ -40,7 +40,7 @@ export const Disabled = () => {
     return (
         <FormGroup>
             <Label>ID</Label>
-            <Input disabled value="f003e8a95139cd7b70999070838561e0" />
+            <Textarea disabled value="f003e8a95139cd7b70999070838561e0" />
         </FormGroup>
     );
 };
@@ -49,7 +49,7 @@ export const WithError = () => {
     return (
         <FormGroup>
             <Label className="text-danger">Text is invalid</Label>
-            <Input isError />
+            <Textarea isError />
         </FormGroup>
     );
 };
@@ -58,9 +58,9 @@ export const CustomWidth = () => {
     return (
         <FormGroup>
             <Label>Text</Label>
-            <Input className="!w-60" />
+            <Textarea className="!w-60" />
         </FormGroup>
     );
 };
 
-export default InputStories;
+export default TextareaStories;
