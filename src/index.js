@@ -20,6 +20,7 @@ export { Breadcrumb } from "./components/Breadcrumb";
 export { FormGroup } from "./components/Forms/FormGroup";
 export { Input } from "./components/Forms/Input";
 export { Textarea } from "./components/Forms/Textarea";
+export { Select } from "./components/Forms/Select";
 export { Switch } from "./components/Forms/Switch";
 export { Checkbox } from "./components/Forms/Checkbox";
 export { Label } from "./components/Forms/Label";

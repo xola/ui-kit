@@ -24,8 +24,8 @@ export const BaseInput = ({ as: Tag, size = "medium", isError, className, ...res
     );
 };
 
-Input.propTypes = {
-    as: PropTypes.any,
+BaseInput.propTypes = {
+    as: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]),
     size: PropTypes.oneOf(Object.keys(sizes)),
     className: PropTypes.string,
     isError: PropTypes.bool,
