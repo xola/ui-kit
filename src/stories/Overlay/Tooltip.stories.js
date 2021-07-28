@@ -16,7 +16,7 @@ const TooltipStories = {
         maxWidth: 350,
         duration: [300, 250],
         offset: [0, 10],
-        zIndex: 9999
+        zIndex: 9999,
     },
     argTypes: {
         demoText: getArgument("Default", "text", null, "The value for the button", "for this demo only"),

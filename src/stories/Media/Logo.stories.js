@@ -13,7 +13,7 @@ const LogoStories = {
         },
     },
     args: {
-        "size": "medium"
+        size: "medium",
     },
     argTypes: {
         src: {

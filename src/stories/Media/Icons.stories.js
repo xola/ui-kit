@@ -20,7 +20,7 @@ const colors = [
 const IconsStories = {
     title: "Media/Icons",
     args: {
-        color: "text-black"
+        color: "text-black",
     },
     argTypes: {
         color: {

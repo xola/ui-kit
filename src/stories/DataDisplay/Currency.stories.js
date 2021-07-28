@@ -12,9 +12,9 @@ const CurrencyStories = {
         },
     },
     args: {
-        amount: 109482.84,
+        amount: 109_482.84,
         locale: "en-US",
-        removeTrailingZeroes: true
+        removeTrailingZeroes: true,
     },
     argTypes: {
         amount: {

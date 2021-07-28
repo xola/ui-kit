@@ -16,6 +16,7 @@ export const Alert = ({ className, shouldClose = false, color = "primary", onCli
     if (shouldClose && !onClickClose) {
         console.warn("If you like to close the alert, please define `onClickClose`");
     }
+
     return (
         <div className={clsx("flex rounded text-base px-3 py-3", colors[color], className)} {...rest}>
             <span className="w-full">{children}</span>

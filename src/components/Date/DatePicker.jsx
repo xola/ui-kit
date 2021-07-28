@@ -31,14 +31,11 @@ export const DatePicker = ({
     const [initialMonth, setInitialMonth] = useState(startMonth ?? selectedDate);
     const hasRange = range && range > 1;
 
-    let captionElement;
-    if (shouldShowYearPicker) {
-        captionElement = ({ date }) => {
-            return <MonthYearSelector date={date} onChange={handleMonthChangeWrapper} />;
-        };
+    const defaultYearPicker = ({ date }) => {
+        return <MonthYearSelector date={date} onChange={handleMonthChangeWrapper} />;
+    };
 
-        captionElement.propTypes = { date: PropTypes.objectOf(Date).isRequired };
-    }
+    defaultYearPicker.propTypes = { date: PropTypes.objectOf(Date).isRequired };
 
     const hasCustomContent = customContent && customContent.length > 0;
     const renderDay = (day) => {
@@ -112,7 +109,7 @@ export const DatePicker = ({
                 numberOfMonths={range}
                 disabledDays={disabledDays}
                 todayButton="Today"
-                captionElement={captionElement}
+                captionElement={shouldShowYearPicker ? defaultYearPicker : null}
                 renderDay={renderDay}
                 navbarElement={navbarElement}
                 onDayClick={handleDayClickWrapper}
