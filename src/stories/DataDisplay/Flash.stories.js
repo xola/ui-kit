@@ -15,7 +15,7 @@ const FlashStories = {
         text: "Toast",
         size: "medium",
         color: "success",
-        duration: 2000,
+        duration: 3000,
         canClose: true,
     },
     argTypes: {
