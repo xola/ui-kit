@@ -1,5 +1,5 @@
 import React from "react";
-import { Alert } from "..";
+import { Alert } from "../..";
 
 const AlertStories = {
     title: "Data Display/Alerts & Banners",

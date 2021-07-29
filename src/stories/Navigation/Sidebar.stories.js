@@ -1,5 +1,5 @@
 import React from "react";
-import { CheckIcon, ExportIcon, Sidebar, StarIcon, UserIcon } from "..";
+import { CheckIcon, ExportIcon, Sidebar, StarIcon, UserIcon } from "../..";
 
 const SidebarStories = {
     title: "Navigation/Sidebar",

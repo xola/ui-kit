@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, UserIcon } from "..";
+import { Button, UserIcon } from "../..";
 
 const ButtonStories = {
     title: "Forms & Fields/Button",

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Tabs } from "..";
+import { Tabs } from "../..";
 
 const TabsStories = {
     title: "Navigation/Tabs",

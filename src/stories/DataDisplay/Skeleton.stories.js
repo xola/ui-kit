@@ -1,5 +1,5 @@
 import React from "react";
-import { Skeleton } from "..";
+import { Skeleton } from "../..";
 
 const SkeletonStories = {
     title: "Data Display/Skeleton",

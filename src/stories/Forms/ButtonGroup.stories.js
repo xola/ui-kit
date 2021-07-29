@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ButtonGroup, ChecklistIcon, EmptyChecklistIcon, MixedChecklistIcon, WaitlistIcon } from "..";
+import { ButtonGroup, ChecklistIcon, EmptyChecklistIcon, MixedChecklistIcon, WaitlistIcon } from "../..";
 
 const ButtonGroupStories = {
     title: "Forms & Fields/ButtonGroup",

@@ -1,5 +1,5 @@
 import React from "react";
-import { StackIcon, EditIcon, BoxIcon, Pill } from "..";
+import { StackIcon, EditIcon, BoxIcon, Pill } from "../..";
 
 const PillStories = {
     id: "Pill",

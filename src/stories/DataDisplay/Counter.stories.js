@@ -1,5 +1,5 @@
 import React from "react";
-import { Counter } from "..";
+import { Counter } from "../..";
 
 const CounterStories = {
     id: "Counter",
