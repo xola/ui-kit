@@ -10,7 +10,7 @@ export const Default = () => {
     return (
         <FormGroup>
             <Label>Text</Label>
-            <Input />
+            <Input value="Hello, World" />
         </FormGroup>
     );
 };
@@ -39,7 +39,7 @@ export const Sizes = () => {
 export const Disabled = () => {
     return (
         <FormGroup>
-            <Label>ID</Label>
+            <Label isDisabled>ID</Label>
             <Input disabled value="f003e8a95139cd7b70999070838561e0" />
         </FormGroup>
     );
@@ -49,7 +49,7 @@ export const WithError = () => {
     return (
         <FormGroup>
             <Label className="text-danger">Text is invalid</Label>
-            <Input isError />
+            <Input isError value="ui@@@xola.com" />
         </FormGroup>
     );
 };
