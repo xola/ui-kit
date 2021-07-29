@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { ButtonGroup, ChecklistIcon, EmptyChecklistIcon, MixedChecklistIcon, WaitlistIcon } from "..";
+import { ButtonGroup, ChecklistIcon, EmptyChecklistIcon, MixedChecklistIcon, WaitlistIcon } from "../..";
 
 const ButtonGroupStories = {
-    title: "Components/ButtonGroup",
+    title: "Forms & Fields/ButtonGroup",
     component: ButtonGroup,
     args: {
         size: "medium",
@@ -62,7 +62,7 @@ export const Collapsible = ({ size, value = 0 }) => {
     const [active, setActive] = useState(value);
 
     return (
-        <ButtonGroup shouldHideInactiveText size={size} value={active} onChange={(index) => setActive(index)}>
+        <ButtonGroup isCollapsed size={size} value={active} onChange={(index) => setActive(index)}>
             <ButtonGroup.Button icon={<ChecklistIcon />}>Reserved</ButtonGroup.Button>
             <ButtonGroup.Button icon={<WaitlistIcon />}>Waitlist</ButtonGroup.Button>
             <ButtonGroup.Button icon={<EmptyChecklistIcon />}>Available</ButtonGroup.Button>
@@ -74,7 +74,7 @@ export const Collapsible = ({ size, value = 0 }) => {
 Collapsible.parameters = {
     docs: {
         description: {
-            story: "Pass `shouldHideInactiveText` to only show the active button's text in the ButtonGroup",
+            story: "Pass `isCollapsed` to only show the active button's text in the ButtonGroup",
         },
     },
 };

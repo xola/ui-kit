@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Tabs } from "..";
+import { Tabs } from "../..";
 
 const TabsStories = {
-    title: "Components/Tabs",
+    title: "Navigation/Tabs",
     component: Tabs,
     parameters: {
         docs: {

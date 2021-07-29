@@ -1,8 +1,8 @@
 import dayjs from "dayjs";
 import _ from "lodash";
 import React, { useState } from "react";
-import { DatePicker, DatePickerInput } from "..";
-import twConfig from "../../tailwind.config";
+import { DatePicker, DatePickerInput } from "../..";
+import twConfig from "../../../tailwind.config";
 
 const DatePickerStories = {
     title: "Data Display/Date & Time/Date Picker",

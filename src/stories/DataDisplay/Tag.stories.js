@@ -35,7 +35,7 @@ const onTagCloseClick = () => {
 
 export const Default = ({ color, size, text, shouldAllowRemoval }) => {
     return (
-        <Tag shouldAllowRemoval={shouldAllowRemoval} color={color} size={size} onClickClose={onTagCloseClick}>
+        <Tag shouldAllowRemoval={shouldAllowRemoval} color={color} size={size} onClose={onTagCloseClick}>
             {text}
         </Tag>
     );
@@ -43,7 +43,7 @@ export const Default = ({ color, size, text, shouldAllowRemoval }) => {
 
 export const BookingTag = () => {
     return (
-        <Tag shouldAllowRemoval color="secondary" size="small" onClickClose={onTagCloseClick}>
+        <Tag shouldAllowRemoval color="secondary" size="small" onClose={onTagCloseClick}>
             Testing Tag
         </Tag>
     );

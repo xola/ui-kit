@@ -1,8 +1,8 @@
 import React from "react";
-import { Alert } from "..";
+import { Alert } from "../..";
 
 const AlertStories = {
-    title: "Components/Alerts & Banners",
+    title: "Data Display/Alerts & Banners",
     component: Alert,
     parameters: {
         docs: {

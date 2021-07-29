@@ -3,11 +3,11 @@ import { Avatar } from "../..";
 
 const avatarColors = [
     "bg-primary-lighter",
-    "bg-yellow-lighter",
-    "bg-green-lighter",
-    "bg-gray",
-    "bg-orange-lighter",
-    "bg-red-lighter",
+    "bg-warning-lighter",
+    "bg-success-lighter",
+    "bg-secondary",
+    "bg-caution-lighter",
+    "bg-danger-lighter",
 ];
 
 const AvatarStories = {

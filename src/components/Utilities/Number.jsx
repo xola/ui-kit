@@ -13,5 +13,5 @@ export const Number = ({ locale = userLocale, maximumFractionDigits = 2, childre
 Number.propTypes = {
     locale: PropTypes.string,
     maximumFractionDigits: PropTypes.number,
-    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
+    children: PropTypes.oneOfType([PropTypes.node]).isRequired,
 };

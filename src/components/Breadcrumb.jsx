@@ -44,5 +44,5 @@ Breadcrumb.Item.displayName = "Breadcrumb.Item";
 Breadcrumb.Item.propTypes = {
     className: PropTypes.string,
     onClick: PropTypes.func,
-    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
+    children: PropTypes.oneOfType([PropTypes.node]).isRequired,
 };

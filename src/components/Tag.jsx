@@ -17,11 +17,13 @@ const sizes = {
     medium: "px-2 py-1 text-base",
 };
 
+// Dashboard - height 25 Padding 6, 8Purchases - 20 padding 3,4
+
 export const Tag = ({
     color = "primary",
     size = "small",
     shouldAllowRemoval = true,
-    onClickClose,
+    onClose,
     className,
     children,
     ...rest
@@ -32,7 +34,7 @@ export const Tag = ({
             {shouldAllowRemoval ? (
                 <CloseIcon
                     className="ml-2 float-right cursor-pointer text-block hover:text-gray-darker"
-                    onClick={onClickClose}
+                    onClick={onClose}
                 />
             ) : null}
         </span>
@@ -44,6 +46,6 @@ Tag.propTypes = {
     color: PropTypes.oneOf(Object.keys(colors)),
     size: PropTypes.oneOf(Object.keys(sizes)),
     shouldAllowRemoval: PropTypes.bool,
-    onClickClose: PropTypes.func,
-    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
+    onClose: PropTypes.func,
+    children: PropTypes.oneOfType([PropTypes.node]).isRequired,
 };

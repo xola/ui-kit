@@ -3,7 +3,7 @@ import { Checkbox } from "../..";
 
 const CheckboxStories = {
     primary: true,
-    title: "Forms/Checkbox",
+    title: "Forms & Fields/Checkbox",
     parameters: {
         docs: {
             description: {

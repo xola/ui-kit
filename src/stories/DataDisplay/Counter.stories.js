@@ -1,9 +1,9 @@
 import React from "react";
-import { Counter } from "..";
+import { Counter } from "../..";
 
 const CounterStories = {
     id: "Counter",
-    title: "Components/Counter",
+    title: "Data Display/Counter",
     component: Counter,
     parameters: {
         docs: {
