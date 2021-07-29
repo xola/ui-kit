@@ -10,7 +10,7 @@ export const Default = () => {
     return (
         <FormGroup>
             <Label>Text</Label>
-            <Input value="Hello, World" />
+            <Input defaultValue="Hello, World" />
         </FormGroup>
     );
 };
@@ -40,7 +40,7 @@ export const Disabled = () => {
     return (
         <FormGroup>
             <Label isDisabled>ID</Label>
-            <Input disabled value="f003e8a95139cd7b70999070838561e0" />
+            <Input disabled defaultValue="f003e8a95139cd7b70999070838561e0" />
         </FormGroup>
     );
 };
@@ -49,7 +49,7 @@ export const WithError = () => {
     return (
         <FormGroup>
             <Label className="text-danger">Text is invalid</Label>
-            <Input isError value="ui@@@xola.com" />
+            <Input isError defaultValue="ui@@@xola.com" />
         </FormGroup>
     );
 };

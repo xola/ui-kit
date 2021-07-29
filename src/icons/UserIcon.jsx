@@ -14,3 +14,5 @@ export const UserIcon = createIcon((props) => (
         </defs>
     </svg>
 ));
+
+UserIcon.displayName = "UserIcon";

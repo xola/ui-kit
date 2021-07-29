@@ -76,7 +76,7 @@ Modal.propTypes = {
     shouldShowClose: PropTypes.bool,
     shouldCloseOnOutsideClick: PropTypes.bool,
     onHide: PropTypes.func.isRequired,
-    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
+    children: PropTypes.oneOfType([PropTypes.node]).isRequired,
 };
 
 const Core = forwardRef(({ width, shouldShowClose, onClick, Header, Body, Footer }, reference) => {
@@ -131,7 +131,7 @@ Modal.Header = ({ children }) => {
 
 Modal.Header.displayName = "Modal.Header";
 Modal.Header.propTypes = {
-    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
+    children: PropTypes.oneOfType([PropTypes.node]).isRequired,
 };
 
 Modal.Body = ({ className, ...rest }) => {

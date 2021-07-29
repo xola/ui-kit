@@ -17,8 +17,8 @@ export const Input = ({ type = "text", size = "medium", isError, className, ...r
                 "disabled:bg-gray-lighter border border-transparent hover:bg-gray-lighter hover:border-black",
                 sizes[size],
                 isError
-                ? "border-danger focus:ring-0 focus:ring-danger focus:border-danger"
-                : "border-gray-light focus:ring-0 focus:ring-primary focus:border-primary",
+                    ? "border-danger focus:ring-0 focus:ring-danger focus:border-danger"
+                    : "border-gray-light focus:ring-0 focus:ring-primary focus:border-primary",
                 className,
             )}
             {...rest}

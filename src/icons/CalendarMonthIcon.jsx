@@ -18,3 +18,5 @@ export const CalendarMonthIcon = createIcon((props) => (
         <path stroke="#222324" strokeLinecap="round" strokeLinejoin="round" d="M4.84 2v2.174M10.492 2v2.174" />
     </svg>
 ));
+
+CalendarMonthIcon.displayName = "CalendarMonthIcon";

@@ -17,3 +17,5 @@ export const ProductIcon = createIcon((props) => (
         />
     </svg>
 ));
+
+ProductIcon.displayName = "ProductIcon";

@@ -29,7 +29,7 @@ Currency.propTypes = {
     locale: PropTypes.string,
     shouldRemoveTrailingZeroes: PropTypes.bool,
     maximumFractionDigits: PropTypes.number,
-    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
+    children: PropTypes.oneOfType([PropTypes.node]).isRequired,
 };
 
 Currency.Round = ({ currency, children }) => {
@@ -39,7 +39,7 @@ Currency.Round = ({ currency, children }) => {
 
 Currency.Round.propTypes = {
     currency: PropTypes.string,
-    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
+    children: PropTypes.oneOfType([PropTypes.node]).isRequired,
 };
 
 Currency.Split = ({ currency = "USD", locale = userLocale, children }) => {
@@ -74,5 +74,5 @@ Currency.Split = ({ currency = "USD", locale = userLocale, children }) => {
 Currency.Split.propTypes = {
     currency: PropTypes.string,
     locale: PropTypes.string,
-    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
+    children: PropTypes.oneOfType([PropTypes.node]).isRequired,
 };

@@ -46,7 +46,7 @@ export const Colors = () => {
 };
 
 export const States = () => {
-    return <div className="space-x-4">// TODO: Disabled & Selected state</div>;
+    return <div className="space-x-4" />; // TODO: Disabled & Selected state</div>;
 };
 
 export const WithIcons = () => {

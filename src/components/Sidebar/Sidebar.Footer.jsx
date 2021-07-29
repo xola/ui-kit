@@ -13,5 +13,5 @@ export const SidebarFooter = ({ children, ...rest }) => {
 SidebarFooter.displayName = "Sidebar.Footer";
 
 SidebarFooter.propTypes = {
-    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
+    children: PropTypes.oneOfType([PropTypes.node]).isRequired,
 };

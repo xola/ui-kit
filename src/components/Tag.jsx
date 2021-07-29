@@ -47,5 +47,5 @@ Tag.propTypes = {
     size: PropTypes.oneOf(Object.keys(sizes)),
     shouldAllowRemoval: PropTypes.bool,
     onClose: PropTypes.func,
-    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
+    children: PropTypes.oneOfType([PropTypes.node]).isRequired,
 };

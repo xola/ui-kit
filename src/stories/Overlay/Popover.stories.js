@@ -11,7 +11,6 @@ const PopoverStories = {
     args: {
         trigger: "mouseenter",
         placement: "right",
-        size: "large",
         delay: 0,
         maxWidth: 350,
         duration: [300, 250],
@@ -30,12 +29,6 @@ const PopoverStories = {
             "select",
             ["top", "bottom", "left", "right", "auto"],
             `Where to place the tooltip. [More in the docs](${documentationUrl})`,
-        ),
-        size: getArgument(
-            "large",
-            "select",
-            ["small", "medium", "large"],
-            "The expected size of this popover which will defined the appropriate padding for the *content*",
         ),
         delay: getArgument(
             0,
@@ -93,7 +86,7 @@ export const Default = ({ demoText = "Hello World", ...rest }) => {
 
 export const NoTitle = ({ demoText = "Detailed", ...rest }) => {
     const content = (
-        <Popover.Content>
+        <Popover.Content className="p-4">
             <dl className="space-y-2 text-sm">
                 <div className="grid grid-cols-2 gap-4">
                     <dt className="font-bold">Demo Request</dt>

@@ -6,3 +6,5 @@ export const MoveIcon = createIcon((props) => (
         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" d="M2.5 4h10M2.5 7h10M2.5 10h10" />
     </svg>
 ));
+
+MoveIcon.displayName = "MoveIcon";
