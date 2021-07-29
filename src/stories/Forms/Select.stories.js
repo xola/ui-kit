@@ -3,7 +3,7 @@ import { Select, Label, FormGroup } from "../..";
 
 const SelectStories = {
     primary: true,
-    title: "Forms/Select",
+    title: "Forms & Fields/Select",
 };
 
 export const Default = () => {
@@ -26,7 +26,7 @@ export const Sizes = () => {
             <FormGroup>
                 <Label>Small</Label>
 
-                <Select size="small" isNative>
+                <Select isNative size="small">
                     <option value={1}>One</option>
                     <option value={2}>Two</option>
                     <option value={3}>Three</option>
@@ -36,7 +36,7 @@ export const Sizes = () => {
             <FormGroup>
                 <Label>Medium</Label>
 
-                <Select size="medium" isNative>
+                <Select isNative size="medium">
                     <option value={1}>One</option>
                     <option value={2}>Two</option>
                     <option value={3}>Three</option>
@@ -46,7 +46,7 @@ export const Sizes = () => {
             <FormGroup>
                 <Label>Large</Label>
 
-                <Select size="large" isNative>
+                <Select isNative size="large">
                     <option value={1}>One</option>
                     <option value={2}>Two</option>
                     <option value={3}>Three</option>

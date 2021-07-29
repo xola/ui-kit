@@ -3,7 +3,7 @@ import { Textarea, Label, FormGroup } from "../..";
 
 const TextareaStories = {
     primary: true,
-    title: "Forms/Textarea",
+    title: "Forms & Fields/Textarea",
 };
 
 export const Default = () => {
