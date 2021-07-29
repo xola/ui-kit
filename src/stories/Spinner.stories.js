@@ -2,7 +2,7 @@ import React from "react";
 import { Spinner } from "..";
 
 const SpinnerStories = {
-    title: "Components/Spinner",
+    title: "Basic/Spinner",
     component: Spinner,
     args: {
         color: "secondary",

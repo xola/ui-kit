@@ -2,7 +2,7 @@ import React from "react";
 import { Breadcrumb } from "..";
 
 const BreadcrumbStories = {
-    title: "Components/Breadcrumb",
+    title: "Basic/Breadcrumb",
     component: Breadcrumb,
     parameters: {
         docs: {

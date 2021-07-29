@@ -4,7 +4,7 @@ import { Switch } from "../..";
 
 const SwitchStories = {
     primary: true,
-    title: "Forms/Switch",
+    title: "Forms & Fields/Switch",
     parameters: {
         docs: {
             description: {

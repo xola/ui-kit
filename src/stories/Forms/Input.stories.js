@@ -3,7 +3,7 @@ import { Input, Label, FormGroup } from "../..";
 
 const InputStories = {
     primary: true,
-    title: "Forms/Input",
+    title: "Forms & Fields/Input",
 };
 
 export const Default = () => {

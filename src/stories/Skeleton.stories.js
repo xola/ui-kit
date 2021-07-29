@@ -2,7 +2,7 @@ import React from "react";
 import { Skeleton } from "..";
 
 const SkeletonStories = {
-    title: "Components/Skeleton",
+    title: "Basic/Skeleton",
     component: Skeleton,
 };
 

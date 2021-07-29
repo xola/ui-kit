@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Tabs } from "..";
 
 const TabsStories = {
-    title: "Components/Tabs",
+    title: "Basic/Tabs",
     component: Tabs,
     parameters: {
         docs: {
