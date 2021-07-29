@@ -36,6 +36,7 @@
         "mathjs": "^9.4.2",
         "prop-types": "^15.7.2",
         "react-day-picker": "^7.4.10",
+        "react-hot-toast": "^2.0.0",
         "react-hotkeys-hook": "^3.3.1",
         "tippy.js": "^6.3.1"
     },

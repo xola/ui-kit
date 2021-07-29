@@ -40,6 +40,7 @@ export { Number } from "./components/Utilities/Number";
 export { almostZero, numberFormat, roundNumber } from "./helpers/numbers";
 export { getSymbol, isZeroDecimal } from "./helpers/currency";
 export { isOSX } from "./helpers/browser";
+export { flash } from "./helpers/flash";
 
 // Icons.
 export { AddSquareIcon } from "./icons/AddSquareIcon";

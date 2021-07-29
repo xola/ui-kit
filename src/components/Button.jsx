@@ -4,7 +4,7 @@ import React from "react";
 
 const colors = {
     primary: "bg-primary hover:bg-primary-dark disabled:bg-primary border-transparent text-white",
-    secondary: "bg-secondary hover:bg-secondary-dark disabled:bg-secondary border-transparent text-white",
+    secondary: "bg-secondary hover:bg-secondary-dark disabled:bg-secondary border-transparent",
     success: "bg-success hover:bg-success-dark disabled:bg-success border-transparent text-white",
     warning: "bg-warning hover:bg-warning-dark disabled:bg-warning border-transparent text-white",
     danger: "bg-danger hover:bg-danger-dark disabled:bg-danger border-transparent text-white",
