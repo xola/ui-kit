@@ -28,7 +28,6 @@ export { Skeleton } from "./components/Skeleton";
 export { Drawer } from "./components/Drawer";
 export { Key } from "./components/Key";
 export { Login } from "./components/Screens/Login";
-export { Pill } from "./components/Pill";
 export { DatePicker } from "./components/Date/DatePicker";
 export { DatePickerInput } from "./components/Date/DatePickerInput";
 

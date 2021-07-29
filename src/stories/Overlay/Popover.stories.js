@@ -75,7 +75,7 @@ function getArgument(defaultValue, type, options, description, summary = null) {
 
 export const Default = ({ demoText = "Hello World", ...rest }) => {
     const content = (
-        <Popover.Content className="space-y-2">
+        <Popover.Content className="p-4 space-y-2">
             <p className="p1 font-bold">Popover Title</p>
             <p className="p2">And here is some amazing content and it is very engaging. Right?</p>
             <p className="p2">Here is some more because I am crazy</p>
