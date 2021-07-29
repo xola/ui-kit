@@ -3,7 +3,7 @@ import { Counter } from "..";
 
 const CounterStories = {
     id: "Counter",
-    title: "Basic/Counter",
+    title: "Data Display/Counter",
     component: Counter,
     parameters: {
         docs: {

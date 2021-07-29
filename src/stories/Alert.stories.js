@@ -2,7 +2,7 @@ import React from "react";
 import { Alert } from "..";
 
 const AlertStories = {
-    title: "Basic/Alerts & Banners",
+    title: "Data Display/Alerts & Banners",
     component: Alert,
     parameters: {
         docs: {

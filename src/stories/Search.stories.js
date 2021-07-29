@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Search } from "..";
 
 const SearchStories = {
-    title: "Basic/Search",
+    title: "Other/Search",
 };
 
 const fetchUsers = async (search) => {

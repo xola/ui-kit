@@ -2,7 +2,7 @@ import React from "react";
 import { CheckIcon, ExportIcon, Sidebar, StarIcon, UserIcon } from "..";
 
 const SidebarStories = {
-    title: "Basic/Sidebar",
+    title: "Navigation/Sidebar",
     component: Sidebar,
 };
 
