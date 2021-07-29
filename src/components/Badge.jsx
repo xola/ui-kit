@@ -13,7 +13,7 @@ const colors = {
 
 const sizes = {
     small: "text-sm px-2 py-0.75 leading-p3",
-    large: "text-base px-3 py-1.5 leading-p1",
+    large: "text-base px-3 py-1.5 leading-none",
 };
 
 export const Badge = ({ className, color = "primary", size = "small", icon, children, ...rest }) => {
