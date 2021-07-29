@@ -23,7 +23,7 @@ export const Tag = ({
     color = "primary",
     size = "small",
     shouldAllowRemoval = true,
-    onClickClose,
+    onClose,
     className,
     children,
     ...rest
@@ -34,7 +34,7 @@ export const Tag = ({
             {shouldAllowRemoval ? (
                 <CloseIcon
                     className="ml-2 float-right cursor-pointer text-block hover:text-gray-darker"
-                    onClick={onClickClose}
+                    onClick={onClose}
                 />
             ) : null}
         </span>
@@ -46,6 +46,6 @@ Tag.propTypes = {
     color: PropTypes.oneOf(Object.keys(colors)),
     size: PropTypes.oneOf(Object.keys(sizes)),
     shouldAllowRemoval: PropTypes.bool,
-    onClickClose: PropTypes.func,
+    onClose: PropTypes.func,
     children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
 };

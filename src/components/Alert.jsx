@@ -12,9 +12,9 @@ const colors = {
     caution: "bg-caution-lighter text-black",
 };
 
-export const Alert = ({ className, shouldClose = false, color = "primary", onClickClose, children, ...rest }) => {
-    if (shouldClose && !onClickClose) {
-        console.warn("If you like to close the alert, please define `onClickClose`");
+export const Alert = ({ className, shouldClose = false, color = "primary", onClose, children, ...rest }) => {
+    if (shouldClose && !onClose) {
+        console.warn("If you like to close the alert, please define `onClose`");
     }
 
     return (
@@ -22,7 +22,7 @@ export const Alert = ({ className, shouldClose = false, color = "primary", onCli
             <span className="w-full">{children}</span>
             {shouldClose && (
                 <span className="flex pt-1 cursor-pointer group items-top h-w-screen">
-                    <CloseIcon className="inline group-hover:text-gray-dark" onClick={onClickClose} />
+                    <CloseIcon className="inline group-hover:text-gray-dark" onClick={onClose} />
                 </span>
             )}
         </div>
@@ -33,6 +33,6 @@ Alert.propTypes = {
     className: PropTypes.string,
     shouldClose: PropTypes.bool,
     color: PropTypes.oneOf(Object.keys(colors)),
-    onClickClose: PropTypes.func,
+    onClose: PropTypes.func,
     children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
 };

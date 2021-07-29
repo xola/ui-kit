@@ -3,7 +3,7 @@ import { StackIcon, EditIcon, BoxIcon, Pill } from "..";
 
 const PillStories = {
     id: "Pill",
-    title: "Components/Pill",
+    title: "Data Display/Pill",
     component: Pill,
     args: {
         color: "primary",

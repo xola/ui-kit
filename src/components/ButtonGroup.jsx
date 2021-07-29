@@ -8,7 +8,7 @@ const sizes = {
     large: "px-4 py-3.5 text-lg",
 };
 
-const ButtonGroup = ({ size, value, shouldHideInactiveText = false, onChange, children, ...rest }) => {
+const ButtonGroup = ({ size, value, isCollapsed = false, onChange, children, ...rest }) => {
     return (
         <span className="inline-flex whitespace-nowrap" {...rest}>
             {Children.map(children, (child, index) => {
@@ -21,7 +21,7 @@ const ButtonGroup = ({ size, value, shouldHideInactiveText = false, onChange, ch
                     buttonProps.isActive = value === index;
                 }
 
-                if (shouldHideInactiveText && value >= 0 && value !== index) {
+                if (isCollapsed && value >= 0 && value !== index) {
                     buttonProps.shouldShowText = false;
                 }
 
@@ -38,7 +38,7 @@ const ButtonGroup = ({ size, value, shouldHideInactiveText = false, onChange, ch
 ButtonGroup.propTypes = {
     size: PropTypes.oneOf(Object.keys(sizes)).isRequired,
     value: PropTypes.number.isRequired,
-    shouldHideInactiveText: PropTypes.bool,
+    isCollapsed: PropTypes.bool,
     onChange: PropTypes.func.isRequired,
     children: PropTypes.node.isRequired,
 };
