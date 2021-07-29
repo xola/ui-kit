@@ -18,7 +18,7 @@ export const Alert = ({ className, shouldClose = false, color = "primary", onClo
     }
 
     return (
-        <div className={clsx("flex rounded text-base px-3 py-3", colors[color], className)} {...rest}>
+        <div className={clsx("flex rounded text-base px-3 py-3 leading-4", colors[color], className)} {...rest}>
             <span className="w-full">{children}</span>
             {shouldClose && (
                 <span className="flex pt-1 cursor-pointer group items-top h-w-screen">
