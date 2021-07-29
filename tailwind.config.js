@@ -138,6 +138,17 @@ module.exports = {
             "3xl": "38px", // Figma - H0
         },
 
+        borderRadius: {
+            none: "0px",
+            DEFAULT: "4px",
+            sm: "2px",
+            md: "6px",
+            lg: "8px",
+            xl: "12px",
+            "2xl": "16px",
+            full: "9999px",
+        },
+
         // Figma: https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%F0%9F%9B%A0-Xola-DS-Desktop-Master-%F0%9F%9B%A0?node-id=1885%3A51905
         extend: {
             fontFamily: {
@@ -159,6 +170,7 @@ module.exports = {
                 3: "12px",
                 3.5: "14px",
                 4: "16px",
+                4.5: "18px",
                 5: "20px",
                 6: "24px",
                 7: "28px",

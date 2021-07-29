@@ -45,6 +45,14 @@ export const Colors = () => {
     );
 };
 
+export const States = () => {
+    return (
+        <div className="space-x-4">
+            // TODO: Disabled & Selected state
+        </div>
+    );
+};
+
 export const WithIcons = () => {
     return (
         <div className="space-x-4">
@@ -61,7 +69,7 @@ export const WithIcons = () => {
 
 export const AsLink = () => {
     return (
-        <Button as="a" href="https://xola.com" target="_blank" rel="noopener" size="medium">
+        <Button as="a" href="https://xola.com" target="_blank" rel="noopener" size="small">
             Xola Website
         </Button>
     );

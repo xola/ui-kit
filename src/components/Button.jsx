@@ -13,10 +13,12 @@ const colors = {
     link: "border-transparent hover:underline",
 };
 
+// Adhoc top padding is to get it to nice round heights (Barth feedback)
 const sizes = {
-    small: "px-3 py-1.5 text-sm",
-    medium: "px-4 py-2 text-base",
-    large: "px-5 py-2.5 text-lg",
+    // tiny: "px-3 py-[7px] text-sm leading-3.5", // TODO:
+    small: "px-3 py-[7px] text-sm leading-3.5", // height 30px
+    medium: "px-4 py-[11px] text-base leading-4", // height 40px
+    large: "px-6 py-[15px] text-md leading-4.5", // height 50px
 };
 
 const buttonBaseClassName = "transition-colors border focus:ring disabled:opacity-60 disabled:cursor-default";
@@ -36,7 +38,7 @@ export const Button = ({
             className={clsx(
                 className,
                 buttonBaseClassName,
-                "inline-flex justify-center items-center font-semibold rounded",
+                "inline-flex justify-center items-center font-semibold rounded tracking-tightest",
                 colors[color],
                 sizes[size],
             )}
