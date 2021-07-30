@@ -56,12 +56,12 @@ export const flash = {
                 appear
                 as={Fragment}
                 show={toastObject.visible}
-                enter="transform transition ease-in-out duration-500"
-                enterFrom="-translate-y-full opacity-0"
-                enterTo="translate-y-0 filter opacity-100"
-                leave="transform transition ease-in-out duration-300"
-                leaveFrom="translate-y-0 opacity-100"
-                leaveTo="-translate-y-full opacity-0"
+                enter="transition transform duration-500 ease-out"
+                enterFrom="-translate-y-full !opacity-0"
+                enterTo="translate-y-0 !opacity-100"
+                leave="transition transform duration-500 ease-in"
+                leaveFrom="!opacity-100"
+                leaveTo="!opacity-0"
             >
                 <div key={toastObject.id} className={className}>
                     <div className="w-11/12">{text}</div>
