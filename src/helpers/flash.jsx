@@ -58,9 +58,9 @@ export const flash = {
                 show={toastObject.visible}
                 enter="transition transform duration-500 ease-out"
                 enterFrom="-translate-y-full !opacity-0"
-                enterTo="translate-y-0 !opacity-100"
+                enterTo="translate-y-0 !opacity-90"
                 leave="transition transform duration-500 ease-in"
-                leaveFrom="!opacity-100"
+                leaveFrom="!opacity-90"
                 leaveTo="!opacity-0"
             >
                 <div key={toastObject.id} className={className}>
