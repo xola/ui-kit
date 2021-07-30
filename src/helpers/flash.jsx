@@ -36,6 +36,7 @@ export const flash = {
         }
 
         const classNames = flash.getStyles(color, size, className, canClose);
+        console.debug("Toast props", finalProps);
         toast.custom(flash.container.bind(this, text, classNames, canClose ? onClose : null), finalProps);
     },
 
@@ -44,7 +45,6 @@ export const flash = {
             colors[color],
             sizes[size],
             "flex opacity-90 ring-1 ring-black ring-opacity-5 rounded text-white pointer-events-auto",
-            canClose ? "pr-5" : null,
             className,
         );
     },
@@ -64,10 +64,10 @@ export const flash = {
                 leaveTo="-translate-y-full opacity-0"
             >
                 <div key={toastObject.id} className={className}>
-                    {text}
+                    <div className="w-11/12">{text}</div>
                     {onClose ? (
                         <div
-                            className="absolute top-1 right-2 p-1 text-white hover:text-black cursor-pointer"
+                            className="flex justify-center items-center pl-3 text-white hover:text-black cursor-pointer"
                             onClick={onClose.bind(this, toastObject)}
                         >
                             <CloseIcon />
