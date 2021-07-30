@@ -12,7 +12,7 @@ const FlashStories = {
         },
     },
     args: {
-        text: "Toast",
+        text: "Your booking was successfully created",
         size: "medium",
         color: "success",
         duration: 3000,
@@ -26,13 +26,13 @@ const FlashStories = {
         },
         size: {
             options: ["small", "medium", "large"],
-            control: { type: "radio" },
+            control: { type: "inline-radio" },
             table: {
                 defaultValue: { summary: "medium" },
             },
         },
         color: {
-            options: ["primary", "success", "warning", "danger"],
+            options: ["primary", "secondary", "success", "warning", "danger"],
             control: { type: "select" },
             table: {
                 defaultValue: { summary: "primary" },
@@ -77,6 +77,11 @@ export const Default = (props) => {
             <Toaster />
         </div>
     );
+};
+
+export const ViewContainer = (props) => {
+    const classes = flash.getStyles(props.color, props.size, "relative", true);
+    return flash.container(props.text, classes, props.canClose ? () => {} : null, { id: "foo", visible: true });
 };
 
 export default FlashStories;

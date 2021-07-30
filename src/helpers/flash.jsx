@@ -2,6 +2,7 @@ import { Transition } from "@headlessui/react";
 import clsx from "clsx";
 import React, { Fragment } from "react";
 import toast from "react-hot-toast";
+import { CloseIcon } from "../icons/CloseIcon";
 
 const colors = {
     primary: "bg-primary",
@@ -13,9 +14,9 @@ const colors = {
 };
 
 const sizes = {
-    small: "px-3 py-2 text-sm leading-3.5 shadow",
-    medium: "px-5 py-3 text-base leading-4 shadow-md",
-    large: "px-7 py-4 text-lg leading-4.5 shadow-lg",
+    small: "px-3 py-2 text-sm leading-3.5 shadow max-w-[200px]",
+    medium: "px-4 py-3 text-base leading-4 shadow-md max-w-[400px]",
+    large: "px-4 py-4 text-lg leading-4.5 shadow-lg max-w-xl",
 };
 
 const defaultProps = {
@@ -29,21 +30,23 @@ export const flash = {
             console.warn("If you like to close the alert, please define `onClose`");
         }
 
-        const classNames = clsx(
-            colors[color],
-            sizes[size],
-            "flex min-w-[150px] max-w-md opacity-90 ring-1 ring-black ring-opacity-5 rounded text-white pointer-events-auto",
-            canClose ? "pr-5" : null,
-            className,
-        );
         const finalProps = { ...defaultProps, ...rest };
         if (!canClose) {
             finalProps.duration = Number.POSITIVE_INFINITY;
         }
 
-        console.log("Final", finalProps);
-
+        const classNames = flash.getStyles(color, size, className, canClose);
         toast.custom(flash.container.bind(this, text, classNames, canClose ? onClose : null), finalProps);
+    },
+
+    getStyles(color, size, className, canClose) {
+        return clsx(
+            colors[color],
+            sizes[size],
+            "flex opacity-90 ring-1 ring-black ring-opacity-5 rounded text-white pointer-events-auto",
+            canClose ? "pr-5" : null,
+            className,
+        );
     },
 
     container(text, className, onClose, toastObject) {
@@ -64,10 +67,10 @@ export const flash = {
                     {text}
                     {onClose ? (
                         <div
-                            className="absolute top-1 right-2 text-md text-white hover:font-semibold cursor-pointer"
+                            className="absolute top-1 right-2 p-1 text-white hover:text-black cursor-pointer"
                             onClick={onClose.bind(this, toastObject)}
                         >
-                            ×
+                            <CloseIcon />
                         </div>
                     ) : null}
                 </div>
