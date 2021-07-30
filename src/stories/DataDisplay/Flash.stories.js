@@ -53,8 +53,8 @@ const FlashStories = {
 };
 
 const toastMe = (props) => {
-    props.onClose = (toast) => {
-        console.log("Closing", toast.id);
+    props.onClose = (event_, toast) => {
+        console.debug("Closing", toast.id, event_);
         flash.dismiss(toast.id);
     };
 

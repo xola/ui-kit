@@ -44,17 +44,19 @@ export const flash = {
         toast.custom(flash.container.bind(this, text, classNames, canClose ? onClose : null), finalProps);
     },
 
-    getStyles(color, size, className, canClose) {
+    getStyles(color, size, className) {
         return clsx(
+            "flex opacity-90 ring-1 ring-black ring-opacity-5 rounded text-white pointer-events-auto",
             colors[color],
             sizes[size],
-            "flex opacity-90 ring-1 ring-black ring-opacity-5 rounded text-white pointer-events-auto",
             className,
         );
     },
 
     container(text, className, onClose, toastObject) {
         console.debug(`Toasting "${text}" ${toastObject.id}`, toastObject.visible);
+        const onCloseWrapper = (event) => onClose(event, toastObject);
+
         return (
             <Transition
                 appear
@@ -72,7 +74,7 @@ export const flash = {
                     {onClose ? (
                         <div
                             className="flex justify-center items-center pl-3 text-white hover:text-black cursor-pointer"
-                            onClick={onClose.bind(this, toastObject)}
+                            onClick={onCloseWrapper}
                         >
                             <CloseIcon />
                         </div>
