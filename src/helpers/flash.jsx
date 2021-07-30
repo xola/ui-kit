@@ -22,8 +22,12 @@ const sizes = {
 const defaultProps = {
     duration: 3000,
     position: "top-right",
+    reverseOrder: false,
 };
 
+/**
+ * React Hot Toast https://react-hot-toast.com/docs
+ */
 export const flash = {
     show({ text, size = "medium", color = "success", className, canClose = true, onClose, children, ...rest }) {
         if (canClose && !onClose) {
@@ -64,7 +68,7 @@ export const flash = {
                 leaveTo="!opacity-0"
             >
                 <div key={toastObject.id} className={className}>
-                    <div className="w-11/12">{text}</div>
+                    <div className="w-full">{text}</div>
                     {onClose ? (
                         <div
                             className="flex justify-center items-center pl-3 text-white hover:text-black cursor-pointer"
