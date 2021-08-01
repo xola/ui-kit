@@ -9,7 +9,7 @@ export const PopoverList = ({ placement = "bottom", className, children, ...rest
     const innerContent = childrenArray.filter((child) => child.type !== PopoverList.Item);
 
     const content = (
-        <Popover.Content className="divide-y divide-solid divide-gray-lighter p-0">{items}</Popover.Content>
+        <Popover.Content className="p-0 divide-y divide-solid divide-gray-lighter">{items}</Popover.Content>
     );
 
     return (

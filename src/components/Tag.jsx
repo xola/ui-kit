@@ -33,7 +33,7 @@ export const Tag = ({
             {children}
             {shouldAllowRemoval ? (
                 <CloseIcon
-                    className="ml-2 float-right cursor-pointer text-block hover:text-gray-darker"
+                    className="float-right ml-2 cursor-pointer text-block hover:text-gray-darker"
                     onClick={onClose}
                 />
             ) : null}
