@@ -3,7 +3,7 @@ import twConfig from "../../../tailwind.config";
 
 export const Colors = twConfig.theme.colors;
 
-export const fontStyle = {
+const fontStyle = {
     color: Colors.gray.darker,
     fontSize: twConfig.theme.fontSize.sm, // 12px
     fontWeight: 400,

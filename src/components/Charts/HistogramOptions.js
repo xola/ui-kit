@@ -1,5 +1,6 @@
 import _ from "lodash";
-import { BaseChartOptions, Colors, fontStyle } from "./BaseChartOptions";
+import twConfig from "../../../tailwind.config";
+import { BaseChartOptions, Colors } from "./BaseChartOptions";
 
 /**
  * This is the base Histogram chart. A histogram can be a line, column or a bar view. This is the master file
@@ -59,32 +60,11 @@ export const HistogramOptions = _.merge({}, BaseChartOptions, {
             fontSize: "14px",
             color: "#666666",
             textTransform: "capitalize",
-            fontFamily: fontStyle.fontFamily,
+            fontFamily: twConfig.theme.extend.fontFamily.sans,
         },
         itemMarginBottom: 5,
         align: "center", // Center it in the chart canvas
         layout: "vertical", // Legend items are shown as a list
         borderWidth: 0,
-    },
-    responsive: {
-        rules: [
-            {
-                condition: {
-                    maxWidth: 630,
-                },
-                chartOptions: {
-                    yAxis: {
-                        labels: {
-                            align: "left",
-                            x: 0,
-                            y: -2,
-                        },
-                        title: {
-                            text: "",
-                        },
-                    },
-                },
-            },
-        ],
     },
 });

@@ -1,5 +1,6 @@
 import _ from "lodash";
-import { BaseChartOptions, Colors, fontStyle } from "./BaseChartOptions";
+import twConfig from "../../../tailwind.config";
+import { BaseChartOptions, Colors } from "./BaseChartOptions";
 
 export const PieOptions = _.merge({}, BaseChartOptions, {
     chart: {
@@ -29,13 +30,13 @@ export const PieOptions = _.merge({}, BaseChartOptions, {
             // This is the navigation for the legend. A scrollable list
             activeColor: Colors.gray.darker,
             animation: "true",
-            style: fontStyle,
+            style: twConfig.theme.extend.fontFamily.sans,
         },
         padding: 5,
         backgroundColor: Colors.white, // For debugging
         itemMarginTop: 1,
         itemMarginBottom: 3,
-        itemStyle: fontStyle,
+        itemStyle: twConfig.theme.extend.fontFamily.sans,
         style: { overflow: "hidden" },
         align: "left",
         layout: "horizontal",
