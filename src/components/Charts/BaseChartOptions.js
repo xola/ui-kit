@@ -1,5 +1,6 @@
 import _ from "lodash";
-import twConfig from "../../../tailwind.config";
+// import twConfig from "../../../tailwind.config";
+const twConfig = require("../../../tailwind.config")
 
 export const Colors = twConfig.theme.colors;
 

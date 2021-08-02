@@ -1,5 +1,5 @@
 import _ from "lodash";
-import twConfig from "../../../tailwind.config";
+const twConfig = require("../../../tailwind.config")
 import { BaseChartOptions, Colors } from "./BaseChartOptions";
 
 export const PieOptions = _.merge({}, BaseChartOptions, {
