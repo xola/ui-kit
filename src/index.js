@@ -44,6 +44,11 @@ export { getSymbol, isZeroDecimal } from "./helpers/currency";
 export { isOSX } from "./helpers/browser";
 export { flash } from "./helpers/flash";
 
+// Chart options
+export { BaseChartOptions } from "./components/Charts/BaseChartOptions";
+export { HistogramOptions } from "./components/Charts/HistogramOptions";
+export { PieOptions } from "./components/Charts/PieOptions";
+
 // Icons.
 export { AddSquareIcon } from "./icons/AddSquareIcon";
 export { ArrowRightIcon } from "./icons/ArrowRightIcon";
