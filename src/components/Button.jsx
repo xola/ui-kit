@@ -9,7 +9,7 @@ const colors = {
     warning: "bg-warning hover:bg-warning-dark disabled:bg-warning border-transparent text-white",
     danger: "bg-danger hover:bg-danger-dark disabled:bg-danger border-transparent text-white",
     outline:
-        "hover:bg-secondary-lighter disabled:bg-secondary-light border-secondary-light hover:border-black disabled:border-transparent disabled:text-gray-dark",
+        "bg-white hover:bg-secondary-lighter disabled:bg-secondary-light border-secondary-light hover:border-black disabled:border-transparent disabled:text-gray-dark",
     link: "border-transparent hover:underline",
 };
 
