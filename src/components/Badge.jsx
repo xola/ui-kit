@@ -46,5 +46,5 @@ Badge.propTypes = {
     color: PropTypes.oneOf(Object.keys(colors)),
     size: PropTypes.oneOf(Object.keys(sizes)),
     icon: PropTypes.element,
-    children: PropTypes.oneOfType([PropTypes.node]).isRequired,
+    children: PropTypes.node.isRequired,
 };

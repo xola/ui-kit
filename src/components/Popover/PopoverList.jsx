@@ -22,7 +22,7 @@ export const PopoverList = ({ placement = "bottom", className, children, ...rest
 PopoverList.propTypes = {
     placement: PropTypes.string,
     className: PropTypes.string,
-    children: PropTypes.oneOfType([PropTypes.node]).isRequired,
+    children: PropTypes.node.isRequired,
 };
 
 const Item = ({ name, children, className, onClickItem, ...rest }) => {
@@ -46,7 +46,7 @@ const Item = ({ name, children, className, onClickItem, ...rest }) => {
 Item.displayName = "Popover.Item";
 Item.propTypes = {
     name: PropTypes.string.isRequired,
-    children: PropTypes.oneOfType([PropTypes.node]).isRequired,
+    children: PropTypes.node.isRequired,
     className: PropTypes.string,
     onClickItem: PropTypes.func.isRequired,
 };
