@@ -1,8 +1,7 @@
 import dayjs from "dayjs";
 import _ from "lodash";
 import React, { useState } from "react";
-import { DatePicker, DatePickerInput } from "../..";
-import twConfig from "../../../tailwind.config";
+import { DatePicker, DatePickerInput, theme } from "../..";
 
 const DatePickerStories = {
     title: "Data Display/Date & Time/Date Picker",
@@ -18,7 +17,7 @@ const DatePickerStories = {
 };
 
 const today = dayjs().set("date", 1).toDate();
-const Colors = twConfig.theme.colors;
+const { colors } = theme;
 
 export const Default = () => {
     return <DatePicker />;
@@ -65,15 +64,15 @@ export const ModifyCellStyle = () => {
 
     const modifiersStyles = {
         thursdays: {
-            color: Colors.white,
-            backgroundColor: Colors.blue.light,
+            color: colors.white,
+            backgroundColor: colors.blue.light,
         },
         waitlist: {
-            color: Colors.white,
-            backgroundColor: Colors.yellow.DEFAULT,
+            color: colors.white,
+            backgroundColor: colors.yellow.DEFAULT,
         },
         outside: {
-            backgroundColor: Colors.white,
+            backgroundColor: colors.white,
         },
     };
 

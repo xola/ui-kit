@@ -1,16 +1,15 @@
 import _ from "lodash";
-// import twConfig from "../../../tailwind.config";
-const twConfig = require("../../../tailwind.config")
+import { theme } from "../../theme";
 
-export const Colors = twConfig.theme.colors;
+const { colors } = theme;
 
 const fontStyle = {
-    color: Colors.gray.darker,
-    fontSize: twConfig.theme.fontSize.sm, // 12px
+    color: colors.gray.darker,
+    fontSize: theme.fontSize.sm, // 12px
     fontWeight: 400,
     cursor: "pointer",
     textOverflow: "ellipsis",
-    fontFamily: twConfig.theme.extend.fontFamily.sans,
+    fontFamily: theme.extend.fontFamily.sans,
 };
 
 /**
@@ -25,29 +24,29 @@ export const BaseChartOptions = {
         spacingLeft: 0,
     },
     colors: [
-        Colors.primary,
-        Colors.success,
-        Colors.warning,
-        Colors.caution,
-        Colors.danger,
-        Colors.blue.darker,
-        Colors.green.darker,
-        Colors.red.darker,
-        Colors.yellow.darker,
-        Colors.orange.darker,
+        colors.primary,
+        colors.success,
+        colors.warning,
+        colors.caution,
+        colors.danger,
+        colors.blue.darker,
+        colors.green.darker,
+        colors.red.darker,
+        colors.yellow.darker,
+        colors.orange.darker,
     ],
     xAxis: {
-        title: { style: _.merge({}, fontStyle, { color: Colors.black }) },
+        title: { style: _.merge({}, fontStyle, { color: colors.black }) },
         labels: { style: fontStyle },
     },
     yAxis: {
-        title: { style: _.merge({}, fontStyle, { color: Colors.black }) },
+        title: { style: _.merge({}, fontStyle, { color: colors.black }) },
         labels: { style: fontStyle },
     },
     tooltip: {
         enabled: true,
-        backgroundColor: Colors.black,
-        borderColor: Colors.black,
+        backgroundColor: colors.black,
+        borderColor: colors.black,
         borderRadius: 4,
         borderWidth: 1,
         valueDecimals: 2,
@@ -61,7 +60,7 @@ export const BaseChartOptions = {
     },
     title: {
         text: "", // No title by default
-        style: _.merge({}, fontStyle, { color: Colors.black, fontSize: "18px", fontWeight: 600 }),
+        style: _.merge({}, fontStyle, { color: colors.black, fontSize: "18px", fontWeight: 600 }),
     },
     plotOptions: {
         series: {
