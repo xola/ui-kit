@@ -151,3 +151,4 @@ export { GuestIcon } from "./icons/GuestIcon";
 export { BriefcaseIcon } from "./icons/BriefcaseIcon";
 export { DisputesIcon } from "./icons/DisputesIcon";
 export { AnnounceIcon } from "./icons/AnnounceIcon";
+export { DownArrowIcon } from "./icons/DownArrowIcon";
