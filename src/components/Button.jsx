@@ -20,7 +20,8 @@ const sizes = {
     large: "px-6 py-4 text-md leading-md", // 50px
 };
 
-const buttonBaseClassName = "rounded transition-colors border focus:ring disabled:opacity-60 disabled:cursor-default";
+const buttonBaseClassName =
+    "inline-flex rounded transition-colors border focus:ring disabled:opacity-60 disabled:cursor-default";
 
 export const Button = ({
     as: Tag = "button",
@@ -35,11 +36,11 @@ export const Button = ({
     return (
         <Tag
             className={clsx(
-                className,
                 buttonBaseClassName,
-                "inline-flex justify-center items-center font-semibold",
+                "justify-center items-center font-semibold",
                 colors[color],
                 sizes[size],
+                className,
             )}
             {...rest}
         >
@@ -60,9 +61,14 @@ Button.propTypes = {
     children: PropTypes.node.isRequired,
 };
 
+const iconSizes = {
+    ...sizes,
+    medium: "px-3 py-3 text-base leading-base", // 40px
+};
+
 const Icon = ({ className, as: Tag = "button", color = "primary", size = "medium", children: icon, ...rest }) => {
     return (
-        <Tag className={clsx(className, buttonBaseClassName, colors[color], sizes[size])} {...rest}>
+        <Tag className={clsx(buttonBaseClassName, colors[color], iconSizes[size], className)} {...rest}>
             {icon}
         </Tag>
     );

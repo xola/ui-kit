@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, UserIcon, EllipsisIcon } from "../..";
+import { Button, EllipsisIcon, UserIcon } from "../..";
 
 const ButtonStories = {
     title: "Forms & Fields/Button",
@@ -90,20 +90,8 @@ export const IconOnly = () => {
                 <EllipsisIcon />
             </Button.Icon>
 
-            <Button.Icon color="primary" size="small">
-                <UserIcon size="small" />
-            </Button.Icon>
-
             <Button.Icon color="outline" size="medium">
                 <UserIcon />
-            </Button.Icon>
-
-            <Button.Icon color="success" size="medium">
-                <UserIcon size="medium" />
-            </Button.Icon>
-
-            <Button.Icon color="danger" size="large">
-                <UserIcon size="large" />
             </Button.Icon>
         </div>
     );
