@@ -39,7 +39,7 @@ export const Sidebar = ({ children, className, footer, notifications, isFixed = 
 };
 
 Sidebar.propTypes = {
-    children: PropTypes.oneOfType([PropTypes.node]).isRequired,
+    children: PropTypes.node.isRequired,
     className: PropTypes.string,
     footer: PropTypes.element.isRequired,
     notifications: PropTypes.number,

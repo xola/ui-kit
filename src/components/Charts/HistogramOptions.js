@@ -1,6 +1,6 @@
 import _ from "lodash";
-const twConfig = require("../../../tailwind.config")
-import { BaseChartOptions, Colors } from "./BaseChartOptions";
+import { theme } from "../../theme";
+import { BaseChartOptions } from "./BaseChartOptions";
 
 /**
  * This is the base Histogram chart. A histogram can be a line, column or a bar view. This is the master file
@@ -21,14 +21,14 @@ export const HistogramOptions = _.merge({}, BaseChartOptions, {
 
         step: 1,
         minTickInterval: 24 * 3600 * 1000,
-        lineColor: Colors.gray.darker,
+        lineColor: theme.colors.gray.darker,
         lineWidth: 1,
         gridLineWidth: "1",
         gridLineColor: "#DEDEDE",
         gridLineDashStyle: "dot",
     },
     yAxis: {
-        lineColor: Colors.gray.darker,
+        lineColor: theme.colors.gray.darker,
         lineWidth: 1,
         gridLineWidth: "1",
         gridLineColor: "#DEDEDE",
@@ -60,7 +60,7 @@ export const HistogramOptions = _.merge({}, BaseChartOptions, {
             fontSize: "14px",
             color: "#666666",
             textTransform: "capitalize",
-            fontFamily: twConfig.theme.extend.fontFamily.sans,
+            fontFamily: theme.extend.fontFamily.sans,
         },
         itemMarginBottom: 5,
         align: "center", // Center it in the chart canvas

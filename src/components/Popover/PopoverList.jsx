@@ -25,7 +25,7 @@ export const PopoverList = ({ placement = "bottom", className, children, ...rest
 PopoverList.propTypes = {
     placement: PropTypes.string,
     className: PropTypes.string,
-    children: PropTypes.oneOfType([PropTypes.node]).isRequired,
+    children: PropTypes.node.isRequired,
 };
 
 const Item = ({ name, isActive = false, position, total, children, className, onClickItem, ...rest }) => {
@@ -53,7 +53,7 @@ Item.displayName = "Popover.Item";
 Item.propTypes = {
     name: PropTypes.string.isRequired,
     isActive: PropTypes.bool,
-    children: PropTypes.oneOfType([PropTypes.node]).isRequired,
+    children: PropTypes.node.isRequired,
     className: PropTypes.string,
     onClickItem: PropTypes.func.isRequired,
 };

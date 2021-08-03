@@ -62,7 +62,7 @@ Switch.Group.displayName = "Switch.Group";
 
 Switch.Group.propTypes = {
     className: PropTypes.string,
-    children: PropTypes.oneOfType([PropTypes.node]).isRequired,
+    children: PropTypes.node.isRequired,
 };
 
 Switch.Label = ({ direction = "left", className, children }) => {
@@ -81,5 +81,5 @@ Switch.Label.displayName = "Switch.Label";
 Switch.Label.propTypes = {
     direction: PropTypes.string,
     className: PropTypes.string,
-    children: PropTypes.oneOfType([PropTypes.node]).isRequired,
+    children: PropTypes.node.isRequired,
 };

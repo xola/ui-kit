@@ -34,5 +34,5 @@ Alert.propTypes = {
     shouldClose: PropTypes.bool,
     color: PropTypes.oneOf(Object.keys(colors)),
     onClose: PropTypes.func,
-    children: PropTypes.oneOfType([PropTypes.node]).isRequired,
+    children: PropTypes.node.isRequired,
 };
