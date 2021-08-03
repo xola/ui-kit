@@ -13,7 +13,8 @@ const PopoverStories = {
         placement: {
             type: { required: false },
             description: "The direction to show the popover",
-            control: { type: "text" },
+            control: { type: "select" },
+            options: ["top", "bottom", "left", "right", "auto"],
             table: {
                 type: "string",
                 defaultValue: { summary: "bottom" },
@@ -50,7 +51,7 @@ export const Default = (props) => {
                     <MoveIcon />
                     <span>List</span>
                 </PopoverList.Item>
-                <PopoverList.Item name="day" onClickItem={onClickItem}>
+                <PopoverList.Item name="day" isActive={true} onClickItem={onClickItem}>
                     <CalendarDayIcon />
                     <span>Day</span>
                 </PopoverList.Item>
