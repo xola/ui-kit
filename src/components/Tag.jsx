@@ -19,19 +19,12 @@ const sizes = {
 
 // Dashboard - height 25 Padding 6, 8Purchases - 20 padding 3,4
 
-export const Tag = ({
-    color = "primary",
-    size = "small",
-    shouldAllowRemoval = true,
-    onClose,
-    className,
-    children,
-    ...rest
-}) => {
+export const Tag = ({ color = "primary", size = "small", onClose, className, children, ...rest }) => {
     return (
         <span className={clsx("tag inline-flex rounded leading-3.5", colors[color], sizes[size], className)} {...rest}>
             {children}
-            {shouldAllowRemoval ? (
+
+            {onClose ? (
                 <CloseIcon
                     className="float-right ml-2 cursor-pointer text-block hover:text-gray-darker"
                     onClick={onClose}
@@ -42,10 +35,9 @@ export const Tag = ({
 };
 
 Tag.propTypes = {
-    className: PropTypes.string,
     color: PropTypes.oneOf(Object.keys(colors)),
     size: PropTypes.oneOf(Object.keys(sizes)),
-    shouldAllowRemoval: PropTypes.bool,
     onClose: PropTypes.func,
+    className: PropTypes.string,
     children: PropTypes.node.isRequired,
 };
