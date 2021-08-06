@@ -8,7 +8,6 @@ const TagStories = {
         color: "primary",
         size: "medium",
         text: "Listing: Kayaking in the Ganges",
-        shouldAllowRemoval: true,
     },
     argTypes: {
         text: {
@@ -23,9 +22,6 @@ const TagStories = {
             options: ["small", "medium"],
             control: { type: "radio" },
         },
-        shouldAllowRemoval: {
-            control: { type: "boolean" },
-        },
     },
 };
 
@@ -33,9 +29,9 @@ const onTagCloseClick = () => {
     console.log("Closed");
 };
 
-export const Default = ({ color, size, text, shouldAllowRemoval }) => {
+export const Default = ({ color, size, text }) => {
     return (
-        <Tag shouldAllowRemoval={shouldAllowRemoval} color={color} size={size} onClose={onTagCloseClick}>
+        <Tag color={color} size={size} onClose={onTagCloseClick}>
             {text}
         </Tag>
     );
@@ -43,7 +39,7 @@ export const Default = ({ color, size, text, shouldAllowRemoval }) => {
 
 export const BookingTag = () => {
     return (
-        <Tag shouldAllowRemoval color="secondary" size="small" onClose={onTagCloseClick}>
+        <Tag color="secondary" size="small" onClose={onTagCloseClick}>
             Testing Tag
         </Tag>
     );
@@ -51,7 +47,7 @@ export const BookingTag = () => {
 
 export const SystemTag = () => {
     return (
-        <Tag shouldAllowRemoval={false} color="secondary" size="small">
+        <Tag color="secondary" size="small">
             You cannot remove this tag
         </Tag>
     );
