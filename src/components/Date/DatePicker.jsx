@@ -8,8 +8,7 @@ import { formatDate } from "../../helpers/date";
 import { ChevronLeftIcon } from "../../icons/ChevronLeftIcon";
 import { ChevronRightIcon } from "../../icons/ChevronRightIcon";
 import "./DatePicker.css";
-
-const today = dayjs();
+import { MonthYearSelector } from "./MonthYearSelector";
 
 /**
  * Figma Design link: https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%F0%9F%9B%A0-Xola-DS-Desktop-Master-%F0%9F%9B%A0?node-id=2689%3A101580
@@ -31,11 +30,9 @@ export const DatePicker = ({
     const [initialMonth, setInitialMonth] = useState(startMonth ?? selectedDate);
     const hasRange = range && range > 1;
 
-    const defaultYearPicker = ({ date }) => {
-        return <MonthYearSelector date={date} onChange={handleMonthChangeWrapper} />;
-    };
-
-    defaultYearPicker.propTypes = { date: PropTypes.objectOf(Date).isRequired };
+    const captionElement = shouldShowYearPicker
+        ? ({ date }) => <MonthYearSelector date={date} onChange={handleMonthChangeWrapper} />
+        : undefined;
 
     const hasCustomContent = customContent && customContent.length > 0;
     const renderDay = (day) => {
@@ -93,6 +90,7 @@ export const DatePicker = ({
     }
 
     console.log("Selected days", date);
+
     return (
         <div
             className={clsx(
@@ -109,7 +107,7 @@ export const DatePicker = ({
                 numberOfMonths={range}
                 disabledDays={disabledDays}
                 todayButton="Today"
-                captionElement={shouldShowYearPicker ? defaultYearPicker : undefined}
+                captionElement={captionElement}
                 renderDay={renderDay}
                 navbarElement={navbarElement}
                 onDayClick={handleDayClickWrapper}
@@ -217,41 +215,4 @@ renderCustomContent.propTypes = {
     currentDate: PropTypes.objectOf(Date).isRequired,
     day: PropTypes.objectOf(Date).isRequired,
     content: PropTypes.object.isRequired,
-};
-
-/**
- * Show year and month as dropdowns to change the currently selected date
- */
-const MonthYearSelector = ({ date, onChange }) => {
-    const months = [...Array.from({ length: 12 }).keys()].map((m) => today.month(m).format("MMM"));
-    const years = [...Array.from({ length: 12 }).keys()].map((y) => today.year(2021 + y).format("YYYY"));
-
-    const handleChange = (event_) => {
-        const { year, month } = event_.target.form;
-        onChange(new Date(year.value, month.value));
-    };
-
-    return (
-        <form className="DayPicker-Caption">
-            <select name="month" value={date.getMonth()} className="month-selector" onChange={handleChange}>
-                {months.map((month, index) => (
-                    <option key={month} value={index}>
-                        {month}
-                    </option>
-                ))}
-            </select>
-            <select name="year" value={date.getFullYear()} className="year-selector" onChange={handleChange}>
-                {years.map((year) => (
-                    <option key={year} value={year}>
-                        {year}
-                    </option>
-                ))}
-            </select>
-        </form>
-    );
-};
-
-MonthYearSelector.propTypes = {
-    date: PropTypes.objectOf(Date).isRequired,
-    onChange: PropTypes.func.isRequired,
 };
