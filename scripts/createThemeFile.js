@@ -1,5 +1,5 @@
 // The scripts generates a theme file in `src/theme.js` using the configured theme object from TailwindCSS.
-const { promises: fs } = require("fs");
+const fs = require("fs");
 const tailwind = require("../tailwind.config");
 
 const theme = JSON.stringify(tailwind.theme, null, 4);
@@ -11,4 +11,7 @@ fs.writeFile(
 export const theme = ${theme};
 /* eslint-enable */
 `,
+    (error) => {
+        if (error) console.error(error);
+    },
 );
