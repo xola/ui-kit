@@ -110,7 +110,6 @@ export { LockIcon } from "./icons/LockIcon";
 export { ListIcon } from "./icons/ListIcon";
 export { MenuIcon } from "./icons/MenuIcon";
 export { MoneyIcon } from "./icons/MoneyIcon";
-export { MoveIcon } from "./icons/MoveIcon";
 export { PenIcon } from "./icons/PenIcon";
 export { MixedChecklistIcon } from "./icons/MixedChecklistIcon";
 export { MoneyAddIcon } from "./icons/MoneyAddIcon";

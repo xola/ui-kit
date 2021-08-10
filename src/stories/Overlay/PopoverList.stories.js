@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, CalendarDayIcon, CalendarMonthIcon, CalendarWeekIcon, MoveIcon, PopoverList } from "../..";
+import { Button, CalendarDayIcon, CalendarMonthIcon, CalendarWeekIcon, MenuIcon, PopoverList } from "../..";
 
 const PopoverStories = {
     id: "PopoverList",
@@ -48,7 +48,7 @@ export const Default = (props) => {
             <PopoverList offset={[0, 18]} {...props}>
                 <Button>Hover over me</Button>
                 <PopoverList.Item name="list" onClickItem={onClickItem}>
-                    <MoveIcon />
+                    <MenuIcon />
                     <span>List</span>
                 </PopoverList.Item>
                 <PopoverList.Item name="day" isActive={true} onClickItem={onClickItem}>
