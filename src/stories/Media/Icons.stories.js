@@ -1,10 +1,9 @@
-import clsx from "clsx";
 import _ from "lodash";
 import React from "react";
 import * as all from "../..";
-import { iconSizes } from "../../icons/iconSizes.js";
 
-const icons = _.filter(all, (component, name) => name.endsWith("Icon"));
+const iconNames = _.omitBy(all, (Icon, name) => !name.endsWith("Icon"));
+const icons = _.map(iconNames, (Icon, name) => ({ Icon, name }));
 
 const colors = [
     "text-black",
@@ -35,45 +34,29 @@ const IconsStories = {
     },
 };
 
-const wrapperClasses = "p-2 text-center rounded border border-gray-lighter space-y-2";
-const defaultIconClasses = "inline-block"; // TODO: Make this default in the icon lib only
-export const Default14Px = ({ color }) => {
+const IconList = ({ size, color }) => {
     return (
         <div className="flex flex-row flex-wrap gap-3">
-            {icons.map((Icon) => (
-                <div key={Icon.displayName} className={wrapperClasses}>
-                    <Icon className={clsx(defaultIconClasses, iconSizes.small, color)} />
-                    <div className="w-40 text-gray-dark">{Icon.displayName}</div>
+            {icons.map(({ Icon, name }) => (
+                <div key={name} className="p-2 text-center rounded border border-gray-lighter space-y-2">
+                    <Icon size={size} className={color} />
+                    <div className="w-40 text-gray-dark">{name}</div>
                 </div>
             ))}
         </div>
     );
+};
+
+export const Default14Px = ({ color }) => {
+    return <IconList color={color} size="small" />;
 };
 
 export const Medium18px = ({ color }) => {
-    return (
-        <div className="flex flex-row flex-wrap gap-8">
-            {icons.map((Icon) => (
-                <div key={Icon.displayName} className={wrapperClasses}>
-                    <Icon className={clsx(defaultIconClasses, iconSizes.medium, color)} />
-                    <div className="w-40 text-gray-dark">{Icon.displayName}</div>
-                </div>
-            ))}
-        </div>
-    );
+    return <IconList color={color} size="medium" />;
 };
 
 export const Large24px = ({ color }) => {
-    return (
-        <div className="flex flex-row flex-wrap gap-8">
-            {icons.map((Icon) => (
-                <div key={Icon.displayName} className={wrapperClasses}>
-                    <Icon className={clsx(defaultIconClasses, iconSizes.large, color)} />
-                    <div className="w-40 text-gray-dark">{Icon.displayName}</div>
-                </div>
-            ))}
-        </div>
-    );
+    return <IconList color={color} size="large" />;
 };
 
 export default IconsStories;
