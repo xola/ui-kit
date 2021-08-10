@@ -14,7 +14,6 @@ const AlertStories = {
     args: {
         text: "Space, the final frontier. These are the voyages of the starship Enterprise. Its five year mission: to explore strange new worlds, to seek out new life and new civilizations, to boldly go where no man has gone before!",
         color: "primary",
-        shouldClose: false,
     },
     argTypes: {
         text: {
@@ -33,19 +32,13 @@ const AlertStories = {
                 defaultValue: { summary: "primary" },
             },
         },
-        shouldClose: {
-            control: { type: "boolean" },
-            table: {
-                defaultValue: { summary: false },
-            },
-        },
     },
 };
 
-export const Default = ({ className, color, shouldClose, text = "Default" }) => {
+export const Default = ({ className, color, text = "Default" }) => {
     return (
         <div className="space-x-4">
-            <Alert className={className} color={color} shouldClose={shouldClose}>
+            <Alert className={className} color={color}>
                 {text}
             </Alert>
         </div>
@@ -60,6 +53,20 @@ export const Colors = () => {
             <Alert color="warning">Warning</Alert>
             <Alert color="danger">Danger</Alert>
         </div>
+    );
+};
+
+export const Dismissible = () => {
+    const handleClose = () => {
+        alert("You clicked on the close button.");
+    };
+
+    return (
+        <Alert color="primary" onClose={handleClose}>
+            Space, the final frontier. These are the voyages of the starship Enterprise. Its five year mission: to
+            explore strange new worlds, to seek out new life and new civilizations, to boldly go where no man has gone
+            before!
+        </Alert>
     );
 };
 
