@@ -1,7 +1,7 @@
 import React from "react";
 import { createIcon } from "../helpers/icon";
 
-export const InfoIcon = createIcon((props) => {
+export const InfoCircleIcon = createIcon((props) => {
     return (
         <svg viewBox="0 0 14 14" width={15} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
             <path

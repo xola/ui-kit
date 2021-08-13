@@ -112,7 +112,7 @@ export { HiddenIcon } from "./icons/HiddenIcon";
 export { HomeIcon } from "./icons/HomeIcon";
 export { ImageIcon } from "./icons/ImageIcon";
 export { InfinityIcon } from "./icons/InfinityIcon";
-export { InfoIcon } from "./icons/InfoIcon";
+export { InfoCircleIcon } from "./icons/InfoCircleIcon";
 export { InvoiceIcon } from "./icons/InvoiceIcon";
 export { KeyIcon } from "./icons/KeyIcon";
 export { LandscapeIcon } from "./icons/LandscapeIcon";
