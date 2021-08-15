@@ -8,9 +8,9 @@ const sizes = {
     large: "px-4 py-3.5 text-lg",
 };
 
-const ButtonGroup = ({ size, value, isCollapsed = false, onChange, children, ...rest }) => {
+const ButtonGroup = ({ size, value, isCollapsed = false, onChange, className, children, ...rest }) => {
     return (
-        <span className="inline-flex whitespace-nowrap" {...rest}>
+        <span className={clsx("inline-flex whitespace-nowrap", className)} {...rest}>
             {Children.map(children, (child, index) => {
                 const buttonProps = { size };
 

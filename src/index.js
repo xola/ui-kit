@@ -93,6 +93,7 @@ export { DisabledIcon } from "./icons/DisabledIcon";
 export { DisputeIcon } from "./icons/DisputeIcon";
 export { DotCircleIcon } from "./icons/DotCircleIcon";
 export { DownloadIcon } from "./icons/DownloadIcon";
+export { DownArrowIcon } from "./icons/DownArrowIcon";
 export { EditIcon } from "./icons/EditIcon";
 export { EllipsisIcon } from "./icons/EllipsisIcon";
 export { EmailIcon } from "./icons/EmailIcon";
