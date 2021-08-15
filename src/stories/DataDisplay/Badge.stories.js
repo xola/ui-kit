@@ -15,7 +15,7 @@ const BadgeStories = {
             control: { type: "text" },
         },
         color: {
-            options: ["primary", "secondary", "success", "warning", "caution", "danger", "critical"],
+            options: ["primary", "secondary", "success", "warning", "caution", "danger", "problem", "critical"],
             control: { type: "select" },
         },
         size: {
@@ -72,6 +72,7 @@ export const Colors = () => {
             <Badge color="warning">Warning</Badge>
             <Badge color="caution">Caution</Badge>
             <Badge color="danger">Danger</Badge>
+            <Badge color="problem">Problem</Badge>
             <Badge color="critical">Critical</Badge>
         </div>
     );

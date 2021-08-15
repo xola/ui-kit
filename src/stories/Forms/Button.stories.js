@@ -90,6 +90,10 @@ export const IconOnly = () => {
                 <EllipsisIcon />
             </Button.Icon>
 
+            <Button.Icon color="outline" size="small">
+                <EllipsisIcon />
+            </Button.Icon>
+
             <Button.Icon color="outline" size="medium">
                 <UserIcon />
             </Button.Icon>

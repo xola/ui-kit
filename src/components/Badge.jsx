@@ -9,6 +9,7 @@ const colors = {
     warning: "bg-warning-lighter text-warning-dark",
     caution: "bg-caution-lighter text-caution-dark",
     danger: "bg-danger-lighter text-danger-dark",
+    problem: "bg-warning text-white",
     critical: "bg-danger text-white",
 };
 

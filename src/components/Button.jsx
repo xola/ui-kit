@@ -63,6 +63,7 @@ Button.propTypes = {
 
 const iconSizes = {
     ...sizes,
+    small: "h-7.5 w-7.5 px-2 py-2 text-base leading-base", // 30px requires h|w-7.5 because small size has 14px icon
     medium: "px-3 py-3 text-base leading-base", // 40px
 };
 
