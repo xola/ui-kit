@@ -17,6 +17,8 @@
         "dev": "node scripts/prepare && start-storybook -p 6006 -s public --no-manager-cache",
         "storybook": "node scripts/prepare && start-storybook -p 6006 -s public",
         "build": "node scripts/prepare && vite build",
+        "watch": "npm run build -- --watch",
+        "clean": "rm -rf node_modules/.vite",
         "build:storybook": "node scripts/prepare && build-storybook -s public",
         "lint": "xola-lint src",
         "lint:fix": "xola-lint src --fix",

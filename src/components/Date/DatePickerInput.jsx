@@ -2,11 +2,12 @@ import clsx from "clsx";
 import dayjs from "dayjs";
 import PropTypes from "prop-types";
 import React, { forwardRef, useState } from "react";
-import DayPickerInput from "react-day-picker/DayPickerInput";
+import DPI from "react-day-picker/DayPickerInput";
 import { formatDate } from "../../helpers/date";
 import { Input } from "../Forms/Input";
 import { DatePicker } from "./DatePicker";
 
+const DayPickerInput = DPI.__esModule ? DPI.default : DPI;
 let datePickerInputReference = null;
 export const DatePickerInput = ({
     inputComponent = InputComponent,
@@ -23,11 +24,12 @@ export const DatePickerInput = ({
         // TODO: Cleanup handling
         handleDayChange = (day, options) => {
             console.assert(!options.disabled, "Date is disabled");
-            console.log("DatePickerInput Day is " + formatDate(date, dateFormat));
+            console.log("DatePickerInput Day is " + formatDate(day, dateFormat));
             setDate(day);
             setTimeout(() => {
+                // TODO:
                 datePickerInputReference.hideDayPicker();
-            }, 100);
+            }, 500);
         };
     }
 
@@ -71,8 +73,8 @@ export const DatePickerInput = ({
 };
 
 DatePickerInput.propTypes = {
-    inputComponent: PropTypes.element,
-    selectedDate: PropTypes.oneOfType([Date]),
+    inputComponent: PropTypes.object,
+    selectedDate: PropTypes.any, // TODO Fix this
     range: PropTypes.number,
     dateFormat: PropTypes.string,
     shouldShowOverlay: PropTypes.bool,
