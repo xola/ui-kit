@@ -6,47 +6,43 @@ const ModalStories = {
     component: Modal,
     args: {
         size: "medium",
-        shouldShowClose: true,
         shouldCloseOnOutsideClick: true,
+        isOpen: false,
     },
     argTypes: {
         size: {
             type: { required: false },
-            options: ["small", "medium", "large", "xlarge"],
+            options: ["small", "medium", "large", "huge"],
             control: { type: "select" },
             table: {
                 defaultValue: { summary: "medium" },
             },
-        },
-        shouldShowClose: {
-            type: { required: false },
-            description: "If the 'x' button should be shown",
-            control: { type: "boolean" },
         },
         shouldCloseOnOutsideClick: {
             type: { required: false },
             description: "Close the modal if user clicks outside it",
             control: { type: "boolean" },
         },
+        isOpen: {
+            type: { required: false },
+            description: "Control the modal open state",
+            control: { type: "boolean" },
+        },
     },
 };
 
-export const Default = ({ size, shouldShowClose, shouldCloseOnOutsideClick }) => {
-    const [show, setShow] = useState(false);
-    const toggle = () => setShow(!show);
+export const Default = ({ size, shouldCloseOnOutsideClick }) => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    const toggle = () => {
+        setIsOpen(!isOpen);
+    };
 
     return (
         <div>
             <Button onClick={toggle}>Click me to launch a modal</Button>
 
-            <Modal
-                toggle={toggle}
-                size={size}
-                shouldShow={show}
-                shouldShowClose={shouldShowClose}
-                shouldCloseOnOutsideClick={shouldCloseOnOutsideClick}
-                onHide={toggle}
-            >
+            <Modal size={size} isOpen={isOpen} shouldCloseOnOutsideClick={shouldCloseOnOutsideClick} onClose={toggle}>
                 <Modal.Header>Apply Code</Modal.Header>
 
                 <Modal.Body>

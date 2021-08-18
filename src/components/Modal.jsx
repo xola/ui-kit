@@ -2,41 +2,35 @@ import { Dialog, Transition } from "@headlessui/react";
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import React, { forwardRef, Fragment } from "react";
+import { getChildByType } from "../helpers/children";
+import { CloseIcon } from "../icons/CloseIcon";
 
 const sizes = {
     small: "sm:max-w-md",
     medium: "sm:max-w-lg",
     large: "sm:max-w-2xl",
-    xlarge: "sm:max-w-3xl",
+    huge: "sm:max-w-3xl",
 };
 
-export const Modal = ({
-    size = "medium",
-    shouldShow = false,
-    shouldShowClose = true,
-    shouldCloseOnOutsideClick = false,
-    onHide,
-    children,
-}) => {
-    const childCount = React.Children.count(children);
-    if (childCount < 3) {
-        console.warn(`You have an insufficient number of children ${childCount}, the modal may not behave as expected`);
-    }
+export const Modal = ({ size = "medium", isOpen = false, shouldCloseOnOutsideClick = false, onClose, children }) => {
+    const header = getChildByType(children, Modal.Header);
+    const body = getChildByType(children, Modal.Body);
+    const footer = getChildByType(children, Modal.Footer);
 
-    const [Header, Body, Footer] = children;
-    const modalProps = { width: sizes[size], shouldShowClose, Header, Body, Footer };
-
-    // Decide what method to call when the user click's outside the modal
-    const onClickOutside = shouldCloseOnOutsideClick ? onHide : () => {};
+    const handleOutsideClick = () => {
+        if (shouldCloseOnOutsideClick) {
+            onClose();
+        }
+    };
 
     return (
-        <Transition.Root show={shouldShow} as={Fragment}>
+        <Transition.Root show={isOpen} as={Fragment}>
             <Dialog
                 static
                 as="div"
                 className="overflow-y-auto fixed inset-0 z-10"
-                open={shouldShow}
-                onClose={onClickOutside}
+                open={isOpen}
+                onClose={handleOutsideClick}
             >
                 <div className="flex justify-center items-end px-4 pt-4 pb-20 min-h-screen text-center sm:block sm:p-0">
                     <Transition.Child
@@ -53,6 +47,7 @@ export const Modal = ({
 
                     {/* This element is to trick the browser into centering the modal contents. */}
                     <span className="hidden sm:inline-block sm:h-screen sm:align-middle">&#8203;</span>
+
                     <Transition.Child
                         as={Fragment}
                         enter="ease-out duration-300"
@@ -62,7 +57,7 @@ export const Modal = ({
                         leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                         leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                     >
-                        <Modal.Core {...modalProps} onClick={onHide} />
+                        <Modal.Core width={sizes[size]} header={header} body={body} footer={footer} onClose={onClose} />
                     </Transition.Child>
                 </div>
             </Dialog>
@@ -72,40 +67,39 @@ export const Modal = ({
 
 Modal.propTypes = {
     size: PropTypes.oneOf(Object.keys(sizes)),
-    shouldShow: PropTypes.bool,
-    shouldShowClose: PropTypes.bool,
+    isOpen: PropTypes.bool,
     shouldCloseOnOutsideClick: PropTypes.bool,
-    onHide: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired,
     children: PropTypes.node.isRequired,
 };
 
-const Core = forwardRef(({ width, shouldShowClose, onClick, Header, Body, Footer }, reference) => {
-    const modalClasses = clsx(
+const Core = forwardRef(({ width, onClose, header, body, footer }, ref) => {
+    const classes = clsx(
         width,
         "modal sm:w-full inline-block align-bottom bg-white rounded-lg overflow-hidden shadow-xl transform",
         "transition-all sm:my-8 sm:align-middle",
     );
 
     return (
-        <div ref={reference} className={modalClasses}>
+        <div ref={ref} className={classes}>
             <div className="px-8 pt-5 bg-white">
                 <div className="hidden absolute top-0 right-0 px-8 pt-7 sm:block">
-                    {shouldShowClose && (
-                        <div className="text-xl cursor-pointer text-gray hover:text-gray-darker" onClick={onClick}>
-                            ×
+                    {onClose ? (
+                        <div className="text-xl cursor-pointer text-gray hover:text-gray-darker" onClick={onClose}>
+                            <CloseIcon />
                         </div>
-                    )}
+                    ) : null}
                 </div>
 
                 <div className="sm:flex sm:items-start">
                     <div className="pt-3 w-full text-center">
-                        {Header}
-                        {Body}
+                        {header}
+                        {body}
                     </div>
                 </div>
             </div>
 
-            {Footer}
+            {footer}
         </div>
     );
 });
@@ -113,11 +107,10 @@ const Core = forwardRef(({ width, shouldShowClose, onClick, Header, Body, Footer
 Core.displayName = "Modal.Core";
 Core.propTypes = {
     width: PropTypes.string.isRequired,
-    shouldShowClose: PropTypes.bool.isRequired,
-    onClick: PropTypes.func.isRequired,
-    Header: PropTypes.element.isRequired,
-    Body: PropTypes.element.isRequired,
-    Footer: PropTypes.element.isRequired,
+    onClose: PropTypes.func.isRequired,
+    header: PropTypes.element.isRequired,
+    body: PropTypes.element.isRequired,
+    footer: PropTypes.element.isRequired,
 };
 Modal.Core = Core;
 
