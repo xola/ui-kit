@@ -20,10 +20,13 @@ const today = dayjs().set("date", 1).toDate();
 const { colors } = theme;
 
 export const Default = () => {
-    return <DatePicker />;
+    const [value, setValue] = useState(new Date());
+    return <DatePicker value={value} onChange={setValue} />;
 };
 
 export const DisabledDays = () => {
+    const [value, setValue] = useState(new Date());
+
     const disabledDays = [
         // Disable two specific dates
         new Date(today.setDate(14)),
@@ -39,7 +42,7 @@ export const DisabledDays = () => {
         },
     ];
 
-    return <DatePicker startMonth={today} disabledDays={disabledDays} />;
+    return <DatePicker initialMonth={today} disabledDays={disabledDays} value={value} onChange={setValue} />;
 };
 
 addDescription(
@@ -48,7 +51,17 @@ addDescription(
 );
 
 export const RestrictNavigation = () => {
-    return <DatePicker startMonth={today} fromMonth={today} toMonth={dayjs().add(2, "month").toDate()} />;
+    const [value, setValue] = useState(new Date());
+
+    return (
+        <DatePicker
+            value={value}
+            onChange={setValue}
+            initialMonth={today}
+            fromMonth={today}
+            toMonth={dayjs().add(2, "month").toDate()}
+        />
+    );
 };
 
 addDescription(
@@ -57,6 +70,8 @@ addDescription(
 );
 
 export const ModifyCellStyle = () => {
+    const [value, setValue] = useState(new Date());
+
     const modifiers = {
         thursdays: { daysOfWeek: [4] },
         waitlist: [new Date(today.setDate(18)), new Date(today.setDate(20))],
@@ -77,7 +92,14 @@ export const ModifyCellStyle = () => {
     };
 
     return (
-        <DatePicker startMonth={today} modifiers={modifiers} modifiersStyles={modifiersStyles} fromMonth={new Date()} />
+        <DatePicker
+            value={value}
+            onChange={setValue}
+            initialMonth={today}
+            modifiers={modifiers}
+            modifiersStyles={modifiersStyles}
+            fromMonth={new Date()}
+        />
     );
 };
 
@@ -87,7 +109,8 @@ addDescription(
 );
 
 export const SelectYearMonth = () => {
-    return <DatePicker shouldShowYearPicker startMonth={new Date(2021, 3, 21)} />;
+    const [value, setValue] = useState(new Date());
+    return <DatePicker value={value} onChange={setValue} shouldShowYearPicker initialMonth={new Date(2021, 3, 21)} />;
 };
 
 addDescription(
@@ -95,17 +118,18 @@ addDescription(
     "This example shows how to use the `month` and `shouldShowYearPicker` prop to change the calendar's caption. For example, we can use these props to start in the month of April and to add a form to switch between months and years.",
 );
 
+const customContent = [null];
+for (let day = 1; day <= dayjs().daysInMonth(); day++) {
+    customContent.push("$" + _.random(1, 200));
+}
+
+customContent[_.random(1, dayjs().daysInMonth())] = "Please Call/Email";
+customContent[_.random(1, dayjs().daysInMonth())] = "Sold Out";
+customContent[_.random(1, dayjs().daysInMonth())] = "Sold Out";
+
 export const AddContentToDays = () => {
-    const customContent = [null];
-    for (let day = 1; day <= dayjs().daysInMonth(); day++) {
-        customContent.push("$" + _.random(1, 200));
-    }
-
-    customContent[_.random(1, dayjs().daysInMonth())] = "Please Call/Email";
-    customContent[_.random(1, dayjs().daysInMonth())] = "Sold Out";
-    customContent[_.random(1, dayjs().daysInMonth())] = "Sold Out";
-
-    return <DatePicker getDayContent={(date) => customContent[date]} />;
+    const [value, setValue] = useState(new Date());
+    return <DatePicker value={value} onChange={setValue} getDayContent={(date) => customContent[date]} />;
 };
 
 addDescription(
@@ -114,14 +138,17 @@ addDescription(
 );
 
 export const DateRange = () => {
+    const [value, setValue] = useState({ from: null, to: null });
+
     return (
         <div className="h-[480px]">
-            <DatePicker range={2} />
+            <DatePicker variant="range" value={value} onChange={setValue} />
         </div>
     );
 };
 
 export const PickerWithInput = () => {
+    // TODO: Refactor.
     return (
         <div className="h-[480px]">
             <DatePickerInput />
@@ -135,28 +162,28 @@ addDescription(
 );
 
 export const EventHandlers = () => {
-    const [date, setDate] = useState(new Date());
+    const [value, setValue] = useState(new Date());
     const [month, setMonth] = useState(new Date());
 
-    const onMonthChange = (newMonth) => {
+    const handleMonthChange = (newMonth) => {
         setMonth(newMonth);
     };
 
-    const onDayClick = (today) => {
-        setDate(today);
+    const handleChange = (value) => {
+        setValue(value);
     };
 
     return (
         <>
             <div>
                 Selected Date <code className="p-1 mr-1 text-sm bg-gray-lighter">onDayClick</code>
-                <span className="inline-block pb-3 font-semibold">{dayjs(date).format("ddd, DD MMMM YYYY")}</span>
+                <span className="inline-block pb-3 font-semibold">{dayjs(value).format("ddd, DD MMMM YYYY")}</span>
             </div>
             <div>
                 Current Month <code className="p-1 mr-1 text-sm bg-gray-lighter">handleMonthChange</code>
                 <span className="inline-block pb-3 font-semibold">{dayjs(month).format("MMMM YYYY")}</span>
             </div>
-            <DatePicker selectedDate={date} handleMonthChange={onMonthChange} onDayClick={onDayClick} />
+            <DatePicker value={value} onMonthChange={handleMonthChange} onChange={handleChange} />
         </>
     );
 };
