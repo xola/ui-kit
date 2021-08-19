@@ -5,10 +5,9 @@ import React, { useState } from "react";
 import DayPicker from "react-day-picker";
 import "react-day-picker/lib/style.css";
 import { formatDate } from "../../helpers/date";
-import { ChevronLeftIcon } from "../../icons/ChevronLeftIcon";
-import { ChevronRightIcon } from "../../icons/ChevronRightIcon";
 import "./DatePicker.css";
 import { MonthYearSelector } from "./MonthYearSelector";
+import { NavbarElement } from "./NavbarElement";
 
 /**
  * Figma Design link: https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%F0%9F%9B%A0-Xola-DS-Desktop-Master-%F0%9F%9B%A0?node-id=2689%3A101580
@@ -107,7 +106,7 @@ export const DatePicker = ({
             todayButton="Today"
             captionElement={captionElement}
             renderDay={renderDay}
-            navbarElement={navbarElement}
+            navbarElement={NavbarElement}
             onDayClick={handleDayClickWrapper}
             onMonthChange={handleMonthChangeWrapper}
             onTodayButtonClick={handleTodayButtonClick}
@@ -127,43 +126,6 @@ DatePicker.propTypes = {
     handleDayClick: PropTypes.func,
     handleMonthChange: PropTypes.func,
     handleTodayButtonClick: PropTypes.func,
-};
-
-/**
- * Render the custom left & right arrows to change the current month
- */
-export const navbarElement = ({ onPreviousClick, onNextClick, className, showNextButton, showPreviousButton }) => {
-    return (
-        <div className={clsx("absolute z-50 top-1.5 right-1", className)}>
-            <ChevronButton
-                chevron={<ChevronLeftIcon />}
-                shouldShowIcon={showPreviousButton}
-                onClick={onPreviousClick}
-            />
-            <ChevronButton chevron={<ChevronRightIcon />} shouldShowIcon={showNextButton} onClick={onNextClick} />
-        </div>
-    );
-};
-
-const ChevronButton = ({ chevron, shouldShowIcon = true, onClick }) => {
-    return (
-        <button
-            type="button"
-            className={clsx(
-                shouldShowIcon ? "inline-block" : "invisible",
-                "rounded-full border border-transparent text-black hover:border-black p-1.5",
-            )}
-            onClick={() => onClick()}
-        >
-            {chevron}
-        </button>
-    );
-};
-
-ChevronButton.propTypes = {
-    chevron: PropTypes.element.isRequired,
-    shouldShowIcon: PropTypes.bool,
-    onClick: PropTypes.func.isRequired,
 };
 
 const dayStylingWrapper = ({ selectedDate, day }) => {
