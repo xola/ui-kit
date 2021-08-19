@@ -12,7 +12,14 @@ const sizes = {
     huge: "sm:max-w-3xl",
 };
 
-export const Modal = ({ size = "medium", isOpen = false, shouldCloseOnOutsideClick = false, onClose, children }) => {
+export const Modal = ({
+    size = "medium",
+    isOpen = false,
+    shouldCloseOnOutsideClick = false,
+    onClose,
+    children,
+    className,
+}) => {
     const header = getChildByType(children, Modal.Header);
     const body = getChildByType(children, Modal.Body);
     const footer = getChildByType(children, Modal.Footer);
@@ -57,7 +64,14 @@ export const Modal = ({ size = "medium", isOpen = false, shouldCloseOnOutsideCli
                         leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                         leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                     >
-                        <Modal.Core width={sizes[size]} header={header} body={body} footer={footer} onClose={onClose} />
+                        <Modal.Core
+                            className={className}
+                            width={sizes[size]}
+                            header={header}
+                            body={body}
+                            footer={footer}
+                            onClose={onClose}
+                        />
                     </Transition.Child>
                 </div>
             </Dialog>
@@ -73,8 +87,9 @@ Modal.propTypes = {
     children: PropTypes.node.isRequired,
 };
 
-const Core = forwardRef(({ width, onClose, header, body, footer }, ref) => {
+const Core = forwardRef(({ className, width, onClose, header, body, footer }, ref) => {
     const classes = clsx(
+        className,
         width,
         "modal sm:w-full inline-block align-bottom bg-white rounded-lg overflow-hidden shadow-xl transform",
         "transition-all sm:my-8 sm:align-middle",

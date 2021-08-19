@@ -63,4 +63,42 @@ export const Default = ({ size, shouldCloseOnOutsideClick }) => {
     );
 };
 
+export const CustomWidth = ({ size, shouldCloseOnOutsideClick }) => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    const toggle = () => {
+        setIsOpen(!isOpen);
+    };
+
+    return (
+        <div>
+            <Button onClick={toggle}>Click me to launch a modal</Button>
+
+            <Modal
+                className="!max-w-[800px]"
+                size={size}
+                isOpen={isOpen}
+                shouldCloseOnOutsideClick={shouldCloseOnOutsideClick}
+                onClose={toggle}
+            >
+                <Modal.Header>Apply Code</Modal.Header>
+
+                <Modal.Body>
+                    <Input placeholder="Coupon of Affiliate" />
+                </Modal.Body>
+
+                <Modal.Footer className="space-x-4">
+                    <Button color="secondary" variant="outline" onClick={toggle}>
+                        Cancel
+                    </Button>
+
+                    <Button color="danger" onClick={toggle}>
+                        Confirm
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+        </div>
+    );
+};
+
 export default ModalStories;
