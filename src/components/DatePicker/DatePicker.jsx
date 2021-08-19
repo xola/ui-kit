@@ -1,5 +1,4 @@
 import clsx from "clsx";
-import dayjs from "dayjs";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 import DayPicker from "react-day-picker";
@@ -18,6 +17,7 @@ export const DatePicker = ({
     disabledDays = [],
     shouldShowYearPicker = false,
     customContent = [],
+    getDayContent,
     modifiers = {},
     range,
     handleDayClick,
@@ -28,19 +28,6 @@ export const DatePicker = ({
     const [date, setDate] = useState({ from: selectedDate, to: null });
     const [initialMonth, setInitialMonth] = useState(startMonth ?? selectedDate);
     const hasRange = range && range > 1;
-
-    const captionElement = shouldShowYearPicker
-        ? ({ date }) => <MonthYearSelector date={date} onChange={handleMonthChangeWrapper} />
-        : undefined;
-
-    const hasCustomContent = customContent && customContent.length > 0;
-    const renderDay = (day) => {
-        if (hasCustomContent) {
-            return renderCustomContent({ selectedDate: date.from, day, customContent });
-        }
-
-        return <Day selectedDate={date.from} day={day} />;
-    };
 
     // A wrapper for the callback so we can use local state and invoke the call back
     const handleDayClickWrapper = (day, options) => {
@@ -70,12 +57,20 @@ export const DatePicker = ({
         modifiers = { start: date.from, end: date.to };
     }
 
+    const captionElement = shouldShowYearPicker
+        ? ({ date }) => <MonthYearSelector date={date} onChange={handleMonthChangeWrapper} />
+        : undefined;
+
+    const renderDay = (day) => {
+        return <Day selectedDate={date.from} day={day} getContent={getDayContent} />;
+    };
+
     return (
         <DayPicker
             className={clsx(
                 "date-picker",
                 rangesSet ? "date-range-picker" : null,
-                hasCustomContent ? "has-custom-content" : null,
+                getDayContent ? "has-custom-content" : null,
             )}
             showOutsideDays
             modifiers={modifiers}
@@ -106,36 +101,4 @@ DatePicker.propTypes = {
     handleDayClick: PropTypes.func,
     handleMonthChange: PropTypes.func,
     handleTodayButtonClick: PropTypes.func,
-};
-
-/**
- * Render custom content in the cell and mark the active day
- */
-const renderCustomContent = ({ selectedDate, day, customContent }) => {
-    const date = day.getDate();
-    const value = customContent[date] ?? "N/A";
-    const isSameDay = selectedDate && dayjs(selectedDate).isSame(day, "day");
-    const isSameMonth = dayjs().isSame(day, "month");
-
-    return (
-        <>
-            {/* The date itself */}
-            <div className={clsx("date-value mb-1 leading-p1", isSameDay ? "text-white selected" : null)}>{date}</div>
-            {/* The custom content below it */}
-            <div
-                className={clsx(
-                    "custom-content text-xs leading-p3",
-                    isSameDay ? "text-white" : isSameMonth ? "text-gray-dark" : "text-gray-light",
-                )}
-            >
-                {value}
-            </div>
-        </>
-    );
-};
-
-renderCustomContent.propTypes = {
-    currentDate: PropTypes.objectOf(Date).isRequired,
-    day: PropTypes.objectOf(Date).isRequired,
-    content: PropTypes.object.isRequired,
 };

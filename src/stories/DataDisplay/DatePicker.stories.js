@@ -105,7 +105,7 @@ export const AddContentToDays = () => {
     customContent[_.random(1, dayjs().daysInMonth())] = "Sold Out";
     customContent[_.random(1, dayjs().daysInMonth())] = "Sold Out";
 
-    return <DatePicker customContent={customContent} />;
+    return <DatePicker getDayContent={(date) => customContent[date]} />;
 };
 
 addDescription(
