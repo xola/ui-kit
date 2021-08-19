@@ -42,14 +42,6 @@ export const DatePicker = ({
         return dayStylingWrapper({ selectedDate: date.from, day });
     };
 
-    if (!handleDayClick) {
-        // Default wrapper so that we can show the date, and a warning for user to handle this
-        handleDayClick = (day, options = {}) => {
-            console.warn("`handleDayClick` callback undefined. Please use it listening to date changes");
-            console.log("Selected date", formatDate(day, "YYYY-MM-DD"), options);
-        };
-    }
-
     // A wrapper for the callback so we can use local state and invoke the call back
     const handleDayClickWrapper = (day, options) => {
         let newValue = { from: day }; // This single date mode, but we still need to check if this is a range picker
@@ -61,25 +53,15 @@ export const DatePicker = ({
         setDate(newValue);
 
         const callbackValue = newValue.from && newValue.to ? newValue : newValue.from;
-        handleDayClick.call(this, callbackValue, options);
+        handleDayClick?.(callbackValue, options);
     };
 
     const handleMonthChangeWrapper = (month) => {
         setInitialMonth(month);
         if (handleMonthChange) {
-            handleMonthChange.call(this, month);
-        } else {
-            console.warn("`handleMonthChange` callback undefined. Please use it listening to month changes");
-            console.log("Selected month", formatDate(month, "YYYY-MM"));
+            handleMonthChange?.(month);
         }
     };
-
-    if (!handleTodayButtonClick) {
-        handleTodayButtonClick = (today) => {
-            console.log("DatePicker today", formatDate(today));
-            handleDayClickWrapper(today);
-        };
-    }
 
     let selectedDays = [date && date.from ? date.from : selectedDate];
     const rangesSet = date.from && date.to;
@@ -87,8 +69,6 @@ export const DatePicker = ({
         selectedDays = [date.from, { from: date.from, to: date.to }];
         modifiers = { start: date.from, end: date.to };
     }
-
-    console.log("Selected days", date);
 
     return (
         <DayPicker
