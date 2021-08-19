@@ -4,8 +4,8 @@ import PropTypes from "prop-types";
 import React, { useState } from "react";
 import DayPicker from "react-day-picker";
 import "react-day-picker/lib/style.css";
-import { formatDate } from "../../helpers/date";
 import "./DatePicker.css";
+import { Day } from "./Day";
 import { MonthYearSelector } from "./MonthYearSelector";
 import { NavbarElement } from "./NavbarElement";
 
@@ -39,7 +39,7 @@ export const DatePicker = ({
             return renderCustomContent({ selectedDate: date.from, day, customContent });
         }
 
-        return dayStylingWrapper({ selectedDate: date.from, day });
+        return <Day selectedDate={date.from} day={day} />;
     };
 
     // A wrapper for the callback so we can use local state and invoke the call back
@@ -106,22 +106,6 @@ DatePicker.propTypes = {
     handleDayClick: PropTypes.func,
     handleMonthChange: PropTypes.func,
     handleTodayButtonClick: PropTypes.func,
-};
-
-const dayStylingWrapper = ({ selectedDate, day }) => {
-    const date = day.getDate();
-    const isSameDay = selectedDate && dayjs(selectedDate).isSame(day, "day");
-
-    return (
-        <div
-            className={clsx(
-                "date flex items-center w-full h-full justify-center",
-                isSameDay ? "text-white selected" : null,
-            )}
-        >
-            {date}
-        </div>
-    );
 };
 
 /**
