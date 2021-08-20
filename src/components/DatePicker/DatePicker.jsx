@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
-import DayPicker, { DateUtils } from "react-day-picker";
+import DayPicker from "react-day-picker";
 import "react-day-picker/lib/style.css";
 import "./DatePicker.css";
 import { Day } from "./Day";
@@ -39,7 +39,15 @@ export const DatePicker = ({
 
     const handleDayClick = (day) => {
         if (isRangeVariant) {
-            onChange(DateUtils.addDayToRange(day, value));
+            if (value.from && value.to) {
+                // This allows us to easily select another date range,
+                // if both dates are selected.
+                onChange({ from: day, to: null });
+            } else if (value.from) {
+                onChange({ from: value.from, to: day });
+            } else {
+                onChange({ from: day, to: value.from });
+            }
         } else {
             onChange(day);
         }
@@ -59,11 +67,14 @@ export const DatePicker = ({
 
     const rangeModifier = isRangeVariant ? { start: value.from, end: value.to } : null;
 
+    // Comparing `from` and `to` dates hides a weird CSS style when you select the same date twice in a date range.
+    const useDateRangeStyle = isRangeVariant && value.from?.getTime() !== value.to?.getTime();
+
     return (
         <DayPicker
             className={clsx(
                 "date-picker",
-                isRangeVariant ? "date-range-picker" : null,
+                useDateRangeStyle ? "date-range-picker" : null,
                 getDayContent ? "has-custom-content" : null,
             )}
             showOutsideDays
