@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
-import DayPicker from "react-day-picker";
+import DayPicker, { DateUtils } from "react-day-picker";
 import "react-day-picker/lib/style.css";
 import "./DatePicker.css";
 import { Day } from "./Day";
@@ -43,10 +43,8 @@ export const DatePicker = ({
                 // This allows us to easily select another date range,
                 // if both dates are selected.
                 onChange({ from: day, to: null });
-            } else if (value.from) {
-                onChange({ from: value.from, to: day });
             } else {
-                onChange({ from: day, to: value.from });
+                onChange(DateUtils.addDayToRange(day, value));
             }
         } else {
             onChange(day);
