@@ -19,7 +19,7 @@ export default create({
     fontCode: "monospace",
 
     // Text colors
-    textColor: "#222222",
+    textColor: "#222324",
     textInverseColor: "#FFFFFF",
 
     // Toolbar default and active colors

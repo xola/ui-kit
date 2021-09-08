@@ -3,14 +3,14 @@ import { Input, Label, FormGroup } from "../..";
 
 const InputStories = {
     primary: true,
-    title: "Forms/Input",
+    title: "Forms & Fields/Input",
 };
 
 export const Default = () => {
     return (
         <FormGroup>
             <Label>Text</Label>
-            <Input />
+            <Input defaultValue="Hello, World" />
         </FormGroup>
     );
 };
@@ -39,8 +39,8 @@ export const Sizes = () => {
 export const Disabled = () => {
     return (
         <FormGroup>
-            <Label>ID</Label>
-            <Input disabled value="f003e8a95139cd7b70999070838561e0" />
+            <Label isDisabled>ID</Label>
+            <Input disabled defaultValue="f003e8a95139cd7b70999070838561e0" />
         </FormGroup>
     );
 };
@@ -49,7 +49,7 @@ export const WithError = () => {
     return (
         <FormGroup>
             <Label className="text-danger">Text is invalid</Label>
-            <Input isError />
+            <Input isError defaultValue="ui@@@xola.com" />
         </FormGroup>
     );
 };

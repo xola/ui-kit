@@ -2,7 +2,7 @@ import React from "react";
 import { Breadcrumb, Button, HeaderToolbar } from "..";
 
 const HeaderToolbarStories = {
-    title: "Components/Header Toolbar",
+    title: "Other/Header Toolbar",
     component: HeaderToolbar,
 };
 

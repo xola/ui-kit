@@ -20,7 +20,7 @@ const colors = {
         light: "#2979D0",
         DEFAULT: "#1352C6",
         dark: "#3467C4",
-        darker: "#0E44A8", // TBD
+        darker: "#0E44A8",
     },
 
     green: {
@@ -28,31 +28,31 @@ const colors = {
         light: "#33E781",
         DEFAULT: "#27CE70",
         dark: "#23B965",
-        darker: "#23B965", // TBD
+        darker: "#1B8E4E", // Made up by Rushi till Barth gives us a color
     },
 
     red: {
         lighter: "#FFEAEA",
         light: "#FFA1A1",
         DEFAULT: "#FF5A5A",
-        dark: "#FF5A5A", // TBD
-        darker: "#FF5A5A", // TBD
+        dark: "#E93737",
+        darker: "#E51919", // Made up by Rushi till Barth gives us a color
     },
 
     yellow: {
         lighter: "#FFFAF0",
         light: "#FFDB8E",
         DEFAULT: "#FFC03D",
-        dark: "#FFC03D", // TBD
-        darker: "#FFC03D", // TBD
+        dark: "#EBAA24",
+        darker: "#F0A200", // Made up by Rushi till Barth gives us a color
     },
 
     orange: {
         lighter: "#FFF1E7",
         light: "#FFB493",
         DEFAULT: "#FF9668",
-        dark: "#FF9668", // TBD
-        darker: "#FF9668", // TBD
+        dark: "#EC743F",
+        darker: "#ff7336", // Made up by Rushi till Barth gives us a color
     },
 };
 
@@ -69,6 +69,7 @@ module.exports = {
     ],
 
     theme: {
+        // Figma: https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%F0%9F%9B%A0-Xola-DS-Desktop-Master-%F0%9F%9B%A0?node-id=1885%3A51992
         colors: {
             ...colors,
 
@@ -83,7 +84,7 @@ module.exports = {
 
         spacing: {
             0: "0px",
-            px: "1px",
+            0.25: "1px",
             0.5: "2px",
             0.75: "3px",
             1: "4px",
@@ -93,9 +94,11 @@ module.exports = {
             3: "12px",
             3.5: "14px",
             4: "16px",
+            4.5: "18px",
             5: "20px",
             6: "24px",
             7: "28px",
+            7.5: "30px",
             8: "32px",
             9: "36px",
             10: "40px",
@@ -123,6 +126,7 @@ module.exports = {
             96: "384px",
         },
 
+        // Figma: https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%F0%9F%9B%A0-Xola-DS-Desktop-Master-%F0%9F%9B%A0?node-id=1885%3A51905
         fontSize: {
             xs: "10px",
             sm: "12px", // Figma - Small, H6
@@ -134,6 +138,18 @@ module.exports = {
             "3xl": "38px", // Figma - H0
         },
 
+        borderRadius: {
+            none: "0px",
+            DEFAULT: "4px",
+            sm: "2px",
+            md: "6px",
+            lg: "8px",
+            xl: "12px",
+            "2xl": "16px",
+            full: "9999px",
+        },
+
+        // Figma: https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%F0%9F%9B%A0-Xola-DS-Desktop-Master-%F0%9F%9B%A0?node-id=1885%3A51905
         extend: {
             fontFamily: {
                 sans: ["Inter", ...defaultTheme.fontFamily.sans],
@@ -143,6 +159,31 @@ module.exports = {
             // P2 - Med 14px 130%
             // P3 - Small 12px 110%
             lineHeight: {
+                0: "0px",
+                0.25: "1px",
+                0.5: "2px",
+                0.75: "3px",
+                1: "4px",
+                1.5: "6px",
+                2: "8px",
+                2.5: "10px",
+                xs: "10px",
+                3: "12px",
+                sm: "12px",
+                3.5: "14px",
+                base: "14px",
+                4: "16px",
+                md: "16px",
+                4.5: "18px",
+                lg: "18px",
+                5: "20px",
+                6: "24px",
+                7: "28px",
+                8: "32px",
+                9: "36px",
+                10: "40px",
+                11: "44px",
+                12: "48px",
                 p1: "130%",
                 p2: "130%",
                 p3: "110%",

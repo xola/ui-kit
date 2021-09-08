@@ -1,7 +1,10 @@
 import React from "react";
+import { createIcon } from "../helpers/icon";
 
-export const ChevronLeftIcon = (props) => (
-    <svg viewBox="0 0 14 14" width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
-        <path d="M9 12.5L3.5 7 9 1.5" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-);
+export const ChevronLeftIcon = createIcon((props) => {
+    return (
+        <svg viewBox="0 0 14 14" width={15} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+            <path d="M9.666 12.5L4.166 7l5.5-5.5" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+    );
+});

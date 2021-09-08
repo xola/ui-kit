@@ -10,7 +10,7 @@ import { Label } from "../Forms/Label";
 import { Spinner } from "../Spinner";
 import "./Login.css";
 
-export const Login = ({ defaultValues, isLoading = false, isError = null, onSubmit }) => {
+export const Login = ({ defaultValues, isLoading = false, error = null, onSubmit }) => {
     const [values, setValues] = useState({ email: "", password: "", shouldRemember: false, ...defaultValues });
 
     const handleInputChange = (event) => {
@@ -29,11 +29,11 @@ export const Login = ({ defaultValues, isLoading = false, isError = null, onSubm
     };
 
     return (
-        <div className="login-container h-screen bg-opacity-40 bg-white">
+        <div className="h-screen bg-white bg-opacity-40 login-container">
             <div className="flex flex-col justify-center items-center space-y-8 w-full h-[90%] md:full">
-                <div className="px-9 md:py-10 w-82 py-0 rounded-lg md:bg-white">
-                    <div className="md:mb-10 mb-12">
-                        <XolaLogo className="md:h-12 md:mb-20 w-auto h-10 mx-auto" />
+                <div className="py-0 px-9 rounded-lg md:py-10 md:bg-white w-82">
+                    <div className="mb-12 md:mb-10">
+                        <XolaLogo className="mx-auto w-auto h-10 md:mb-20 md:h-12" />
                     </div>
 
                     <form onSubmit={handleSubmit}>
@@ -48,7 +48,7 @@ export const Login = ({ defaultValues, isLoading = false, isError = null, onSubm
                                         type="email"
                                         autoComplete="email"
                                         value={values.email}
-                                        error={!!isError}
+                                        isError={!!error}
                                         onChange={handleInputChange}
                                     />
                                 </FormGroup>
@@ -62,7 +62,7 @@ export const Login = ({ defaultValues, isLoading = false, isError = null, onSubm
                                         type="password"
                                         autoComplete="current-password"
                                         value={values.password}
-                                        error={!!isError}
+                                        isError={!!error}
                                         onChange={handleInputChange}
                                     />
                                 </FormGroup>
@@ -75,7 +75,7 @@ export const Login = ({ defaultValues, isLoading = false, isError = null, onSubm
                                 onChange={handleCheckboxChange}
                             />
 
-                            {isError ? <Alert color="danger">{isError}</Alert> : null}
+                            {error ? <Alert color="danger">{error}</Alert> : null}
 
                             <Button type="submit" className="w-full" color="primary">
                                 {isLoading ? <Spinner size="current" color="current" className="mr-2" /> : null}
@@ -85,7 +85,7 @@ export const Login = ({ defaultValues, isLoading = false, isError = null, onSubm
                             <div className="mt-5 text-sm text-center">
                                 <a
                                     href="https://xola.com/resetting/form"
-                                    className="text-gray-darker hover:text-black font-semibold underline"
+                                    className="font-semibold underline hover:text-black text-gray-darker"
                                     target="_blank"
                                     rel="noreferrer"
                                 >
@@ -98,8 +98,8 @@ export const Login = ({ defaultValues, isLoading = false, isError = null, onSubm
             </div>
 
             <footer>
-                <div className="flex flex-col items-center justify-center w-full px-4 py-1 overflow-hidden sm:px-6 lg:px-8">
-                    <div className="px-4 m-5 w-82 opacity-30 hover:opacity-80 md:text-sm text-xs text-center rounded-lg">
+                <div className="flex overflow-hidden flex-col justify-center items-center py-1 px-4 w-full sm:px-6 lg:px-8">
+                    <div className="px-4 m-5 text-xs text-center rounded-lg opacity-30 md:text-sm hover:opacity-80 w-82">
                         <a href="https://www.xola.com/team" target="_blank" className="md:text-gray" rel="noreferrer">
                             Handcrafted in Houston, Belgrade & Bengaluru
                             <div className="text-center">&copy; {new Date().getFullYear()} Xola, Inc.</div>
@@ -118,6 +118,6 @@ Login.propTypes = {
         shouldRemember: PropTypes.bool,
     }),
     isLoading: PropTypes.bool,
-    isError: PropTypes.string,
+    error: PropTypes.string,
     onSubmit: PropTypes.func,
 };

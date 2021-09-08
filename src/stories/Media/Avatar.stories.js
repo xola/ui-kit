@@ -3,11 +3,11 @@ import { Avatar } from "../..";
 
 const avatarColors = [
     "bg-primary-lighter",
-    "bg-yellow-lighter",
-    "bg-green-lighter",
-    "bg-gray",
-    "bg-orange-lighter",
-    "bg-red-lighter",
+    "bg-warning-lighter",
+    "bg-success-lighter",
+    "bg-secondary",
+    "bg-caution-lighter",
+    "bg-danger-lighter",
 ];
 
 const AvatarStories = {
@@ -21,6 +21,10 @@ const AvatarStories = {
             },
         },
     },
+    args: {
+        size: "large",
+        color: "bg-primary-lighter",
+    },
     argTypes: {
         name: {
             description: "A user's full name",
@@ -32,7 +36,6 @@ const AvatarStories = {
         },
         size: {
             description: "Avatar Size",
-            defaultValue: "large",
             table: {
                 type: { summary: "one of the options" },
                 defaultValue: { summary: "large" },
@@ -42,7 +45,6 @@ const AvatarStories = {
         },
         color: {
             description: "Colors",
-            defaultValue: "bg-primary-lighter",
             table: {
                 type: { summary: "one of the options" },
                 defaultValue: { summary: "bg-primary-lighter" },

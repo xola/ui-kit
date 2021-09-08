@@ -7,8 +7,18 @@ const documentationUrl = "https://atomiks.github.io/tippyjs/v6/all-props/";
 const TooltipStories = {
     title: "Overlay/Tooltip",
     component: Tooltip,
+    args: {
+        content: "Hey there!",
+        trigger: "mouseenter",
+        placement: "right",
+        allowHTML: false,
+        delay: 0,
+        maxWidth: 350,
+        duration: [300, 250],
+        offset: [0, 10],
+        zIndex: 9999,
+    },
     argTypes: {
-        demoText: getArgument("Default", "text", null, "The value for the button", "for this demo only"),
         content: getArgument("My tooltip text", "text", null, "The text of the tooltip"),
         trigger: getArgument(
             "mouseenter",
@@ -49,7 +59,6 @@ const TooltipStories = {
 function getArgument(defaultValue, type, options, description, summary = null) {
     return {
         type: { required: false },
-        defaultValue,
         description,
         options,
         control: { type },
@@ -63,16 +72,17 @@ function getArgument(defaultValue, type, options, description, summary = null) {
 export const Default = (config) => {
     return (
         <Tooltip {...config}>
-            <Button>{config.demoText}</Button>
+            <Button>Hello World</Button>
         </Tooltip>
     );
 };
 
 export const OnAnIcon = (config) => {
-    config.text = "Hello, I am user icon";
     return (
         <Tooltip {...config}>
-            <UserIcon className="inline" />
+            <Button.Icon color="outline" size="medium">
+                <UserIcon size="medium" />
+            </Button.Icon>
         </Tooltip>
     );
 };

@@ -1,18 +1,21 @@
 import React from "react";
+import { createIcon } from "../helpers/icon";
 
-export const ClockAltIcon = (props) => (
-    <svg viewBox="0 0 14 14" width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
-        <path
-            d="M7 1.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11v0z"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-        />
-        <path
-            d="M7 6.214a.786.786 0 100 1.572.786.786 0 000-1.572zM7 6.214v-2.75M7.555 7.555l1.41 1.41"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-        />
-    </svg>
-);
+export const ClockAltIcon = createIcon((props) => {
+    return (
+        <svg viewBox="0 0 14 14" width={15} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+            <path
+                d="M7.541 12.25a5.375 5.375 0 100-10.75 5.375 5.375 0 000 10.75z"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+            <path
+                d="M7.541 4.304v2.571l2.805 2.57"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+        </svg>
+    );
+});

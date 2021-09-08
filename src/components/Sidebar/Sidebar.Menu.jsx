@@ -13,7 +13,10 @@ export const SidebarMenu = ({ children, content, ...rest }) => {
             placement="right"
             offset={[0, 20]}
             arrow={false}
-            className={clsx(styles.main, "!rounded-none bg-black/90 p-2 w-56")}
+            className={clsx(
+                styles.main,
+                "!rounded-none bg-black bg-opacity-90 backdrop-filter backdrop-blur-sm p-2 w-56",
+            )}
             content={content}
             {...rest}
         >

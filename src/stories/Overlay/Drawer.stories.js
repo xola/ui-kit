@@ -42,7 +42,7 @@ export const Default = ({ title = "Hello World", content = "Lorem Ipsum. Click t
             <Button size="large" onClick={() => setOpen(true)}>
                 Click Me to open the Drawer
             </Button>
-            <Drawer title={title} content={content} open={open} onClose={onClose} />
+            <Drawer title={title} content={content} isOpen={open} onClose={onClose} />
         </div>
     );
 };

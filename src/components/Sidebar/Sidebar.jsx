@@ -2,7 +2,7 @@ import clsx from "clsx";
 import PropTypes from "prop-types";
 import React from "react";
 import { XolaLogoCircle } from "../../images/XolaLogoCircle";
-import { NotificationCount } from "../NotificationCount";
+import { Counter } from "../Counter";
 import { SidebarAccount } from "./Sidebar.Account";
 import { SidebarButton } from "./Sidebar.Button";
 import { SidebarFooter } from "./Sidebar.Footer";
@@ -19,7 +19,7 @@ export const Sidebar = ({ children, className, footer, notifications, isFixed = 
             )}
         >
             <div className={clsx("p-2 text-center xl:text-left", notifications ? null : "invisible")}>
-                <NotificationCount className="text-sm">{notifications}</NotificationCount>
+                <Counter className="text-sm">{notifications}</Counter>
             </div>
 
             <div className="mb-10 text-center">
@@ -39,7 +39,7 @@ export const Sidebar = ({ children, className, footer, notifications, isFixed = 
 };
 
 Sidebar.propTypes = {
-    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
+    children: PropTypes.node.isRequired,
     className: PropTypes.string,
     footer: PropTypes.element.isRequired,
     notifications: PropTypes.number,

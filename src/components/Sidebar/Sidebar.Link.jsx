@@ -28,5 +28,5 @@ SidebarLink.displayName = "Sidebar.Link";
 SidebarLink.propTypes = {
     isActive: PropTypes.bool,
     icon: PropTypes.func.isRequired,
-    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
+    children: PropTypes.node.isRequired,
 };

@@ -62,12 +62,15 @@ Switch.Group.displayName = "Switch.Group";
 
 Switch.Group.propTypes = {
     className: PropTypes.string,
-    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
+    children: PropTypes.node.isRequired,
 };
 
 Switch.Label = ({ direction = "left", className, children }) => {
     return (
-        <HeadlessSwitch.Label as="span" className={clsx(direction === "left" ? "mr-2" : "ml-2", className)}>
+        <HeadlessSwitch.Label
+            as="span"
+            className={clsx("cursor-pointer", direction === "left" ? "mr-2" : "ml-2", className)}
+        >
             {children}
         </HeadlessSwitch.Label>
     );
@@ -78,5 +81,5 @@ Switch.Label.displayName = "Switch.Label";
 Switch.Label.propTypes = {
     direction: PropTypes.string,
     className: PropTypes.string,
-    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
+    children: PropTypes.node.isRequired,
 };

@@ -1,43 +1,46 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import React, { cloneElement } from "react";
+import React from "react";
 
 const colors = {
     primary: "bg-primary hover:bg-primary-dark disabled:bg-primary border-transparent text-white",
-    secondary: "bg-secondary hover:bg-secondary-dark disabled:bg-secondary border-transparent text-white",
+    secondary: "bg-secondary hover:bg-secondary-dark disabled:bg-secondary border-transparent",
     success: "bg-success hover:bg-success-dark disabled:bg-success border-transparent text-white",
     warning: "bg-warning hover:bg-warning-dark disabled:bg-warning border-transparent text-white",
     danger: "bg-danger hover:bg-danger-dark disabled:bg-danger border-transparent text-white",
-    outline: "bg-white border-secondary-dark hover:border-black disabled:border-secondary-dark text-black",
+    outline:
+        "bg-white hover:bg-secondary-lighter disabled:bg-secondary-light border-secondary-light hover:border-black disabled:border-transparent disabled:text-gray-dark",
     link: "border-transparent hover:underline",
 };
 
 const sizes = {
-    small: "px-3 py-1.5 text-sm",
-    medium: "px-4 py-2 text-base",
-    large: "px-5 py-2.5 text-lg",
+    tiny: "px-2 py-0.5 text-xs leading-xs", // 20px
+    small: "px-3.5 py-2 text-sm leading-sm", // 30px
+    medium: "px-4.5 py-3 text-base leading-base", // 40px
+    large: "px-6 py-4 text-md leading-md", // 50px
 };
 
-const buttonBaseClassName = "transition-colors border focus:ring disabled:opacity-60 disabled:cursor-default";
+const buttonBaseClassName =
+    "inline-flex rounded transition-colors border focus:ring disabled:opacity-60 disabled:cursor-default";
 
 export const Button = ({
     as: Tag = "button",
-    className,
     color = "primary",
     size = "medium",
     icon,
     iconPlacement = "left",
+    className,
     children,
     ...rest
 }) => {
     return (
         <Tag
             className={clsx(
-                className,
                 buttonBaseClassName,
-                "inline-flex justify-center items-center font-semibold rounded-md",
+                "justify-center items-center font-semibold",
                 colors[color],
                 sizes[size],
+                className,
             )}
             {...rest}
         >
@@ -58,27 +61,16 @@ Button.propTypes = {
     children: PropTypes.node.isRequired,
 };
 
-// `Button.Icon` requires custom padding and icon sizes.
-
-const buttonIconSizes = {
-    small: "p-1.5",
-    medium: "p-2",
-    large: "p-2.5",
-};
-
 const iconSizes = {
-    small: "h-3 w-3",
-    medium: "h-4 w-4",
-    large: "h-5 w-5",
+    ...sizes,
+    small: "h-7.5 w-7.5 px-2 py-2 text-base leading-base", // 30px requires h|w-7.5 because small size has 14px icon
+    medium: "px-3 py-3 text-base leading-base", // 40px
 };
 
 const Icon = ({ className, as: Tag = "button", color = "primary", size = "medium", children: icon, ...rest }) => {
     return (
-        <Tag
-            className={clsx(className, buttonBaseClassName, "rounded", colors[color], buttonIconSizes[size])}
-            {...rest}
-        >
-            {cloneElement(icon, { className: iconSizes[size] })}
+        <Tag className={clsx(buttonBaseClassName, colors[color], iconSizes[size], className)} {...rest}>
+            {icon}
         </Tag>
     );
 };

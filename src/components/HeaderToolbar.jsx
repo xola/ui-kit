@@ -18,7 +18,7 @@ export const HeaderToolbar = ({ classNames, children }) => {
 
 HeaderToolbar.propTypes = {
     classNames: PropTypes.string,
-    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
+    children: PropTypes.node.isRequired,
 };
 
 HeaderToolbar.Breadcrumb = ({ className, children }) => {
@@ -33,7 +33,7 @@ HeaderToolbar.Breadcrumb.displayName = "HeaderToolbar.Breadcrumb";
 
 HeaderToolbar.Breadcrumb.propTypes = {
     className: PropTypes.string,
-    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
+    children: PropTypes.node.isRequired,
 };
 
 HeaderToolbar.Breadcrumb.displayName = "HeaderToolbar.Search";

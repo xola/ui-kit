@@ -11,11 +11,14 @@ const PhoneStories = {
             },
         },
     },
+    args: {
+        number: "5402322157",
+        countryCode: "US",
+    },
     argTypes: {
         number: {
             description: "A phone number",
             type: { required: true },
-            defaultValue: "5402322157",
             control: { type: "text" },
             table: {
                 type: { summary: null },
@@ -25,7 +28,6 @@ const PhoneStories = {
             description:
                 "The country of the code seller to display the number in the seller country's format. This is available in `seller.countryCode`",
             type: { required: false },
-            defaultValue: "US",
             control: { type: "text" },
             table: {
                 type: { summary: null },

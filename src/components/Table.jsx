@@ -47,7 +47,7 @@ Table.Body = ({ className, isStriped = false, children, ...rest }) => {
 Table.Body.displayName = "Table.Body";
 Table.Body.propTypes = {
     className: PropTypes.string,
-    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
+    children: PropTypes.node.isRequired,
     isStriped: PropTypes.bool,
 };
 

@@ -8,9 +8,9 @@ const sizes = {
     large: "px-4 py-3.5 text-lg",
 };
 
-const ButtonGroup = ({ size, value, onChange, children, ...rest }) => {
+const ButtonGroup = ({ size, value, isCollapsed = false, onChange, className, children, ...rest }) => {
     return (
-        <span className="inline-flex whitespace-nowrap" {...rest}>
+        <span className={clsx("inline-flex whitespace-nowrap", className)} {...rest}>
             {Children.map(children, (child, index) => {
                 const buttonProps = { size };
 
@@ -19,6 +19,10 @@ const ButtonGroup = ({ size, value, onChange, children, ...rest }) => {
                 // directly, if `value` and `onChange` are not passed on the parent.
                 if (value !== undefined) {
                     buttonProps.isActive = value === index;
+                }
+
+                if (isCollapsed && value >= 0 && value !== index) {
+                    buttonProps.shouldShowText = false;
                 }
 
                 if (onChange) {
@@ -32,15 +36,26 @@ const ButtonGroup = ({ size, value, onChange, children, ...rest }) => {
 };
 
 ButtonGroup.propTypes = {
-    size: PropTypes.oneOf(Object.keys(sizes)),
+    size: PropTypes.oneOf(Object.keys(sizes)).isRequired,
     value: PropTypes.number.isRequired,
+    isCollapsed: PropTypes.bool,
     onChange: PropTypes.func.isRequired,
     children: PropTypes.node.isRequired,
 };
 
-const Button = ({ as: Tag = "button", isActive, size = "medium", className, ...rest }) => {
+const Button = ({
+    as: Tag = "button",
+    isActive,
+    shouldShowText = true,
+    size = "medium",
+    icon,
+    iconPlacement = "left",
+    className,
+    children,
+    ...rest
+}) => {
     const classes = clsx(
-        "border-t border-l border-b last:border-r first:rounded-l-md last:rounded-r-md transition-colors focus:ring disabled:opacity-60 focus:z-10 leading-none",
+        "inline-flex border-t border-l border-b last:border-r first:rounded-l-md last:rounded-r-md transition-colors focus:ring disabled:opacity-60 focus:z-10 leading-none",
         sizes[size],
         isActive
             ? "bg-primary border-primary text-white hover:bg-primary-dark"
@@ -48,15 +63,25 @@ const Button = ({ as: Tag = "button", isActive, size = "medium", className, ...r
         className,
     );
 
-    return <Tag className={classes} {...rest} />;
+    return (
+        <Tag className={classes} {...rest}>
+            {icon && iconPlacement === "left" ? <span className="flex-shrink-0 mr-2">{icon}</span> : null}
+            {shouldShowText ? children : null}
+            {icon && iconPlacement === "right" ? <span className="flex-shrink-0 ml-2">{icon}</span> : null}
+        </Tag>
+    );
 };
 
 Button.displayName = "ButtonGroup.Button";
 Button.propTypes = {
     as: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]),
     isActive: PropTypes.bool,
+    shouldShowText: PropTypes.bool,
     size: PropTypes.oneOf(Object.keys(sizes)),
+    icon: PropTypes.element,
+    iconPlacement: PropTypes.oneOf(["left", "right"]),
     className: PropTypes.string,
+    children: PropTypes.node.isRequired,
 };
 ButtonGroup.Button = Button;
 

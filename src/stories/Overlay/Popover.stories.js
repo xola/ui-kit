@@ -5,8 +5,17 @@ import { Button, Popover } from "../..";
 const documentationUrl = "https://atomiks.github.io/tippyjs/v6/all-props/";
 
 const PopoverStories = {
+    id: "Popover",
     title: "Overlay/Popover",
     component: Popover,
+    args: {
+        trigger: "mouseenter",
+        placement: "right",
+        delay: 0,
+        maxWidth: 350,
+        duration: [300, 250],
+        offset: [0, 10],
+    },
     argTypes: {
         demoText: getArgument("Default", "text", null, "The value for the button", "for this demo only"),
         trigger: getArgument(
@@ -17,7 +26,7 @@ const PopoverStories = {
         ),
         placement: getArgument(
             "right",
-            "inline-radio",
+            "select",
             ["top", "bottom", "left", "right", "auto"],
             `Where to place the tooltip. [More in the docs](${documentationUrl})`,
         ),
@@ -47,7 +56,6 @@ const PopoverStories = {
 function getArgument(defaultValue, type, options, description, summary = null) {
     return {
         type: { required: false },
-        defaultValue,
         description,
         options,
         control: { type },
@@ -58,50 +66,48 @@ function getArgument(defaultValue, type, options, description, summary = null) {
     };
 }
 
-export const Default = ({ demoText, ...rest }) => {
-    const content = (
-        <Popover.Content>
-            <div className="pb-1 text-base font-bold">Popover title</div>
-            <div className="text-sm">And here is some amazing content and it is very engaging. Right?</div>
-            <div className="text-sm">Here is some more because I am crazy</div>
-        </Popover.Content>
-    );
-
+export const Default = ({ demoText = "Hello World", ...rest }) => {
     return (
-        <Popover {...rest} content={content}>
-            <Button>{demoText}</Button>
-        </Popover>
+        <div className="mt-10 h-20">
+            <Popover {...rest}>
+                <Button>{demoText}</Button>
+                <Popover.Content className="p-4 space-y-2">
+                    <p className="font-bold p1">Popover Title</p>
+                    <p className="p2">And here is some amazing content and it is very engaging. Right?</p>
+                    <p className="p2">Here is some more because I am crazy</p>
+                </Popover.Content>
+            </Popover>
+        </div>
     );
 };
 
-export const NoTitle = ({ demoText, ...rest }) => {
-    const content = (
-        <Popover.Content>
-            <dl className="space-y-2 text-sm">
-                <div className="grid grid-cols-2 gap-4">
-                    <dt className="font-bold">Demo Request</dt>
-                    <dd>Dec 21, 2020</dd>
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                    <dt className="font-bold">Join Request</dt>
-                    <dd>Dec 24, 2020</dd>
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                    <dt className="font-bold">Account Created</dt>
-                    <dd>Dec 31, 2020</dd>
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                    <dt className="font-bold">Account Verified</dt>
-                    <dd>Jan 5, 2021</dd>
-                </div>
-            </dl>
-        </Popover.Content>
-    );
-
+export const NoTitle = ({ demoText = "Detailed", ...rest }) => {
     return (
-        <Popover {...rest} content={content}>
-            <Button>{demoText}</Button>
-        </Popover>
+        <div className="mt-10 h-20">
+            <Popover {...rest}>
+                <Button>{demoText}</Button>
+                <Popover.Content className="p-4">
+                    <dl className="space-y-2 text-sm">
+                        <div className="grid grid-cols-2 gap-4">
+                            <dt className="font-bold">Demo Request</dt>
+                            <dd>Dec 21, 2020</dd>
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                            <dt className="font-bold">Join Request</dt>
+                            <dd>Dec 24, 2020</dd>
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                            <dt className="font-bold">Account Created</dt>
+                            <dd>Dec 31, 2020</dd>
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                            <dt className="font-bold">Account Verified</dt>
+                            <dd>Jan 5, 2021</dd>
+                        </div>
+                    </dl>
+                </Popover.Content>
+            </Popover>
+        </div>
     );
 };
 
