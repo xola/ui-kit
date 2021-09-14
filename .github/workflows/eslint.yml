@@ -18,15 +18,10 @@ jobs:
                   ref: ${{github.event.pull_request.head.sha}}
                   repository: ${{github.event.pull_request.head.repo.full_name}}
 
-            - name: Node.JS 14
+            - name: Node.JS 16
               uses: actions/setup-node@v2
               with:
-                  node-version: 14
-
-            - name: Install NPM v7
-              run: npm install -g npm@7
-              env:
-                  CI: TRUE
+                  node-version: 16
 
             - name: Install Node Dependencies
               run: npm ci
