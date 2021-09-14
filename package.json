@@ -29,9 +29,10 @@
     "dependencies": {
         "@headlessui/react": "^1.4.0",
         "@tailwindcss/forms": "^0.3.3",
+        "@tailwindcss/line-clamp": "^0.2.1",
         "@tippyjs/react": "^4.2.5",
         "clsx": "^1.1.1",
-        "dayjs": "^1.10.6",
+        "dayjs": "^1.10.7",
         "downshift": "^6.1.5",
         "get-user-locale": "^1.4.0",
         "google-libphonenumber": "^3.2.22",
@@ -44,7 +45,7 @@
     },
     "devDependencies": {
         "@babel/core": "^7.14.8",
-        "@babel/preset-env": "^7.14.9",
+        "@babel/preset-env": "^7.15.6",
         "@storybook/addon-actions": "^6.3.6",
         "@storybook/addon-essentials": "^6.3.6",
         "@storybook/addon-links": "^6.3.6",
@@ -54,17 +55,17 @@
         "@storybook/theming": "^6.3.6",
         "@xola/jslint": "0.0.2",
         "autoprefixer": "^10.3.1",
-        "babel-jest": "^27.0.6",
+        "babel-jest": "^27.2.0",
         "babel-loader": "^8.2.2",
-        "jest": "^27.0.6",
+        "jest": "^27.2.0",
         "lodash": "^4.17.21",
         "postcss": "^8.3.6",
-        "prettier": "^2.3.2",
+        "prettier": "^2.4.0",
         "react": "^17.0.2",
         "react-dom": "^17.0.2",
         "storybook-css-modules-preset": "^1.1.1",
-        "tailwindcss": "^2.2.7",
-        "vite": "^2.4.4"
+        "tailwindcss": "^2.2.15",
+        "vite": "^2.5.7"
     },
     "peerDependencies": {
         "autoprefixer": "^10.3.1",
