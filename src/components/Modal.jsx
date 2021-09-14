@@ -80,6 +80,7 @@ export const Modal = ({
 };
 
 Modal.propTypes = {
+    className: PropTypes.string,
     size: PropTypes.oneOf(Object.keys(sizes)),
     isOpen: PropTypes.bool,
     shouldCloseOnOutsideClick: PropTypes.bool,
@@ -87,7 +88,7 @@ Modal.propTypes = {
     children: PropTypes.node.isRequired,
 };
 
-const Core = forwardRef(({ className, width, onClose, header, body, footer }, ref) => {
+const Core = forwardRef(({ className, width, onClose, header, body, footer }, reference) => {
     const classes = clsx(
         className,
         width,
@@ -96,7 +97,7 @@ const Core = forwardRef(({ className, width, onClose, header, body, footer }, re
     );
 
     return (
-        <div ref={ref} className={classes}>
+        <div ref={reference} className={classes}>
             <div className="px-8 pt-5 bg-white">
                 <div className="hidden absolute top-0 right-0 px-8 pt-7 sm:block">
                     {onClose ? (
@@ -121,6 +122,9 @@ const Core = forwardRef(({ className, width, onClose, header, body, footer }, re
 
 Core.displayName = "Modal.Core";
 Core.propTypes = {
+    // ESLint is lying about the rule bellow.
+    // eslint-disable-next-line react/require-default-props
+    className: PropTypes.string,
     width: PropTypes.string.isRequired,
     onClose: PropTypes.func.isRequired,
     header: PropTypes.element.isRequired,
@@ -129,6 +133,8 @@ Core.propTypes = {
 };
 Modal.Core = Core;
 
+// ESLint is lying about the rule bellow.
+// eslint-disable-next-line react/prop-types
 Modal.Header = ({ children }) => {
     return (
         <Dialog.Title as="h3" className="text-2xl font-semibold leading-6 text-center text-black modal-header">
@@ -142,6 +148,8 @@ Modal.Header.propTypes = {
     children: PropTypes.node.isRequired,
 };
 
+// ESLint is lying about the rule bellow.
+// eslint-disable-next-line react/prop-types
 Modal.Body = ({ className, ...rest }) => {
     return <div className={clsx(className, "pt-8 pb-2 mt-2 text-left modal-body")} {...rest} />;
 };
@@ -151,6 +159,8 @@ Modal.Body.propTypes = {
     className: PropTypes.string,
 };
 
+// ESLint is lying about the rule bellow.
+// eslint-disable-next-line react/prop-types
 Modal.Footer = ({ className, ...rest }) => {
     return <div className={clsx(className, "float-right px-8 py-8 modal-footer sm:flex")} {...rest} />;
 };

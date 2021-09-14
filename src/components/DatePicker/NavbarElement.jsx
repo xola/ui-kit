@@ -1,8 +1,8 @@
 import clsx from "clsx";
+import PropTypes from "prop-types";
 import React from "react";
 import { ChevronLeftIcon } from "../../icons/ChevronLeftIcon";
 import { ChevronRightIcon } from "../../icons/ChevronRightIcon";
-import PropTypes from "prop-types";
 
 /**
  * Render the custom left & right arrows to change the current month.
@@ -25,7 +25,9 @@ NavbarElement.propTypes = {
     onPreviousClick: PropTypes.func,
     onNextClick: PropTypes.func,
     className: PropTypes.string,
+    // eslint-disable-next-line react/boolean-prop-naming
     showNextButton: PropTypes.bool,
+    // eslint-disable-next-line react/boolean-prop-naming
     showPreviousButton: PropTypes.bool,
 };
 

@@ -9,7 +9,7 @@ export const DownArrowIcon = createIcon((props) => {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 d="M10 6L7.184 8.816v0a.26.26 0 01-.368 0L4 6"
-            ></path>
+            />
         </svg>
     );
 });

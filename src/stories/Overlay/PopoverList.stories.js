@@ -51,7 +51,7 @@ export const Default = (props) => {
                     <MenuIcon />
                     <span>List</span>
                 </PopoverList.Item>
-                <PopoverList.Item name="day" isActive={true} onClickItem={onClickItem}>
+                <PopoverList.Item isActive name="day" onClickItem={onClickItem}>
                     <CalendarDayIcon />
                     <span>Day</span>
                 </PopoverList.Item>

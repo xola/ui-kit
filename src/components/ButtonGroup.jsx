@@ -36,6 +36,7 @@ const ButtonGroup = ({ size, value, isCollapsed = false, onChange, className, ch
 };
 
 ButtonGroup.propTypes = {
+    className: PropTypes.string,
     size: PropTypes.oneOf(Object.keys(sizes)).isRequired,
     value: PropTypes.number.isRequired,
     isCollapsed: PropTypes.bool,

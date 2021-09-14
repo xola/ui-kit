@@ -58,6 +58,7 @@ export const Colors = () => {
 
 export const Dismissible = () => {
     const handleClose = () => {
+        // eslint-disable-next-line no-alert
         alert("You clicked on the close button.");
     };
 

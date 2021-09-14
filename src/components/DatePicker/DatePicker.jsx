@@ -70,18 +70,16 @@ export const DatePicker = ({
 
     return (
         <DayPicker
+            showOutsideDays
             className={clsx(
                 "date-picker",
                 useDateRangeStyle ? "date-range-picker" : null,
                 getDayContent ? "has-custom-content" : null,
             )}
-            showOutsideDays
             todayButton="Today"
             selectedDays={value}
-            onDayClick={handleDayClick}
             initialMonth={initialMonth}
             month={month}
-            onMonthChange={handleMonthChange}
             modifiers={{ ...modifiers, ...rangeModifier }}
             numberOfMonths={isRangeVariant ? 2 : 1}
             disabledDays={disabledDays}
@@ -89,6 +87,8 @@ export const DatePicker = ({
             renderDay={renderDay}
             navbarElement={NavbarElement}
             onTodayButtonClick={onTodayButtonClick}
+            onDayClick={handleDayClick}
+            onMonthChange={handleMonthChange}
             {...rest}
         />
     );
