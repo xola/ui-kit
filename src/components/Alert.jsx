@@ -25,7 +25,7 @@ export const Alert = ({ className, color = "primary", onClose, children, ...rest
             <span className="ui-alert-body w-full">{children}</span>
 
             {onClose ? (
-                <button className="ui-alert-close ml-3 cursor-pointer hover:text-gray-dark">
+                <button type="button" className="ui-alert-close ml-3 cursor-pointer hover:text-gray-dark">
                     <CloseIcon onClick={onClose} />
                 </button>
             ) : null}

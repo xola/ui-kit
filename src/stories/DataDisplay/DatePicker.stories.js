@@ -56,10 +56,10 @@ export const RestrictNavigation = () => {
     return (
         <DatePicker
             value={value}
-            onChange={setValue}
             initialMonth={today}
             fromMonth={today}
             toMonth={dayjs().add(2, "month").toDate()}
+            onChange={setValue}
         />
     );
 };
@@ -94,11 +94,11 @@ export const ModifyCellStyle = () => {
     return (
         <DatePicker
             value={value}
-            onChange={setValue}
             initialMonth={today}
             modifiers={modifiers}
             modifiersStyles={modifiersStyles}
             fromMonth={new Date()}
+            onChange={setValue}
         />
     );
 };
@@ -110,7 +110,7 @@ addDescription(
 
 export const SelectYearMonth = () => {
     const [value, setValue] = useState(new Date());
-    return <DatePicker value={value} onChange={setValue} shouldShowYearPicker initialMonth={new Date(2021, 3, 21)} />;
+    return <DatePicker shouldShowYearPicker value={value} initialMonth={new Date(2021, 3, 21)} onChange={setValue} />;
 };
 
 addDescription(
@@ -129,7 +129,7 @@ customContent[_.random(1, dayjs().daysInMonth())] = "Sold Out";
 
 export const AddContentToDays = () => {
     const [value, setValue] = useState(new Date());
-    return <DatePicker value={value} onChange={setValue} getDayContent={(date) => customContent[date]} />;
+    return <DatePicker value={value} getDayContent={(date) => customContent[date]} onChange={setValue} />;
 };
 
 addDescription(

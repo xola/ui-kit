@@ -51,6 +51,8 @@ const Item = ({ name, isActive = false, position, total, children, className, on
 
 Item.displayName = "Popover.Item";
 Item.propTypes = {
+    position: PropTypes.number,
+    total: PropTypes.number,
     name: PropTypes.string.isRequired,
     isActive: PropTypes.bool,
     children: PropTypes.node.isRequired,

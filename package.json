@@ -9,8 +9,9 @@
         "tailwind.config.js",
         "postcss.config.js"
     ],
-    "main": "./build/ui-kit.umd.js",
-    "module": "./build/ui-kit.es.js",
+    "main": "build/ui-kit.umd.js",
+    "module": "build/ui-kit.es.js",
+    "types": "index.d.ts",
     "scripts": {
         "prepare": "node scripts/prepare && vite build",
         "start": "node scripts/prepare && start-storybook -p 6006 -s public",
