@@ -51,6 +51,11 @@ export const DatePicker = ({
         }
     };
 
+    const handleTodayButtonClick = (day, ...rest) => {
+        handleDayClick(day);
+        onTodayButtonClick?.(day, ...rest);
+    };
+
     const handleMonthChange = (value) => {
         setMonth(value);
     };
@@ -86,7 +91,7 @@ export const DatePicker = ({
             captionElement={captionElement}
             renderDay={renderDay}
             navbarElement={NavbarElement}
-            onTodayButtonClick={onTodayButtonClick}
+            onTodayButtonClick={handleTodayButtonClick}
             onDayClick={handleDayClick}
             onMonthChange={handleMonthChange}
             {...rest}
