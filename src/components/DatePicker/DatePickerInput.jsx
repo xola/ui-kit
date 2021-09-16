@@ -16,21 +16,23 @@ export const DatePickerInput = ({
     dateFormat = "ddd, MMM DD, YYYY",
     shouldShowOverlay = false,
     handleDayChange,
+    ...rest
 }) => {
     // TODO: Refactor to use date ranges
     const [date, setDate] = useState(selectedDate);
 
-    if (!handleDayChange) {
-        // TODO: Cleanup handling
-        handleDayChange = (day, options) => {
-            console.assert(!options.disabled, "Date is disabled");
-            console.log("DatePickerInput Day is " + formatDate(day, dateFormat));
-            setDate(day);
-            setTimeout(() => {
-                // TODO:
-                datePickerInputReference.hideDayPicker();
-            }, 500);
-        };
+    const handleDayClick = (day, options) => {
+        setDate(day);
+
+        if (!handleDayChange) {
+            console.warn("Please implement `handleDayChange` to receive a callback when the date changes");
+        } else {
+            handleDayChange(day);
+        }
+
+        setTimeout(() => {
+            datePickerInputReference.hideDayPicker();
+        }, 500);
     }
 
     const formatSelectedDate = (date) => formatDate(date, dateFormat);
@@ -45,10 +47,11 @@ export const DatePickerInput = ({
             >
                 <div className={classNames.overlay}>
                     <DatePicker
-                        selectedDate={selectedDay}
+                        value={selectedDate}
                         range={range}
-                        startMonth={month}
-                        handleDayClick={handleDayChange}
+                        initialMonth={selectedDate}
+                        month={selectedDate}
+                        onChange={handleDayClick}
                         // handleMonthChange={onMonthChange}
                         // handleTodayButtonClick={onTodayClick}
                     />

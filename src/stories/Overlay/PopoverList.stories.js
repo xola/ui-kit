@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, CalendarDayIcon, CalendarMonthIcon, CalendarWeekIcon, MenuIcon, PopoverList } from "../..";
 
 const PopoverStories = {
@@ -42,11 +42,18 @@ const PopoverStories = {
 };
 
 export const Default = (props) => {
-    const onClickItem = (event_, element) => console.log("Clicked on", event_, element);
+    const [visible, setVisible] = useState(false);
+    const show = () => setVisible(true);
+    const hide = () => setVisible(false);
+
+    const onClickItem = (event_, element) => {
+        console.log("Clicked on", event_, element);
+        setVisible(false);
+    };
     return (
         <div className="h-64">
-            <PopoverList offset={[0, 18]} {...props}>
-                <Button>Hover over me</Button>
+            <PopoverList offset={[0, 18]} visible={visible} onClickOutside={hide}>
+                <Button onClick={visible ? hide : show}>Hover over me</Button>
                 <PopoverList.Item name="list" onClickItem={onClickItem}>
                     <MenuIcon />
                     <span>List</span>
