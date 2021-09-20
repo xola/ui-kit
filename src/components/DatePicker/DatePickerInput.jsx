@@ -24,10 +24,10 @@ export const DatePickerInput = ({
     const handleDayClick = (day, options) => {
         setDate(day);
 
-        if (!handleDayChange) {
-            console.warn("Please implement `handleDayChange` to receive a callback when the date changes");
-        } else {
+        if (handleDayChange) {
             handleDayChange(day);
+        } else {
+            console.warn("Please implement `handleDayChange` to receive a callback when the date changes");
         }
 
         setTimeout(() => {
@@ -64,7 +64,7 @@ export const DatePickerInput = ({
         <DayPickerInput
             // eslint-disable-next-line no-return-assign
             ref={(reference) => (datePickerInputReference = reference)}
-            inputProps={{ date: formatDate(date, dateFormat) }}
+            inputProps={{ date: formatDate(selectedDate, dateFormat) }}
             component={inputComponent}
             placeholder={dayjs().format(dateFormat)}
             showOverlay={shouldShowOverlay}
