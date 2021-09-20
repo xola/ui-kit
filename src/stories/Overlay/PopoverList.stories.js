@@ -41,7 +41,7 @@ const PopoverStories = {
     },
 };
 
-export const Default = (props) => {
+export const Default = () => {
     const [visible, setVisible] = useState(false);
     const show = () => setVisible(true);
     const hide = () => setVisible(false);
@@ -50,6 +50,7 @@ export const Default = (props) => {
         console.log("Clicked on", event_, element);
         setVisible(false);
     };
+
     return (
         <div className="h-64">
             <PopoverList offset={[0, 18]} visible={visible} onClickOutside={hide}>

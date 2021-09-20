@@ -16,12 +16,11 @@ export const DatePickerInput = ({
     dateFormat = "ddd, MMM DD, YYYY",
     shouldShowOverlay = false,
     handleDayChange,
-    ...rest
 }) => {
     // TODO: Refactor to use date ranges
     const [date, setDate] = useState(selectedDate);
 
-    const handleDayClick = (day, options) => {
+    const handleDayClick = (day) => {
         setDate(day);
 
         if (handleDayChange) {
@@ -33,11 +32,11 @@ export const DatePickerInput = ({
         setTimeout(() => {
             datePickerInputReference.hideDayPicker();
         }, 500);
-    }
+    };
 
     const formatSelectedDate = (date) => formatDate(date, dateFormat);
 
-    const overlayComponent = ({ month, onBlur, onFocus, selectedDay, classNames, tabIndex }) => {
+    const overlayComponent = ({ onBlur, onFocus, classNames, tabIndex }) => {
         return (
             <div
                 className={clsx(classNames.overlayWrapper, "z-50")}
