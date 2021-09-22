@@ -17,7 +17,7 @@ export const DatePickerInput = ({
     shouldShowOverlay = false,
     handleDayChange,
 }) => {
-    // TODO: Refactor to use date ranges
+    // TODO: Refactor to use date ranges when needed
     const [date, setDate] = useState(selectedDate);
 
     const handleDayClick = (day) => {
@@ -26,7 +26,7 @@ export const DatePickerInput = ({
         if (handleDayChange) {
             handleDayChange(day);
         } else {
-            console.warn("Please implement `handleDayChange` to receive a callback when the date changes");
+            console.warn("Please implement `handleDayChange` to receive a callback when the date changes", date);
         }
 
         setTimeout(() => {
