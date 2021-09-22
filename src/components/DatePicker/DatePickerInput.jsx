@@ -17,25 +17,26 @@ export const DatePickerInput = ({
     shouldShowOverlay = false,
     handleDayChange,
 }) => {
-    // TODO: Refactor to use date ranges
+    // TODO: Refactor to use date ranges when needed
     const [date, setDate] = useState(selectedDate);
 
-    if (!handleDayChange) {
-        // TODO: Cleanup handling
-        handleDayChange = (day, options) => {
-            console.assert(!options.disabled, "Date is disabled");
-            console.log("DatePickerInput Day is " + formatDate(day, dateFormat));
-            setDate(day);
-            setTimeout(() => {
-                // TODO:
-                datePickerInputReference.hideDayPicker();
-            }, 500);
-        };
-    }
+    const handleDayClick = (day) => {
+        setDate(day);
+
+        if (handleDayChange) {
+            handleDayChange(day);
+        } else {
+            console.warn("Please implement `handleDayChange` to receive a callback when the date changes", date);
+        }
+
+        setTimeout(() => {
+            datePickerInputReference.hideDayPicker();
+        }, 500);
+    };
 
     const formatSelectedDate = (date) => formatDate(date, dateFormat);
 
-    const overlayComponent = ({ month, onBlur, onFocus, selectedDay, classNames, tabIndex }) => {
+    const overlayComponent = ({ onBlur, onFocus, classNames, tabIndex }) => {
         return (
             <div
                 className={clsx(classNames.overlayWrapper, "z-50")}
@@ -45,10 +46,11 @@ export const DatePickerInput = ({
             >
                 <div className={classNames.overlay}>
                     <DatePicker
-                        selectedDate={selectedDay}
+                        value={selectedDate}
                         range={range}
-                        startMonth={month}
-                        handleDayClick={handleDayChange}
+                        initialMonth={selectedDate}
+                        month={selectedDate}
+                        onChange={handleDayClick}
                         // handleMonthChange={onMonthChange}
                         // handleTodayButtonClick={onTodayClick}
                     />
@@ -61,7 +63,7 @@ export const DatePickerInput = ({
         <DayPickerInput
             // eslint-disable-next-line no-return-assign
             ref={(reference) => (datePickerInputReference = reference)}
-            inputProps={{ date: formatDate(date, dateFormat) }}
+            inputProps={{ date: formatDate(selectedDate, dateFormat) }}
             component={inputComponent}
             placeholder={dayjs().format(dateFormat)}
             showOverlay={shouldShowOverlay}
