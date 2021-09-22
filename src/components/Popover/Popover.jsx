@@ -15,6 +15,7 @@ export const Popover = ({ className, children, ...rest }) => {
     return (
         <Tippy
             interactive
+            zIndex={10}
             content={items}
             className={clsx("popover", styles.main, "!border-gray-light !rounded-lg", className)}
             plugins={[followCursor]}

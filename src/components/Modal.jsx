@@ -35,7 +35,7 @@ export const Modal = ({
             <Dialog
                 static
                 as="div"
-                className="overflow-y-auto fixed inset-0 z-10"
+                className="overflow-y-auto fixed inset-0 z-20"
                 open={isOpen}
                 onClose={handleOutsideClick}
             >
