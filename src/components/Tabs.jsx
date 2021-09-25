@@ -9,7 +9,7 @@ export const Tabs = ({ className, value, onChange, children, ...rest }) => {
 
     return (
         <>
-            <div className={clsx("bg-gray-lighter overflow-x-auto", className)} {...rest}>
+            <div className={clsx("ui-tabs", "bg-gray-lighter overflow-x-auto", className)} {...rest}>
                 <nav className="flex">
                     {tabs.map((child, index) => {
                         return cloneElement(child, {
@@ -38,6 +38,7 @@ const Tab = ({ as: Tag = "button", className, isActive = false, ...rest }) => {
     return (
         <Tag
             className={clsx(
+                "ui-tabs-tab",
                 className,
                 "transition-colors cursor-pointer p-4 flex-1 text-center text-lg font-semibold whitespace-nowrap focus-visible:ring",
                 isActive ? "bg-white text-black" : "text-gray-dark hover:text-black hover:bg-gray-light",
@@ -56,7 +57,7 @@ Tab.propTypes = {
 Tabs.Tab = Tab;
 
 const Panel = ({ isActive = false, className, ...rest }) => {
-    return <div className={clsx(className, isActive || "hidden")} {...rest} />;
+    return <div className={clsx("ui-tabs-panel", className, isActive || "hidden")} {...rest} />;
 };
 
 Panel.displayName = "Tabs.Panel";

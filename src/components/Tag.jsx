@@ -21,7 +21,10 @@ const sizes = {
 
 export const Tag = ({ color = "primary", size = "small", onClose, className, children, ...rest }) => {
     return (
-        <span className={clsx("tag inline-flex rounded leading-3.5", colors[color], sizes[size], className)} {...rest}>
+        <span
+            className={clsx("ui-tag", "inline-flex rounded leading-3.5", colors[color], sizes[size], className)}
+            {...rest}
+        >
             {children}
 
             {onClose ? (

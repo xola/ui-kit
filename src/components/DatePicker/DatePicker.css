@@ -12,7 +12,7 @@
 }
 
 /* The parent component of the entire date picker */
-.date-picker {
+.ui-date-picker {
     @apply leading-p1 tracking-tightest ring-0 focus:ring-0 focus:outline-none;
 }
 

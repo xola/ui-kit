@@ -35,7 +35,7 @@ export const Modal = ({
             <Dialog
                 static
                 as="div"
-                className="overflow-y-auto fixed inset-0 z-10"
+                className="ui-modal overflow-y-auto fixed inset-0 z-10"
                 open={isOpen}
                 onClose={handleOutsideClick}
             >
@@ -90,9 +90,10 @@ Modal.propTypes = {
 
 const Core = forwardRef(({ className, width, onClose, header, body, footer }, reference) => {
     const classes = clsx(
+        "ui-modal",
         className,
         width,
-        "modal sm:w-full inline-block align-bottom bg-white rounded-lg overflow-hidden shadow-xl transform",
+        "sm:w-full inline-block align-bottom bg-white rounded-lg overflow-hidden shadow-xl transform",
         "transition-all sm:my-8 sm:align-middle",
     );
 
@@ -137,7 +138,7 @@ Modal.Core = Core;
 // eslint-disable-next-line react/prop-types
 Modal.Header = ({ children }) => {
     return (
-        <Dialog.Title as="h3" className="text-2xl font-semibold leading-6 text-center text-black modal-header">
+        <Dialog.Title as="h3" className="ui-modal-header text-2xl font-semibold leading-6 text-center text-black">
             {children}
         </Dialog.Title>
     );
@@ -151,7 +152,7 @@ Modal.Header.propTypes = {
 // ESLint is lying about the rule bellow.
 // eslint-disable-next-line react/prop-types
 Modal.Body = ({ className, ...rest }) => {
-    return <div className={clsx(className, "pt-8 pb-2 mt-2 text-left modal-body")} {...rest} />;
+    return <div className={clsx("ui-modal-body", className, "pt-8 pb-2 mt-2 text-left")} {...rest} />;
 };
 
 Modal.Body.displayName = "Modal.Body";
@@ -162,7 +163,9 @@ Modal.Body.propTypes = {
 // ESLint is lying about the rule bellow.
 // eslint-disable-next-line react/prop-types
 Modal.Footer = ({ className, ...rest }) => {
-    return <div className={clsx(className, "float-right px-8 py-8 modal-footer sm:flex")} {...rest} />;
+    return (
+        <div className={clsx("ui-modal-footer", className, "float-right px-8 py-8 modal-footer sm:flex")} {...rest} />
+    );
 };
 
 Modal.Footer.displayName = "Modal.Footer";
