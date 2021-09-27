@@ -8,10 +8,11 @@ export const Checkbox = ({ label, className, classNames = {}, ...rest }) => {
     const [id] = useState(rest.id ?? uniqueId("checkbox-"));
 
     return (
-        <div className={clsx(className, "flex items-center")}>
+        <div className={clsx("ui-checkbox", className, "flex items-center")}>
             <input
                 type="checkbox"
                 className={clsx(
+                    "ui-checkbox-input",
                     classNames.checkbox,
                     styles.checkbox,
                     "w-4 h-4 rounded text-white !border-primary disabled:bg-gray-light disabled:text-gray-light disabled:border-none transition-colors",
@@ -21,7 +22,10 @@ export const Checkbox = ({ label, className, classNames = {}, ...rest }) => {
             />
 
             {label ? (
-                <label htmlFor={id} className={clsx(classNames.label, "ml-2 leading-none text-gray-darker")}>
+                <label
+                    htmlFor={id}
+                    className={clsx("ui-checkbox-label", classNames.label, "ml-2 leading-none text-gray-darker")}
+                >
                     {label}
                 </label>
             ) : null}

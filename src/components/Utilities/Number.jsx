@@ -7,7 +7,7 @@ const userLocale = getUserLocale();
 
 export const Number = ({ locale = userLocale, maximumFractionDigits = 2, children }) => {
     const formattedNumber = numberFormat(children, null, locale, maximumFractionDigits);
-    return <span className="formatted-number">{formattedNumber}</span>;
+    return <span className="ui-number">{formattedNumber}</span>;
 };
 
 Number.propTypes = {

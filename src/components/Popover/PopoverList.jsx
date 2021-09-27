@@ -12,11 +12,18 @@ export const PopoverList = ({ placement = "bottom", className, children, ...rest
     });
 
     const content = (
-        <Popover.Content className="p-0 divide-y divide-solid divide-gray-lighter">{items}</Popover.Content>
+        <Popover.Content className="ui-popover-list-content p-0 divide-y divide-solid divide-gray-lighter">
+            {items}
+        </Popover.Content>
     );
 
     return (
-        <Popover content={content} placement={placement} className={clsx("w-40", className)} {...rest}>
+        <Popover
+            content={content}
+            placement={placement}
+            className={clsx("ui-popover-list", "w-40", className)}
+            {...rest}
+        >
             {innerContent}
         </Popover>
     );
@@ -29,12 +36,13 @@ PopoverList.propTypes = {
 };
 
 const Item = ({ name, isActive = false, position, total, children, className, onClickItem, ...rest }) => {
-    const onClick = (event_) => onClickItem(event_, name);
+    const onClick = (event) => onClickItem(event, name);
 
     return (
         <div
             name={name}
             className={clsx(
+                "ui-popover-list-item",
                 "flex align-text-top p-4 space-x-2.5 font-semibold leading-4 tracking-tightest cursor-pointer hover:bg-gray-lighter",
                 isActive ? "bg-gray-lighter" : null,
                 position === 1 ? "rounded-t-lg" : null, // Round the top left & right corners if it's the first one
@@ -49,7 +57,7 @@ const Item = ({ name, isActive = false, position, total, children, className, on
     );
 };
 
-Item.displayName = "Popover.Item";
+Item.displayName = "PopoverList.Item";
 Item.propTypes = {
     position: PropTypes.number,
     total: PropTypes.number,

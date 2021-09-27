@@ -72,7 +72,7 @@ export const DatePicker = ({
         <DayPicker
             showOutsideDays
             className={clsx(
-                "date-picker",
+                "ui-date-picker",
                 useDateRangeStyle ? "date-range-picker" : null,
                 getDayContent ? "has-custom-content" : null,
             )}

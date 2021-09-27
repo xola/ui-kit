@@ -28,6 +28,7 @@ export const Switch = ({ isChecked = false, size = "medium", ...rest }) => {
         <HeadlessSwitch
             checked={isChecked}
             className={clsx(
+                "ui-switch",
                 isChecked ? "bg-primary" : "bg-gray",
                 "switch relative inline-flex flex-shrink-0 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none disabled:opacity-60",
                 sizes[size].parent,
@@ -52,7 +53,7 @@ Switch.propTypes = {
 
 Switch.Group = ({ className, children }) => {
     return (
-        <HeadlessSwitch.Group as="div" className={clsx("inline-flex items-center", className)}>
+        <HeadlessSwitch.Group as="div" className={clsx("ui-switch-group", "inline-flex items-center", className)}>
             {children}
         </HeadlessSwitch.Group>
     );
@@ -69,7 +70,7 @@ Switch.Label = ({ direction = "left", className, children }) => {
     return (
         <HeadlessSwitch.Label
             as="span"
-            className={clsx("cursor-pointer", direction === "left" ? "mr-2" : "ml-2", className)}
+            className={clsx("ui-switch-label", "cursor-pointer", direction === "left" ? "mr-2" : "ml-2", className)}
         >
             {children}
         </HeadlessSwitch.Label>

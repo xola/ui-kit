@@ -3,7 +3,7 @@ import React from "react";
 
 export const SidebarFooter = ({ children, ...rest }) => {
     return (
-        <div className="p-3" {...rest}>
+        <div className="ui-sidebar-footer p-3" {...rest}>
             <div className="pb-2 mx-4 border-t border-secondary-darker" />
             {children}
         </div>

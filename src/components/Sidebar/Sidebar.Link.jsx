@@ -8,6 +8,7 @@ export const SidebarLink = ({ isActive = false, icon: Icon, children, ...rest })
         <button
             type="button"
             className={clsx(
+                "ui-sidebar-link",
                 "transition-colors leading-none flex items-center justify-center xl:justify-start w-full xl:px-6 py-3 rounded",
                 {
                     "bg-primary text-white hover:bg-primary-dark": isActive,

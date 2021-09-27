@@ -6,6 +6,7 @@ export const Counter = ({ className, ...rest }) => {
     return (
         <span
             className={clsx(
+                "ui-counter",
                 "px-2 py-1 font-semibold inline-flex items-center justify-center rounded-full bg-danger-dark text-white leading-none",
                 className,
             )}
