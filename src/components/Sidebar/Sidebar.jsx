@@ -13,6 +13,7 @@ export const Sidebar = ({ children, className, footer, notifications, isFixed = 
     return (
         <div
             className={clsx(
+                "ui-sidebar",
                 isFixed ? "fixed" : "relative",
                 "w-16 md:w-24 xl:w-50 h-full p-2 overflow-y-auto bg-black text-white flex flex-col",
                 className,

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import React from "react";
 
 export const FormGroup = ({ className, ...rest }) => {
-    return <div className={clsx(className, "mb-4")} {...rest} />;
+    return <div className={clsx("ui-form-group", className, "mb-4")} {...rest} />;
 };
 
 FormGroup.propTypes = {

@@ -8,7 +8,7 @@ import { Button } from "./Button";
 export const Drawer = ({ isOpen = false, title, content, onClose, classNames = {} }) => {
     return (
         <Transition.Root show={isOpen} as={Fragment}>
-            <Dialog static as="div" className="overflow-hidden fixed inset-0" open={isOpen} onClose={onClose}>
+            <Dialog static as="div" className="ui-drawer overflow-hidden fixed inset-0" open={isOpen} onClose={onClose}>
                 <div className="overflow-hidden absolute inset-0">
                     <Transition.Child
                         as={Fragment}

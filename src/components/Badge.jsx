@@ -29,7 +29,8 @@ export const Badge = ({ color = "primary", size = "small", icon, className, chil
     return (
         <span
             className={clsx(
-                "badge inline-flex items-center rounded-full whitespace-nowrap",
+                "ui-badge",
+                "inline-flex items-center rounded-full whitespace-nowrap",
                 colors[color],
                 sizes[size],
                 className,

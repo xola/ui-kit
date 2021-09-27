@@ -36,6 +36,7 @@ export const Button = ({
     return (
         <Tag
             className={clsx(
+                "ui-button",
                 buttonBaseClassName,
                 "justify-center items-center font-semibold",
                 colors[color],
@@ -69,7 +70,10 @@ const iconSizes = {
 
 const Icon = ({ className, as: Tag = "button", color = "primary", size = "medium", children: icon, ...rest }) => {
     return (
-        <Tag className={clsx(buttonBaseClassName, colors[color], iconSizes[size], className)} {...rest}>
+        <Tag
+            className={clsx("ui-button-icon", buttonBaseClassName, colors[color], iconSizes[size], className)}
+            {...rest}
+        >
             {icon}
         </Tag>
     );
