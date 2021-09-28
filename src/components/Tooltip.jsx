@@ -14,7 +14,7 @@ export const Tooltip = ({ children, className, content, ...rest }) => {
 };
 
 Tooltip.propTypes = {
-    content: PropTypes.string.isRequired,
+    content: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
     children: PropTypes.node.isRequired,
     className: PropTypes.string,
 };
