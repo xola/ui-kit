@@ -77,6 +77,32 @@ export const Default = (config) => {
     );
 };
 
+export const WithHTMLContent = (config) => {
+    return (
+        <>
+            <p className="mb-3">
+                Since React escapes all HTML passed into props, pass a React element to the{" "}
+                <code className="px-1 bg-gray-lighter">content</code> prop to show HTML content.
+            </p>
+            <Tooltip
+                placement="right"
+                content={
+                    <span className="grid grid-cols-2 gap-1">
+                        <span>
+                            This is <b>bold</b>
+                        </span>
+                        <span>in a grid</span>
+                        <span>in two rows</span>
+                        <span>you now have a table!</span>
+                    </span>
+                }
+            >
+                <Button>Hello World</Button>
+            </Tooltip>
+        </>
+    );
+};
+
 export const OnAnIcon = (config) => {
     return (
         <Tooltip {...config}>
