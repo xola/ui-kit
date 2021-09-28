@@ -77,7 +77,7 @@ export const Default = (config) => {
     );
 };
 
-export const WithHTMLContent = (config) => {
+export const WithHTMLContent = () => {
     return (
         <>
             <p className="mb-3">
