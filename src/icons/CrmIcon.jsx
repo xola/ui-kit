@@ -9,7 +9,7 @@ export const CrmIcon = createIcon((props) => {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 d="M14.98 8.957a1.99 1.99 0 100-3.979 1.99 1.99 0 000 3.979zM13.654 14.4h5.304a4.102 4.102 0 00-6.012-2.547M10.725 14.4A4.863 4.863 0 101 14.4h9.725zM5.813 6.747a2.873 2.873 0 100-5.747 2.873 2.873 0 000 5.747z"
-            ></path>
+            />
         </svg>
     );
 });
