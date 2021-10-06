@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, EllipsisIcon, UserIcon } from "../..";
+import { Button, EllipsisIcon, KeyIcon, PlusIcon, UserIcon, WaitlistIcon, WarningIcon } from "../..";
 
 const ButtonStories = {
     title: "Forms & Fields/Button",
@@ -85,17 +85,25 @@ export const FullWidth = () => {
 
 export const IconOnly = () => {
     return (
-        <div className="space-x-4">
+        <div className="space-x-6">
             <Button.Icon color="outline" size="tiny">
                 <EllipsisIcon />
             </Button.Icon>
 
-            <Button.Icon color="outline" size="small">
-                <EllipsisIcon />
+            <Button.Icon color="primary" size="small">
+                <KeyIcon />
             </Button.Icon>
 
-            <Button.Icon color="outline" size="medium">
-                <UserIcon />
+            <Button.Icon color="success" size="small">
+                <PlusIcon />
+            </Button.Icon>
+
+            <Button.Icon color="warning" size="medium">
+                <WarningIcon />
+            </Button.Icon>
+
+            <Button.Icon color="caution" size="medium">
+                <WaitlistIcon />
             </Button.Icon>
         </div>
     );
