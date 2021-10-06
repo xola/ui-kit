@@ -31,6 +31,7 @@ export const Search = ({
     onSelect,
     children,
     isLoading = false,
+    isOpen: isMenuOpen,
     ...rest
 }) => {
     const [showShortcutKey, setShowShortcutKey] = useState(true);
@@ -87,6 +88,7 @@ export const Search = ({
         itemToString: () => inputValue, // We will not change the search input after an item is selected.
         defaultHighlightedIndex: 0,
         onSelectedItemChange: handleSelectedItemChange,
+        isOpen: isMenuOpen,
     });
 
     const handleInputFocus = () => {
