@@ -209,4 +209,5 @@ Search.propTypes = {
     onSelect: PropTypes.func,
     children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node, PropTypes.func]),
     isLoading: PropTypes.bool,
+    isOpen: PropTypes.bool,
 };
