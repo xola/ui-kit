@@ -62,7 +62,7 @@ $ npm run dev
 
 ### Use the Package Locally
 
-In order for this to work you will have to set up an NPM workspace. Also, `ui-kit` and `your-project` has to be in the same directory.
+In order for this to work you will have to set up an NPM workspace. That means, `ui-kit` and `your-project` has to be in the same directory.
 
 Start by creating a `package.json` file in your "workspace" directory with the following content:
 
@@ -72,10 +72,22 @@ Start by creating a `package.json` file in your "workspace" directory with the f
 }
 ```
 
+Your workspace directory should also contain `.npmrc` and `.nvmrc` files. Copy them from this project:
+
 ```bash
 $ cd workspace
-$ npm install --legacy-peer-deps
+$ cp ui-kit/.npmrc .
+$ cp ui-kit/.nvmrc .
 ```
+
+Now we're ready to install the dependencies for both projects:
+
+```bash
+$ cd workspace
+$ npm install
+```
+
+If all went well, NPM will use locally installed `ui-kit` in `your-project`.
 
 Next, start the build command from `ui-kit`:
 
@@ -84,12 +96,23 @@ $ cd ui-kit
 $ npm run build -- --watch
 ```
 
-If you encounter some issues, try removing the following directories and running the install command again:
+This will build and watch for changes the `ui-kit` project. Any change made in the `ui-kit` should be visible in `your-project`.
+
+If you don't see any changes in your project, that probably means that NPM installed a separate package in your `your-project/node_modules` directory. To fix this, just remove the whole package with the following command:
 
 ```bash
-$ rm -rf ui-kit/node_modules
-$ rm -rf your-project/node_modules
-$ npm install --legacy-peer-deps
+$ cd your-project
+$ rm -rf node_modules/@xola
+```
+
+#### Troubleshooting
+
+If you encounter some package related issues, try removing the following directories and running the install command again:
+
+```bash
+$ cd workspace
+$ rm -rf package-lock.json node_modules ui-kit/node_modules your-project/node_modules
+$ npm install
 ```
 
 ### Lint & Auto-fix
