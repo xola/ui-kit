@@ -68,6 +68,9 @@ const iconSizes = {
     medium: "px-3 py-3 text-base leading-base", // 40px
 };
 
+/**
+ * Design as per https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/🖥-Xola-DS-Desktop-Master-🛠?node-id=2725%3A91132
+ */
 const iconColors = {
     primary: "text-blue border border-blue hover:text-blue-dark hover:border-blue-dark focus:bg-primary-light",
     success:
