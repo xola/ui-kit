@@ -12,10 +12,11 @@ export const Popover = ({ className, children, skidding = 0, distance = 10, ...r
     const items = childrenArray.filter((child) => child.type === Popover.Content);
     const innerContent = childrenArray.filter((child) => child.type !== Popover.Content);
 
-    let offset = [0, 10];
+    const offset = [0, 10];
     if (typeof skidding !== "undefined") {
         offset[0] = skidding;
     }
+
     if (typeof distance !== "undefined") {
         offset[1] = distance;
     }

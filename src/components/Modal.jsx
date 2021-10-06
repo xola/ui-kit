@@ -35,7 +35,7 @@ export const Modal = ({
             <Dialog
                 static
                 as="div"
-                className="ui-modal overflow-y-auto fixed inset-0 z-10"
+                className="overflow-y-auto fixed inset-0 z-10 ui-modal"
                 open={isOpen}
                 onClose={handleOutsideClick}
             >
@@ -138,7 +138,7 @@ Modal.Core = Core;
 // eslint-disable-next-line react/prop-types
 Modal.Header = ({ children }) => {
     return (
-        <Dialog.Title as="h3" className="ui-modal-header text-2xl font-semibold leading-6 text-center text-black">
+        <Dialog.Title as="h3" className="text-2xl font-semibold leading-6 text-center text-black ui-modal-header">
             {children}
         </Dialog.Title>
     );

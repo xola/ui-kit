@@ -3,10 +3,10 @@ import PropTypes from "prop-types";
 import React, { Children, cloneElement } from "react";
 
 export const Table = ({ className, ...rest }) => (
-    <div className="ui-table flex flex-col">
+    <div className="flex flex-col ui-table">
         <div className="overflow-x-auto -my-2">
             <div className="inline-block py-2 min-w-full align-middle">
-                <div className="overflow-hidden border-b border-gray-lighter sm:rounded-lg">
+                <div className="overflow-hidden border-b sm:rounded-lg border-gray-lighter">
                     <table className={clsx(className, "min-w-full divide-y border border-gray-lighter")} {...rest} />
                 </div>
             </div>
