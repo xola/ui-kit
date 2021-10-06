@@ -7,10 +7,18 @@ import "tippy.js/dist/border.css";
 import "tippy.js/dist/tippy.css";
 import styles from "./Popover.module.css";
 
-export const Popover = ({ className, children, ...rest }) => {
+export const Popover = ({ className, children, skidding = 0, distance = 10, ...rest }) => {
     const childrenArray = Children.toArray(children);
     const items = childrenArray.filter((child) => child.type === Popover.Content);
     const innerContent = childrenArray.filter((child) => child.type !== Popover.Content);
+
+    let offset = [0, 10];
+    if (typeof skidding !== "undefined") {
+        offset[0] = skidding;
+    }
+    if (typeof distance !== "undefined") {
+        offset[1] = distance;
+    }
 
     return (
         <Tippy
@@ -18,6 +26,7 @@ export const Popover = ({ className, children, ...rest }) => {
             content={items}
             className={clsx("ui-popover", styles.main, "!border-gray-light !rounded-lg", className)}
             plugins={[followCursor]}
+            offset={offset}
             {...rest}
         >
             <span>{innerContent}</span>
@@ -27,6 +36,8 @@ export const Popover = ({ className, children, ...rest }) => {
 
 Popover.propTypes = {
     className: PropTypes.string,
+    skidding: PropTypes.number,
+    distance: PropTypes.number,
     children: PropTypes.node.isRequired,
 };
 
