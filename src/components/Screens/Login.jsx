@@ -29,7 +29,7 @@ export const Login = ({ defaultValues, isLoading = false, error = null, onSubmit
     };
 
     return (
-        <div className="h-screen bg-white bg-opacity-40 login-container">
+        <div className="ui-login h-screen bg-white bg-opacity-40 login-container">
             <div className="flex flex-col justify-center items-center space-y-8 w-full h-[90%] md:full">
                 <div className="py-0 px-9 rounded-lg md:py-10 md:bg-white w-82">
                     <div className="mb-12 md:mb-10">
@@ -84,6 +84,7 @@ export const Login = ({ defaultValues, isLoading = false, error = null, onSubmit
 
                             <div className="mt-5 text-sm text-center">
                                 <a
+                                    // TODO: Link should be changed to the right environment
                                     href="https://xola.com/resetting/form"
                                     className="font-semibold underline hover:text-black text-gray-darker"
                                     target="_blank"

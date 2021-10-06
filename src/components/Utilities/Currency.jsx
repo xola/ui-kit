@@ -21,7 +21,7 @@ export const Currency = ({
     let formattedAmount = numberFormat(amount, currency, locale, isZeroDecimal(currency) ? 0 : maximumFractionDigits);
     formattedAmount = shouldRemoveTrailingZeroes ? formattedAmount.replace(".00", "") : formattedAmount;
 
-    return <span className="currency-formatted-amount">{formattedAmount}</span>;
+    return <span className="ui-currency">{formattedAmount}</span>;
 };
 
 Currency.propTypes = {
@@ -32,9 +32,10 @@ Currency.propTypes = {
     children: PropTypes.node.isRequired,
 };
 
+// TODO: See if this feature can be implemented as a prop on `Currency` component.
 Currency.Round = ({ currency, children }) => {
     const number = roundNumber(currency, children);
-    return <span className="currency-rounded">{number}</span>;
+    return <span className="ui-currency-round">{number}</span>;
 };
 
 Currency.Round.propTypes = {
@@ -60,10 +61,10 @@ Currency.Split = ({ currency = "USD", locale = userLocale, children }) => {
     const formattedAmountInt = numberFormat(amountInt, currency, locale, 0);
 
     return (
-        <span title={amount} className="currency-formatted-split-amount">
-            <span className="amount-int">{formattedAmountInt}</span>
+        <span title={amount} className="ui-currency-split">
+            <span className="ui-currency-split-int">{formattedAmountInt}</span>
             {!isZeroDecimal(currency) && (
-                <span className="pl-1 underline amount-decimal">
+                <span className="pl-1 underline ui-currency-split-decimal">
                     <sup>{amountDecimal}</sup>
                 </span>
             )}

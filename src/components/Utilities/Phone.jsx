@@ -1,6 +1,7 @@
 import React from "react";
 import phoneLib from "google-libphonenumber";
 import PropTypes from "prop-types";
+import clsx from "clsx";
 
 const PNF = phoneLib.PhoneNumberFormat;
 const phoneUtil = phoneLib.PhoneNumberUtil.getInstance();
@@ -29,7 +30,7 @@ export const Phone = ({ countryCode = "US", className, children }) => {
 
         return (
             <span
-                className={className}
+                className={clsx("ui-phone", className)}
                 data-region-code={regionCode || "N/A"}
                 data-country-code={countryCode}
                 title={number}
@@ -42,7 +43,7 @@ export const Phone = ({ countryCode = "US", className, children }) => {
     }
 
     return (
-        <span className={className} data-country-code={countryCode}>
+        <span className={clsx("ui-phone", className)} data-country-code={countryCode}>
             {number}
         </span>
     );

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import React, { Children, cloneElement } from "react";
 
 export const Table = ({ className, ...rest }) => (
-    <div className="flex flex-col">
+    <div className="ui-table flex flex-col">
         <div className="overflow-x-auto -my-2">
             <div className="inline-block py-2 min-w-full align-middle">
                 <div className="overflow-hidden border-b border-gray-lighter sm:rounded-lg">
@@ -19,7 +19,7 @@ Table.propTypes = {
 };
 
 Table.Head = ({ className, ...rest }) => {
-    return <thead className={clsx("bg-gray-lighter", className)} {...rest} />;
+    return <thead className={clsx("ui-table-head", "bg-gray-lighter", className)} {...rest} />;
 };
 
 Table.Head.displayName = "Table.Head";
@@ -28,7 +28,7 @@ Table.Head.propTypes = {
 };
 
 Table.Header = ({ className, ...rest }) => {
-    return <th className={clsx("px-4 py-2 text-left text-base font-bold", className)} {...rest} />;
+    return <th className={clsx("ui-table-header", "px-4 py-2 text-left text-base font-bold", className)} {...rest} />;
 };
 
 Table.Header.displayName = "Table.Header";
@@ -38,7 +38,7 @@ Table.Header.propTypes = {
 
 Table.Body = ({ className, isStriped = false, children, ...rest }) => {
     return (
-        <tbody className={clsx("border-none", className)} {...rest}>
+        <tbody className={clsx("ui-table-body", "border-none", className)} {...rest}>
             {Children.map(children, (child) => child && cloneElement(child, { isStriped }))}
         </tbody>
     );
@@ -52,7 +52,7 @@ Table.Body.propTypes = {
 };
 
 Table.Row = ({ isStriped = false, className, ...rest }) => {
-    return <tr className={clsx(isStriped && "even:bg-gray-lighter", className)} {...rest} />;
+    return <tr className={clsx("ui-table-row", isStriped && "even:bg-gray-lighter", className)} {...rest} />;
 };
 
 Table.Row.displayName = "Table.Row";
@@ -62,7 +62,12 @@ Table.Row.propTypes = {
 };
 
 Table.Cell = ({ className, ...rest }) => {
-    return <td className={clsx("px-4 py-2 whitespace-nowrap text-base text-gray-darker", className)} {...rest} />;
+    return (
+        <td
+            className={clsx("ui-table-cell", "px-4 py-2 whitespace-nowrap text-base text-gray-darker", className)}
+            {...rest}
+        />
+    );
 };
 
 Table.Cell.displayName = "Table.Cell";

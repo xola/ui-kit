@@ -6,7 +6,7 @@ export const Breadcrumb = ({ className, classNames = {}, separator = "/", childr
     const count = Children.count(children) - 1;
 
     return (
-        <div className={clsx("text-2xl whitespace-nowrap font-semibold", className)} {...rest}>
+        <div className={clsx("ui-breadcrumb", "text-2xl whitespace-nowrap font-semibold", className)} {...rest}>
             {Children.map(children, (child, index) => {
                 const isLast = index >= count;
 
@@ -33,7 +33,10 @@ Breadcrumb.propTypes = {
 
 Breadcrumb.Item = ({ className, onClick, children }) => {
     return (
-        <div className={clsx(className, "inline", onClick && "cursor-pointer hover:underline")} onClick={onClick}>
+        <div
+            className={clsx("ui-breadcrumb-item", className, "inline", onClick && "cursor-pointer hover:underline")}
+            onClick={onClick}
+        >
             {children}
         </div>
     );

@@ -108,7 +108,7 @@ export const Search = ({
     useHotkeys("esc", () => inputReference.current.blur(), { enableOnTags: ["INPUT"] });
 
     return (
-        <div className="relative w-full">
+        <div className="ui-search relative w-full">
             <div {...getComboboxProps({ className: "w-full relative rounded-md" })}>
                 <div className="absolute inset-y-0 top-[-2px] left-0 hidden md:flex items-center pointer-events-none">
                     <SearchIcon className="w-4 h-4 text-gray-darker" />
@@ -118,6 +118,7 @@ export const Search = ({
                     {...getInputProps({
                         type: "text",
                         className: clsx(
+                            "ui-search-input",
                             "block w-full border-none pl-0 md:pl-7 text-base md:text-md text-gray-darker leading-p2 focus:ring-0",
                             className,
                         ),
@@ -140,6 +141,7 @@ export const Search = ({
             <ul
                 {...getMenuProps({
                     className: clsx(
+                        "ui-search-menu",
                         "absolute top-10 divide-y divide-gray-light w-full xl:w-2/3 max-h-[75vh] border border-blue-light mt-1 rounded overflow-auto z-50 bg-white",
                         { hidden: !open },
                     ),
@@ -147,7 +149,7 @@ export const Search = ({
             >
                 {open
                     ? itemList.map((item, index) => (
-                          <li key={item} {...getItemProps({ key: index, item, index })}>
+                          <li key={item} {...getItemProps({ key: index, item, index, className: "ui-search-item" })}>
                               {item === submitValueItem ? (
                                   <>
                                       <div

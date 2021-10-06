@@ -10,7 +10,7 @@ const sizes = {
 
 const ButtonGroup = ({ size, value, isCollapsed = false, onChange, className, children, ...rest }) => {
     return (
-        <span className={clsx("inline-flex whitespace-nowrap", className)} {...rest}>
+        <span className={clsx("ui-button-group", "inline-flex whitespace-nowrap", className)} {...rest}>
             {Children.map(children, (child, index) => {
                 const buttonProps = { size };
 
@@ -56,6 +56,7 @@ const Button = ({
     ...rest
 }) => {
     const classes = clsx(
+        "ui-button-group-button",
         "inline-flex border-t border-l border-b last:border-r first:rounded-l-md last:rounded-r-md transition-colors focus:ring disabled:opacity-60 focus:z-10 leading-none",
         sizes[size],
         isActive

@@ -7,14 +7,14 @@ import "tippy.js/dist/tippy.css"; // If we customize the style, the change this 
 // TODO: Implement "as='div'"
 export const Tooltip = ({ children, className, content, ...rest }) => {
     return (
-        <Tippy content={content} {...rest} className="text-white xola-tooltip" plugins={[followCursor]}>
+        <Tippy content={content} {...rest} className="ui-tooltip text-white" plugins={[followCursor]}>
             <span className={className}>{children}</span>
         </Tippy>
     );
 };
 
 Tooltip.propTypes = {
-    content: PropTypes.string.isRequired,
+    content: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
     children: PropTypes.node.isRequired,
     className: PropTypes.string,
 };

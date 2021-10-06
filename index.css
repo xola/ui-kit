@@ -61,7 +61,7 @@ h6 {
     @apply leading-p3 tracking-tightest;
 }
 
-.badge .icon {
+.ui-badge .icon {
     position: relative;
     top: -1px;
 }

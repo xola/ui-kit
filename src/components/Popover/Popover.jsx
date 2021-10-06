@@ -17,7 +17,7 @@ export const Popover = ({ className, children, ...rest }) => {
             interactive
             zIndex={10}
             content={items}
-            className={clsx("popover", styles.main, "!border-gray-light !rounded-lg", className)}
+            className={clsx("ui-popover", styles.main, "!border-gray-light !rounded-lg", className)}
             plugins={[followCursor]}
             {...rest}
         >
@@ -32,7 +32,7 @@ Popover.propTypes = {
 };
 
 const Content = ({ className, children }) => {
-    return <div className={clsx("popover-content", className)}>{children}</div>;
+    return <div className={clsx("ui-popover-content", className)}>{children}</div>;
 };
 
 Content.displayName = "Popover.Content";
