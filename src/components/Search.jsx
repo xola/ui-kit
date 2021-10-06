@@ -142,7 +142,7 @@ export const Search = ({
                 {...getMenuProps({
                     className: clsx(
                         "ui-search-menu",
-                        "absolute top-10 divide-y divide-gray-light w-full xl:w-2/3 max-h-[75vh] border border-blue-light mt-1 rounded overflow-auto z-50 bg-white",
+                        "absolute top-10 divide-y divide-gray-light w-full xl:w-2/3 max-h-[75vh] border border-blue-light mt-1 rounded overflow-auto z-10 bg-white",
                         { hidden: !open },
                     ),
                 })}
