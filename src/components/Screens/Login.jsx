@@ -29,7 +29,7 @@ export const Login = ({ defaultValues, isLoading = false, error = null, onSubmit
     };
 
     return (
-        <div className="ui-login h-screen bg-white bg-opacity-40 login-container">
+        <div className="ui-login h-screen overflow-hidden bg-white bg-opacity-40 login-container">
             <div className="flex flex-col justify-center items-center space-y-8 w-full h-[90%] md:full">
                 <div className="py-0 px-9 rounded-lg md:py-10 md:bg-white w-82">
                     <div className="mb-12 md:mb-10">
@@ -102,7 +102,7 @@ export const Login = ({ defaultValues, isLoading = false, error = null, onSubmit
                 <div className="flex overflow-hidden flex-col justify-center items-center py-1 px-4 w-full sm:px-6 lg:px-8">
                     <div className="px-4 m-5 text-xs text-center rounded-lg opacity-30 md:text-sm hover:opacity-80 w-82">
                         <a href="https://www.xola.com/team" target="_blank" className="md:text-gray" rel="noreferrer">
-                            Handcrafted in Houston, Belgrade & Bengaluru
+                            Handcrafted in Houston, Belgrade &amp; Bengaluru
                             <div className="text-center">&copy; {new Date().getFullYear()} Xola, Inc.</div>
                         </a>
                     </div>
