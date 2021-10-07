@@ -151,7 +151,7 @@ export const PickerWithInput = () => {
     // TODO: Refactor.
     return (
         <div className="h-[480px]">
-            <DatePickerInput />
+            <DatePickerInput selectedDate={new Date()} dateFormat="DD MMM, YYYY" />
         </div>
     );
 };
