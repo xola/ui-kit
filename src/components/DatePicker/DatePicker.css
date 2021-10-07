@@ -13,7 +13,7 @@
 
 /* The parent component of the entire date picker */
 .ui-date-picker {
-    @apply pt-6 leading-p1 tracking-tightest ring-0 focus:ring-0 focus:outline-none;
+    @apply pt-6 tracking-tightest ring-0 focus:ring-0 focus:outline-none;
     width: 400px;
     box-shadow: 0px 8px 32px 3px rgba(0, 0, 0, 0.12);
 }
@@ -22,8 +22,10 @@
     @apply text-gray-darker;
 }
 
-/* Month block which includes the month name 'July 2021' and the weeks, days etc.
-    This does not include the today button */
+/**
+  * Month block which includes the month name 'July 2021' and the weeks, days etc.
+  * This does not include the today button
+  */
 .DayPicker-Month {
     @apply p-0 pt-0.5 my-0 mx-0 ring-0 focus:ring-0 focus:outline-none;
     border-collapse: inherit;
@@ -62,12 +64,12 @@
 }
 
 .DayPicker-Day {
-    @apply px-[5px] py-0 ring-0 focus:ring-0 focus:outline-none;
+    @apply p-0 w-12 h-12 leading-3 ring-0 focus:ring-0 focus:outline-none;
 }
 
-.DayPicker-Day .date {
-    @apply w-[40px] h-[40px] p-0 rounded-full text-md ring-0 focus:ring-0 focus:outline-none;
-}
+/* .DayPicker-Day .date-value {
+    @apply p-0 w-12 h-12 rounded-full text-md ring-0 focus:ring-0 focus:outline-none;
+} */
 
 /* The style for today's date */
 .DayPicker-Day--today .date {
@@ -83,15 +85,15 @@
 }
 
 /* State when a day is selected */
-.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) .date,
-.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) .date:hover {
+.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside),
+.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside):hover {
     @apply bg-blue text-white border-transparent;
 }
 
 /* State when you hover on a day */
 .DayPicker:not(.DayPicker--interactionDisabled)
     .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside)
-    .date:hover {
+ .date-container:hover {
     @apply bg-blue-lighter text-black border border-blue;
 }
 
@@ -115,7 +117,9 @@
     @apply bg-blue-lighter text-black rounded-none;
 }
 
-/* A date which is the part of the date range */
+/*
+ * Date range
+ */
 .date-range-picker .DayPicker-Day--selected:not(.DayPicker-Day--disabled) .date,
 .date-range-picker .DayPicker-Day--selected:not(.DayPicker-Day--disabled) .date:hover {
     @apply bg-blue-lighter text-black;
@@ -150,7 +154,7 @@
 
 .has-custom-content .DayPicker-Day,
 .has-custom-content .DayPicker-Day:hover {
-    @apply w-[50px] h-[66px] border border-transparent;
+    @apply w-12 h-12 border border-transparent;
 }
 
 .has-custom-content
@@ -162,7 +166,7 @@
 .has-custom-content
     .DayPicker:not(.DayPicker--interactionDisabled)
     .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):hover
-    .date-value {
+    .date-container {
     @apply bg-blue-lighter border border-blue;
 }
 
@@ -170,12 +174,16 @@
     @apply bg-white border border-transparent;
 }
 
-.has-custom-content .DayPicker-Day .date-value {
-    @apply w-10 h-10 border border-transparent rounded-full leading-[38px];
+.has-custom-content .DayPicker-Day .date-container {
+    @apply w-12 h-12 border border-transparent rounded-full;
 }
 
-.has-custom-content .DayPicker-Day .date-value:hover {
-    @apply w-10 h-10 border border-transparent rounded-full leading-[38px];
+.has-custom-content .DayPicker-Day .date-container .date-value {
+    @apply pt-3 leading-4;
+}
+
+.has-custom-content .DayPicker-Day .date-container:hover {
+    @apply w-12 h-12 border border-transparent rounded-full;
 }
 
 .has-custom-content .DayPicker-Day {
@@ -183,7 +191,7 @@
 }
 
 .has-custom-content .DayPicker-Day .custom-content {
-    @apply w-10 h-6;
+    @apply text-xs text-gray-dark;
 }
 
 .has-custom-content .DayPicker-Day.DayPicker-Day--selected:hover,
@@ -191,19 +199,19 @@
     @apply bg-white;
 }
 
-.has-custom-content .DayPicker-Day.DayPicker-Day--selected .selected {
-    @apply bg-blue rounded-full leading-[38px] text-white;
+.has-custom-content .DayPicker-Day.DayPicker-Day--selected .date-container {
+    @apply bg-blue rounded-full font-normal text-black;
 }
 
 .has-custom-content .DayPicker-Day.DayPicker-Day--selected .custom-content {
-    @apply text-gray-dark;
+    @apply font-normal truncate text-gray-light;
 }
 
 .has-custom-content .DayPicker-Day--today {
-    @apply bg-white border border-transparent;
+    @apply bg-white text-black font-normal border border-transparent;
 }
 
-.has-custom-content .DayPicker-Day--today .date-value {
+.has-custom-content .DayPicker-Day--today .date-container {
     @apply bg-white border border-gray-light;
 }
 
