@@ -72,7 +72,7 @@
 } */
 
 /* The style for today's date */
-.DayPicker-Day--today .date {
+.DayPicker-Day--today .date-container {
     @apply border border-gray-light font-normal text-black;
 }
 
