@@ -101,7 +101,7 @@ DatePicker.propTypes = {
     initialMonth: PropTypes.objectOf(Date),
     onMonthChange: PropTypes.func,
     onTodayButtonClick: PropTypes.func,
-    disabledDays: PropTypes.array,
+    disabledDays: PropTypes.oneOfType([PropTypes.array, PropTypes.func]),
     shouldShowYearPicker: PropTypes.bool,
     getDayContent: PropTypes.func,
     modifiers: PropTypes.object,

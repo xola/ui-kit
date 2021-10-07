@@ -6,6 +6,7 @@ import DPI from "react-day-picker/DayPickerInput";
 import { formatDate } from "../../helpers/date";
 import { Input } from "../Forms/Input";
 import { DatePicker } from "./DatePicker";
+import { Day } from "./Day";
 
 const DayPickerInput = DPI.__esModule ? DPI.default : DPI;
 let datePickerInputReference = null;
@@ -14,6 +15,8 @@ export const DatePickerInput = ({
     selectedDate = new Date(),
     range,
     dateFormat = "ddd, MMM DD, YYYY",
+    getDayContent,
+    dayPickerProps,
     shouldShowOverlay = false,
     handleDayChange,
 }) => {
@@ -51,6 +54,8 @@ export const DatePickerInput = ({
                         initialMonth={selectedDate}
                         month={selectedDate}
                         onChange={handleDayClick}
+                        getDayContent={getDayContent}
+                        {...dayPickerProps}
                         // handleMonthChange={onMonthChange}
                         // handleTodayButtonClick={onTodayClick}
                     />

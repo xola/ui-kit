@@ -121,6 +121,10 @@ addDescription(
     "This example shows how to use the `month` and `shouldShowYearPicker` prop to change the calendar's caption. For example, we can use these props to start in the month of April and to add a form to switch between months and years.",
 );
 
+/**
+ * Helper methods for this story
+ */
+
 const customContent = [null];
 for (let day = 1; day <= dayjs().daysInMonth(); day++) {
     customContent.push("$" + _.random(1, 200));
@@ -131,13 +135,13 @@ customContent[_.random(1, dayjs().daysInMonth())] = "Sold Out";
 customContent[_.random(1, dayjs().daysInMonth())] = "Sold Out";
 customContent[_.random(1, dayjs().daysInMonth())] = "205 spots";
 
-export const AddContentToDays = () => {
+export const WithCustomContent = () => {
     const [value, setValue] = useState(new Date());
     return <DatePicker value={value} getDayContent={(date) => customContent[date]} onChange={setValue} />;
 };
 
 addDescription(
-    AddContentToDays,
+    WithCustomContent,
     "**WIP** (pending designs) Add custom content to any day cell for example the maximum price for a specific date",
 );
 
@@ -164,6 +168,11 @@ addDescription(
     PickerWithInput,
     "The `DatePickerInput` component binds the DatePicker with an input field, displaying the calendar in an overlay",
 );
+
+export const InputWithCustomContent = () => {
+    const [value, setValue] = useState(new Date());
+    return <DatePickerInput value={value} getDayContent={(date) => customContent[date]} onChange={setValue} />;
+};
 
 export const EventHandlers = () => {
     const [value, setValue] = useState(new Date());

@@ -99,7 +99,7 @@
 
 /* State when you hover on a **selected** day */
 .DayPicker .DayPicker-Day:not(.DayPicker-Day--disabled) .date:hover {
-    @apply bg-blue-darker text-white border-transparent;
+    @apply bg-blue-darker rounded-full text-white border-transparent;
 }
 
 /* Days which are outside the current month */
