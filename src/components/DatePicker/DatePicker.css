@@ -4,7 +4,7 @@
 }
 
 .DayPickerInput-Overlay .DayPicker-wrapper {
-    width: 358px;
+    width: 400px !important;
 }
 
 .DayPicker-wrapper {
@@ -13,7 +13,8 @@
 
 /* The parent component of the entire date picker */
 .ui-date-picker {
-    @apply leading-p1 tracking-tightest ring-0 focus:ring-0 focus:outline-none;
+    @apply pt-6 leading-p1 tracking-tightest ring-0 focus:ring-0 focus:outline-none;
+    width: 400px;
     box-shadow: 0px 8px 32px 3px rgba(0, 0, 0, 0.12);
 }
 
@@ -24,13 +25,14 @@
 /* Month block which includes the month name 'July 2021' and the weeks, days etc.
     This does not include the today button */
 .DayPicker-Month {
-    @apply p-0 my-0 ml-0 mr-5 ring-0 focus:ring-0 focus:outline-none;
+    @apply p-0 pt-0.5 my-0 mx-0 ring-0 focus:ring-0 focus:outline-none;
     border-collapse: inherit;
     border-spacing: 0 16px;
 }
 
 .DayPicker-Month .DayPicker-Caption {
-    @apply h-10 p-0 pl-4 m-0;
+    @apply h-10 p-0 m-0;
+    margin-bottom: 10px;
 }
 
 /* The name of the month July 2021 */
@@ -41,8 +43,8 @@
 /* The "Today" button.
     A lot of specific vaules which I normally wouldn't use. But this is a third party lib where I cannot change the markup */
 .DayPicker-TodayButton {
-    @apply absolute top-0 right-[78px] px-3.5 py-2.5;
-    @apply bg-white hover:bg-blue-lighter text-base tracking-tightest text-black font-semibold border border-solid border-gray hover:border-blue rounded;
+    @apply absolute top-0 right-24 px-3.5 py-2.5;
+    @apply bg-white text-base tracking-tightest text-black font-semibold border border-solid border-gray hover:bg-blue-lighter hover:border-blue rounded;
 }
 
 /* The month & year select dropdown that is injected into the date picker at the top */

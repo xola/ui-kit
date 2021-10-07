@@ -92,14 +92,17 @@ export const ModifyCellStyle = () => {
     };
 
     return (
-        <DatePicker
-            value={value}
-            initialMonth={today}
-            modifiers={modifiers}
-            modifiersStyles={modifiersStyles}
-            fromMonth={new Date()}
-            onChange={setValue}
-        />
+        <div>
+            <div className="my-5 text-xl font-semibold">This is a work in progress as designs are not given yet</div>
+            <DatePicker
+                value={value}
+                initialMonth={today}
+                modifiers={modifiers}
+                modifiersStyles={modifiersStyles}
+                fromMonth={new Date()}
+                onChange={setValue}
+            />
+        </div>
     );
 };
 
