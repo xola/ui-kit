@@ -22,9 +22,7 @@ const sizes = {
 export const Tag = ({ color = "primary", size = "small", onClose, className, children, ...rest }) => {
     const handleClose = (e) => {
         e.stopPropagation(); // Stop from bubbling to the click handler for the tag itself
-        if (onClose) {
-            onClose();
-        }
+        onClose?.();
     };
 
     return (
