@@ -31,6 +31,7 @@ export const Search = ({
     onSelect,
     children,
     isLoading = false,
+    isOpen: isMenuOpen,
     ...rest
 }) => {
     const [showShortcutKey, setShowShortcutKey] = useState(true);
@@ -87,6 +88,7 @@ export const Search = ({
         itemToString: () => inputValue, // We will not change the search input after an item is selected.
         defaultHighlightedIndex: 0,
         onSelectedItemChange: handleSelectedItemChange,
+        isOpen: isMenuOpen,
     });
 
     const handleInputFocus = () => {
@@ -142,7 +144,7 @@ export const Search = ({
                 {...getMenuProps({
                     className: clsx(
                         "ui-search-menu",
-                        "absolute top-10 divide-y divide-gray-light w-full xl:w-2/3 max-h-[75vh] border border-blue-light mt-1 rounded overflow-auto z-50 bg-white",
+                        "absolute top-10 divide-y divide-gray-light w-full xl:w-2/3 max-h-[75vh] border border-blue-light mt-1 rounded overflow-auto z-10 bg-white",
                         { hidden: !open },
                     ),
                 })}
@@ -207,4 +209,5 @@ Search.propTypes = {
     onSelect: PropTypes.func,
     children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node, PropTypes.func]),
     isLoading: PropTypes.bool,
+    isOpen: PropTypes.bool,
 };
