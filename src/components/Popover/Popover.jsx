@@ -5,29 +5,31 @@ import React, { Children } from "react";
 import { followCursor } from "tippy.js";
 import "tippy.js/dist/border.css";
 import "tippy.js/dist/tippy.css";
+import { getChildrenByType } from "../../helpers/children";
 import styles from "./Popover.module.css";
 
-export const Popover = ({ className, children, ...rest }) => {
-    const childrenArray = Children.toArray(children);
-    const items = childrenArray.filter((child) => child.type === Popover.Content);
-    const innerContent = childrenArray.filter((child) => child.type !== Popover.Content);
+export const Popover = ({ className, children, skidding = 0, distance = 10, ...rest }) => {
+    const content = getChildrenByType(children, Popover.Content);
+    const target = Children.toArray(children).filter((child) => child.type !== Popover.Content);
 
     return (
         <Tippy
             interactive
-            zIndex={20}
-            content={items}
+            content={content}
             className={clsx("ui-popover", styles.main, "!border-gray-light !rounded-lg", className)}
             plugins={[followCursor]}
+            offset={[skidding ?? 0, distance ?? 10]}
             {...rest}
         >
-            <span>{innerContent}</span>
+            <span>{target}</span>
         </Tippy>
     );
 };
 
 Popover.propTypes = {
     className: PropTypes.string,
+    skidding: PropTypes.number,
+    distance: PropTypes.number,
     children: PropTypes.node.isRequired,
 };
 

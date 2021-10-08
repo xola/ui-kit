@@ -13,8 +13,9 @@ const PopoverStories = {
         placement: "right",
         delay: 0,
         maxWidth: 350,
+        skidding: 0,
+        distance: 10,
         duration: [300, 250],
-        offset: [0, 10],
     },
     argTypes: {
         demoText: getArgument("Default", "text", null, "The value for the button", "for this demo only"),
@@ -43,11 +44,17 @@ const PopoverStories = {
             "Specifies the maximum width of the tippy. Useful to prevent it from being too horizontally wide to read",
         ),
         duration: getArgument([300, 250], "array", null, "Duration in ms of the transition animation"),
-        offset: getArgument(
-            [0, 10],
-            "array",
+        skidding: getArgument(
+            0,
+            "number",
             null,
-            "Displaces the tippy from its reference element in pixels _(skidding and distance)_",
+            "The amount in pixels to offset along the reference. See: https://popper.js.org/docs/v2/modifiers/offset/#skidding-1",
+        ),
+        distance: getArgument(
+            10,
+            "number",
+            null,
+            "The amount in pixels to to displace the popover from, or toward the reference element in direction of it's placement. Positive means further away, negative lets it overlap the reference. See: https://popper.js.org/docs/v2/modifiers/offset/#distance-1",
         ),
         zIndex: getArgument(9999, "number", null, "Specifies the `z-index` CSS on the root popper node"),
     },

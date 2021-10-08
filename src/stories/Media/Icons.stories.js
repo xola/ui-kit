@@ -38,7 +38,7 @@ const IconList = ({ size, color }) => {
     return (
         <div className="flex flex-row flex-wrap gap-3">
             {icons.map(({ Icon, name }) => (
-                <div key={name} className="p-2 text-center rounded border border-gray-lighter space-y-2">
+                <div key={name} className="p-2 space-y-2 text-center rounded border border-gray-lighter">
                     <Icon size={size} className={color} />
                     <div className="w-40 text-gray-dark">{name}</div>
                 </div>

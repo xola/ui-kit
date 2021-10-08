@@ -68,10 +68,30 @@ const iconSizes = {
     medium: "px-3 py-3 text-base leading-base", // 40px
 };
 
+/**
+ * Design as per https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/🖥-Xola-DS-Desktop-Master-🛠?node-id=2725%3A91132
+ */
+const iconColors = {
+    primary: "text-blue border border-blue hover:text-blue-dark hover:border-blue-dark focus:bg-primary-light",
+    success:
+        "text-success border border-success hover:text-success-dark hover:border-success-dark focus:bg-success-light",
+    warning:
+        "text-warning border border-warning hover:text-warning-dark hover:border-warning-dark focus:bg-warning-light",
+    caution:
+        "text-caution border border-caution hover:text-caution-dark hover:border-caution-dark focus:bg-caution-light",
+    outline: "text-black border border-gray-light hover:border-gray-dark focus:bg-gray-light",
+};
+
 const Icon = ({ className, as: Tag = "button", color = "primary", size = "medium", children: icon, ...rest }) => {
     return (
         <Tag
-            className={clsx("ui-button-icon", buttonBaseClassName, colors[color], iconSizes[size], className)}
+            className={clsx(
+                "ui-button-icon focus:text-white focus:ring-0",
+                buttonBaseClassName,
+                iconColors[color],
+                iconSizes[size],
+                className,
+            )}
             {...rest}
         >
             {icon}

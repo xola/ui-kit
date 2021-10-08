@@ -20,6 +20,11 @@ const sizes = {
 // Dashboard - height 25 Padding 6, 8Purchases - 20 padding 3,4
 
 export const Tag = ({ color = "primary", size = "small", onClose, className, children, ...rest }) => {
+    const handleClose = (e) => {
+        e.stopPropagation(); // Stop from bubbling to the click handler for the tag itself
+        onClose?.();
+    };
+
     return (
         <span
             className={clsx("ui-tag", "inline-flex rounded leading-3.5", colors[color], sizes[size], className)}
@@ -29,8 +34,8 @@ export const Tag = ({ color = "primary", size = "small", onClose, className, chi
 
             {onClose ? (
                 <CloseIcon
-                    className="float-right ml-2 cursor-pointer text-block hover:text-gray-darker"
-                    onClick={onClose}
+                    className="float-right ml-2 cursor-pointer text-block hover:text-gray-darker ui-tag-close"
+                    onClick={handleClose}
                 />
             ) : null}
         </span>
