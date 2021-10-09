@@ -1,43 +1,43 @@
-.ui-combo-box__control {
+.ui-select__control {
     @apply p-0 font-sans text-base leading-base;
     @apply w-full border rounded placeholder-gray-dark hover:placeholder-gray-darker !text-gray-darker;
     @apply disabled:text-gray disabled:bg-gray-lighter hover:bg-gray-lighter hover:border-black;
     @apply border-gray-light;
 }
 
-.ui-combo-box__control:hover {
+.ui-select__control:hover {
     @apply border-black !important;
 }
 
-.ui-combo-box__input-container {
+.ui-select__input-container {
     @apply !text-gray-dark hover:text-gray-darker;
 }
 
-.ui-combo-box__control--is-focused {
+.ui-select__control--is-focused {
     @apply shadow-none outline-none ring-0 !border-primary;
 }
 
-.ui-combo-box__option--is-focused {
+.ui-select__option--is-focused {
     @apply !bg-primary-lighter;
 }
 
-.ui-combo-box__option--is-selected {
+.ui-select__option--is-selected {
     @apply !bg-primary;
 }
 
-.ui-combo-box__input {
+.ui-select__input {
     @apply focus:ring-0;
 }
 
-.ui-combo-box__indicator-separator {
+.ui-select__indicator-separator {
     @apply hidden;
 }
 
 /* Dropdown icon size and color style */
-.ui-combo-box__dropdown-indicator svg {
+.ui-select__dropdown-indicator svg {
     @apply w-3.5 h-3.5 text-black;
 }
 
-.ui-combo-box--is-disabled svg {
+.ui-select--is-disabled svg {
     @apply text-gray;
 }

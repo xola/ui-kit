@@ -136,7 +136,6 @@ export {
     SearchAltIcon,
     SearchIcon,
     Select,
-    ComboBox,
     SendIcon,
     ServiceIcon,
     SettingsIcon,

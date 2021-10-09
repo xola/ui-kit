@@ -1,15 +1,7 @@
-import clsx from "clsx";
-import PropTypes from "prop-types";
 import React from "react";
-import { BaseInput } from "./BaseInput";
+import ReactSelect from "react-select";
+import "./Select.css";
 
-// TODO: Use `isNative` after implementing custom options.
-// eslint-disable-next-line no-unused-vars
-export const Select = ({ className, isNative = false, ...rest }) => {
-    return <BaseInput className={clsx("ui-select", className)} as="select" {...rest} />;
-};
-
-Select.propTypes = {
-    ...BaseInput.propTypes,
-    isNative: PropTypes.bool,
+export const Select = (props) => {
+    return <ReactSelect className="ui-select" classNamePrefix="ui-select" {...props} />;
 };
