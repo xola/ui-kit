@@ -46,5 +46,5 @@ HeaderToolbar.Breadcrumb.propTypes = {
 HeaderToolbar.Breadcrumb.displayName = "HeaderToolbar.Search";
 
 HeaderToolbar.Search = (props) => {
-    return <Search className="ui-header-toolbar-search flex-grow pr-1 w-full" {...props} />;
+    return <Search className="flex-grow pr-1 w-full ui-header-toolbar-search" {...props} />;
 };

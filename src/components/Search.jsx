@@ -110,7 +110,7 @@ export const Search = ({
     useHotkeys("esc", () => inputReference.current.blur(), { enableOnTags: ["INPUT"] });
 
     return (
-        <div className="ui-search relative w-full">
+        <div className="relative w-full ui-search">
             <div {...getComboboxProps({ className: "w-full relative rounded-md" })}>
                 <div className="absolute inset-y-0 top-[-2px] left-0 hidden md:flex items-center pointer-events-none">
                     <SearchIcon className="w-4 h-4 text-gray-darker" />
