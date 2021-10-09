@@ -31,6 +31,22 @@ export const Default = () => {
     );
 };
 
+export const Searchable = () => {
+    const options = [
+        { value: 1, label: "5% OFF" },
+        { value: 2, label: "10% OFF" },
+    ];
+
+    return (
+        <div className="h-40">
+            <FormGroup>
+                <Label>Apply Coupon</Label>
+                <Select isSearchable options={options} />
+            </FormGroup>
+        </div>
+    );
+};
+
 export const UseCustomSchemaAsOptions = () => {
     const options = [
         { id: 1, name: "Experience 1" },
@@ -43,6 +59,7 @@ export const UseCustomSchemaAsOptions = () => {
                 <Label>Select Experience</Label>
 
                 <Select
+                    isSearchable
                     options={options}
                     getOptionValue={(option) => option.id}
                     getOptionLabel={(option) => option.name}
@@ -83,6 +100,7 @@ export const RenderCustomOptionItems = () => {
                 <Label>Select Experience</Label>
 
                 <Select
+                    isSearchable
                     options={options}
                     getOptionValue={(option) => option.id}
                     getOptionLabel={(option) => option.name}
