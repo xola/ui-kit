@@ -12,15 +12,6 @@ export const Popover = ({ className, children, skidding = 0, distance = 10, ...r
     const content = getChildrenByType(children, Popover.Content);
     const target = Children.toArray(children).filter((child) => child.type !== Popover.Content);
 
-    const offset = [0, 10];
-    if (typeof skidding !== "undefined") {
-        offset[0] = skidding;
-    }
-
-    if (typeof distance !== "undefined") {
-        offset[1] = distance;
-    }
-
     return (
         <Tippy
             interactive
