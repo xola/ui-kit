@@ -1,6 +1,7 @@
 import clsx from "clsx";
-import React from "react";
 import PropTypes from "prop-types";
+import React, { createContext, useContext } from "react";
+import { Currency } from "./Utilities/Currency";
 
 const colors = {
     default: "text-gray-darker",
@@ -13,27 +14,34 @@ const colors = {
     caution: "text-caution",
 };
 
-export const Breakdown = ({ children, className, ...rest }) => {
+const CurrencyContext = createContext();
+
+export const Breakdown = ({ children, className, currency, ...rest }) => {
     return (
-        <table className={clsx("ui-breakdown", "w-full", className)} {...rest}>
-            <tbody>{children}</tbody>
-        </table>
+        <CurrencyContext.Provider value={currency}>
+            <table className={clsx("ui-breakdown", "w-full", className)} {...rest}>
+                <tbody>{children}</tbody>
+            </table>
+        </CurrencyContext.Provider>
     );
 };
 
 Breakdown.propTypes = {
     children: PropTypes.node,
     className: PropTypes.string,
+    currency: PropTypes.string.isRequired,
 };
 
 const BreakdownItem = ({ children, info, value, className, color = "default", ...rest }) => {
+    const currency = useContext(CurrencyContext);
+
     return (
         <tr className={clsx("ui-breakdown-item", colors[color], className)} {...rest}>
             <td className="text-left">{children}</td>
             <td className="text-right">{info}</td>
 
-            <td style={{ width: "1%" }} className="pl-4 text-right">
-                {value}
+            <td className="pl-4 text-right w-[1%]">
+                <Currency currency={currency}>{value}</Currency>
             </td>
         </tr>
     );
@@ -51,13 +59,15 @@ Breakdown.Item = BreakdownItem;
 Breakdown.Item.displayName = "Breakdown.Item";
 
 const BreakdownSubtotalItem = ({ children, info, value, className, color = "black", ...rest }) => {
+    const currency = useContext(CurrencyContext);
+
     return (
         <tr className={clsx("ui-breakdown-subtotal-item", "font-bold", colors[color], className)} {...rest}>
             <td className="pt-1 pb-4 text-left">{children}</td>
             <td className="pt-1 pb-4 text-right">{info}</td>
 
-            <td style={{ width: "1%" }} className="pt-1 pb-4 pl-4 text-right">
-                {value}
+            <td className="pt-1 pb-4 pl-4 text-right w-[1%]">
+                <Currency currency={currency}>{value}</Currency>
             </td>
         </tr>
     );
