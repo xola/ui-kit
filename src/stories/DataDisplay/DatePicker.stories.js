@@ -113,7 +113,12 @@ addDescription(
 
 export const SelectYearMonth = () => {
     const [value, setValue] = useState(new Date());
-    return <DatePicker shouldShowYearPicker value={value} initialMonth={new Date(2021, 3, 21)} onChange={setValue} />;
+    return (
+        <div className="space-y-2">
+            <div>Date: April 21 2023</div>
+            <DatePicker shouldShowYearPicker value={value} initialMonth={new Date(2023, 3, 21)} onChange={setValue} />
+        </div>
+    );
 };
 
 addDescription(

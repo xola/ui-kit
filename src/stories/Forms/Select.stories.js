@@ -1,6 +1,6 @@
-import React from "react";
-import { Select, Label, FormGroup, Currency } from "../..";
 import clsx from "clsx";
+import React from "react";
+import { Currency, FormGroup, Label, Select } from "../..";
 
 const SelectStories = {
     primary: true,
