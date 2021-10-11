@@ -1,100 +1,113 @@
 import React from "react";
-import { Select, Label, FormGroup } from "../..";
+import { Select, Label, FormGroup, Currency } from "../..";
+import clsx from "clsx";
 
 const SelectStories = {
     primary: true,
     title: "Forms & Fields/Select",
+    parameters: {
+        docs: {
+            description: {
+                component:
+                    "Re-export of React Select library with Xola styles applied. Check React Select documentation for more info: https://react-select.com",
+            },
+        },
+    },
 };
 
 export const Default = () => {
+    const options = [
+        { value: 1, label: "5% OFF" },
+        { value: 2, label: "10% OFF" },
+    ];
+
     return (
-        <FormGroup>
-            <Label>Text</Label>
-
-            <Select isNative>
-                <option value={1}>One</option>
-                <option value={2}>Two</option>
-                <option value={3}>Three</option>
-            </Select>
-        </FormGroup>
-    );
-};
-
-export const Sizes = () => {
-    return (
-        <div>
+        <div className="h-40">
             <FormGroup>
-                <Label>Small</Label>
-
-                <Select isNative size="small">
-                    <option value={1}>One</option>
-                    <option value={2}>Two</option>
-                    <option value={3}>Three</option>
-                </Select>
-            </FormGroup>
-
-            <FormGroup>
-                <Label>Medium</Label>
-
-                <Select isNative size="medium">
-                    <option value={1}>One</option>
-                    <option value={2}>Two</option>
-                    <option value={3}>Three</option>
-                </Select>
-            </FormGroup>
-
-            <FormGroup>
-                <Label>Large</Label>
-
-                <Select isNative size="large">
-                    <option value={1}>One</option>
-                    <option value={2}>Two</option>
-                    <option value={3}>Three</option>
-                </Select>
+                <Label>Apply Coupon</Label>
+                <Select options={options} />
             </FormGroup>
         </div>
     );
 };
 
-export const Disabled = () => {
-    return (
-        <FormGroup>
-            <Label>Disabled</Label>
+export const Searchable = () => {
+    const options = [
+        { value: 1, label: "5% OFF" },
+        { value: 2, label: "10% OFF" },
+    ];
 
-            <Select disabled isNative value={1}>
-                <option value={1}>One</option>
-                <option value={2}>Two</option>
-                <option value={3}>Three</option>
-            </Select>
-        </FormGroup>
+    return (
+        <div className="h-40">
+            <FormGroup>
+                <Label>Apply Coupon</Label>
+                <Select isSearchable options={options} />
+            </FormGroup>
+        </div>
     );
 };
 
-export const WithError = () => {
-    return (
-        <FormGroup>
-            <Label className="text-danger">Text is invalid</Label>
+export const UseCustomSchemaAsOptions = () => {
+    const options = [
+        { id: 1, name: "Experience 1" },
+        { id: 2, name: "Experience 2" },
+    ];
 
-            <Select isNative isError>
-                <option value={1}>One</option>
-                <option value={2}>Two</option>
-                <option value={3}>Three</option>
-            </Select>
-        </FormGroup>
+    return (
+        <div className="h-40">
+            <FormGroup>
+                <Label>Select Experience</Label>
+
+                <Select
+                    isSearchable
+                    options={options}
+                    getOptionValue={(option) => option.id}
+                    getOptionLabel={(option) => option.name}
+                />
+            </FormGroup>
+        </div>
     );
 };
 
-export const CustomWidth = () => {
-    return (
-        <FormGroup>
-            <Label>Text</Label>
+export const RenderCustomOptionItems = () => {
+    const options = [
+        { id: 1, name: "Experience 1", description: "Lorem ipsum", price: 123.45 },
+        { id: 2, name: "Experience 2", description: "Dolor sit amet", price: 456.78 },
+    ];
 
-            <Select isNative className="!w-60">
-                <option value={1}>One</option>
-                <option value={2}>Two</option>
-                <option value={3}>Three</option>
-            </Select>
-        </FormGroup>
+    const Option = ({ innerProps, innerRef, label, data, isSelected, isFocused }) => (
+        <div
+            className={clsx(
+                "flex items-center p-4 border-b border-gray-light",
+                isSelected && "text-white bg-success-dark",
+                !isSelected && isFocused && "bg-success-lighter",
+            )}
+            ref={innerRef}
+            {...innerProps}
+        >
+            <div className="mr-auto">
+                <p className="font-bold">{label}</p>
+                <span className="text-sm text-gray">{data.description}</span>
+            </div>
+
+            <Currency currency={data.currency}>{data.price}</Currency>
+        </div>
+    );
+
+    return (
+        <div className="h-60">
+            <FormGroup>
+                <Label>Select Experience</Label>
+
+                <Select
+                    isSearchable
+                    options={options}
+                    getOptionValue={(option) => option.id}
+                    getOptionLabel={(option) => option.name}
+                    components={{ Option }}
+                />
+            </FormGroup>
+        </div>
     );
 };
 
