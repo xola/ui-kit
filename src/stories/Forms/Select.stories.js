@@ -77,12 +77,12 @@ export const RenderCustomOptionItems = () => {
 
     const Option = ({ innerProps, innerRef, label, data, isSelected, isFocused }) => (
         <div
+            ref={innerRef}
             className={clsx(
                 "flex items-center p-4 border-b border-gray-light",
                 isSelected && "text-white bg-success-dark",
                 !isSelected && isFocused && "bg-success-lighter",
             )}
-            ref={innerRef}
             {...innerProps}
         >
             <div className="mr-auto">
