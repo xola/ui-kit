@@ -17,6 +17,7 @@ export { Logo } from "./components/Logo";
 export { Search } from "./components/Search";
 export { Spinner } from "./components/Spinner";
 export { Breadcrumb } from "./components/Breadcrumb";
+export { Breakdown } from "./components/Breakdown";
 export { FormGroup } from "./components/Forms/FormGroup";
 export { Input } from "./components/Forms/Input";
 export { Textarea } from "./components/Forms/Textarea";
