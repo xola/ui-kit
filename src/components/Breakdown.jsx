@@ -2,6 +2,8 @@ import clsx from "clsx";
 import React from "react";
 
 const colors = {
+    default: "text-gray-darker",
+    black: "text-black",
     primary: "text-primary",
     secondary: "text-secondary",
     warning: "text-warning",
@@ -10,15 +12,19 @@ const colors = {
     caution: "text-caution",
 };
 
-export const Breakdown = ({ children }) => {
-    return <table className="w-full text-gray-darker">{children}</table>;
+export const Breakdown = ({ children, className, ...rest }) => {
+    return (
+        <table className={clsx("ui-breakdown", "w-full", className)} {...rest}>
+            <tbody>{children}</tbody>
+        </table>
+    );
 };
 
-const BreakdownItem = ({ children, value, icon, ...rest }) => {
+const BreakdownItem = ({ children, info, value, className, color = "default", ...rest }) => {
     return (
-        <tr {...rest}>
+        <tr className={clsx("ui-breakdown-item", colors[color], className)} {...rest}>
             <td className="text-left">{children}</td>
-            <td className="text-right">{icon}</td>
+            <td className="text-right">{info}</td>
 
             <td style={{ width: "1%" }} className="pl-4 text-right">
                 {value}
@@ -30,12 +36,11 @@ const BreakdownItem = ({ children, value, icon, ...rest }) => {
 Breakdown.Item = BreakdownItem;
 Breakdown.Item.displayName = "Breakdown.Item";
 
-const BreakdownSubtotalItem = ({ className, icon, children, value }) => {
+const BreakdownSubtotalItem = ({ children, info, value, className, color = "black", ...rest }) => {
     return (
-        <tr className={clsx("font-bold text-black", className)}>
-            <td colSpan={2} className="pt-1 pb-4 text-right">
-                {children}
-            </td>
+        <tr className={clsx("ui-breakdown-subtotal-item", "font-bold", colors[color], className)} {...rest}>
+            <td className="pt-1 pb-4 text-left">{children}</td>
+            <td className="pt-1 pb-4 text-right">{info}</td>
 
             <td style={{ width: "1%" }} className="pt-1 pb-4 pl-4 text-right">
                 {value}
@@ -47,9 +52,9 @@ const BreakdownSubtotalItem = ({ className, icon, children, value }) => {
 Breakdown.SubtotalItem = BreakdownSubtotalItem;
 Breakdown.SubtotalItem.displayName = "Breakdown.SubtotalItem";
 
-const BreakdownSeparator = () => {
+const BreakdownSeparator = ({ className, ...rest }) => {
     return (
-        <tr>
+        <tr className={clsx("ui-breakdown-separator", className)} {...rest}>
             <td colSpan={3} className="pb-1 border-b border-gray-light" />
         </tr>
     );
