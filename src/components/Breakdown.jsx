@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import React from "react";
+import PropTypes from "prop-types";
 
 const colors = {
     default: "text-gray-darker",
@@ -20,6 +21,11 @@ export const Breakdown = ({ children, className, ...rest }) => {
     );
 };
 
+Breakdown.propTypes = {
+    children: PropTypes.node,
+    className: PropTypes.string,
+};
+
 const BreakdownItem = ({ children, info, value, className, color = "default", ...rest }) => {
     return (
         <tr className={clsx("ui-breakdown-item", colors[color], className)} {...rest}>
@@ -31,6 +37,14 @@ const BreakdownItem = ({ children, info, value, className, color = "default", ..
             </td>
         </tr>
     );
+};
+
+BreakdownItem.propTypes = {
+    children: PropTypes.node,
+    info: PropTypes.node,
+    value: PropTypes.node,
+    className: PropTypes.string,
+    color: PropTypes.oneOf(Object.keys(colors)),
 };
 
 Breakdown.Item = BreakdownItem;
@@ -49,6 +63,14 @@ const BreakdownSubtotalItem = ({ children, info, value, className, color = "blac
     );
 };
 
+BreakdownSubtotalItem.propTypes = {
+    children: PropTypes.node,
+    info: PropTypes.node,
+    value: PropTypes.node,
+    className: PropTypes.string,
+    color: PropTypes.oneOf(Object.keys(colors)),
+};
+
 Breakdown.SubtotalItem = BreakdownSubtotalItem;
 Breakdown.SubtotalItem.displayName = "Breakdown.SubtotalItem";
 
@@ -58,6 +80,10 @@ const BreakdownSeparator = ({ className, ...rest }) => {
             <td colSpan={3} className="pb-1 border-b border-gray-light" />
         </tr>
     );
+};
+
+BreakdownSeparator.propTypes = {
+    className: PropTypes.string,
 };
 
 Breakdown.Separator = BreakdownSeparator;
