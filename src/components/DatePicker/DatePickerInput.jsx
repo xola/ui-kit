@@ -47,6 +47,7 @@ export const DatePickerInput = ({
             maxWidth="900px"
             distance={18}
             className={classNames.popover}
+            placement="bottom"
             onClickOutside={toggleVisibility}
         >
             {displayElement}
