@@ -14,6 +14,7 @@ export const DatePickerPopover = ({
     handleMonthChange,
     children,
     classNames = {},
+    popoverProps,
     ...rest
 }) => {
     const [date, setDate] = useState(selectedDate);
@@ -51,6 +52,7 @@ export const DatePickerPopover = ({
             className={classNames.popover}
             placement="bottom"
             onClickOutside={toggleVisibility}
+            {...popoverProps}
         >
             {displayElement}
             <Popover.Content>
@@ -75,6 +77,7 @@ DatePickerPopover.propTypes = {
     handleDayClick: PropTypes.func.isRequired,
     handleMonthChange: PropTypes.func,
     classNames: PropTypes.object,
+    popoverProps: PropTypes.object,
 };
 
 const DefaultInput = ({ className, ...rest }) => {
