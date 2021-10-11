@@ -17,6 +17,7 @@ export const DatePickerInput = ({
     ...rest
 }) => {
     const [date, setDate] = useState(selectedDate);
+    const [month, setMonth] = useState(selectedDate);
     const [isVisible, setIsVisible] = useState(false);
 
     const toggleVisibility = () => {
@@ -30,6 +31,7 @@ export const DatePickerInput = ({
     };
 
     const onMonthChange = (m) => {
+        setMonth(m);
         handleMonthChange?.(m);
     };
 
@@ -56,7 +58,7 @@ export const DatePickerInput = ({
                     <DatePicker
                         value={date}
                         selectedDate={date}
-                        month={date}
+                        month={month}
                         onChange={onChange}
                         onMonthChange={onMonthChange}
                         {...rest}

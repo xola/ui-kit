@@ -156,10 +156,9 @@ export const DateRange = () => {
 };
 
 export const PickerWithInput = () => {
-    // TODO: Refactor.
     return (
         <div className="h-[480px]">
-            <DatePickerInput selectedDate={new Date()} dateFormat="DD MMM, YYYY" />
+            <DatePickerInput shouldShowYearPicker selectedDate={new Date()} dateFormat="DD MMM, YYYY" />
         </div>
     );
 };

@@ -51,8 +51,9 @@ export const DatePicker = ({
         }
     };
 
-    const handleMonthChange = (value) => {
-        setMonth(value);
+    const handleMonthChange = (m) => {
+        setMonth(m);
+        onMonthChange?.(m);
     };
 
     const captionElement = shouldShowYearPicker
