@@ -7,12 +7,12 @@ import { Input } from "../Forms/Input";
 import { Popover } from "../Popover/Popover";
 import { DatePicker } from "./DatePicker";
 
-export const DatePickerInput = ({
-    inputComponent,
+export const DatePickerPopover = ({
     selectedDate,
     dateFormat = "ddd, MMM DD, YYYY",
     handleDayClick,
     handleMonthChange,
+    children,
     classNames = {},
     ...rest
 }) => {
@@ -35,7 +35,7 @@ export const DatePickerInput = ({
         handleMonthChange?.(m);
     };
 
-    const displayElement = React.cloneElement(inputComponent ?? <DefaultInput className={classNames.input} />, {
+    const displayElement = React.cloneElement(children ?? <DefaultInput className={classNames.input} />, {
         readOnly: true,
         size: "medium",
         placeholder: "Select Date",
@@ -69,7 +69,7 @@ export const DatePickerInput = ({
     );
 };
 
-DatePickerInput.propTypes = {
+DatePickerPopover.propTypes = {
     inputComponent: PropTypes.element,
     selectedDate: PropTypes.object,
     handleDayClick: PropTypes.func.isRequired,

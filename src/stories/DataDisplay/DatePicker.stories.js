@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import _ from "lodash";
 import React, { useState } from "react";
-import { DatePicker, DatePickerInput, theme } from "../..";
+import { DatePicker, DatePickerPopover, Input, theme } from "../..";
 
 const DatePickerStories = {
     title: "Data Display/Date & Time/Date Picker",
@@ -162,20 +162,34 @@ export const DateRange = () => {
 
 export const PickerWithInput = () => {
     return (
-        <div className="h-[480px]">
-            <DatePickerInput shouldShowYearPicker selectedDate={new Date()} dateFormat="DD MMM, YYYY" />
+        <div className="h-[600px]">
+            <DatePickerPopover shouldShowYearPicker selectedDate={new Date()} dateFormat="DD MMM, YYYY" />
         </div>
     );
 };
 
 addDescription(
     PickerWithInput,
-    "The `DatePickerInput` component binds the DatePicker with an input field, displaying the calendar in an overlay",
+    "The `DatePickerPopover` component binds the DatePicker with an input field, displaying the calendar in a popover",
 );
+
+export const PickerCustomInput = () => {
+    return (
+        <div className="h-[600px]">
+            <DatePickerPopover selectedDate={new Date()} dateFormat="DD MMM">
+                <div className="p-3 bg-gray-lighter cursor-pointer">Hello, click me to open up a date picker</div>
+            </DatePickerPopover>
+        </div>
+    );
+};
 
 export const InputWithCustomContent = () => {
     const [value, setValue] = useState(new Date());
-    return <DatePickerInput value={value} getDayContent={(date) => customContent[date]} handleDayClick={setValue} />;
+    return (
+        <div className="h-[600px]">
+            <DatePickerPopover value={value} getDayContent={(date) => customContent[date]} handleDayClick={setValue} />
+        </div>
+    );
 };
 
 export const EventHandlers = () => {

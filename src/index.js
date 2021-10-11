@@ -32,7 +32,7 @@ export { Drawer } from "./components/Drawer";
 export { Key } from "./components/Key";
 export { Login } from "./components/Screens/Login";
 export { DatePicker } from "./components/DatePicker/DatePicker";
-export { DatePickerInput } from "./components/DatePicker/DatePickerInput";
+export { DatePickerPopover } from "./components/DatePicker/DatePickerPopover";
 
 // Utilities
 export { Currency } from "./components/Utilities/Currency";
