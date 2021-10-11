@@ -171,7 +171,7 @@ addDescription(
 
 export const InputWithCustomContent = () => {
     const [value, setValue] = useState(new Date());
-    return <DatePickerInput value={value} getDayContent={(date) => customContent[date]} onChange={setValue} />;
+    return <DatePickerInput value={value} getDayContent={(date) => customContent[date]} handleDayClick={setValue} />;
 };
 
 export const EventHandlers = () => {
