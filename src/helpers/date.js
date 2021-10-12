@@ -7,6 +7,6 @@ export const formatDate = (date, format = "YYYY-MM-DD") => {
 };
 
 export const formatTime = (time, format = "h:mm a") => {
-    const strTime = String(time).padStart(4, 0); // 700 to 0700
-    return dayjs(strTime, "hhmm").format(format);
+    const stringTime = String(time).padStart(4, 0); // 700 to 0700
+    return dayjs(stringTime, "hhmm").format(format);
 };
