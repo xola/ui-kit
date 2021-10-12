@@ -9,13 +9,13 @@ const colors = {
     warning: "bg-warning hover:bg-warning-dark disabled:bg-warning border-transparent text-white",
     danger: "bg-danger hover:bg-danger-dark disabled:bg-danger border-transparent text-white",
     outline:
-        "bg-white hover:bg-secondary-lighter disabled:bg-secondary-light border-secondary-light hover:border-black disabled:border-transparent disabled:text-gray-dark",
+        "bg-white hover:bg-secondary-lighter disabled:bg-secondary-light border-secondary-light hover:border-black disabled:border-transparent disabled:text-gray-dark hover:focus:bg-primary-lighter hover:focus:border-primary-light",
     link: "border-transparent hover:underline",
 };
 
 const sizes = {
     tiny: "px-2 py-0.5 text-xs leading-xs", // 20px
-    small: "px-3.5 py-2 text-sm leading-sm", // 30px
+    small: "px-3 py-2 text-sm leading-sm", // 30px
     medium: "px-4.5 py-3 text-base leading-base", // 40px
     large: "px-6 py-4 text-md leading-md", // 50px
 };
@@ -38,7 +38,7 @@ export const Button = ({
             className={clsx(
                 "ui-button",
                 buttonBaseClassName,
-                "justify-center items-center font-semibold",
+                "justify-center items-center font-semibold focus:ring-0",
                 colors[color],
                 sizes[size],
                 className,
