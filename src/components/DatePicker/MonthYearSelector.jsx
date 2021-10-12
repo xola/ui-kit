@@ -36,6 +36,7 @@ export const MonthYearSelector = ({ date, onChange }) => {
                 options={monthOptions}
                 className="inline-block w-20 month-selector"
                 onChange={handleMonthChange}
+                menuPortalTarget={document.body}
             />
 
             <Select
@@ -44,6 +45,7 @@ export const MonthYearSelector = ({ date, onChange }) => {
                 value={yearOptions.find((y) => y.value === date.getFullYear())}
                 className="inline-block w-22 year-selector"
                 onChange={handleYearChange}
+                menuPortalTarget={document.body}
             />
         </form>
     );
