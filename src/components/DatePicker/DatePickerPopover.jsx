@@ -64,8 +64,10 @@ export const DatePickerPopover = ({
 
 DatePickerPopover.propTypes = {
     value: PropTypes.object,
+    dateFormat: PropTypes.string,
     onChange: PropTypes.func.isRequired,
     onMonthChange: PropTypes.func,
+    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
     classNames: PropTypes.object,
     popoverProps: PropTypes.object,
 };

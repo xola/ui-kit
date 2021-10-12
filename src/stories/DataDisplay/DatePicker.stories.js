@@ -196,7 +196,11 @@ export const InputWithCustomContent = () => {
     const [value, setValue] = useState(new Date());
     return (
         <div className="h-[300px]">
-            <DatePickerPopover value={value} getDayContent={(date) => customContent[date]} onChange={handleOnChange} />
+            <DatePickerPopover
+                value={value}
+                getDayContent={(date) => customContent[date]}
+                onChange={(date) => setValue(date)}
+            />
         </div>
     );
 };
