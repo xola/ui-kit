@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import _ from "lodash";
 import React, { useState } from "react";
-import { DatePicker, DatePickerPopover, Input, theme } from "../..";
+import { DatePicker, DatePickerPopover, theme } from "../..";
 
 const DatePickerStories = {
     title: "Data Display/Date & Time/Date Picker",
@@ -18,6 +18,10 @@ const DatePickerStories = {
 
 const today = dayjs().set("date", 1).toDate();
 const { colors } = theme;
+
+const handleOnChange = (date) => {
+    console.log("Got date", date);
+};
 
 export const Default = () => {
     const [value, setValue] = useState(new Date());
@@ -42,7 +46,7 @@ export const DisabledDays = () => {
         },
     ];
 
-    return <DatePicker initialMonth={today} disabledDays={disabledDays} value={value} onChange={setValue} />;
+    return <DatePicker month={today} disabledDays={disabledDays} value={value} onChange={setValue} />;
 };
 
 addDescription(
@@ -56,7 +60,7 @@ export const RestrictNavigation = () => {
     return (
         <DatePicker
             value={value}
-            initialMonth={today}
+            month={today}
             fromMonth={today}
             toMonth={dayjs().add(2, "month").toDate()}
             onChange={setValue}
@@ -96,7 +100,7 @@ export const ModifyCellStyle = () => {
             <div className="my-5 text-xl font-semibold">This is a work in progress as designs are not given yet</div>
             <DatePicker
                 value={value}
-                initialMonth={today}
+                month={today}
                 modifiers={modifiers}
                 modifiersStyles={modifiersStyles}
                 fromMonth={new Date()}
@@ -116,7 +120,7 @@ export const SelectYearMonth = () => {
     return (
         <div className="space-y-2">
             <div>Date: April 21 2023</div>
-            <DatePicker shouldShowYearPicker value={value} initialMonth={new Date(2023, 3, 21)} onChange={setValue} />
+            <DatePicker shouldShowYearPicker value={value} month={new Date(2023, 3, 21)} onChange={setValue} />
         </div>
     );
 };
@@ -176,8 +180,8 @@ addDescription(
 export const PickerCustomInput = () => {
     return (
         <div className="h-[300px]">
-            <DatePickerPopover selectedDate={new Date()} dateFormat="DD MMM">
-                <div className="p-3 bg-gray-lighter cursor-pointer">Hello, click me to open up a date picker</div>
+            <DatePickerPopover selectedDate={new Date()} dateFormat="DD MMM" onChange={handleOnChange}>
+                <div className="p-3 cursor-pointer bg-gray-lighter">Hello, click me to open up a date picker</div>
             </DatePickerPopover>
         </div>
     );
@@ -187,7 +191,7 @@ export const InputWithCustomContent = () => {
     const [value, setValue] = useState(new Date());
     return (
         <div className="h-[300px]">
-            <DatePickerPopover value={value} getDayContent={(date) => customContent[date]} handleDayClick={setValue} />
+            <DatePickerPopover value={value} getDayContent={(date) => customContent[date]} onChange={handleOnChange} />
         </div>
     );
 };

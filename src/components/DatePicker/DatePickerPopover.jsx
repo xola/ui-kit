@@ -8,7 +8,7 @@ import { Popover } from "../Popover/Popover";
 import { DatePicker } from "./DatePicker";
 
 export const DatePickerPopover = ({
-    selectedDate,
+    value,
     dateFormat = "ddd, MMM DD, YYYY",
     handleDayClick,
     handleMonthChange,
@@ -17,8 +17,8 @@ export const DatePickerPopover = ({
     popoverProps,
     ...rest
 }) => {
-    const [date, setDate] = useState(selectedDate);
-    const [month, setMonth] = useState(selectedDate);
+    const [date, setDate] = useState(value);
+    const [month, setMonth] = useState(value);
     const [isVisible, setIsVisible] = useState(false);
 
     const toggleVisibility = () => {
@@ -59,7 +59,6 @@ export const DatePickerPopover = ({
                 <div>
                     <DatePicker
                         value={date}
-                        selectedDate={date}
                         month={month}
                         onChange={onChange}
                         onMonthChange={onMonthChange}
@@ -73,7 +72,7 @@ export const DatePickerPopover = ({
 
 DatePickerPopover.propTypes = {
     inputComponent: PropTypes.element,
-    selectedDate: PropTypes.object,
+    value: PropTypes.object,
     handleDayClick: PropTypes.func.isRequired,
     handleMonthChange: PropTypes.func,
     classNames: PropTypes.object,
@@ -82,14 +81,14 @@ DatePickerPopover.propTypes = {
 
 const DefaultInput = ({ className, ...rest }) => {
     return (
-        <div className="relative inline-flex w-48 bg-gray-lighter">
-            <div className="absolute inset-0 flex items-center pl-3 pointer-events-none">
+        <div className="inline-flex relative w-48 bg-gray-lighter">
+            <div className="flex absolute inset-0 items-center pl-3 pointer-events-none">
                 <CalendarIcon className="inline-block" />
             </div>
 
             <Input className={clsx("w-48 pl-8 cursor-pointer", className)} {...rest} />
 
-            <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+            <div className="flex absolute inset-y-0 right-0 items-center pr-3 pointer-events-none">
                 <DownArrowIcon className="inline-block" />
             </div>
         </div>

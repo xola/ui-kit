@@ -20,7 +20,7 @@ export const DatePicker = ({
     variant = variants.single,
     value,
     onChange,
-    initialMonth = new Date(),
+    month = new Date(),
     onMonthChange,
     onTodayButtonClick,
     disabledDays = [],
@@ -29,13 +29,13 @@ export const DatePicker = ({
     modifiers = {},
     ...rest
 }) => {
-    const [month, setMonth] = useState(initialMonth);
+    const [currentMonth, setCurrentMonth] = useState(month);
     const isRangeVariant = variant === variants.range;
 
     // Sync internal month state with outside.
     useEffect(() => {
-        onMonthChange?.(month);
-    }, [month, onMonthChange]);
+        onMonthChange?.(currentMonth);
+    }, [currentMonth, onMonthChange]);
 
     const handleDayClick = (day) => {
         if (isRangeVariant) {
@@ -52,7 +52,7 @@ export const DatePicker = ({
     };
 
     const handleMonthChange = (m) => {
-        setMonth(m);
+        setCurrentMonth(m);
         onMonthChange?.(m);
     };
 
@@ -79,8 +79,7 @@ export const DatePicker = ({
             )}
             todayButton="Today"
             selectedDays={value}
-            initialMonth={initialMonth}
-            month={month}
+            month={currentMonth}
             modifiers={{ ...modifiers, ...rangeModifier }}
             numberOfMonths={isRangeVariant ? 2 : 1}
             disabledDays={disabledDays}
@@ -99,7 +98,7 @@ DatePicker.propTypes = {
     variant: PropTypes.oneOf(Object.keys(variants)),
     value: PropTypes.objectOf(Date).isRequired,
     onChange: PropTypes.func.isRequired,
-    initialMonth: PropTypes.objectOf(Date),
+    month: PropTypes.objectOf(Date),
     onMonthChange: PropTypes.func,
     onTodayButtonClick: PropTypes.func,
     disabledDays: PropTypes.oneOfType([PropTypes.array, PropTypes.func]),

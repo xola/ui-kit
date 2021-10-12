@@ -67,12 +67,12 @@
     @apply p-0 w-12 h-12 leading-3 ring-0 focus:ring-0 focus:outline-none;
 }
 
-/* .DayPicker-Day .date-value {
+/* .DayPicker-Day .ui-day-content-value {
     @apply p-0 w-12 h-12 rounded-full text-md ring-0 focus:ring-0 focus:outline-none;
 } */
 
 /* The style for today's date */
-.DayPicker-Day--today .date-container {
+.DayPicker-Day--today .ui-day-content {
     @apply border border-gray-light font-normal text-black;
 }
 
@@ -93,7 +93,7 @@
 /* State when you hover on a day */
 .DayPicker:not(.DayPicker--interactionDisabled)
     .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside)
- .date-container:hover {
+    .ui-day-content:hover {
     @apply bg-blue-lighter text-black border border-blue;
 }
 
@@ -166,7 +166,7 @@
 .has-custom-content
     .DayPicker:not(.DayPicker--interactionDisabled)
     .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):hover
-    .date-container {
+    .ui-day-content {
     @apply bg-blue-lighter border border-blue;
 }
 
@@ -174,15 +174,15 @@
     @apply bg-white border border-transparent;
 }
 
-.has-custom-content .DayPicker-Day .date-container {
+.has-custom-content .DayPicker-Day .ui-day-content {
     @apply w-12 h-12 border border-transparent rounded-full;
 }
 
-.has-custom-content .DayPicker-Day .date-container .date-value {
+.has-custom-content .DayPicker-Day .ui-day-content .ui-day-content-value {
     @apply pt-3 leading-4;
 }
 
-.has-custom-content .DayPicker-Day .date-container:hover {
+.has-custom-content .DayPicker-Day .ui-day-content:hover {
     @apply w-12 h-12 border border-transparent rounded-full;
 }
 
@@ -190,7 +190,7 @@
     @apply space-y-0;
 }
 
-.has-custom-content .DayPicker-Day .custom-content {
+.has-custom-content .DayPicker-Day .ui-day-content-custom {
     @apply text-xs text-gray-dark;
 }
 
@@ -199,11 +199,11 @@
     @apply bg-white;
 }
 
-.has-custom-content .DayPicker-Day.DayPicker-Day--selected .date-container {
+.has-custom-content .DayPicker-Day.DayPicker-Day--selected .ui-day-content {
     @apply bg-blue rounded-full font-normal text-black;
 }
 
-.has-custom-content .DayPicker-Day.DayPicker-Day--selected .custom-content {
+.has-custom-content .DayPicker-Day.DayPicker-Day--selected .ui-day-content-custom {
     @apply font-normal truncate text-gray-light;
 }
 
@@ -211,7 +211,7 @@
     @apply bg-white text-black font-normal border border-transparent;
 }
 
-.has-custom-content .DayPicker-Day--today .date-container {
+.has-custom-content .DayPicker-Day--today .ui-day-content {
     @apply bg-white border border-gray-light;
 }
 
@@ -219,7 +219,7 @@
     @apply bg-white text-gray-dark;
 }
 
-.has-custom-content .DayPicker-Day .custom-content {
+.has-custom-content .DayPicker-Day .ui-day-content-custom {
     @apply text-gray-dark;
 }
 

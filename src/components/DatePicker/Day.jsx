@@ -39,12 +39,12 @@ const DayContent = ({ selectedDate, day, getContent }) => {
     const shouldShowContent = !dayjs(day).isBefore(dayjs(), "day");
 
     return (
-        <div className="date-container">
+        <div className="ui-day-content">
             {/* The date itself */}
-            <div className={clsx("date-value", isSameDay ? "text-white selected" : null)}>{date}</div>
+            <div className={clsx("ui-day-content-value", isSameDay ? "text-white selected" : null)}>{date}</div>
 
             {/* The custom content below it */}
-            {shouldShowContent && <div className="custom-content">{value}</div>}
+            {shouldShowContent ? <div className="ui-day-content-custom">{value}</div> : null}
         </div>
     );
 };
