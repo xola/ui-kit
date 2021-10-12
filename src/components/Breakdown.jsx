@@ -41,7 +41,9 @@ const BreakdownItem = ({ children, info, value, className, color = "default", ..
             <td className="text-right">{info}</td>
 
             <td className="pl-4 text-right w-[1%]">
-                <Currency currency={currency}>{value}</Currency>
+                <Currency shouldRemoveTrailingZeroes={false} currency={currency}>
+                    {value}
+                </Currency>
             </td>
         </tr>
     );
@@ -67,7 +69,9 @@ const BreakdownSubtotalItem = ({ children, info, value, className, color = "blac
             <td className="pt-1 pb-4 text-right">{info}</td>
 
             <td className="pt-1 pb-4 pl-4 text-right w-[1%]">
-                <Currency currency={currency}>{value}</Currency>
+                <Currency shouldRemoveTrailingZeroes={false} currency={currency}>
+                    {value}
+                </Currency>
             </td>
         </tr>
     );

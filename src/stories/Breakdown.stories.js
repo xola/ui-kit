@@ -10,9 +10,9 @@ export const Default = () => {
     return (
         <div className="w-80">
             <Breakdown currency="USD">
+                <Breakdown.Item value={100}>Line item caption</Breakdown.Item>
                 <Breakdown.Item value={29}>Children ($29.00 x 1)</Breakdown.Item>
                 <Breakdown.Item value={29}>Adults ($29.00 x 1)</Breakdown.Item>
-                <Breakdown.Item value={100}>Charge</Breakdown.Item>
                 <Breakdown.Item value={4}>VAT ($2.00 x 2)</Breakdown.Item>
 
                 <Breakdown.Separator />
