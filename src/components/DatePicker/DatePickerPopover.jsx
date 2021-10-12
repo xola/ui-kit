@@ -10,37 +10,29 @@ import { DatePicker } from "./DatePicker";
 export const DatePickerPopover = ({
     value,
     dateFormat = "ddd, MMM DD, YYYY",
-    handleDayClick,
-    handleMonthChange,
+    onChange,
+    onMonthChange,
     children,
     classNames = {},
     popoverProps,
     ...rest
 }) => {
-    const [date, setDate] = useState(value);
-    const [month, setMonth] = useState(value);
     const [isVisible, setIsVisible] = useState(false);
 
     const toggleVisibility = () => {
         setIsVisible(!isVisible);
     };
 
-    const onChange = (d) => {
-        setDate(d);
-        handleDayClick?.(d);
+    const handleChange = (d) => {
+        onChange?.(d);
         setIsVisible(false);
-    };
-
-    const onMonthChange = (m) => {
-        setMonth(m);
-        handleMonthChange?.(m);
     };
 
     const displayElement = React.cloneElement(children ?? <DefaultInput className={classNames.input} />, {
         readOnly: true,
         size: "medium",
         placeholder: "Select Date",
-        value: formatDate(date, dateFormat),
+        value: formatDate(value, dateFormat),
         onClick: toggleVisibility,
     });
 
@@ -49,8 +41,8 @@ export const DatePickerPopover = ({
             visible={isVisible}
             maxWidth="900px"
             distance={18}
-            className={classNames.popover}
             placement="bottom"
+            className={classNames.popover}
             onClickOutside={toggleVisibility}
             {...popoverProps}
         >
@@ -58,9 +50,9 @@ export const DatePickerPopover = ({
             <Popover.Content>
                 <div>
                     <DatePicker
-                        value={date}
-                        month={month}
-                        onChange={onChange}
+                        value={value}
+                        month={value}
+                        onChange={handleChange}
                         onMonthChange={onMonthChange}
                         {...rest}
                     />
@@ -71,10 +63,9 @@ export const DatePickerPopover = ({
 };
 
 DatePickerPopover.propTypes = {
-    inputComponent: PropTypes.element,
     value: PropTypes.object,
-    handleDayClick: PropTypes.func.isRequired,
-    handleMonthChange: PropTypes.func,
+    onChange: PropTypes.func.isRequired,
+    onMonthChange: PropTypes.func,
     classNames: PropTypes.object,
     popoverProps: PropTypes.object,
 };
@@ -86,7 +77,7 @@ const DefaultInput = ({ className, ...rest }) => {
                 <CalendarIcon className="inline-block" />
             </div>
 
-            <Input className={clsx("w-48 pl-8 cursor-pointer", className)} {...rest} />
+            <Input className={clsx("pl-8 cursor-pointer", className)} {...rest} />
 
             <div className="flex absolute inset-y-0 right-0 items-center pr-3 pointer-events-none">
                 <DownArrowIcon className="inline-block" />

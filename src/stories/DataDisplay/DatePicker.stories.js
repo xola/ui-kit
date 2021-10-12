@@ -171,7 +171,7 @@ export const PickerWithInput = () => {
                 shouldShowYearPicker
                 value={new Date()}
                 dateFormat="DD MMM, YYYY"
-                handleDayClick={handleOnChange}
+                onChange={handleOnChange}
             />
         </div>
     );
@@ -185,7 +185,7 @@ addDescription(
 export const PickerCustomInput = () => {
     return (
         <div className="h-[300px]">
-            <DatePickerPopover value={new Date()} dateFormat="DD MMM" handleDayClick={handleOnChange}>
+            <DatePickerPopover value={new Date()} dateFormat="DD MMM" onChange={handleOnChange}>
                 <div className="p-3 cursor-pointer bg-gray-lighter">Hello, click me to open up a date picker</div>
             </DatePickerPopover>
         </div>
@@ -196,11 +196,7 @@ export const InputWithCustomContent = () => {
     const [value, setValue] = useState(new Date());
     return (
         <div className="h-[300px]">
-            <DatePickerPopover
-                value={value}
-                getDayContent={(date) => customContent[date]}
-                handleDayClick={handleOnChange}
-            />
+            <DatePickerPopover value={value} getDayContent={(date) => customContent[date]} onChange={handleOnChange} />
         </div>
     );
 };
