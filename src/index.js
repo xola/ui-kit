@@ -42,7 +42,7 @@ export { Number } from "./components/Utilities/Number";
 // Helpers
 export { almostZero, numberFormat, roundNumber } from "./helpers/numbers";
 export { getSymbol, isZeroDecimal } from "./helpers/currency";
-export { formatDate } from "./helpers/date";
+export { formatDate, formatTime } from "./helpers/date";
 export { isOSX } from "./helpers/browser";
 export { flash } from "./helpers/flash";
 
