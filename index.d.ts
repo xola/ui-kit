@@ -20,6 +20,7 @@ export {
     BookmarkIcon,
     BoxIcon,
     Breadcrumb,
+    Breakdown,
     BriefcaseIcon,
     Button,
     ButtonGroup,
