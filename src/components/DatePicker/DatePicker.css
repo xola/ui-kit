@@ -45,7 +45,7 @@
 /* The "Today" button.
     A lot of specific vaules which I normally wouldn't use. But this is a third party lib where I cannot change the markup */
 .DayPicker-TodayButton {
-    @apply absolute top-0 right-24 px-3.5 py-2.5;
+    @apply absolute top-0 right-24 px-3.5 py-2.5 leading-4 h-10;
     @apply bg-white text-base tracking-tightest text-black font-semibold border border-solid border-gray hover:bg-blue-lighter hover:border-blue rounded;
 }
 
