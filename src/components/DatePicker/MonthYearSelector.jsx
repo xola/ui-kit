@@ -36,7 +36,7 @@ export const MonthYearSelector = ({ date, onChange }) => {
                 options={monthOptions}
                 className="inline-block w-20 month-selector"
                 onChange={handleMonthChange}
-                styles={{ menuPortal: (base) => ({ ...base, zIndex: 30 }) }}
+                styles={{ menuPortal: (base) => ({ ...base, zIndex: 50 }) }}
                 menuPortalTarget={document.body}
             />
 
@@ -46,7 +46,7 @@ export const MonthYearSelector = ({ date, onChange }) => {
                 value={yearOptions.find((y) => y.value === date.getFullYear())}
                 className="inline-block w-22 year-selector"
                 onChange={handleYearChange}
-                styles={{ menuPortal: (base) => ({ ...base, zIndex: 30 }) }}
+                styles={{ menuPortal: (base) => ({ ...base, zIndex: 50 }) }}
                 menuPortalTarget={document.body}
             />
         </form>
