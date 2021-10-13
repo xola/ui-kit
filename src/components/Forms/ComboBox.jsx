@@ -10,5 +10,4 @@ export const ComboBox = ({ className, ...rest }) => {
 
 ComboBox.propTypes = {
     className: PropTypes.string,
-    isSearchable: PropTypes.bool,
 };
