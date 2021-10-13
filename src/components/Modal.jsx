@@ -136,10 +136,14 @@ Modal.Core = Core;
 
 // ESLint is lying about the rule bellow.
 // eslint-disable-next-line react/prop-types
-Modal.Header = ({ children }) => {
+Modal.Header = ({ children, description }) => {
     return (
-        <Dialog.Title as="h3" className="text-2xl font-semibold leading-6 text-center text-black ui-modal-header">
-            {children}
+        <Dialog.Title className="text-center">
+            <h3 className="text-2xl font-semibold leading-6 text-black ui-modal-header">{children}</h3>
+
+            {description ? (
+                <p className="mt-2 text-base font-normal leading-normal text-gray-darker">{description}</p>
+            ) : null}
         </Dialog.Title>
     );
 };
@@ -147,6 +151,7 @@ Modal.Header = ({ children }) => {
 Modal.Header.displayName = "Modal.Header";
 Modal.Header.propTypes = {
     children: PropTypes.node.isRequired,
+    description: PropTypes.string,
 };
 
 // ESLint is lying about the rule bellow.
