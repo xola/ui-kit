@@ -43,7 +43,7 @@ export const Default = ({ size, shouldCloseOnOutsideClick }) => {
             <Button onClick={toggle}>Click me to launch a modal</Button>
 
             <Modal size={size} isOpen={isOpen} shouldCloseOnOutsideClick={shouldCloseOnOutsideClick} onClose={toggle}>
-                <Modal.Header>Apply Code</Modal.Header>
+                <Modal.Header description="Enter the code bellow to apply the code">Apply Code</Modal.Header>
 
                 <Modal.Body>
                     <Input placeholder="Coupon of Affiliate" />
