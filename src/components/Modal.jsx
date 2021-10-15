@@ -135,7 +135,6 @@ Core.propTypes = {
 Modal.Core = Core;
 
 // ESLint is lying about the rule bellow.
-// eslint-disable-next-line react/prop-types
 Modal.Header = ({ children, description }) => {
     return (
         <Dialog.Title as="div" className="text-center">
@@ -155,7 +154,6 @@ Modal.Header.propTypes = {
 };
 
 // ESLint is lying about the rule bellow.
-// eslint-disable-next-line react/prop-types
 Modal.Body = ({ className, ...rest }) => {
     return <div className={clsx("ui-modal-body", className, "pt-8 pb-2 mt-2 text-left")} {...rest} />;
 };
@@ -166,7 +164,6 @@ Modal.Body.propTypes = {
 };
 
 // ESLint is lying about the rule bellow.
-// eslint-disable-next-line react/prop-types
 Modal.Footer = ({ className, ...rest }) => {
     return (
         <div className={clsx("ui-modal-footer", className, "float-right px-8 py-8 modal-footer sm:flex")} {...rest} />
