@@ -28,14 +28,19 @@
     @apply !text-gray-darker;
 }
 
+/* Menu shadow */
+.ui-combo-box__menu {
+    @apply !shadow-md;
+}
+
 /* Option focus */
 .ui-combo-box__option--is-focused {
-    @apply !bg-primary-lighter;
+    @apply !bg-gray-lighter;
 }
 
 /* Option active */
 .ui-combo-box__option--is-selected {
-    @apply !bg-primary;
+    @apply !bg-primary-light;
 }
 
 /* Input text color */
