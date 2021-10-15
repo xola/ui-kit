@@ -70,5 +70,5 @@
 
 /* Hide weird border when search input is focused */
 .ui-combo-box__input:focus {
-    box-shadow: none;
+    box-shadow: none !important;
 }
