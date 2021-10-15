@@ -1,5 +1,6 @@
 // Components.
 export { Button } from "./components/Button";
+export { SubmitButton } from "./components/SubmitButton";
 export { Badge } from "./components/Badge";
 export { Tag } from "./components/Tag";
 export { Dot } from "./components/Dot";
@@ -33,7 +34,7 @@ export { Drawer } from "./components/Drawer";
 export { Key } from "./components/Key";
 export { Login } from "./components/Screens/Login";
 export { DatePicker } from "./components/DatePicker/DatePicker";
-export { DatePickerInput } from "./components/DatePicker/DatePickerInput";
+export { DatePickerPopover } from "./components/DatePicker/DatePickerPopover";
 
 // Utilities
 export { Currency } from "./components/Utilities/Currency";
@@ -43,6 +44,7 @@ export { Number } from "./components/Utilities/Number";
 // Helpers
 export { almostZero, numberFormat, roundNumber } from "./helpers/numbers";
 export { getSymbol, isZeroDecimal } from "./helpers/currency";
+export { formatDate, formatTime } from "./helpers/date";
 export { isOSX } from "./helpers/browser";
 export { flash } from "./helpers/flash";
 

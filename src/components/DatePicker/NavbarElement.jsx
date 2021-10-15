@@ -9,7 +9,7 @@ import { ChevronRightIcon } from "../../icons/ChevronRightIcon";
  */
 export const NavbarElement = ({ onPreviousClick, onNextClick, className, showNextButton, showPreviousButton }) => {
     return (
-        <div className={clsx("absolute z-50 top-1.5 right-1", className)}>
+        <div className={clsx("absolute z-50 top-1.5 right-7", className)}>
             <ChevronButton isVisible={showPreviousButton} onClick={onPreviousClick}>
                 <ChevronLeftIcon />
             </ChevronButton>

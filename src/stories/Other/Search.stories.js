@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import React, { useState } from "react";
-import { Search } from "..";
+import { Search } from "../../..";
 
 const SearchStories = {
     title: "Other/Search",
