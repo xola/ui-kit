@@ -165,9 +165,10 @@ export const DateRange = () => {
 };
 
 export const PickerWithInput = () => {
+    const [date, setDate] = useState(new Date());
     return (
         <div className="h-[300px]">
-            <DatePickerPopover shouldShowYearPicker value={new Date()} onChange={handleOnChange} />
+            <DatePickerPopover shouldShowYearPicker value={date} onChange={(d) => setDate(d)} />
         </div>
     );
 };

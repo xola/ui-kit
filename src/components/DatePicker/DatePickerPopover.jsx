@@ -8,7 +8,7 @@ import { Popover } from "../Popover/Popover";
 import { DatePicker } from "./DatePicker";
 
 export const DatePickerPopover = ({
-    value,
+    value = new Date(),
     dateFormat = "ddd, LL",
     onChange,
     children,
@@ -27,13 +27,17 @@ export const DatePickerPopover = ({
         setIsVisible(false);
     };
 
-    const displayElement = React.cloneElement(children ?? <DefaultInput className={classNames.input} />, {
-        readOnly: true,
+    const dateProps = {
         size: "medium",
         placeholder: "Select Date",
         value: formatDate(value, dateFormat),
         onClick: toggleVisibility,
-    });
+    };
+    const displayElement = children ? (
+        React.cloneElement(children, dateProps)
+    ) : (
+        <DefaultInput readOnly {...dateProps} />
+    );
 
     return (
         <Popover
@@ -48,7 +52,7 @@ export const DatePickerPopover = ({
             {displayElement}
             <Popover.Content>
                 <div>
-                    <DatePicker value={value} month={value} onChange={handleChange} {...rest} />
+                    <DatePicker onChange={handleChange} {...rest} />
                 </div>
             </Popover.Content>
         </Popover>
@@ -56,13 +60,11 @@ export const DatePickerPopover = ({
 };
 
 DatePickerPopover.propTypes = {
-    value: PropTypes.object,
+    value: PropTypes.objectOf(Date).isRequired,
     dateFormat: PropTypes.string,
-    onChange: PropTypes.func.isRequired,
-    onMonthChange: PropTypes.func,
-    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
     classNames: PropTypes.object,
     popoverProps: PropTypes.object,
+    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
 };
 
 const DefaultInput = ({ className, ...rest }) => {

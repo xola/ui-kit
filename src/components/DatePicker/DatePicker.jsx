@@ -19,17 +19,16 @@ const variants = {
 export const DatePicker = ({
     variant = variants.single,
     value,
-    onChange,
-    month = new Date(),
-    onMonthChange,
-    onTodayButtonClick,
+    getDayContent,
     disabledDays = [],
     shouldShowYearPicker = false,
-    getDayContent,
+    onChange,
+    onMonthChange,
     modifiers = {},
     ...rest
 }) => {
-    const [currentMonth, setCurrentMonth] = useState(month);
+    const initialValue = variant === variants.single ? value : value.from;
+    const [currentMonth, setCurrentMonth] = useState(initialValue);
     const isRangeVariant = variant === variants.range;
 
     // Sync internal month state with outside.
@@ -86,7 +85,6 @@ export const DatePicker = ({
             captionElement={captionElement}
             renderDay={renderDay}
             navbarElement={NavbarElement}
-            onTodayButtonClick={onTodayButtonClick}
             onDayClick={handleDayClick}
             onMonthChange={handleMonthChange}
             {...rest}
@@ -96,11 +94,9 @@ export const DatePicker = ({
 
 DatePicker.propTypes = {
     variant: PropTypes.oneOf(Object.keys(variants)),
-    value: PropTypes.objectOf(Date).isRequired,
+    value: PropTypes.objectOf(Date),
     onChange: PropTypes.func.isRequired,
-    month: PropTypes.objectOf(Date),
     onMonthChange: PropTypes.func,
-    onTodayButtonClick: PropTypes.func,
     disabledDays: PropTypes.oneOfType([PropTypes.array, PropTypes.func]),
     shouldShowYearPicker: PropTypes.bool,
     getDayContent: PropTypes.func,
