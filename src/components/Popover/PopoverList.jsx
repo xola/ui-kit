@@ -12,7 +12,7 @@ export const PopoverList = ({ placement = "bottom", className, children, ...rest
     });
 
     const content = (
-        <Popover.Content className="ui-popover-list-content p-0 divide-y divide-solid divide-gray-lighter">
+        <Popover.Content className="p-0 divide-y divide-solid ui-popover-list-content divide-gray-lighter">
             {items}
         </Popover.Content>
     );

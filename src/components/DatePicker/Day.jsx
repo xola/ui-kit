@@ -36,23 +36,16 @@ const DayContent = ({ selectedDate, day, getContent }) => {
     const date = day.getDate();
     const value = getContent(date) ?? "N/A";
     const isSameDay = selectedDate && dayjs(selectedDate).isSame(day, "day");
-    const isSameMonth = dayjs().isSame(day, "month");
+    const shouldShowContent = !dayjs(day).isBefore(dayjs(), "day");
 
     return (
-        <>
+        <div className="ui-day-content">
             {/* The date itself */}
-            <div className={clsx("date-value mb-1 leading-p1", isSameDay ? "text-white selected" : null)}>{date}</div>
+            <div className={clsx("ui-day-content-value", isSameDay ? "text-white selected" : null)}>{date}</div>
 
             {/* The custom content below it */}
-            <div
-                className={clsx(
-                    "custom-content text-xs leading-p3",
-                    isSameDay ? "text-white" : isSameMonth ? "text-gray-dark" : "text-gray-light",
-                )}
-            >
-                {value}
-            </div>
-        </>
+            {shouldShowContent ? <div className="ui-day-content-custom">{value}</div> : null}
+        </div>
     );
 };
 

@@ -55,7 +55,7 @@ export {
     Currency,
     DashboardIcon,
     DatePicker,
-    DatePickerInput,
+    DatePickerPopover,
     DecreaseIcon,
     DepositIcon,
     DisabledIcon,

@@ -19,23 +19,22 @@ const variants = {
 export const DatePicker = ({
     variant = variants.single,
     value,
-    onChange,
-    initialMonth = new Date(),
-    onMonthChange,
-    onTodayButtonClick,
+    getDayContent,
     disabledDays = [],
     shouldShowYearPicker = false,
-    getDayContent,
+    onChange,
+    onMonthChange,
     modifiers = {},
     ...rest
 }) => {
-    const [month, setMonth] = useState(initialMonth);
+    const initialValue = variant === variants.single ? value : value.from;
+    const [currentMonth, setCurrentMonth] = useState(initialValue);
     const isRangeVariant = variant === variants.range;
 
     // Sync internal month state with outside.
     useEffect(() => {
-        onMonthChange?.(month);
-    }, [month, onMonthChange]);
+        onMonthChange?.(currentMonth);
+    }, [currentMonth, onMonthChange]);
 
     const handleDayClick = (day) => {
         if (isRangeVariant) {
@@ -51,8 +50,9 @@ export const DatePicker = ({
         }
     };
 
-    const handleMonthChange = (value) => {
-        setMonth(value);
+    const handleMonthChange = (m) => {
+        setCurrentMonth(m);
+        onMonthChange?.(m);
     };
 
     const captionElement = shouldShowYearPicker
@@ -72,21 +72,19 @@ export const DatePicker = ({
         <DayPicker
             showOutsideDays
             className={clsx(
-                "ui-date-picker",
+                "ui-date-picker rounded-lg pt-3",
                 useDateRangeStyle ? "date-range-picker" : null,
                 getDayContent ? "has-custom-content" : null,
             )}
             todayButton="Today"
             selectedDays={value}
-            initialMonth={initialMonth}
-            month={month}
+            month={currentMonth}
             modifiers={{ ...modifiers, ...rangeModifier }}
             numberOfMonths={isRangeVariant ? 2 : 1}
             disabledDays={disabledDays}
             captionElement={captionElement}
             renderDay={renderDay}
             navbarElement={NavbarElement}
-            onTodayButtonClick={onTodayButtonClick}
             onDayClick={handleDayClick}
             onMonthChange={handleMonthChange}
             {...rest}
@@ -96,12 +94,10 @@ export const DatePicker = ({
 
 DatePicker.propTypes = {
     variant: PropTypes.oneOf(Object.keys(variants)),
-    value: PropTypes.objectOf(Date).isRequired,
+    value: PropTypes.objectOf(Date),
     onChange: PropTypes.func.isRequired,
-    initialMonth: PropTypes.objectOf(Date),
     onMonthChange: PropTypes.func,
-    onTodayButtonClick: PropTypes.func,
-    disabledDays: PropTypes.array,
+    disabledDays: PropTypes.oneOfType([PropTypes.array, PropTypes.func]),
     shouldShowYearPicker: PropTypes.bool,
     getDayContent: PropTypes.func,
     modifiers: PropTypes.object,

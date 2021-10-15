@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import _ from "lodash";
 import React, { useState } from "react";
-import { DatePicker, DatePickerInput, theme } from "../..";
+import { DatePicker, DatePickerPopover, theme } from "../..";
 
 const DatePickerStories = {
     title: "Data Display/Date & Time/Date Picker",
@@ -18,6 +18,10 @@ const DatePickerStories = {
 
 const today = dayjs().set("date", 1).toDate();
 const { colors } = theme;
+
+const handleOnChange = (date) => {
+    console.log("Got date", date);
+};
 
 export const Default = () => {
     const [value, setValue] = useState(new Date());
@@ -42,7 +46,7 @@ export const DisabledDays = () => {
         },
     ];
 
-    return <DatePicker initialMonth={today} disabledDays={disabledDays} value={value} onChange={setValue} />;
+    return <DatePicker month={today} disabledDays={disabledDays} value={value} onChange={setValue} />;
 };
 
 addDescription(
@@ -56,7 +60,7 @@ export const RestrictNavigation = () => {
     return (
         <DatePicker
             value={value}
-            initialMonth={today}
+            month={today}
             fromMonth={today}
             toMonth={dayjs().add(2, "month").toDate()}
             onChange={setValue}
@@ -92,14 +96,17 @@ export const ModifyCellStyle = () => {
     };
 
     return (
-        <DatePicker
-            value={value}
-            initialMonth={today}
-            modifiers={modifiers}
-            modifiersStyles={modifiersStyles}
-            fromMonth={new Date()}
-            onChange={setValue}
-        />
+        <div>
+            <div className="my-5 text-xl font-semibold">This is a work in progress as designs are not given yet</div>
+            <DatePicker
+                value={value}
+                month={today}
+                modifiers={modifiers}
+                modifiersStyles={modifiersStyles}
+                fromMonth={new Date()}
+                onChange={setValue}
+            />
+        </div>
     );
 };
 
@@ -110,13 +117,22 @@ addDescription(
 
 export const SelectYearMonth = () => {
     const [value, setValue] = useState(new Date());
-    return <DatePicker shouldShowYearPicker value={value} initialMonth={new Date(2021, 3, 21)} onChange={setValue} />;
+    return (
+        <div className="space-y-2">
+            <div>Date: April 21 2023</div>
+            <DatePicker shouldShowYearPicker value={value} month={new Date(2023, 3, 21)} onChange={setValue} />
+        </div>
+    );
 };
 
 addDescription(
     SelectYearMonth,
     "This example shows how to use the `month` and `shouldShowYearPicker` prop to change the calendar's caption. For example, we can use these props to start in the month of April and to add a form to switch between months and years.",
 );
+
+/**
+ * Helper methods for this story
+ */
 
 const customContent = [null];
 for (let day = 1; day <= dayjs().daysInMonth(); day++) {
@@ -126,14 +142,15 @@ for (let day = 1; day <= dayjs().daysInMonth(); day++) {
 customContent[_.random(1, dayjs().daysInMonth())] = "Please Call/Email";
 customContent[_.random(1, dayjs().daysInMonth())] = "Sold Out";
 customContent[_.random(1, dayjs().daysInMonth())] = "Sold Out";
+customContent[_.random(1, dayjs().daysInMonth())] = "205 spots";
 
-export const AddContentToDays = () => {
+export const WithCustomContent = () => {
     const [value, setValue] = useState(new Date());
     return <DatePicker value={value} getDayContent={(date) => customContent[date]} onChange={setValue} />;
 };
 
 addDescription(
-    AddContentToDays,
+    WithCustomContent,
     "**WIP** (pending designs) Add custom content to any day cell for example the maximum price for a specific date",
 );
 
@@ -148,18 +165,41 @@ export const DateRange = () => {
 };
 
 export const PickerWithInput = () => {
-    // TODO: Refactor.
+    const [date, setDate] = useState(new Date());
     return (
-        <div className="h-[480px]">
-            <DatePickerInput />
+        <div className="h-[300px]">
+            <DatePickerPopover shouldShowYearPicker value={date} onChange={(d) => setDate(d)} />
         </div>
     );
 };
 
 addDescription(
     PickerWithInput,
-    "The `DatePickerInput` component binds the DatePicker with an input field, displaying the calendar in an overlay",
+    "The `DatePickerPopover` component binds the DatePicker with an input field, displaying the calendar in a popover",
 );
+
+export const PickerCustomInput = () => {
+    return (
+        <div className="h-[300px]">
+            <DatePickerPopover value={new Date()} dateFormat="DD MMM" onChange={handleOnChange}>
+                <div className="p-3 cursor-pointer bg-gray-lighter">Hello, click me to open up a date picker</div>
+            </DatePickerPopover>
+        </div>
+    );
+};
+
+export const InputWithCustomContent = () => {
+    const [value, setValue] = useState(new Date());
+    return (
+        <div className="h-[300px]">
+            <DatePickerPopover
+                value={value}
+                getDayContent={(date) => customContent[date]}
+                onChange={(date) => setValue(date)}
+            />
+        </div>
+    );
+};
 
 export const EventHandlers = () => {
     const [value, setValue] = useState(new Date());

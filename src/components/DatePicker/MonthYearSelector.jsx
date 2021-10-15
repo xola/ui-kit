@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 import PropTypes from "prop-types";
 import React from "react";
+import { Select } from "../Forms/Select";
 
 const today = dayjs();
 
@@ -14,22 +15,26 @@ export const MonthYearSelector = ({ date, onChange }) => {
     };
 
     return (
-        <form className="DayPicker-Caption">
-            <select name="month" value={date.getMonth()} className="month-selector" onChange={handleChange}>
-                {months.map((month, index) => (
-                    <option key={month} value={index}>
-                        {month}
-                    </option>
-                ))}
-            </select>
+        <form className="space-x-2 DayPicker-Caption">
+            <span className="inline-block">
+                <Select name="month" value={date.getMonth()} className="month-selector" onChange={handleChange}>
+                    {months.map((month, index) => (
+                        <option key={month} value={index}>
+                            {month}
+                        </option>
+                    ))}
+                </Select>
+            </span>
 
-            <select name="year" value={date.getFullYear()} className="year-selector" onChange={handleChange}>
-                {years.map((year) => (
-                    <option key={year} value={year}>
-                        {year}
-                    </option>
-                ))}
-            </select>
+            <span className="inline-block">
+                <Select name="year" value={date.getFullYear()} className="year-selector" onChange={handleChange}>
+                    {years.map((year) => (
+                        <option key={year} value={year}>
+                            {year}
+                        </option>
+                    ))}
+                </Select>
+            </span>
         </form>
     );
 };
