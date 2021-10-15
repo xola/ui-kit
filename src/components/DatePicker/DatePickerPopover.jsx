@@ -9,9 +9,8 @@ import { DatePicker } from "./DatePicker";
 
 export const DatePickerPopover = ({
     value,
-    dateFormat = "ddd, MMM DD, YYYY",
+    dateFormat = "ddd, LL",
     onChange,
-    onMonthChange,
     children,
     classNames = {},
     popoverProps,
@@ -49,13 +48,7 @@ export const DatePickerPopover = ({
             {displayElement}
             <Popover.Content>
                 <div>
-                    <DatePicker
-                        value={value}
-                        month={value}
-                        onChange={handleChange}
-                        onMonthChange={onMonthChange}
-                        {...rest}
-                    />
+                    <DatePicker value={value} month={value} onChange={handleChange} {...rest} />
                 </div>
             </Popover.Content>
         </Popover>
@@ -74,7 +67,7 @@ DatePickerPopover.propTypes = {
 
 const DefaultInput = ({ className, ...rest }) => {
     return (
-        <div className="inline-flex relative w-48 bg-gray-lighter">
+        <div className="inline-flex relative w-80 bg-gray-lighter">
             <div className="flex absolute inset-0 items-center pl-3 pointer-events-none">
                 <CalendarIcon className="inline-block" />
             </div>

@@ -15,7 +15,7 @@ export const MonthYearSelector = ({ date, onChange }) => {
     };
 
     return (
-        <form className="DayPicker-Caption space-x-2">
+        <form className="space-x-2 DayPicker-Caption">
             <span className="inline-block">
                 <Select name="month" value={date.getMonth()} className="month-selector" onChange={handleChange}>
                     {months.map((month, index) => (

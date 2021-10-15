@@ -1,12 +1,3 @@
-/* The overlay is the date picker shown when you click an input field */
-.DayPickerInput-Overlay {
-    @apply mt-1 shadow-sm;
-}
-
-.DayPickerInput-Overlay .DayPicker-wrapper {
-    width: 400px !important;
-}
-
 .DayPicker-wrapper {
     @apply ring-0 focus:ring-0 focus:outline-none;
 }

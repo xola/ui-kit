@@ -167,12 +167,7 @@ export const DateRange = () => {
 export const PickerWithInput = () => {
     return (
         <div className="h-[300px]">
-            <DatePickerPopover
-                shouldShowYearPicker
-                value={new Date()}
-                dateFormat="DD MMM, YYYY"
-                onChange={handleOnChange}
-            />
+            <DatePickerPopover shouldShowYearPicker value={new Date()} onChange={handleOnChange} />
         </div>
     );
 };
