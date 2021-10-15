@@ -1,36 +1,56 @@
+/* Container */
 .ui-combo-box__control {
-    @apply p-0 font-sans text-base leading-base;
-    @apply w-full border rounded placeholder-gray-dark hover:placeholder-gray-darker !text-gray-darker;
-    @apply disabled:text-gray disabled:bg-gray-lighter hover:bg-gray-lighter hover:border-black;
-    @apply border-gray-light;
+    @apply p-0 font-sans text-base leading-base !text-gray-dark; /* These don't do much, added just in case */
+    @apply !rounded !border-gray-light;
 }
 
+/* Container hover */
 .ui-combo-box__control:hover {
-    @apply border-black !important;
+    @apply !border-black bg-gray-lighter;
 }
 
-.ui-combo-box__input-container {
-    @apply !text-gray-dark hover:text-gray-darker;
+/* Container focus */
+.ui-combo-box__control:focus-within {
+    @apply shadow-none !border-primary;
 }
 
-.ui-combo-box__control--is-focused {
-    @apply shadow-none outline-none ring-0 !border-primary;
+.border-danger .ui-combo-box__control {
+    @apply !border-danger;
 }
 
+/* Placeholder text color */
+.ui-combo-box__placeholder {
+    @apply !text-gray-dark;
+}
+
+/* Placeholder hover */
+.ui-combo-box__control:hover .ui-combo-box__placeholder {
+    @apply !text-gray-darker;
+}
+
+/* Menu shadow */
+.ui-combo-box__menu {
+    @apply !shadow-md;
+}
+
+/* Option focus */
 .ui-combo-box__option--is-focused {
-    @apply !bg-primary-lighter;
+    @apply !bg-gray-lighter;
 }
 
+/* Option active */
 .ui-combo-box__option--is-selected {
-    @apply !bg-primary;
+    @apply !bg-primary-light;
 }
 
-.ui-combo-box__input {
-    @apply focus:ring-0;
+/* Input text color */
+.ui-combo-box__input-container {
+    @apply !text-gray-dark;
 }
 
-.ui-combo-box__indicator-separator {
-    @apply hidden;
+/* Input hover */
+.ui-combo-box__control:hover .ui-combo-box__input-container {
+    @apply !text-gray-darker;
 }
 
 /* Dropdown icon size and color style */
@@ -38,6 +58,17 @@
     @apply w-3.5 h-3.5 text-black;
 }
 
+/* Dropdown icon disabled */
 .ui-combo-box--is-disabled svg {
     @apply text-gray;
+}
+
+/* Hide vertical separator */
+.ui-combo-box__indicator-separator {
+    @apply hidden;
+}
+
+/* Hide weird border when search input is focused */
+.ui-combo-box__input:focus {
+    box-shadow: none;
 }
