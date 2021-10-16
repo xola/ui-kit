@@ -9,7 +9,7 @@ const colors = {
     warning: "bg-warning hover:bg-warning-dark disabled:bg-warning border-transparent text-white",
     danger: "bg-danger hover:bg-danger-dark disabled:bg-danger border-transparent text-white",
     outline:
-        "bg-white hover:bg-secondary-lighter disabled:bg-secondary-light border-secondary-light hover:border-black disabled:border-transparent disabled:text-gray-dark hover:focus:bg-primary-lighter hover:focus:border-primary-light",
+        "bg-white hover:bg-secondary-lighter disabled:bg-secondary-light border-secondary-light hover:border-black disabled:border-transparent disabled:text-gray-dark",
     link: "border-transparent hover:underline",
 };
 
@@ -72,21 +72,21 @@ const iconSizes = {
  * Design as per https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/🖥-Xola-DS-Desktop-Master-🛠?node-id=2725%3A91132
  */
 const iconColors = {
-    primary: "text-blue border border-blue hover:text-blue-dark hover:border-blue-dark focus:bg-primary-light",
+    primary: "text-blue border border-blue hover:text-blue-dark hover:border-blue-dark active:bg-primary-light",
     success:
-        "text-success border border-success hover:text-success-dark hover:border-success-dark focus:bg-success-light",
+        "text-success border border-success hover:text-success-dark hover:border-success-dark active:bg-success-light",
     warning:
-        "text-warning border border-warning hover:text-warning-dark hover:border-warning-dark focus:bg-warning-light",
+        "text-warning border border-warning hover:text-warning-dark hover:border-warning-dark active:bg-warning-light",
     caution:
-        "text-caution border border-caution hover:text-caution-dark hover:border-caution-dark focus:bg-caution-light",
-    outline: "text-black border border-gray-light hover:border-gray-dark focus:bg-gray-light",
+        "text-caution border border-caution hover:text-caution-dark hover:border-caution-dark active:bg-caution-light",
+    outline: "text-black border border-gray-light hover:border-gray-dark active:bg-gray-light",
 };
 
 const Icon = ({ className, as: Tag = "button", color = "primary", size = "medium", children: icon, ...rest }) => {
     return (
         <Tag
             className={clsx(
-                "ui-button-icon focus:text-white focus:ring-0",
+                "ui-button-icon active:text-white focus:ring-0",
                 buttonBaseClassName,
                 iconColors[color],
                 iconSizes[size],
