@@ -1,5 +1,6 @@
 // Components.
 export { Button } from "./components/Button";
+export { Button2 } from "./components/Button2";
 export { SubmitButton } from "./components/SubmitButton";
 export { Badge } from "./components/Badge";
 export { Tag } from "./components/Tag";
