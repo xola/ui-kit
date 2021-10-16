@@ -1,5 +1,5 @@
 import React from "react";
-import { Breadcrumb, Button, HeaderToolbar } from "../../..";
+import { Breadcrumb, Button, HeaderToolbar } from "../..";
 
 const HeaderToolbarStories = {
     title: "Other/Header Toolbar",
