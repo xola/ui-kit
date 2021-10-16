@@ -3,13 +3,13 @@ import PropTypes from "prop-types";
 import React from "react";
 
 const colors = {
-    primary: "bg-primary hover:bg-primary-dark disabled:bg-primary border-transparent text-white",
-    secondary: "bg-secondary hover:bg-secondary-dark disabled:bg-secondary border-transparent",
-    success: "bg-success hover:bg-success-dark disabled:bg-success border-transparent text-white",
-    warning: "bg-warning hover:bg-warning-dark disabled:bg-warning border-transparent text-white",
-    danger: "bg-danger hover:bg-danger-dark disabled:bg-danger border-transparent text-white",
+    primary: "bg-primary hover:bg-primary-dark disabled:bg-primary border-transparent text-white active:bg-primary",
+    secondary: "bg-secondary hover:bg-secondary-dark disabled:bg-secondary border-transparent active:bg-secondary",
+    success: "bg-success hover:bg-success-dark disabled:bg-success border-transparent text-white active:bg-success",
+    warning: "bg-warning hover:bg-warning-dark disabled:bg-warning border-transparent text-white active:bg-warning",
+    danger: "bg-danger hover:bg-danger-dark disabled:bg-danger border-transparent text-white active:bg-danger",
     outline:
-        "bg-white hover:bg-secondary-lighter disabled:bg-secondary-light border-secondary-light hover:border-black disabled:border-transparent disabled:text-gray-dark",
+        "bg-white hover:bg-secondary-lighter disabled:bg-secondary-light border-secondary-light hover:border-black disabled:border-transparent disabled:text-gray-dark active:bg-white",
     link: "border-transparent hover:underline",
 };
 
