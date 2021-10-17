@@ -21,9 +21,9 @@ export const Skeleton = ({ style, height = 300, shouldAnimate = true, children, 
 };
 
 Skeleton.propTypes = {
-    className: PropTypes.string,
     style: PropTypes.object,
-    height: PropTypes.number,
+    height: PropTypes.string,
     shouldAnimate: PropTypes.bool,
+    classes: PropTypes.object,
     children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
 };
