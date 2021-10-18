@@ -50,8 +50,12 @@ export const Everything = (props) => {
                     Danger
                 </Button2>
             </div>
-            <div className="my-4 space-y-6">
+            <div className="my-4 space-y-4">
                 <h3>Variants</h3>
+                <h4>Outline</h4>
+                <Button2 color="default" variant="outline" size="small">
+                    color="default"?
+                </Button2>
                 <div className="space-x-2">
                     <Button2 color="primary" variant="outline" size="small">
                         Primary
@@ -72,6 +76,7 @@ export const Everything = (props) => {
                         Danger
                     </Button2>
                 </div>
+                <h4>Links</h4>
                 <div className="space-x-2">
                     <Button2 color="primary" variant="link" size="small">
                         Primary

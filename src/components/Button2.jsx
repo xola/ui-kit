@@ -14,6 +14,8 @@ const colors = {
     },
     outline: {
         common: "bg-white border hover:bg-white active:text-white", // Common classes for each style
+        default:
+            "border-gray-light hover:border-gray-dark active:bg-primary-lighter active:text-black active:border-primary",
         primary:
             "text-primary border-primary hover:text-primary-dark hover:border-primary-dark active:bg-primary-light",
         secondary:
