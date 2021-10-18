@@ -59,7 +59,7 @@ Button.propTypes = {
     size: PropTypes.oneOf(Object.keys(sizes)),
     icon: PropTypes.element,
     iconPlacement: PropTypes.oneOf(["left", "right"]),
-    children: PropTypes.node.isRequired,
+    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
 };
 
 const iconSizes = {
@@ -105,6 +105,6 @@ Icon.propTypes = {
     className: PropTypes.string,
     color: PropTypes.oneOf(Object.keys(colors)),
     size: PropTypes.oneOf(Object.keys(sizes)),
-    children: PropTypes.node.isRequired,
+    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
 };
 Button.Icon = Icon;

@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import React from "react";
+import PropTypes, { objectOf } from "prop-types";
 
 const colors = {
     standard: {
@@ -57,12 +58,6 @@ export const Button2 = ({
     children,
     ...rest
 }) => {
-    if (icon && !children) {
-        console.warn(
-            "UI Kit: You are using an icon without children. If you want to use an icon only specify it as a child instead of prop",
-        );
-    }
-
     return (
         <Tag
             className={clsx(
@@ -81,4 +76,25 @@ export const Button2 = ({
             {icon && iconPlacement === "right" ? <span className="flex-shrink-0 ml-2">{icon}</span> : null}
         </Tag>
     );
+};
+
+Button2.propTypes = {
+    // as: PropTypes.string,
+    color: PropTypes.oneOf(Object.keys(colors.outline)),
+    variant: PropTypes.oneOf(Object.keys(colors)),
+    size: PropTypes.oneOf(Object.keys(sizes)),
+    className: PropTypes.string,
+    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
+    icon: function (props) {
+        // See: https://reactjs.org/docs/typechecking-with-proptypes.html#proptypes
+        if (props.icon && !props.children) {
+            return new Error(
+                "UI Kit: You are using an icon without specifying children. If you want to use an icon only specify it as a child instead of prop",
+            );
+        }
+        if (props.icon && !(typeof props.icon.$$typeof === "symbol")) {
+            throw new Error("UI Kit: icon must be a React element");
+        }
+    },
+    iconPlacement: PropTypes.string,
 };
