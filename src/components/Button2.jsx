@@ -72,7 +72,7 @@ export const Button2 = ({
             {...rest}
         >
             {icon && iconPlacement === "left" ? <span className="flex-shrink-0 mr-2">{icon}</span> : null}
-            {children ? children : null}
+            {children}
             {icon && iconPlacement === "right" ? <span className="flex-shrink-0 ml-2">{icon}</span> : null}
         </Tag>
     );
