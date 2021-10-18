@@ -68,7 +68,7 @@ export const Button2 = ({
             className={clsx(
                 "ui-button",
                 "inline-flex rounded transition-colors border focus:ring disabled:opacity-60 disabled:cursor-default",
-                "justify-center items-center font-semibold focus:ring-0",
+                "justify-center items-center font-semibold",
                 colors[variant].common,
                 colors[variant][color],
                 sizes[size],
