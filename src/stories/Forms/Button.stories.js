@@ -145,7 +145,7 @@ export const FullWidth = () => {
 export const IconOnly = () => {
     return (
         <div className="space-x-6">
-            <div className="font-mono py-3">Most of our "icon only" buttons use the `variant=outline` prop</div>
+            <div className="py-3 font-mono">Most of our "icon only" buttons use the `variant=outline` prop</div>
             <Button variant="outline" color="secondary" size="tiny">
                 <EllipsisIcon />
             </Button>
@@ -172,7 +172,7 @@ export const IconOnly = () => {
 export const Sizes = () => {
     return (
         <div className="space-x-4">
-            <div className="font-mono py-3">Tiny is only used with icons</div>
+            <div className="py-3 font-mono">Tiny is only used with icons</div>
             <Button size="tiny">
                 <EllipsisIcon />
             </Button>

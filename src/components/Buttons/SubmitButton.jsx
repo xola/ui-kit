@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
-import { Button } from "./Button";
 import { Spinner } from "../Spinner";
+import { Button } from "./Button";
 
 export const SubmitButton = ({ isLoading, children, ...rest }) => {
     return (

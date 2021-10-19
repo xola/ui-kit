@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Button } from "./Button";
 import clsx from "clsx";
+import { Button } from "./Button";
 
 export const ToggleButton = ({ color = "primary", isActive, className, ...rest }) => {
     const { variant, ...newRest } = rest;

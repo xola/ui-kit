@@ -41,8 +41,8 @@ export const Default = ({ color, size }) => {
                 color={color}
                 size={size}
                 isActive={active}
-                onClick={() => setActive(true)}
                 className="space-x-2"
+                onClick={() => setActive(true)}
             >
                 <CashIcon /> <span>Click to toggle me</span>
             </ToggleButton>
