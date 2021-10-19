@@ -55,7 +55,7 @@ export const Colors = () => {
 export const OutlineVariant = () => {
     return (
         <div className="space-x-4">
-            <code className="block mb-5 font-mono">Use variant="outline"</code>
+            <code className="block mb-5 font-mono">Use variant=&quot;outline&quot;</code>
             <Button variant="outline" color="primary">
                 Primary
             </Button>
@@ -81,7 +81,7 @@ export const OutlineVariant = () => {
 export const LinkVariant = () => {
     return (
         <div className="space-x-4">
-            <code className="block mb-5 font-mono">Use variant="link"</code>
+            <code className="block mb-5 font-mono">Use variant=&quot;link&quot;</code>
             <Button variant="link" color="primary">
                 Primary
             </Button>
@@ -105,7 +105,7 @@ export const LinkVariant = () => {
 };
 
 export const States = () => {
-    return <div className="space-x-4">// TODO: Disabled & Selected state</div>;
+    return <div className="space-x-4">TODO: Disabled &amp; Selected state</div>;
 };
 
 export const TextWithIcons = () => {
@@ -145,7 +145,7 @@ export const FullWidth = () => {
 export const IconOnly = () => {
     return (
         <div className="space-x-6">
-            <div className="py-3 font-mono">Most of our "icon only" buttons use the `variant=outline` prop</div>
+            <div className="py-3 font-mono">Most of our icon only buttons use the &quot;variant=outline&quot; prop</div>
             <Button variant="outline" color="secondary" size="tiny">
                 <EllipsisIcon />
             </Button>

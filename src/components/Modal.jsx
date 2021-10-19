@@ -134,8 +134,7 @@ Core.propTypes = {
 };
 Modal.Core = Core;
 
-// ESLint is lying about the rule bellow.
-Modal.Header = ({ children, description }) => {
+const Header = ({ children, description }) => {
     return (
         <Dialog.Title as="div" className="text-center">
             <h3 className="text-2xl font-semibold leading-6 text-black ui-modal-header">{children}</h3>
@@ -147,21 +146,22 @@ Modal.Header = ({ children, description }) => {
     );
 };
 
-Modal.Header.displayName = "Modal.Header";
-Modal.Header.propTypes = {
+Header.displayName = "Modal.Header";
+Header.propTypes = {
     children: PropTypes.node.isRequired,
     description: PropTypes.string,
 };
+Modal.Header = Header;
 
-// ESLint is lying about the rule bellow.
-Modal.Body = ({ className, ...rest }) => {
+const Body = ({ className, ...rest }) => {
     return <div className={clsx("ui-modal-body", className, "pt-8 pb-2 mt-2 text-left")} {...rest} />;
 };
 
-Modal.Body.displayName = "Modal.Body";
-Modal.Body.propTypes = {
+Body.displayName = "Modal.Body";
+Body.propTypes = {
     className: PropTypes.string,
 };
+Modal.Body = Body;
 
 // ESLint is lying about the rule bellow.
 Modal.Footer = ({ className, ...rest }) => {
