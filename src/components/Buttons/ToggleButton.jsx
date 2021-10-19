@@ -1,17 +1,22 @@
-import React from "react";
-import PropTypes from "prop-types";
 import clsx from "clsx";
+import PropTypes from "prop-types";
+import React from "react";
 import { Button } from "./Button";
 
-export const ToggleButton = ({ color = "primary", isActive, className, ...rest }) => {
-    const { variant, ...newRest } = rest;
-    const classNames = clsx(className, isActive && `bg-${color}-lighter border border-${color}-light`); // It's ok because JIT will catch colors from other places
+const colors = {
+    primary: "bg-primary-lighter border border-primary-light hover:focus:bg-primary-lighter",
+    secondary: "bg-secondary-lighter border border-secondary-light hover:focus:bg-secondary-lighter",
+    success: "bg-success-lighter border border-success-light hover:focus:bg-success-lighter",
+    warning: "bg-warning-lighter border border-warning-light hover:focus:bg-warning-lighter",
+    caution: "bg-caution-lighter border border-caution-light hover:focus:bg-caution-lighter",
+    danger: "bg-danger-lighter border border-danger-light hover:focus:bg-danger-lighter",
+};
 
-    return <Button color={color} variant="outline" className={classNames} {...newRest} />;
+export const ToggleButton = ({ color = "primary", isActive, className, ...rest }) => {
+    return <Button color={color} className={clsx(className, isActive && colors[color])} {...rest} variant="outline" />;
 };
 
 ToggleButton.propTypes = {
-    color: PropTypes.string,
+    ...Button.propTypes,
     isActive: PropTypes.bool.isRequired,
-    className: PropTypes.string,
 };

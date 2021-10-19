@@ -85,17 +85,14 @@ Button.propTypes = {
     size: PropTypes.oneOf(Object.keys(sizes)),
     className: PropTypes.string,
     children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
-    icon(props) {
+    icon(props, ...rest) {
         // See: https://reactjs.org/docs/typechecking-with-proptypes.html#proptypes
         if (props.icon && !props.children) {
             return new Error(
                 "UI Kit: You are using an icon without specifying children. If you want to use an icon only specify it as a child instead of prop",
             );
         }
-
-        if (props.icon && !(typeof props.icon.$$typeof === "symbol")) {
-            throw new Error("UI Kit: icon must be a React element");
-        }
+        return PropTypes.element(props, ...rest);
     },
     iconPlacement: PropTypes.string,
 };

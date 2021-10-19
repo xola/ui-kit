@@ -5,10 +5,9 @@ import React from "react";
 import { Spinner } from "../Spinner";
 import { Button } from "./Button";
 
-export const SubmitButton = ({ isLoading, children, ...rest }) => {
-    const { className, ...newRest } = rest;
+export const SubmitButton = ({ isLoading, className, children, ...rest }) => {
     return (
-        <Button disabled={isLoading} className={clsx(className, "relative")} {...newRest}>
+        <Button disabled={isLoading} className={clsx(className, "relative")} {...rest}>
             <span
                 className={clsx(
                     "absolute inset-0 flex justify-center items-center",
@@ -32,6 +31,6 @@ export const SubmitButton = ({ isLoading, children, ...rest }) => {
 };
 
 SubmitButton.propTypes = {
-    children: PropTypes.node,
+    ...Button.propTypes,
     isLoading: PropTypes.bool,
 };
