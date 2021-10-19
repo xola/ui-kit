@@ -2,7 +2,7 @@ import React from "react";
 import { Button, EllipsisIcon, KeyIcon, PlusIcon, UserIcon, WaitlistIcon, WarningIcon } from "../..";
 
 const ButtonStories = {
-    title: "Forms & Fields/Button",
+    title: "Forms & Fields/Buttons/Button",
     component: Button,
     args: {
         as: "button",

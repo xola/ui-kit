@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { SubmitButton } from "../..";
 
 const SubmitButtonStories = {
-    title: "Forms & Fields/Submit Button",
+    title: "Forms & Fields/Buttons/Submit Button",
     component: SubmitButton,
     args: {
         isLoading: false,

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { ButtonGroup, ChecklistIcon, EmptyChecklistIcon, MixedChecklistIcon, WaitlistIcon } from "../..";
 
 const ButtonGroupStories = {
-    title: "Forms & Fields/ButtonGroup",
+    title: "Forms & Fields/Buttons/ButtonGroup",
     component: ButtonGroup,
     args: {
         size: "medium",
