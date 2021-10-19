@@ -92,6 +92,7 @@ Button.propTypes = {
                 "UI Kit: You are using an icon without specifying children. If you want to use an icon only specify it as a child instead of prop",
             );
         }
+
         return PropTypes.element(props, ...rest);
     },
     iconPlacement: PropTypes.string,
