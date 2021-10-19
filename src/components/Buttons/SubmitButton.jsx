@@ -16,9 +16,8 @@ export const SubmitButton = ({ isLoading, children, ...rest }) => {
                 )}
             >
                 <Transition
-                    as="span"
-                    className=""
                     appear
+                    as="span"
                     show={isLoading}
                     enter="transition-all duration-700"
                     enterFrom="opacity-0"
