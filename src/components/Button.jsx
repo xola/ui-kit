@@ -3,28 +3,53 @@ import PropTypes from "prop-types";
 import React from "react";
 
 const colors = {
-    primary: "bg-primary hover:bg-primary-dark disabled:bg-primary border-transparent text-white",
-    secondary: "bg-secondary hover:bg-secondary-dark disabled:bg-secondary border-transparent",
-    success: "bg-success hover:bg-success-dark disabled:bg-success border-transparent text-white",
-    warning: "bg-warning hover:bg-warning-dark disabled:bg-warning border-transparent text-white",
-    danger: "bg-danger hover:bg-danger-dark disabled:bg-danger border-transparent text-white",
-    outline:
-        "bg-white hover:bg-secondary-lighter disabled:bg-secondary-light border-secondary-light hover:border-black disabled:border-transparent disabled:text-gray-dark hover:focus:bg-primary-lighter hover:focus:border-primary-light",
-    link: "border-transparent hover:underline",
+    standard: {
+        common: "border-transparent text-white", // Common classes for each style
+        primary: "bg-primary hover:bg-primary-darker disabled:bg-primary active:bg-primary",
+        secondary:
+            "bg-secondary text-white hover:bg-secondary-dark disabled:bg-secondary border-transparent active:bg-secondary",
+        success: "bg-success hover:bg-success-dark disabled:bg-success active:bg-success",
+        warning: "bg-warning hover:bg-warning-dark disabled:bg-warning active:bg-warning",
+        caution: "bg-caution hover:bg-caution-dark disabled:bg-caution active:bg-caution",
+        danger: "bg-danger hover:bg-danger-dark disabled:bg-danger active:bg-danger",
+    },
+    outline: {
+        common: "bg-white border hover:bg-white active:text-white", // Common classes for each style
+        default:
+            "border-gray-light hover:border-gray-dark active:bg-primary-lighter active:text-black active:border-primary",
+        primary:
+            "text-primary border-primary hover:text-primary-dark hover:border-primary-dark active:bg-primary-light",
+        secondary:
+            "border-gray-light hover:border-gray-dark active:bg-primary-lighter active:text-black active:border-primary",
+        success:
+            "text-success border-success hover:text-success-dark hover:border-success-dark active:bg-success-light",
+        warning:
+            "text-warning border-warning hover:text-warning-dark hover:border-warning-dark active:bg-warning-light",
+        caution:
+            "text-caution border-caution hover:text-caution-dark hover:border-caution-dark active:bg-caution-light",
+        danger: "text-danger border-danger hover:text-danger-dark hover:border-danger-dark active:bg-danger-light",
+    },
+    link: {
+        common: "border-transparent hover:underline",
+        primary: "text-primary",
+        secondary: "text-secondary",
+        success: "text-success",
+        warning: "text-warning",
+        caution: "text-caution",
+        danger: "text-danger",
+    },
 };
 
 const sizes = {
     tiny: "px-2 py-0.5 text-xs leading-xs", // 20px
-    small: "px-3 py-2 text-sm leading-sm", // 30px
-    medium: "px-4.5 py-3 text-base leading-base", // 40px
-    large: "px-6 py-4 text-md leading-md", // 50px
+    small: "px-3 py-2 h-[30px] text-sm leading-sm", // 30px
+    medium: "px-4.5 py-3 h-[40px] text-base leading-base", // 40px
+    large: "px-6 py-4 h-[50px] text-md leading-md", // 50px
 };
-
-const buttonBaseClassName =
-    "inline-flex rounded transition-colors border focus:ring disabled:opacity-60 disabled:cursor-default";
 
 export const Button = ({
     as: Tag = "button",
+    variant = "standard",
     color = "primary",
     size = "medium",
     icon,
@@ -37,9 +62,10 @@ export const Button = ({
         <Tag
             className={clsx(
                 "ui-button",
-                buttonBaseClassName,
-                "justify-center items-center font-semibold focus:ring-0",
-                colors[color],
+                "inline-flex rounded transition-colors border focus:ring disabled:opacity-60 disabled:cursor-default",
+                "justify-center items-center font-semibold",
+                colors[variant].common,
+                colors[variant][color],
                 sizes[size],
                 className,
             )}
@@ -53,58 +79,22 @@ export const Button = ({
 };
 
 Button.propTypes = {
-    as: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]),
-    className: PropTypes.string,
-    color: PropTypes.oneOf(Object.keys(colors)),
+    // as: PropTypes.string,
+    color: PropTypes.oneOf(Object.keys(colors.outline)),
+    variant: PropTypes.oneOf(Object.keys(colors)),
     size: PropTypes.oneOf(Object.keys(sizes)),
-    icon: PropTypes.element,
-    iconPlacement: PropTypes.oneOf(["left", "right"]),
-    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
-};
-
-const iconSizes = {
-    ...sizes,
-    small: "h-7.5 w-7.5 px-2 py-2 text-base leading-base", // 30px requires h|w-7.5 because small size has 14px icon
-    medium: "px-3 py-3 text-base leading-base", // 40px
-};
-
-/**
- * Design as per https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/🖥-Xola-DS-Desktop-Master-🛠?node-id=2725%3A91132
- */
-const iconColors = {
-    primary: "text-blue border border-blue hover:text-blue-dark hover:border-blue-dark focus:bg-primary-light",
-    success:
-        "text-success border border-success hover:text-success-dark hover:border-success-dark focus:bg-success-light",
-    warning:
-        "text-warning border border-warning hover:text-warning-dark hover:border-warning-dark focus:bg-warning-light",
-    caution:
-        "text-caution border border-caution hover:text-caution-dark hover:border-caution-dark focus:bg-caution-light",
-    outline: "text-black border border-gray-light hover:border-gray-dark focus:bg-gray-light",
-};
-
-const Icon = ({ className, as: Tag = "button", color = "primary", size = "medium", children: icon, ...rest }) => {
-    return (
-        <Tag
-            className={clsx(
-                "ui-button-icon focus:text-white focus:ring-0",
-                buttonBaseClassName,
-                iconColors[color],
-                iconSizes[size],
-                className,
-            )}
-            {...rest}
-        >
-            {icon}
-        </Tag>
-    );
-};
-
-Icon.displayName = "Button.Icon";
-Icon.propTypes = {
-    as: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]),
     className: PropTypes.string,
-    color: PropTypes.oneOf(Object.keys(colors)),
-    size: PropTypes.oneOf(Object.keys(sizes)),
     children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
+    icon: function (props) {
+        // See: https://reactjs.org/docs/typechecking-with-proptypes.html#proptypes
+        if (props.icon && !props.children) {
+            return new Error(
+                "UI Kit: You are using an icon without specifying children. If you want to use an icon only specify it as a child instead of prop",
+            );
+        }
+        if (props.icon && !(typeof props.icon.$$typeof === "symbol")) {
+            throw new Error("UI Kit: icon must be a React element");
+        }
+    },
+    iconPlacement: PropTypes.string,
 };
-Button.Icon = Icon;
