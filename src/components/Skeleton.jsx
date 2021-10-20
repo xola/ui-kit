@@ -14,7 +14,9 @@ export const Skeleton = ({ style, height = 300, shouldAnimate = true, children, 
             style={{ height, ...style }}
             {...rest}
         >
-            {shouldAnimate ? <div className={clsx(styles.shimmer, "absolute w-full h-full", classNames.shimmer)} /> : null}
+            {shouldAnimate ? (
+                <div className={clsx(styles.shimmer, "absolute w-full h-full", classNames.shimmer)} />
+            ) : null}
             <div className={clsx("text-gray", classNames.text)}>{children}</div>
         </div>
     );
