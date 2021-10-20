@@ -1,6 +1,7 @@
 // Components.
-export { Button } from "./components/Button";
-export { SubmitButton } from "./components/SubmitButton";
+export { Button } from "./components/Buttons/Button";
+export { SubmitButton } from "./components/Buttons/SubmitButton";
+export { ToggleButton } from "./components/Buttons/ToggleButton";
 export { Badge } from "./components/Badge";
 export { Tag } from "./components/Tag";
 export { Dot } from "./components/Dot";
@@ -12,7 +13,7 @@ export { Popover } from "./components/Popover/Popover";
 export { PopoverList } from "./components/Popover/PopoverList";
 export { Modal } from "./components/Modal";
 export { Table } from "./components/Table";
-export { ButtonGroup } from "./components/ButtonGroup";
+export { ButtonGroup } from "./components/Buttons/ButtonGroup";
 export { Counter } from "./components/Counter";
 export { Logo } from "./components/Logo";
 export { Search } from "./components/Search";

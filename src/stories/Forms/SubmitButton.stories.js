@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { SubmitButton } from "../..";
 
 const SubmitButtonStories = {
-    title: "Forms & Fields/Submit Button",
+    title: "Forms & Fields/Buttons/Submit Button",
     component: SubmitButton,
     args: {
         isLoading: false,
@@ -36,9 +36,15 @@ const SubmitButtonStories = {
 export const Default = ({ isLoading, ...rest }) => {
     const [showLoading, setShowLoading] = useState(isLoading);
     return (
-        <SubmitButton isLoading={showLoading} {...rest} onClick={() => setShowLoading(!showLoading)}>
-            Submit
-        </SubmitButton>
+        <div className="space-x-4">
+            <SubmitButton isLoading={showLoading} {...rest} onClick={() => setShowLoading(!showLoading)}>
+                Submit
+            </SubmitButton>
+
+            <SubmitButton isLoading={showLoading} {...rest} onClick={() => setShowLoading(!showLoading)}>
+                Button with really long text
+            </SubmitButton>
+        </div>
     );
 };
 

@@ -35,11 +35,11 @@ export const Modal = ({
             <Dialog
                 static
                 as="div"
-                className="fixed inset-0 z-30 overflow-y-auto ui-modal"
+                className="overflow-y-auto fixed inset-0 z-30 ui-modal"
                 open={isOpen}
                 onClose={handleOutsideClick}
             >
-                <div className="flex items-end justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+                <div className="flex justify-center items-end px-4 pt-4 pb-20 min-h-screen text-center sm:block sm:p-0">
                     <Transition.Child
                         as={Fragment}
                         enter="ease-out duration-300"
@@ -49,7 +49,7 @@ export const Modal = ({
                         leaveFrom="opacity-100"
                         leaveTo="opacity-0"
                     >
-                        <Dialog.Overlay className="fixed inset-0 transition-opacity bg-opacity-75 bg-gray-dark" />
+                        <Dialog.Overlay className="fixed inset-0 bg-opacity-75 transition-opacity bg-gray-dark" />
                     </Transition.Child>
 
                     {/* This element is to trick the browser into centering the modal contents. */}
@@ -100,7 +100,7 @@ const Core = forwardRef(({ className, width, onClose, header, body, footer }, re
     return (
         <div ref={reference} className={classes}>
             <div className="px-8 pt-5 bg-white">
-                <div className="absolute top-0 right-0 hidden px-8 pt-7 sm:block">
+                <div className="hidden absolute top-0 right-0 px-8 pt-7 sm:block">
                     {onClose ? (
                         <div className="text-xl cursor-pointer text-gray hover:text-gray-darker" onClick={onClose}>
                             <CloseIcon />
@@ -109,7 +109,7 @@ const Core = forwardRef(({ className, width, onClose, header, body, footer }, re
                 </div>
 
                 <div className="sm:flex sm:items-start">
-                    <div className="w-full pt-3 text-center">
+                    <div className="pt-3 w-full text-center">
                         {header}
                         {body}
                     </div>
@@ -134,8 +134,7 @@ Core.propTypes = {
 };
 Modal.Core = Core;
 
-// ESLint is lying about the rule bellow.
-Modal.Header = ({ children, description }) => {
+const Header = ({ children, description }) => {
     return (
         <Dialog.Title as="div" className="text-center">
             <h3 className="text-2xl font-semibold leading-6 text-black ui-modal-header">{children}</h3>
@@ -147,21 +146,22 @@ Modal.Header = ({ children, description }) => {
     );
 };
 
-Modal.Header.displayName = "Modal.Header";
-Modal.Header.propTypes = {
+Header.displayName = "Modal.Header";
+Header.propTypes = {
     children: PropTypes.node.isRequired,
     description: PropTypes.string,
 };
+Modal.Header = Header;
 
-// ESLint is lying about the rule bellow.
-Modal.Body = ({ className, ...rest }) => {
+const Body = ({ className, ...rest }) => {
     return <div className={clsx("ui-modal-body", className, "pt-8 pb-2 mt-2 text-left")} {...rest} />;
 };
 
-Modal.Body.displayName = "Modal.Body";
-Modal.Body.propTypes = {
+Body.displayName = "Modal.Body";
+Body.propTypes = {
     className: PropTypes.string,
 };
+Modal.Body = Body;
 
 // ESLint is lying about the rule bellow.
 Modal.Footer = ({ className, ...rest }) => {
