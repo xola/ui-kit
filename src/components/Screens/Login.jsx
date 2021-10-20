@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import React, { useState } from "react";
 import XolaLogo from "../../images/XolaLogo";
 import { Alert } from "../Alert";
-import { Button } from "../Button";
+import { Button } from "../Buttons/Button";
 import { Checkbox } from "../Forms/Checkbox";
 import { FormGroup } from "../Forms/FormGroup";
 import { Input } from "../Forms/Input";

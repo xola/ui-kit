@@ -3,7 +3,7 @@ import clsx from "clsx";
 import PropTypes from "prop-types";
 import React, { Fragment } from "react";
 import { CloseIcon } from "../icons/CloseIcon";
-import { Button } from "./Button";
+import { Button } from "./Buttons/Button";
 
 export const Drawer = ({ isOpen = false, title, content, onClose, classNames = {} }) => {
     return (
