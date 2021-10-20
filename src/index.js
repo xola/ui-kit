@@ -41,6 +41,7 @@ export { DatePickerPopover } from "./components/DatePicker/DatePickerPopover";
 export { Currency } from "./components/Utilities/Currency";
 export { Phone } from "./components/Utilities/Phone";
 export { Number } from "./components/Utilities/Number";
+export { XolaLogoCircle } from "./images/XolaLogoCircle";
 
 // Helpers
 export { almostZero, numberFormat, roundNumber } from "./helpers/numbers";
