@@ -22,9 +22,11 @@ export const DatePickerPopover = ({
         setIsVisible(!isVisible);
     };
 
-    const handleChange = (d) => {
-        onChange?.(d);
-        setIsVisible(false);
+    const handleChange = (date, options, event) => {
+        onChange?.(date, options, event);
+        if (!options.disabled) {
+            setIsVisible(false);
+        }
     };
 
     const dateProps = {
