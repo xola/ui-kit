@@ -41,7 +41,7 @@ export const DatePicker = ({
             if (value.from && value.to) {
                 // This allows us to easily select another date range,
                 // if both dates are selected.
-                onChange({ from: day, to: null }), options, event;
+                onChange({ from: day, to: null }, options, event);
             } else {
                 onChange(DateUtils.addDayToRange(day, value), options, event);
             }
