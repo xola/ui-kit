@@ -36,17 +36,17 @@ export const DatePicker = ({
         onMonthChange?.(currentMonth);
     }, [currentMonth, onMonthChange]);
 
-    const handleDayClick = (day) => {
+    const handleDayClick = (day, options, event) => {
         if (isRangeVariant) {
             if (value.from && value.to) {
                 // This allows us to easily select another date range,
                 // if both dates are selected.
-                onChange({ from: day, to: null });
+                onChange({ from: day, to: null }), options, event;
             } else {
-                onChange(DateUtils.addDayToRange(day, value));
+                onChange(DateUtils.addDayToRange(day, value), options, event);
             }
         } else {
-            onChange(day);
+            onChange(day, options, event);
         }
     };
 
