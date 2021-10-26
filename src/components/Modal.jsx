@@ -1,7 +1,7 @@
 import { Dialog, Transition } from "@headlessui/react";
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import { Fragment } from "react";
+import React, { Fragment } from "react";
 import { CloseIcon } from "..";
 
 const sizes = {
