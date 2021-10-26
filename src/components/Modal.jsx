@@ -81,10 +81,10 @@ export const Modal = ({
     );
 };
 
-const Header = ({ children, description, ...rest }) => {
+const Header = ({ children, description, className, ...rest }) => {
     return (
-        <Dialog.Title as="div" className="text-center" {...rest}>
-            <h3 className="text-2xl font-semibold leading-6 text-black ui-modal-header">{children}</h3>
+        <Dialog.Title as="div" className={clsx(className, "text-center ui-modal-header")} {...rest}>
+            <h3 className="text-2xl font-semibold leading-6 text-black">{children}</h3>
 
             {description ? (
                 <p className="mt-2 text-base font-normal leading-normal text-gray-darker">{description}</p>
@@ -96,6 +96,7 @@ const Header = ({ children, description, ...rest }) => {
 Header.propTypes = {
     children: PropTypes.node.isRequired,
     description: PropTypes.string,
+    className: PropTypes.string,
 };
 
 Header.displayName = "Modal.Header";
