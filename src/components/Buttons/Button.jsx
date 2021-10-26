@@ -62,7 +62,7 @@ export const Button = ({
         <Tag
             className={clsx(
                 "ui-button",
-                "inline-flex rounded transition-colors border focus:ring disabled:opacity-60 disabled:cursor-default",
+                "inline-flex rounded transition-colors border focus:ring disabled:bg-gray-lighter disabled:text-gray-dark disabled:cursor-default",
                 "justify-center items-center font-semibold",
                 colors[variant].common,
                 colors[variant][color],
