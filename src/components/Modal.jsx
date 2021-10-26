@@ -1,9 +1,8 @@
 import { Dialog, Transition } from "@headlessui/react";
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import React, { forwardRef, Fragment } from "react";
-import { getChildByType } from "../helpers/children";
-import { CloseIcon } from "../icons/CloseIcon";
+import { Fragment } from "react";
+import { CloseIcon } from "..";
 
 const sizes = {
     small: "sm:max-w-md",
@@ -20,10 +19,6 @@ export const Modal = ({
     children,
     className,
 }) => {
-    const header = getChildByType(children, Modal.Header);
-    const body = getChildByType(children, Modal.Body);
-    const footer = getChildByType(children, Modal.Footer);
-
     const handleOutsideClick = () => {
         if (shouldCloseOnOutsideClick) {
             onClose();
@@ -31,15 +26,9 @@ export const Modal = ({
     };
 
     return (
-        <Transition.Root show={isOpen} as={Fragment}>
-            <Dialog
-                static
-                as="div"
-                className="overflow-y-auto fixed inset-0 z-30 ui-modal"
-                open={isOpen}
-                onClose={handleOutsideClick}
-            >
-                <div className="flex justify-center items-end px-4 pt-4 pb-20 min-h-screen text-center sm:block sm:p-0">
+        <Transition appear show={isOpen} as={Fragment}>
+            <Dialog as="div" className="fixed inset-0 z-30 overflow-y-auto" onClose={handleOutsideClick}>
+                <div className="min-h-screen px-4 text-center">
                     <Transition.Child
                         as={Fragment}
                         enter="ease-out duration-300"
@@ -49,11 +38,13 @@ export const Modal = ({
                         leaveFrom="opacity-100"
                         leaveTo="opacity-0"
                     >
-                        <Dialog.Overlay className="fixed inset-0 bg-opacity-75 transition-opacity bg-gray-dark" />
+                        <Dialog.Overlay className="fixed inset-0 transition-opacity bg-opacity-75 bg-gray-dark" />
                     </Transition.Child>
 
                     {/* This element is to trick the browser into centering the modal contents. */}
-                    <span className="hidden sm:inline-block sm:h-screen sm:align-middle">&#8203;</span>
+                    <span className="inline-block h-screen align-middle" aria-hidden="true">
+                        &#8203;
+                    </span>
 
                     <Transition.Child
                         as={Fragment}
@@ -64,79 +55,34 @@ export const Modal = ({
                         leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                         leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                     >
-                        <Modal.Core
-                            className={className}
-                            width={sizes[size]}
-                            header={header}
-                            body={body}
-                            footer={footer}
-                            onClose={onClose}
-                        />
+                        <div
+                            className={clsx(
+                                className,
+                                sizes[size],
+                                "inline-block w-full p-10 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-lg",
+                            )}
+                        >
+                            {onClose ? (
+                                <button
+                                    className="absolute top-0 right-0 hidden p-2 m-4 sm:block text-gray hover:text-gray-darker"
+                                    onClick={onClose}
+                                >
+                                    <CloseIcon />
+                                </button>
+                            ) : null}
+
+                            {children}
+                        </div>
                     </Transition.Child>
                 </div>
             </Dialog>
-        </Transition.Root>
+        </Transition>
     );
 };
 
-Modal.propTypes = {
-    className: PropTypes.string,
-    size: PropTypes.oneOf(Object.keys(sizes)),
-    isOpen: PropTypes.bool,
-    shouldCloseOnOutsideClick: PropTypes.bool,
-    onClose: PropTypes.func.isRequired,
-    children: PropTypes.node.isRequired,
-};
-
-const Core = forwardRef(({ className, width, onClose, header, body, footer }, reference) => {
-    const classes = clsx(
-        "ui-modal",
-        className,
-        width,
-        "sm:w-full inline-block align-bottom bg-white rounded-lg overflow-hidden shadow-xl transform",
-        "transition-all sm:my-8 sm:align-middle",
-    );
-
+const Header = ({ children, description, ...rest }) => {
     return (
-        <div ref={reference} className={classes}>
-            <div className="px-8 pt-5 bg-white">
-                <div className="hidden absolute top-0 right-0 px-8 pt-7 sm:block">
-                    {onClose ? (
-                        <div className="text-xl cursor-pointer text-gray hover:text-gray-darker" onClick={onClose}>
-                            <CloseIcon />
-                        </div>
-                    ) : null}
-                </div>
-
-                <div className="sm:flex sm:items-start">
-                    <div className="pt-3 w-full text-center">
-                        {header}
-                        {body}
-                    </div>
-                </div>
-            </div>
-
-            {footer}
-        </div>
-    );
-});
-
-Core.displayName = "Modal.Core";
-Core.propTypes = {
-    // ESLint is lying about the rule bellow.
-    // eslint-disable-next-line react/require-default-props
-    className: PropTypes.string,
-    width: PropTypes.string.isRequired,
-    onClose: PropTypes.func.isRequired,
-    header: PropTypes.element.isRequired,
-    body: PropTypes.element.isRequired,
-    footer: PropTypes.element.isRequired,
-};
-Modal.Core = Core;
-
-const Header = ({ children, description }) => {
-    return (
-        <Dialog.Title as="div" className="text-center">
+        <Dialog.Title as="div" className="text-center" {...rest}>
             <h3 className="text-2xl font-semibold leading-6 text-black ui-modal-header">{children}</h3>
 
             {description ? (
@@ -146,31 +92,32 @@ const Header = ({ children, description }) => {
     );
 };
 
-Header.displayName = "Modal.Header";
 Header.propTypes = {
     children: PropTypes.node.isRequired,
     description: PropTypes.string,
 };
+
+Header.displayName = "Modal.Header";
 Modal.Header = Header;
 
 const Body = ({ className, ...rest }) => {
-    return <div className={clsx("ui-modal-body", className, "pt-8 pb-2 mt-2 text-left")} {...rest} />;
+    return <div className={clsx(className, "mt-10 ui-modal-body")} {...rest} />;
 };
 
-Body.displayName = "Modal.Body";
 Body.propTypes = {
     className: PropTypes.string,
 };
+
+Body.displayName = "Modal.Body";
 Modal.Body = Body;
 
-// ESLint is lying about the rule bellow.
-Modal.Footer = ({ className, ...rest }) => {
-    return (
-        <div className={clsx("ui-modal-footer", className, "float-right px-8 py-8 modal-footer sm:flex")} {...rest} />
-    );
+const Footer = ({ className, ...rest }) => {
+    return <div className={clsx(className, "mt-10 space-x-4 text-right ui-modal-footer")} {...rest} />;
 };
 
-Modal.Footer.displayName = "Modal.Footer";
-Modal.Footer.propTypes = {
+Footer.propTypes = {
     className: PropTypes.string,
 };
+
+Footer.displayName = "Modal.Footer";
+Modal.Footer = Footer;
