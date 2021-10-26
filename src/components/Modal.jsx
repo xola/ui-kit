@@ -27,7 +27,7 @@ export const Modal = ({
 
     return (
         <Transition appear show={isOpen} as={Fragment}>
-            <Dialog as="div" className="fixed inset-0 z-30 overflow-y-auto" onClose={handleOutsideClick}>
+            <Dialog as="div" className="fixed inset-0 z-30 overflow-y-auto ui-modal" onClose={handleOutsideClick}>
                 <div className="min-h-screen px-4 text-center">
                     <Transition.Child
                         as={Fragment}
@@ -38,7 +38,7 @@ export const Modal = ({
                         leaveFrom="opacity-100"
                         leaveTo="opacity-0"
                     >
-                        <Dialog.Overlay className="fixed inset-0 transition-opacity bg-opacity-75 bg-gray-dark" />
+                        <Dialog.Overlay className="fixed inset-0 transition-opacity bg-opacity-75 bg-gray-dark ui-modal-overlay" />
                     </Transition.Child>
 
                     {/* This element is to trick the browser into centering the modal contents. */}
