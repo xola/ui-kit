@@ -5,10 +5,10 @@ import React, { Fragment } from "react";
 import { CloseIcon } from "../icons/CloseIcon";
 
 const sizes = {
-    small: "sm:max-w-md",
-    medium: "sm:max-w-lg",
-    large: "sm:max-w-2xl",
-    huge: "sm:max-w-3xl",
+    small: "max-w-[400px]",
+    medium: "max-w-[500px]",
+    large: "max-w-[600px]",
+    huge: "max-w-[800px]",
 };
 
 export const Modal = ({
