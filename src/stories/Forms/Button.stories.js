@@ -39,13 +39,12 @@ export const Default = (props) => {
     return (
         <div className="flex flex-col w-20 space-y-4">
             <Button {...props}>Default</Button>
-            <Button color="primary" disabled {...props}>
+            <Button disabled color="primary" {...props}>
                 Default
             </Button>
         </div>
     );
 };
-
 
 export const Colors = () => {
     return (
