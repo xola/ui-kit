@@ -64,6 +64,7 @@ export const Modal = ({
                         >
                             {onClose ? (
                                 <button
+                                    type="button"
                                     className="absolute top-0 right-0 hidden p-2 m-4 sm:block text-gray hover:text-gray-darker"
                                     onClick={onClose}
                                 >
