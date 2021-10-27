@@ -13,9 +13,10 @@
         "moduleResolution": "Node",
         "resolveJsonModule": true,
         "isolatedModules": true,
-        "noEmit": true,
+        "noEmit": false,
         "jsx": "react-jsx",
         "types": ["vite/client", "node", "@types/jest", "@testing-library/jest-dom"]
     },
-    "include": ["./src"]
+    "include": ["./src"],
+    "exclude": ["**/*.stories.js"]
 }

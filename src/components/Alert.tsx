@@ -1,6 +1,5 @@
 import clsx from "clsx";
-import PropTypes from "prop-types";
-import React from "react";
+import React, { HTMLAttributes } from "react";
 import { CloseIcon } from "../icons/CloseIcon";
 
 const colors = {
@@ -12,7 +11,12 @@ const colors = {
     caution: "bg-caution-lighter text-black",
 };
 
-export const Alert = ({ className, color = "primary", onClose, children, ...rest }) => {
+interface AlertProps extends Omit<HTMLAttributes<HTMLElement>, "color"> {
+    color: keyof typeof colors;
+    onClose: () => void;
+}
+
+export const Alert = ({ className, color = "primary", onClose, children, ...rest }: AlertProps) => {
     return (
         <div
             className={clsx(
@@ -26,16 +30,9 @@ export const Alert = ({ className, color = "primary", onClose, children, ...rest
 
             {onClose ? (
                 <button type="button" className="ml-3 cursor-pointer ui-alert-close hover:text-gray-dark">
-                    <CloseIcon onClick={onClose} />
+                    <CloseIcon className="" onClick={onClose} />
                 </button>
             ) : null}
         </div>
     );
-};
-
-Alert.propTypes = {
-    className: PropTypes.string,
-    color: PropTypes.oneOf(Object.keys(colors)),
-    onClose: PropTypes.func,
-    children: PropTypes.node.isRequired,
 };
