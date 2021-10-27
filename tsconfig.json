@@ -12,9 +12,10 @@
         "module": "ESNext",
         "moduleResolution": "Node",
         "resolveJsonModule": true,
+        "isolatedModules": true,
         "emitDeclarationOnly": true,
         "declaration": true,
-        "outFile": "build/index.d.ts",
+        "outDir": "build",
         "jsx": "react-jsx",
         "types": ["vite/client", "node", "@types/jest", "@testing-library/jest-dom"]
     },
