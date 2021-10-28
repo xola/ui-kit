@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { useCombobox } from "downshift";
 import debounce from "lodash/debounce";
 import PropTypes from "prop-types";
-import React, { Fragment, useRef, useState } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { isOSX } from "../helpers/browser";
 import { SearchIcon } from "../icons/SearchIcon";
@@ -37,6 +37,9 @@ export const Search = ({
     const [showShortcutKey, setShowShortcutKey] = useState(true);
     const [inputValue, setInputValue] = useState(defaultValue ?? "");
     const inputReference = useRef();
+
+    // Flag for controlling the delay before actually closing the menu.
+    const [canClose, setCanClose] = useState(true);
 
     // Placeholder item for the current search input value.
     // Will be added to the list only if not empty.
@@ -91,14 +94,24 @@ export const Search = ({
         isOpen: isMenuOpen,
     });
 
+    // Introduce a slight delay before actually closing the menu and destroying all child components from it.
+    // This ensures that all children events are processed before they are destroyed.
+    useEffect(() => {
+        if (isOpen) {
+            setCanClose(false);
+        } else {
+            setTimeout(() => setCanClose(true), 1);
+        }
+    }, [isOpen, setCanClose]);
+
     const handleInputFocus = () => {
         setShowShortcutKey(false);
         openMenu();
     };
 
     // Show dropdown only when `isOpen` is set to `true` and there are items in the list.
-    const open = isOpen && itemList.length > 0;
-    const noResultFound = isOpen && inputValue.length > 0 && !isLoading && itemList.length <= 1;
+    const open = (isOpen || !canClose) && itemList.length > 0;
+    const noResultFound = open && !isLoading && itemList.length <= 1;
 
     // Keyboard shortcuts.
     const jumpToSearchShortcut = isOSX ? "cmd+k" : "ctrl+k";
@@ -131,7 +144,7 @@ export const Search = ({
                     })}
                 />
 
-                <div className="hidden absolute inset-y-0 right-0 items-center pr-3 space-x-1 pointer-events-none lg:flex">
+                <div className="absolute inset-y-0 right-0 items-center hidden pr-3 space-x-1 pointer-events-none lg:flex">
                     {showShortcutKey ? (
                         <>
                             <Key char="cmd" /> <Key char="K" />
@@ -179,7 +192,7 @@ export const Search = ({
                 {open && noResultFound ? <li className="p-2 cursor-not-allowed">No results found</li> : null}
 
                 {open && itemList.length < 5 ? (
-                    <li className="flex sticky bottom-0 p-2 space-x-5 text-sm search-footer text-gray-dark pointer-events">
+                    <li className="sticky bottom-0 flex p-2 space-x-5 text-sm search-footer text-gray-dark pointer-events">
                         <span className="flex items-center">
                             <Key char="up" className="mr-0.5" />
                             <Key char="down" className="mr-2" /> to navigate
