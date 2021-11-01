@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Modal, Input } from "../..";
 
 const ModalStories = {
@@ -57,6 +57,44 @@ export const Default = ({ size, shouldCloseOnOutsideClick }) => {
                     <Button color="danger" onClick={toggle}>
                         Confirm
                     </Button>
+                </Modal.Footer>
+            </Modal>
+        </div>
+    );
+};
+
+export const WithSkeletonLoader = ({ size = "small" }) => {
+    const [isOpen, setIsOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
+
+    const toggle = () => {
+        setIsOpen(!isOpen);
+    };
+
+    useEffect(() => {
+        setIsLoading(isOpen);
+        if (isOpen) {
+            setTimeout(() => setIsLoading(false), 2000);
+        }
+    }, [isOpen]);
+
+    return (
+        <div>
+            <Button onClick={toggle}>Click Me</Button>
+
+            <Modal size={size} isOpen={isOpen} onClose={toggle}>
+                <Modal.Header description="Enter the code bellow to apply the code">Apply Code</Modal.Header>
+
+                <Modal.Body isLoading={isLoading}>
+                    <Input placeholder="Coupon of Affiliate" />
+                </Modal.Body>
+
+                <Modal.Footer isLoading={isLoading} className="space-x-4">
+                    <Button color="secondary" variant="outline" onClick={toggle}>
+                        Cancel
+                    </Button>
+
+                    <Button onClick={toggle}>Confirm</Button>
                 </Modal.Footer>
             </Modal>
         </div>

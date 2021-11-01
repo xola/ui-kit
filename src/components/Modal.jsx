@@ -2,7 +2,9 @@ import { Dialog, Transition } from "@headlessui/react";
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import React, { Fragment } from "react";
+import { Skeleton } from "..";
 import { CloseIcon } from "../icons/CloseIcon";
+import { FadeIn } from "./Animations/FadeIn";
 
 const sizes = {
     small: "max-w-[400px]",
@@ -102,8 +104,12 @@ Header.propTypes = {
 Header.displayName = "Modal.Header";
 Modal.Header = Header;
 
-const Body = ({ className, ...rest }) => {
-    return <div className={clsx(className, "mt-10 ui-modal-body")} {...rest} />;
+const Body = ({ isLoading = false, className, children, ...rest }) => {
+    return (
+        <div className={clsx(className, "mt-10 ui-modal-body")} {...rest}>
+            {isLoading ? <BodySkeleton /> : <FadeIn>{children}</FadeIn>}
+        </div>
+    );
 };
 
 Body.propTypes = {
@@ -113,8 +119,53 @@ Body.propTypes = {
 Body.displayName = "Modal.Body";
 Modal.Body = Body;
 
-const Footer = ({ className, ...rest }) => {
-    return <div className={clsx(className, "mt-10 space-x-4 text-right ui-modal-footer")} {...rest} />;
+const BodySkeleton = () => {
+    return (
+        <>
+            <div className="w-full space-y-2">
+                <Skeleton height="18px" classNames={{ container: "w-full h-16" }}>
+                    <div className="w-full" />
+                </Skeleton>
+                <Skeleton
+                    height="80px"
+                    classNames={{
+                        container: "flex flex-col justify-between w-full h-20 !border-none !bg-white",
+                    }}
+                >
+                    <div className="flex flex-row space-x-2 justify-between">
+                        <div className="w-16 h-16 rounded bg-gray-lighter" />
+                        <div className="flex flex-col w-full space-y-1 justify-between">
+                            <div className="rounded bg-gray-lighter h-5" />
+                            <div className="rounded bg-gray-lighter h-5" />
+                            <div className="rounded bg-gray-lighter h-4" />
+                        </div>
+                    </div>
+                </Skeleton>
+            </div>
+            <Skeleton
+                height="100px"
+                classNames={{
+                    container: "flex flex-col space-y-2 justify-start w-full !border-none !bg-white",
+                }}
+            >
+                <div className="flex flex-col space-y-2 w-full justify-between">
+                    {Array(4)
+                        .fill()
+                        .map(() => (
+                            <div className="w-full h-4 bg-gray-lighter" />
+                        ))}
+                </div>
+            </Skeleton>
+        </>
+    );
+};
+
+const Footer = ({ isLoading = false, className, children, ...rest }) => {
+    return (
+        <div className={clsx(className, "mt-10 space-x-4 text-right ui-modal-footer")} {...rest}>
+            {isLoading ? <FooterSkeleton /> : <FadeIn className="space-x-2">{children}</FadeIn>}
+        </div>
+    );
 };
 
 Footer.propTypes = {
@@ -123,3 +174,18 @@ Footer.propTypes = {
 
 Footer.displayName = "Modal.Footer";
 Modal.Footer = Footer;
+
+const FooterSkeleton = () => {
+    return (
+        <Skeleton height="64px" classNames={{ container: "!bg-white !border-none" }}>
+            <div className="flex flex-cols-reverse space-x-2 justify-end">
+                <button className="flex justify-center items-center px-4.5 py-3 h-[40px] w-20 bg-gray-lighter leading-base">
+                    Cancel
+                </button>
+                <button className="flex justify-center items-center px-4.5 py-3 h-[40px] w-20 bg-gray-lighter font-bold leading-base">
+                    Submit
+                </button>
+            </div>
+        </Skeleton>
+    );
+};
