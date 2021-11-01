@@ -1,4 +1,5 @@
 import { Transition } from "@headlessui/react";
+import React from "react";
 
 export const FadeIn = ({ show = true, appear = true, tag = "div", duration = "duration-700", className, children }) => {
     return (

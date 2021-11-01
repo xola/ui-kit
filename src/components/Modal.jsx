@@ -29,8 +29,8 @@ export const Modal = ({
 
     return (
         <Transition appear show={isOpen} as={Fragment}>
-            <Dialog as="div" className="fixed inset-0 z-30 overflow-y-auto ui-modal" onClose={handleOutsideClick}>
-                <div className="min-h-screen px-4 text-center">
+            <Dialog as="div" className="overflow-y-auto fixed inset-0 z-30 ui-modal" onClose={handleOutsideClick}>
+                <div className="px-4 min-h-screen text-center">
                     <Transition.Child
                         as={Fragment}
                         enter="ease-out duration-300"
@@ -40,7 +40,7 @@ export const Modal = ({
                         leaveFrom="opacity-100"
                         leaveTo="opacity-0"
                     >
-                        <Dialog.Overlay className="fixed inset-0 transition-opacity bg-opacity-75 bg-gray-dark ui-modal-overlay" />
+                        <Dialog.Overlay className="fixed inset-0 bg-opacity-75 transition-opacity bg-gray-dark ui-modal-overlay" />
                     </Transition.Child>
 
                     {/* This element is to trick the browser into centering the modal contents. */}
@@ -67,7 +67,7 @@ export const Modal = ({
                             {onClose ? (
                                 <button
                                     type="button"
-                                    className="absolute top-0 right-0 hidden p-2 m-4 sm:block text-gray hover:text-gray-darker"
+                                    className="hidden absolute top-0 right-0 p-2 m-4 sm:block text-gray hover:text-gray-darker"
                                     onClick={onClose}
                                 >
                                     <CloseIcon />
@@ -122,7 +122,7 @@ Modal.Body = Body;
 const BodySkeleton = () => {
     return (
         <>
-            <div className="w-full space-y-2">
+            <div className="space-y-2 w-full">
                 <Skeleton height="18px" classNames={{ container: "w-full h-16" }}>
                     <div className="w-full" />
                 </Skeleton>
@@ -132,12 +132,12 @@ const BodySkeleton = () => {
                         container: "flex flex-col justify-between w-full h-20 !border-none !bg-white",
                     }}
                 >
-                    <div className="flex flex-row space-x-2 justify-between">
+                    <div className="flex flex-row justify-between space-x-2">
                         <div className="w-16 h-16 rounded bg-gray-lighter" />
-                        <div className="flex flex-col w-full space-y-1 justify-between">
-                            <div className="rounded bg-gray-lighter h-5" />
-                            <div className="rounded bg-gray-lighter h-5" />
-                            <div className="rounded bg-gray-lighter h-4" />
+                        <div className="flex flex-col justify-between space-y-1 w-full">
+                            <div className="h-5 rounded bg-gray-lighter" />
+                            <div className="h-5 rounded bg-gray-lighter" />
+                            <div className="h-4 rounded bg-gray-lighter" />
                         </div>
                     </div>
                 </Skeleton>
@@ -148,12 +148,11 @@ const BodySkeleton = () => {
                     container: "flex flex-col space-y-2 justify-start w-full !border-none !bg-white",
                 }}
             >
-                <div className="flex flex-col space-y-2 w-full justify-between">
-                    {Array(4)
-                        .fill()
-                        .map(() => (
-                            <div className="w-full h-4 bg-gray-lighter" />
-                        ))}
+                <div className="flex flex-col justify-between space-y-2 w-full">
+                    <div className="w-full h-4 bg-gray-lighter" />
+                    <div className="w-full h-4 bg-gray-lighter" />
+                    <div className="w-full h-4 bg-gray-lighter" />
+                    <div className="w-full h-4 bg-gray-lighter" />
                 </div>
             </Skeleton>
         </>
@@ -178,13 +177,13 @@ Modal.Footer = Footer;
 const FooterSkeleton = () => {
     return (
         <Skeleton height="64px" classNames={{ container: "!bg-white !border-none" }}>
-            <div className="flex flex-cols-reverse space-x-2 justify-end">
-                <button className="flex justify-center items-center px-4.5 py-3 h-[40px] w-20 bg-gray-lighter leading-base">
+            <div className="flex justify-end space-x-2 flex-cols-reverse">
+                <div className="flex justify-center items-center px-4.5 py-3 h-[40px] w-20 bg-gray-lighter leading-base">
                     Cancel
-                </button>
-                <button className="flex justify-center items-center px-4.5 py-3 h-[40px] w-20 bg-gray-lighter font-bold leading-base">
+                </div>
+                <div className="flex justify-center items-center px-4.5 py-3 h-[40px] w-20 bg-gray-lighter font-bold leading-base">
                     Submit
-                </button>
+                </div>
             </div>
         </Skeleton>
     );
