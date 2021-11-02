@@ -36,13 +36,14 @@ const ToggleButtonStories = {
 export const Default = ({ color, size }) => {
     const [active, setActive] = useState(false);
     return (
-        <div className="space-x-2">
+        <div className="space-y-2">
+            <div>Is Active: {active ? "Yes" : "No"}</div>
             <ToggleButton
                 color={color}
                 size={size}
                 isActive={active}
                 className="space-x-2"
-                onClick={() => setActive(true)}
+                onClick={() => setActive(!active)}
             >
                 <CashIcon /> <span>Click to toggle me</span>
             </ToggleButton>

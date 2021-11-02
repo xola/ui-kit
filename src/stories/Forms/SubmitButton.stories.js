@@ -36,14 +36,54 @@ const SubmitButtonStories = {
 export const Default = ({ isLoading, ...rest }) => {
     const [showLoading, setShowLoading] = useState(isLoading);
     return (
-        <div className="space-x-4">
-            <SubmitButton isLoading={showLoading} {...rest} onClick={() => setShowLoading(!showLoading)}>
-                Submit
-            </SubmitButton>
+        <div className="space-y-4">
+            <div className="space-x-4">
+                <SubmitButton isLoading={showLoading} {...rest} onClick={() => setShowLoading(!showLoading)}>
+                    Submit
+                </SubmitButton>
 
-            <SubmitButton isLoading={showLoading} {...rest} onClick={() => setShowLoading(!showLoading)}>
-                Button with really long text
-            </SubmitButton>
+                <SubmitButton isLoading={showLoading} {...rest} onClick={() => setShowLoading(!showLoading)}>
+                    Button with really long text
+                </SubmitButton>
+            </div>
+            <div className="space-x-4">
+                <SubmitButton
+                    {...rest}
+                    color="success"
+                    isLoading={showLoading}
+                    onClick={() => setShowLoading(!showLoading)}
+                >
+                    Submit
+                </SubmitButton>
+
+                <SubmitButton
+                    {...rest}
+                    color="success"
+                    isLoading={showLoading}
+                    onClick={() => setShowLoading(!showLoading)}
+                >
+                    Button with really long text
+                </SubmitButton>
+            </div>
+            <div className="space-x-4">
+                <SubmitButton
+                    {...rest}
+                    color="danger"
+                    isLoading={showLoading}
+                    onClick={() => setShowLoading(!showLoading)}
+                >
+                    Submit
+                </SubmitButton>
+
+                <SubmitButton
+                    {...rest}
+                    color="danger"
+                    isLoading={showLoading}
+                    onClick={() => setShowLoading(!showLoading)}
+                >
+                    Button with really long text
+                </SubmitButton>
+            </div>
         </div>
     );
 };
