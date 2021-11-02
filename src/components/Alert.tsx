@@ -12,8 +12,8 @@ const colors = {
 };
 
 interface AlertProps extends Omit<HTMLAttributes<HTMLElement>, "color"> {
-    color: keyof typeof colors;
-    onClose: () => void;
+    color?: keyof typeof colors;
+    onClose?: () => void;
 }
 
 export const Alert = ({ className, color = "primary", onClose, children, ...rest }: AlertProps) => {
@@ -30,7 +30,7 @@ export const Alert = ({ className, color = "primary", onClose, children, ...rest
 
             {onClose ? (
                 <button type="button" className="ml-3 cursor-pointer ui-alert-close hover:text-gray-dark">
-                    <CloseIcon className="" onClick={onClose} />
+                    <CloseIcon onClick={onClose} />
                 </button>
             ) : null}
         </div>
