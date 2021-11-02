@@ -5,9 +5,23 @@ import React from "react";
 import { Spinner } from "../Spinner";
 import { Button } from "./Button";
 
-export const SubmitButton = ({ isLoading, className, children, ...rest }) => {
+const loadingColors = {
+    primary: "!bg-primary-light",
+    secondary: "!bg-secondary-light",
+    success: "!bg-success-light",
+    warning: "!bg-warning-light",
+    caution: "!bg-caution-light",
+    danger: "!bg-danger-light",
+};
+
+export const SubmitButton = ({ color = "primary", isLoading, className, children, ...rest }) => {
     return (
-        <Button disabled={isLoading} className={clsx(className, "relative")} {...rest}>
+        <Button
+            color={color}
+            disabled={isLoading}
+            className={clsx(className, "relative", isLoading && loadingColors[color])}
+            {...rest}
+        >
             <span
                 className={clsx(
                     "absolute inset-0 flex justify-center items-center",
@@ -22,7 +36,7 @@ export const SubmitButton = ({ isLoading, className, children, ...rest }) => {
                     enterFrom="opacity-0"
                     enterTo="opacity-100"
                 >
-                    <Spinner size="current" color="current" className="relative top-[-1px]" />
+                    <Spinner size="current" color="current" className="text-white relative top-[-1px]" />
                 </Transition>
             </span>
             <span className={clsx(isLoading ? "opacity-0 flex-grow flex-shrink" : "opacity-100")}>{children}</span>
