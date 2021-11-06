@@ -1,6 +1,5 @@
 import clsx from "clsx";
-import PropTypes from "prop-types";
-import React, { Children, cloneElement } from "react";
+import React, { Children, cloneElement, ComponentType, HTMLAttributes, ReactElement, ReactNode } from "react";
 
 const sizes = {
     small: "px-2 py-1.5 text-sm",
@@ -8,11 +7,28 @@ const sizes = {
     large: "px-4 py-3.5 text-lg",
 };
 
-const ButtonGroup = ({ size, value, isCollapsed = false, onChange, className, children, ...rest }) => {
+interface ButtonGroupProps extends Omit<HTMLAttributes<HTMLElement>, "onChange"> {
+    className?: string;
+    size?: keyof typeof sizes;
+    value: number;
+    onChange: (value: number) => void;
+    children: ReactNode;
+    isCollapsed?: boolean;
+}
+
+export const ButtonGroup = ({
+    className,
+    size = "medium",
+    value,
+    onChange,
+    isCollapsed = false,
+    children,
+    ...rest
+}: ButtonGroupProps) => {
     return (
         <span className={clsx("ui-button-group", "inline-flex whitespace-nowrap", className)} {...rest}>
             {Children.map(children, (child, index) => {
-                const buttonProps = { size };
+                const buttonProps: ButtonProps = { size };
 
                 // Conditionally adding props like this so that we
                 // are also able to control the props on `ButtonGroup.Button`
@@ -29,24 +45,26 @@ const ButtonGroup = ({ size, value, isCollapsed = false, onChange, className, ch
                     buttonProps.onClick = () => onChange(index);
                 }
 
-                return cloneElement(child, buttonProps);
+                return cloneElement(child as ReactElement, buttonProps);
             })}
         </span>
     );
 };
 
-ButtonGroup.propTypes = {
-    className: PropTypes.string,
-    size: PropTypes.oneOf(Object.keys(sizes)).isRequired,
-    value: PropTypes.number.isRequired,
-    isCollapsed: PropTypes.bool,
-    onChange: PropTypes.func.isRequired,
-    children: PropTypes.node.isRequired,
-};
+interface ButtonProps extends HTMLAttributes<HTMLElement> {
+    as?: ComponentType<HTMLAttributes<HTMLElement>> | string;
+    isActive?: boolean;
+    shouldShowText?: boolean;
+    size: keyof typeof sizes;
+    icon?: ReactElement;
+    iconPlacement?: "left" | "right";
+    className?: string;
+    children?: ReactNode;
+}
 
 const Button = ({
     as: Tag = "button",
-    isActive,
+    isActive = false,
     shouldShowText = true,
     size = "medium",
     icon,
@@ -54,7 +72,7 @@ const Button = ({
     className,
     children,
     ...rest
-}) => {
+}: ButtonProps) => {
     const classes = clsx(
         "ui-button-group-button",
         "inline-flex border-t border-l border-b last:border-r first:rounded-l-md last:rounded-r-md transition-colors focus:ring disabled:opacity-60 focus:z-10 leading-none",
@@ -75,16 +93,4 @@ const Button = ({
 };
 
 Button.displayName = "ButtonGroup.Button";
-Button.propTypes = {
-    as: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]),
-    isActive: PropTypes.bool,
-    shouldShowText: PropTypes.bool,
-    size: PropTypes.oneOf(Object.keys(sizes)),
-    icon: PropTypes.element,
-    iconPlacement: PropTypes.oneOf(["left", "right"]),
-    className: PropTypes.string,
-    children: PropTypes.node.isRequired,
-};
 ButtonGroup.Button = Button;
-
-export { ButtonGroup };

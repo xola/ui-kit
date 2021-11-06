@@ -1,11 +1,10 @@
 import { Transition } from "@headlessui/react";
 import clsx from "clsx";
-import PropTypes from "prop-types";
 import React from "react";
 import { Spinner } from "../Spinner";
-import { Button } from "./Button";
+import { Button, ButtonProps } from "./Button";
 
-const loadingColors = {
+const loadingColors: any = {
     primary: "!bg-primary-light",
     secondary: "!bg-secondary-light",
     success: "!bg-success-light",
@@ -14,13 +13,17 @@ const loadingColors = {
     danger: "!bg-danger-light",
 };
 
-export const SubmitButton = ({ color = "primary", isLoading, className, children, ...rest }) => {
+interface SubmitButtonProps extends ButtonProps {
+    isLoading: boolean;
+}
+
+export const SubmitButton = ({ color = "primary", isLoading, className, children, ...rest }: SubmitButtonProps) => {
     return (
         <Button
             color={color}
-            disabled={isLoading}
             className={clsx(className, "relative", isLoading && loadingColors[color])}
             {...rest}
+            disabled={isLoading}
         >
             <span
                 className={clsx(
@@ -42,9 +45,4 @@ export const SubmitButton = ({ color = "primary", isLoading, className, children
             <span className={clsx(isLoading ? "opacity-0 flex-grow flex-shrink" : "opacity-100")}>{children}</span>
         </Button>
     );
-};
-
-SubmitButton.propTypes = {
-    ...Button.propTypes,
-    isLoading: PropTypes.bool,
 };
