@@ -1,8 +1,8 @@
-import _ from "lodash";
+import { merge } from "lodash";
 import { theme } from "../../theme";
 import { BaseChartOptions } from "./BaseChartOptions";
 
-export const PieOptions = _.merge({}, BaseChartOptions, {
+export const PieOptions = merge({}, BaseChartOptions, {
     chart: {
         type: "pie",
     },

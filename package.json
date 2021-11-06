@@ -58,6 +58,7 @@
         "@storybook/theming": "^6.3.10",
         "@testing-library/jest-dom": "^5.14.1",
         "@types/jest": "^27.0.2",
+        "@types/lodash": "^4.14.176",
         "@xola/jslint": "^1.0.0",
         "autoprefixer": "^10.3.7",
         "babel-jest": "^27.3.1",
