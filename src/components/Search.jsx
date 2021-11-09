@@ -32,6 +32,7 @@ export const Search = ({
     children,
     isLoading = false,
     isOpen: isMenuOpen,
+    onOpenChange,
     ...rest
 }) => {
     const [showShortcutKey, setShowShortcutKey] = useState(true);
@@ -52,7 +53,7 @@ export const Search = ({
         // Blur event also triggers `onSelectedItemChange`.
         // Maybe there's a better way to do this, but this will
         // prevent calling `onSubmit` or `onSelect` when we loose focus.
-        if (type === "__input_blur__") {
+        if (type === useCombobox.stateChangeTypes.InputBlur) {
             return;
         }
 
@@ -92,6 +93,17 @@ export const Search = ({
         defaultHighlightedIndex: 0,
         onSelectedItemChange: handleSelectedItemChange,
         isOpen: isMenuOpen,
+        stateReducer: (state, { type, changes }) => {
+            if (type === useCombobox.stateChangeTypes.InputBlur) {
+                onOpenChange?.(false);
+            }
+
+            if (type === useCombobox.stateChangeTypes.FunctionOpenMenu) {
+                onOpenChange?.(true);
+            }
+
+            return changes; // No-op.
+        },
     });
 
     // Introduce a slight delay before actually closing the menu and destroying all child components from it.
@@ -220,6 +232,7 @@ Search.propTypes = {
     onChange: PropTypes.func,
     onSubmit: PropTypes.func,
     onSelect: PropTypes.func,
+    onOpenChange: PropTypes.func,
     children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node, PropTypes.func]),
     isLoading: PropTypes.bool,
     isOpen: PropTypes.bool,
