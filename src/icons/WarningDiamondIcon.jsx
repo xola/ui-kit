@@ -1,25 +1,18 @@
 import React from "react";
 import { createIcon } from "../helpers/icon";
 
-export const CompassIcon = createIcon((props) => {
+export const WarningDiamondIcon = createIcon((props) => {
     return (
         <svg viewBox="0 0 14 14" width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
             <path
-                d="M6.95 12.7a5.75 5.75 0 100-11.5 5.75 5.75 0 000 11.5z"
+                d="M12.587 6.614L7.358 1.386a.545.545 0 00-.77 0l-5.23 5.228a.545.545 0 000 .772l5.23 5.228a.546.546 0 00.77 0l5.23-5.228a.546.546 0 000-.772zM6.985 4.286v3.06"
                 stroke="currentColor"
                 strokeWidth={1.3}
                 strokeLinecap="round"
                 strokeLinejoin="round"
             />
             <path
-                d="M5.7 5.7l3.695-1.522v0a.25.25 0 01.327.327L8.2 8.2"
-                stroke="currentColor"
-                strokeWidth={1.3}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-            />
-            <path
-                d="M8.2 8.2L5.7 5.7 4.18 9.395v0a.25.25 0 00.326.327L8.2 8.2z"
+                d="M6.978 9.196a.127.127 0 00-.131.136c0 .07.06.13.136.13a.134.134 0 00.126-.141l-.006-.005c-.005-.077-.065-.137-.136-.137M6.986 9.196H6.98"
                 stroke="currentColor"
                 strokeWidth={1.3}
                 strokeLinecap="round"
