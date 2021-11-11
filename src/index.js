@@ -195,5 +195,4 @@ export { WifiIcon } from "./icons/WifiIcon";
 export { WriteIcon } from "./icons/WriteIcon";
 export { XrayIcon } from "./icons/XrayIcon";
 
-
 export { theme } from "./theme";
