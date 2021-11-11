@@ -156,7 +156,7 @@ export const Search = ({
                     })}
                 />
 
-                <div className="absolute inset-y-0 right-0 items-center hidden pr-3 space-x-1 pointer-events-none lg:flex">
+                <div className="hidden absolute inset-y-0 right-0 items-center pr-3 space-x-1 pointer-events-none lg:flex">
                     {showShortcutKey ? (
                         <>
                             <Key char="cmd" /> <Key char="K" />
@@ -204,7 +204,7 @@ export const Search = ({
                 {open && noResultFound ? <li className="p-2 cursor-not-allowed">No results found</li> : null}
 
                 {open && itemList.length < 5 ? (
-                    <li className="sticky bottom-0 flex p-2 space-x-5 text-sm search-footer text-gray-dark pointer-events">
+                    <li className="flex sticky bottom-0 p-2 space-x-5 text-sm search-footer text-gray-dark pointer-events">
                         <span className="flex items-center">
                             <Key char="up" className="mr-0.5" />
                             <Key char="down" className="mr-2" /> to navigate
