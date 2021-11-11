@@ -1,7 +1,7 @@
 import React from "react";
 import { createIcon } from "../helpers/icon";
 
-export const HomeIcon = createIcon((props) => {
+export const StoreCreditIcon = createIcon((props) => {
     return (
         <svg viewBox="0 0 14 14" width={15} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
             <g stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">

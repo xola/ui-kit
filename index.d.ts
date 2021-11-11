@@ -87,7 +87,7 @@ export {
     HiddenIcon,
     HiddenIcon,
     HistogramOptions,
-    HomeIcon,
+    StoreCreditIcon,
     ImageIcon,
     InfinityIcon,
     InfoCircleIcon,
