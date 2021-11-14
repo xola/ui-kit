@@ -6,7 +6,6 @@
 .ui-date-picker {
     @apply pt-6 tracking-tightest ring-0 focus:ring-0 focus:outline-none;
     width: 400px;
-    box-shadow: 0px 8px 32px 3px rgba(0, 0, 0, 0.12);
 }
 
 .DayPicker-NavBar {
