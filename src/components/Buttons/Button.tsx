@@ -1,6 +1,5 @@
 import clsx from "clsx";
-import PropTypes from "prop-types";
-import React from "react";
+import React, { ComponentType, HTMLAttributes, ReactElement, ReactNode } from "react";
 
 const colors = {
     standard: {
@@ -47,6 +46,18 @@ const sizes = {
     large: "px-6 py-4 h-[50px] text-md leading-md", // 50px
 };
 
+export interface ButtonProps extends HTMLAttributes<HTMLElement> {
+    as?: ComponentType<HTMLAttributes<HTMLElement>> | string;
+    variant?: keyof typeof colors;
+    color?: "common" | "primary" | "secondary" | "success" | "warning" | "caution" | "danger";
+    size?: keyof typeof sizes;
+    icon?: ReactElement;
+    iconPlacement?: "left" | "right";
+    className?: string;
+    children: ReactNode;
+    disabled?: boolean;
+}
+
 export const Button = ({
     as: Tag = "button",
     variant = "standard",
@@ -57,7 +68,7 @@ export const Button = ({
     className,
     children,
     ...rest
-}) => {
+}: ButtonProps) => {
     return (
         <Tag
             className={clsx(
@@ -76,24 +87,4 @@ export const Button = ({
             {icon && iconPlacement === "right" ? <span className="flex-shrink-0 ml-2">{icon}</span> : null}
         </Tag>
     );
-};
-
-Button.propTypes = {
-    // as: PropTypes.string,
-    color: PropTypes.oneOf(Object.keys(colors.outline)),
-    variant: PropTypes.oneOf(Object.keys(colors)),
-    size: PropTypes.oneOf(Object.keys(sizes)),
-    className: PropTypes.string,
-    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
-    icon(props, ...rest) {
-        // See: https://reactjs.org/docs/typechecking-with-proptypes.html#proptypes
-        if (props.icon && !props.children) {
-            return new Error(
-                "UI Kit: You are using an icon without specifying children. If you want to use an icon only specify it as a child instead of prop",
-            );
-        }
-
-        return PropTypes.element(props, ...rest);
-    },
-    iconPlacement: PropTypes.string,
 };
