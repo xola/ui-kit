@@ -32,6 +32,7 @@ export const Search = ({
     children,
     isLoading = false,
     isOpen: isMenuOpen,
+    onOpenChange,
     ...rest
 }) => {
     const [showShortcutKey, setShowShortcutKey] = useState(true);
@@ -52,7 +53,7 @@ export const Search = ({
         // Blur event also triggers `onSelectedItemChange`.
         // Maybe there's a better way to do this, but this will
         // prevent calling `onSubmit` or `onSelect` when we loose focus.
-        if (type === "__input_blur__") {
+        if (type === useCombobox.stateChangeTypes.InputBlur) {
             return;
         }
 
@@ -92,6 +93,17 @@ export const Search = ({
         defaultHighlightedIndex: 0,
         onSelectedItemChange: handleSelectedItemChange,
         isOpen: isMenuOpen,
+        stateReducer: (state, { type, changes }) => {
+            if (type === useCombobox.stateChangeTypes.InputBlur) {
+                onOpenChange?.(false);
+            }
+
+            if (type === useCombobox.stateChangeTypes.FunctionOpenMenu) {
+                onOpenChange?.(true);
+            }
+
+            return changes; // No-op.
+        },
     });
 
     // Introduce a slight delay before actually closing the menu and destroying all child components from it.
@@ -144,7 +156,7 @@ export const Search = ({
                     })}
                 />
 
-                <div className="absolute inset-y-0 right-0 items-center hidden pr-3 space-x-1 pointer-events-none lg:flex">
+                <div className="hidden absolute inset-y-0 right-0 items-center pr-3 space-x-1 pointer-events-none lg:flex">
                     {showShortcutKey ? (
                         <>
                             <Key char="cmd" /> <Key char="K" />
@@ -192,7 +204,7 @@ export const Search = ({
                 {open && noResultFound ? <li className="p-2 cursor-not-allowed">No results found</li> : null}
 
                 {open && itemList.length < 5 ? (
-                    <li className="sticky bottom-0 flex p-2 space-x-5 text-sm search-footer text-gray-dark pointer-events">
+                    <li className="flex sticky bottom-0 p-2 space-x-5 text-sm search-footer text-gray-dark pointer-events">
                         <span className="flex items-center">
                             <Key char="up" className="mr-0.5" />
                             <Key char="down" className="mr-2" /> to navigate
@@ -220,6 +232,7 @@ Search.propTypes = {
     onChange: PropTypes.func,
     onSubmit: PropTypes.func,
     onSelect: PropTypes.func,
+    onOpenChange: PropTypes.func,
     children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node, PropTypes.func]),
     isLoading: PropTypes.bool,
     isOpen: PropTypes.bool,
