@@ -33,7 +33,7 @@ export const Search = ({
     isLoading = false,
     isOpen: isMenuOpen,
     onOpenChange,
-    onMenuBlur,
+    onOutsideClick,
     ...rest
 }) => {
     const [showShortcutKey, setShowShortcutKey] = useState(true);
@@ -99,7 +99,7 @@ export const Search = ({
             const exitTypes = [useCombobox.stateChangeTypes.MenuMouseLeave, useCombobox.stateChangeTypes.InputBlur];
             if (type === useCombobox.stateChangeTypes.InputBlur && exitTypes.includes(lastMouseMove)) {
                 // This is a real menu blur when the user goes **outside** the menu and doesn't click the menu item
-                onMenuBlur?.(false);
+                onOutsideClick?.(false);
             }
 
             if (type === useCombobox.stateChangeTypes.FunctionOpenMenu) {
