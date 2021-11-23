@@ -33,10 +33,12 @@ export const Search = ({
     isLoading = false,
     isOpen: isMenuOpen,
     onOpenChange,
+    onOutsideClick,
     ...rest
 }) => {
     const [showShortcutKey, setShowShortcutKey] = useState(true);
     const [inputValue, setInputValue] = useState(defaultValue ?? "");
+    const [lastMouseMove, setLastMouseMove] = useState(null);
     const inputReference = useRef();
 
     // Flag for controlling the delay before actually closing the menu.
@@ -94,14 +96,17 @@ export const Search = ({
         onSelectedItemChange: handleSelectedItemChange,
         isOpen: isMenuOpen,
         stateReducer: (state, { type, changes }) => {
-            if (type === useCombobox.stateChangeTypes.InputBlur) {
-                onOpenChange?.(false);
+            const exitTypes = [useCombobox.stateChangeTypes.MenuMouseLeave, useCombobox.stateChangeTypes.InputBlur];
+            if (type === useCombobox.stateChangeTypes.InputBlur && exitTypes.includes(lastMouseMove)) {
+                // This is a real menu blur when the user goes **outside** the menu and doesn't click the menu item
+                onOutsideClick?.(false);
             }
 
             if (type === useCombobox.stateChangeTypes.FunctionOpenMenu) {
                 onOpenChange?.(true);
             }
 
+            setLastMouseMove(type);
             return changes; // No-op.
         },
     });
