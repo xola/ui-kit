@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import _ from "lodash";
+import { random } from "lodash";
 import React, { useState } from "react";
 import { DatePicker, DatePickerPopover, theme } from "../..";
 
@@ -136,13 +136,13 @@ addDescription(
 
 const customContent = [null];
 for (let day = 1; day <= dayjs().daysInMonth(); day++) {
-    customContent.push("$" + _.random(1, 200));
+    customContent.push("$" + random(1, 200));
 }
 
-customContent[_.random(1, dayjs().daysInMonth())] = "Please Call/Email";
-customContent[_.random(1, dayjs().daysInMonth())] = "Sold Out";
-customContent[_.random(1, dayjs().daysInMonth())] = "Sold Out";
-customContent[_.random(1, dayjs().daysInMonth())] = "205 spots";
+customContent[random(1, dayjs().daysInMonth())] = "Please Call/Email";
+customContent[random(1, dayjs().daysInMonth())] = "Sold Out";
+customContent[random(1, dayjs().daysInMonth())] = "Sold Out";
+customContent[random(1, dayjs().daysInMonth())] = "205 spots";
 
 export const WithCustomContent = () => {
     const [value, setValue] = useState(new Date());

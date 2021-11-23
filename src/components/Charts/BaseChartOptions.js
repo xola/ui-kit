@@ -1,4 +1,4 @@
-import _ from "lodash";
+import { merge } from "lodash";
 import { theme } from "../../theme";
 
 const { colors } = theme;
@@ -36,11 +36,11 @@ export const BaseChartOptions = {
         colors.orange.darker,
     ],
     xAxis: {
-        title: { style: _.merge({}, fontStyle, { color: colors.black }) },
+        title: { style: merge({}, fontStyle, { color: colors.black }) },
         labels: { style: fontStyle },
     },
     yAxis: {
-        title: { style: _.merge({}, fontStyle, { color: colors.black }) },
+        title: { style: merge({}, fontStyle, { color: colors.black }) },
         labels: { style: fontStyle },
     },
     tooltip: {
@@ -53,14 +53,14 @@ export const BaseChartOptions = {
         crosshairs: [true, true], // Show crosshairs when you browse over the toolips
         shadow: false,
         useHTML: true, // This is used to insert spans with classes for custom css
-        style: _.merge({}, fontStyle, {
+        style: merge({}, fontStyle, {
             opacity: 0.9,
             color: "#cccccc",
         }),
     },
     title: {
         text: "", // No title by default
-        style: _.merge({}, fontStyle, { color: colors.black, fontSize: "18px", fontWeight: 600 }),
+        style: merge({}, fontStyle, { color: colors.black, fontSize: "18px", fontWeight: 600 }),
     },
     plotOptions: {
         series: {
