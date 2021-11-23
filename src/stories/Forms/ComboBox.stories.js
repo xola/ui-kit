@@ -5,6 +5,31 @@ import { ComboBox, Label, FormGroup, Currency } from "../..";
 const ComboBoxStories = {
     primary: true,
     title: "Forms & Fields/ComboBox",
+    args: {
+        isCreatable: "boolean",
+        isMulti: "boolean",
+        closeMenuOnSelect: "boolean",
+    },
+    argTypes: {
+        isCreatable: {
+            control: { type: "boolean" },
+            table: {
+                defaultValue: { summary: false },
+            },
+        },
+        isMulti: {
+            control: { type: "boolean" },
+            table: {
+                defaultValue: { summary: false },
+            },
+        },
+        closeMenuOnSelect: {
+            control: { type: "boolean" },
+            table: {
+                defaultValue: { summary: false },
+            },
+        },
+    },
     parameters: {
         docs: {
             description: {
@@ -15,7 +40,7 @@ const ComboBoxStories = {
     },
 };
 
-export const Default = () => {
+export const Default = ({ isCreatable = false, isMulti = false }) => {
     const options = [
         { value: 1, label: "5% OFF" },
         { value: 2, label: "10% OFF" },
@@ -25,7 +50,30 @@ export const Default = () => {
         <div className="h-40">
             <FormGroup>
                 <Label>Apply Coupon</Label>
-                <ComboBox options={options} />
+                <ComboBox isCreatable={isCreatable} isMulti={isMulti} options={options} />
+            </FormGroup>
+        </div>
+    );
+};
+
+export const TagsCreator = () => {
+    const tags = [
+        { value: 1, label: "5% OFF" },
+        { value: 2, label: "10% OFF" },
+    ];
+
+    return (
+        <div className="h-40">
+            <FormGroup>
+                <Label>Booking Tags</Label>
+                <ComboBox
+                    isCreatable
+                    isMulti
+                    closeMenuOnSelect
+                    options={tags}
+                    defaultValue={tags}
+                    placeholder="Add tag"
+                />
             </FormGroup>
         </div>
     );
