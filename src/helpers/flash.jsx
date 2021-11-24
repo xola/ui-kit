@@ -30,10 +30,6 @@ const defaultProps = {
  */
 export const flash = {
     show({ text, size = "medium", color = "success", className, canClose = true, onClose, children, ...rest }) {
-        if (canClose && !onClose) {
-            console.warn("If you like to close the alert, please define `onClose`");
-        }
-
         const finalProps = { ...defaultProps, ...rest };
         if (!canClose) {
             finalProps.duration = Number.POSITIVE_INFINITY;
