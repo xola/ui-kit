@@ -50,7 +50,6 @@ export const flash = {
     },
 
     container(text, className, onClose, toastObject) {
-        console.debug(`Toasting "${text}" ${toastObject.id}`, toastObject.visible);
         const onCloseWrapper = (event) => onClose(event, toastObject);
 
         return (
@@ -81,7 +80,6 @@ export const flash = {
     },
 
     dismiss(id) {
-        console.log("Dismissing", id ?? "All!");
         toast.dismiss(id);
     },
 };
