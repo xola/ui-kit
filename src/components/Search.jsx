@@ -97,7 +97,11 @@ export const Search = ({
         isOpen: isMenuOpen,
         stateReducer: (state, { type, changes }) => {
             const exitTypes = [useCombobox.stateChangeTypes.MenuMouseLeave, useCombobox.stateChangeTypes.InputBlur];
-            if (type === useCombobox.stateChangeTypes.InputBlur && exitTypes.includes(lastMouseMove)) {
+            if (
+                type === useCombobox.stateChangeTypes.InputBlur &&
+                type !== lastMouseMove &&
+                exitTypes.includes(lastMouseMove)
+            ) {
                 // This is a real menu blur when the user goes **outside** the menu and doesn't click the menu item
                 onOutsideClick?.(false);
             }
