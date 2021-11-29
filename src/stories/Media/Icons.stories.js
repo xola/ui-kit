@@ -1,9 +1,9 @@
-import _ from "lodash";
+import { omitBy, map } from "lodash";
 import React from "react";
 import * as all from "../..";
 
-const iconNames = _.omitBy(all, (Icon, name) => !name.endsWith("Icon"));
-const icons = _.map(iconNames, (Icon, name) => ({ Icon, name }));
+const iconNames = omitBy(all, (Icon, name) => !name.endsWith("Icon"));
+const icons = map(iconNames, (Icon, name) => ({ Icon, name }));
 
 const colors = [
     "text-black",
