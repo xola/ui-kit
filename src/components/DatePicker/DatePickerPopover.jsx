@@ -32,7 +32,7 @@ export const DatePickerPopover = ({
     const dateProps = {
         size: "medium",
         placeholder: "Select Date",
-        value: formatDate(value, dateFormat),
+        value: value ? formatDate(value, dateFormat) : "",
         onClick: toggleVisibility,
     };
     const displayElement = children ? (
@@ -71,14 +71,14 @@ DatePickerPopover.propTypes = {
 
 const DefaultInput = ({ className, ...rest }) => {
     return (
-        <div className="inline-flex relative w-80 bg-gray-lighter">
-            <div className="flex absolute inset-0 items-center pl-3 pointer-events-none">
+        <div className="relative flex bg-gray-lighter">
+            <div className="absolute inset-0 flex items-center pl-3 pointer-events-none">
                 <CalendarIcon className="inline-block" />
             </div>
 
-            <Input className={clsx("pl-8 cursor-pointer", className)} {...rest} />
+            <Input className={clsx("px-8 cursor-pointer", className)} {...rest} />
 
-            <div className="flex absolute inset-y-0 right-0 items-center pr-3 pointer-events-none">
+            <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                 <DownArrowIcon className="inline-block" />
             </div>
         </div>
