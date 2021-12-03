@@ -1,6 +1,6 @@
 import { random } from "lodash";
-import React, { useState, useRef } from "react";
-import { InlineSelector, Button, Input, Select, FormGroup } from "../..";
+import React, { useState } from "react";
+import { Button, FormGroup, InlineSelector, Input, Select } from "../..";
 
 const InlineSelectorStories = {
     title: "Forms & Fields/Inline Selector",
@@ -23,7 +23,7 @@ export const Default = () => {
                 Values are randomly set just for story purposes. Use your form library to fetch form values and set them
                 properly
             </div>
-            <InlineSelector text={text} isOpen={isOpen} onClick={() => setIsOpen(!isOpen)} className="text-blue">
+            <InlineSelector text={text} isOpen={isOpen} className="text-blue" onClick={() => setIsOpen(!isOpen)}>
                 <form onSubmit={handleSubmit}>
                     <FormGroup className="flex flex-row space-x-2">
                         <Input />
