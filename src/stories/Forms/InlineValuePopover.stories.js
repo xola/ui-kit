@@ -1,10 +1,10 @@
 import { random } from "lodash";
 import React, { useState } from "react";
-import { Button, FormGroup, InlineSelector, Input, Select } from "../..";
+import { Button, FormGroup, InlineValuePopover, Input, Select } from "../..";
 
-const InlineSelectorStories = {
+const InlineValuePopoverStories = {
     title: "Forms & Fields/Inline Selector",
-    component: InlineSelector,
+    component: InlineValuePopover,
 };
 
 export const Default = () => {
@@ -23,7 +23,7 @@ export const Default = () => {
                 Values are randomly set just for story purposes. Use your form library to fetch form values and set them
                 properly
             </div>
-            <InlineSelector
+            <InlineValuePopover
                 text={text}
                 isOpen={isOpen}
                 classNames={{ text: "text-blue" }}
@@ -40,9 +40,9 @@ export const Default = () => {
                         <Button>Apply</Button>
                     </FormGroup>
                 </form>
-            </InlineSelector>
+            </InlineValuePopover>
         </div>
     );
 };
 
-export default InlineSelectorStories;
+export default InlineValuePopoverStories;

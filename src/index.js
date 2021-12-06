@@ -36,7 +36,7 @@ export { Key } from "./components/Key";
 export { Login } from "./components/Screens/Login";
 export { DatePicker } from "./components/DatePicker/DatePicker";
 export { DatePickerPopover } from "./components/DatePicker/DatePickerPopover";
-export { InlineSelector } from "./components/Forms/InlineSelector";
+export { InlineValuePopover } from "./components/Forms/InlineValuePopover";
 
 // Utilities
 export { Currency } from "./components/Utilities/Currency";
