@@ -23,7 +23,12 @@ export const Default = () => {
                 Values are randomly set just for story purposes. Use your form library to fetch form values and set them
                 properly
             </div>
-            <InlineSelector text={text} isOpen={isOpen} className="text-blue" onClick={() => setIsOpen(!isOpen)}>
+            <InlineSelector
+                text={text}
+                isOpen={isOpen}
+                classNames={{ text: "text-blue" }}
+                onClick={() => setIsOpen(!isOpen)}
+            >
                 <form onSubmit={handleSubmit}>
                     <FormGroup className="flex flex-row space-x-2">
                         <Input />
