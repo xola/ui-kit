@@ -41,14 +41,23 @@ export const Default = () => {
 
                 <Sidebar.Menu
                     content={
-                        <>
-                            <Sidebar.Button disabled icon={AnnounceIcon} label="Marketing" />
-                            <Sidebar.Button icon={UserIcon} label="Partners" />
-                            <Sidebar.Button icon={TicketIcon} label="Coupons" />
-                        </>
+                        <div className="space-y-5 py-6">
+                            <Sidebar.Heading icon={AnnounceIcon} label="Marketing" />
+                            <div>
+                                <Sidebar.Link isActive={true} isSubMenuItem={true}>
+                                    Abandoned Booking Recovery
+                                </Sidebar.Link>
+                                <Sidebar.Link isSubMenuItem={true}>Conversion Tracking</Sidebar.Link>
+                                <Sidebar.Link isSubMenuItem={true}>Coupons</Sidebar.Link>
+                                <Sidebar.Link isSubMenuItem={true}>Partners</Sidebar.Link>
+                                <Sidebar.Link isSubMenuItem={true}>XolaBot</Sidebar.Link>
+                            </div>
+                        </div>
                     }
                 >
-                    <Sidebar.Link icon={AnnounceIcon}>Marketing</Sidebar.Link>
+                    <Sidebar.Link isActive={false} icon={AnnounceIcon}>
+                        Marketing
+                    </Sidebar.Link>
                 </Sidebar.Menu>
             </Sidebar>
         </div>
