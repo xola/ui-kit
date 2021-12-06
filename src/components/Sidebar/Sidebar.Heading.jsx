@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import clsx from "clsx";
 import React from "react";
 
-export const SidebarHeading = ({ icon: Icon, label, className, ...rest }) => {
+export const SidebarHeading = ({ icon: Icon, label, className }) => {
     return (
         <p className={clsx("flex items-center ml-4 text-white", className)}>
             <Icon className="w-5 h-5 mr-3" />

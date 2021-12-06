@@ -2,7 +2,7 @@ import clsx from "clsx";
 import PropTypes from "prop-types";
 import React from "react";
 import { ChevronRightIcon } from "../../icons/ChevronRightIcon";
-import { Dot } from "../../";
+import { Dot } from "../..";
 
 export const SidebarLink = ({ isActive = false, icon: Icon, children, isSubMenuItem, ...rest }) => {
     return (
@@ -15,7 +15,7 @@ export const SidebarLink = ({ isActive = false, icon: Icon, children, isSubMenuI
                     "bg-primary text-white hover:bg-primary-dark": isActive,
                     "hover:bg-gray-darker text-gray": !isActive,
                     "justify-start px-6 leading-p1": isSubMenuItem,
-                    "justify-center xl-px-6": !isSubMenuItem,
+                    "justify-center xl:px-6": !isSubMenuItem,
                 },
             )}
             {...rest}
