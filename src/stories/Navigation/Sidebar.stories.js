@@ -27,7 +27,7 @@ export const Default = () => {
                                 </div>
                             }
                         >
-                            <Sidebar.Account isResponsive name="Scott" />
+                            <Sidebar.Account className="!px-7" isResponsive name="Scott" />
                         </Sidebar.Menu>
                     </Sidebar.Footer>
                 }
@@ -38,6 +38,18 @@ export const Default = () => {
                 </Sidebar.Link>
 
                 <Sidebar.Link icon={StarIcon}>Favorites</Sidebar.Link>
+
+                <Sidebar.Menu
+                    content={
+                        <>
+                            <Sidebar.Button disabled icon={UserIcon} label="Users" />
+                            <Sidebar.Button icon={ExportIcon} label="Users" />
+                            <Sidebar.Button icon={ExportIcon} label="User Groups" />
+                        </>
+                    }
+                >
+                    <Sidebar.Link icon={UserIcon}>Users</Sidebar.Link>
+                </Sidebar.Menu>
             </Sidebar>
         </div>
     );

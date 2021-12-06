@@ -11,7 +11,7 @@ export const SidebarMenu = ({ children, content, ...rest }) => {
             trigger="click" // Required otherwise menu will be truncated by the sidebar.
             appendTo={document.body}
             placement="right"
-            offset={[0, 20]}
+            offset={[0, 8]}
             arrow={false}
             className={clsx(
                 "ui-sidebar-menu",
@@ -21,7 +21,7 @@ export const SidebarMenu = ({ children, content, ...rest }) => {
             content={content}
             {...rest}
         >
-            <span>{children}</span>
+            <span className="block">{children}</span>
         </Tippy>
     );
 };
