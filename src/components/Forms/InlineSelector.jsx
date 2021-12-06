@@ -6,12 +6,13 @@ export const InlineSelector = ({
     text = "Specify text prop",
     isOpen = false,
     onClick,
+    onClickOutside,
     classNames,
     children,
     ...rest
 }) => {
     return (
-        <Popover visible={isOpen} {...rest}>
+        <Popover visible={isOpen} onClickOutside={onClickOutside} {...rest}>
             <span
                 className={clsx("font-bold border-b cursor-pointer border-primary", classNames?.text)}
                 onClick={onClick}
@@ -19,7 +20,7 @@ export const InlineSelector = ({
                 {text}
             </span>
             <Popover.Content>
-                <div className={clsx("p-2 pb-0", classNames?.children)}>{children}</div>
+                <div className={clsx("p-2", classNames?.children)}>{children}</div>
             </Popover.Content>
         </Popover>
     );
