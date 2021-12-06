@@ -2,15 +2,7 @@ import clsx from "clsx";
 import React from "react";
 import { Popover } from "../Popover/Popover";
 
-export const InlineSelector = ({
-    text = "Specify text prop",
-    isOpen = false,
-    onClick,
-    onClickOutside,
-    classNames,
-    children,
-    ...rest
-}) => {
+export const InlineSelector = ({ text, isOpen = false, onClick, onClickOutside, classNames, children, ...rest }) => {
     return (
         <Popover visible={isOpen} onClickOutside={onClickOutside} {...rest}>
             <span
