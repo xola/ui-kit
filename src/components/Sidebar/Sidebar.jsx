@@ -8,6 +8,7 @@ import { SidebarButton } from "./Sidebar.Button";
 import { SidebarFooter } from "./Sidebar.Footer";
 import { SidebarLink } from "./Sidebar.Link";
 import { SidebarMenu } from "./Sidebar.Menu";
+import { SidebarHeading } from "./Sidebar.Heading";
 
 export const Sidebar = ({ children, className, footer, notifications, isFixed = true, onLogoClick }) => {
     return (
@@ -53,3 +54,4 @@ Sidebar.Button = SidebarButton;
 Sidebar.Footer = SidebarFooter;
 Sidebar.Link = SidebarLink;
 Sidebar.Menu = SidebarMenu;
+Sidebar.Heading = SidebarHeading;

@@ -1,5 +1,5 @@
 import React from "react";
-import { AnnounceIcon, CheckIcon, ExportIcon, Sidebar, StarIcon, TicketIcon, UserIcon } from "../..";
+import { AnnounceIcon, CheckIcon, ExportIcon, Sidebar, StarIcon, UserIcon } from "../..";
 
 const SidebarStories = {
     title: "Navigation/Sidebar",
@@ -41,14 +41,23 @@ export const Default = () => {
 
                 <Sidebar.Menu
                     content={
-                        <>
-                            <Sidebar.Button disabled icon={AnnounceIcon} label="Marketing" />
-                            <Sidebar.Button icon={UserIcon} label="Partners" />
-                            <Sidebar.Button icon={TicketIcon} label="Coupons" />
-                        </>
+                        <div className="space-y-5 py-6">
+                            <Sidebar.Heading icon={AnnounceIcon} label="Marketing" />
+                            <div>
+                                <Sidebar.Link isActive isSubMenuItem>
+                                    Abandoned Booking Recovery
+                                </Sidebar.Link>
+                                <Sidebar.Link isSubMenuItem>Conversion Tracking</Sidebar.Link>
+                                <Sidebar.Link isSubMenuItem>Coupons</Sidebar.Link>
+                                <Sidebar.Link isSubMenuItem>Partners</Sidebar.Link>
+                                <Sidebar.Link isSubMenuItem>XolaBot</Sidebar.Link>
+                            </div>
+                        </div>
                     }
                 >
-                    <Sidebar.Link icon={AnnounceIcon}>Marketing</Sidebar.Link>
+                    <Sidebar.Link isActive={false} icon={AnnounceIcon}>
+                        Marketing
+                    </Sidebar.Link>
                 </Sidebar.Menu>
             </Sidebar>
         </div>
