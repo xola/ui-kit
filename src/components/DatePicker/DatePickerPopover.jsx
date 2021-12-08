@@ -71,14 +71,14 @@ DatePickerPopover.propTypes = {
 
 const DefaultInput = ({ className, ...rest }) => {
     return (
-        <div className="relative flex bg-gray-lighter">
-            <div className="absolute inset-0 flex items-center pl-3 pointer-events-none">
+        <div className="flex relative bg-gray-lighter">
+            <div className="flex absolute inset-0 items-center pl-3 pointer-events-none">
                 <CalendarIcon className="inline-block" />
             </div>
 
             <Input className={clsx("px-8 cursor-pointer", className)} {...rest} />
 
-            <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+            <div className="flex absolute inset-y-0 right-0 items-center pr-3 pointer-events-none">
                 <DownArrowIcon className="inline-block" />
             </div>
         </div>
