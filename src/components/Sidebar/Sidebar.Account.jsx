@@ -10,6 +10,7 @@ export const SidebarAccount = ({
     image,
     icon = <ChevronRightIcon />,
     isResponsive = false,
+    className,
     ...rest
 }) => {
     const accountImage = image ?? <Avatar size="tiny" name={name} />;
@@ -21,6 +22,7 @@ export const SidebarAccount = ({
                 "ui-sidebar-account",
                 "flex justify-center items-center py-3 w-full rounded cursor-pointer hover:bg-gray-darker xl:justify-start",
                 isResponsive ? "xl:px-4" : "px-4",
+                className,
             )}
             {...rest}
         >
@@ -45,4 +47,5 @@ SidebarAccount.propTypes = {
     image: PropTypes.element,
     icon: PropTypes.element,
     isResponsive: PropTypes.bool,
+    className: PropTypes.string,
 };
