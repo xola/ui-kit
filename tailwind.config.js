@@ -155,6 +155,7 @@ module.exports = {
         extend: {
             fontFamily: {
                 sans: ["Inter", ...defaultTheme.fontFamily.sans],
+                mono: ["Roboto Mono", ...defaultTheme.fontFamily.mono]
             },
 
             // P1 - Big 16px 130%

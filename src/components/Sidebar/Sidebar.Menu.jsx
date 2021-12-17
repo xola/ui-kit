@@ -8,7 +8,7 @@ export const SidebarMenu = ({ children, content, ...rest }) => {
     return (
         <Tippy
             interactive
-            trigger="click" // Required otherwise menu will be truncated by the sidebar.
+            trigger="mouseenter" // Required otherwise menu will be truncated by the sidebar.
             appendTo={document.body}
             placement="right"
             offset={[0, 8]}
