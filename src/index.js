@@ -39,7 +39,6 @@ export { Login } from "./components/Screens/Login";
 export { DatePicker } from "./components/DatePicker/DatePicker";
 export { DatePickerPopover } from "./components/DatePicker/DatePickerPopover";
 export { InlineValuePopover } from "./components/Forms/InlineValuePopover";
-export { Accordion } from "./components/Accordion";
 
 // Utilities
 export { Currency } from "./components/Utilities/Currency";
