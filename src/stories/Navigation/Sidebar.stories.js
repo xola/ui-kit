@@ -27,7 +27,7 @@ export const Default = () => {
                                 </div>
                             }
                         >
-                            <Sidebar.Account isResponsive className="!px-7" name="Scott" />
+                            <Sidebar.Account isResponsive name="Old South Carriage Company" />
                         </Sidebar.Menu>
                     </Sidebar.Footer>
                 }
@@ -41,7 +41,7 @@ export const Default = () => {
 
                 <Sidebar.Menu
                     content={
-                        <div className="space-y-5 py-6">
+                        <div className="py-6 space-y-5">
                             <Sidebar.Heading icon={AnnounceIcon} label="Marketing" />
                             <div>
                                 <Sidebar.Link isActive isSubMenuItem>
@@ -55,9 +55,7 @@ export const Default = () => {
                         </div>
                     }
                 >
-                    <Sidebar.Link isActive={false} icon={AnnounceIcon}>
-                        Marketing
-                    </Sidebar.Link>
+                    <Sidebar.Link icon={AnnounceIcon}>Marketing</Sidebar.Link>
                 </Sidebar.Menu>
             </Sidebar>
         </div>
