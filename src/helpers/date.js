@@ -13,6 +13,6 @@ export const formatTime = (time, format = "h:mm a") => {
     return dayjs(stringTime, "hhmm").format(format);
 };
 
-export const dateFromObjectId = (id: ID) => {
+export const dateFromObjectId = (id) => {
     return dayjs(new Date(Number.parseInt(id.slice(0, 8), 16) * 1000));
 };

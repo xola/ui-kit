@@ -1,4 +1,6 @@
-// Components.
+// Components
+export { FadeIn } from "./components/Animation/FadeIn";
+export { SlideDown } from "./components/Animation/SlideDown";
 export { Button } from "./components/Buttons/Button";
 export { SubmitButton } from "./components/Buttons/SubmitButton";
 export { ToggleButton } from "./components/Buttons/ToggleButton";
@@ -37,6 +39,7 @@ export { Login } from "./components/Screens/Login";
 export { DatePicker } from "./components/DatePicker/DatePicker";
 export { DatePickerPopover } from "./components/DatePicker/DatePickerPopover";
 export { InlineValuePopover } from "./components/Forms/InlineValuePopover";
+export { Accordion } from "./components/Accordion";
 
 // Utilities
 export { Currency } from "./components/Utilities/Currency";
@@ -47,7 +50,7 @@ export { XolaLogoCircle } from "./images/XolaLogoCircle";
 // Helpers
 export { almostZero, numberFormat, roundNumber } from "./helpers/numbers";
 export { getSymbol, isZeroDecimal } from "./helpers/currency";
-export { formatDate, formatTime } from "./helpers/date";
+export { formatDate, formatTime, dateFromObjectId } from "./helpers/date";
 export { isOSX } from "./helpers/browser";
 export { flash } from "./helpers/flash";
 
