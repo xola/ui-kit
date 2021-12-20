@@ -1,9 +1,9 @@
 import React from "react";
-import { ImageUploader } from "../..";
+import { ImageUpload } from "../..";
 
-const ImageUploaderStories = {
-    title: "Media/ImageUploader",
-    component: ImageUploader,
+const ImageUploadStories = {
+    title: "Media/Image Upload",
+    component: ImageUpload,
     parameters: {
         docs: {
             description: {
@@ -17,7 +17,7 @@ const ImageUploaderStories = {
     argTypes: {
         src: {
             type: { required: true },
-            description: "The URL to the logo",
+            description: "The URL to the image",
             control: {
                 type: "text",
             },
@@ -38,7 +38,7 @@ const ImageUploaderStories = {
     },
 };
 
-export const Default = ({ src: source = "http://placekitten.com/300/300", size = "small" }) => {
+export const Default = ({ src: source, size = "small" }) => {
     const [source_, setSource] = React.useState(source);
 
     React.useEffect(() => {
@@ -58,7 +58,7 @@ export const Default = ({ src: source = "http://placekitten.com/300/300", size =
         setSource(undefined);
     };
 
-    return <ImageUploader src={source_} size={size} onChange={onChange} onDelete={onDelete} />;
+    return <ImageUpload src={source_} size={size} onChange={onChange} onDelete={onDelete} />;
 };
 
-export default ImageUploaderStories;
+export default ImageUploadStories;

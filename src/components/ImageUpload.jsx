@@ -1,10 +1,9 @@
 import React, { useRef } from "react";
 import PropTypes from "prop-types";
-import { Logo, Button } from "..";
+import { Logo, Button, ImageIcon, TrashIcon } from "..";
+import clsx from "clsx";
 
-const DEFAULT_IMAGE = "https://via.placeholder.com/300.png?text=No+Image";
-
-export const ImageUploader = ({ src, size, onChange, onDelete, ...rest }) => {
+export const ImageUpload = ({ src, size = "large", onChange, onDelete, ...props }) => {
     const inputReference = useRef();
 
     const handleUploadClick = () => {
@@ -17,13 +16,18 @@ export const ImageUploader = ({ src, size, onChange, onDelete, ...rest }) => {
     };
 
     return (
-        <div className="flex items-center bg-gray-lighter p-4 space-x-8">
+        <div className="flex items-center rounded bg-gray-lighter p-4 space-x-8">
             <div>
-                <Logo src={src || DEFAULT_IMAGE} size={size} />
+                {src ?
+                    <Logo src={src} size={size}/>:
+                    <div className={clsx(Logo.sizes[size], "flex items-center justify-center")}>
+                        <ImageIcon size="large" className="text-gray"/>
+                    </div>
+                }
             </div>
             <div className="flex flex-col space-y-2">
                 <div className="space-x-1">
-                    <Button variant="outline" color="secondary" onClick={onDelete}>
+                    <Button variant="outline" color="secondary" icon={<TrashIcon />} onClick={onDelete}>
                         Delete
                     </Button>
                     <Button onClick={handleUploadClick}>Upload New Picture</Button>
@@ -34,7 +38,7 @@ export const ImageUploader = ({ src, size, onChange, onDelete, ...rest }) => {
                         multiple={false}
                         accept="image/png,image/jpeg"
                         onChange={handleChange}
-                        {...rest}
+                        {...props}
                     />
                 </div>
                 <div className="text-xs text-gray-darker">
@@ -45,14 +49,9 @@ export const ImageUploader = ({ src, size, onChange, onDelete, ...rest }) => {
     );
 };
 
-ImageUploader.defaulpProps = {
-    src: "",
-    size: "large",
-};
-
-ImageUploader.propTypes = {
+ImageUpload.propTypes = {
     src: PropTypes.string,
-    size: PropTypes.any,
-    onChange: PropTypes.func,
-    onDelete: PropTypes.func,
+    size: PropTypes.oneOf(["small", "medium", "large"]),
+    onChange: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired,
 };

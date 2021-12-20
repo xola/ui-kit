@@ -37,7 +37,7 @@ export { Login } from "./components/Screens/Login";
 export { DatePicker } from "./components/DatePicker/DatePicker";
 export { DatePickerPopover } from "./components/DatePicker/DatePickerPopover";
 export { InlineValuePopover } from "./components/Forms/InlineValuePopover";
-export { ImageUploader } from "./components/ImageUploader";
+export { ImageUpload } from "./components/ImageUpload";
 
 // Utilities
 export { Currency } from "./components/Utilities/Currency";
