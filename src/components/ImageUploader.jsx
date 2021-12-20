@@ -12,8 +12,8 @@ export const ImageUploader = ({ src, size, onChange, onDelete, ...rest }) => {
     };
 
     const handleChange = (event) => {
-        const fileUploaded = event.target.files[0];
-        onChange(fileUploaded);
+        const [file] = event.target.files;
+        onChange(file);
     };
 
     return (
