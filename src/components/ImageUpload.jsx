@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import PropTypes from "prop-types";
-import { Logo, Button, ImageIcon, TrashIcon } from "..";
 import clsx from "clsx";
+import { Logo, Button, ImageIcon, TrashIcon } from "..";
 
 export const ImageUpload = ({ src, size = "large", onChange, onDelete, ...props }) => {
     const inputReference = useRef();
@@ -18,12 +18,13 @@ export const ImageUpload = ({ src, size = "large", onChange, onDelete, ...props 
     return (
         <div className="flex items-center rounded bg-gray-lighter p-4 space-x-8">
             <div>
-                {src ?
-                    <Logo src={src} size={size}/>:
+                {src ? (
+                    <Logo src={src} size={size} />
+                ) : (
                     <div className={clsx(Logo.sizes[size], "flex items-center justify-center")}>
-                        <ImageIcon size="large" className="text-gray"/>
+                        <ImageIcon size="large" className="text-gray" />
                     </div>
-                }
+                )}
             </div>
             <div className="flex flex-col space-y-2">
                 <div className="space-x-1">
