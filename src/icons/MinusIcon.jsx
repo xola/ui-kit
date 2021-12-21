@@ -10,7 +10,7 @@ export const MinusIcon = createIcon((props) => {
                 strokeLinejoin="round"
                 strokeWidth="1.3"
                 d="M13.93 1.447H1.071"
-            ></path>
+            />
         </svg>
     );
 });

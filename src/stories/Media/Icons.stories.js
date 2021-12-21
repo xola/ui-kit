@@ -1,4 +1,4 @@
-import { omitBy, map, first } from "lodash";
+import { map, omitBy } from "lodash";
 import React from "react";
 import * as all from "../..";
 
@@ -44,14 +44,15 @@ const IconList = ({ size, color }) => {
                 if (isNew) {
                     currentLetter = firstLetter;
                 }
+
                 return (
-                    <>
+                    <React.Fragment key={name}>
                         {isNew && <div className="flex-grow mt-3 w-full text-lg font-bold">{firstLetter}</div>}
-                        <div key={name} className="p-2 space-y-2 text-center rounded border border-gray-lighter">
+                        <div className="p-2 space-y-2 text-center rounded border border-gray-lighter">
                             <Icon size={size} className={color} />
                             <div className="w-40 text-gray-dark">{name}</div>
                         </div>
-                    </>
+                    </React.Fragment>
                 );
             })}
         </div>

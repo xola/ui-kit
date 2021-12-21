@@ -10,7 +10,7 @@ export const CollapseIcon = createIcon((props) => {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 d="M1.291 1.236l2.94 2.94v0a.272.272 0 010 .385L1.29 7.5M6.041 1.236l2.94 2.94v0a.272.272 0 010 .385L6.04 7.5"
-            ></path>
+            />
         </svg>
     );
 });
