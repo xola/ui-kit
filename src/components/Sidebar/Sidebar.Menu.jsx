@@ -11,12 +11,12 @@ export const SidebarMenu = ({ children, content, ...rest }) => {
             trigger="mouseenter" // Required otherwise menu will be truncated by the sidebar.
             appendTo={document.body}
             placement="right"
-            offset={[0, 8]}
+            offset={[0, 4]}
             arrow={false}
             className={clsx(
                 "ui-sidebar-menu",
                 styles.main,
-                "!rounded-none bg-black bg-opacity-90 backdrop-filter backdrop-blur-sm p-2 w-56",
+                "!rounded-none bg-black bg-opacity-90 backdrop-filter backdrop-blur-sm p-2",
             )}
             content={content}
             {...rest}
