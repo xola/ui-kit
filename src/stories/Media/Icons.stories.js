@@ -1,4 +1,4 @@
-import { omitBy, map } from "lodash";
+import { map, omitBy } from "lodash";
 import React from "react";
 import * as all from "../..";
 
@@ -35,14 +35,26 @@ const IconsStories = {
 };
 
 const IconList = ({ size, color }) => {
+    let currentLetter = "";
     return (
         <div className="flex flex-row flex-wrap gap-3">
-            {icons.map(({ Icon, name }) => (
-                <div key={name} className="p-2 space-y-2 text-center rounded border border-gray-lighter">
-                    <Icon size={size} className={color} />
-                    <div className="w-40 text-gray-dark">{name}</div>
-                </div>
-            ))}
+            {icons.map(({ Icon, name }) => {
+                const firstLetter = name.slice(0, 1);
+                const isNew = firstLetter !== currentLetter;
+                if (isNew) {
+                    currentLetter = firstLetter;
+                }
+
+                return (
+                    <React.Fragment key={name}>
+                        {isNew && <div className="flex-grow mt-3 w-full text-lg font-bold">{firstLetter}</div>}
+                        <div className="p-2 space-y-2 text-center rounded border border-gray-lighter">
+                            <Icon size={size} className={color} />
+                            <div className="w-40 text-gray-dark">{name}</div>
+                        </div>
+                    </React.Fragment>
+                );
+            })}
         </div>
     );
 };
