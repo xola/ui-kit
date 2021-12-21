@@ -10,12 +10,12 @@ export const SidebarLink = ({ isActive = false, icon: Icon, children, isSubMenuI
             type="button"
             className={clsx(
                 "ui-sidebar-link",
-                "transition-colors leading-none flex items-center xl:justify-start w-full py-3 rounded",
+                "transition-colors leading-none flex items-center xl:justify-start w-full rounded",
                 {
                     "bg-primary text-white hover:bg-primary-dark": isActive,
                     "hover:bg-gray-darker text-gray": !isActive,
-                    "justify-start px-6 leading-p1": isSubMenuItem,
-                    "justify-center xl:px-6": !isSubMenuItem,
+                    "justify-start px-6 py-2": isSubMenuItem,
+                    "justify-center py-3 xl:px-6": !isSubMenuItem,
                 },
             )}
             {...rest}
