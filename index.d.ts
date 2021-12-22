@@ -169,4 +169,5 @@ export {
     WifiIcon,
     WriteIcon,
     XrayIcon,
+    ImageUpload,
 } from "./build/ui-kit.umd";
