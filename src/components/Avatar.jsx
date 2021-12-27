@@ -10,11 +10,20 @@ const sizes = {
     large: "h-15 w-15 text-xl",
 };
 
-export const Avatar = ({ className, name, color = "bg-primary-lighter", size = "large", ...rest }) => {
+const borderRadius = {
+    none: "rounded-none",
+    quarter: "rounded-md",
+    half: "rounded-xl",
+    full: "rounded-full",
+};
+
+// rounded "full", "half" "quarter" "none"
+export const Avatar = ({ className, name, color = "bg-primary-lighter", size = "large", rounded,  ...rest }) => {
     const classes = clsx(
         "ui-avatar",
-        "inline-flex items-center justify-center rounded-full text-black leading-none",
+        "inline-flex items-center justify-center text-black leading-none",
         sizes[size],
+        borderRadius[rounded],
         color,
         className,
     );
