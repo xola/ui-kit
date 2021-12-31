@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import React, { useState } from "react";
+import React, { cloneElement, forwardRef, useState } from "react";
 import { CalendarIcon, DownArrowIcon } from "../..";
 import { formatDate } from "../../helpers/date";
 import { Input } from "../Forms/Input";
@@ -8,7 +8,7 @@ import { Popover } from "../Popover/Popover";
 import { DatePicker } from "./DatePicker";
 
 export const DatePickerPopover = ({
-    value = new Date(),
+    value,
     dateFormat = "ddd, LL",
     onChange,
     children,
@@ -24,22 +24,11 @@ export const DatePickerPopover = ({
 
     const handleChange = (date, options, event) => {
         onChange?.(date, options, event);
+
         if (!options.disabled) {
             setIsVisible(false);
         }
     };
-
-    const dateProps = {
-        size: "medium",
-        placeholder: "Select Date",
-        value: value ? formatDate(value, dateFormat) : "",
-        onClick: toggleVisibility,
-    };
-    const displayElement = children ? (
-        React.cloneElement(children, dateProps)
-    ) : (
-        <DefaultInput readOnly {...dateProps} />
-    );
 
     return (
         <Popover
@@ -51,40 +40,49 @@ export const DatePickerPopover = ({
             onClickOutside={toggleVisibility}
             {...popoverProps}
         >
-            {displayElement}
+            {children ? (
+                cloneElement(children, { onClick: toggleVisibility })
+            ) : (
+                <DefaultInput
+                    readOnly
+                    size="medium"
+                    value={value ? formatDate(value, dateFormat) : ""}
+                    onClick={toggleVisibility}
+                />
+            )}
+
             <Popover.Content>
-                <div>
-                    <DatePicker onChange={handleChange} {...rest} />
-                </div>
+                <DatePicker value={value} onChange={handleChange} {...rest} />
             </Popover.Content>
         </Popover>
     );
 };
 
 DatePickerPopover.propTypes = {
-    value: PropTypes.objectOf(Date).isRequired,
+    ...DatePicker.propTypes,
     dateFormat: PropTypes.string,
     classNames: PropTypes.object,
     popoverProps: PropTypes.object,
-    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
+    children: PropTypes.node,
 };
 
-const DefaultInput = ({ className, ...rest }) => {
+const DefaultInput = forwardRef(({ className, ...rest }, reference) => {
     return (
-        <div className="flex relative bg-gray-lighter">
+        <div ref={reference} className="flex relative bg-gray-lighter">
             <div className="flex absolute inset-0 items-center pl-3 pointer-events-none">
                 <CalendarIcon className="inline-block" />
             </div>
 
-            <Input className={clsx("px-8 cursor-pointer", className)} {...rest} />
+            <Input className={clsx("px-8 cursor-pointer", className)} placeholder="Select Date" {...rest} />
 
             <div className="flex absolute inset-y-0 right-0 items-center pr-3 pointer-events-none">
                 <DownArrowIcon className="inline-block" />
             </div>
         </div>
     );
-};
+});
 
 DefaultInput.propTypes = {
+    // eslint-disable-next-line react/require-default-props
     className: PropTypes.string,
 };
