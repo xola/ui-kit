@@ -1,8 +1,6 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import React, { useState } from "react";
-import { cloneElement } from "react";
-import { forwardRef } from "react";
+import React, { cloneElement, forwardRef, useState } from "react";
 import { CalendarIcon, DownArrowIcon } from "../..";
 import { formatDate } from "../../helpers/date";
 import { Input } from "../Forms/Input";
@@ -54,7 +52,7 @@ export const DatePickerPopover = ({
             )}
 
             <Popover.Content>
-                <DatePicker onChange={handleChange} value={value} {...rest} />
+                <DatePicker value={value} onChange={handleChange} {...rest} />
             </Popover.Content>
         </Popover>
     );
@@ -68,9 +66,9 @@ DatePickerPopover.propTypes = {
     children: PropTypes.node,
 };
 
-const DefaultInput = forwardRef(({ className, ...rest }, ref) => {
+const DefaultInput = forwardRef(({ className, ...rest }, reference) => {
     return (
-        <div ref={ref} className="flex relative bg-gray-lighter">
+        <div ref={reference} className="flex relative bg-gray-lighter">
             <div className="flex absolute inset-0 items-center pl-3 pointer-events-none">
                 <CalendarIcon className="inline-block" />
             </div>
@@ -85,5 +83,6 @@ const DefaultInput = forwardRef(({ className, ...rest }, ref) => {
 });
 
 DefaultInput.propTypes = {
+    // eslint-disable-next-line react/require-default-props
     className: PropTypes.string,
 };
