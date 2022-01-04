@@ -1,9 +1,9 @@
 import React, { useRef } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
-import { Logo, Button, ImageIcon, TrashIcon } from "..";
+import { Logo, Button, Spinner, ImageIcon, TrashIcon } from "..";
 
-export const ImageUpload = ({ src, size = "large", onChange, onDelete, ...props }) => {
+export const ImageUpload = ({ src, size = "large", onChange, onDelete, isLoading = false, ...props }) => {
     const inputReference = useRef();
 
     const handleUploadClick = () => {
@@ -28,10 +28,10 @@ export const ImageUpload = ({ src, size = "large", onChange, onDelete, ...props 
             </div>
             <div className="flex flex-col space-y-2">
                 <div className="space-x-1">
-                    <Button variant="outline" color="secondary" icon={<TrashIcon />} onClick={onDelete}>
+                    <Button variant="outline" color="secondary" icon={<TrashIcon />} onClick={onDelete} disabled={isLoading}>
                         Delete
                     </Button>
-                    <Button onClick={handleUploadClick}>Upload New Picture</Button>
+                    <Button onClick={handleUploadClick} disabled={isLoading}>Upload New Picture</Button>
                     <input
                         ref={inputReference}
                         className="hidden"
@@ -41,6 +41,7 @@ export const ImageUpload = ({ src, size = "large", onChange, onDelete, ...props 
                         onChange={handleChange}
                         {...props}
                     />
+                    {isLoading && <Spinner/>}
                 </div>
                 <div className="text-xs text-gray-darker">
                     Check that the image is in PNG or JPG format and does not exceed 5 MB
@@ -55,4 +56,5 @@ ImageUpload.propTypes = {
     size: PropTypes.oneOf(["small", "medium", "large"]),
     onChange: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
+    isLoading: PropTypes.boolean,
 };
