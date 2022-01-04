@@ -35,10 +35,16 @@ const ImageUploadStories = {
                 defaultValue: { summary: "medium" },
             },
         },
+        isLoading: {
+            control: { type: "boolean" },
+            table: {
+                defaultValue: { summary: false },
+            },
+        },
     },
 };
 
-export const Default = ({ src: source, size = "small" }) => {
+export const Default = ({ src: source, size = "small", isLoading }) => {
     const [source_, setSource] = React.useState(source);
 
     React.useEffect(() => {
@@ -58,7 +64,7 @@ export const Default = ({ src: source, size = "small" }) => {
         setSource(undefined);
     };
 
-    return <ImageUpload src={source_} size={size} onChange={onChange} onDelete={onDelete} />;
+    return <ImageUpload src={source_} size={size} isLoading={isLoading} onChange={onChange} onDelete={onDelete} />;
 };
 
 export default ImageUploadStories;
