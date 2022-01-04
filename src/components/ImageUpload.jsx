@@ -28,10 +28,18 @@ export const ImageUpload = ({ src, size = "large", onChange, onDelete, isLoading
             </div>
             <div className="flex flex-col space-y-2">
                 <div className="space-x-1">
-                    <Button variant="outline" color="secondary" icon={<TrashIcon />} onClick={onDelete} disabled={isLoading}>
+                    <Button
+                        variant="outline"
+                        color="secondary"
+                        icon={<TrashIcon />}
+                        disabled={isLoading}
+                        onClick={onDelete}
+                    >
                         Delete
                     </Button>
-                    <Button onClick={handleUploadClick} disabled={isLoading}>Upload New Picture</Button>
+                    <Button disabled={isLoading} onClick={handleUploadClick}>
+                        Upload New Picture
+                    </Button>
                     <input
                         ref={inputReference}
                         className="hidden"
@@ -41,7 +49,7 @@ export const ImageUpload = ({ src, size = "large", onChange, onDelete, isLoading
                         onChange={handleChange}
                         {...props}
                     />
-                    {isLoading && <Spinner/>}
+                    {isLoading && <Spinner />}
                 </div>
                 <div className="text-xs text-gray-darker">
                     Check that the image is in PNG or JPG format and does not exceed 5 MB
@@ -56,5 +64,5 @@ ImageUpload.propTypes = {
     size: PropTypes.oneOf(["small", "medium", "large"]),
     onChange: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
-    isLoading: PropTypes.boolean,
+    isLoading: PropTypes.bool,
 };

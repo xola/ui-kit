@@ -64,7 +64,7 @@ export const Default = ({ src: source, size = "small", isLoading }) => {
         setSource(undefined);
     };
 
-    return <ImageUpload src={source_} size={size} onChange={onChange} onDelete={onDelete} isLoading={isLoading}/>;
+    return <ImageUpload src={source_} size={size} isLoading={isLoading} onChange={onChange} onDelete={onDelete} />;
 };
 
 export default ImageUploadStories;
