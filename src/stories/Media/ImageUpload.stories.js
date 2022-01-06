@@ -13,6 +13,7 @@ const ImageUploadStories = {
     },
     args: {
         size: "medium",
+        maxSize: 5,
     },
     argTypes: {
         src: {
@@ -41,10 +42,14 @@ const ImageUploadStories = {
                 defaultValue: { summary: false },
             },
         },
+        maxSize: {
+            description: "Max file size",
+            control: { type: "number" },
+        },
     },
 };
 
-export const Default = ({ src: source, size = "small", isLoading }) => {
+export const Default = ({ src: source, size = "small", maxSize, isLoading }) => {
     const [source_, setSource] = React.useState(source);
 
     React.useEffect(() => {
@@ -64,7 +69,17 @@ export const Default = ({ src: source, size = "small", isLoading }) => {
         setSource(undefined);
     };
 
-    return <ImageUpload src={source_} size={size} isLoading={isLoading} onChange={onChange} onDelete={onDelete} />;
+    return (
+        <ImageUpload
+            src={source_}
+            size={size}
+            isLoading={isLoading}
+            maxSize={maxSize}
+            onChange={onChange}
+            onDelete={onDelete}
+            onError={(error) => console.log(error)}
+        />
+    );
 };
 
 export default ImageUploadStories;
