@@ -13,7 +13,7 @@ const ImageUploadStories = {
     },
     args: {
         size: "medium",
-        maxSize: 10_000,
+        maxSize: 5,
     },
     argTypes: {
         src: {

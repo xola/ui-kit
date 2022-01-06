@@ -1,7 +1,6 @@
 import React, { useRef } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
-import filesize from "filesize";
 import { Logo, Button, Spinner, ImageIcon, TrashIcon } from "..";
 
 export const ImageUpload = ({
@@ -11,7 +10,7 @@ export const ImageUpload = ({
     onDelete,
     onError,
     isLoading = false,
-    maxSize = 5_000_000,
+    maxSize = 5,
     ...props
 }) => {
     const inputReference = useRef();
@@ -23,7 +22,7 @@ export const ImageUpload = ({
     const handleChange = (event) => {
         const [file] = event.target.files;
 
-        if (maxSize && maxSize < file.size) {
+        if (maxSize && (1_000_000 * maxSize) < file.size) {
             onError(`Image size shouldn't exceed ${filesize(maxSize)}`);
             return;
         }
@@ -69,7 +68,7 @@ export const ImageUpload = ({
                 </div>
                 <div className="text-xs text-gray-darker">
                     Check that the image is in PNG or JPG format
-                    {maxSize ? ` and does not exceed ${filesize(maxSize)}` : ""}
+                    {maxSize ? ` and does not exceed ${maxSize}MB` : ""}
                 </div>
             </div>
         </div>
