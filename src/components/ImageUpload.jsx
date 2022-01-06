@@ -22,7 +22,7 @@ export const ImageUpload = ({
     const handleChange = (event) => {
         const [file] = event.target.files;
 
-        if (maxSize && 1_000_000 * maxSize < file.size) {
+        if (maxSize && 1_048_576 * maxSize < file.size) {
             onError(`Image size shouldn't exceed ${maxSize}MB`);
             return;
         }
