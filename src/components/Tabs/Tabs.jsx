@@ -1,6 +1,8 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import React, { Children, cloneElement } from "react";
+import { Panel } from "./Tabs.Panel";
+import { Tab } from "./Tabs.Tab";
 
 export const Tabs = ({ className, value, onChange, children, ...rest }) => {
     const childrenArray = Children.toArray(children);
@@ -34,35 +36,5 @@ Tabs.propTypes = {
     children: PropTypes.node.isRequired,
 };
 
-const Tab = ({ as: Tag = "button", className, isActive = false, ...rest }) => {
-    return (
-        <Tag
-            className={clsx(
-                "ui-tabs-tab",
-                className,
-                "transition-colors cursor-pointer p-4 flex-1 text-center text-lg font-semibold whitespace-nowrap focus-visible:ring",
-                isActive ? "bg-white text-black" : "text-gray-dark hover:text-black hover:bg-gray-light",
-            )}
-            {...rest}
-        />
-    );
-};
-
-Tab.displayName = "Tabs.Tab";
-Tab.propTypes = {
-    as: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]),
-    className: PropTypes.string,
-    isActive: PropTypes.bool,
-};
 Tabs.Tab = Tab;
-
-const Panel = ({ isActive = false, className, ...rest }) => {
-    return <div className={clsx("ui-tabs-panel", className, isActive || "hidden")} {...rest} />;
-};
-
-Panel.displayName = "Tabs.Panel";
-Panel.propTypes = {
-    isActive: PropTypes.bool,
-    className: PropTypes.string,
-};
 Tabs.Panel = Panel;
