@@ -31,7 +31,7 @@ export const ImageUpload = ({
     };
 
     return (
-        <div className="flex items-center rounded bg-gray-lighter p-4 space-x-8">
+        <div className="flex items-center p-4 space-x-8 rounded bg-gray-lighter">
             <div>
                 {src ? (
                     <Logo src={src} size={size} />
