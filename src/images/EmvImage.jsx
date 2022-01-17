@@ -2,7 +2,7 @@ import clsx from "clsx";
 import React from "react";
 import { createIcon } from "../helpers/icon";
 
-export const EmvImage = createIcon((className, ...rest) => {
+export const EmvImage = createIcon(({ className, ...rest }) => {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"

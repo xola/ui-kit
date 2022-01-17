@@ -2,7 +2,7 @@ import clsx from "clsx";
 import React from "react";
 import { createIcon } from "../helpers/icon";
 
-export const ComputerImage = createIcon((className, ...rest) => {
+export const ComputerImage = createIcon(({ className, ...rest }) => {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
