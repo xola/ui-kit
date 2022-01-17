@@ -1,9 +1,19 @@
 import React from "react";
 import { createIcon } from "../helpers/icon";
 
-export const EmvIcon = createIcon((props) => {
+export const EmvImage = createIcon((props) => {
+    const className = `${props.className ?? ""} w-[103px] h-[102px]`;
+    const newProps = { ...props, className };
+
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" width="103" height="102" fill="none" viewBox="0 0 103 102" {...props}>
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="103"
+            height="102"
+            fill="none"
+            viewBox="0 0 103 102"
+            {...newProps}
+        >
             <circle cx="51.5" cy="51" r="51" fill="#F0F2F4" />
             <mask
                 id="path-2-outside-1_3545_71298"
