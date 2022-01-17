@@ -1,11 +1,8 @@
+import clsx from "clsx";
 import React from "react";
 import { createIcon } from "../helpers/icon";
 
-export const ComputerImage = createIcon((props) => {
-    // This icon should be width 103px and height 102px
-    const className = `${props.className ?? ""} h-[102px] w-[103px]`;
-    const newProps = { ...props, className };
-
+export const ComputerImage = createIcon((className, ...rest) => {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -13,7 +10,8 @@ export const ComputerImage = createIcon((props) => {
             height="102"
             fill="none"
             viewBox="0 0 103 102"
-            {...newProps}
+            className={clsx("w-[103px] h-[102px]", className)}
+            {...rest}
         >
             <circle cx="51.5" cy="51" r="51" fill="#F0F2F4" />
             <path

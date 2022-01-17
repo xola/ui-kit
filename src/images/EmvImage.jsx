@@ -1,10 +1,8 @@
+import clsx from "clsx";
 import React from "react";
 import { createIcon } from "../helpers/icon";
 
-export const EmvImage = createIcon((props) => {
-    const className = `${props.className ?? ""} w-[103px] h-[102px]`;
-    const newProps = { ...props, className };
-
+export const EmvImage = createIcon((className, ...rest) => {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -12,7 +10,8 @@ export const EmvImage = createIcon((props) => {
             height="102"
             fill="none"
             viewBox="0 0 103 102"
-            {...newProps}
+            className={clsx("w-[103px] h-[102px]", className)}
+            {...rest}
         >
             <circle cx="51.5" cy="51" r="51" fill="#F0F2F4" />
             <mask

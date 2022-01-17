@@ -34,7 +34,7 @@ const ImagesStories = {
     },
 };
 
-const ImageList = ({ size, color }) => {
+const ImageList = ({ color }) => {
     let currentLetter = "";
     return (
         <div className="flex flex-row flex-wrap gap-3">
@@ -49,7 +49,9 @@ const ImageList = ({ size, color }) => {
                     <React.Fragment key={name}>
                         {isNew && <div className="flex-grow mt-3 w-full text-lg font-bold">{firstLetter}</div>}
                         <div className="p-2 space-y-2 text-center rounded border border-gray-lighter">
-                            <Image size={size} className={color} />
+                            <div className="flex justify-center">
+                                <Image className={color} />
+                            </div>
                             <div className="w-40 text-gray-dark">{name}</div>
                         </div>
                     </React.Fragment>

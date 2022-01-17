@@ -1,10 +1,8 @@
+import clsx from "clsx";
 import React from "react";
 import { createIcon } from "../helpers/icon";
 
-export const VerifoneImage = createIcon((props) => {
-    const className = `${props.className ?? ""} w-[27px] h-[26px]`;
-    const newProps = { ...props, className };
-
+export const VerifoneImage = createIcon((className, ...rest) => {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -13,7 +11,8 @@ export const VerifoneImage = createIcon((props) => {
             height="26"
             fill="none"
             viewBox="0 0 27 26"
-            {...newProps}
+            className={clsx("w-[27px] h-[26px]", className)}
+            {...rest}
         >
             <rect width="23.04" height="23.04" x="1.869" y="1.48" fill="url(#pattern0)" rx="1.92" />
             <defs>
