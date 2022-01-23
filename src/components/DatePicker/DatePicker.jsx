@@ -97,7 +97,7 @@ DatePicker.propTypes = {
     value: PropTypes.objectOf(Date),
     onChange: PropTypes.func.isRequired,
     onMonthChange: PropTypes.func,
-    disabledDays: PropTypes.oneOfType([PropTypes.array, PropTypes.func]),
+    disabledDays: PropTypes.oneOfType([PropTypes.object, PropTypes.array, PropTypes.func]),
     shouldShowYearPicker: PropTypes.bool,
     getDayContent: PropTypes.func,
     modifiers: PropTypes.object,

@@ -1,4 +1,4 @@
-import _ from "lodash";
+import { merge } from "lodash";
 import { theme } from "../../theme";
 import { BaseChartOptions } from "./BaseChartOptions";
 
@@ -7,7 +7,7 @@ import { BaseChartOptions } from "./BaseChartOptions";
  * for all defaults for a histogram. This should ideally be extended by business-specific implementations like
  * revenue graph, turnover etc.
  */
-export const HistogramOptions = _.merge({}, BaseChartOptions, {
+export const HistogramOptions = merge({}, BaseChartOptions, {
     chart: {
         type: "line",
     },

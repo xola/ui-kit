@@ -8,6 +8,7 @@ import { SidebarButton } from "./Sidebar.Button";
 import { SidebarFooter } from "./Sidebar.Footer";
 import { SidebarLink } from "./Sidebar.Link";
 import { SidebarMenu } from "./Sidebar.Menu";
+import { SidebarHeading } from "./Sidebar.Heading";
 
 export const Sidebar = ({ children, className, footer, notifications, isFixed = true, onLogoClick }) => {
     return (
@@ -15,7 +16,7 @@ export const Sidebar = ({ children, className, footer, notifications, isFixed = 
             className={clsx(
                 "ui-sidebar",
                 isFixed ? "fixed" : "relative",
-                "w-16 md:w-24 xl:w-50 h-full p-2 overflow-y-auto bg-black text-white flex flex-col",
+                "w-16 md:w-24 xl:w-50 h-full py-2 px-1 overflow-y-auto bg-black text-white flex flex-col",
                 className,
             )}
         >
@@ -53,3 +54,4 @@ Sidebar.Button = SidebarButton;
 Sidebar.Footer = SidebarFooter;
 Sidebar.Link = SidebarLink;
 Sidebar.Menu = SidebarMenu;
+Sidebar.Heading = SidebarHeading;

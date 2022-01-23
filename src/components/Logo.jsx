@@ -12,6 +12,8 @@ export const Logo = ({ className, size = "small", ...rest }) => {
     return <img className={clsx("ui-logo", className, "inline-block rounded object-cover", sizes[size])} {...rest} />;
 };
 
+Logo.sizes = sizes;
+
 Logo.propTypes = {
     className: PropTypes.string,
     src: PropTypes.string.isRequired,

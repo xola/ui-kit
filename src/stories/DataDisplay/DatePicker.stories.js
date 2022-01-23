@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
-import _ from "lodash";
+import { random } from "lodash";
 import React, { useState } from "react";
-import { DatePicker, DatePickerPopover, theme } from "../..";
+import { DatePicker, DatePickerPopover, theme, Button } from "../..";
 
 const DatePickerStories = {
     title: "Data Display/Date & Time/Date Picker",
@@ -136,13 +136,13 @@ addDescription(
 
 const customContent = [null];
 for (let day = 1; day <= dayjs().daysInMonth(); day++) {
-    customContent.push("$" + _.random(1, 200));
+    customContent.push("$" + random(1, 200));
 }
 
-customContent[_.random(1, dayjs().daysInMonth())] = "Please Call/Email";
-customContent[_.random(1, dayjs().daysInMonth())] = "Sold Out";
-customContent[_.random(1, dayjs().daysInMonth())] = "Sold Out";
-customContent[_.random(1, dayjs().daysInMonth())] = "205 spots";
+customContent[random(1, dayjs().daysInMonth())] = "Please Call/Email";
+customContent[random(1, dayjs().daysInMonth())] = "Sold Out";
+customContent[random(1, dayjs().daysInMonth())] = "Sold Out";
+customContent[random(1, dayjs().daysInMonth())] = "205 spots";
 
 export const WithCustomContent = () => {
     const [value, setValue] = useState(new Date());
@@ -167,14 +167,25 @@ export const DateRange = () => {
 export const PickerWithInput = () => {
     const [date, setDate] = useState(new Date());
     const disabledDays = [{ daysOfWeek: [0] }]; // Disable all Sunday
+
     const handleChange = (date, options) => {
         if (!options.disabled) {
             setDate(date);
         }
     };
 
+    const handleClearDateClick = () => {
+        setDate(null);
+    };
+
     return (
-        <div className="h-[300px]">
+        <div className="h-[300px] w-75">
+            <div>
+                <Button className="mb-4" onClick={handleClearDateClick}>
+                    Clear Date
+                </Button>
+            </div>
+
             <DatePickerPopover shouldShowYearPicker value={date} disabledDays={disabledDays} onChange={handleChange} />
         </div>
     );

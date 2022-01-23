@@ -17,7 +17,7 @@ export const Popover = ({ className, children, skidding = 0, distance = 10, ...r
             interactive
             zIndex={20}
             content={content}
-            className={clsx("ui-popover", styles.main, "!border-gray-light !rounded-lg", className)}
+            className={clsx("ui-popover", styles.main, "!border-gray-light !rounded-lg shadow-xl", className)}
             plugins={[followCursor]}
             offset={[skidding ?? 0, distance ?? 10]}
             {...rest}

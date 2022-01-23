@@ -122,6 +122,7 @@ module.exports = {
             60: "240px",
             64: "256px",
             72: "288px",
+            75: "300px",
             80: "320px",
             82: "350px",
             96: "384px",
@@ -154,6 +155,7 @@ module.exports = {
         extend: {
             fontFamily: {
                 sans: ["Inter", ...defaultTheme.fontFamily.sans],
+                mono: ["Roboto Mono", ...defaultTheme.fontFamily.mono]
             },
 
             // P1 - Big 16px 130%

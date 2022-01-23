@@ -37,7 +37,7 @@ const ButtonStories = {
 
 export const Default = (props) => {
     return (
-        <div className="flex flex-col w-20 space-y-4">
+        <div className="flex flex-col space-y-4 w-20">
             <Button {...props}>Default</Button>
             <Button disabled color="primary" {...props}>
                 Default

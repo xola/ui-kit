@@ -11,6 +11,9 @@ const TabsStories = {
             },
         },
     },
+    args: {
+        variant: "default",
+    },
     argTypes: {
         className: {
             description: "Classnames that should be applied to the tab *container*",
@@ -19,22 +22,32 @@ const TabsStories = {
                 type: { summary: "e.g. bg-blue-light" },
             },
         },
+        variant: {
+            options: ["default", "simple"],
+            control: { type: "select" },
+        },
     },
 };
 
-export const Default = ({ className }) => {
+export const Default = ({ className, variant }) => {
     const [activeTab, setActiveTab] = useState(0);
 
     return (
-        <Tabs value={activeTab} className={className} onChange={(value) => setActiveTab(value)}>
-            <Tabs.Tab isActive>Seller Details</Tabs.Tab>
-            <Tabs.Panel isActive>Seller Details Content</Tabs.Panel>
+        <Tabs variant={variant} value={activeTab} className={className} onChange={(value) => setActiveTab(value)}>
+            <Tabs.Tab>Seller Details</Tabs.Tab>
+            <Tabs.Panel>Seller Details Content</Tabs.Panel>
+
             <Tabs.Tab>More Stats</Tabs.Tab>
             <Tabs.Panel>More Stats Content</Tabs.Panel>
+
             <Tabs.Tab>Invoices</Tabs.Tab>
             <Tabs.Panel>Invoices Content</Tabs.Panel>
+
             <Tabs.Tab>App Store</Tabs.Tab>
-            <Tabs.Tab>Admin Tools</Tabs.Tab>
+            <Tabs.Panel>App Store Content</Tabs.Panel>
+
+            <Tabs.Tab isHidden>Admin Tools</Tabs.Tab>
+            <Tabs.Panel>Admin Tools Content</Tabs.Panel>
         </Tabs>
     );
 };

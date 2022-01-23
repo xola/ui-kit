@@ -87,7 +87,7 @@ export {
     HiddenIcon,
     HiddenIcon,
     HistogramOptions,
-    HomeIcon,
+    StoreCreditIcon,
     ImageIcon,
     InfinityIcon,
     InfoCircleIcon,
@@ -169,4 +169,5 @@ export {
     WifiIcon,
     WriteIcon,
     XrayIcon,
+    ImageUpload,
 } from "./build/ui-kit.umd";

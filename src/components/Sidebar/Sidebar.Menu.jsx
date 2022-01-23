@@ -8,20 +8,20 @@ export const SidebarMenu = ({ children, content, ...rest }) => {
     return (
         <Tippy
             interactive
-            trigger="click" // Required otherwise menu will be truncated by the sidebar.
+            trigger="mouseenter" // Required otherwise menu will be truncated by the sidebar.
             appendTo={document.body}
             placement="right"
-            offset={[0, 20]}
+            offset={[0, 4]}
             arrow={false}
             className={clsx(
                 "ui-sidebar-menu",
                 styles.main,
-                "!rounded-none bg-black bg-opacity-90 backdrop-filter backdrop-blur-sm p-2 w-56",
+                "!rounded-none bg-black bg-opacity-90 backdrop-filter backdrop-blur-sm p-2",
             )}
             content={content}
             {...rest}
         >
-            <span>{children}</span>
+            <span className="block">{children}</span>
         </Tippy>
     );
 };
