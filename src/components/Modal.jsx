@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import React, { Fragment } from "react";
 import { Skeleton } from "..";
 import { CloseIcon } from "../icons/CloseIcon";
-import { FadeIn } from "./Animations/FadeIn";
+import { FadeIn } from "./Animation/FadeIn";
 
 const sizes = {
     small: "max-w-[400px]",
