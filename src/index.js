@@ -38,7 +38,6 @@ export { Key } from "./components/Key";
 export { Login } from "./components/Screens/Login";
 export { DatePicker } from "./components/DatePicker/DatePicker";
 export { DatePickerPopover } from "./components/DatePicker/DatePickerPopover";
-export { FadeIn } from "./components/Animations/FadeIn";
 export { InlineValuePopover } from "./components/Forms/InlineValuePopover";
 export { ImageUpload } from "./components/ImageUpload";
 

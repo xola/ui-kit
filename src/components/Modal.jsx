@@ -123,11 +123,11 @@ const BodySkeleton = () => {
     return (
         <>
             <div className="space-y-2 w-full">
-                <Skeleton height="18px" classNames={{ container: "w-full h-16" }}>
+                <Skeleton height={18} classNames={{ container: "w-full h-16" }}>
                     <div className="w-full" />
                 </Skeleton>
                 <Skeleton
-                    height="80px"
+                    height={80}
                     classNames={{
                         container: "flex flex-col justify-between w-full h-20 !border-none !bg-white",
                     }}
@@ -143,7 +143,7 @@ const BodySkeleton = () => {
                 </Skeleton>
             </div>
             <Skeleton
-                height="100px"
+                height={100}
                 classNames={{
                     container: "flex flex-col space-y-2 justify-start w-full !border-none !bg-white",
                 }}
@@ -176,12 +176,12 @@ Modal.Footer = Footer;
 
 const FooterSkeleton = () => {
     return (
-        <Skeleton height="64px" classNames={{ container: "!bg-white !border-none" }}>
+        <Skeleton height={64} classNames={{ container: "!bg-white !border-none" }}>
             <div className="flex justify-end space-x-2 flex-cols-reverse">
-                <div className="flex justify-center items-center px-4.5 py-3 h-[40px] w-20 bg-gray-lighter leading-base">
+                <div className="flex justify-center items-center px-4.5 py-3 h-[40px] w-20 bg-gray-lighter leading-base rounded">
                     Cancel
                 </div>
-                <div className="flex justify-center items-center px-4.5 py-3 h-[40px] w-20 bg-gray-lighter font-bold leading-base">
+                <div className="flex justify-center items-center px-4.5 py-3 h-[40px] w-20 bg-gray-lighter font-bold leading-base rounded">
                     Submit
                 </div>
             </div>
