@@ -123,33 +123,26 @@ const BodySkeleton = () => {
     return (
         <>
             <div className="space-y-2 w-full">
-                <Skeleton height={18} classNames={{ container: "w-full h-16" }}>
-                    <div className="w-full" />
-                </Skeleton>
                 <Skeleton
                     height={80}
                     classNames={{
                         container: "flex flex-col justify-between w-full h-20 !border-none !bg-white",
                     }}
                 >
-                    <div className="flex flex-row justify-between space-x-2">
-                        <div className="w-16 h-16 rounded bg-gray-lighter" />
-                        <div className="flex flex-col justify-between space-y-1 w-full">
-                            <div className="h-5 rounded bg-gray-lighter" />
-                            <div className="h-5 rounded bg-gray-lighter" />
-                            <div className="h-4 rounded bg-gray-lighter" />
-                        </div>
+                    <div className="flex flex-col justify-between space-y-1 w-full">
+                        <div className="h-5 rounded bg-gray-lighter" />
+                        <div className="h-5 rounded bg-gray-lighter" />
+                        <div className="h-5 rounded bg-gray-lighter" />
                     </div>
                 </Skeleton>
             </div>
             <Skeleton
-                height={100}
+                height={80}
                 classNames={{
                     container: "flex flex-col space-y-2 justify-start w-full !border-none !bg-white",
                 }}
             >
                 <div className="flex flex-col justify-between space-y-2 w-full">
-                    <div className="w-full h-4 bg-gray-lighter" />
                     <div className="w-full h-4 bg-gray-lighter" />
                     <div className="w-full h-4 bg-gray-lighter" />
                     <div className="w-full h-4 bg-gray-lighter" />
@@ -182,7 +175,7 @@ const FooterSkeleton = () => {
                     Cancel
                 </div>
                 <div className="flex justify-center items-center px-4.5 py-3 h-[40px] w-20 bg-gray-lighter font-bold leading-base rounded">
-                    Submit
+                    Save
                 </div>
             </div>
         </Skeleton>

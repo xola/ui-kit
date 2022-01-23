@@ -74,7 +74,7 @@ export const WithSkeletonLoader = ({ size = "small" }) => {
     useEffect(() => {
         setIsLoading(isOpen);
         if (isOpen) {
-            setTimeout(() => setIsLoading(false), 2000);
+            setTimeout(() => setIsLoading(false), 200000);
         }
     }, [isOpen]);
 
