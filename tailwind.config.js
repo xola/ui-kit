@@ -57,10 +57,7 @@ const colors = {
 };
 
 module.exports = {
-    mode: "jit",
-    darkMode: false,
-
-    purge: [
+    content: [
         "./src/**/*.js",
         "./src/**/*.jsx",
         "./src/**/*.ts",
@@ -155,7 +152,7 @@ module.exports = {
         extend: {
             fontFamily: {
                 sans: ["Inter", ...defaultTheme.fontFamily.sans],
-                mono: ["Roboto Mono", ...defaultTheme.fontFamily.mono]
+                mono: ["Roboto Mono", ...defaultTheme.fontFamily.mono],
             },
 
             // P1 - Big 16px 130%
