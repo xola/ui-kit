@@ -15,7 +15,7 @@
 }
 
 .border-danger .ui-combo-box__control {
-    @apply !border-danger;
+    @apply !border-red;
 }
 
 /* Placeholder text color */
