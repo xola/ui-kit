@@ -87,6 +87,7 @@ export const DatePicker = ({
             navbarElement={NavbarElement}
             onDayClick={handleDayClick}
             onMonthChange={handleMonthChange}
+            onTodayButtonClick={handleDayClick}
             {...rest}
         />
     );
