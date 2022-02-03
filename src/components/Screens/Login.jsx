@@ -50,6 +50,7 @@ export const Login = ({ defaultValues, isLoading = false, error = null, onSubmit
                                         value={values.email}
                                         isError={!!error}
                                         onChange={handleInputChange}
+                                        autoFocus
                                     />
                                 </FormGroup>
 
@@ -85,7 +86,7 @@ export const Login = ({ defaultValues, isLoading = false, error = null, onSubmit
                             <div className="mt-5 text-sm text-center">
                                 <a
                                     // TODO: Link should be changed to the right environment
-                                    href="https://xola.com/resetting/form"
+                                    href="https://x2.staging.xola.com/resetting/form"
                                     className="font-semibold underline hover:text-black text-gray-darker"
                                     target="_blank"
                                     rel="noreferrer"
