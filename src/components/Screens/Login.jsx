@@ -50,7 +50,6 @@ export const Login = ({ defaultValues, isLoading = false, error = null, onSubmit
                                         value={values.email}
                                         isError={!!error}
                                         onChange={handleInputChange}
-                                        autoFocus
                                     />
                                 </FormGroup>
 
