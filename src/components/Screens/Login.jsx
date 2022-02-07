@@ -121,4 +121,5 @@ Login.propTypes = {
     isLoading: PropTypes.bool,
     error: PropTypes.string,
     onSubmit: PropTypes.func,
+    forgotPasswordURL: PropTypes.string,
 };
