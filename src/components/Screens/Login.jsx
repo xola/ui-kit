@@ -10,7 +10,7 @@ import { Label } from "../Forms/Label";
 import { Spinner } from "../Spinner";
 import "./Login.css";
 
-export const Login = ({ defaultValues, isLoading = false, error = null, onSubmit, forgotPasswordURL }) => {
+export const Login = ({ defaultValues, isLoading = false, error = null, onSubmit, passwordResetUrl }) => {
     const [values, setValues] = useState({ email: "", password: "", shouldRemember: false, ...defaultValues });
 
     const handleInputChange = (event) => {
@@ -84,8 +84,7 @@ export const Login = ({ defaultValues, isLoading = false, error = null, onSubmit
 
                             <div className="mt-5 text-sm text-center">
                                 <a
-                                    // TODO: Link should be changed to the right environment
-                                    href={forgotPasswordURL}
+                                    href={passwordResetUrl}
                                     className="font-semibold underline hover:text-black text-gray-darker"
                                     target="_blank"
                                     rel="noreferrer"
@@ -121,5 +120,5 @@ Login.propTypes = {
     isLoading: PropTypes.bool,
     error: PropTypes.string,
     onSubmit: PropTypes.func,
-    forgotPasswordURL: PropTypes.string,
+    passwordResetUrl: PropTypes.string,
 };
