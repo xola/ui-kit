@@ -10,7 +10,7 @@ export const EmptyChecklistIcon = createIcon((props) => {
                 width={4}
                 height={4}
                 rx={1.333}
-                stroke="#222324"
+                stroke="currentColor"
                 strokeLinecap="round"
                 strokeLinejoin="round"
             />
@@ -20,11 +20,11 @@ export const EmptyChecklistIcon = createIcon((props) => {
                 width={4}
                 height={4}
                 rx={1.333}
-                stroke="#222324"
+                stroke="currentColor"
                 strokeLinecap="round"
                 strokeLinejoin="round"
             />
-            <path d="M7.667 4h4M7.667 10h4" stroke="#222324" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M7.667 4h4M7.667 10h4" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
     );
 });
