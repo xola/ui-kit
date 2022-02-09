@@ -3,18 +3,18 @@ import { createIcon } from "../helpers/icon";
 
 export const DashboardIcon = createIcon((props) => {
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="none" viewBox="0 0 17 17" {...props}>
+        <svg viewBox="0 0 14 14" width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
             <path
+                d="M8.08 4.525L6.9 8.065M11.846 10.117v0a8.262 8.262 0 00-9.892 0"
                 stroke="currentColor"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                d="M9.91 5.436L8.425 9.891M14.649 12.474v0a10.396 10.396 0 00-12.449 0"
             />
             <path
+                d="M11.072 2.728a5.9 5.9 0 11-8.344 8.344 5.9 5.9 0 018.344-8.344"
                 stroke="currentColor"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                d="M13.675 3.175a7.425 7.425 0 11-10.5 10.5 7.425 7.425 0 0110.5-10.5"
             />
         </svg>
     );

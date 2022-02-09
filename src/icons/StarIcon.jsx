@@ -3,20 +3,13 @@ import { createIcon } from "../helpers/icon";
 
 export const StarIcon = createIcon((props) => {
     return (
-        <svg viewBox="0 0 14 14" width={15} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
-            <g clipPath="url(#prefix__clip0)">
-                <path
-                    d="M8.055 1.239L9.84 4.774l3.434.34a.437.437 0 01.367.283.427.427 0 01-.102.45l-2.83 2.8 1.049 3.807a.428.428 0 01-.144.446.438.438 0 01-.47.053L7.666 11.23l-3.478 1.725a.438.438 0 01-.608-.255.426.426 0 01-.005-.244l1.048-3.808-2.83-2.804a.429.429 0 01.265-.732l3.434-.34 1.785-3.535A.432.432 0 017.667 1a.438.438 0 01.388.239z"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                />
-            </g>
-            <defs>
-                <clipPath id="prefix__clip0">
-                    <path fill="#fff" transform="translate(.666)" d="M0 0h14v14H0z" />
-                </clipPath>
-            </defs>
+        <svg viewBox="0 0 14 14" width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+            <path
+                d="M7.324 2.199l1.488 2.946 2.861.283a.364.364 0 01.306.236.356.356 0 01-.085.375L9.536 8.373l.874 3.172a.356.356 0 01-.12.372.364.364 0 01-.392.044L7 10.525l-2.898 1.437a.364.364 0 01-.507-.212.355.355 0 01-.004-.203l.873-3.174-2.358-2.336a.357.357 0 01.22-.61l2.862-.284 1.488-2.945A.36.36 0 017 2a.365.365 0 01.324.2z"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
         </svg>
     );
 });

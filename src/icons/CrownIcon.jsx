@@ -3,12 +3,18 @@ import { createIcon } from "../helpers/icon";
 
 export const CrownIcon = createIcon((props) => {
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="none" viewBox="0 0 15 15" {...props}>
+        <svg viewBox="0 0 14 14" width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
             <path
+                d="M11.175 2.826c2.3 2.3 2.3 6.048 0 8.348a5.912 5.912 0 01-8.349 0 5.912 5.912 0 010-8.348c2.301-2.301 5.982-2.301 8.349 0z"
                 stroke="currentColor"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                d="M1.701 10.147c0 .456.39.828.887.828H12.78c.487 0 .886-.372.886-.828v-4.47a.439.439 0 00-.452-.414.442.442 0 00-.292.1l-2.819 2.293-2.322-2.533a.47.47 0 00-.629-.05.232.232 0 00-.053.041L4.777 7.64 2.428 5.445v0a.47.47 0 00-.629-.009.377.377 0 00-.133.29l.035 4.421z"
+            />
+            <path
+                d="M9.926 9.005H4.009c-.197 0-.328-.131-.328-.328V5.718c0-.263.328-.46.526-.263L5.52 6.507l1.184-1.249a.318.318 0 01.46 0l1.183 1.25 1.315-1.053c.197-.197.526 0 .526.263v2.959c.066.197-.066.328-.263.328z"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
             />
         </svg>
     );

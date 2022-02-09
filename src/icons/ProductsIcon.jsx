@@ -3,16 +3,16 @@ import { createIcon } from "../helpers/icon";
 
 export const ProductsIcon = createIcon((props) => {
     return (
-        <svg viewBox="0 0 15 13" width={15} height={13} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+        <svg viewBox="0 0 14 14" width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
             <path
-                d="M14.4384 3.33711C14.4384 3.6598 14.1768 3.92139 13.8541 3.92139H1.58428V3.92139C1.26159 3.92139 1 3.6598 1 3.33711V1.58428V1.58428C1 1.26159 1.26159 1 1.58428 1H13.8541V1C14.1768 1 14.4384 1.26159 14.4384 1.58428V3.33711Z"
-                stroke="currentcolor"
+                d="M12.25 4.083H1.75a.584.584 0 01-.583-.583V2.333c0-.322.261-.583.583-.583h10.5c.322 0 .584.261.584.583V3.5a.584.584 0 01-.584.583zM5.25 6.417h3.5"
+                stroke="currentColor"
                 strokeLinecap="round"
                 strokeLinejoin="round"
             />
             <path
-                d="M13.8538 4.22095V10.9328C13.8538 11.2555 13.5922 11.5171 13.2695 11.5171H2.16826C1.84557 11.5171 1.58398 11.2555 1.58398 10.9328V4.22095"
-                stroke="currentcolor"
+                d="M12.056 4.083v7c0 .645-.522 1.167-1.167 1.167H3.111a1.166 1.166 0 01-1.167-1.167v-7"
+                stroke="currentColor"
                 strokeLinecap="round"
                 strokeLinejoin="round"
             />

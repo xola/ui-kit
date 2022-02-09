@@ -3,27 +3,15 @@ import { createIcon } from "../helpers/icon";
 
 export const MegaphoneIcon = createIcon((props) => {
     return (
-        <svg viewBox="0 0 20 19" width={20} height={19} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+        <svg viewBox="0 0 14 14" width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
             <path
-                d="M1.37598 8.63281L1.37638 11.6202"
+                d="M2 9.904l1.18 1.776M8.521 2l4.48 6.746M12.765 8.39l-9.82 2.934-.71-1.067L8.75 2.345l4.008 6.038.007.006z"
                 stroke="currentColor"
                 strokeLinecap="round"
                 strokeLinejoin="round"
             />
             <path
-                d="M15.1162 4.45923L15.1166 15.8058"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-            />
-            <path
-                d="M15.1174 15.2065L1.37761 11.0255L1.37819 9.2336L15.1163 5.0508L15.1174 15.2065Z"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-            />
-            <path
-                d="M8.52772 13.2005V13.2005C8.67838 14.3451 7.87266 15.3951 6.7281 15.5457C5.58354 15.6964 4.53356 14.8907 4.3829 13.7461C4.37133 13.6582 4.36536 13.5696 4.36504 13.481L4.36498 11.9213"
+                d="M8.055 9.798c.54.617.47 1.558-.148 2.098a1.497 1.497 0 01-2.225-.301l-.618-.934"
                 stroke="currentColor"
                 strokeLinecap="round"
                 strokeLinejoin="round"

@@ -3,9 +3,9 @@ import { createIcon } from "../helpers/icon";
 
 export const ShareIcon = createIcon((props) => {
     return (
-        <svg viewBox="0 0 14 14" width={15} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+        <svg viewBox="0 0 14 14" width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
             <path
-                d="M7.5 8.044v-6.04M5.409 4.09L7.499 2l2.09 2.09M11.216 7.043v4.324c0 .255-.21.464-.465.464H4.248a.463.463 0 01-.465-.464V7.043"
+                d="M6.833 8.044v-6.04M4.743 4.09L6.833 2l2.091 2.09M10.55 7.043v4.324a.466.466 0 01-.465.464H3.582a.463.463 0 01-.465-.464V7.043"
                 stroke="currentColor"
                 strokeLinecap="round"
                 strokeLinejoin="round"

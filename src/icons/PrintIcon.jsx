@@ -3,16 +3,19 @@ import { createIcon } from "../helpers/icon";
 
 export const PrintIcon = createIcon((props) => {
     return (
-        <svg viewBox="0 0 14 14" width={15} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
-            <g stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M6.517 11.34H8.8M6.516 9.627h2.285M4.333 9.348H2.762A1.047 1.047 0 011.72 8.303V5.168c0-.579.464-1.043 1.043-1.043h9.913c.574 0 1.038.464 1.038 1.043v3.13h-.005a1.047 1.047 0 01-1.049 1.039h-1.565M4.332 3.573V1h5.002c.135 0 .266.052.365.151l1.257 1.26-.005-.005c.094.093.151.23.151.365v.802" />
-                <path d="M11.115 12.478a.523.523 0 01-.522.522H4.85a.524.524 0 01-.522-.527v0-4.696h6.783l.005 4.701z" />
-            </g>
-            <defs>
-                <clipPath id="prefix__clip0">
-                    <path fill="#fff" transform="translate(.666)" d="M0 0h14v14H0z" />
-                </clipPath>
-            </defs>
+        <svg viewBox="0 0 14 14" width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+            <path
+                d="M9.674 4.778V2.556A.556.556 0 009.12 2H4.88a.556.556 0 00-.556.556v2.222M9.777 6.444h.556M4.222 9.778H2.556A.556.556 0 012 9.222V5.333c0-.306.249-.555.556-.555h8.888c.307 0 .556.249.556.555v3.89a.556.556 0 01-.556.555H9.778"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+            <path
+                d="M9.223 12H4.778a.556.556 0 01-.555-.556V8.111h5.555v3.333a.556.556 0 01-.555.556z"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
         </svg>
     );
 });

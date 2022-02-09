@@ -3,15 +3,15 @@ import { createIcon } from "../helpers/icon";
 
 export const WarningIcon = createIcon((props) => {
     return (
-        <svg viewBox="0 0 14 14" width={15} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+        <svg viewBox="0 0 14 14" width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
             <path
-                d="M13.345 6.857a5.81 5.81 0 01-5.734 5.823h-.005a5.648 5.648 0 01-5.73-5.562c-.005-.026-.005-.052-.005-.073l-.005-.005a5.812 5.812 0 015.73-5.834V1.2a5.639 5.639 0 015.723 5.557v.068l.026.031zM7.616 7.5V4.357"
+                d="M12.798 6.815a5.972 5.972 0 01-5.893 5.984h-.006a5.805 5.805 0 01-5.888-5.717c-.006-.026-.006-.053-.006-.075L1 7.002a5.974 5.974 0 015.888-5.996v-.005a5.795 5.795 0 015.883 5.711v.07l.027.033zM6.91 7.475v-3.23"
                 stroke="currentColor"
                 strokeLinecap="round"
                 strokeLinejoin="round"
             />
             <path
-                d="M7.611 9.042v0a.128.128 0 00-.13.124c0 .068.057.125.13.125v0a.136.136 0 00.125-.136l-.005-.005-.005-.005c-.005-.073-.063-.13-.13-.13H7.59"
+                d="M6.905 9.06v0a.131.131 0 00-.134.128c0 .07.06.128.134.128v0a.14.14 0 00.129-.14l-.006-.005-.005-.005c-.005-.075-.064-.134-.134-.134h-.005"
                 stroke="currentColor"
                 strokeLinecap="round"
                 strokeLinejoin="round"

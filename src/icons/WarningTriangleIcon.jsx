@@ -4,17 +4,11 @@ import { createIcon } from "../helpers/icon";
 export const WarningTriangleIcon = createIcon((props) => {
     return (
         <svg viewBox="0 0 14 14" width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+            <path d="M7 8.04V6.17" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" />
+            <circle cx={7} cy={9.7} r={0.5} fill="currentColor" />
             <path
-                d="M12.158 11.81a.277.277 0 01-.27.436H2.112a.278.278 0 01-.27-.437l4.94-9.879c.12-.24.316-.24.437 0l4.94 9.88zM7 8.196V4.775"
+                d="M8.015 3.55l3.83 6.702a1.169 1.169 0 01-1.015 1.749H3.17c-.897 0-1.46-.97-1.014-1.749l3.83-6.702a1.168 1.168 0 012.029 0z"
                 stroke="currentColor"
-                strokeWidth={1.1}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-            />
-            <path
-                d="M6.996 10.049a.12.12 0 00-.11.078.125.125 0 00.117.167h.001a.12.12 0 00.11-.079.125.125 0 00-.115-.167H7"
-                stroke="currentColor"
-                strokeWidth={1.1}
                 strokeLinecap="round"
                 strokeLinejoin="round"
             />

@@ -3,16 +3,19 @@ import { createIcon } from "../helpers/icon";
 
 export const FaceSadIcon = createIcon((props) => {
     return (
-        <svg viewBox="0 0 14 14" width={15} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
-            <g stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M7.52.729a6.271 6.271 0 100 12.542A6.271 6.271 0 007.52.73v0z" />
-                <path d="M4.52 5.773h-.005c.071-.005.137.06.137.13 0 .072-.066.137-.137.137-.076 0-.136-.065-.141-.136a.135.135 0 01.13-.142M10.52 5.773h-.006a.135.135 0 00-.137.136c0 .071.06.137.137.131.07-.005.136-.065.13-.142a.138.138 0 00-.136-.136M5.066 10.817a2.45 2.45 0 114.902-.01" />
-            </g>
-            <defs>
-                <clipPath id="prefix__clip0">
-                    <path fill="#fff" transform="translate(.666)" d="M0 0h14v14H0z" />
-                </clipPath>
-            </defs>
+        <svg viewBox="0 0 14 14" width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+            <path
+                d="M6.9 1a5.9 5.9 0 100 11.8A5.9 5.9 0 006.9 1v0z"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+            <path
+                d="M4.078 5.746h-.005c.067-.006.128.056.128.123a.134.134 0 01-.128.128c-.072 0-.128-.062-.133-.128a.127.127 0 01.123-.134M9.722 5.746h-.005a.127.127 0 00-.128.128c0 .067.056.128.128.123.067-.005.128-.062.123-.133a.13.13 0 00-.128-.129M4.592 10.491a2.306 2.306 0 114.612-.01"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
         </svg>
     );
 });
