@@ -128,6 +128,7 @@ export { DisabledIcon } from "./icons/DisabledIcon";
 export { DisputeIcon } from "./icons/DisputeIcon";
 export { DotCircleIcon } from "./icons/DotCircleIcon";
 export { DownloadIcon } from "./icons/DownloadIcon";
+export { DownArrowIcon } from "./icons/DownArrowIcon";
 export { DuplicateIcon } from "./icons/DuplicateIcon";
 export { DurationIcon } from "./icons/DurationIcon";
 export { EditIcon } from "./icons/EditIcon";
