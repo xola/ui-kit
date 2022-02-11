@@ -5,9 +5,8 @@ export const CardAltIcon = createIcon((props) => {
     return (
         <svg viewBox="0 0 14 14" width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
             <path
-                d="M11.753 3h-9.5a1 1 0 00-1 1v6a1 1 0 001 1h9.5a1 1 0 001-1V4a1 1 0 00-1-1zM1.25 5h11.5M11.25 7h-1.5M6.75 7h-4"
+                d="M1.3 5.055h11.5M5.497 7.611H3.855M10.883 11.444H3.216A1.917 1.917 0 011.3 9.528V4.417c0-1.059.858-1.917 1.916-1.917h7.667c1.059 0 1.917.858 1.917 1.917v5.11a1.917 1.917 0 01-1.917 1.917z"
                 stroke="currentColor"
-                strokeWidth={0.912}
                 strokeLinecap="round"
                 strokeLinejoin="round"
             />
