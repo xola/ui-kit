@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { Logo, Button, Spinner, ImageIcon, TrashIcon } from "..";
@@ -14,6 +14,7 @@ export const ImageUpload = ({
     ...props
 }) => {
     const inputReference = useRef();
+    const [inputKey, setInputKey] = useState(0);
 
     const handleUploadClick = () => {
         inputReference.current.click();
@@ -30,8 +31,14 @@ export const ImageUpload = ({
         onChange(file);
     };
 
+    const handleDelete = () => {
+        // while deleting the input should be emptied - this increment cause input to be replaced for a new one
+        setInputKey(inputKey + 1);
+        onDelete();
+    };
+
     return (
-        <div className="flex items-center p-4 space-x-8 rounded bg-gray-lighter">
+        <div className="flex items-center space-x-8 rounded bg-gray-lighter p-4">
             <div>
                 {src ? (
                     <Logo src={src} size={size} />
@@ -48,7 +55,7 @@ export const ImageUpload = ({
                         color="secondary"
                         icon={<TrashIcon />}
                         disabled={isLoading}
-                        onClick={onDelete}
+                        onClick={handleDelete}
                     >
                         Delete
                     </Button>
@@ -56,6 +63,7 @@ export const ImageUpload = ({
                         Upload New Picture
                     </Button>
                     <input
+                        key={inputKey}
                         ref={inputReference}
                         className="hidden"
                         type="file"
