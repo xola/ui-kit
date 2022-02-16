@@ -59,6 +59,10 @@ const IconList = ({ size, color }) => {
     );
 };
 
+export const Tiny12Px = ({ color }) => {
+    return <IconList color={color} size="tiny" />;
+};
+
 export const Default14Px = ({ color }) => {
     return <IconList color={color} size="small" />;
 };
