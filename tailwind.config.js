@@ -8,6 +8,7 @@ const colors = {
     white: "#ffffff",
 
     gray: {
+        hover: "#F7F9FB",
         lighter: "#F0F2F4",
         light: "#E0E3E7",
         DEFAULT: "#BDC0C6",
@@ -23,28 +24,35 @@ const colors = {
         darker: "#0E44A8",
     },
 
+    turquoise: {
+        DEFAULT: "#3FE2EE",
+    },
+
     green: {
         lighter: "#E2FFEF",
+        lightish: "#C1F9D9",
         light: "#33E781",
         DEFAULT: "#27CE70",
         dark: "#23B965",
-        darker: "#1B8E4E", // Made up by Rushi till Barth gives us a color
+        darker: "#168848",
     },
 
     red: {
-        lighter: "#FFEAEA",
+        lighter: "#FFF0F0",
+        lightish: "#FFE1E1",
         light: "#FFA1A1",
         DEFAULT: "#FF5A5A",
         dark: "#E93737",
-        darker: "#E51919", // Made up by Rushi till Barth gives us a color
+        darker: "#CD1F1F", // Made up by Rushi till Barth gives us a color
     },
 
     yellow: {
         lighter: "#FFFAF0",
+        lightish: "#FFECC6",
         light: "#FFDB8E",
         DEFAULT: "#FFC03D",
         dark: "#EBAA24",
-        darker: "#F0A200", // Made up by Rushi till Barth gives us a color
+        darker: "#987122",
     },
 
     orange: {
