@@ -117,6 +117,7 @@ export { CompassIcon } from "./icons/CompassIcon";
 export { ComputerImage } from "./images/ComputerImage";
 export { CopyIcon } from "./icons/CopyIcon";
 export { CollapseIcon } from "./icons/CollapseIcon";
+export { CouponIcon } from "./icons/CouponIcon";
 export { CrmIcon } from "./icons/CrmIcon";
 export { CrownIcon } from "./icons/CrownIcon";
 export { DashboardIcon } from "./icons/DashboardIcon";
