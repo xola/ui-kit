@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { useCombobox } from "downshift";
 import debounce from "lodash/debounce";
 import PropTypes from "prop-types";
-import React, { Fragment, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { isOSX } from "../helpers/browser";
 import { SearchIcon } from "../icons/SearchIcon";
@@ -12,15 +12,15 @@ import { Spinner } from "./Spinner";
 const callDebounced = debounce((function_, value) => function_(value), 500);
 
 /**
- * @param {string?}     props.className     Class name to apply to the input.
- * @param {any[]?}      props.items         Items to display in the dropdown menu.
- * @param {Function?}   props.itemToString  Convert item to string for showing it in the input.
- * @param {string?}     props.defaultValue  Search input default value.
- * @param {Function?}   props.onChange      Debounced callback when search input is changed.
- * @param {Function}    props.onSubmit      Called when search input value is selected.
- * @param {Function?}   props.onSelect      Called when item is selected.
- * @param {Function?}   props.children      Render prop for items.
- * @param {boolean?}    props.loading       Show loading indicator.
+ * @param {string?}     props.className         Class name to apply to the input.
+ * @param {any[]?}      props.items             Items to display in the dropdown menu.
+ * @param {string?}     props.defaultValue      Search input default value.
+ * @param {Function?}   props.onChange          Debounced callback when search input is changed.
+ * @param {Function}    props.onSubmit          Called when search input value is selected.
+ * @param {Function?}   props.onSelect          Called when item is selected.
+ * @param {Function?}   props.children          Render prop for items.
+ * @param {boolean?}    props.isLoading         Show loading indicator.
+ * @param {boolean?}    props.destroyOnClose    Control if the menu should be hidden on destroyed when closed.
  */
 export const Search = ({
     className,
@@ -31,14 +31,11 @@ export const Search = ({
     onSelect,
     children,
     isLoading = false,
-    isOpen: isMenuOpen,
-    onOpenChange,
-    onOutsideClick,
+    destroyOnClose = true,
     ...rest
 }) => {
     const [showShortcutKey, setShowShortcutKey] = useState(true);
     const [inputValue, setInputValue] = useState(defaultValue ?? "");
-    const [lastMouseMove, setLastMouseMove] = useState(null);
     const inputReference = useRef();
 
     // Flag for controlling the delay before actually closing the menu.
@@ -94,23 +91,6 @@ export const Search = ({
         itemToString: () => inputValue, // We will not change the search input after an item is selected.
         defaultHighlightedIndex: 0,
         onSelectedItemChange: handleSelectedItemChange,
-        isOpen: isMenuOpen,
-        stateReducer: (state, { type, changes }) => {
-            if (
-                type === useCombobox.stateChangeTypes.InputBlur &&
-                lastMouseMove === useCombobox.stateChangeTypes.MenuMouseLeave
-            ) {
-                // This is a real menu blur when the user goes **outside** the menu and doesn't click the menu item
-                onOutsideClick?.(false);
-            }
-
-            if (type === useCombobox.stateChangeTypes.FunctionOpenMenu) {
-                onOpenChange?.(true);
-            }
-
-            setLastMouseMove(type);
-            return changes; // No-op.
-        },
     });
 
     // Introduce a slight delay before actually closing the menu and destroying all child components from it.
@@ -133,19 +113,21 @@ export const Search = ({
     const noResultFound = open && !isLoading && itemList.length <= 1;
 
     // Keyboard shortcuts.
-    const jumpToSearchShortcut = isOSX ? "cmd+k" : "ctrl+k";
-    useHotkeys(jumpToSearchShortcut, (event_) => {
-        event_.preventDefault(); // So in Firefox we don't jump to it's search bar
+    useHotkeys(isOSX ? "cmd+k" : "ctrl+k", (event) => {
+        event.preventDefault(); // So in Firefox we don't jump to it's search bar
         inputReference.current.focus();
     });
+
     // When `esc` is used inside the search box we should escape ot
     useHotkeys("esc", () => inputReference.current.blur(), { enableOnTags: ["INPUT"] });
 
+    const isVisible = open || !destroyOnClose;
+
     return (
-        <div className="relative w-full ui-search">
+        <div className="ui-search relative w-full">
             <div {...getComboboxProps({ className: "w-full relative rounded-md" })}>
-                <div className="absolute inset-y-0 top-[-2px] left-0 hidden md:flex items-center pointer-events-none">
-                    <SearchIcon className="w-4 h-4 text-gray-darker" />
+                <div className="pointer-events-none absolute inset-y-0 top-[-2px] left-0 hidden items-center md:flex">
+                    <SearchIcon className="h-4 w-4 text-gray-darker" />
                 </div>
 
                 <input
@@ -163,7 +145,7 @@ export const Search = ({
                     })}
                 />
 
-                <div className="hidden absolute inset-y-0 right-0 items-center pr-3 space-x-1 pointer-events-none lg:flex">
+                <div className="pointer-events-none absolute inset-y-0 right-0 hidden items-center space-x-1 pr-3 lg:flex">
                     {showShortcutKey ? (
                         <>
                             <Key char="cmd" /> <Key char="K" />
@@ -181,14 +163,14 @@ export const Search = ({
                     ),
                 })}
             >
-                {open
+                {isVisible
                     ? itemList.map((item, index) => (
                           <li key={item} {...getItemProps({ key: index, item, index, className: "ui-search-item" })}>
                               {item === submitValueItem ? (
                                   <>
                                       <div
                                           className={clsx(
-                                              "p-2 cursor-pointer",
+                                              "cursor-pointer p-2",
                                               highlightedIndex === index ? "bg-blue-light text-white" : "",
                                           )}
                                       >
@@ -208,10 +190,10 @@ export const Search = ({
                       ))
                     : null}
 
-                {open && noResultFound ? <li className="p-2 cursor-not-allowed">No results found</li> : null}
+                {isVisible && noResultFound ? <li className="cursor-not-allowed p-2">No results found</li> : null}
 
-                {open && itemList.length < 5 ? (
-                    <li className="flex sticky bottom-0 p-2 space-x-5 text-sm search-footer text-gray-dark pointer-events">
+                {isVisible && itemList.length < 5 ? (
+                    <li className="search-footer pointer-events sticky bottom-0 flex space-x-5 p-2 text-sm text-gray-dark">
                         <span className="flex items-center">
                             <Key char="up" className="mr-0.5" />
                             <Key char="down" className="mr-2" /> to navigate
@@ -234,13 +216,11 @@ export const Search = ({
 Search.propTypes = {
     className: PropTypes.string,
     items: PropTypes.arrayOf(PropTypes.any),
-    itemToString: PropTypes.func,
     defaultValue: PropTypes.string,
     onChange: PropTypes.func,
     onSubmit: PropTypes.func,
     onSelect: PropTypes.func,
-    onOpenChange: PropTypes.func,
     children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node, PropTypes.func]),
     isLoading: PropTypes.bool,
-    isOpen: PropTypes.bool,
+    destroyOnClose: PropTypes.bool,
 };
