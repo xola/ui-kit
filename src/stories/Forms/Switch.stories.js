@@ -38,7 +38,7 @@ export const WithLabel = () => {
     return (
         <Switch.Group>
             <Switch.Label direction="left">Hello World</Switch.Label>
-            <Switch isChecked={checked} onChange={setChecked} size="small" />
+            <Switch isChecked={checked} size="small" onChange={setChecked} />
         </Switch.Group>
     );
 };
