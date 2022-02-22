@@ -12,15 +12,15 @@ import { Spinner } from "./Spinner";
 const callDebounced = debounce((function_, value) => function_(value), 500);
 
 /**
- * @param {string?}     props.className         Class name to apply to the input.
- * @param {any[]?}      props.items             Items to display in the dropdown menu.
- * @param {string?}     props.defaultValue      Search input default value.
- * @param {Function?}   props.onChange          Debounced callback when search input is changed.
- * @param {Function}    props.onSubmit          Called when search input value is selected.
- * @param {Function?}   props.onSelect          Called when item is selected.
- * @param {Function?}   props.children          Render prop for items.
- * @param {boolean?}    props.isLoading         Show loading indicator.
- * @param {boolean?}    props.destroyOnClose    Control if the menu should be hidden on destroyed when closed.
+ * @param {string?}     props.className             Class name to apply to the input.
+ * @param {any[]?}      props.items                 Items to display in the dropdown menu.
+ * @param {string?}     props.defaultValue          Search input default value.
+ * @param {Function?}   props.onChange              Debounced callback when search input is changed.
+ * @param {Function}    props.onSubmit              Called when search input value is selected.
+ * @param {Function?}   props.onSelect              Called when item is selected.
+ * @param {Function?}   props.children              Render prop for items.
+ * @param {boolean?}    props.isLoading             Show loading indicator.
+ * @param {boolean?}    props.shouldDestroyOnClose  Control if the menu should be hidden on destroyed when closed.
  */
 export const Search = ({
     className,
@@ -31,7 +31,7 @@ export const Search = ({
     onSelect,
     children,
     isLoading = false,
-    destroyOnClose = true,
+    shouldDestroyOnClose = true,
     ...rest
 }) => {
     const [showShortcutKey, setShowShortcutKey] = useState(true);
@@ -121,7 +121,7 @@ export const Search = ({
     // When `esc` is used inside the search box we should escape ot
     useHotkeys("esc", () => inputReference.current.blur(), { enableOnTags: ["INPUT"] });
 
-    const isVisible = open || !destroyOnClose;
+    const isVisible = open || !shouldDestroyOnClose;
 
     return (
         <div className="ui-search relative w-full">
@@ -222,5 +222,5 @@ Search.propTypes = {
     onSelect: PropTypes.func,
     children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node, PropTypes.func]),
     isLoading: PropTypes.bool,
-    destroyOnClose: PropTypes.bool,
+    shouldDestroyOnClose: PropTypes.bool,
 };
