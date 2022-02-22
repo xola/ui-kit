@@ -200,7 +200,7 @@ module.exports = {
 
             letterSpacing: {
                 tightest: "-.4px",
-                // TODO: Other letter spacings are in EM and need to be coverted to px
+                // TODO: Other letter spacings are in EM and need to be converted to px
             },
         },
     },

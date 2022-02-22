@@ -1,6 +1,7 @@
 import { map, omitBy } from "lodash";
-import React from "react";
+import React, { useState } from "react";
 import * as all from "../..";
+import { Input } from "../..";
 
 const iconNames = omitBy(all, (Icon, name) => !name.endsWith("Icon"));
 const icons = map(iconNames, (Icon, name) => ({ Icon, name }));
@@ -36,9 +37,38 @@ const IconsStories = {
 
 const IconList = ({ size, color }) => {
     let currentLetter = "";
+    const [search, setSearch] = useState("");
+    const [filteredIcons, setFilteredIcons] = useState(icons);
+
+    const handleSearch = (e) => {
+        const value = e.target.value;
+        setSearch(value);
+
+        if (value.trim().length === 0) {
+            setFilteredIcons(icons);
+        } else {
+            const matching = icons.filter(({ Icon, name }) => {
+                const re = new RegExp(`${value}`, "gi");
+                return re.test(name);
+            });
+            setFilteredIcons(matching);
+        }
+    };
+
     return (
         <div className="flex flex-row flex-wrap gap-3">
-            {icons.map(({ Icon, name }) => {
+            <div className="relative w-full">
+                <Input
+                    type="search"
+                    placeholder="Filter icons"
+                    onChange={handleSearch}
+                    value={search}
+                    className="pl-7"
+                />
+                <all.SearchIcon className="!absolute left-2 top-3" />
+            </div>
+
+            {filteredIcons.map(({ Icon, name }) => {
                 const firstLetter = name.slice(0, 1);
                 const isNew = firstLetter !== currentLetter;
                 if (isNew) {
