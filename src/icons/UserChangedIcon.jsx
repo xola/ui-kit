@@ -1,17 +1,17 @@
 import React from "react";
 import { createIcon } from "../helpers/icon";
 
-export const ClipboardIcon = createIcon((props) => {
+export const UserChangedIcon = createIcon((props) => {
     return (
         <svg viewBox="0 0 14 14" width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
             <path
-                d="M8.874 1.957h1.957c.264 0 .478.214.478.478v9.087a.478.478 0 01-.478.478H3.178a.478.478 0 01-.478-.478V2.435c0-.264.214-.478.478-.478h1.957"
+                d="M6.956 7a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM2.25 11.412a2.647 2.647 0 012.647-2.647h1.52M11.417 9.217h.832v-.832M9.556 11.018h-.831v.832"
                 stroke="currentColor"
                 strokeLinecap="round"
                 strokeLinejoin="round"
             />
             <path
-                d="M7.961 1.957a.957.957 0 10-1.913 0h-.956V3.39h3.826V1.957H7.96z"
+                d="M12.252 10.745a1.817 1.817 0 01-.433.704 1.883 1.883 0 01-2.984-.431M12.14 9.217a1.883 1.883 0 00-2.984-.431 1.824 1.824 0 00-.434.703"
                 stroke="currentColor"
                 strokeLinecap="round"
                 strokeLinejoin="round"
