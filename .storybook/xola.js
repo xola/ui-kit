@@ -17,7 +17,7 @@ export default create({
     // Typography
     fontBase:
         "Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji'",
-    fontCode: "monospace",
+    fontCode: "'Roboto Mono', monospace",
 
     // Text colors
     textColor: "#222324",
