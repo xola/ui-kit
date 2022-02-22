@@ -30,7 +30,7 @@ export const Switch = ({ isChecked = false, size = "medium", ...rest }) => {
             className={clsx(
                 "ui-switch",
                 isChecked ? "bg-primary disabled:bg-gray-light" : "bg-gray disabled:bg-gray-light",
-                "switch relative inline-flex flex-shrink-0 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none",
+                "relative inline-flex flex-shrink-0 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none",
                 sizes[size].parent,
             )}
             {...rest}
@@ -38,7 +38,7 @@ export const Switch = ({ isChecked = false, size = "medium", ...rest }) => {
             <span
                 className={clsx(
                     isChecked ? sizes[size].translate : "translate-x-0",
-                    "switch-inner pointer-events-none inline-block rounded-full bg-white transform ring-0 transition ease-in-out duration-200 shadow",
+                    "ui-switch-inner pointer-events-none inline-block rounded-full bg-white transform ring-0 transition ease-in-out duration-200 shadow",
                     sizes[size].inner,
                 )}
             />
