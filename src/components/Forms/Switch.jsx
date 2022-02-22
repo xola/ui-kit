@@ -1,7 +1,7 @@
 import { Switch as HeadlessSwitch } from "@headlessui/react";
 import clsx from "clsx";
-import React from "react";
 import PropTypes from "prop-types";
+import React from "react";
 
 const sizes = {
     large: {
@@ -29,8 +29,8 @@ export const Switch = ({ isChecked = false, size = "medium", ...rest }) => {
             checked={isChecked}
             className={clsx(
                 "ui-switch",
-                isChecked ? "bg-primary" : "bg-gray",
-                "switch relative inline-flex flex-shrink-0 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none disabled:opacity-60",
+                isChecked ? "bg-primary disabled:bg-gray-light" : "bg-gray disabled:bg-gray-light",
+                "switch relative inline-flex flex-shrink-0 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none",
                 sizes[size].parent,
             )}
             {...rest}
