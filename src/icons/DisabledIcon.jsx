@@ -13,3 +13,5 @@ export const DisabledIcon = createIcon((props) => {
         </svg>
     );
 });
+
+DisabledIcon.tags = ["no show", "noshow"];

@@ -47,9 +47,10 @@ const IconList = ({ size, color }) => {
         if (value.trim().length === 0) {
             setFilteredIcons(icons);
         } else {
-            const matching = icons.filter(({ name }) => {
+            const matching = icons.filter(({ Icon, name }) => {
                 const re = new RegExp(`${value}`, "gi");
-                return re.test(name);
+                const tags = Icon.tags ?? [];
+                return re.test(name) || tags.some((tag) => re.test(tag));
             });
             setFilteredIcons(matching);
         }

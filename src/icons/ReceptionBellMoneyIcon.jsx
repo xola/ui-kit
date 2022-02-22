@@ -13,3 +13,5 @@ export const ReceptionBellMoneyIcon = createIcon((props) => {
         </svg>
     );
 });
+
+ReceptionBellMoneyIcon.tags = ["partner", "affiliate", "reception", "money"];
