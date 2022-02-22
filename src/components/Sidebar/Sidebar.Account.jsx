@@ -20,7 +20,7 @@ export const SidebarAccount = ({
             type="button"
             className={clsx(
                 "ui-sidebar-account",
-                "flex items-center justify-center xl:justify-start py-3 px-4 w-full rounded cursor-pointer hover:bg-gray-darker",
+                "flex w-full cursor-pointer items-center justify-center rounded py-3 px-4 hover:bg-gray-darker xl:justify-start",
                 className,
             )}
             {...rest}
@@ -28,9 +28,9 @@ export const SidebarAccount = ({
             <div className="flex-shrink-0">{accountImage}</div>
 
             {/* Adding `min-w-0` on the flex item prevents the overflow for wider text. */}
-            <div className={clsx("ml-2 text-left min-w-0", isResponsive && "hidden xl:inline")}>
-                <div className="text-base truncate">{name}</div>
-                {description ? <div className="text-sm text-gray-dark truncate">{description}</div> : null}
+            <div className={clsx("ml-2 min-w-0 text-left", isResponsive && "hidden xl:inline")}>
+                <div className="truncate text-base">{name}</div>
+                {description ? <div className="truncate text-sm text-gray-dark">{description}</div> : null}
             </div>
 
             <span className={clsx("ml-auto", isResponsive && "hidden xl:inline")}>{icon}</span>

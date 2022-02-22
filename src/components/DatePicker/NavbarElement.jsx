@@ -9,7 +9,7 @@ import { ChevronRightIcon } from "../../icons/ChevronRightIcon";
  */
 export const NavbarElement = ({ onPreviousClick, onNextClick, className, showNextButton, showPreviousButton }) => {
     return (
-        <div className={clsx("absolute z-50 top-1.5 right-7", className)}>
+        <div className={clsx("absolute top-1.5 right-7 z-50", className)}>
             <ChevronButton isVisible={showPreviousButton} onClick={onPreviousClick}>
                 <ChevronLeftIcon />
             </ChevronButton>
@@ -37,7 +37,7 @@ const ChevronButton = ({ isVisible = true, onClick, children }) => {
             type="button"
             className={clsx(
                 isVisible ? "inline-block" : "invisible",
-                "rounded-full border border-transparent text-black hover:border-black w-7 h-7 inline-flex items-center justify-center leading-none",
+                "inline-flex h-7 w-7 items-center justify-center rounded-full border border-transparent leading-none text-black hover:border-black",
             )}
             onClick={() => onClick()}
         >

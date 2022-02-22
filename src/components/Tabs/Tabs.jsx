@@ -18,7 +18,7 @@ export const Tabs = ({ className, variant = "default", value, onChange, children
         <>
             <nav className={clsx("ui-tabs", "flex overflow-x-auto", variants[variant], className)} {...rest}>
                 {variant === "default" ? (
-                    <div className="border-b border-gray-light flex-shrink-0 min-w-[40px]" />
+                    <div className="min-w-[40px] flex-shrink-0 border-b border-gray-light" />
                 ) : null}
 
                 {tabs.map((child, index) => {
@@ -29,7 +29,7 @@ export const Tabs = ({ className, variant = "default", value, onChange, children
                     });
                 })}
 
-                {variant === "default" ? <div className="border-b border-gray-light flex-grow min-w-[40px]" /> : null}
+                {variant === "default" ? <div className="min-w-[40px] flex-grow border-b border-gray-light" /> : null}
             </nav>
 
             {panels[value]}

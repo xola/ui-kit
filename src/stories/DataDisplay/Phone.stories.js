@@ -132,17 +132,17 @@ const PhoneDisplay = ({ countryCode, number }) => {
     return (
         <div className="space-y-2">
             <div>
-                <span className="inline-block mr-2 w-20 text-right">Country:</span>
+                <span className="mr-2 inline-block w-20 text-right">Country:</span>
                 <span className="font-mono">{countryCode}</span>
             </div>
 
             <div>
-                <span className="inline-block mr-2 w-20 text-right">Original:</span>
+                <span className="mr-2 inline-block w-20 text-right">Original:</span>
                 <span className="font-mono">{number}</span>
             </div>
 
             <div>
-                <span className="inline-block mr-2 w-20 text-right">Formatted:</span>
+                <span className="mr-2 inline-block w-20 text-right">Formatted:</span>
 
                 <Phone className="font-mono" countryCode={countryCode.slice(0, 2)}>
                     {number}

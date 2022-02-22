@@ -142,10 +142,10 @@ export const Search = ({
     useHotkeys("esc", () => inputReference.current.blur(), { enableOnTags: ["INPUT"] });
 
     return (
-        <div className="relative w-full ui-search">
+        <div className="ui-search relative w-full">
             <div {...getComboboxProps({ className: "w-full relative rounded-md" })}>
-                <div className="absolute inset-y-0 top-[-2px] left-0 hidden md:flex items-center pointer-events-none">
-                    <SearchIcon className="w-4 h-4 text-gray-darker" />
+                <div className="pointer-events-none absolute inset-y-0 top-[-2px] left-0 hidden items-center md:flex">
+                    <SearchIcon className="h-4 w-4 text-gray-darker" />
                 </div>
 
                 <input
@@ -163,7 +163,7 @@ export const Search = ({
                     })}
                 />
 
-                <div className="hidden absolute inset-y-0 right-0 items-center pr-3 space-x-1 pointer-events-none lg:flex">
+                <div className="pointer-events-none absolute inset-y-0 right-0 hidden items-center space-x-1 pr-3 lg:flex">
                     {showShortcutKey ? (
                         <>
                             <Key char="cmd" /> <Key char="K" />
@@ -188,7 +188,7 @@ export const Search = ({
                                   <>
                                       <div
                                           className={clsx(
-                                              "p-2 cursor-pointer",
+                                              "cursor-pointer p-2",
                                               highlightedIndex === index ? "bg-blue-light text-white" : "",
                                           )}
                                       >
@@ -208,10 +208,10 @@ export const Search = ({
                       ))
                     : null}
 
-                {open && noResultFound ? <li className="p-2 cursor-not-allowed">No results found</li> : null}
+                {open && noResultFound ? <li className="cursor-not-allowed p-2">No results found</li> : null}
 
                 {open && itemList.length < 5 ? (
-                    <li className="flex sticky bottom-0 p-2 space-x-5 text-sm search-footer text-gray-dark pointer-events">
+                    <li className="search-footer pointer-events sticky bottom-0 flex space-x-5 p-2 text-sm text-gray-dark">
                         <span className="flex items-center">
                             <Key char="up" className="mr-0.5" />
                             <Key char="down" className="mr-2" /> to navigate

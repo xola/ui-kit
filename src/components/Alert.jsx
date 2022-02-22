@@ -16,16 +16,16 @@ export const Alert = ({ className, color = "primary", onClose, children, ...rest
     return (
         <div
             className={clsx(
-                "ui-alert flex items-start rounded text-base px-3 py-3 leading-4",
+                "ui-alert flex items-start rounded px-3 py-3 text-base leading-4",
                 colors[color],
                 className,
             )}
             {...rest}
         >
-            <span className="w-full ui-alert-content">{children}</span>
+            <span className="ui-alert-content w-full">{children}</span>
 
             {onClose ? (
-                <button type="button" className="ml-3 cursor-pointer ui-alert-close hover:text-gray-dark">
+                <button type="button" className="ui-alert-close ml-3 cursor-pointer hover:text-gray-dark">
                     <CloseIcon onClick={onClose} />
                 </button>
             ) : null}
