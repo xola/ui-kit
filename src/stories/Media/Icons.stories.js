@@ -41,13 +41,13 @@ const IconList = ({ size, color }) => {
     const [filteredIcons, setFilteredIcons] = useState(icons);
 
     const handleSearch = (e) => {
-        const value = e.target.value;
+        const { value } = e.target;
         setSearch(value);
 
         if (value.trim().length === 0) {
             setFilteredIcons(icons);
         } else {
-            const matching = icons.filter(({ Icon, name }) => {
+            const matching = icons.filter(({ name }) => {
                 const re = new RegExp(`${value}`, "gi");
                 return re.test(name);
             });
@@ -61,9 +61,9 @@ const IconList = ({ size, color }) => {
                 <Input
                     type="search"
                     placeholder="Filter icons"
-                    onChange={handleSearch}
                     value={search}
                     className="pl-7"
+                    onChange={handleSearch}
                 />
                 <all.SearchIcon className="!absolute left-2 top-3" />
             </div>
