@@ -105,6 +105,7 @@ export { CircleInfinityIcon } from "./icons/CircleInfinityIcon";
 export { CircleKeyIcon } from "./icons/CircleKeyIcon";
 export { CirclePauseIcon } from "./icons/CirclePauseIcon";
 export { CirclePlusIcon } from "./icons/CirclePlusIcon";
+export { CircleSubtractIcon } from "./icons/CircleSubtractIcon";
 export { ChipIcon } from "./icons/ChipIcon";
 export { ClipboardIcon } from "./icons/ClipboardIcon";
 export { ClockAltIcon } from "./icons/ClockAltIcon";
