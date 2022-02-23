@@ -29,7 +29,7 @@ export const DatePickerPopover = ({
         if (!options.disabled && (variant === "single" || (date.from && date.to))) {
             setTimeout(() => {
                 setIsVisible(false);
-            }, 1500);
+            }, 1000);
         }
     };
 
