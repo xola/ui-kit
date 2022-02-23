@@ -8,8 +8,16 @@
     width: 400px;
 }
 
+.date-range-picker {
+    @apply px-5 w-full;
+}
+
 .DayPicker-NavBar {
     @apply text-gray-darker;
+}
+
+.DayPicker-Months {
+    @apply space-x-2;
 }
 
 /**
@@ -129,10 +137,18 @@
     background: linear-gradient(90deg, #ffffff 50%, #d1e1ff 25%);
 }
 
+.date-range-picker .DayPicker-Day--start div {
+    @apply rounded-full;
+}
+
 /* Make the end date have a 50% light blue background towards the LEFT side */
 .date-range-picker .DayPicker-Day--end {
     @apply rounded-none;
     background: linear-gradient(90deg, #d1e1ff 50%, #ffffff 25%);
+}
+
+.date-range-picker .DayPicker-Day--end div {
+    @apply rounded-full;
 }
 
 /**
