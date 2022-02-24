@@ -38,23 +38,24 @@ const IconsStories = {
 const IconList = ({ size, color }) => {
     let currentLetter = "";
     const [search, setSearch] = useState("");
-    const [filteredIcons, setFilteredIcons] = useState(icons);
 
     const handleSearch = (e) => {
-        const { value } = e.target;
-        setSearch(value);
-
-        if (value.trim().length === 0) {
-            setFilteredIcons(icons);
-        } else {
-            const matching = icons.filter(({ Icon, name }) => {
-                const re = new RegExp(`${value}`, "gi");
-                const tags = Icon.tags ?? [];
-                return re.test(name) || tags.some((tag) => re.test(tag));
-            });
-            setFilteredIcons(matching);
-        }
+        setSearch(e.target.value);
     };
+
+    const filteredIcons = icons.filter(({ Icon, name }) => {
+        if (!search) {
+            return true;
+        }
+
+        if (search.trim().length === 0) {
+            return true;
+        }
+
+        const re = new RegExp(`${search}`, "gi");
+        const tags = Icon.tags ?? [];
+        return re.test(name) || tags.some((tag) => re.test(tag));
+    });
 
     return (
         <div className="flex flex-row flex-wrap gap-3">

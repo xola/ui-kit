@@ -174,7 +174,7 @@ export { MoneyAddIcon } from "./icons/MoneyAddIcon";
 export { MoneyBackIcon } from "./icons/MoneyBackIcon";
 export { MoneyIcon } from "./icons/MoneyIcon";
 export { PenIcon } from "./icons/PenIcon";
-export { PartnerPackageIcon } from "./icons/PartnerPackageIcon";
+export { HandshakeIcon } from "./icons/HandshakeIcon";
 export { PencilIcon } from "./icons/PencilIcon";
 export { PhoneIcon } from "./icons/PhoneIcon";
 export { PhotosIcon } from "./icons/PhotosIcon";

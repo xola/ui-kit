@@ -8,7 +8,6 @@ const colors = {
     white: "#ffffff",
 
     gray: {
-        hover: "#F7F9FB",
         lighter: "#F0F2F4",
         light: "#E0E3E7",
         DEFAULT: "#BDC0C6",
@@ -25,6 +24,7 @@ const colors = {
     },
 
     turquoise: {
+        // TODO: We need other shades to match the scheme
         DEFAULT: "#3FE2EE",
     },
 
