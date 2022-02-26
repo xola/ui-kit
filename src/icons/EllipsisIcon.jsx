@@ -11,3 +11,5 @@ export const EllipsisIcon = createIcon((props) => {
         </svg>
     );
 });
+
+EllipsisIcon.tags = ["three", "dots"];

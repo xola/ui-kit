@@ -19,3 +19,5 @@ export const MixedChecklistIcon = createIcon((props) => {
         </svg>
     );
 });
+
+MixedChecklistIcon.tags = ["all"];

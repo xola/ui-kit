@@ -28,3 +28,5 @@ export const EmptyChecklistIcon = createIcon((props) => {
         </svg>
     );
 });
+
+EmptyChecklistIcon.tags = ["available"];

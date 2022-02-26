@@ -83,6 +83,9 @@ const IconList = ({ size, color }) => {
                         <div className="space-y-2 rounded border border-gray-lighter p-2 text-center">
                             <Icon size={size} className={color} />
                             <div className="font-mono w-40 text-gray-dark">{name}</div>
+                            <div title="tags" className="text-xs text-gray w-40 whitespace-normal">
+                                {Icon.tags?.join(", ")}
+                            </div>
                         </div>
                     </React.Fragment>
                 );

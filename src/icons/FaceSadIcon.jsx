@@ -20,4 +20,4 @@ export const FaceSadIcon = createIcon((props) => {
     );
 });
 
-FaceSadIcon.tags = ["smiley"];
+FaceSadIcon.tags = ["smiley", "emoji"];
