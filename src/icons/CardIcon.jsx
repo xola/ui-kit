@@ -15,5 +15,4 @@ export const CardIcon = createIcon((props) => {
     );
 });
 
-
 CardIcon.tags = ["credit card", "cc"];

@@ -20,5 +20,4 @@ export const AtIcon = createIcon((props) => {
     );
 });
 
-
 AtIcon.tags = ["email"];
