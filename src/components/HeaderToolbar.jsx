@@ -8,7 +8,7 @@ export const HeaderToolbar = ({ classNames, children }) => {
         <div
             className={clsx(
                 "ui-header-toolbar",
-                "flex items-center w-full px-5 pr-3 py-3 xl:px-6 xl:py-5 space-x-2 xl:space-x-6 border-b border-gray-light",
+                "flex w-full items-center space-x-2 border-b border-gray-light px-5 py-3 pr-3 xl:space-x-6 xl:px-6 xl:py-5",
                 classNames,
             )}
         >
@@ -27,7 +27,7 @@ HeaderToolbar.Breadcrumb = ({ className, children }) => {
         <Breadcrumb
             className={clsx(
                 "ui-header-toolbar-breadcrumb",
-                "text-xl border-r border-gray-light md:pr-4 xl:pr-6",
+                "border-r border-gray-light text-xl md:pr-4 xl:pr-6",
                 className,
             )}
         >
@@ -46,5 +46,5 @@ HeaderToolbar.Breadcrumb.propTypes = {
 HeaderToolbar.Breadcrumb.displayName = "HeaderToolbar.Search";
 
 HeaderToolbar.Search = (props) => {
-    return <Search className="flex-grow pr-1 w-full ui-header-toolbar-search" {...props} />;
+    return <Search className="ui-header-toolbar-search w-full flex-grow pr-1" {...props} />;
 };

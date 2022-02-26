@@ -3,8 +3,8 @@ import React from "react";
 
 export const SidebarFooter = ({ children, ...rest }) => {
     return (
-        <div className="py-3 ui-sidebar-footer" {...rest}>
-            <div className="pb-2 mx-4 border-t border-secondary-darker" />
+        <div className="ui-sidebar-footer py-3" {...rest}>
+            <div className="mx-4 border-t border-secondary-darker pb-2" />
             {children}
         </div>
     );

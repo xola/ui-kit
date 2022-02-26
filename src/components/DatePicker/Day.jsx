@@ -14,8 +14,8 @@ export const Day = ({ selectedDate, day, getContent }) => {
         <div
             className={clsx(
                 "ui-date-picker-day",
-                "date flex items-center w-full h-full justify-center",
-                isSameDay ? "text-white selected" : null,
+                "date flex h-full w-full items-center justify-center",
+                isSameDay ? "selected text-white" : null,
             )}
         >
             {day.getDate()}
@@ -41,7 +41,7 @@ const DayContent = ({ selectedDate, day, getContent }) => {
     return (
         <div className="ui-day-content">
             {/* The date itself */}
-            <div className={clsx("ui-day-content-value", isSameDay ? "text-white selected" : null)}>{date}</div>
+            <div className={clsx("ui-day-content-value", isSameDay ? "selected text-white" : null)}>{date}</div>
 
             {/* The custom content below it */}
             {shouldShowContent ? <div className="ui-day-content-custom">{value}</div> : null}

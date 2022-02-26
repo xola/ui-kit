@@ -47,11 +47,11 @@ export const Default = () => {
             {(item, active) => (
                 <div
                     className={clsx(
-                        "group p-2 flex cursor-pointer",
-                        active ? "bg-blue-light text-white p-2" : "text-black",
+                        "group flex cursor-pointer p-2",
+                        active ? "bg-blue-light p-2 text-white" : "text-black",
                     )}
                 >
-                    <img className="w-12 h-12 rounded-full" src={item.picture} />
+                    <img className="h-12 w-12 rounded-full" src={item.picture} />
 
                     <div className="pl-3">
                         <div>

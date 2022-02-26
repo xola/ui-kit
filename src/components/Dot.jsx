@@ -14,7 +14,7 @@ const colors = {
 export const Dot = ({ color = "primary", className, ...rest }) => {
     return (
         <span
-            className={clsx("ui-dot", "inline-block w-1 h-1 rounded-full text-white", colors[color], className)}
+            className={clsx("ui-dot", "inline-block h-1 w-1 rounded-full text-white", colors[color], className)}
             {...rest}
         />
     );

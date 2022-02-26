@@ -68,7 +68,7 @@ export const flash = {
                     <div className="w-full">{text}</div>
                     {onClose ? (
                         <div
-                            className="flex justify-center items-center pl-3 text-white cursor-pointer hover:text-black"
+                            className="flex cursor-pointer items-center justify-center pl-3 text-white hover:text-black"
                             onClick={onCloseWrapper}
                         >
                             <CloseIcon />

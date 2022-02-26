@@ -110,8 +110,8 @@ export const RenderCustomOptionItems = () => {
         <div
             ref={innerRef}
             className={clsx(
-                "flex items-center p-4 border-b border-gray-light",
-                isSelected && "text-white bg-success-dark",
+                "flex items-center border-b border-gray-light p-4",
+                isSelected && "bg-success-dark text-white",
                 !isSelected && isFocused && "bg-success-lighter",
             )}
             {...innerProps}

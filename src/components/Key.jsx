@@ -10,7 +10,7 @@ export const Key = ({ char, className, ...rest }) => {
         <div
             className={clsx(
                 "ui-key",
-                "inline-flex items-center justify-center h-5 py-1 px-2 bg-gray-lighter text-xs text-gray font-semibold rounded",
+                "inline-flex h-5 items-center justify-center rounded bg-gray-lighter py-1 px-2 text-xs font-semibold text-gray",
                 key.length === 1 && "w-5",
                 className,
             )}
