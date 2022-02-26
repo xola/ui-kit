@@ -1,18 +1,17 @@
 import React from "react";
 import { createIcon } from "../helpers/icon";
 
-export const DecreaseIcon = createIcon((props) => {
+export const MountainIcon = createIcon((props) => {
     return (
         <svg viewBox="0 0 14 14" width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
-            <path d="M12.25 10.375v2.25H10" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" />
             <path
-                d="M12.25 12.625L9.725 10.1a1.126 1.126 0 00-1.118-.282l-2.857.763a1.125 1.125 0 01-1.086-.291L1.75 7.373M2.574 5.87A3.75 3.75 0 118.5 8.127"
+                d="M2.867 10.153L7.403 2.95v-.006a.667.667 0 011.061-.005L13 10.142l-10.133.011z"
                 stroke="currentColor"
                 strokeLinecap="round"
                 strokeLinejoin="round"
             />
             <path
-                d="M7 3.627H5.983a.671.671 0 00-.25 1.294l1.032.412a.671.671 0 01-.25 1.294H5.5M6.25 3.627v-.375M6.25 7.002v-.375"
+                d="M2.868 10.153H1l1.868-2.935h-.006a.71.71 0 01.534-.272l-.006-.005c.208.005.4.101.534.261l.347.694M5.244 6.377l1.25 1.057-.005-.005a.534.534 0 00.72-.032l.342-.347h-.006a.527.527 0 01.753-.006l.341.342a.533.533 0 00.72.027l1.228-1.04"
                 stroke="currentColor"
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -21,4 +20,4 @@ export const DecreaseIcon = createIcon((props) => {
     );
 });
 
-DecreaseIcon.tags = ["money", "refund", "return payment", "dollar"];
+MountainIcon.tags = ["product", "listing", "experience"];

@@ -13,3 +13,5 @@ export const MoneyIcon = createIcon((props) => {
         </svg>
     );
 });
+
+MoneyIcon.tags = ["dollar"];

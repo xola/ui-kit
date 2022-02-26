@@ -26,3 +26,5 @@ export const PhotosIcon = createIcon((props) => {
         </svg>
     );
 });
+
+PhotosIcon.tags = ["image", "background"];

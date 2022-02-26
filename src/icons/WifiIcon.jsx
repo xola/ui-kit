@@ -13,3 +13,5 @@ export const WifiIcon = createIcon((props) => {
         </svg>
     );
 });
+
+WifiIcon.tags = ["private booking"];

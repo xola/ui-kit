@@ -13,3 +13,5 @@ export const PhoneIcon = createIcon((props) => {
         </svg>
     );
 });
+
+PhoneIcon.tags = ["call", "sms", "communication"];

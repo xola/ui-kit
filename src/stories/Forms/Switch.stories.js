@@ -34,10 +34,11 @@ export const Default = ({ size }) => {
 };
 
 export const WithLabel = () => {
+    const [checked, setChecked] = useState(false);
     return (
         <Switch.Group>
             <Switch.Label direction="left">Hello World</Switch.Label>
-            <Switch size="small" />
+            <Switch isChecked={checked} size="small" onChange={setChecked} />
         </Switch.Group>
     );
 };

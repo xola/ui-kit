@@ -1,6 +1,7 @@
 import { map, omitBy } from "lodash";
-import React from "react";
+import React, { useState } from "react";
 import * as all from "../..";
+import { Input } from "../..";
 
 const iconNames = omitBy(all, (Icon, name) => !name.endsWith("Icon"));
 const icons = map(iconNames, (Icon, name) => ({ Icon, name }));
@@ -36,9 +37,40 @@ const IconsStories = {
 
 const IconList = ({ size, color }) => {
     let currentLetter = "";
+    const [search, setSearch] = useState("");
+
+    const handleSearch = (e) => {
+        setSearch(e.target.value);
+    };
+
+    const filteredIcons = icons.filter(({ Icon, name }) => {
+        if (!search) {
+            return true;
+        }
+
+        if (search.trim().length === 0) {
+            return true;
+        }
+
+        const re = new RegExp(`${search}`, "gi");
+        const tags = Icon.tags ?? [];
+        return re.test(name) || tags.some((tag) => re.test(tag));
+    });
+
     return (
         <div className="flex flex-row flex-wrap gap-3">
-            {icons.map(({ Icon, name }) => {
+            <div className="sticky top-2 bg-white z-50 w-full opacity-90">
+                <Input
+                    type="search"
+                    placeholder="Filter icons by name or tags"
+                    value={search}
+                    className="pl-7"
+                    onChange={handleSearch}
+                />
+                <all.SearchIcon className="!absolute left-2 top-3" />
+            </div>
+
+            {filteredIcons.map(({ Icon, name }) => {
                 const firstLetter = name.slice(0, 1);
                 const isNew = firstLetter !== currentLetter;
                 if (isNew) {
@@ -50,13 +82,20 @@ const IconList = ({ size, color }) => {
                         {isNew && <div className="mt-3 w-full flex-grow text-lg font-bold">{firstLetter}</div>}
                         <div className="space-y-2 rounded border border-gray-lighter p-2 text-center">
                             <Icon size={size} className={color} />
-                            <div className="w-40 text-gray-dark">{name}</div>
+                            <div className="font-mono w-40 text-gray-dark">{name}</div>
+                            <div title="tags" className="text-xs text-gray w-40 whitespace-normal">
+                                {Icon.tags?.join(", ")}
+                            </div>
                         </div>
                     </React.Fragment>
                 );
             })}
         </div>
     );
+};
+
+export const Tiny12Px = ({ color }) => {
+    return <IconList color={color} size="tiny" />;
 };
 
 export const Default14Px = ({ color }) => {

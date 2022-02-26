@@ -13,3 +13,5 @@ export const FoodIcon = createIcon((props) => {
         </svg>
     );
 });
+
+FoodIcon.tags = ["burger"];

@@ -19,3 +19,5 @@ export const EyeIcon = createIcon((props) => {
         </svg>
     );
 });
+
+EyeIcon.tags = ["view", "visible"];

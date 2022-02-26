@@ -19,3 +19,5 @@ export const BookmarkIcon = createIcon((props) => {
         </svg>
     );
 });
+
+BookmarkIcon.tags = ["favourite", "favorite"];

@@ -8,3 +8,5 @@ export const PipeIcon = createIcon((props) => {
         </svg>
     );
 });
+
+PipeIcon.tags = ["line"];

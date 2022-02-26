@@ -19,3 +19,5 @@ export const PinIcon = createIcon((props) => {
         </svg>
     );
 });
+
+PinIcon.tags = ["location", "city", "state", "country"];

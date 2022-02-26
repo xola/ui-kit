@@ -12,8 +12,8 @@ export const BaseInput = ({ as: Tag, size = "medium", isError, className, ...res
     return (
         <Tag
             className={clsx(
-                "w-full rounded text-gray-darker placeholder-gray-dark hover:placeholder-gray-darker disabled:text-gray",
-                "border border-transparent hover:border-black hover:bg-gray-lighter disabled:bg-gray-lighter",
+                "w-full placeholder-gray-dark hover:placeholder-gray-darker text-gray-darker disabled:text-gray rounded",
+                "disabled:bg-gray-lighter border border-transparent hover:bg-gray-lighter hover:border-black focus:text-black active:text-black",
                 sizes[size],
                 isError
                     ? "border-danger focus:border-danger focus:ring-0 focus:ring-danger"

@@ -25,3 +25,5 @@ export const CashIcon = createIcon((props) => {
         </svg>
     );
 });
+
+CashIcon.tags = ["payment"];

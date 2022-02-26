@@ -34,3 +34,5 @@ export const WaitlistIcon = createIcon((props) => {
         </svg>
     );
 });
+
+WaitlistIcon.tags = ["checklist"];

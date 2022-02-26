@@ -25,3 +25,5 @@ export const CompassIcon = createIcon((props) => {
         </svg>
     );
 });
+
+CompassIcon.tags = ["guide"];

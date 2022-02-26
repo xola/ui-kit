@@ -13,3 +13,5 @@ export const RulerIcon = createIcon((props) => {
         </svg>
     );
 });
+
+RulerIcon.tags = ["measure", "scale"];
