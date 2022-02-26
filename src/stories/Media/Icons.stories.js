@@ -59,7 +59,7 @@ const IconList = ({ size, color }) => {
 
     return (
         <div className="flex flex-row flex-wrap gap-3">
-            <div className="relative w-full">
+            <div className="sticky top-2 bg-white z-50 w-full opacity-90">
                 <Input
                     type="search"
                     placeholder="Filter icons"

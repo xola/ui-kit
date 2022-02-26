@@ -15,4 +15,4 @@ export const CircleCheckIcon = createIcon((props) => {
     );
 });
 
-CircleCheckIcon.tags = ["ticket", "correct"];
+CircleCheckIcon.tags = ["tick", "correct"];

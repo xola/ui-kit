@@ -9,4 +9,4 @@ export const CheckIcon = createIcon((props) => {
     );
 });
 
-CheckIcon.tags = ["ticket", "correct"];
+CheckIcon.tags = ["tick", "correct"];

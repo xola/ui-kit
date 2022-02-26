@@ -14,4 +14,4 @@ export const MoneyAddIcon = createIcon((props) => {
     );
 });
 
-MoneyAddIcon.tags = ["plus"];
+MoneyAddIcon.tags = ["plus", "dollar"];

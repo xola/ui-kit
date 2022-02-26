@@ -21,4 +21,4 @@ export const DecreaseIcon = createIcon((props) => {
     );
 });
 
-DecreaseIcon.tags = ["money", "refund", "return payment"];
+DecreaseIcon.tags = ["money", "refund", "return payment", "dollar"];
