@@ -31,7 +31,7 @@ export const Default = () => {
                 onClickOutside={() => setIsOpen(!isOpen)}
             >
                 <form onSubmit={handleSubmit}>
-                    <FormGroup className="flex flex-row space-x-2 !m-0">
+                    <FormGroup className="!m-0 flex flex-row space-x-2">
                         <Input />
                         <Select>
                             <option value="hours">hours</option>

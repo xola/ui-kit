@@ -62,8 +62,8 @@ export const Button = ({
         <Tag
             className={clsx(
                 "ui-button",
-                "inline-flex rounded transition-colors border focus:ring disabled:bg-gray-lighter disabled:text-gray-dark disabled:cursor-default",
-                "justify-center items-center font-semibold",
+                "inline-flex rounded border transition-colors focus:ring disabled:cursor-default disabled:bg-gray-lighter disabled:text-gray-dark",
+                "items-center justify-center font-semibold",
                 colors[variant].common,
                 colors[variant][color],
                 sizes[size],
@@ -71,9 +71,9 @@ export const Button = ({
             )}
             {...rest}
         >
-            {icon && iconPlacement === "left" ? <span className="flex-shrink-0 mr-2">{icon}</span> : null}
+            {icon && iconPlacement === "left" ? <span className="mr-2 flex-shrink-0">{icon}</span> : null}
             {children}
-            {icon && iconPlacement === "right" ? <span className="flex-shrink-0 ml-2">{icon}</span> : null}
+            {icon && iconPlacement === "right" ? <span className="ml-2 flex-shrink-0">{icon}</span> : null}
         </Tag>
     );
 };

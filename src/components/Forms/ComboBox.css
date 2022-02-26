@@ -11,7 +11,7 @@
 
 /* Container focus */
 .ui-combo-box__control:focus-within {
-    @apply shadow-none !border-primary;
+    @apply !border-primary shadow-none;
 }
 
 .border-danger .ui-combo-box__control {
@@ -55,7 +55,7 @@
 
 /* Dropdown icon size and color style */
 .ui-combo-box__dropdown-indicator svg {
-    @apply w-3.5 h-3.5 text-black;
+    @apply h-3.5 w-3.5 text-black;
 }
 
 /* Dropdown icon disabled */

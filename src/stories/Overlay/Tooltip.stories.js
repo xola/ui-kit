@@ -82,7 +82,7 @@ export const WithHTMLContent = () => {
         <>
             <p className="mb-3">
                 Since React escapes all HTML passed into props, pass a React element to the{" "}
-                <code className="px-1 bg-gray-lighter">content</code> prop to show HTML content.
+                <code className="bg-gray-lighter px-1">content</code> prop to show HTML content.
             </p>
             <Tooltip
                 placement="right"

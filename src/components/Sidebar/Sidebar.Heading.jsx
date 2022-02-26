@@ -4,9 +4,9 @@ import React from "react";
 
 export const SidebarHeading = ({ icon: Icon, label, className }) => {
     return (
-        <p className={clsx("flex items-center ml-4 text-white", className)}>
-            <Icon className="mr-3 w-5 h-5" />
-            <span className="font-bold text-md">{label}</span>
+        <p className={clsx("ml-4 flex items-center text-white", className)}>
+            <Icon className="mr-3 h-5 w-5" />
+            <span className="text-md font-bold">{label}</span>
         </p>
     );
 };

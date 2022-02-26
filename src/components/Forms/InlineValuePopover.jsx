@@ -14,7 +14,7 @@ export const InlineValuePopover = ({
     return (
         <Popover visible={isOpen} onClickOutside={onClickOutside} {...rest}>
             <span
-                className={clsx("font-bold border-b cursor-pointer border-primary", classNames?.text)}
+                className={clsx("cursor-pointer border-b border-primary font-bold", classNames?.text)}
                 onClick={onClick}
             >
                 {text}

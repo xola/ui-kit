@@ -34,7 +34,7 @@ export const Tag = ({ color = "primary", size = "small", onClose, className, chi
 
             {onClose ? (
                 <CloseIcon
-                    className="float-right ml-2 cursor-pointer text-block ui-tag-close hover:text-gray-darker"
+                    className="text-block ui-tag-close float-right ml-2 cursor-pointer hover:text-gray-darker"
                     onClick={handleClose}
                 />
             ) : null}

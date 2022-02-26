@@ -27,8 +27,8 @@ export const Modal = ({
 
     return (
         <Transition appear show={isOpen} as={Fragment}>
-            <Dialog as="div" className="overflow-y-auto fixed inset-0 z-30 ui-modal" onClose={handleOutsideClick}>
-                <div className="px-4 min-h-screen text-center">
+            <Dialog as="div" className="ui-modal fixed inset-0 z-30 overflow-y-auto" onClose={handleOutsideClick}>
+                <div className="min-h-screen px-4 text-center">
                     <Transition.Child
                         as={Fragment}
                         enter="ease-out duration-300"
@@ -38,7 +38,7 @@ export const Modal = ({
                         leaveFrom="opacity-100"
                         leaveTo="opacity-0"
                     >
-                        <Dialog.Overlay className="fixed inset-0 bg-opacity-75 transition-opacity bg-gray-dark ui-modal-overlay" />
+                        <Dialog.Overlay className="ui-modal-overlay fixed inset-0 bg-gray-dark bg-opacity-75 transition-opacity" />
                     </Transition.Child>
 
                     {/* This element is to trick the browser into centering the modal contents. */}
@@ -59,13 +59,13 @@ export const Modal = ({
                             className={clsx(
                                 className,
                                 sizes[size],
-                                "inline-block w-full p-10 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-lg",
+                                "inline-block w-full transform overflow-hidden rounded-lg bg-white p-10 text-left align-middle shadow-xl transition-all",
                             )}
                         >
                             {onClose ? (
                                 <button
                                     type="button"
-                                    className="hidden absolute top-0 right-0 p-2 m-4 sm:block text-gray hover:text-gray-darker"
+                                    className="absolute top-0 right-0 m-4 hidden p-2 text-gray hover:text-gray-darker sm:block"
                                     onClick={onClose}
                                 >
                                     <CloseIcon />
@@ -83,7 +83,7 @@ export const Modal = ({
 
 const Header = ({ children, description, className, ...rest }) => {
     return (
-        <Dialog.Title as="div" className={clsx(className, "text-center ui-modal-header")} {...rest}>
+        <Dialog.Title as="div" className={clsx(className, "ui-modal-header text-center")} {...rest}>
             <h3 className="text-2xl font-semibold leading-6 text-black">{children}</h3>
 
             {description ? (
@@ -103,7 +103,7 @@ Header.displayName = "Modal.Header";
 Modal.Header = Header;
 
 const Body = ({ className, ...rest }) => {
-    return <div className={clsx(className, "mt-10 ui-modal-body")} {...rest} />;
+    return <div className={clsx(className, "ui-modal-body mt-10")} {...rest} />;
 };
 
 Body.propTypes = {
@@ -114,7 +114,7 @@ Body.displayName = "Modal.Body";
 Modal.Body = Body;
 
 const Footer = ({ className, ...rest }) => {
-    return <div className={clsx(className, "mt-10 space-x-4 text-right ui-modal-footer")} {...rest} />;
+    return <div className={clsx(className, "ui-modal-footer mt-10 space-x-4 text-right")} {...rest} />;
 };
 
 Footer.propTypes = {

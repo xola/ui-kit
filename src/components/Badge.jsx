@@ -30,7 +30,7 @@ export const Badge = ({ color = "primary", size = "small", icon, className, chil
         <span
             className={clsx(
                 "ui-badge",
-                "inline-flex items-center rounded-full whitespace-nowrap",
+                "inline-flex items-center whitespace-nowrap rounded-full",
                 colors[color],
                 sizes[size],
                 className,

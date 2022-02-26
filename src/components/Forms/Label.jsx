@@ -8,7 +8,7 @@ export const Label = ({ isDisabled = false, className, ...rest }) => {
             className={clsx(
                 "ui-label",
                 className,
-                "block text-sm font-bold mb-1",
+                "mb-1 block text-sm font-bold",
                 isDisabled ? "text-gray" : "text-black",
             )}
             {...rest}

@@ -16,8 +16,8 @@ export const BaseInput = ({ as: Tag, size = "medium", isError, className, ...res
                 "disabled:bg-gray-lighter border border-transparent hover:bg-gray-lighter hover:border-black focus:text-black active:text-black",
                 sizes[size],
                 isError
-                    ? "border-danger focus:ring-0 focus:ring-danger focus:border-danger"
-                    : "border-gray-light focus:ring-0 focus:ring-primary focus:border-primary",
+                    ? "border-danger focus:border-danger focus:ring-0 focus:ring-danger"
+                    : "border-gray-light focus:border-primary focus:ring-0 focus:ring-primary",
                 className,
             )}
             {...rest}

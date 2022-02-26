@@ -40,7 +40,7 @@ const BreakdownItem = ({ children, info, value, className, color = "default", ..
             <td className="text-left">{children}</td>
             <td className="text-right">{info}</td>
 
-            <td className="pl-4 text-right w-[1%]">
+            <td className="w-[1%] pl-4 text-right">
                 <Currency shouldRemoveTrailingZeroes={false} currency={currency}>
                     {value}
                 </Currency>
@@ -68,7 +68,7 @@ const BreakdownSubtotalItem = ({ children, info, value, className, color = "blac
             <td className="pt-1 pb-4 text-left">{children}</td>
             <td className="pt-1 pb-4 text-right">{info}</td>
 
-            <td className="pt-1 pb-4 pl-4 text-right w-[1%]">
+            <td className="w-[1%] pt-1 pb-4 pl-4 text-right">
                 <Currency shouldRemoveTrailingZeroes={false} currency={currency}>
                     {value}
                 </Currency>
@@ -91,7 +91,7 @@ Breakdown.SubtotalItem.displayName = "Breakdown.SubtotalItem";
 const BreakdownSeparator = ({ className, ...rest }) => {
     return (
         <tr className={clsx("ui-breakdown-separator", className)} {...rest}>
-            <td colSpan={3} className="pb-1 border-b border-gray-light" />
+            <td colSpan={3} className="border-b border-gray-light pb-1" />
         </tr>
     );
 };
