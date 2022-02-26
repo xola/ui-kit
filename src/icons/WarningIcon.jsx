@@ -19,3 +19,5 @@ export const WarningIcon = createIcon((props) => {
         </svg>
     );
 });
+
+WarningIcon.tags = ["exclamation"];

@@ -8,14 +8,14 @@ export const Skeleton = ({ style, height = 300, shouldAnimate = true, children, 
         <div
             className={clsx(
                 "ui-skeleton",
-                "relative flex items-center justify-center bg-gray-lighter overflow-hidden rounded border border-gray-lighter",
+                "relative flex items-center justify-center overflow-hidden rounded border border-gray-lighter bg-gray-lighter",
                 classNames.container,
             )}
             style={{ height, ...style }}
             {...rest}
         >
             {shouldAnimate ? (
-                <div className={clsx(styles.shimmer, "absolute w-full h-full", classNames.shimmer)} />
+                <div className={clsx(styles.shimmer, "absolute h-full w-full", classNames.shimmer)} />
             ) : null}
             <div className={clsx("text-gray", classNames.text)}>{children}</div>
         </div>

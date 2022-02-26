@@ -14,3 +14,5 @@ export const DinersClubIcon = createIcon((props) => {
         </svg>
     );
 });
+
+DinersClubIcon.tags = ["cc", "credit card"];

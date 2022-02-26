@@ -19,3 +19,5 @@ export const UserChangedIcon = createIcon((props) => {
         </svg>
     );
 });
+
+UserChangedIcon.tags = ["guest", "change quantity"];

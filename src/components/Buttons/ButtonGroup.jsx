@@ -67,9 +67,9 @@ const Button = ({
 
     return (
         <Tag className={classes} {...rest}>
-            {icon && iconPlacement === "left" ? <span className="flex-shrink-0 mr-2">{icon}</span> : null}
+            {icon && iconPlacement === "left" ? <span className="mr-2 flex-shrink-0">{icon}</span> : null}
             {shouldShowText ? children : null}
-            {icon && iconPlacement === "right" ? <span className="flex-shrink-0 ml-2">{icon}</span> : null}
+            {icon && iconPlacement === "right" ? <span className="ml-2 flex-shrink-0">{icon}</span> : null}
         </Tag>
     );
 };

@@ -13,3 +13,5 @@ export const EquipmentIcon = createIcon((props) => {
         </svg>
     );
 });
+
+EquipmentIcon.tags = ["inventory"];

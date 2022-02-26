@@ -19,3 +19,5 @@ export const AtIcon = createIcon((props) => {
         </svg>
     );
 });
+
+AtIcon.tags = ["email"];

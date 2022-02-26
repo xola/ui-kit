@@ -13,3 +13,5 @@ export const CircleCrossIcon = createIcon((props) => {
         </svg>
     );
 });
+
+CircleCrossIcon.tags = ["x", "close"];

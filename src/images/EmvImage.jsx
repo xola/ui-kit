@@ -10,7 +10,7 @@ export const EmvImage = createIcon(({ className, ...rest }) => {
             height="102"
             fill="none"
             viewBox="0 0 103 102"
-            className={clsx("w-[103px] h-[102px]", className)}
+            className={clsx("h-[102px] w-[103px]", className)}
             {...rest}
         >
             <circle cx="51.5" cy="51" r="51" fill="#F0F2F4" />

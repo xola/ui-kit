@@ -78,8 +78,8 @@ export const Default = ({ demoText = "Hello World", ...rest }) => {
         <div className="mt-10 h-20">
             <Popover {...rest}>
                 <Button>{demoText}</Button>
-                <Popover.Content className="p-4 space-y-2">
-                    <p className="font-bold p1">Popover Title</p>
+                <Popover.Content className="space-y-2 p-4">
+                    <p className="p1 font-bold">Popover Title</p>
                     <p className="p2">And here is some amazing content and it is very engaging. Right?</p>
                     <p className="p2">Here is some more because I am crazy</p>
                 </Popover.Content>

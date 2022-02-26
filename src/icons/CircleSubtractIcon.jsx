@@ -13,3 +13,5 @@ export const CircleSubtractIcon = createIcon((props) => {
         </svg>
     );
 });
+
+CircleSubtractIcon.tags = ["no show", "noshow"];

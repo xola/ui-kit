@@ -19,3 +19,5 @@ export const FaceSadIcon = createIcon((props) => {
         </svg>
     );
 });
+
+FaceSadIcon.tags = ["smiley", "emoji"];

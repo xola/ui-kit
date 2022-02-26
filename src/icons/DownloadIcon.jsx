@@ -13,3 +13,5 @@ export const DownloadIcon = createIcon((props) => {
         </svg>
     );
 });
+
+DownloadIcon.tags = ["arrow"];

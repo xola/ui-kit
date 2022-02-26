@@ -21,3 +21,5 @@ export const DiscoverIcon = createIcon((props) => {
         </svg>
     );
 });
+
+DiscoverIcon.tags = ["cc", "credit card"];

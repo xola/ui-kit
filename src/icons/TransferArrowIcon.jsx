@@ -13,3 +13,5 @@ export const TransferArrowIcon = createIcon((props) => {
         </svg>
     );
 });
+
+TransferArrowIcon.tags = ["store credit", "refund", "return", "payment"];

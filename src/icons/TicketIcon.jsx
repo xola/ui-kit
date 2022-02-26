@@ -13,3 +13,5 @@ export const TicketIcon = createIcon((props) => {
         </svg>
     );
 });
+
+TicketIcon.tags = ["partner", "affiliate"];

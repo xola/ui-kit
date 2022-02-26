@@ -24,7 +24,7 @@ export const SubmitButton = ({ color = "primary", isLoading, className, children
         >
             <span
                 className={clsx(
-                    "absolute inset-0 flex justify-center items-center",
+                    "absolute inset-0 flex items-center justify-center",
                     isLoading ? "opacity-100" : "opacity-0",
                 )}
             >
@@ -36,10 +36,10 @@ export const SubmitButton = ({ color = "primary", isLoading, className, children
                     enterFrom="opacity-0"
                     enterTo="opacity-100"
                 >
-                    <Spinner size="current" color="current" className="text-white relative top-[-1px]" />
+                    <Spinner size="current" color="current" className="relative top-[-1px] text-white" />
                 </Transition>
             </span>
-            <span className={clsx(isLoading ? "opacity-0 flex-grow flex-shrink" : "opacity-100")}>{children}</span>
+            <span className={clsx(isLoading ? "flex-shrink flex-grow opacity-0" : "opacity-100")}>{children}</span>
         </Button>
     );
 };

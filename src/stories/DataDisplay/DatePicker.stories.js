@@ -224,11 +224,11 @@ export const EventHandlers = () => {
     return (
         <>
             <div>
-                Selected Date <code className="p-1 mr-1 text-sm bg-gray-lighter">onDayClick</code>
+                Selected Date <code className="mr-1 bg-gray-lighter p-1 text-sm">onDayClick</code>
                 <span className="inline-block pb-3 font-semibold">{dayjs(value).format("ddd, DD MMMM YYYY")}</span>
             </div>
             <div>
-                Current Month <code className="p-1 mr-1 text-sm bg-gray-lighter">handleMonthChange</code>
+                Current Month <code className="mr-1 bg-gray-lighter p-1 text-sm">handleMonthChange</code>
                 <span className="inline-block pb-3 font-semibold">{dayjs(month).format("MMMM YYYY")}</span>
             </div>
             <DatePicker value={value} onMonthChange={handleMonthChange} onChange={handleChange} />

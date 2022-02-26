@@ -13,3 +13,5 @@ export const ReceptionBellIcon = createIcon((props) => {
         </svg>
     );
 });
+
+ReceptionBellIcon.tags = ["affiliate", "partner"];

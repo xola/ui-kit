@@ -13,3 +13,5 @@ export const PenIcon = createIcon((props) => {
         </svg>
     );
 });
+
+PenIcon.tags = ["write"];

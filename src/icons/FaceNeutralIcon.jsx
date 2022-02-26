@@ -19,3 +19,5 @@ export const FaceNeutralIcon = createIcon((props) => {
         </svg>
     );
 });
+
+FaceNeutralIcon.tags = ["smiley", "emoji"];

@@ -14,4 +14,4 @@ export const ReceptionBellMoneyIcon = createIcon((props) => {
     );
 });
 
-ReceptionBellMoneyIcon.tags = ["partner", "affiliate", "reception", "money"];
+ReceptionBellMoneyIcon.tags = ["partner", "affiliate", "money", "dollar"];

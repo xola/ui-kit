@@ -1,10 +1,10 @@
 .DayPicker-wrapper {
-    @apply ring-0 focus:ring-0 focus:outline-none;
+    @apply ring-0 focus:outline-none focus:ring-0;
 }
 
 /* The parent component of the entire date picker */
 .ui-date-picker {
-    @apply pt-6 tracking-tightest ring-0 focus:ring-0 focus:outline-none;
+    @apply pt-6 tracking-tightest ring-0 focus:outline-none focus:ring-0;
     width: 400px;
 }
 
@@ -25,32 +25,32 @@
   * This does not include the today button
   */
 .DayPicker-Month {
-    @apply p-0 pt-0.5 my-0 mx-0 ring-0 focus:ring-0 focus:outline-none;
+    @apply my-0 mx-0 p-0 pt-0.5 ring-0 focus:outline-none focus:ring-0;
     border-collapse: inherit;
     border-spacing: 0 16px;
 }
 
 .DayPicker-Month .DayPicker-Caption {
-    @apply h-10 p-0 m-0;
+    @apply m-0 h-10 p-0;
     margin-bottom: 10px;
 }
 
 /* The name of the month July 2021 */
 .DayPicker-Month .DayPicker-Caption[role="heading"] div {
-    @apply h-10 relative top-[1px] leading-10 font-semibold text-lg;
+    @apply relative top-[1px] h-10 text-lg font-semibold leading-10;
 }
 
 /* The "Today" button.
     A lot of specific vaules which I normally wouldn't use. But this is a third party lib where I cannot change the markup */
 .DayPicker-TodayButton {
-    @apply absolute top-0 right-24 px-3.5 py-2.5 leading-4 h-10;
-    @apply bg-white text-base tracking-tightest text-black font-semibold border border-solid border-gray hover:bg-blue-lighter hover:border-blue rounded;
+    @apply absolute top-0 right-24 h-10 px-3.5 py-2.5 leading-4;
+    @apply rounded border border-solid border-gray bg-white text-base font-semibold tracking-tightest text-black hover:border-blue hover:bg-blue-lighter;
 }
 
 /* The month & year select dropdown that is injected into the date picker at the top */
 .DayPicker-Month .DayPicker-Caption select {
-    @apply h-10 pl-2 pr-6 mr-2.5;
-    @apply bg-white text-gray-darker border border-solid border-gray rounded-md;
+    @apply mr-2.5 h-10 pl-2 pr-6;
+    @apply rounded-md border border-solid border-gray bg-white text-gray-darker;
     background-position: right 0.2rem center;
 }
 
@@ -58,11 +58,11 @@
   * Sunday, Monday, Tuesday headers
   */
 .DayPicker-Weekday {
-    @apply p-0 m-0 font-semibold text-black text-base;
+    @apply m-0 p-0 text-base font-semibold text-black;
 }
 
 .DayPicker-Day {
-    @apply p-0 w-12 h-12 leading-3 ring-0 focus:ring-0 focus:outline-none;
+    @apply h-12 w-12 p-0 leading-3 ring-0 focus:outline-none focus:ring-0;
 }
 
 /* .DayPicker-Day .ui-day-content-value {
@@ -79,30 +79,30 @@
     .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside):hover,
 .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside),
 .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside):hover {
-    @apply bg-transparent ring-0 focus:ring-0 focus:outline-none;
+    @apply bg-transparent ring-0 focus:outline-none focus:ring-0;
 }
 
 /* State when a day is selected */
 .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside),
 .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside):hover {
-    @apply bg-blue text-white border-transparent;
+    @apply border-transparent bg-blue text-white;
 }
 
 /* State when you hover on a day */
 .DayPicker:not(.DayPicker--interactionDisabled)
     .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside)
     .ui-day-content:hover {
-    @apply bg-blue-lighter text-black border border-blue;
+    @apply border border-blue bg-blue-lighter text-black;
 }
 
 /* State when you hover on a **selected** day */
 .DayPicker .DayPicker-Day:not(.DayPicker-Day--disabled) .date:hover {
-    @apply bg-blue-darker rounded-full text-white border-transparent;
+    @apply rounded-full border-transparent bg-blue-darker text-white;
 }
 
 /* Days which are outside the current month */
 .DayPicker-Day--outside .date {
-    @apply text-gray-dark cursor-pointer;
+    @apply cursor-pointer text-gray-dark;
 }
 
 /* Days which are disabled */
@@ -112,7 +112,7 @@
 
 /* Change the dates within the date to have the full light blue to show that it's a part of the range */
 .date-range-picker .DayPicker-Day--selected:not(.DayPicker-Day--start):not(.DayPicker-Day--end) {
-    @apply bg-blue-lighter text-black rounded-none;
+    @apply rounded-none bg-blue-lighter text-black;
 }
 
 /*
@@ -160,7 +160,7 @@
 
 .has-custom-content .DayPicker-Day,
 .has-custom-content .DayPicker-Day:hover {
-    @apply w-12 h-12 border border-transparent;
+    @apply h-12 w-12 border border-transparent;
 }
 
 .has-custom-content
@@ -173,15 +173,15 @@
     .DayPicker:not(.DayPicker--interactionDisabled)
     .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):hover
     .ui-day-content {
-    @apply bg-blue-lighter border border-blue;
+    @apply border border-blue bg-blue-lighter;
 }
 
 .has-custom-content .DayPicker-Day.DayPicker-Day--selected {
-    @apply bg-white border border-transparent;
+    @apply border border-transparent bg-white;
 }
 
 .has-custom-content .DayPicker-Day .ui-day-content {
-    @apply w-12 h-12 border border-transparent rounded-full;
+    @apply h-12 w-12 rounded-full border border-transparent;
 }
 
 .has-custom-content .DayPicker-Day .ui-day-content .ui-day-content-value {
@@ -189,7 +189,7 @@
 }
 
 .has-custom-content .DayPicker-Day .ui-day-content:hover {
-    @apply w-12 h-12 border border-transparent rounded-full;
+    @apply h-12 w-12 rounded-full border border-transparent;
 }
 
 .has-custom-content .DayPicker-Day {
@@ -206,19 +206,19 @@
 }
 
 .has-custom-content .DayPicker-Day.DayPicker-Day--selected .ui-day-content {
-    @apply bg-blue rounded-full font-normal text-black;
+    @apply rounded-full bg-blue font-normal text-black;
 }
 
 .has-custom-content .DayPicker-Day.DayPicker-Day--selected .ui-day-content-custom {
-    @apply font-normal truncate text-gray-light;
+    @apply truncate font-normal text-gray-light;
 }
 
 .has-custom-content .DayPicker-Day--today {
-    @apply bg-white text-black font-normal border border-transparent;
+    @apply border border-transparent bg-white font-normal text-black;
 }
 
 .has-custom-content .DayPicker-Day--today .ui-day-content {
-    @apply bg-white border border-gray-light;
+    @apply border border-gray-light bg-white;
 }
 
 .has-custom-content .DayPicker .DayPicker-Day:not(.DayPicker-Day--disabled):hover {

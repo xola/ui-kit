@@ -13,3 +13,5 @@ export const CirclePauseIcon = createIcon((props) => {
         </svg>
     );
 });
+
+CirclePauseIcon.tags = ["pending"];

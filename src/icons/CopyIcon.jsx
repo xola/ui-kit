@@ -19,3 +19,5 @@ export const CopyIcon = createIcon((props) => {
         </svg>
     );
 });
+
+CopyIcon.tags = ["duplicate"];

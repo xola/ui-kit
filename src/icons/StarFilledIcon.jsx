@@ -14,3 +14,5 @@ export const StarFilledIcon = createIcon((props) => {
         </svg>
     );
 });
+
+StarFilledIcon.tags = ["favourite", "favorite"];

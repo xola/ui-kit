@@ -19,3 +19,5 @@ export const StackIcon = createIcon((props) => {
         </svg>
     );
 });
+
+StackIcon.tags = ["balance", "collect", "money"];

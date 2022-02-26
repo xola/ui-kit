@@ -38,30 +38,31 @@ const IconsStories = {
 const IconList = ({ size, color }) => {
     let currentLetter = "";
     const [search, setSearch] = useState("");
-    const [filteredIcons, setFilteredIcons] = useState(icons);
 
     const handleSearch = (e) => {
-        const { value } = e.target;
-        setSearch(value);
-
-        if (value.trim().length === 0) {
-            setFilteredIcons(icons);
-        } else {
-            const matching = icons.filter(({ Icon, name }) => {
-                const re = new RegExp(`${value}`, "gi");
-                const tags = Icon.tags ?? [];
-                return re.test(name) || tags.some((tag) => re.test(tag));
-            });
-            setFilteredIcons(matching);
-        }
+        setSearch(e.target.value);
     };
+
+    const filteredIcons = icons.filter(({ Icon, name }) => {
+        if (!search) {
+            return true;
+        }
+
+        if (search.trim().length === 0) {
+            return true;
+        }
+
+        const re = new RegExp(`${search}`, "gi");
+        const tags = Icon.tags ?? [];
+        return re.test(name) || tags.some((tag) => re.test(tag));
+    });
 
     return (
         <div className="flex flex-row flex-wrap gap-3">
-            <div className="relative w-full">
+            <div className="sticky top-2 bg-white z-50 w-full opacity-90">
                 <Input
                     type="search"
-                    placeholder="Filter icons"
+                    placeholder="Filter icons by name or tags"
                     value={search}
                     className="pl-7"
                     onChange={handleSearch}
@@ -81,7 +82,10 @@ const IconList = ({ size, color }) => {
                         {isNew && <div className="mt-3 w-full flex-grow text-lg font-bold">{firstLetter}</div>}
                         <div className="space-y-2 rounded border border-gray-lighter p-2 text-center">
                             <Icon size={size} className={color} />
-                            <div className="w-40 text-gray-dark">{name}</div>
+                            <div className="font-mono w-40 text-gray-dark">{name}</div>
+                            <div title="tags" className="text-xs text-gray w-40 whitespace-normal">
+                                {Icon.tags?.join(", ")}
+                            </div>
                         </div>
                     </React.Fragment>
                 );

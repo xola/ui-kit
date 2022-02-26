@@ -13,3 +13,5 @@ export const DownArrowIcon = createIcon((props) => {
         </svg>
     );
 });
+
+DownArrowIcon.tags = ["collapse", "fold"];
