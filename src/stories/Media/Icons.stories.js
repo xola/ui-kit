@@ -82,7 +82,7 @@ const IconList = ({ size, color }) => {
                         {isNew && <div className="mt-3 w-full flex-grow text-lg font-bold">{firstLetter}</div>}
                         <div className="space-y-2 rounded border border-gray-lighter p-2 text-center">
                             <Icon size={size} className={color} />
-                            <div className="w-40 text-gray-dark">{name}</div>
+                            <div className="font-mono w-40 text-gray-dark">{name}</div>
                         </div>
                     </React.Fragment>
                 );

@@ -1,17 +1,19 @@
 import React from "react";
 import { createIcon } from "../helpers/icon";
 
-export const PencilIcon = createIcon((props) => {
+export const CircleDotIcon = createIcon((props) => {
     return (
         <svg viewBox="0 0 14 14" width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
             <path
+                d="M6.9 13c3.258 0 5.9-2.686 5.9-6s-2.642-6-5.9-6C3.642 1 1 3.686 1 7s2.642 6 5.9 6z"
                 stroke="currentColor"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                d="M2.5 11h9M11.03 4.746l-5.708 5.708v0a.379.379 0 01-.193.104l-2.176.435v0a.38.38 0 01-.446-.447l.435-2.174v0a.383.383 0 01.104-.194L8.755 2.47v0a1.605 1.605 0 012.269 0l.007.007v0a1.606 1.606 0 010 2.27v0z"
+            />
+            <path
+                d="M8.375 7c0-.828-.66-1.5-1.475-1.5-.815 0-1.475.672-1.475 1.5s.66 1.5 1.475 1.5c.815 0 1.475-.672 1.475-1.5z"
+                fill="currentColor"
             />
         </svg>
     );
 });
-
-PencilIcon.tags = ["pen", "pencil", "waiver", "sign"];

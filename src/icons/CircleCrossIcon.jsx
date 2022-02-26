@@ -14,4 +14,4 @@ export const CircleCrossIcon = createIcon((props) => {
     );
 });
 
-CircleCrossIcon.tags = ["delete", "disable"];
+CircleCrossIcon.tags = ["x", "close"];

@@ -15,3 +15,5 @@ export const CloseIcon = createIcon((props) => {
         </svg>
     );
 });
+
+CloseIcon.tags = ["cross", "delete", "x"];
