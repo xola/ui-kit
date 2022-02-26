@@ -20,3 +20,5 @@ export const TrashIcon = createIcon((props) => {
         </svg>
     );
 });
+
+TrashIcon.tags = ["delete", "remove", "bin"];

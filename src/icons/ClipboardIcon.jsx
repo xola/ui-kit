@@ -19,3 +19,5 @@ export const ClipboardIcon = createIcon((props) => {
         </svg>
     );
 });
+
+ClipboardIcon.tags = ["resources"];

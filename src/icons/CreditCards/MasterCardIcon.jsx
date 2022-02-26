@@ -26,3 +26,5 @@ export const MasterCardIcon = createIcon((props) => {
         </svg>
     );
 });
+
+MasterCardIcon.tags = ["cc", "credit card"];

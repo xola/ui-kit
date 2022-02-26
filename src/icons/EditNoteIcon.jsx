@@ -13,3 +13,5 @@ export const EditNoteIcon = createIcon((props) => {
         </svg>
     );
 });
+
+EditNoteIcon.tags = ["pencil"];

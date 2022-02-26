@@ -13,3 +13,5 @@ export const XrayIcon = createIcon((props) => {
         </svg>
     );
 });
+
+XrayIcon.tags = ["nps", "net promoter score"];

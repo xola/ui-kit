@@ -19,3 +19,5 @@ export const CircleDollarIcon = createIcon((props) => {
         </svg>
     );
 });
+
+CircleDollarIcon.tags = ["money", "currency"];

@@ -19,3 +19,5 @@ export const UserSubtractIcon = createIcon((props) => {
         </svg>
     );
 });
+
+UserSubtractIcon.tags = ["minus", "remove"];

@@ -27,3 +27,5 @@ export const InvoiceIcon = createIcon((props) => {
         </svg>
     );
 });
+
+InvoiceIcon.tags = ["money"];

@@ -13,3 +13,5 @@ export const CartIcon = createIcon((props) => {
         </svg>
     );
 });
+
+CartIcon.tags = ["checkout"];

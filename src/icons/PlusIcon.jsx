@@ -8,3 +8,5 @@ export const PlusIcon = createIcon((props) => {
         </svg>
     );
 });
+
+PlusIcon.tags = ["add"];

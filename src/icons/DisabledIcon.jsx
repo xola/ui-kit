@@ -14,4 +14,4 @@ export const DisabledIcon = createIcon((props) => {
     );
 });
 
-DisabledIcon.tags = ["no show", "noshow"];
+DisabledIcon.tags = ["stop"];

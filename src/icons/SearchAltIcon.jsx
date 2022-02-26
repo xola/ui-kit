@@ -19,3 +19,5 @@ export const SearchAltIcon = createIcon((props) => {
         </svg>
     );
 });
+
+SearchAltIcon.tags = ["magnifying glass"];

@@ -25,3 +25,5 @@ export const MoneyBackIcon = createIcon((props) => {
         </svg>
     );
 });
+
+MoneyBackIcon.tags = ["refund", "return", "money", "payment"];

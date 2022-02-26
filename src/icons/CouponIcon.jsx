@@ -11,3 +11,5 @@ export const CouponIcon = createIcon((props) => {
         </svg>
     );
 });
+
+CouponIcon.tags = ["voucher", "tags"];

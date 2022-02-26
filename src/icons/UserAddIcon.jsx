@@ -13,3 +13,5 @@ export const UserAddIcon = createIcon((props) => {
         </svg>
     );
 });
+
+UserAddIcon.tags = ["plus"];

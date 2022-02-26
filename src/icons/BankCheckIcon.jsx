@@ -22,4 +22,4 @@ export const BankCheckIcon = createIcon((props) => {
     );
 });
 
-BankCheckIcon.tags = ["cheque", "payment method"];
+BankCheckIcon.tags = ["cheque", "payment"];

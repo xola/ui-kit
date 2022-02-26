@@ -8,3 +8,5 @@ export const MenuIcon = createIcon((props) => {
         </svg>
     );
 });
+
+MenuIcon.tags = ["hamburger", "sidebar"];

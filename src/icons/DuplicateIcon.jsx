@@ -26,3 +26,5 @@ export const DuplicateIcon = createIcon((props) => {
         </svg>
     );
 });
+
+DuplicateIcon.tags = ["copy"];

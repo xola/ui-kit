@@ -8,3 +8,5 @@ export const CheckIcon = createIcon((props) => {
         </svg>
     );
 });
+
+CheckIcon.tags = ["ticket", "correct"];

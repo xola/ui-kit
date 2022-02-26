@@ -19,3 +19,5 @@ export const ArrowCcwIcon = createIcon((props) => {
         </svg>
     );
 });
+
+ArrowCcwIcon.tags = ["counter clockwise"];

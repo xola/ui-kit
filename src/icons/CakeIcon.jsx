@@ -23,3 +23,5 @@ export const CakeIcon = createIcon((props) => {
         </svg>
     );
 });
+
+CakeIcon.tags = ["birthday", "date of birth"];

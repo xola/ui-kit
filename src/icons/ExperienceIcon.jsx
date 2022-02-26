@@ -19,3 +19,5 @@ export const ExperienceIcon = createIcon((props) => {
         </svg>
     );
 });
+
+ExperienceIcon.tags = ["product", "listing"];

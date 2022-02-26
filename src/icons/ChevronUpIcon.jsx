@@ -8,3 +8,5 @@ export const ChevronUpIcon = createIcon((props) => {
         </svg>
     );
 });
+
+ChevronUpIcon.tags = ["arrow"];

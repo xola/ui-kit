@@ -14,3 +14,5 @@ export const MinusIcon = createIcon((props) => {
         </svg>
     );
 });
+
+MinusIcon.tags = ["subtract", "hyphen"];

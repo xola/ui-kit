@@ -25,3 +25,5 @@ export const HandIcon = createIcon((props) => {
         </svg>
     );
 });
+
+HandIcon.tags = ["cap"];

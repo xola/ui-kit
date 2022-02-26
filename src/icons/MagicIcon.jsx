@@ -29,3 +29,5 @@ export const MagicIcon = createIcon((props) => {
         </svg>
     );
 });
+
+MagicIcon.tags = ["view", "custom"];

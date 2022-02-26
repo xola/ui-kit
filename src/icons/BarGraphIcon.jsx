@@ -14,3 +14,6 @@ export const BarGraphIcon = createIcon((props) => {
         </svg>
     );
 });
+
+
+BarGraphIcon.tags = ["stats", "reports", "analytics"];

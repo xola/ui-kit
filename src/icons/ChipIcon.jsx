@@ -19,3 +19,5 @@ export const ChipIcon = createIcon((props) => {
         </svg>
     );
 });
+
+ChipIcon.tags = ["payment", "custom payment"];

@@ -13,3 +13,5 @@ export const VeteranIcon = createIcon((props) => {
         </svg>
     );
 });
+
+VeteranIcon.tags = ["military", "soldier"];

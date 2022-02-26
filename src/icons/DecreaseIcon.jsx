@@ -20,3 +20,5 @@ export const DecreaseIcon = createIcon((props) => {
         </svg>
     );
 });
+
+DecreaseIcon.tags = ["money", "refund", "return payment"];

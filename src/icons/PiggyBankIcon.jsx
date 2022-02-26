@@ -20,3 +20,5 @@ export const PiggyBankIcon = createIcon((props) => {
         </svg>
     );
 });
+
+PiggyBankIcon.tags = ["purchase", "gift", "store credit"];

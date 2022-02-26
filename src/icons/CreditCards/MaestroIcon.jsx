@@ -22,3 +22,5 @@ export const MaestroIcon = createIcon((props) => {
         </svg>
     );
 });
+
+MaestroIcon.tags = ["cc", "credit card"];
