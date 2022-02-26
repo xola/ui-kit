@@ -14,4 +14,4 @@ export const SeniorIcon = createIcon((props) => {
     );
 });
 
-SeniorIcon.tags = ["old"];
+SeniorIcon.tags = ["old", "demographic"];

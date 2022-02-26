@@ -20,4 +20,4 @@ export const CrownIcon = createIcon((props) => {
     );
 });
 
-CrownIcon.tags = ["organizer"];
+CrownIcon.tags = ["organizer", "membership"];

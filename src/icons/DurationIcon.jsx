@@ -13,3 +13,5 @@ export const DurationIcon = createIcon((props) => {
         </svg>
     );
 });
+
+DurationIcon.tags = ["hour glass", "time"];

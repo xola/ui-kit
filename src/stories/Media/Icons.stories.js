@@ -62,7 +62,7 @@ const IconList = ({ size, color }) => {
             <div className="sticky top-2 bg-white z-50 w-full opacity-90">
                 <Input
                     type="search"
-                    placeholder="Filter icons"
+                    placeholder="Filter icons by name or tags"
                     value={search}
                     className="pl-7"
                     onChange={handleSearch}

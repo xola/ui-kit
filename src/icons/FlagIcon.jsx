@@ -13,3 +13,5 @@ export const FlagIcon = createIcon((props) => {
         </svg>
     );
 });
+
+FlagIcon.tags = ["organizer"];
