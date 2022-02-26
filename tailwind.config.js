@@ -43,7 +43,7 @@ const colors = {
         light: "#FFA1A1",
         DEFAULT: "#FF5A5A",
         dark: "#E93737",
-        darker: "#CD1F1F", // Made up by Rushi till Barth gives us a color
+        darker: "#CD1F1F",
     },
 
     yellow: {
