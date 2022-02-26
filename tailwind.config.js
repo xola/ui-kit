@@ -8,7 +8,6 @@ const colors = {
     white: "#ffffff",
 
     gray: {
-        hover: "#F7F9FB",
         lighter: "#F0F2F4",
         light: "#E0E3E7",
         DEFAULT: "#BDC0C6",
