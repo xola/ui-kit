@@ -28,7 +28,7 @@ export const X2 = () => {
             X2
         </Badge>
     );
-    return <Login onSubmit={onSubmit} backgroundType="x2" label={label} />;
+    return <Login backgroundType="x2" label={label} onSubmit={onSubmit} />;
 };
 
 export const Admin = () => {
@@ -37,12 +37,12 @@ export const Admin = () => {
             Admin
         </Badge>
     );
-    return <Login onSubmit={onSubmit} backgroundType="admin" label={label} />;
+    return <Login backgroundType="admin" label={label} onSubmit={onSubmit} />;
 };
 
 export const Scaffold = () => {
     const label = <Badge className="!rounded">Scaffold</Badge>;
-    return <Login onSubmit={onSubmit} backgroundType="scaffold" label={label} />;
+    return <Login backgroundType="scaffold" label={label} onSubmit={onSubmit} />;
 };
 
 export default LoginStories;
