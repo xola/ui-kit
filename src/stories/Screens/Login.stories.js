@@ -1,5 +1,5 @@
 import React from "react";
-import { Login } from "../..";
+import { Badge, Login } from "../..";
 
 const LoginStories = {
     title: "Screens/Login",
@@ -20,6 +20,29 @@ const onSubmit = (email, password) => {
 
 export const Default = () => {
     return <Login onSubmit={onSubmit} />;
+};
+
+export const X2 = () => {
+    const label = (
+        <Badge color="warning" className="!rounded">
+            X2
+        </Badge>
+    );
+    return <Login onSubmit={onSubmit} backgroundType="x2" label={label} />;
+};
+
+export const Admin = () => {
+    const label = (
+        <Badge color="secondary" className="!rounded">
+            Admin
+        </Badge>
+    );
+    return <Login onSubmit={onSubmit} backgroundType="admin" label={label} />;
+};
+
+export const Scaffold = () => {
+    const label = <Badge className="!rounded">Scaffold</Badge>;
+    return <Login onSubmit={onSubmit} backgroundType="scaffold" label={label} />;
 };
 
 export default LoginStories;
