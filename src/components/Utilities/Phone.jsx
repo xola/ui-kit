@@ -38,9 +38,7 @@ export const Phone = ({ countryCode = "US", className, children }) => {
                 {formattedNumber}
             </span>
         );
-    } catch (error) {
-        console.debug("Invalid phone number", number, error.message);
-    }
+    } catch {}
 
     return (
         <span className={clsx("ui-phone", className)} data-country-code={countryCode}>

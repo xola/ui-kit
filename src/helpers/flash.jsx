@@ -36,7 +36,6 @@ export const flash = {
         }
 
         const classNames = flash.getStyles(color, size, className, canClose);
-        console.debug("Toast props", finalProps);
         toast.custom(flash.container.bind(this, text, classNames, canClose ? onClose : null), finalProps);
     },
 
