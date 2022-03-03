@@ -13,3 +13,5 @@ export const SeniorV2Icon = createIcon((props) => {
         </svg>
     );
 });
+
+SeniorV2Icon.tags = ["old"];

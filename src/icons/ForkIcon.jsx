@@ -13,3 +13,5 @@ export const ForkIcon = createIcon((props) => {
         </svg>
     );
 });
+
+ForkIcon.tags = ["trident"];

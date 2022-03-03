@@ -33,7 +33,7 @@ export const Tab = ({
             className={clsx(
                 "ui-tabs-tab",
                 className,
-                "py-4 px-8 cursor-pointer text-center font-semibold whitespace-nowrap focus-visible:ring",
+                "cursor-pointer whitespace-nowrap py-4 px-8 text-center font-semibold focus-visible:ring",
                 variants[variant](isActive),
             )}
             {...rest}

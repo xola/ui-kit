@@ -3,19 +3,21 @@ import { createIcon } from "../helpers/icon";
 
 export const ClipboardIcon = createIcon((props) => {
     return (
-        <svg width="14" height="17" fill="none" viewBox="0 0 14 17" xmlns="http://www.w3.org/2000/svg" {...props}>
+        <svg viewBox="0 0 14 14" width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
             <path
+                d="M8.874 1.957h1.957c.264 0 .478.214.478.478v9.087a.478.478 0 01-.478.478H3.178a.478.478 0 01-.478-.478V2.435c0-.264.214-.478.478-.478h1.957"
                 stroke="currentColor"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                d="M10.945 2.326h1.326v0c.367 0 .663.297.663.663v12.598a.663.663 0 01-.662.663H1.662v0A.663.663 0 011 15.587v0V2.989v0c0-.366.297-.663.663-.663h1.326"
             />
             <path
+                d="M7.961 1.957a.957.957 0 10-1.913 0h-.956V3.39h3.826V1.957H7.96z"
                 stroke="currentColor"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                d="M8.294 2.326a1.326 1.326 0 00-2.653 0H4.315v1.99H9.62v-1.99H8.294z"
             />
         </svg>
     );
 });
+
+ClipboardIcon.tags = ["resources"];

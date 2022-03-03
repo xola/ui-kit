@@ -29,16 +29,16 @@ export const Login = ({ defaultValues, isLoading = false, error = null, onSubmit
     };
 
     return (
-        <div className="overflow-hidden h-screen bg-white bg-opacity-40 ui-login">
-            <div className="flex flex-col justify-center items-center space-y-8 w-full h-[90%] md:full">
-                <div className="py-0 px-9 rounded-lg md:py-10 md:bg-white w-82">
+        <div className="ui-login h-screen overflow-hidden bg-white bg-opacity-40">
+            <div className="md:full flex h-[90%] w-full flex-col items-center justify-center space-y-8">
+                <div className="w-82 rounded-lg py-0 px-9 md:bg-white md:py-10">
                     <div className="mb-12 md:mb-10">
-                        <XolaLogo className="mx-auto w-auto h-10 md:mb-20 md:h-12" />
+                        <XolaLogo className="mx-auto h-10 w-auto md:mb-20 md:h-12" />
                     </div>
 
                     <form onSubmit={handleSubmit}>
                         <fieldset className="space-y-6" disabled={isLoading}>
-                            <div className="-space-y-px bg-white rounded-md">
+                            <div className="-space-y-px rounded-md bg-white">
                                 <FormGroup className="md:mb-7">
                                     <Label>Email</Label>
 
@@ -82,10 +82,10 @@ export const Login = ({ defaultValues, isLoading = false, error = null, onSubmit
                                 Login
                             </Button>
 
-                            <div className="mt-5 text-sm text-center">
+                            <div className="mt-5 text-center text-sm">
                                 <a
                                     href={passwordResetUrl}
-                                    className="font-semibold underline hover:text-black text-gray-darker"
+                                    className="font-semibold text-gray-darker underline hover:text-black"
                                     target="_blank"
                                     rel="noreferrer"
                                 >
@@ -98,8 +98,8 @@ export const Login = ({ defaultValues, isLoading = false, error = null, onSubmit
             </div>
 
             <footer>
-                <div className="flex overflow-hidden flex-col justify-center items-center py-1 px-4 w-full sm:px-6 lg:px-8">
-                    <div className="px-4 m-5 text-xs text-center rounded-lg opacity-30 md:text-sm hover:opacity-80 w-82">
+                <div className="flex w-full flex-col items-center justify-center overflow-hidden py-1 px-4 sm:px-6 lg:px-8">
+                    <div className="m-5 w-82 rounded-lg px-4 text-center text-xs opacity-30 hover:opacity-80 md:text-sm">
                         <a href="https://www.xola.com/team" target="_blank" className="md:text-gray" rel="noreferrer">
                             Handcrafted in Houston, Belgrade &amp; Bengaluru
                             <div className="text-center">&copy; {new Date().getFullYear()} Xola, Inc.</div>

@@ -13,3 +13,5 @@ export const UserIcon = createIcon((props) => {
         </svg>
     );
 });
+
+UserIcon.tags = ["adult", "demographic"];

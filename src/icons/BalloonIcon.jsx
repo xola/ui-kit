@@ -13,3 +13,5 @@ export const BalloonIcon = createIcon((props) => {
         </svg>
     );
 });
+
+BalloonIcon.tags = ["child", "demographic"];

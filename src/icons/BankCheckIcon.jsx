@@ -21,3 +21,5 @@ export const BankCheckIcon = createIcon((props) => {
         </svg>
     );
 });
+
+BankCheckIcon.tags = ["cheque", "payment"];

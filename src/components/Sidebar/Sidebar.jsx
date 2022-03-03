@@ -16,7 +16,7 @@ export const Sidebar = ({ children, className, footer, notifications, isFixed = 
             className={clsx(
                 "ui-sidebar",
                 isFixed ? "fixed" : "relative",
-                "w-16 md:w-24 xl:w-50 h-full py-2 px-1 overflow-y-auto bg-black text-white flex flex-col",
+                "flex h-full w-16 flex-col overflow-y-auto bg-black py-2 px-1 text-white md:w-24 xl:w-50",
                 className,
             )}
         >
@@ -27,8 +27,8 @@ export const Sidebar = ({ children, className, footer, notifications, isFixed = 
             <div className="mb-10 text-center">
                 <XolaLogoCircle
                     className={clsx(
-                        "inline-block w-12 h-12 xl:w-24 xl:h-24",
-                        onLogoClick && "cursor-pointer hover:opacity-80 transition-opacity",
+                        "inline-block h-12 w-12 xl:h-24 xl:w-24",
+                        onLogoClick && "cursor-pointer transition-opacity hover:opacity-80",
                     )}
                     onClick={onLogoClick}
                 />

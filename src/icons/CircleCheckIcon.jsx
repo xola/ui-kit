@@ -14,3 +14,5 @@ export const CircleCheckIcon = createIcon((props) => {
         </svg>
     );
 });
+
+CircleCheckIcon.tags = ["tick", "correct"];

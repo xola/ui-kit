@@ -19,3 +19,5 @@ export const CalendarWeekIcon = createIcon((props) => {
         </svg>
     );
 });
+
+CalendarWeekIcon.tags = ["date"];

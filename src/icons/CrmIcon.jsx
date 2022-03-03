@@ -31,3 +31,5 @@ export const CrmIcon = createIcon((props) => {
         </svg>
     );
 });
+
+CrmIcon.tags = ["user"];

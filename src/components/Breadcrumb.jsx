@@ -6,7 +6,7 @@ export const Breadcrumb = ({ className, classNames = {}, separator = "/", childr
     const count = Children.count(children) - 1;
 
     return (
-        <div className={clsx("ui-breadcrumb", "text-2xl whitespace-nowrap font-semibold", className)} {...rest}>
+        <div className={clsx("ui-breadcrumb", "whitespace-nowrap text-2xl font-semibold", className)} {...rest}>
             {Children.map(children, (child, index) => {
                 const isLast = index >= count;
 
@@ -15,7 +15,7 @@ export const Breadcrumb = ({ className, classNames = {}, separator = "/", childr
                         <span className={clsx(classNames.item, isLast ? "text-black" : "text-gray-dark")}>{child}</span>
 
                         {isLast ? null : (
-                            <span className={clsx(classNames.separator, "text-gray-dark mx-2")}>{separator}</span>
+                            <span className={clsx(classNames.separator, "mx-2 text-gray-dark")}>{separator}</span>
                         )}
                     </>
                 );

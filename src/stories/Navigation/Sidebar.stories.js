@@ -41,7 +41,7 @@ export const Default = () => {
 
                 <Sidebar.Menu
                     content={
-                        <div className="py-6 space-y-5">
+                        <div className="space-y-5 py-6">
                             <Sidebar.Heading icon={AnnounceIcon} label="Marketing" />
                             <div>
                                 <Sidebar.Link isActive isSubMenuItem>

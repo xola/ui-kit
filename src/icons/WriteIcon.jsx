@@ -13,3 +13,5 @@ export const WriteIcon = createIcon((props) => {
         </svg>
     );
 });
+
+WriteIcon.tags = ["pen", "waiver"];

@@ -19,3 +19,5 @@ export const BoxIcon = createIcon((props) => {
         </svg>
     );
 });
+
+BoxIcon.tags = ["add-ons", "addons", "merchandise", "other", "payment"];

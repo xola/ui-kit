@@ -13,3 +13,5 @@ export const ChecklistIcon = createIcon((props) => {
         </svg>
     );
 });
+
+ChecklistIcon.tags = ["reserved"];

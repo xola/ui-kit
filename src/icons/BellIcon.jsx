@@ -19,3 +19,5 @@ export const BellIcon = createIcon((props) => {
         </svg>
     );
 });
+
+BellIcon.tags = ["notification", "pending"];

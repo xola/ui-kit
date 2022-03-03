@@ -13,3 +13,5 @@ export const SendIcon = createIcon((props) => {
         </svg>
     );
 });
+
+SendIcon.tags = ["message", "email"];

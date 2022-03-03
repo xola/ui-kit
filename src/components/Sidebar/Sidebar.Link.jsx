@@ -10,10 +10,10 @@ export const SidebarLink = ({ isActive = false, icon: Icon, children, isSubMenuI
             type="button"
             className={clsx(
                 "ui-sidebar-link",
-                "transition-colors leading-none flex items-center xl:justify-start w-full rounded",
+                "flex w-full items-center rounded leading-none transition-colors xl:justify-start",
                 {
                     "bg-primary text-white hover:bg-primary-dark": isActive,
-                    "hover:bg-gray-darker text-gray": !isActive,
+                    "text-gray hover:bg-gray-darker": !isActive,
                     "justify-start px-6 py-2": isSubMenuItem,
                     "justify-center py-3 xl:px-6": !isSubMenuItem,
                 },
@@ -23,10 +23,10 @@ export const SidebarLink = ({ isActive = false, icon: Icon, children, isSubMenuI
             {isSubMenuItem ? (
                 <Dot className={clsx("mr-3", { "bg-white": isActive, "bg-gray": !isActive })} />
             ) : (
-                <Icon className="w-5 h-5 xl:mr-3" />
+                <Icon className="h-5 w-5 xl:mr-3" />
             )}
             <span className={clsx("hidden px-1 xl:inline", { "!inline text-left": isSubMenuItem })}>{children}</span>
-            {isSubMenuItem ? null : <ChevronRightIcon className="hidden ml-auto w-3 h-3 xl:inline" />}
+            {isSubMenuItem ? null : <ChevronRightIcon className="ml-auto hidden h-3 w-3 xl:inline" />}
         </button>
     );
 };

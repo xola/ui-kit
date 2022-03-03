@@ -19,3 +19,5 @@ export const MegaphoneIcon = createIcon((props) => {
         </svg>
     );
 });
+
+MegaphoneIcon.tags = ["marketing", "loud speaker"];

@@ -15,3 +15,5 @@ export const WarningTriangleIcon = createIcon((props) => {
         </svg>
     );
 });
+
+WarningTriangleIcon.tags = ["exclamation"];

@@ -5,10 +5,10 @@ import React, { cloneElement } from "react";
 const colors = {
     primary: "bg-primary-lighter text-primary-dark",
     secondary: "bg-secondary-lighter text-black",
-    success: "bg-success-lighter text-success-dark",
-    warning: "bg-warning-lighter text-warning-dark",
+    success: "bg-success-lightish text-success-darker",
+    warning: "bg-warning-lightish text-warning-darker",
     caution: "bg-caution-lighter text-caution-dark",
-    danger: "bg-danger-lighter text-danger-dark",
+    danger: "bg-danger-lightish text-danger-dark",
     problem: "bg-warning text-white",
     critical: "bg-danger text-white",
 };
@@ -30,7 +30,7 @@ export const Badge = ({ color = "primary", size = "small", icon, className, chil
         <span
             className={clsx(
                 "ui-badge",
-                "inline-flex items-center rounded-full whitespace-nowrap",
+                "inline-flex items-center whitespace-nowrap rounded-full",
                 colors[color],
                 sizes[size],
                 className,

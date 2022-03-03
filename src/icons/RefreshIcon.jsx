@@ -19,3 +19,5 @@ export const RefreshIcon = createIcon((props) => {
         </svg>
     );
 });
+
+RefreshIcon.tags = ["switch"];

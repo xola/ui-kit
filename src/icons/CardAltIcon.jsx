@@ -13,3 +13,5 @@ export const CardAltIcon = createIcon((props) => {
         </svg>
     );
 });
+
+CardAltIcon.tags = ["credit card", "cc"];

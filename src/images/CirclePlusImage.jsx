@@ -10,7 +10,7 @@ export const CirclePlusImage = createIcon(({ className, ...rest }) => {
             height="24"
             fill="none"
             viewBox="0 0 96 24"
-            className={clsx("w-[96px] h-[24px]", className)}
+            className={clsx("h-[24px] w-[96px]", className)}
             {...rest}
         >
             <path stroke="#BDC0C6" strokeDasharray="4 4" d="M0.5 12.5L95.5 12.5" />

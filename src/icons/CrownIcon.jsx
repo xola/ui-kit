@@ -19,3 +19,5 @@ export const CrownIcon = createIcon((props) => {
         </svg>
     );
 });
+
+CrownIcon.tags = ["organizer", "membership"];

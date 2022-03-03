@@ -37,7 +37,7 @@ const ButtonStories = {
 
 export const Default = (props) => {
     return (
-        <div className="flex flex-col space-y-4 w-20">
+        <div className="flex w-20 flex-col space-y-4">
             <Button {...props}>Default</Button>
             <Button disabled color="primary" {...props}>
                 Default
@@ -62,7 +62,7 @@ export const Colors = () => {
 export const OutlineVariant = () => {
     return (
         <div className="space-x-4">
-            <code className="block mb-5 font-mono">Use variant=&quot;outline&quot;</code>
+            <code className="mb-5 block font-mono">Use variant=&quot;outline&quot;</code>
             <Button variant="outline" color="primary">
                 Primary
             </Button>
@@ -88,7 +88,7 @@ export const OutlineVariant = () => {
 export const LinkVariant = () => {
     return (
         <div className="space-x-4">
-            <code className="block mb-5 font-mono">Use variant=&quot;link&quot;</code>
+            <code className="mb-5 block font-mono">Use variant=&quot;link&quot;</code>
             <Button variant="link" color="primary">
                 Primary
             </Button>
@@ -139,7 +139,7 @@ export const AsLink = () => {
 
 export const FullWidth = () => {
     return (
-        <div className="space-y-4 w-full">
+        <div className="w-full space-y-4">
             <Button className="w-full">Default</Button>
 
             <Button icon={<UserIcon />} className="w-full">
