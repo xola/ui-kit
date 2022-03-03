@@ -9,7 +9,7 @@
 }
 
 .date-range-picker {
-    @apply px-5 w-full;
+    @apply w-full px-5;
 }
 
 .DayPicker-NavBar {

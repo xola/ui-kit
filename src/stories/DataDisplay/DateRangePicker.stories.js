@@ -1,7 +1,6 @@
 import dayjs from "dayjs";
-import { random } from "lodash";
 import React, { useState } from "react";
-import { DatePicker, DatePickerPopover, theme, Button } from "../..";
+import { DatePicker, DatePickerPopover } from "../..";
 
 const DateRangePickerStories = {
     title: "Data Display/Date & Time/Date Range Picker",
@@ -36,8 +35,8 @@ export const DateRangeWithInput = () => {
             <DatePickerPopover
                 variant="range"
                 value={value}
-                onChange={setValue}
                 popoverProps={{ placement: "bottom-start" }}
+                onChange={setValue}
             >
                 <div className="w-75 cursor-pointer bg-gray-lighter p-3">
                     {dayjs(value.from).format("LL")}
