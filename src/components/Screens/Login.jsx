@@ -8,9 +8,24 @@ import { FormGroup } from "../Forms/FormGroup";
 import { Input } from "../Forms/Input";
 import { Label } from "../Forms/Label";
 import { Spinner } from "../Spinner";
-import "./Login.css";
 
-export const Login = ({ defaultValues, isLoading = false, error = null, onSubmit, passwordResetUrl }) => {
+const backgrounds = {
+    default: "https://files.xola.com/x2/images/login/old-photo-1554629947-334ff61d85dc.jpeg",
+    x2: "https://files.xola.com/x2/images/login/x2-34fc260271ca80160c61777846784611.jpeg",
+    admin: "https://files.xola.com/x2/images/login/admin-42e40b1836193f064f0fe0fafce1d2af.png",
+    scaffold: "https://files.xola.com/x2/images/login/scaffold-f3bd19169b6976f1c75da53e7b61d0a7.jpeg",
+};
+
+export const Login = ({
+    defaultValues,
+    isLoading = false,
+    error = null,
+    onSubmit,
+    passwordResetUrl,
+    label,
+    backgroundType = "default",
+    ...rest
+}) => {
     const [values, setValues] = useState({ email: "", password: "", shouldRemember: false, ...defaultValues });
 
     const handleInputChange = (event) => {
@@ -28,12 +43,21 @@ export const Login = ({ defaultValues, isLoading = false, error = null, onSubmit
         onSubmit(values);
     };
 
+    const backgroundImage = backgrounds[backgroundType] ?? backgrounds.default;
+    const style = {
+        backgroundImage: `url("${backgroundImage}")`,
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
+        backgroundSize: "cover",
+    };
+
     return (
-        <div className="ui-login h-screen overflow-hidden bg-white bg-opacity-40">
+        <div className="ui-login h-screen overflow-hidden bg-white bg-opacity-40" style={style} {...rest}>
             <div className="md:full flex h-[90%] w-full flex-col items-center justify-center space-y-8">
                 <div className="w-82 rounded-lg py-0 px-9 md:bg-white md:py-10">
-                    <div className="mb-12 md:mb-10">
-                        <XolaLogo className="mx-auto h-10 w-auto md:mb-20 md:h-12" />
+                    <div className="mb-12 space-y-2 md:mb-20">
+                        <XolaLogo className="mx-auto h-10 w-auto md:h-12" />
+                        {label && <div className="flex items-center justify-center">{label}</div>}
                     </div>
 
                     <form onSubmit={handleSubmit}>
@@ -99,8 +123,13 @@ export const Login = ({ defaultValues, isLoading = false, error = null, onSubmit
 
             <footer>
                 <div className="flex w-full flex-col items-center justify-center overflow-hidden py-1 px-4 sm:px-6 lg:px-8">
-                    <div className="m-5 w-82 rounded-lg px-4 text-center text-xs opacity-30 hover:opacity-80 md:text-sm">
-                        <a href="https://www.xola.com/team" target="_blank" className="md:text-gray" rel="noreferrer">
+                    <div className="m-5 w-82 rounded-lg px-4 text-center text-xs opacity-80 md:text-sm">
+                        <a
+                            href="https://www.xola.com/team"
+                            target="_blank"
+                            className="md:text-gray-dark"
+                            rel="noreferrer"
+                        >
                             Handcrafted in Houston, Belgrade &amp; Bengaluru
                             <div className="text-center">&copy; {new Date().getFullYear()} Xola, Inc.</div>
                         </a>

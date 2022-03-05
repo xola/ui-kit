@@ -1,5 +1,0 @@
-Document react-select component <ComboBox> like this https://mantine.dev/core/multi-select/ in our user stories
-
-Scrollbar component, a custom component https://mantine.dev/core/scroll-area/ https://www.radix-ui.com/docs/primitives/components/scroll-area
-
-check maintine's documentation thing https://github.com/mantinedev/mantine/tree/master/docs
