@@ -64,7 +64,7 @@ Currency.Split = ({ currency = "USD", locale = userLocale, children }) => {
         <span title={amount} className="ui-currency-split">
             <span className="ui-currency-split-int">{formattedAmountInt}</span>
             {!isZeroDecimal(currency) && (
-                <span className="ui-currency-split-decimal pl-1 underline">
+                <span className="ui-currency-split-decimal pl-1">
                     <sup>{amountDecimal}</sup>
                 </span>
             )}
