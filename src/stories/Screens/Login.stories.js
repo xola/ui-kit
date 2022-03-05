@@ -11,6 +11,25 @@ const LoginStories = {
             },
         },
     },
+    args: {
+        backgroundType: "default",
+    },
+    argTypes: {
+        backgroundType: {
+            options: ["default", "x2", "admin", "scaffold"],
+            control: { type: "select" },
+            table: {
+                defaultValue: { summary: "default" },
+            },
+        },
+        label: {
+            control: { type: "text" },
+        },
+        passwordResetUrl: {
+            type: { required: true },
+            control: { type: "text" },
+        },
+    },
 };
 
 const onSubmit = (email, password) => {
@@ -18,8 +37,8 @@ const onSubmit = (email, password) => {
     alert(`Hello ${email} Password: ${password.slice(0, 2)}*** This is a WIP`);
 };
 
-export const Default = () => {
-    return <Login onSubmit={onSubmit} />;
+export const Default = (props) => {
+    return <Login onSubmit={onSubmit} {...props} />;
 };
 
 export const X2 = () => {
