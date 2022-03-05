@@ -6,7 +6,7 @@ const ColorsStories = {
     title: "Configuration/Colors",
 };
 
-const colors = twConfig.theme.colors;
+const { colors } = twConfig.theme;
 
 export const Colors = () => {
     return (

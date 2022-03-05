@@ -8,7 +8,7 @@ export const Links = () => {
     return (
         <div>
             <div className="font-mono text-sm text-gray-dark">
-                // CODE REVIEW: This should really be a &lt;a&gt; or &lt;Link&gt; component?
+                CODE REVIEW: This should really be a &lt;a&gt; or &lt;Link&gt; component?
             </div>
             <a
                 href="https://xola.com"

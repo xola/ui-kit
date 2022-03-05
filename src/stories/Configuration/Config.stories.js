@@ -1,6 +1,6 @@
 import React from "react";
-import twConfig from "../../../tailwind.config";
 import ReactJson from "react-json-view";
+import twConfig from "../../../tailwind.config";
 
 const ConfigStories = {
     title: "Configuration/UI Kit Raw Config",

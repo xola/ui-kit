@@ -5,7 +5,7 @@ const SpacingStories = {
     title: "Configuration/Spacing",
 };
 
-const spacing = twConfig.theme.spacing;
+const { spacing } = twConfig.theme;
 
 export const Spacing = () => {
     const keys = Object.keys(spacing)
@@ -15,8 +15,7 @@ export const Spacing = () => {
     return (
         <div className="space-y-4">
             <div>
-                This spacing is used for width, height, min-width and min-height. After "1" the spacing is in multiples
-                of 4.
+                This spacing is used for width, height, min-width and min-height. The spacing is in multiples of 4.
             </div>
             {keys.map((key) => {
                 const styles = { width: spacing[key] };

@@ -6,7 +6,7 @@ const BorderRadiusStories = {
     title: "Configuration/Border Radius",
 };
 
-const borderRadius = twConfig.theme.borderRadius;
+const { borderRadius } = twConfig.theme;
 
 export const BorderRadius = () => {
     const keys = Object.keys(borderRadius);
@@ -23,7 +23,7 @@ export const BorderRadius = () => {
                             key={key}
                             className={clsx("ml-2 flex h-10 w-72 items-center bg-blue-lighter pl-3", brClassName)}
                         >
-                            border-radius: "{borderRadius[key]}"
+                            border-radius: &quot;{borderRadius[key]}&quot;
                         </div>
                     </div>
                 );
