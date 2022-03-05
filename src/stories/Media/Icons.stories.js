@@ -59,7 +59,7 @@ const IconList = ({ size, color }) => {
 
     return (
         <div className="flex flex-row flex-wrap gap-3">
-            <div className="sticky top-2 bg-white z-50 w-full opacity-90">
+            <div className="sticky top-2 z-50 w-full bg-white opacity-90">
                 <Input
                     type="search"
                     placeholder="Filter icons by name or tags"
@@ -82,8 +82,8 @@ const IconList = ({ size, color }) => {
                         {isNew && <div className="mt-3 w-full flex-grow text-lg font-bold">{firstLetter}</div>}
                         <div className="space-y-2 rounded border border-gray-lighter p-2 text-center">
                             <Icon size={size} className={color} />
-                            <div className="font-mono w-40 text-gray-dark">{name}</div>
-                            <div title="tags" className="text-xs text-gray w-40 whitespace-normal">
+                            <div className="w-40 font-mono text-gray-dark">{name}</div>
+                            <div title="tags" className="w-40 whitespace-normal text-xs text-gray">
                                 {Icon.tags?.join(", ")}
                             </div>
                         </div>
