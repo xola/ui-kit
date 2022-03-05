@@ -43,9 +43,8 @@ const ProcessColor = ({ name, prefix, colors, className = "" }) => {
 };
 
 const Color = ({ prefix = "bg", name, color, hex, className = "" }) => {
-    const n = name ? `-${name}` : "";
-    const key = color === "DEFAULT" ? n : `${n}-${color}`;
-    console.log("Color", name, color, hex, key);
+    const colorName = name ? `-${name}` : "";
+    const key = color === "DEFAULT" ? colorName : `${colorName}-${color}`;
 
     return (
         <div className={clsx("flex flex-col font-mono text-sm", className)}>

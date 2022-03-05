@@ -7,18 +7,20 @@ const ConfigStories = {
 };
 
 export const UIKitRawConfig = () => {
+    const theme = twConfig.theme;
     return (
         <div>
             <div className="mb-4">
                 This is the prettified version of <span className="font-mono">tailwind.config.js</span> file
             </div>
             <ReactJson
-                src={twConfig.theme}
+                src={theme}
                 name="./tailwind.config.js"
                 quotesOnKeys={false}
+                collapsed={2}
                 enableClipboard={false}
                 displayDataTypes={false}
-                style={{ fontSize: "10px", fontFamily: twConfig.theme.extend.fontFamily.mono }}
+                style={{ fontSize: "12px", fontFamily: theme.extend.fontFamily.mono }}
             />
         </div>
     );
