@@ -7,7 +7,7 @@ const ConfigStories = {
 };
 
 export const UIKitRawConfig = () => {
-    const theme = twConfig.theme;
+    const { theme } = twConfig;
     return (
         <div>
             <div className="mb-4">

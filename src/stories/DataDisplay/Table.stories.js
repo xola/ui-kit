@@ -100,7 +100,7 @@ export const StripedTable = () => {
                 </Table.Row>
             </Table.Head>
 
-            <Table.Body isStriped={true}>
+            <Table.Body isStriped>
                 <Table.Row>
                     <Table.Cell>Michael Scott</Table.Cell>
                     <Table.Cell>Regional Manager</Table.Cell>
