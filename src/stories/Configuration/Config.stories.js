@@ -7,7 +7,6 @@ const ConfigStories = {
 };
 
 export const UIKitRawConfig = () => {
-    // return <pre className="text-sm">{JSON.stringify(twConfig.theme, null, 4)}</pre>;
     return (
         <div>
             <div className="mb-4">

@@ -6,8 +6,8 @@ const FontsStories = {
 };
 
 export const Fonts = () => {
-    const sans = twConfig.theme.extend.fontFamily.sans;
-    const mono = twConfig.theme.extend.fontFamily.mono;
+    const { sans } = twConfig.theme.extend.fontFamily;
+    const { mono } = twConfig.theme.extend.fontFamily;
     return (
         <div className="space-y-4">
             <div className="space-y-2">
@@ -17,7 +17,7 @@ export const Fonts = () => {
                 >
                     Font: Inter
                 </a>
-                <div className="mb-2 pl-4 font-mono text-sm">font-family: '{sans.join(", ")}'</div>
+                <div className="mb-2 pl-4 font-mono text-sm">font-family: &apos;{sans.join(", ")}&apos;</div>
                 <p>
                     This is <b>default font paragraph</b>. Yogi Bear is smarter than the average bear, Yogi Bear is
                     always in the ranger&apos;s hair. At a picnic table you will find him there, stuffing down more
@@ -33,7 +33,7 @@ export const Fonts = () => {
                 >
                     Font: Roboto Mono
                 </a>
-                <div className="mb-2 pl-4 font-mono text-sm">font-family: '{mono.join(", ")}'</div>
+                <div className="mb-2 pl-4 font-mono text-sm">font-family: &apos;{mono.join(", ")}&apos;</div>
                 <p className="font-mono">
                     This is <b>mono font paragraph</b>. Yogi Bear is smarter than the average bear, Yogi Bear is always
                     in the ranger&apos;s hair. At a picnic table you will find him there, stuffing down more goodies
