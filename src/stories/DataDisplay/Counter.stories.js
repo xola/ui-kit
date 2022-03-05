@@ -3,7 +3,7 @@ import { Counter } from "../..";
 
 const CounterStories = {
     id: "Counter",
-    title: "Data Display/Counter",
+    title: "Data Display/Counters",
     component: Counter,
     parameters: {
         docs: {
@@ -14,7 +14,7 @@ const CounterStories = {
     },
 };
 
-export const Default = () => {
+export const Counters = () => {
     return (
         <div className="space-x-4">
             <Counter>0</Counter>

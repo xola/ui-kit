@@ -8,9 +8,10 @@ export const parameters = {
     },
     options: {
         storySort: {
-            method: "",
+            method: "alphabetical",
             order: ["Introduction", "Components"],
-            locales: "",
+            includeName: true,
+            // locales: "",
         },
     },
 };
