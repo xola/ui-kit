@@ -1,16 +1,23 @@
 import React from "react";
+import twConfig from "../../../tailwind.config";
 
 const FontsStories = {
     title: "Configuration/Fonts",
 };
 
 export const Fonts = () => {
+    const sans = twConfig.theme.extend.fontFamily.sans;
+    const mono = twConfig.theme.extend.fontFamily.mono;
     return (
         <div className="space-y-4">
-            <div>
-                <a href="https://fonts.google.com/specimen/Inter?query=Inter" className="mb-1 block text-primary">
+            <div className="space-y-2">
+                <a
+                    href="https://fonts.google.com/specimen/Inter?query=Inter"
+                    className="mb-1 block text-primary hover:underline"
+                >
                     Font: Inter
                 </a>
+                <div className="mb-2 pl-4 font-mono text-sm">font-family: '{sans.join(", ")}'</div>
                 <p>
                     This is <b>default font paragraph</b>. Yogi Bear is smarter than the average bear, Yogi Bear is
                     always in the ranger&apos;s hair. At a picnic table you will find him there, stuffing down more
@@ -19,10 +26,14 @@ export const Fonts = () => {
                     That&apos;s because he&apos;s smarter than the average bear!
                 </p>
             </div>
-            <div>
-                <a href="https://fonts.google.com/specimen/Roboto+Mono" className="mb-1 block text-primary">
+            <div className="space-y-2">
+                <a
+                    href="https://fonts.google.com/specimen/Roboto+Mono"
+                    className="mb-1 block text-primary hover:underline"
+                >
                     Font: Roboto Mono
                 </a>
+                <div className="mb-2 pl-4 font-mono text-sm">font-family: '{mono.join(", ")}'</div>
                 <p className="font-mono">
                     This is <b>mono font paragraph</b>. Yogi Bear is smarter than the average bear, Yogi Bear is always
                     in the ranger&apos;s hair. At a picnic table you will find him there, stuffing down more goodies
