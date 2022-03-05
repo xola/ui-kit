@@ -9,6 +9,7 @@ import { DatePicker } from "./DatePicker";
 
 export const DatePickerPopover = ({
     value,
+    variant = "single",
     dateFormat = "ddd, LL",
     onChange,
     children,
@@ -25,15 +26,17 @@ export const DatePickerPopover = ({
     const handleChange = (date, options, event) => {
         onChange?.(date, options, event);
 
-        if (!options.disabled) {
-            setIsVisible(false);
+        if (!options.disabled && (variant === "single" || (date.from && date.to))) {
+            setTimeout(() => {
+                setIsVisible(false);
+            }, 750);
         }
     };
 
     return (
         <Popover
             visible={isVisible}
-            maxWidth="900px"
+            maxWidth={900}
             distance={18}
             placement="bottom"
             className={classNames.popover}
@@ -52,7 +55,7 @@ export const DatePickerPopover = ({
             )}
 
             <Popover.Content>
-                <DatePicker value={value} onChange={handleChange} {...rest} />
+                <DatePicker variant={variant} value={value} onChange={handleChange} {...rest} />
             </Popover.Content>
         </Popover>
     );
