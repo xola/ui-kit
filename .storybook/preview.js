@@ -11,7 +11,6 @@ export const parameters = {
             method: "alphabetical",
             order: ["Introduction", "Components"],
             includeName: true,
-            // locales: "",
         },
     },
 };

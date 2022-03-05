@@ -1,31 +1,31 @@
-# Xola UI Kit
+## Xola UI Kit
 
 React component library for the next generation of Xola apps.
 
-## Requirements
+### Requirements
 
--   Node.js v14
+-   Node.js v16
 -   NPM v7
 
-## Usage
+### Usage
 
 Install the UI kit:
 
 ```bash
-$ npm install @xola/ui-kit
+npm install @xola/ui-kit
 ```
 
 Install peer dependencies:
 
 ```bash
-$ npm install autoprefixer postcss tailwindcss lodash
+npm install autoprefixer postcss tailwindcss lodash
 ```
 
 Create PostCSS and Tailwind config files:
 
 ```bash
-$ echo 'module.exports = require("@xola/ui-kit/tailwind.config");' > tailwind.config.js
-$ echo 'module.exports = require("@xola/ui-kit/postcss.config");' > postcss.config.js
+echo 'module.exports = require("@xola/ui-kit/tailwind.config");' > tailwind.config.js
+echo 'module.exports = require("@xola/ui-kit/postcss.config");' > postcss.config.js
 ```
 
 Import main CSS files in your project:
@@ -50,17 +50,18 @@ import { Button } from "@xola/ui-kit";
 Install all required dependencies:
 
 ```bash
-$ nvm use # Project needs Node.js v14 with NPM v7
+$ nvm use # Project needs Node.js v16 with NPM v7
 $ npm install
 ```
 
 Start the Storybook development server:
 
 ```bash
-$ npm run dev
+$ npm start
 ```
 
-### Use the Package Locally
+## Advanced
+### Integrate your app with a locally installed UI Kit
 
 In order for this to work you will have to set up an NPM workspace. That means, `ui-kit` and `your-project` has to be in the same directory.
 
@@ -105,7 +106,7 @@ $ cd your-project
 $ rm -rf node_modules/@xola
 ```
 
-#### Troubleshooting
+### Troubleshooting
 
 If you encounter some package related issues, try removing the following directories and running the install command again:
 
