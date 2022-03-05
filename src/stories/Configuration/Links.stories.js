@@ -6,29 +6,18 @@ const LinksStories = {
 
 export const Links = () => {
     return (
-        <div>
-            <div className="font-mono text-sm text-gray-dark">
-                CODE REVIEW: This should really be a &lt;a&gt; or &lt;Link&gt; component?
-            </div>
-            <a
-                href="https://xola.com"
-                target="_blank"
-                className="block text-md font-semibold text-primary hover:underline"
-                rel="noreferrer"
-            >
-                Link with Colors
+        <div className="space-y-4">
+            <a href="https://xola.com" target="_blank" className="block text-xs" rel="noreferrer">
+                Link L1 text-xs
             </a>
-            <br />
-            <a href="https://xola.com" target="_blank" className="block text-md font-semibold" rel="noreferrer">
-                Link L1
+            <a href="https://xola.com" target="_blank" className="block text-sm" rel="noreferrer">
+                Link L2 text-sm
             </a>
-            <br />
-            <a href="https://xola.com" target="_blank" className="block text-base font-semibold" rel="noreferrer">
-                Link L2
+            <a href="https://xola.com" target="_blank" className="block text-base" rel="noreferrer">
+                Link L3 text-base
             </a>
-            <br />
-            <a href="https://xola.com" target="_blank" className="block text-sm font-semibold" rel="noreferrer">
-                Link L3
+            <a href="https://xola.com" target="_blank" className="block text-md" rel="noreferrer">
+                Link L4 text-md
             </a>
         </div>
     );
