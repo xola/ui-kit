@@ -136,7 +136,7 @@ addDescription(
 
 const customContent = [null];
 for (let day = 1; day <= dayjs().daysInMonth(); day++) {
-    customContent.push("$" + random(1, 200));
+    customContent.push(`$${random(1, 200)}`);
 }
 
 customContent[random(1, dayjs().daysInMonth())] = "Please Call/Email";
@@ -153,16 +153,6 @@ addDescription(
     WithCustomContent,
     "**WIP** (pending designs) Add custom content to any day cell for example the maximum price for a specific date",
 );
-
-export const DateRange = () => {
-    const [value, setValue] = useState({ from: null, to: null });
-
-    return (
-        <div className="h-[480px]">
-            <DatePicker variant="range" value={value} onChange={setValue} />
-        </div>
-    );
-};
 
 export const PickerWithInput = () => {
     const [date, setDate] = useState(new Date());
