@@ -78,17 +78,13 @@ export const ModifyCellStyle = () => {
 
     const modifiers = {
         thursdays: { daysOfWeek: [4] },
-        waitlist: [new Date(today.setDate(18)), new Date(today.setDate(20))],
+        waitlist: [new Date(today.setDate(18)), dayjs().set("day", 4).toDate()],
     };
 
     const modifiersStyles = {
         thursdays: {
             color: colors.white,
             backgroundColor: colors.blue.light,
-        },
-        waitlist: {
-            color: colors.white,
-            backgroundColor: colors.yellow.DEFAULT,
         },
         outside: {
             backgroundColor: colors.white,
