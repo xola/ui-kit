@@ -34,6 +34,7 @@ export const Search = ({
     isLoading = false,
     shouldStayOpen = false,
     shouldDestroyOnClose = true,
+    shouldHideMenu = false,
     ...rest
 }) => {
     const [showShortcutKey, setShowShortcutKey] = useState(true);
@@ -111,7 +112,7 @@ export const Search = ({
     };
 
     // Show dropdown only when `isOpen` is set to `true` and there are items in the list.
-    const open = (isOpen || !canClose || shouldStayOpen) && itemList.length > 0;
+    const open = (isOpen || !canClose || shouldStayOpen) && itemList.length > 0 && !shouldHideMenu;
     const noResultFound = open && !isLoading && itemList.length <= 1;
 
     // Keyboard shortcuts.
@@ -226,4 +227,5 @@ Search.propTypes = {
     isLoading: PropTypes.bool,
     shouldStayOpen: PropTypes.bool,
     shouldDestroyOnClose: PropTypes.bool,
+    shouldHideMenu: PropTypes.bool,
 };
