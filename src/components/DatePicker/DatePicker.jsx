@@ -7,6 +7,7 @@ import "./DatePicker.css";
 import { Day } from "./Day";
 import { MonthYearSelector } from "./MonthYearSelector";
 import { NavbarElement } from "./NavbarElement";
+import { RelativeDateRange } from "./RelativeDateRange";
 
 const variants = {
     single: "single",
@@ -25,10 +26,12 @@ export const DatePicker = ({
     onChange,
     onMonthChange,
     modifiers = {},
+    ranges,
     ...rest
 }) => {
     const initialValue = variant === variants.single ? value : value.from;
     const [currentMonth, setCurrentMonth] = useState(initialValue);
+    const [rangeName, setRangeName] = useState("");
     const isRangeVariant = variant === variants.range;
 
     // Sync internal month state with outside.
@@ -37,6 +40,7 @@ export const DatePicker = ({
     }, [currentMonth, onMonthChange]);
 
     const handleDayClick = (day, options, event) => {
+        setRangeName("");
         if (isRangeVariant) {
             if (value.from && value.to) {
                 // This allows us to easily select another date range,
@@ -49,6 +53,13 @@ export const DatePicker = ({
             onChange(day, options, event);
         }
     };
+
+    const handleRelativeRangeChanged = (rangeName, range) => {
+        console.log(range);
+        setCurrentMonth(range.from);
+        setRangeName(rangeName);
+        onChange(range, modifiers, null);
+    }
 
     const handleMonthChange = (m) => {
         setCurrentMonth(m);
@@ -69,6 +80,7 @@ export const DatePicker = ({
     const useDateRangeStyle = isRangeVariant && value.from?.getTime() !== value.to?.getTime();
 
     return (
+        <>
         <DayPicker
             showOutsideDays
             className={clsx(
@@ -90,6 +102,16 @@ export const DatePicker = ({
             onTodayButtonClick={handleDayClick}
             {...rest}
         />
+            {useDateRangeStyle && (
+                <div className="relative-date-range">
+                    <RelativeDateRange
+                        value={rangeName}
+                        onChange={handleRelativeRangeChanged}
+                        ranges={ranges}
+                    />
+                </div>
+            )}
+        </>
     );
 };
 
@@ -102,4 +124,5 @@ DatePicker.propTypes = {
     shouldShowYearPicker: PropTypes.bool,
     getDayContent: PropTypes.func,
     modifiers: PropTypes.object,
+    ranges: PropTypes.arrayOf(PropTypes.oneOf(["day", "week", "month", "quarter", "year"])),
 };
