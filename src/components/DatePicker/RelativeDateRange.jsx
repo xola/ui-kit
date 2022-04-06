@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Select } from "../..";
 import dayjs from "dayjs";
+import { Select } from "../..";
 
 const options = {
     YESTERDAY: "P1D:last",
@@ -22,7 +22,7 @@ const options = {
     LAST_YEAR: "P1Y:last",
     TRAILING_YEAR: "P1Y:trailing",
     THIS_YEAR: "P1Y:current",
-}
+};
 
 export const dateRanges = {
     day: {
@@ -30,13 +30,12 @@ export const dateRanges = {
         options: [
             {
                 value: options.YESTERDAY,
-                label: "Yesterday"
+                label: "Yesterday",
             },
             {
                 value: options.TODAY,
-                label: "Today"
+                label: "Today",
             },
-
         ],
     },
 
@@ -45,17 +44,16 @@ export const dateRanges = {
         options: [
             {
                 value: options.LAST_WEEK,
-                label: "Last Week"
+                label: "Last Week",
             },
             {
                 value: options.TRAILING_WEEK,
-                label: "Trailing Week"
+                label: "Trailing Week",
             },
             {
                 value: options.THIS_WEEK,
-                label: "This Week"
+                label: "This Week",
             },
-
         ],
     },
 
@@ -64,17 +62,16 @@ export const dateRanges = {
         options: [
             {
                 value: options.LAST_MONTH,
-                label: "Last Month"
+                label: "Last Month",
             },
             {
                 value: options.TRAILING_MONTH,
-                label: "Trailing Month"
+                label: "Trailing Month",
             },
             {
                 value: options.THIS_MONTH,
-                label: "This Month"
+                label: "This Month",
             },
-
         ],
     },
 
@@ -83,17 +80,16 @@ export const dateRanges = {
         options: [
             {
                 value: options.LAST_QUARTER,
-                label: "Last Quarter"
+                label: "Last Quarter",
             },
             {
                 value: options.TRAILING_QUARTER,
-                label: "Trailing Quarter"
+                label: "Trailing Quarter",
             },
             {
                 value: options.THIS_QUARTER,
-                label: "This Quarter"
+                label: "This Quarter",
             },
-
         ],
     },
 
@@ -102,150 +98,147 @@ export const dateRanges = {
         options: [
             {
                 value: options.LAST_YEAR,
-                label: "Last Year"
+                label: "Last Year",
             },
             {
                 value: options.TRAILING_YEAR,
-                label: "Trailing Year"
+                label: "Trailing Year",
             },
             {
                 value: options.THIS_YEAR,
-                label: "This Year"
+                label: "This Year",
             },
-
         ],
-    }
-}
+    },
+};
 
 const handlers = {
     [options.YESTERDAY]: () => {
-        const yesterday = dayjs().subtract(1, 'day');
+        const yesterday = dayjs().subtract(1, "day");
         return {
-            from: yesterday.startOf('day').toDate(),
-            to: yesterday.endOf('day').toDate()
-        }
+            from: yesterday.startOf("day").toDate(),
+            to: yesterday.endOf("day").toDate(),
+        };
     },
 
     [options.TODAY]: () => ({
-        from: dayjs().startOf('day').toDate(),
-        to: dayjs().endOf('day').toDate()
+        from: dayjs().startOf("day").toDate(),
+        to: dayjs().endOf("day").toDate(),
     }),
 
     [options.LAST_WEEK]: () => {
-        const lastWeek = dayjs().subtract(7, 'day');
+        const lastWeek = dayjs().subtract(7, "day");
         return {
-            from: lastWeek.startOf('week').toDate(),
-            to: lastWeek.endOf('week').toDate()
-        }
+            from: lastWeek.startOf("week").toDate(),
+            to: lastWeek.endOf("week").toDate(),
+        };
     },
 
     [options.TRAILING_WEEK]: () => {
         return {
-            from: dayjs().subtract(7, 'day').startOf('dat').toDate(),
-            to: dayjs().subtract(1, 'day').endOf('day').toDate()
-        }
+            from: dayjs().subtract(7, "day").startOf("dat").toDate(),
+            to: dayjs().subtract(1, "day").endOf("day").toDate(),
+        };
     },
 
     [options.THIS_WEEK]: () => ({
-        from: dayjs().startOf('week').toDate(),
-        to: dayjs().endOf('week').toDate()
+        from: dayjs().startOf("week").toDate(),
+        to: dayjs().endOf("week").toDate(),
     }),
 
     [options.LAST_MONTH]: () => {
-        const lastMonth = dayjs().subtract(1, 'month');
+        const lastMonth = dayjs().subtract(1, "month");
         return {
-            from: lastMonth.startOf('month').toDate(),
-            to: lastMonth.endOf('month').toDate()
-        }
+            from: lastMonth.startOf("month").toDate(),
+            to: lastMonth.endOf("month").toDate(),
+        };
     },
 
     [options.TRAILING_MONTH]: () => {
         return {
-            from: dayjs().subtract(1, 'month').startOf('day').toDate(),
-            to: dayjs().subtract(1, 'day').endOf('day').toDate()
-        }
+            from: dayjs().subtract(1, "month").startOf("day").toDate(),
+            to: dayjs().subtract(1, "day").endOf("day").toDate(),
+        };
     },
 
     [options.THIS_MONTH]: () => ({
-        from: dayjs().startOf('month').toDate(),
-        to: dayjs().endOf('month').toDate()
+        from: dayjs().startOf("month").toDate(),
+        to: dayjs().endOf("month").toDate(),
     }),
 
     [options.LAST_QUARTER]: () => {
-        const lastQuarter = dayjs().subtract(3, 'month');
         return {
-            from: dayjs().startOf('month').subtract(3, 'month').toDate(),
-            to: dayjs().startOf('month').subtract(1, 'day').toDate()
-        }
+            from: dayjs().startOf("month").subtract(3, "month").toDate(),
+            to: dayjs().startOf("month").subtract(1, "day").toDate(),
+        };
     },
 
     [options.TRAILING_QUARTER]: () => {
         return {
-            from: dayjs().subtract(3, 'month').startOf('day').toDate(),
-            to: dayjs().subtract(1, 'day').endOf('day').toDate()
-        }
+            from: dayjs().subtract(3, "month").startOf("day").toDate(),
+            to: dayjs().subtract(1, "day").endOf("day").toDate(),
+        };
     },
 
-    [options.THIS_QUARTER]: () => ({
-        from: dayjs().subtract(1, 'month').startOf('month').toDate(),
-        to: dayjs().add(1, 'month').endOf('month').toDate()
-    }),
+    [options.THIS_QUARTER]: () => {
+        return {
+            from: dayjs().startOf("Q").toDate(),
+            to: dayjs().endOf("Q").toDate(),
+        };
+    },
 
     [options.LAST_YEAR]: () => {
-        const lastYear = dayjs().subtract(1, 'year');
+        const lastYear = dayjs().subtract(1, "year");
         return {
-            from: lastYear.startOf('year').toDate(),
-            to: lastYear.endOf('year').toDate()
-        }
+            from: lastYear.startOf("year").toDate(),
+            to: lastYear.endOf("year").toDate(),
+        };
     },
 
     [options.TRAILING_YEAR]: () => {
-        const yesterday = dayjs().subtract(1, 'day');
         return {
-            from: dayjs().subtract(1, 'year').startOf('day').toDate(),
-            to: dayjs().subtract(1, 'day').endOf('day').toDate()
-        }
+            from: dayjs().subtract(1, "year").startOf("day").toDate(),
+            to: dayjs().subtract(1, "day").endOf("day").toDate(),
+        };
     },
 
     [options.THIS_YEAR]: () => ({
-        from: dayjs().startOf('year').toDate(),
-        to: dayjs().endOf('year').toDate()
+        from: dayjs().startOf("year").toDate(),
+        to: dayjs().endOf("year").toDate(),
     }),
-}
+};
 
 export const RelativeDateRange = ({ ranges = ["day", "week", "month", "quarter", "year"], value, onChange }) => {
     const handleChange = (e) => {
         const rangeName = e.target.value;
         const range = handlers[rangeName]();
         onChange(rangeName, range);
-    }
+    };
 
-    console.log("VALUE", value);
     return (
-        <Select size="large" onChange={handleChange} value={value}>
+        <Select size="large" value={value} onChange={handleChange}>
             <option value="">Relative Date Range</option>
-            {ranges.map((rangeKey, index) => {
+            {ranges.map((rangeKey) => {
                 const range = dateRanges[rangeKey];
 
                 return (
-                    <optgroup key={`${rangeKey}${index}`} label={range.label}>
+                    <optgroup key={`${rangeKey}`} label={range.label}>
                         {range.options.map((option) => {
                             return (
                                 <option key={option.value} value={option.value}>
                                     {option.label}
                                 </option>
-                            )
+                            );
                         })}
                     </optgroup>
-                )
+                );
             })}
         </Select>
-
-    )
-}
+    );
+};
 
 RelativeDateRange.propTypes = {
     ranges: PropTypes.arrayOf(PropTypes.oneOf(["day", "week", "month", "quarter", "year"])),
     onChange: PropTypes.func.isRequired,
     value: PropTypes.string,
-}
+};
