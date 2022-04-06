@@ -230,3 +230,11 @@
 }
 
 /***************/
+
+.DayPicker-Day.DayPicker-Day--waitlist > div {
+    @apply relative;
+}
+
+.DayPicker-Day.DayPicker-Day--waitlist > div::after {
+    @apply w-2 h-2 bg-yellow rounded-full absolute content-[''] bottom-1;
+}

@@ -78,7 +78,7 @@ export const ModifyCellStyle = () => {
 
     const modifiers = {
         thursdays: { daysOfWeek: [4] },
-        waitlist: [new Date(today.setDate(18)), new Date(today.setDate(20))],
+        waitlist: [new Date(today.setDate(18)), dayjs().set("day", 4).toDate()],
     };
 
     const modifiersStyles = {
@@ -86,27 +86,20 @@ export const ModifyCellStyle = () => {
             color: colors.white,
             backgroundColor: colors.blue.light,
         },
-        waitlist: {
-            color: colors.white,
-            backgroundColor: colors.yellow.DEFAULT,
-        },
         outside: {
             backgroundColor: colors.white,
         },
     };
 
     return (
-        <div>
-            <div className="my-5 text-xl font-semibold">This is a work in progress as designs are not given yet</div>
-            <DatePicker
-                value={value}
-                month={today}
-                modifiers={modifiers}
-                modifiersStyles={modifiersStyles}
-                fromMonth={new Date()}
-                onChange={setValue}
-            />
-        </div>
+        <DatePicker
+            value={value}
+            month={today}
+            modifiers={modifiers}
+            modifiersStyles={modifiersStyles}
+            fromMonth={new Date()}
+            onChange={setValue}
+        />
     );
 };
 
