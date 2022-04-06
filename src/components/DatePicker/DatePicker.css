@@ -232,12 +232,9 @@
 /***************/
 
 .DayPicker-Day.DayPicker-Day--waitlist > div {
-    position: relative;
+    @apply relative;
 }
 
 .DayPicker-Day.DayPicker-Day--waitlist > div::after {
-    @apply w-2 h-2 bg-yellow rounded-full;
-    content: "";
-    position: absolute;
-    bottom: 5px;
+    @apply w-2 h-2 bg-yellow rounded-full absolute content-[''] bottom-1;
 }
