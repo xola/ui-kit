@@ -27,6 +27,7 @@ export const DatePicker = ({
     onMonthChange,
     modifiers = {},
     ranges,
+    noRelativeRanges = false,
     ...rest
 }) => {
     const initialValue = variant === variants.single ? value : value.from;
@@ -101,7 +102,7 @@ export const DatePicker = ({
             onTodayButtonClick={handleDayClick}
             {...rest}
         />
-            {useDateRangeStyle && (
+            {useDateRangeStyle && !noRelativeRanges && (
                 <div className="relative-date-range">
                     <RelativeDateRange
                         value={rangeName}
@@ -124,4 +125,5 @@ DatePicker.propTypes = {
     getDayContent: PropTypes.func,
     modifiers: PropTypes.object,
     ranges: PropTypes.arrayOf(PropTypes.oneOf(["day", "week", "month", "quarter", "year"])),
+    noRelativeRanges: PropTypes.bool,
 };
