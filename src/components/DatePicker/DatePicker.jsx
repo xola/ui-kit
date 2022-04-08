@@ -103,7 +103,7 @@ export const DatePicker = ({
                 {...rest}
             />
             {useDateRangeStyle && shouldShowRelativeRanges && (
-                <div className="relative-date-range">
+                <div className="px-5 pb-5">
                     <RelativeDateRange value={rangeName} ranges={ranges} onChange={handleRelativeRangeChanged} />
                 </div>
             )}

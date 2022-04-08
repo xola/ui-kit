@@ -12,10 +12,6 @@
     @apply w-full px-5;
 }
 
-.relative-date-range {
-    @apply px-5 pb-5;
-}
-
 .DayPicker-NavBar {
     @apply text-gray-darker;
 }
