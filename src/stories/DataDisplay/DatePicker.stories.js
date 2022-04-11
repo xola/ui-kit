@@ -244,4 +244,19 @@ function addDescription(component, description) {
     };
 }
 
+export const ListingDatePicker = () => {
+    const getContent = (date) => {
+        if (date > 15) {
+            return (
+                <div className="flex flex-col justify-center">
+                    <span className="text-base font-extrabold">{date / 2}</span>
+                    <span>Open</span>
+                </div>
+            );
+        }
+        return null;
+    };
+    return <DatePicker value={new Date()} getDayContent={(date) => getContent(date)} />;
+};
+
 export default DatePickerStories;

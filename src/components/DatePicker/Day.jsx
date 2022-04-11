@@ -34,17 +34,26 @@ Day.propTypes = {
  */
 const DayContent = ({ selectedDate, day, getContent }) => {
     const date = day.getDate();
-    const value = getContent(date) ?? "N/A";
+    const contentValue = getContent(date);
     const isSameDay = selectedDate && dayjs(selectedDate).isSame(day, "day");
-    const shouldShowContent = !dayjs(day).isBefore(dayjs(), "day");
 
     return (
-        <div className="ui-day-content">
+        <div
+            className={clsx("ui-day-content align-center flex flex-col justify-center", {
+                [" bg-blue-lighter"]: contentValue,
+            })}
+        >
             {/* The date itself */}
-            <div className={clsx("ui-day-content-value", isSameDay ? "selected text-white" : null)}>{date}</div>
+            <div
+                className={clsx("ui-day-content-value", isSameDay ? "selected text-white" : null, {
+                    ["text-xs"]: contentValue,
+                })}
+            >
+                {date}
+            </div>
 
             {/* The custom content below it */}
-            {shouldShowContent ? <div className="ui-day-content-custom">{value}</div> : null}
+            {contentValue ? <div className="ui-day-content-custom">{contentValue}</div> : null}
         </div>
     );
 };
