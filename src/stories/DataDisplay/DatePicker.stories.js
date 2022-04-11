@@ -202,9 +202,10 @@ export const PickerInputWithCustomContent = () => {
 
         return null;
     };
+
     return (
         <div className="h-[300px] w-75">
-            <DatePickerPopover value={new Date()} onChange={handleOnChange} getDayContent={getDayContent} />
+            <DatePickerPopover value={new Date()} getDayContent={getDayContent} onChange={handleOnChange} />
         </div>
     );
 };
