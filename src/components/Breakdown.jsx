@@ -37,8 +37,7 @@ const BreakdownItem = ({ children, info, value, className, color = "default", ..
 
     return (
         <tr className={clsx("ui-breakdown-item", colors[color], className)} {...rest}>
-            <td className="text-left">{children}</td>
-            <td className="text-right">{info}</td>
+            <td className="text-left" colSpan={2}>{info} {children}</td>
 
             <td className="w-[1%] pl-4 text-right">
                 <Currency shouldRemoveTrailingZeroes={false} currency={currency}>
@@ -66,7 +65,7 @@ const BreakdownSubtotalItem = ({ children, info, value, className, color = "blac
     return (
         <tr className={clsx("ui-breakdown-subtotal-item", "font-bold", colors[color], className)} {...rest}>
             <td className="pt-1 pb-4 text-left">{children}</td>
-            <td className="pt-1 pb-4 text-right">{info}</td>
+            <td className="pt-1 pb-4 text-right whitespace-nowrap">{info}</td>
 
             <td className="w-[1%] pt-1 pb-4 pl-4 text-right">
                 <Currency shouldRemoveTrailingZeroes={false} currency={currency}>
