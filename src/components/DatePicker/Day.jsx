@@ -3,12 +3,12 @@ import dayjs from "dayjs";
 import PropTypes from "prop-types";
 import React from "react";
 
-export const Day = ({ selectedDate, day, getContent }) => {
+export const Day = ({ selectedDate, date, getContent }) => {
     if (getContent) {
-        return <DayContent selectedDate={selectedDate} day={day} getContent={getContent} />;
+        return <DayContent selectedDate={selectedDate} date={date} getContent={getContent} />;
     }
 
-    const isSameDay = selectedDate && dayjs(selectedDate).isSame(day, "day");
+    const isSameDay = selectedDate && dayjs(selectedDate).isSame(date, "day");
 
     return (
         <div
@@ -18,24 +18,24 @@ export const Day = ({ selectedDate, day, getContent }) => {
                 isSameDay ? "selected text-white" : null,
             )}
         >
-            {day.getDate()}
+            {date.getDate()}
         </div>
     );
 };
 
 Day.propTypes = {
     selectedDate: PropTypes.objectOf(Date),
-    day: PropTypes.objectOf(Date),
+    date: PropTypes.objectOf(Date),
     getContent: PropTypes.func,
 };
 
 /**
  * Render custom content in the cell and mark the active day
  */
-const DayContent = ({ selectedDate, day, getContent }) => {
-    const date = day.getDate();
-    const contentValue = getContent(date);
-    const isSameDay = selectedDate && dayjs(selectedDate).isSame(day, "day");
+const DayContent = ({ selectedDate, date, getContent }) => {
+    const day = date.getDate();
+    const contentValue = getContent(day, date);
+    const isSameDay = selectedDate && dayjs(selectedDate).isSame(date, "day");
 
     return (
         <div
@@ -49,7 +49,7 @@ const DayContent = ({ selectedDate, day, getContent }) => {
                     "text-xs": contentValue,
                 })}
             >
-                {date}
+                {day}
             </div>
 
             {/* The custom content below it */}
@@ -60,6 +60,6 @@ const DayContent = ({ selectedDate, day, getContent }) => {
 
 DayContent.propTypes = {
     selectedDate: PropTypes.objectOf(Date),
-    day: PropTypes.objectOf(Date),
+    date: PropTypes.objectOf(Date),
     getContent: PropTypes.func.isRequired,
 };
