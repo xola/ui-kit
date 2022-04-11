@@ -40,13 +40,13 @@ const DayContent = ({ selectedDate, day, getContent }) => {
     return (
         <div
             className={clsx("ui-day-content align-center flex flex-col justify-center", {
-                [" bg-blue-lighter"]: contentValue,
+                "bg-blue-lighter": contentValue,
             })}
         >
             {/* The date itself */}
             <div
                 className={clsx("ui-day-content-value", isSameDay ? "selected text-white" : null, {
-                    ["text-xs"]: contentValue,
+                    "text-xs": contentValue,
                 })}
             >
                 {date}

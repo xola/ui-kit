@@ -254,8 +254,10 @@ export const ListingDatePicker = () => {
                 </div>
             );
         }
+
         return null;
     };
+
     return <DatePicker value={new Date()} getDayContent={(date) => getContent(date)} />;
 };
 
