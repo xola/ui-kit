@@ -98,11 +98,11 @@ export const DatePicker = ({
                 captionElement={captionElement}
                 renderDay={renderDay}
                 navbarElement={NavbarElement}
+                weekdaysShort={WEEKDAYS_SHORT}
+                firstDayOfWeek={0}
                 onDayClick={handleDayClick}
                 onMonthChange={handleMonthChange}
                 onTodayButtonClick={handleDayClick}
-                weekdaysShort={WEEKDAYS_SHORT}
-                firstDayOfWeek={0}
                 {...rest}
             />
             {useDateRangeStyle && shouldShowRelativeRanges && (
