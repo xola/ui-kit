@@ -57,7 +57,6 @@ export const DatePicker = ({
 
     const handleRelativeRangeChanged = (rangeName, range) => {
         setCurrentMonth(range.from);
-        setRangeName(rangeName);
         onChange(range, modifiers, null);
     };
 
