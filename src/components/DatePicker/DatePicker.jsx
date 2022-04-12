@@ -14,6 +14,8 @@ const variants = {
     range: "range",
 };
 
+const WEEKDAYS_SHORT = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
 /**
  * Figma Design link: https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%F0%9F%9B%A0-Xola-DS-Desktop-Master-%F0%9F%9B%A0?node-id=2689%3A101580
  */
@@ -100,6 +102,8 @@ export const DatePicker = ({
                 onDayClick={handleDayClick}
                 onMonthChange={handleMonthChange}
                 onTodayButtonClick={handleDayClick}
+                weekdaysShort={WEEKDAYS_SHORT}
+                firstDayOfWeek={0}
                 {...rest}
             />
             {useDateRangeStyle && shouldShowRelativeRanges && (
