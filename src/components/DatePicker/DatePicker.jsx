@@ -66,7 +66,7 @@ export const DatePicker = ({
     };
 
     const captionElement = shouldShowYearPicker
-        ? ({ date }) => <MonthYearSelector date={date} onChange={handleMonthChange} />
+        ? ({ date }) => <MonthYearSelector date={date} currentMonth={currentMonth} onChange={handleMonthChange} />
         : undefined;
 
     const renderDay = (day) => {
