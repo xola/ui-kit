@@ -13,6 +13,21 @@ const DateRangePickerStories = {
             },
         },
     },
+    args: {
+        shouldShowRelativeRanges: "boolean",
+        ranges: ["day", "week", "month", "quarter", "year"],
+    },
+    argTypes: {
+        shouldShowRelativeRanges: {
+            control: { type: "boolean" },
+            table: {
+                defaultValue: { summary: true },
+            },
+        },
+        ranges: {
+            control: { type: "object" },
+        },
+    },
 };
 
 const today = dayjs().toDate();
@@ -27,7 +42,7 @@ export const Default = () => {
     );
 };
 
-export const DateRangeWithInput = () => {
+export const DateRangeWithInput = ({ shouldShowRelativeRanges, ranges }) => {
     const [value, setValue] = useState({ from: today, to: dayjs().add(7, "days").toDate() });
 
     return (
@@ -36,6 +51,8 @@ export const DateRangeWithInput = () => {
                 variant="range"
                 value={value}
                 popoverProps={{ placement: "bottom-start" }}
+                shouldShowRelativeRanges={shouldShowRelativeRanges}
+                ranges={ranges}
                 onChange={setValue}
             >
                 <div className="w-75 cursor-pointer bg-gray-lighter p-3">
