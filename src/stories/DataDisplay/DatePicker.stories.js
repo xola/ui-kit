@@ -2,6 +2,7 @@ import dayjs from "dayjs";
 import { random } from "lodash";
 import React, { useState } from "react";
 import { DatePicker, DatePickerPopover, theme, Button } from "../..";
+import { Currency } from "../../components/Utilities/Currency";
 
 const DatePickerStories = {
     title: "Data Display/Date & Time/Date Picker",
@@ -243,5 +244,29 @@ function addDescription(component, description) {
         },
     };
 }
+
+const getDayContent = (date) => {
+    if (date > 15) {
+        return (
+            <div className="flex flex-col justify-center">
+                <Currency>100</Currency>
+            </div>
+        );
+    }
+
+    return null;
+};
+
+export const ListingPricePickerInput = () => {
+    return (
+        <div className="h-[300px] w-75">
+            <DatePickerPopover value={new Date()} getDayContent={getDayContent} onChange={handleOnChange} />
+        </div>
+    );
+};
+
+export const ListingPriceDatePicker = () => {
+    return <DatePicker value={new Date()} getDayContent={getDayContent} />;
+};
 
 export default DatePickerStories;

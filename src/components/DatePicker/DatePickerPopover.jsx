@@ -15,6 +15,7 @@ export const DatePickerPopover = ({
     children,
     classNames = {},
     popoverProps,
+    getDayContent,
     ...rest
 }) => {
     const [isVisible, setIsVisible] = useState(false);
@@ -55,7 +56,13 @@ export const DatePickerPopover = ({
             )}
 
             <Popover.Content>
-                <DatePicker variant={variant} value={value} onChange={handleChange} {...rest} />
+                <DatePicker
+                    variant={variant}
+                    value={value}
+                    onChange={handleChange}
+                    getDayContent={getDayContent}
+                    {...rest}
+                />
             </Popover.Content>
         </Popover>
     );
