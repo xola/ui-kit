@@ -59,8 +59,8 @@ export const DatePickerPopover = ({
                 <DatePicker
                     variant={variant}
                     value={value}
-                    onChange={handleChange}
                     getDayContent={getDayContent}
+                    onChange={handleChange}
                     {...rest}
                 />
             </Popover.Content>
