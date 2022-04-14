@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import DayPicker, { DateUtils } from "react-day-picker";
 import "react-day-picker/lib/style.css";
 import "./DatePicker.css";
+import dayjs from "dayjs";
 import { getDayJsLocale } from "../../helpers/date";
 import { Day } from "./Day";
 import { MonthYearSelector } from "./MonthYearSelector";
@@ -68,6 +69,12 @@ export const DatePicker = ({
                 // This allows us to easily select another date range,
                 // if both dates are selected.
                 onChange({ from: day, to: null }, options, event);
+            } else if ((value.from || value.to).getTime() === day.getTime()) {
+                onChange(
+                    { from: dayjs(day).startOf("day").toDate(), to: dayjs(day).endOf("day").toDate() },
+                    options,
+                    event,
+                );
             } else {
                 onChange(DateUtils.addDayToRange(day, value), options, event);
             }
