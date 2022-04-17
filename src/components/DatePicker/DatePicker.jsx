@@ -8,6 +8,7 @@ import { Day } from "./Day";
 import { MonthYearSelector } from "./MonthYearSelector";
 import { NavbarElement } from "./NavbarElement";
 import { RelativeDateRange } from "./RelativeDateRange";
+import { PastAvailabilityToggle } from "./PastAvailabilityToggle";
 
 const variants = {
     single: "single",
@@ -25,6 +26,7 @@ export const DatePicker = ({
     shouldShowYearPicker = false,
     onChange,
     onMonthChange,
+    onPastAvailabilitySwitch,
     modifiers = {},
     ranges,
     shouldShowRelativeRanges = false,
@@ -34,6 +36,7 @@ export const DatePicker = ({
     const [currentMonth, setCurrentMonth] = useState(initialValue);
     const [rangeName, setRangeName] = useState("");
     const isRangeVariant = variant === variants.range;
+    const [isPastAvailabilityChecked, setIsPastAvailabilityChecked] = useState(false);
 
     // Sync internal month state with outside.
     useEffect(() => {
@@ -64,6 +67,11 @@ export const DatePicker = ({
     const handleMonthChange = (m) => {
         setCurrentMonth(m);
         onMonthChange?.(m);
+    };
+
+    const handlePastAvailabilityChange = () => {
+        setIsPastAvailabilityChecked(!isPastAvailabilityChecked);
+        onPastAvailabilitySwitch(!isPastAvailabilityChecked);
     };
 
     const captionElement = shouldShowYearPicker
@@ -102,6 +110,11 @@ export const DatePicker = ({
                 onTodayButtonClick={handleDayClick}
                 {...rest}
             />
+
+            {onPastAvailabilitySwitch ? (
+                <PastAvailabilityToggle isChecked={isPastAvailabilityChecked} onChange={handlePastAvailabilityChange} />
+            ) : null}
+
             {useDateRangeStyle && shouldShowRelativeRanges && (
                 <div className="px-5 pb-5">
                     <RelativeDateRange value={rangeName} ranges={ranges} onChange={handleRelativeRangeChanged} />
@@ -116,6 +129,7 @@ DatePicker.propTypes = {
     value: PropTypes.objectOf(Date),
     onChange: PropTypes.func.isRequired,
     onMonthChange: PropTypes.func,
+    onPastAvailabilitySwitch: PropTypes.func,
     disabledDays: PropTypes.oneOfType([PropTypes.object, PropTypes.array, PropTypes.func]),
     shouldShowYearPicker: PropTypes.bool,
     getDayContent: PropTypes.func,

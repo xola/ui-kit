@@ -46,7 +46,15 @@ export const DisabledDays = () => {
         },
     ];
 
-    return <DatePicker month={today} disabledDays={disabledDays} value={value} onChange={setValue} />;
+    return (
+        <DatePicker
+            month={today}
+            disabledDays={disabledDays}
+            value={value}
+            onPastAvailabilitySwitch={(value_) => console.log(value_)}
+            onChange={setValue}
+        />
+    );
 };
 
 addDescription(
