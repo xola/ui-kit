@@ -38,22 +38,12 @@ const DayContent = ({ selectedDate, date, getContent }) => {
     const isSameDay = selectedDate && dayjs(selectedDate).isSame(date, "day");
 
     return (
-        <div
-            className={clsx("ui-day-content align-center flex flex-col justify-center", {
-                "bg-blue-lighter": contentValue,
-            })}
-        >
+        <div className="ui-day-content align-center flex flex-col justify-center">
             {/* The date itself */}
-            <div
-                className={clsx("ui-day-content-value", isSameDay ? "selected text-white" : null, {
-                    "text-xs": contentValue,
-                })}
-            >
-                {day}
-            </div>
+            <div className={clsx("ui-day-content-value text-base", { "selected text-white": isSameDay })}>{day}</div>
 
             {/* The custom content below it */}
-            {contentValue ? <div className="ui-day-content-custom">{contentValue}</div> : null}
+            {contentValue ? <div className="ui-day-content-custom mt-1">{contentValue}</div> : null}
         </div>
     );
 };
