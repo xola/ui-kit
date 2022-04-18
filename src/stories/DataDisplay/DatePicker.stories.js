@@ -189,27 +189,6 @@ export const PickerCustomInput = () => {
     );
 };
 
-export const PickerInputWithCustomContent = () => {
-    const getDayContent = (date) => {
-        if (date > 15) {
-            return (
-                <div className="flex flex-col justify-center">
-                    <span className="text-base font-extrabold">{date / 2}</span>
-                    <span>Open</span>
-                </div>
-            );
-        }
-
-        return null;
-    };
-
-    return (
-        <div className="h-[300px] w-75">
-            <DatePickerPopover value={new Date()} getDayContent={getDayContent} onChange={handleOnChange} />
-        </div>
-    );
-};
-
 export const InputWithCustomContent = () => {
     const [value, setValue] = useState(new Date());
     return (
@@ -265,7 +244,28 @@ function addDescription(component, description) {
     };
 }
 
-export const ListingDatePicker = () => {
+export const ListingCountPickerInput = () => {
+    const getDayContent = (date) => {
+        if (date > 15) {
+            return (
+                <div className="flex flex-col justify-center">
+                    <span className="text-base font-extrabold">{date / 2}</span>
+                    <span>Open</span>
+                </div>
+            );
+        }
+
+        return null;
+    };
+
+    return (
+        <div className="h-[300px] w-75">
+            <DatePickerPopover value={new Date()} getDayContent={getDayContent} onChange={handleOnChange} />
+        </div>
+    );
+};
+
+export const ListingCountDatePicker = () => {
     const getDayContent = (date) => {
         if (date > 15) {
             return (
