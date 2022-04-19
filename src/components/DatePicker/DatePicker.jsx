@@ -8,7 +8,6 @@ import { Day } from "./Day";
 import { MonthYearSelector } from "./MonthYearSelector";
 import { NavbarElement } from "./NavbarElement";
 import { RelativeDateRange } from "./RelativeDateRange";
-import { PastAvailabilityToggle } from "./PastAvailabilityToggle";
 
 const variants = {
     single: "single",
@@ -30,13 +29,13 @@ export const DatePicker = ({
     modifiers = {},
     ranges,
     shouldShowRelativeRanges = false,
+    components = {},
     ...rest
 }) => {
     const initialValue = variant === variants.single ? value : value.from;
     const [currentMonth, setCurrentMonth] = useState(initialValue);
     const [rangeName, setRangeName] = useState("");
     const isRangeVariant = variant === variants.range;
-    const [isPastAvailabilityChecked, setIsPastAvailabilityChecked] = useState(false);
 
     // Sync internal month state with outside.
     useEffect(() => {
@@ -67,11 +66,6 @@ export const DatePicker = ({
     const handleMonthChange = (m) => {
         setCurrentMonth(m);
         onMonthChange?.(m);
-    };
-
-    const handlePastAvailabilityChange = () => {
-        setIsPastAvailabilityChecked(!isPastAvailabilityChecked);
-        onPastAvailabilitySwitch(!isPastAvailabilityChecked);
     };
 
     const captionElement = shouldShowYearPicker
@@ -111,9 +105,7 @@ export const DatePicker = ({
                 {...rest}
             />
 
-            {onPastAvailabilitySwitch ? (
-                <PastAvailabilityToggle isChecked={isPastAvailabilityChecked} onChange={handlePastAvailabilityChange} />
-            ) : null}
+            {components.Footer ? <components.Footer /> : null}
 
             {useDateRangeStyle && shouldShowRelativeRanges && (
                 <div className="px-5 pb-5">
@@ -136,4 +128,5 @@ DatePicker.propTypes = {
     modifiers: PropTypes.object,
     ranges: PropTypes.arrayOf(PropTypes.oneOf(["day", "week", "month", "quarter", "year"])),
     shouldShowRelativeRanges: PropTypes.bool,
+    components: PropTypes.object,
 };
