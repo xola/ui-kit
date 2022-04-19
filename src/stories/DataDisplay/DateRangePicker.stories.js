@@ -14,7 +14,7 @@ const DateRangePickerStories = {
         },
     },
     args: {
-        shouldShowRelativeRanges: true,
+        shouldShowRelativeRanges: "boolean",
         ranges: ["day", "week", "month", "quarter", "year"],
     },
     argTypes: {

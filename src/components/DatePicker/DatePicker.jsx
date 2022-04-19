@@ -5,7 +5,6 @@ import DayPicker, { DateUtils } from "react-day-picker";
 import "react-day-picker/lib/style.css";
 import "./DatePicker.css";
 import dayjs from "dayjs";
-import { getDayJsLocale } from "../../helpers/date";
 import { Day } from "./Day";
 import { MonthYearSelector } from "./MonthYearSelector";
 import { NavbarElement } from "./NavbarElement";
@@ -15,9 +14,6 @@ const variants = {
     single: "single",
     range: "range",
 };
-
-const DEFAULT_FIRST_DAY_OF_WEEK = 0; // Sunday
-const WEEKDAYS_SHORT = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 /**
  * Figma Design link: https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%F0%9F%9B%A0-Xola-DS-Desktop-Master-%F0%9F%9B%A0?node-id=2689%3A101580
@@ -39,23 +35,6 @@ export const DatePicker = ({
     const [currentMonth, setCurrentMonth] = useState(initialValue);
     const [rangeName, setRangeName] = useState("");
     const isRangeVariant = variant === variants.range;
-    const [firstDayOfWeek, setFirstDayOfWeek] = useState(DEFAULT_FIRST_DAY_OF_WEEK);
-
-    useEffect(() => {
-        const importLocale = async () => {
-            try {
-                const module = await getDayJsLocale();
-                const weekStart = module?.weekStart;
-                if (weekStart >= 0) {
-                    setFirstDayOfWeek(weekStart);
-                }
-            } catch {
-                // no need reaction
-            }
-        };
-
-        importLocale();
-    }, []);
 
     // Sync internal month state with outside.
     useEffect(() => {
@@ -124,8 +103,6 @@ export const DatePicker = ({
                 captionElement={captionElement}
                 renderDay={renderDay}
                 navbarElement={NavbarElement}
-                weekdaysShort={WEEKDAYS_SHORT}
-                firstDayOfWeek={firstDayOfWeek}
                 onDayClick={handleDayClick}
                 onMonthChange={handleMonthChange}
                 onTodayButtonClick={handleDayClick}
