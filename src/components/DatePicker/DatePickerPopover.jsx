@@ -28,9 +28,7 @@ export const DatePickerPopover = ({
         onChange?.(date, options, event);
 
         if (!options.disabled && (variant === "single" || (date.from && date.to))) {
-            setTimeout(() => {
-                setIsVisible(false);
-            }, 750);
+            setIsVisible(false);
         }
     };
 
