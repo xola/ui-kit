@@ -45,7 +45,6 @@ const DayContent = ({ selectedDate, date, getContent }) => {
             <div
                 className={clsx("ui-day-content-value", {
                     "selected text-white": isSameDay,
-                    "text-xs": contentValue,
                 })}
             >
                 {day}
