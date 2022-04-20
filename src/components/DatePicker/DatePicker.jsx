@@ -71,7 +71,7 @@ export const DatePicker = ({
         : undefined;
 
     const renderDay = (date) => {
-        return <Day selectedDate={value} date={date} getContent={getDayContent} />;
+        return <Day selectedDate={value} date={date} getContent={getDayContent} currentMonth={currentMonth} />;
     };
 
     const rangeModifier = isRangeVariant ? { start: value.from, end: value.to } : null;

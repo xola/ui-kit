@@ -3,8 +3,9 @@ import dayjs from "dayjs";
 import PropTypes from "prop-types";
 import React from "react";
 
-export const Day = ({ selectedDate, date, getContent }) => {
-    if (getContent) {
+export const Day = ({ selectedDate, date, getContent, currentMonth }) => {
+    const isSameMonth = dayjs(currentMonth).isSame(date, "month");
+    if (getContent && isSameMonth) {
         return <DayContent selectedDate={selectedDate} date={date} getContent={getContent} />;
     }
 
@@ -27,6 +28,7 @@ Day.propTypes = {
     selectedDate: PropTypes.objectOf(Date),
     date: PropTypes.objectOf(Date),
     getContent: PropTypes.func,
+    currentMonth: PropTypes.objectOf(Date),
 };
 
 /**
