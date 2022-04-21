@@ -126,5 +126,5 @@ DatePicker.propTypes = {
     modifiers: PropTypes.object,
     ranges: PropTypes.arrayOf(PropTypes.oneOf(["day", "week", "month", "quarter", "year"])),
     shouldShowRelativeRanges: PropTypes.bool,
-    components: PropTypes.object,
+    components: PropTypes.shape({ Footer: PropTypes.node }),
 };
