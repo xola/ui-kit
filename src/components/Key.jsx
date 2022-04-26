@@ -27,7 +27,7 @@ export const Key = ({ char, className, ...rest }) => {
 const keyMap = {
     cmd: isOSX ? "⌘" : "ctrl",
     option: isOSX ? "⌥" : "win",
-    ctrl: isOSX ? "ctrl" : "alt",
+    ctrl: isOSX ? "ctrl" : "ctrl",
     up: "↑",
     down: "↓",
 };

@@ -232,5 +232,5 @@
 }
 
 .DayPicker-Day.DayPicker-Day--waitlist > div::after {
-    @apply w-2 h-2 bg-yellow rounded-full absolute content-[''] bottom-1;
+    @apply absolute bottom-1 h-2 w-2 rounded-full bg-yellow content-[''];
 }
