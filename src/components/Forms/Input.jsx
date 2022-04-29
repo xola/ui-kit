@@ -1,13 +1,14 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { forwardRef } from "react";
 import { BaseInput } from "./BaseInput";
 
-export const Input = ({ className, type = "text", ...rest }) => {
-    return <BaseInput as="input" className={clsx("ui-input", className)} type={type} {...rest} />;
-};
+export const Input = forwardRef(({ className, type = "text", ...rest }, reference) => {
+    return <BaseInput as="input" className={clsx("ui-input", className)} type={type} {...rest} ref={reference} />;
+});
 
 Input.propTypes = {
     ...BaseInput.propTypes,
+    // eslint-disable-next-line react/require-default-props
     type: PropTypes.string,
 };
