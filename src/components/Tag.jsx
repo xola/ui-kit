@@ -19,7 +19,7 @@ const sizes = {
 
 // Dashboard - height 25 Padding 6, 8Purchases - 20 padding 3,4
 
-export const Tag = ({ color = "primary", size = "small", onClose, className, children, ...rest }) => {
+export const Tag = ({ color = "success", size = "small", onClose, className, children, ...rest }) => {
     const handleClose = (e) => {
         e.stopPropagation(); // Stop from bubbling to the click handler for the tag itself
         onClose?.();

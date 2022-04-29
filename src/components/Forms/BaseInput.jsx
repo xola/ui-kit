@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { forwardRef } from "react";
 
 const sizes = {
     small: "px-3 py-1.5 text-sm leading-sm", // 30px
@@ -8,7 +8,7 @@ const sizes = {
     large: "px-5 py-3.5 text-md leading-md", // 50px
 };
 
-export const BaseInput = ({ as: Tag, size = "medium", isError, className, ...rest }) => {
+export const BaseInput = forwardRef(({ as: Tag, size = "medium", isError, className, ...rest }, reference) => {
     return (
         <Tag
             className={clsx(
@@ -21,9 +21,10 @@ export const BaseInput = ({ as: Tag, size = "medium", isError, className, ...res
                 className,
             )}
             {...rest}
+            ref={reference}
         />
     );
-};
+});
 
 BaseInput.propTypes = {
     as: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]),
