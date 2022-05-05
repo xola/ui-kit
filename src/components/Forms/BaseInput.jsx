@@ -27,12 +27,15 @@ export const BaseInput = forwardRef(({ as: Tag, size = "medium", isError, classN
 });
 
 BaseInput.propTypes = {
-    // eslint-disable-next-line react/require-default-props
     as: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]),
-    // eslint-disable-next-line react/require-default-props
     size: PropTypes.oneOf(Object.keys(sizes)),
-    // eslint-disable-next-line react/require-default-props
     className: PropTypes.string,
-    // eslint-disable-next-line react/require-default-props
     isError: PropTypes.bool,
+};
+
+BaseInput.defaultProps = {
+    as: "input",
+    size: "medium",
+    className: undefined,
+    isError: undefined,
 };

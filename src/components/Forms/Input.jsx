@@ -9,6 +9,9 @@ export const Input = forwardRef(({ className, type = "text", ...rest }, referenc
 
 Input.propTypes = {
     ...BaseInput.propTypes,
-    // eslint-disable-next-line react/require-default-props
     type: PropTypes.string,
+};
+
+Input.defaultProps = {
+    type: "text",
 };
