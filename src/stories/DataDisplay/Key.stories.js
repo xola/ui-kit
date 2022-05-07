@@ -2,7 +2,7 @@ import React from "react";
 import { Key } from "../..";
 
 const KeyStories = {
-    title: "Typography/Key",
+    title: "Data Display/Key",
     component: Key,
     parameters: {
         docs: {
