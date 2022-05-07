@@ -52,7 +52,11 @@ export const Login = ({
     };
 
     return (
-        <div className="ui-login h-screen overflow-hidden bg-white bg-opacity-40" style={style} {...rest}>
+        <div
+            className="ui-login h-screen overflow-hidden bg-white bg-opacity-100 bg-blend-overlay md:bg-opacity-0"
+            style={style}
+            {...rest}
+        >
             <div className="md:full flex h-[90%] w-full flex-col items-center justify-center space-y-8">
                 <div className="w-82 rounded-lg py-0 px-9 md:bg-white md:py-10">
                     <div className="mb-12 space-y-2 md:mb-20">

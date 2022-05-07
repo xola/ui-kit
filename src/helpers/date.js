@@ -1,8 +1,10 @@
 import dayjs from "dayjs";
 import LocalizedFormat from "dayjs/plugin/localizedFormat";
 import customParseFormat from "dayjs/plugin/customParseFormat";
+import quarterOfYear from "dayjs/plugin/quarterOfYear";
 dayjs.extend(customParseFormat);
 dayjs.extend(LocalizedFormat);
+dayjs.extend(quarterOfYear);
 
 export const formatDate = (date, format = "YYYY-MM-DD") => {
     return dayjs(date).format(format);

@@ -34,7 +34,7 @@ export const Checkbox = ({ label, className, classNames = {}, ...rest }) => {
 };
 
 Checkbox.propTypes = {
-    label: PropTypes.string.isRequired,
+    label: PropTypes.node.isRequired,
     className: PropTypes.string,
     classNames: PropTypes.shape({ checkbox: PropTypes.string, label: PropTypes.string }),
     onChange: PropTypes.func,

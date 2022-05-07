@@ -90,7 +90,7 @@ export {
     StoreCreditIcon,
     ImageIcon,
     InfinityIcon,
-    InfoCircleIcon,
+    CircleInfoIcon,
     Input,
     InvoiceIcon,
     isOSX,
