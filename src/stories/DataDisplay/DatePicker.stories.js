@@ -51,7 +51,6 @@ export const DisabledDays = () => {
             month={today}
             disabledDays={disabledDays}
             value={value}
-            onPastAvailabilitySwitch={(value_) => console.log(value_)}
             onChange={setValue}
         />
     );
