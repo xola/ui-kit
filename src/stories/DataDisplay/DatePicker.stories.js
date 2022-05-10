@@ -46,14 +46,7 @@ export const DisabledDays = () => {
         },
     ];
 
-    return (
-        <DatePicker
-            month={today}
-            disabledDays={disabledDays}
-            value={value}
-            onChange={setValue}
-        />
-    );
+    return <DatePicker month={today} disabledDays={disabledDays} value={value} onChange={setValue} />;
 };
 
 addDescription(
