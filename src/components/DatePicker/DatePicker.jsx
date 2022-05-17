@@ -118,10 +118,11 @@ export const DatePicker = ({
                         </div>
                     </div>
                 ) : null}
+
                 <DayPicker
                     showOutsideDays
                     className={clsx(
-                        "ui-date-picker pt-3",
+                        "ui-date-picker rounded-lg pt-3",
                         useDateRangeStyle ? "date-range-picker" : null,
                         getDayContent ? "has-custom-content" : null,
                         sortedUpcomingDates ? "rounded-r-lg " : "rounded-lg",
@@ -141,6 +142,7 @@ export const DatePicker = ({
                     {...rest}
                 />
             </div>
+
             {components.Footer ? <components.Footer /> : null}
 
             {useDateRangeStyle && shouldShowRelativeRanges && (

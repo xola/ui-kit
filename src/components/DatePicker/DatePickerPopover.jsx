@@ -14,6 +14,7 @@ export const DatePickerPopover = ({
     onChange,
     children,
     classNames = {},
+    components = {},
     popoverProps,
     ...rest
 }) => {
@@ -55,7 +56,7 @@ export const DatePickerPopover = ({
             )}
 
             <Popover.Content>
-                <DatePicker variant={variant} value={value} onChange={handleChange} {...rest} />
+                <DatePicker variant={variant} value={value} components={components} onChange={handleChange} {...rest} />
             </Popover.Content>
         </Popover>
     );
