@@ -9,7 +9,6 @@ import { Day } from "./Day";
 import { MonthYearSelector } from "./MonthYearSelector";
 import { NavbarElement } from "./NavbarElement";
 import { RelativeDateRange } from "./RelativeDateRange";
-import { theme } from "../../..";
 
 const variants = {
     single: "single",
@@ -86,8 +85,6 @@ export const DatePicker = ({
 
     const rangeModifier = isRangeVariant ? { start: value.from, end: value.to } : null;
 
-    const { colors } = theme;
-
     // Comparing `from` and `to` dates hides a weird CSS style when you select the same date twice in a date range.
     const useDateRangeStyle = isRangeVariant && value.from?.getTime() !== value.to?.getTime();
     return (
@@ -104,7 +101,7 @@ export const DatePicker = ({
                                     onClick={() => onUpcomingDate(date)}
                                     className="mt-3 flex cursor-pointer items-center justify-center rounded border border-gray py-3 px-11 text-sm hover:border-blue hover:bg-blue hover:text-white"
                                 >
-                                    {date.date}
+                                    {dayjs(date.date).format("ddd DD MMMM")}
                                 </div>
                             ))}
                         </div>

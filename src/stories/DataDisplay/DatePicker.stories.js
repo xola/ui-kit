@@ -286,15 +286,22 @@ export const WithUpComingDates = () => {
             backgroundColor: colors.white,
         },
     };
-    const upComingEvents = [
-        { date: dayjs(new Date(2017, 3, 3)).format("ddd DD MMMM") },
-        { date: dayjs(new Date(2017, 3, 3)).format("ddd DD MMMM") },
-        { date: dayjs(new Date(2017, 3, 3)).format("ddd DD MMMM") },
-        { date: dayjs(new Date(2017, 3, 3)).format("ddd DD MMMM") },
-        { date: dayjs(new Date(2017, 3, 3)).format("ddd DD MMMM") },
-        { date: dayjs(new Date(2017, 3, 3)).format("ddd DD MMMM") },
+    const events = [
+        { date: dayjs(new Date(2022, 6, 6)) },
+        { date: dayjs(new Date(2022, 4, 4)) },
+        { date: dayjs(new Date(2022, 5, 5)) },
+        { date: dayjs(new Date(2022, 2, 2)) },
+        { date: dayjs(new Date(2022, 7, 7)) },
+        { date: dayjs(new Date(2022, 6, 6)) },
+        { date: dayjs(new Date(2022, 8, 8)) },
+        { date: dayjs(new Date(2022, 1, 1)) },
     ];
 
+    const upComingEvents = events.filter(({ date }) => {
+        if (dayjs(date).isAfter(dayjs(value))) return date;
+    });
+    upComingEvents.sort((a, b) => (dayjs(a.date).isAfter(dayjs(b.date)) ? 1 : -1));
+    upComingEvents.length = 6;
     return (
         <>
             <DatePicker
