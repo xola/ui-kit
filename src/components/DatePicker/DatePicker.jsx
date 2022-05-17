@@ -5,11 +5,11 @@ import DayPicker, { DateUtils } from "react-day-picker";
 import "react-day-picker/lib/style.css";
 import "./DatePicker.css";
 import dayjs from "dayjs";
+import { sortBy } from "lodash";
 import { Day } from "./Day";
 import { MonthYearSelector } from "./MonthYearSelector";
 import { NavbarElement } from "./NavbarElement";
 import { RelativeDateRange } from "./RelativeDateRange";
-import { sortBy } from "lodash";
 
 const variants = {
     single: "single",
@@ -90,16 +90,14 @@ export const DatePicker = ({
 
     //
     const sortedUpcomingDates = sortBy(
-        upcomingDates.filter(({ date }) => {
-            if (dayjs(date).isAfter(dayjs(value)) || dayjs(date).isSame(dayjs(value))) return date;
-        }),
+        upcomingDates.filter(({ date }) => dayjs(date).isAfter(dayjs(value)) || dayjs(date).isSame(dayjs(value))),
         "date",
     ).slice(0, 6);
 
     return (
         <>
             <div className="flex">
-                {sortedUpcomingDates && sortedUpcomingDates.length ? (
+                {sortedUpcomingDates && sortedUpcomingDates.length > 0 ? (
                     <div className="rounded-l-lg border-r border-gray p-6  pt-8">
                         <div className=" mb-5">
                             <p className="text-lg font-bold">Upcoming</p>
@@ -107,11 +105,12 @@ export const DatePicker = ({
                         <div>
                             {sortedUpcomingDates.map(({ date }) => (
                                 <div
+                                    key={dayjs(date).format("ddd-DD-MMMM")}
+                                    className="mt-3 flex cursor-pointer items-center justify-center rounded border border-gray py-3 px-11 text-sm hover:border-blue hover:bg-blue hover:text-white"
                                     onClick={() => {
                                         handleMonthChange(date);
                                         handleDayClick(date);
                                     }}
-                                    className="mt-3 flex cursor-pointer items-center justify-center rounded border border-gray py-3 px-11 text-sm hover:border-blue hover:bg-blue hover:text-white"
                                 >
                                     {dayjs(date).format("ddd DD MMMM")}
                                 </div>

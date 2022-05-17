@@ -266,12 +266,6 @@ addDescription(
 
 export const WithUpcomingDates = () => {
     const [value, setValue] = useState(new Date());
-    const [month, setMonth] = useState(new Date());
-
-    const handleMonthChange = (newMonth) => {
-        console.log({ newMonth });
-        setMonth(newMonth);
-    };
 
     const handleChange = (value) => {
         setValue(value);
@@ -303,16 +297,13 @@ export const WithUpcomingDates = () => {
     ];
 
     return (
-        <>
-            <DatePicker
-                value={value}
-                upcomingDates={upcomingDates}
-                onMonthChange={handleMonthChange}
-                onChange={handleChange}
-                modifiersStyles={modifiersStyles}
-                modifiers={modifiers}
-            />
-        </>
+        <DatePicker
+            value={value}
+            upcomingDates={upcomingDates}
+            modifiersStyles={modifiersStyles}
+            modifiers={modifiers}
+            onChange={handleChange}
+        />
     );
 };
 
