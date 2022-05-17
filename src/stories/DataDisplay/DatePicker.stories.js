@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { random } from "lodash";
+import { random, sortBy } from "lodash";
 import React, { useState } from "react";
 import { DatePicker, DatePickerPopover, theme, Button, Switch } from "../..";
 
@@ -269,6 +269,7 @@ export const WithUpComingDates = () => {
     const [month, setMonth] = useState(new Date());
 
     const handleMonthChange = (newMonth) => {
+        console.log({ newMonth });
         setMonth(newMonth);
     };
 
@@ -287,21 +288,35 @@ export const WithUpComingDates = () => {
         },
     };
     const events = [
-        { date: dayjs(new Date(2022, 6, 6)) },
-        { date: dayjs(new Date(2022, 4, 4)) },
-        { date: dayjs(new Date(2022, 5, 5)) },
-        { date: dayjs(new Date(2022, 2, 2)) },
-        { date: dayjs(new Date(2022, 7, 7)) },
-        { date: dayjs(new Date(2022, 6, 6)) },
-        { date: dayjs(new Date(2022, 8, 8)) },
-        { date: dayjs(new Date(2022, 1, 1)) },
+        { date: new Date(2022, 6, 6) },
+        { date: new Date(2022, 4, 4) },
+        { date: new Date(2022, 5, 5) },
+        { date: new Date(2022, 2, 2) },
+        { date: new Date(2022, 7, 7) },
+        { date: new Date(2022, 6, 6) },
+        { date: new Date(2022, 8, 8) },
+        { date: new Date(2022, 4, 9) },
+        { date: new Date(2022, 4, 10) },
+        { date: new Date(2022, 4, 11) },
+        { date: new Date(2022, 4, 12) },
+        { date: new Date(2022, 4, 13) },
     ];
 
-    const upComingEvents = events.filter(({ date }) => {
-        if (dayjs(date).isAfter(dayjs(value))) return date;
-    });
-    upComingEvents.sort((a, b) => (dayjs(a.date).isAfter(dayjs(b.date)) ? 1 : -1));
-    upComingEvents.length = 6;
+    const findClosest = (data, accessor, target = value) =>
+        data.reduce((prev, curr) => {
+            const a = Math.abs(accessor(curr).getTime() - target);
+            const b = Math.abs(accessor(prev).getTime() - target);
+            return a - b < 0 ? curr : prev;
+        });
+    console.log({ findClosest });
+
+    const upComingEvents = sortBy(
+        events.filter(({ date }) => {
+            if (dayjs(date).isAfter(dayjs(value))) return date;
+        }),
+        "date",
+    );
+
     return (
         <>
             <DatePicker
@@ -311,7 +326,7 @@ export const WithUpComingDates = () => {
                 onChange={handleChange}
                 modifiersStyles={modifiersStyles}
                 modifiers={modifiers}
-                onUpcomingDate={(date) => console.log(date)}
+                onUpcomingDate={handleChange}
             />
         </>
     );

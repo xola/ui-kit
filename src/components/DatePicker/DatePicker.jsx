@@ -87,10 +87,11 @@ export const DatePicker = ({
 
     // Comparing `from` and `to` dates hides a weird CSS style when you select the same date twice in a date range.
     const useDateRangeStyle = isRangeVariant && value.from?.getTime() !== value.to?.getTime();
+    console.log({ upComingEvents });
     return (
         <>
             <div className="flex">
-                {upComingEvents && (
+                {upComingEvents.length ? (
                     <div className="rounded-l-lg border-r border-gray p-6  pt-8">
                         <div className=" mb-5">
                             <p className="text-lg font-bold">UpComing</p>
@@ -98,7 +99,10 @@ export const DatePicker = ({
                         <div>
                             {upComingEvents?.map((date) => (
                                 <div
-                                    onClick={() => onUpcomingDate(date)}
+                                    onClick={() => {
+                                        handleMonthChange(date.date);
+                                        onUpcomingDate(date.date);
+                                    }}
                                     className="mt-3 flex cursor-pointer items-center justify-center rounded border border-gray py-3 px-11 text-sm hover:border-blue hover:bg-blue hover:text-white"
                                 >
                                     {dayjs(date.date).format("ddd DD MMMM")}
@@ -106,7 +110,7 @@ export const DatePicker = ({
                             ))}
                         </div>
                     </div>
-                )}
+                ) : null}
                 <DayPicker
                     showOutsideDays
                     className={clsx(
