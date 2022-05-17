@@ -9,6 +9,7 @@ import { Day } from "./Day";
 import { MonthYearSelector } from "./MonthYearSelector";
 import { NavbarElement } from "./NavbarElement";
 import { RelativeDateRange } from "./RelativeDateRange";
+import { sortBy } from "lodash";
 
 const variants = {
     single: "single",
@@ -30,8 +31,7 @@ export const DatePicker = ({
     ranges,
     shouldShowRelativeRanges = false,
     components = {},
-    upComingEvents,
-    onUpcomingDate,
+    upcomingDates,
     ...rest
 }) => {
     const initialValue = variant === variants.single ? value : value.from;
@@ -87,25 +87,33 @@ export const DatePicker = ({
 
     // Comparing `from` and `to` dates hides a weird CSS style when you select the same date twice in a date range.
     const useDateRangeStyle = isRangeVariant && value.from?.getTime() !== value.to?.getTime();
-    console.log({ upComingEvents });
+
+    //
+    const sortedUpcomingDates = sortBy(
+        upcomingDates.filter(({ date }) => {
+            if (dayjs(date).isAfter(dayjs(value)) || dayjs(date).isSame(dayjs(value))) return date;
+        }),
+        "date",
+    ).slice(0, 6);
+
     return (
         <>
             <div className="flex">
-                {upComingEvents.length ? (
+                {sortedUpcomingDates && sortedUpcomingDates.length ? (
                     <div className="rounded-l-lg border-r border-gray p-6  pt-8">
                         <div className=" mb-5">
-                            <p className="text-lg font-bold">UpComing</p>
+                            <p className="text-lg font-bold">Upcoming</p>
                         </div>
                         <div>
-                            {upComingEvents?.map((date) => (
+                            {sortedUpcomingDates.map(({ date }) => (
                                 <div
                                     onClick={() => {
-                                        handleMonthChange(date.date);
-                                        onUpcomingDate(date.date);
+                                        handleMonthChange(date);
+                                        handleDayClick(date);
                                     }}
                                     className="mt-3 flex cursor-pointer items-center justify-center rounded border border-gray py-3 px-11 text-sm hover:border-blue hover:bg-blue hover:text-white"
                                 >
-                                    {dayjs(date.date).format("ddd DD MMMM")}
+                                    {dayjs(date).format("ddd DD MMMM")}
                                 </div>
                             ))}
                         </div>
@@ -117,7 +125,7 @@ export const DatePicker = ({
                         "ui-date-picker pt-3",
                         useDateRangeStyle ? "date-range-picker" : null,
                         getDayContent ? "has-custom-content" : null,
-                        upComingEvents ? "rounded-r-lg " : "rounded-lg",
+                        sortedUpcomingDates ? "rounded-r-lg " : "rounded-lg",
                     )}
                     todayButton="Today"
                     selectedDays={value}
@@ -148,7 +156,7 @@ export const DatePicker = ({
 DatePicker.propTypes = {
     variant: PropTypes.oneOf(Object.keys(variants)),
     value: PropTypes.objectOf(Date),
-    upComingEvents: PropTypes.objectOf(Date),
+    upcomingDates: PropTypes.objectOf(Date),
     onChange: PropTypes.func.isRequired,
     onMonthChange: PropTypes.func,
     disabledDays: PropTypes.oneOfType([PropTypes.object, PropTypes.array, PropTypes.func]),
@@ -158,5 +166,4 @@ DatePicker.propTypes = {
     ranges: PropTypes.arrayOf(PropTypes.oneOf(["day", "week", "month", "quarter", "year"])),
     shouldShowRelativeRanges: PropTypes.bool,
     components: PropTypes.shape({ Footer: PropTypes.node }),
-    onUpcomingDate: PropTypes.func,
 };

@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { random, sortBy } from "lodash";
+import { random } from "lodash";
 import React, { useState } from "react";
 import { DatePicker, DatePickerPopover, theme, Button, Switch } from "../..";
 
@@ -264,7 +264,7 @@ addDescription(
     "This shows various useful [event handlers](https://react-day-picker.js.org/api/DayPicker#onBlur) with `DatePicker` ",
 );
 
-export const WithUpComingDates = () => {
+export const WithUpcomingDates = () => {
     const [value, setValue] = useState(new Date());
     const [month, setMonth] = useState(new Date());
 
@@ -287,7 +287,7 @@ export const WithUpComingDates = () => {
             backgroundColor: colors.white,
         },
     };
-    const events = [
+    const upcomingDates = [
         { date: new Date(2022, 6, 6) },
         { date: new Date(2022, 4, 4) },
         { date: new Date(2022, 5, 5) },
@@ -302,31 +302,15 @@ export const WithUpComingDates = () => {
         { date: new Date(2022, 4, 13) },
     ];
 
-    const findClosest = (data, accessor, target = value) =>
-        data.reduce((prev, curr) => {
-            const a = Math.abs(accessor(curr).getTime() - target);
-            const b = Math.abs(accessor(prev).getTime() - target);
-            return a - b < 0 ? curr : prev;
-        });
-    console.log({ findClosest });
-
-    const upComingEvents = sortBy(
-        events.filter(({ date }) => {
-            if (dayjs(date).isAfter(dayjs(value))) return date;
-        }),
-        "date",
-    );
-
     return (
         <>
             <DatePicker
                 value={value}
-                upComingEvents={upComingEvents}
+                upcomingDates={upcomingDates}
                 onMonthChange={handleMonthChange}
                 onChange={handleChange}
                 modifiersStyles={modifiersStyles}
                 modifiers={modifiers}
-                onUpcomingDate={handleChange}
             />
         </>
     );
