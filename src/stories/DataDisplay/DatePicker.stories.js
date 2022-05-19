@@ -238,7 +238,10 @@ export const DatePickerWithTooltip = () => {
     const modifiers = {};
 
     for (let day = 0; day <= dayjs().daysInMonth(); day++) {
-        const date = `${dayjs().get("year")}-${dayjs().get("month") + 1}-${day}`;
+        const date = `${dayjs().get("year")}-${("0" + (dayjs().get("month") + 1).toString()).slice(-2)}-${(
+            "0" + day.toString()
+        ).slice(-2)}`;
+        console.log(date);
         modifiers[date] = { tooltip: customContent[day] };
     }
 
