@@ -16,6 +16,7 @@ export const DatePickerPopover = ({
     classNames = {},
     components = {},
     popoverProps,
+    getDayContent,
     ...rest
 }) => {
     const [isVisible, setIsVisible] = useState(false);
@@ -28,9 +29,7 @@ export const DatePickerPopover = ({
         onChange?.(date, options, event);
 
         if (!options.disabled && (variant === "single" || (date.from && date.to))) {
-            setTimeout(() => {
-                setIsVisible(false);
-            }, 750);
+            setIsVisible(false);
         }
     };
 
@@ -56,7 +55,14 @@ export const DatePickerPopover = ({
             )}
 
             <Popover.Content>
-                <DatePicker variant={variant} value={value} components={components} onChange={handleChange} {...rest} />
+                <DatePicker
+                    variant={variant}
+                    getDayContent={getDayContent}
+                    value={value}
+                    components={components}
+                    onChange={handleChange}
+                    {...rest}
+                />
             </Popover.Content>
         </Popover>
     );
