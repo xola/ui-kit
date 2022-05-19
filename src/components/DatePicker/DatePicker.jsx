@@ -79,7 +79,7 @@ export const DatePicker = ({
         : undefined;
 
     const renderDay = (date) => {
-        const tooltip = modifiers?.tooltip[dayjs(date).format("YYYY-MM-DD")]?.text ?? "";
+        const tooltip = modifiers?.tooltip?.[dayjs(date).format("YYYY-MM-DD")]?.text ?? "";
 
         return tooltip ? (
             <Tooltip placement="top" content={tooltip}>
