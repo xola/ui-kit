@@ -30,6 +30,7 @@ export const DatePicker = ({
     modifiers = {},
     ranges,
     shouldShowRelativeRanges = false,
+    components = {},
     ...rest
 }) => {
     const initialValue = variant === variants.single ? value : value.from;
@@ -77,15 +78,15 @@ export const DatePicker = ({
         ? ({ date }) => <MonthYearSelector date={date} currentMonth={currentMonth} onChange={handleMonthChange} />
         : undefined;
 
-    const renderDay = (day) => {
-        const tooltip = modifiers[dayjs(day).format("YYYY-M-D")]?.tooltip ?? "";
+    const renderDay = (date) => {
+        const tooltip = modifiers[dayjs(date).format("YYYY-M-D")]?.tooltip ?? "";
 
         return tooltip ? (
             <Tooltip placement="top" content={tooltip}>
-                <Day selectedDate={value} day={day} getContent={getDayContent} />
+                <Day selectedDate={value} date={date} getContent={getDayContent} currentMonth={currentMonth} />
             </Tooltip>
         ) : (
-            <Day selectedDate={value} day={day} getContent={getDayContent} />
+            <Day selectedDate={value} date={date} getContent={getDayContent} currentMonth={currentMonth} />
         );
     };
 
@@ -117,6 +118,9 @@ export const DatePicker = ({
                 onTodayButtonClick={handleDayClick}
                 {...rest}
             />
+
+            {components.Footer ? <components.Footer /> : null}
+
             {useDateRangeStyle && shouldShowRelativeRanges && (
                 <div className="px-5 pb-5">
                     <RelativeDateRange value={rangeName} ranges={ranges} onChange={handleRelativeRangeChanged} />
@@ -137,4 +141,5 @@ DatePicker.propTypes = {
     modifiers: PropTypes.object,
     ranges: PropTypes.arrayOf(PropTypes.oneOf(["day", "week", "month", "quarter", "year"])),
     shouldShowRelativeRanges: PropTypes.bool,
+    components: PropTypes.shape({ Footer: PropTypes.node }),
 };
