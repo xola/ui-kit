@@ -52,4 +52,30 @@ export const Default = ({ className, variant }) => {
     );
 };
 
+export const Simple = ({ className }) => {
+    const [activeTab, setActiveTab] = useState(0);
+
+    return (
+        <div>
+            <div className="my-6">This is used in the Admin app</div>
+            <Tabs variant="simple" value={activeTab} className={className} onChange={(value) => setActiveTab(value)}>
+                <Tabs.Tab>Seller Details</Tabs.Tab>
+                <Tabs.Panel>Seller Details Content</Tabs.Panel>
+
+                <Tabs.Tab>More Stats</Tabs.Tab>
+                <Tabs.Panel>More Stats Content</Tabs.Panel>
+
+                <Tabs.Tab>Invoices</Tabs.Tab>
+                <Tabs.Panel>Invoices Content</Tabs.Panel>
+
+                <Tabs.Tab>App Store</Tabs.Tab>
+                <Tabs.Panel>App Store Content</Tabs.Panel>
+
+                <Tabs.Tab isHidden>Admin Tools</Tabs.Tab>
+                <Tabs.Panel>Admin Tools Content</Tabs.Panel>
+            </Tabs>
+        </div>
+    );
+};
+
 export default TabsStories;

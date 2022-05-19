@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, Drawer } from "../..";
 
 const DrawerStories = {
-    title: "Overlay/Drawer",
+    title: "Overlay/Drawers",
     component: Drawer,
     parameters: {
         docs: {
@@ -33,7 +33,7 @@ const DrawerStories = {
     },
 };
 
-export const Default = ({ title = "Hello World", content = "Lorem Ipsum. Click the X to close" }) => {
+export const Drawers = ({ title = "Hello World", content = "Lorem Ipsum. Click the X to close" }) => {
     const [open, setOpen] = useState(false);
     const onClose = () => setOpen(false);
 
