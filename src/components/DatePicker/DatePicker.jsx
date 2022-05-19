@@ -9,6 +9,7 @@ import { Day } from "./Day";
 import { MonthYearSelector } from "./MonthYearSelector";
 import { NavbarElement } from "./NavbarElement";
 import { RelativeDateRange } from "./RelativeDateRange";
+import { Tooltip } from "../..";
 
 const variants = {
     single: "single",
@@ -77,7 +78,15 @@ export const DatePicker = ({
         : undefined;
 
     const renderDay = (day) => {
-        return <Day selectedDate={value} day={day} getContent={getDayContent} />;
+        const tooltip = modifiers[dayjs(day).format("YYYY-M-D")]?.tooltip ?? "";
+
+        return tooltip ? (
+            <Tooltip placement="top" content={tooltip}>
+                <Day selectedDate={value} day={day} getContent={getDayContent} />
+            </Tooltip>
+        ) : (
+            <Day selectedDate={value} day={day} getContent={getDayContent} />
+        );
     };
 
     const rangeModifier = isRangeVariant ? { start: value.from, end: value.to } : null;
