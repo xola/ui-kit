@@ -202,6 +202,18 @@ export const InputWithCustomContent = () => {
     );
 };
 
+export const DatePickerWithTooltip = () => {
+    const [value, setValue] = useState(new Date());
+
+    let modifiers = {};
+
+    for (let day = 0; day <= dayjs().daysInMonth(); day++) {
+        const date = `${dayjs().get("year")}-${dayjs().get("month") + 1}-${day}`;
+        modifiers[date] = { tooltip: customContent[day] };
+    }
+    return <DatePicker modifiers={modifiers} value={value} onChange={setValue} />;
+};
+
 export const EventHandlers = () => {
     const [value, setValue] = useState(new Date());
     const [month, setMonth] = useState(new Date());
