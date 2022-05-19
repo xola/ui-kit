@@ -90,7 +90,7 @@ export const DatePicker = ({
 
     //
     const sortedUpcomingDates = sortBy(
-        upcomingDates.filter(({ date }) => dayjs(date).isAfter(dayjs(value)) || dayjs(date).isSame(dayjs(value))),
+        upcomingDates?.filter(({ date }) => dayjs(date).isAfter(dayjs(value)) || dayjs(date).isSame(dayjs(value))),
         "date",
     ).slice(0, 6);
 
