@@ -88,11 +88,12 @@ export const DatePicker = ({
     // Comparing `from` and `to` dates hides a weird CSS style when you select the same date twice in a date range.
     const useDateRangeStyle = isRangeVariant && value.from?.getTime() !== value.to?.getTime();
 
-    //
     const sortedUpcomingDates = sortBy(
-        upcomingDates?.filter(({ date }) => dayjs(date).isAfter(dayjs(value)) || dayjs(date).isSame(dayjs(value))),
+        upcomingDates?.filter(({ date }) => dayjs(date).isAfter(dayjs(value))),
         "date",
-    ).slice(0, 6);
+    )
+        .slice(0, 6)
+        .map((item, index) => ({ date: item.date, id: index }));
 
     return (
         <>
@@ -103,9 +104,9 @@ export const DatePicker = ({
                             <p className="text-lg font-bold">Upcoming</p>
                         </div>
                         <div>
-                            {sortedUpcomingDates.map(({ date }) => (
+                            {sortedUpcomingDates.map(({ date, id }) => (
                                 <div
-                                    key={dayjs(date).format("ddd-DD-MMMM")}
+                                    key={`${dayjs(date).format("YYYY-MM-DD-hh-mm-ss")}-${id}`}
                                     className="mt-3 flex cursor-pointer items-center justify-center rounded border border-gray py-3 px-11 text-sm hover:border-blue hover:bg-blue hover:text-white"
                                     onClick={() => {
                                         handleMonthChange(date.toDate());
