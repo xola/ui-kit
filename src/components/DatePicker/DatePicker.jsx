@@ -108,8 +108,8 @@ export const DatePicker = ({
                                     key={dayjs(date).format("ddd-DD-MMMM")}
                                     className="mt-3 flex cursor-pointer items-center justify-center rounded border border-gray py-3 px-11 text-sm hover:border-blue hover:bg-blue hover:text-white"
                                     onClick={() => {
-                                        handleMonthChange(date);
-                                        handleDayClick(date);
+                                        handleMonthChange(date.toDate());
+                                        handleDayClick(date.toDate());
                                     }}
                                 >
                                     {dayjs(date).format("ddd DD MMMM")}
