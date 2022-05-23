@@ -23,18 +23,17 @@ const handleOnChange = (date) => {
     console.log("Got date", date);
 };
 
-const getDaysInMonth = (month) => {
-    const year = dayjs().get("year");
-    const date = new Date(year, dayjs(month).get("month"), 1);
+const getDaysArrayByMonth = (month) => {
+    let daysInMonth = dayjs(month).daysInMonth();
+    const arrayDays = [];
 
-    const dates = [];
-
-    while (date.getMonth() === dayjs().get("month")) {
-        dates.push(dayjs(date));
-        date.setDate(date.getDate() + 1);
+    while (daysInMonth) {
+        const current = dayjs(month).date(daysInMonth);
+        arrayDays.push(current);
+        daysInMonth--;
     }
 
-    return dates;
+    return arrayDays;
 };
 
 export const Default = () => {
@@ -248,14 +247,15 @@ export const InputWithCustomContent = () => {
 
 export const DatePickerWithTooltip = () => {
     const [value, setValue] = useState(new Date());
+    const [month, setMonth] = useState(dayjs());
 
     const modifiers = { tooltip: {} };
 
-    for (const date of getDaysInMonth(dayjs())) {
+    for (const date of getDaysArrayByMonth(month)) {
         modifiers.tooltip[date.format("YYYY-MM-DD")] = { text: customContent[date.get("day")] };
     }
 
-    return <DatePicker modifiers={modifiers} value={value} onChange={setValue} />;
+    return <DatePicker modifiers={modifiers} value={value} onChange={setValue} onMonthChange={setMonth} />;
 };
 
 export const EventHandlers = () => {
