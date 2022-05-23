@@ -23,6 +23,20 @@ const handleOnChange = (date) => {
     console.log("Got date", date);
 };
 
+const getDaysInMonth = (month) => {
+    const year = dayjs().get("year");
+    const date = new Date(year, dayjs(month).get("month"), 1);
+
+    const dates = [];
+
+    while (date.getMonth() === dayjs().get("month")) {
+        dates.push(dayjs(date));
+        date.setDate(date.getDate() + 1);
+    }
+
+    return dates;
+};
+
 export const Default = () => {
     const [value, setValue] = useState(new Date());
     return <DatePicker value={value} onChange={setValue} />;
@@ -237,11 +251,8 @@ export const DatePickerWithTooltip = () => {
 
     const modifiers = { tooltip: {} };
 
-    for (let day = 0; day <= dayjs().daysInMonth(); day++) {
-        const date = `${dayjs().get("year")}-${("0" + (dayjs().get("month") + 1).toString()).slice(-2)}-${(
-            "0" + day.toString()
-        ).slice(-2)}`;
-        modifiers.tooltip[date] = { text: customContent[day] };
+    for (const date of getDaysInMonth(dayjs())) {
+        modifiers.tooltip[date.format("YYYY-MM-DD")] = { text: customContent[date.get("day")] };
     }
 
     return <DatePicker modifiers={modifiers} value={value} onChange={setValue} />;
