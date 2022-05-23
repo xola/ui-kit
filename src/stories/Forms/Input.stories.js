@@ -54,6 +54,15 @@ export const WithError = () => {
     );
 };
 
+export const WithRequired = () => {
+    return (
+        <FormGroup>
+            <Label>Text</Label>
+            <Input isRequired />
+        </FormGroup>
+    );
+};
+
 export const CustomWidth = () => {
     return (
         <FormGroup>
