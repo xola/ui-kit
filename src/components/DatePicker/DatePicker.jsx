@@ -88,20 +88,20 @@ export const DatePicker = ({
     // Comparing `from` and `to` dates hides a weird CSS style when you select the same date twice in a date range.
     const useDateRangeStyle = isRangeVariant && value.from?.getTime() !== value.to?.getTime();
 
-    const sortedUpcomingDates = sortBy(upcomingDates?.filter((date) => dayjs(date).isAfter(dayjs(value)))).slice(0, 5);
+    const sortedUpcomingDates = sortBy(upcomingDates?.filter((date) => dayjs(date).isAfter(dayjs(value)))).slice(0, 6);
 
     return (
         <>
             <div className="flex">
                 {upcomingDates ? (
                     <div className="rounded-l-lg border-r border-gray p-6 pt-8">
-                        <p className="mb-5 text-lg font-bold">Upcoming</p>
+                        <p className="mb-2 text-lg font-bold">Upcoming</p>
                         {sortedUpcomingDates?.length > 0 ? (
-                            <div>
+                            <div className="mt-5">
                                 {sortedUpcomingDates?.map((date, index) => (
                                     <div
                                         key={index.toString()}
-                                        className="mt-3 flex min-w-[180px] cursor-pointer items-center justify-center rounded border border-gray py-4 px-8 hover:border-blue hover:bg-blue hover:text-white"
+                                        className="mt-3 flex min-w-[160px] cursor-pointer items-center justify-center rounded border border-gray py-3 hover:border-blue hover:bg-blue hover:text-white"
                                         onClick={() => {
                                             handleMonthChange(date);
                                             handleDayClick(date);
@@ -112,7 +112,7 @@ export const DatePicker = ({
                                 ))}
                             </div>
                         ) : (
-                            <div className="mt-3 max-w-[160px] items-center justify-center rounded bg-yellow-lighter p-3">
+                            <div className="mt-7 max-w-[160px] items-center justify-center rounded bg-yellow-lighter p-3">
                                 There is no future availaibility for this product.
                             </div>
                         )}
