@@ -99,7 +99,7 @@ export const DatePicker = ({
         <>
             <div className="flex">
                 {sortedUpcomingDates && sortedUpcomingDates.length > 0 ? (
-                    <div className="rounded-l-lg border-r border-gray p-6  pt-8">
+                    <div className="rounded-l-lg border-r border-gray p-6 pt-8">
                         <p className="text-lg font-bold mb-5">Upcoming</p>
                         <div>
                             {sortedUpcomingDates.map(({ date, id }) => (
