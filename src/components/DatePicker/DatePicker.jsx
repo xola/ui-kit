@@ -6,7 +6,6 @@ import "react-day-picker/lib/style.css";
 import "./DatePicker.css";
 import dayjs from "dayjs";
 import { Tooltip } from "../..";
-import { formatDate } from "../../helpers/date";
 import { Day } from "./Day";
 import { MonthYearSelector } from "./MonthYearSelector";
 import { NavbarElement } from "./NavbarElement";
@@ -32,6 +31,7 @@ export const DatePicker = ({
     ranges,
     shouldShowRelativeRanges = false,
     components = {},
+    getTooltip,
     ...rest
 }) => {
     const initialValue = variant === variants.single ? value : value.from;
@@ -79,13 +79,9 @@ export const DatePicker = ({
         ? ({ date }) => <MonthYearSelector date={date} currentMonth={currentMonth} onChange={handleMonthChange} />
         : undefined;
 
-    const getTooltipContent = (date) => {
-        const tooltip = modifiers?.tooltip?.[formatDate(date)];
-        return tooltip?.text;
-    };
-
     const renderDay = (date) => {
-        const tooltipContent = getTooltipContent(date);
+        const tooltipContent = getTooltip && getTooltip(date);
+
         return tooltipContent ? (
             <Tooltip placement="top" content={tooltipContent}>
                 <Day selectedDate={value} date={date} getContent={getDayContent} currentMonth={currentMonth} />
@@ -147,4 +143,5 @@ DatePicker.propTypes = {
     ranges: PropTypes.arrayOf(PropTypes.oneOf(["day", "week", "month", "quarter", "year"])),
     shouldShowRelativeRanges: PropTypes.bool,
     components: PropTypes.shape({ Footer: PropTypes.node }),
+    getTooltip: PropTypes.func,
 };

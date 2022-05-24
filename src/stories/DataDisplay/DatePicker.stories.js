@@ -2,6 +2,7 @@ import dayjs from "dayjs";
 import { random } from "lodash";
 import React, { useState } from "react";
 import { DatePicker, DatePickerPopover, theme, Button, Switch } from "../..";
+import { formatDate } from "../../helpers/date";
 
 const DatePickerStories = {
     title: "Data Display/Date & Time/Date Picker",
@@ -249,13 +250,18 @@ export const DatePickerWithTooltip = () => {
     const [value, setValue] = useState(new Date());
     const [month, setMonth] = useState(dayjs());
 
-    const modifiers = { tooltip: {} };
-
+    const tooltipContents = {};
     for (const date of getDaysArrayByMonth(month)) {
-        modifiers.tooltip[date.format("YYYY-MM-DD")] = { text: customContent[date.get("day")] };
+        tooltipContents[formatDate(date)] = { title: customContent[date.get("day")] };
     }
 
-    return <DatePicker modifiers={modifiers} value={value} onChange={setValue} onMonthChange={setMonth} />;
+    const getTooltip = (date) => {
+        if (tooltipContents[formatDate(date)]) {
+            return tooltipContents[formatDate(date)].title;
+        }
+    };
+
+    return <DatePicker getTooltip={getTooltip} value={value} onChange={setValue} onMonthChange={setMonth} />;
 };
 
 export const EventHandlers = () => {
