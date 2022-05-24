@@ -250,14 +250,14 @@ export const DatePickerWithTooltip = () => {
     const [value, setValue] = useState(new Date());
     const [month, setMonth] = useState(dayjs());
 
-    const tooltipContents = {};
+    const tooltips = {};
     for (const date of getDaysArrayByMonth(month)) {
-        tooltipContents[formatDate(date)] = { title: customContent[date.get("day")] };
+        tooltips[formatDate(date)] = { title: customContent[date.get("day")] };
     }
 
     const getTooltip = (date) => {
-        if (tooltipContents[formatDate(date)]) {
-            return tooltipContents[formatDate(date)].title;
+        if (tooltips[formatDate(date)]) {
+            return tooltips[formatDate(date)].title;
         }
     };
 
