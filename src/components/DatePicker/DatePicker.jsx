@@ -101,7 +101,7 @@ export const DatePicker = ({
                                 {sortedUpcomingDates?.map((date, index) => (
                                     <div
                                         key={index.toString()}
-                                        className="mt-3 flex cursor-pointer items-center justify-center rounded border border-gray py-4 px-8 hover:border-blue hover:bg-blue hover:text-white"
+                                        className="mt-3 flex min-w-[180px] cursor-pointer items-center justify-center rounded border border-gray py-4 px-8 hover:border-blue hover:bg-blue hover:text-white"
                                         onClick={() => {
                                             handleMonthChange(date);
                                             handleDayClick(date);
