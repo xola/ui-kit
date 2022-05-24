@@ -88,33 +88,34 @@ export const DatePicker = ({
     // Comparing `from` and `to` dates hides a weird CSS style when you select the same date twice in a date range.
     const useDateRangeStyle = isRangeVariant && value.from?.getTime() !== value.to?.getTime();
 
-    const sortedUpcomingDates = sortBy(
-        upcomingDates?.filter(({ date }) => dayjs(date).isAfter(dayjs(value))),
-        "date",
-    )
-        .slice(0, 6)
-        .map((item, index) => ({ date: item.date, id: index }));
+    const sortedUpcomingDates = sortBy(upcomingDates?.filter((date) => dayjs(date).isAfter(dayjs(value)))).slice(0, 5);
 
     return (
         <>
             <div className="flex">
-                {sortedUpcomingDates && sortedUpcomingDates.length > 0 ? (
+                {upcomingDates ? (
                     <div className="rounded-l-lg border-r border-gray p-6 pt-8">
-                        <p className="text-lg font-bold mb-5">Upcoming</p>
-                        <div>
-                            {sortedUpcomingDates.map(({ date, id }) => (
-                                <div
-                                    key={`${dayjs(date).format("YYYY-MM-DD-hh-mm-ss")}-${id}`}
-                                    className="mt-3 flex cursor-pointer items-center justify-center rounded border border-gray py-3 px-11 text-sm hover:border-blue hover:bg-blue hover:text-white"
-                                    onClick={() => {
-                                        handleMonthChange(date.toDate());
-                                        handleDayClick(date.toDate());
-                                    }}
-                                >
-                                    {dayjs(date).format("ddd DD MMMM")}
-                                </div>
-                            ))}
-                        </div>
+                        <p className="mb-5 text-lg font-bold">Upcoming</p>
+                        {sortedUpcomingDates?.length > 0 ? (
+                            <div>
+                                {sortedUpcomingDates?.map((date, index) => (
+                                    <div
+                                        key={index.toString()}
+                                        className="mt-3 flex min-w-[200px] cursor-pointer items-center justify-center rounded border border-gray py-4 px-8 hover:border-blue hover:bg-blue hover:text-white"
+                                        onClick={() => {
+                                            handleMonthChange(date);
+                                            handleDayClick(date);
+                                        }}
+                                    >
+                                        {dayjs(date).format("ddd DD MMMM")}
+                                    </div>
+                                ))}
+                            </div>
+                        ) : (
+                            <div className="mt-3 max-w-[160px] items-center justify-center rounded bg-yellow-lighter p-3">
+                                There is no future availaibility for this product.
+                            </div>
+                        )}
                     </div>
                 ) : null}
 
@@ -156,7 +157,7 @@ export const DatePicker = ({
 DatePicker.propTypes = {
     variant: PropTypes.oneOf(Object.keys(variants)),
     value: PropTypes.objectOf(Date),
-    upcomingDates: PropTypes.objectOf(Date),
+    upcomingDates: PropTypes.arrayOf(Date),
     onChange: PropTypes.func.isRequired,
     onMonthChange: PropTypes.func,
     disabledDays: PropTypes.oneOfType([PropTypes.object, PropTypes.array, PropTypes.func]),

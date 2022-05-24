@@ -282,18 +282,18 @@ export const WithUpcomingDates = () => {
         },
     };
     const upcomingDates = [
-        { date: dayjs(new Date(2022, 6, 6)) },
-        { date: dayjs(new Date(2022, 4, 4)) },
-        { date: dayjs(new Date(2022, 5, 5)) },
-        { date: dayjs(new Date(2022, 2, 2)) },
-        { date: dayjs(new Date(2022, 7, 7)) },
-        { date: dayjs(new Date(2022, 6, 6)) },
-        { date: dayjs(new Date(2022, 8, 8)) },
-        { date: dayjs(new Date(2022, 4, 9)) },
-        { date: dayjs(new Date(2022, 4, 10)) },
-        { date: dayjs(new Date(2022, 4, 11)) },
-        { date: dayjs(new Date(2022, 4, 12)) },
-        { date: dayjs(new Date(2022, 4, 13)) },
+        new Date(2022, 6, 6),
+        new Date(2022, 4, 4),
+        new Date(2022, 5, 5),
+        new Date(2022, 2, 2),
+        new Date(2022, 7, 7),
+        new Date(2022, 6, 6),
+        new Date(2022, 8, 8),
+        new Date(2022, 4, 9),
+        new Date(2022, 4, 10),
+        new Date(2022, 4, 11),
+        new Date(2022, 4, 12),
+        new Date(2022, 4, 13),
     ];
 
     return (
