@@ -102,9 +102,9 @@ export const DatePicker = ({
                                     <div
                                         key={index.toString()}
                                         className="mt-3 flex min-w-[160px] cursor-pointer items-center justify-center rounded border border-gray py-3 hover:border-blue hover:bg-blue hover:text-white"
-                                        onClick={() => {
+                                        onClick={(event) => {
+                                            handleDayClick(date, {}, event);
                                             handleMonthChange(date);
-                                            handleDayClick(date);
                                         }}
                                     >
                                         {dayjs(date).format("ddd DD MMMM")}
