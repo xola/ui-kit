@@ -113,7 +113,7 @@ export const DatePicker = ({
                             </div>
                         ) : (
                             <div className="mt-7 max-w-[160px] items-center justify-center rounded bg-yellow-lighter p-3">
-                                There is no future availaibility for this product.
+                                There is no future availability for this product.
                             </div>
                         )}
                     </div>
