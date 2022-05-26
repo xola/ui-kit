@@ -88,20 +88,25 @@ export const DatePicker = ({
     // Comparing `from` and `to` dates hides a weird CSS style when you select the same date twice in a date range.
     const useDateRangeStyle = isRangeVariant && value.from?.getTime() !== value.to?.getTime();
 
-    const sortedUpcomingDates = sortBy(upcomingDates?.filter((date) => dayjs(date).isAfter(dayjs(value)))).slice(0, 6);
+    const sortedUpcomingDates = sortBy(upcomingDates);
+
+    console.log({ value });
 
     return (
         <>
             <div className="flex">
                 {upcomingDates ? (
-                    <div className="rounded-l-lg border-r border-gray p-6 pt-8">
-                        <p className="mb-2 text-lg font-bold">Upcoming</p>
+                    <div className="rounded-l-lg border-r border-gray pt-8">
+                        <p className="mb-2 px-6 text-lg font-bold">Upcoming</p>
                         {sortedUpcomingDates?.length > 0 ? (
-                            <div className="mt-5">
+                            <div className="mt-5 max-h-[360px] overflow-auto">
                                 {sortedUpcomingDates?.map((date, index) => (
                                     <div
                                         key={index.toString()}
-                                        className="mt-3 flex min-w-[160px] cursor-pointer items-center justify-center rounded border border-gray py-3 hover:border-blue hover:bg-blue hover:text-white"
+                                        className={clsx(
+                                            "mx-6 mt-3 flex min-w-[160px] cursor-pointer items-center justify-center rounded border border-gray py-3 hover:border-blue hover:bg-blue hover:text-white",
+                                            { ["border-blue bg-blue text-white"]: dayjs(date).isSame(dayjs(value)) },
+                                        )}
                                         onClick={(event) => {
                                             handleDayClick(date, {}, event);
                                             handleMonthChange(date);
