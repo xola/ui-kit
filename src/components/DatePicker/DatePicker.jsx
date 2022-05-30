@@ -90,8 +90,6 @@ export const DatePicker = ({
 
     const sortedUpcomingDates = sortBy(upcomingDates);
 
-    console.log({ value });
-
     return (
         <>
             <div className="flex">
