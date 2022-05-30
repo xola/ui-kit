@@ -115,7 +115,7 @@ export const DatePicker = ({
                                 ))}
                             </div>
                         ) : (
-                            <div className="mt-7 max-w-[160px] items-center justify-center rounded bg-yellow-lighter p-3">
+                            <div className="mx-6 mt-7 max-w-[160px] items-center justify-center rounded bg-yellow-lighter p-3">
                                 There is no future availability for this product.
                             </div>
                         )}
