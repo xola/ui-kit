@@ -97,7 +97,7 @@ export const DatePicker = ({
                     <div className="rounded-l-lg border-r border-gray pt-8">
                         <p className="mb-2 px-6 text-lg font-bold">Upcoming</p>
                         {sortedUpcomingDates?.length > 0 ? (
-                            <div className="mt-5 max-h-[360px] overflow-auto">
+                            <div className="mt-5 max-h-[360px] overflow-y-auto">
                                 {sortedUpcomingDates?.map((date, index) => (
                                     <div
                                         key={index.toString()}
