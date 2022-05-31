@@ -6,6 +6,7 @@ import { DownArrowIcon } from "../..";
 export const InlineValuePopover = ({
     text,
     isOpen = false,
+    showArrow = false,
     onClick,
     onClickOutside,
     classNames,
@@ -14,14 +15,10 @@ export const InlineValuePopover = ({
 }) => {
     return (
         <Popover visible={isOpen} onClickOutside={onClickOutside} {...rest}>
-            <div className="flex flex-row items-center" onClick={onClick}>
-                <span className={clsx("cursor-pointer border-b border-primary font-bold", classNames?.text)}>
-                    {text}
-                </span>
-                <div className="flex items-center pr-3">
-                    <DownArrowIcon className="inline-block" size="medium" />
-                </div>
-            </div>
+            <span className={clsx("cursor-pointer", classNames?.text)} onClick={onClick}>
+                <span className={clsx("border-b border-primary font-bold", classNames?.text)}>{text}</span>
+                {showArrow ? <DownArrowIcon size="medium" /> : ""}
+            </span>
 
             <Popover.Content>
                 <div className={clsx("p-2", classNames?.children)}>{children}</div>
