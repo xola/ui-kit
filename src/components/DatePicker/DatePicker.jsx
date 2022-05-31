@@ -104,7 +104,10 @@ export const DatePicker = ({
                                         value
                                         className={clsx(
                                             "mx-6 mt-3 flex min-w-[160px] cursor-pointer items-center justify-center rounded border border-gray py-3 hover:border-blue hover:bg-blue hover:text-white",
-                                            { "border-blue bg-blue text-white": dayjs(date).isSame(dayjs(value)) },
+                                            {
+                                                "border-blue bg-blue text-white":
+                                                    dayjs(date).get("date") === dayjs(value).get("date"),
+                                            },
                                         )}
                                         onClick={(event) => {
                                             handleDayClick(date, {}, event);
