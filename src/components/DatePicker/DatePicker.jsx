@@ -88,7 +88,7 @@ export const DatePicker = ({
     // Comparing `from` and `to` dates hides a weird CSS style when you select the same date twice in a date range.
     const useDateRangeStyle = isRangeVariant && value.from?.getTime() !== value.to?.getTime();
 
-    const sortedUpcomingDates = sortBy(upcomingDates);
+    let sortedUpcomingDates = getClosestDates(sortBy(upcomingDates), value).slice(0, 6);
 
     return (
         <>
@@ -97,9 +97,10 @@ export const DatePicker = ({
                     <div className="rounded-l-lg border-r border-gray pt-8">
                         <p className="mb-2 px-6 text-lg font-bold">Upcoming</p>
                         {sortedUpcomingDates?.length > 0 ? (
-                            <div className="mt-5 max-h-[360px] overflow-y-auto">
+                            <div className="mt-5">
                                 {sortedUpcomingDates?.map((date, index) => (
                                     <div
+                                        value
                                         key={index.toString()}
                                         className={clsx(
                                             "mx-6 mt-3 flex min-w-[160px] cursor-pointer items-center justify-center rounded border border-gray py-3 hover:border-blue hover:bg-blue hover:text-white",
@@ -170,4 +171,35 @@ DatePicker.propTypes = {
     ranges: PropTypes.arrayOf(PropTypes.oneOf(["day", "week", "month", "quarter", "year"])),
     shouldShowRelativeRanges: PropTypes.bool,
     components: PropTypes.shape({ Footer: PropTypes.node }),
+};
+
+const getClosestDates = (dates, selectedDate) => {
+    let closestDates = dates;
+
+    for (let i = 0; i < dates.length; i++) {
+        if (dayjs(dates[i]).isSame(dayjs(selectedDate))) {
+            if (dates[i] === dates[dates.length - 1] || dates[i] === dates[dates.length - 2]) {
+                let filteredDates = [];
+                for (let k = 1; k < 7; k++) {
+                    filteredDates.push(dates[dates.length - k]);
+                }
+                closestDates = sortBy(filteredDates);
+                continue;
+            }
+            let currentDateIndex = 3;
+            let k = 0;
+            let filteredDates = [];
+            for (; k < 6; ) {
+                if (dates[i - currentDateIndex] === undefined) {
+                    currentDateIndex = currentDateIndex - 1;
+                    continue;
+                }
+                filteredDates[k] = dates[i - currentDateIndex];
+                currentDateIndex = currentDateIndex - 1;
+                k++;
+            }
+            closestDates = filteredDates;
+        }
+    }
+    return closestDates;
 };

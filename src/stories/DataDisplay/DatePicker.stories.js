@@ -282,7 +282,7 @@ export const WithUpcomingDates = () => {
         },
     };
     const upcomingDates = [
-        new Date(2022, 6, 6),
+        new Date(2022, 6, 20),
         new Date(2022, 4, 4),
         new Date(2022, 5, 5),
         new Date(2022, 2, 2),
