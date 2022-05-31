@@ -177,10 +177,11 @@ DatePicker.propTypes = {
 };
 
 const getClosestDates = (dates, selectedDate) => {
+    console.log({ selectedDate });
     let closestDates = dates;
 
     for (let index = 0; index < dates.length; index++) {
-        if (dayjs(dates[index]).isSame(dayjs(selectedDate))) {
+        if (dayjs(dates[index]).get("date") === dayjs(selectedDate).get("date")) {
             if (dates[index] === dates[dates.length - 1] || dates[index] === dates[dates.length - 2]) {
                 const filteredDates = [];
                 for (let k = 1; k < 7; k++) {
