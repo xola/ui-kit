@@ -79,6 +79,8 @@ export const DatePicker = ({
         ? ({ date }) => <MonthYearSelector date={date} currentMonth={currentMonth} onChange={handleMonthChange} />
         : undefined;
 
+    console.log(value);
+
     const renderDay = (date) => {
         const tooltipContent = getTooltip && getTooltip(date);
 
