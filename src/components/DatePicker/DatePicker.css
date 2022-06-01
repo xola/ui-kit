@@ -184,10 +184,6 @@
     @apply h-12 w-12 rounded-full border border-transparent;
 }
 
-.has-custom-content .DayPicker-Day .ui-day-content .ui-day-content-value {
-    @apply pt-3 leading-4;
-}
-
 .has-custom-content .DayPicker-Day .ui-day-content:hover {
     @apply h-12 w-12 rounded-full border border-transparent;
 }

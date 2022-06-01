@@ -77,8 +77,8 @@ export const DatePicker = ({
         ? ({ date }) => <MonthYearSelector date={date} currentMonth={currentMonth} onChange={handleMonthChange} />
         : undefined;
 
-    const renderDay = (day) => {
-        return <Day selectedDate={value} day={day} getContent={getDayContent} />;
+    const renderDay = (date) => {
+        return <Day selectedDate={value} date={date} getContent={getDayContent} currentMonth={currentMonth} />;
     };
 
     const rangeModifier = isRangeVariant ? { start: value.from, end: value.to } : null;
