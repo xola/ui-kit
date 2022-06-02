@@ -10,15 +10,14 @@ export const Day = ({ selectedDate, date, getContent, currentMonth }) => {
     }
 
     const isSameDay = selectedDate && dayjs(selectedDate).isSame(date, "day");
-    const isCurrentMonth = currentMonth && dayjs(currentMonth).isSame(date, "month");
 
     return (
         <div
             className={clsx(
                 "ui-date-picker-day",
                 "flex h-full w-full items-center justify-center",
-                isSameDay && isCurrentMonth ? "selected text-white" : null,
-                isCurrentMonth ? "date" : null,
+                isSameDay && isSameMonth ? "selected text-white" : null,
+                isSameMonth ? "date" : null,
             )}
         >
             {date.getDate()}
