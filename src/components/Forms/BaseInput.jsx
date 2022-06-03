@@ -10,38 +10,21 @@ const sizes = {
 
 export const BaseInput = ({ as: Tag, size = "medium", isError, className, isRequired, ...rest }) => {
     return (
-        <>
-            {isRequired ? (
-                <div className="relative flex items-center">
-                    <Tag
-                        className={clsx(
-                            "w-full rounded text-gray-darker placeholder-gray-dark hover:placeholder-gray-darker disabled:text-gray",
-                            "border border-transparent hover:border-black hover:bg-gray-lighter focus:text-black active:text-black disabled:bg-gray-lighter",
-                            sizes[size],
-                            isError
-                                ? "border-danger focus:border-danger focus:ring-0 focus:ring-danger"
-                                : "border-gray-light focus:border-primary focus:ring-0 focus:ring-primary",
-                            className,
-                        )}
-                        {...rest}
-                    />
-                    <Dot className="absolute right-3" color="danger" />
-                </div>
-            ) : (
-                <Tag
-                    className={clsx(
-                        "w-full rounded text-gray-darker placeholder-gray-dark hover:placeholder-gray-darker disabled:text-gray",
-                        "border border-transparent hover:border-black hover:bg-gray-lighter focus:text-black active:text-black disabled:bg-gray-lighter",
-                        sizes[size],
-                        isError
-                            ? "border-danger focus:border-danger focus:ring-0 focus:ring-danger"
-                            : "border-gray-light focus:border-primary focus:ring-0 focus:ring-primary",
-                        className,
-                    )}
-                    {...rest}
-                />
-            )}
-        </>
+        <div className="relative flex items-center">
+            <Tag
+                className={clsx(
+                    "w-full rounded text-gray-darker placeholder-gray-dark hover:placeholder-gray-darker disabled:text-gray",
+                    "border border-transparent hover:border-black hover:bg-gray-lighter focus:text-black active:text-black disabled:bg-gray-lighter",
+                    sizes[size],
+                    isError
+                        ? "border-danger focus:border-danger focus:ring-0 focus:ring-danger"
+                        : "border-gray-light focus:border-primary focus:ring-0 focus:ring-primary",
+                    className,
+                )}
+                {...rest}
+            />
+            {isRequired ?? <Dot className="absolute right-3" color="danger" />}
+        </div>
     );
 };
 
