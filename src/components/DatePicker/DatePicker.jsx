@@ -5,7 +5,6 @@ import DayPicker, { DateUtils } from "react-day-picker";
 import "react-day-picker/lib/style.css";
 import "./DatePicker.css";
 import dayjs from "dayjs";
-import { sortBy } from "lodash";
 import { Day } from "./Day";
 import { MonthYearSelector } from "./MonthYearSelector";
 import { NavbarElement } from "./NavbarElement";
@@ -88,35 +87,37 @@ export const DatePicker = ({
     // Comparing `from` and `to` dates hides a weird CSS style when you select the same date twice in a date range.
     const useDateRangeStyle = isRangeVariant && value.from?.getTime() !== value.to?.getTime();
 
-    const sortedUpcomingDates = getClosestDates(sortBy(upcomingDates), value).slice(0, 6);
-
     return (
         <>
             <div className="flex">
                 {upcomingDates ? (
                     <div className="rounded-l-lg border-r border-gray pt-8">
                         <p className="mb-2 px-6 text-lg font-bold">Upcoming</p>
-                        {sortedUpcomingDates?.length > 0 ? (
+                        {upcomingDates?.length > 0 ? (
                             <div className="mt-5">
-                                {sortedUpcomingDates?.map((date, index) => (
-                                    <div
-                                        key={index.toString()}
-                                        value
-                                        className={clsx(
-                                            "mx-6 mt-3 flex min-w-[160px] cursor-pointer items-center justify-center rounded border border-gray py-3 hover:border-blue hover:bg-blue hover:text-white",
-                                            {
-                                                "border-blue bg-blue text-white":
-                                                    dayjs(date).get("date") === dayjs(value).get("date"),
-                                            },
-                                        )}
-                                        onClick={(event) => {
-                                            handleDayClick(date, {}, event);
-                                            handleMonthChange(date);
-                                        }}
-                                    >
-                                        {dayjs(date).format("ddd DD MMMM")}
-                                    </div>
-                                ))}
+                                {upcomingDates?.map((date, index) => {
+                                    return (
+                                        <div
+                                            key={index.toString()}
+                                            value
+                                            className={clsx(
+                                                "mx-6 mt-3 flex min-w-[160px] cursor-pointer items-center justify-center rounded border border-gray py-3 hover:border-blue hover:bg-blue hover:text-white",
+                                                {
+                                                    "border-blue bg-blue text-white": dayjs(date).isSame(
+                                                        dayjs(value),
+                                                        "day",
+                                                    ),
+                                                },
+                                            )}
+                                            onClick={(event) => {
+                                                handleDayClick(date, {}, event);
+                                                handleMonthChange(date);
+                                            }}
+                                        >
+                                            {dayjs(date).format("ddd DD MMMM")}
+                                        </div>
+                                    );
+                                })}
                             </div>
                         ) : (
                             <div className="mx-6 mt-7 max-w-[160px] items-center justify-center rounded bg-yellow-lighter p-3">
@@ -132,7 +133,6 @@ export const DatePicker = ({
                         "ui-date-picker rounded-lg pt-3",
                         useDateRangeStyle ? "date-range-picker" : null,
                         getDayContent ? "has-custom-content" : null,
-                        sortedUpcomingDates ? "rounded-r-lg " : "rounded-lg",
                     )}
                     todayButton="Today"
                     selectedDays={value}
@@ -174,41 +174,4 @@ DatePicker.propTypes = {
     ranges: PropTypes.arrayOf(PropTypes.oneOf(["day", "week", "month", "quarter", "year"])),
     shouldShowRelativeRanges: PropTypes.bool,
     components: PropTypes.shape({ Footer: PropTypes.node }),
-};
-
-const getClosestDates = (dates, selectedDate) => {
-    console.log({ selectedDate });
-    let closestDates = dates;
-
-    for (let index = 0; index < dates.length; index++) {
-        if (dayjs(dates[index]).get("date") === dayjs(selectedDate).get("date")) {
-            if (dates[index] === dates[dates.length - 1] || dates[index] === dates[dates.length - 2]) {
-                const filteredDates = [];
-                for (let k = 1; k < 7; k++) {
-                    filteredDates.push(dates[dates.length - k]);
-                }
-
-                closestDates = sortBy(filteredDates);
-                continue;
-            }
-
-            let currentDateIndex = 3;
-            let k = 0;
-            const filteredDates = [];
-            for (; k < 6; ) {
-                if (dates[index - currentDateIndex] === undefined) {
-                    currentDateIndex -= 1;
-                    continue;
-                }
-
-                filteredDates[k] = dates[index - currentDateIndex];
-                currentDateIndex -= 1;
-                k++;
-            }
-
-            closestDates = filteredDates;
-        }
-    }
-
-    return closestDates;
 };
