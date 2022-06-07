@@ -134,7 +134,7 @@ export const DatePicker = ({
                         useDateRangeStyle ? "date-range-picker" : null,
                         getDayContent ? "has-custom-content" : null,
                     )}
-                    todayButton="Today"
+                    todayButton={variant === "single" && "Today"}
                     selectedDays={value}
                     month={currentMonth}
                     modifiers={{ ...modifiers, ...rangeModifier }}
