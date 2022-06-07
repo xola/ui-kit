@@ -35,6 +35,14 @@
     margin-bottom: 10px;
 }
 
+.DayPicker-Day--outside {
+    pointer-events: none;
+}
+
+.DayPicker-Day--disabled {
+    pointer-events: none;
+}
+
 /* The name of the month July 2021 */
 .DayPicker-Month .DayPicker-Caption[role="heading"] div {
     @apply relative top-[1px] h-10 text-lg font-semibold leading-10;
