@@ -16,7 +16,7 @@ export const InlineValuePopover = ({
     return (
         <Popover visible={isOpen} onClickOutside={onClickOutside} {...rest}>
             <span className={clsx("cursor-pointer", classNames?.text)} onClick={onClick}>
-                <span className={clsx("border-b border-primary font-bold", classNames?.text)}>{text}</span>
+                <span className="border-b border-primary font-bold">{text}</span>
                 {showArrow ? <DownArrowIcon size="medium" /> : ""}
             </span>
 
