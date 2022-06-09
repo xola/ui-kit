@@ -23,7 +23,7 @@ export const BaseInput = ({ as: Tag, size = "medium", isError, className, isRequ
                 )}
                 {...rest}
             />
-            {isRequired ?? <Dot className="absolute right-3" color="danger" />}
+            {isRequired && <Dot className="absolute right-3" color="danger" />}
         </div>
     );
 };
