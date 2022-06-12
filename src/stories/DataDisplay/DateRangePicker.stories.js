@@ -44,7 +44,6 @@ export const Default = () => {
 
 export const DateRangeWithInput = ({ shouldShowRelativeRanges, ranges }) => {
     const [value, setValue] = useState({ from: today, to: dayjs().add(7, "days").toDate() });
-
     return (
         <div>
             <DatePickerPopover
