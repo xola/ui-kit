@@ -5,6 +5,7 @@ import DayPicker, { DateUtils } from "react-day-picker";
 import "react-day-picker/lib/style.css";
 import "./DatePicker.css";
 import dayjs from "dayjs";
+import { Tooltip } from "../..";
 import { Day } from "./Day";
 import { MonthYearSelector } from "./MonthYearSelector";
 import { NavbarElement } from "./NavbarElement";
@@ -30,6 +31,7 @@ export const DatePicker = ({
     ranges,
     shouldShowRelativeRanges = false,
     components = {},
+    getTooltip,
     upcomingDates,
     ...rest
 }) => {
@@ -79,13 +81,23 @@ export const DatePicker = ({
         : undefined;
 
     const renderDay = (date) => {
-        return <Day selectedDate={value} date={date} getContent={getDayContent} currentMonth={currentMonth} />;
+        const tooltipContent = getTooltip && getTooltip(date);
+
+        return tooltipContent ? (
+            <Tooltip placement="top" content={tooltipContent}>
+                <Day selectedDate={value} date={date} getContent={getDayContent} currentMonth={currentMonth} />
+            </Tooltip>
+        ) : (
+            <Day selectedDate={value} date={date} getContent={getDayContent} currentMonth={currentMonth} />
+        );
     };
 
     const rangeModifier = isRangeVariant ? { start: value.from, end: value.to } : null;
 
     // Comparing `from` and `to` dates hides a weird CSS style when you select the same date twice in a date range.
     const useDateRangeStyle = isRangeVariant && value.from?.getTime() !== value.to?.getTime();
+
+    console.log({ value });
 
     return (
         <>
@@ -174,4 +186,5 @@ DatePicker.propTypes = {
     ranges: PropTypes.arrayOf(PropTypes.oneOf(["day", "week", "month", "quarter", "year"])),
     shouldShowRelativeRanges: PropTypes.bool,
     components: PropTypes.shape({ Footer: PropTypes.node }),
+    getTooltip: PropTypes.func,
 };
