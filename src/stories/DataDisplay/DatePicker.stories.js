@@ -296,6 +296,43 @@ addDescription(
     "This shows various useful [event handlers](https://react-day-picker.js.org/api/DayPicker#onBlur) with `DatePicker` ",
 );
 
+export const WithUpcomingDates = () => {
+    const [value, setValue] = useState(new Date());
+
+    const handleChange = (value) => {
+        setValue(value);
+    };
+
+    const modifiers = {
+        thursdays: { daysOfWeek: [4] },
+        waitlist: [new Date(today.setDate(18)), dayjs().set("day", 4).toDate()],
+    };
+
+    const modifiersStyles = {
+        outside: {
+            backgroundColor: colors.white,
+        },
+    };
+    const upcomingDates = [
+        new Date(2022, 6, 20),
+        new Date(2022, 4, 4),
+        new Date(2022, 5, 5),
+        new Date(2022, 2, 2),
+        new Date(2022, 7, 7),
+        new Date(2022, 6, 6),
+    ];
+
+    return (
+        <DatePicker
+            value={value}
+            upcomingDates={upcomingDates}
+            modifiersStyles={modifiersStyles}
+            modifiers={modifiers}
+            onChange={handleChange}
+        />
+    );
+};
+
 function addDescription(component, description) {
     component.parameters = {
         docs: {
