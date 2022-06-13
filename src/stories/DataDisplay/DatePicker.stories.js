@@ -2,6 +2,7 @@ import dayjs from "dayjs";
 import { random } from "lodash";
 import React, { useState } from "react";
 import { DatePicker, DatePickerPopover, theme, Button, Switch } from "../..";
+import { formatDate } from "../../helpers/date";
 
 const DatePickerStories = {
     title: "Data Display/Date & Time/Date Picker",
@@ -21,6 +22,19 @@ const { colors } = theme;
 
 const handleOnChange = (date) => {
     console.log("Got date", date);
+};
+
+const getDaysArrayByMonth = (month) => {
+    let daysInMonth = dayjs(month).daysInMonth();
+    const arrayDays = [];
+
+    while (daysInMonth) {
+        const current = dayjs(month).date(daysInMonth);
+        arrayDays.push(current);
+        daysInMonth--;
+    }
+
+    return arrayDays;
 };
 
 export const Default = () => {
@@ -232,6 +246,24 @@ export const InputWithCustomContent = () => {
     );
 };
 
+export const DatePickerWithTooltip = () => {
+    const [value, setValue] = useState(new Date());
+    const [month, setMonth] = useState(dayjs());
+
+    const tooltips = {};
+    for (const date of getDaysArrayByMonth(month)) {
+        tooltips[formatDate(date)] = { title: customContent[date.get("day")] };
+    }
+
+    const getTooltip = (date) => {
+        if (tooltips[formatDate(date)]) {
+            return tooltips[formatDate(date)].title;
+        }
+    };
+
+    return <DatePicker getTooltip={getTooltip} value={value} onChange={setValue} onMonthChange={setMonth} />;
+};
+
 export const EventHandlers = () => {
     const [value, setValue] = useState(new Date());
     const [month, setMonth] = useState(new Date());
@@ -263,6 +295,43 @@ addDescription(
     EventHandlers,
     "This shows various useful [event handlers](https://react-day-picker.js.org/api/DayPicker#onBlur) with `DatePicker` ",
 );
+
+export const WithUpcomingDates = () => {
+    const [value, setValue] = useState(new Date());
+
+    const handleChange = (value) => {
+        setValue(value);
+    };
+
+    const modifiers = {
+        thursdays: { daysOfWeek: [4] },
+        waitlist: [new Date(today.setDate(18)), dayjs().set("day", 4).toDate()],
+    };
+
+    const modifiersStyles = {
+        outside: {
+            backgroundColor: colors.white,
+        },
+    };
+    const upcomingDates = [
+        new Date(2022, 6, 20),
+        new Date(2022, 4, 4),
+        new Date(2022, 5, 5),
+        new Date(2022, 2, 2),
+        new Date(2022, 7, 7),
+        new Date(2022, 6, 6),
+    ];
+
+    return (
+        <DatePicker
+            value={value}
+            upcomingDates={upcomingDates}
+            modifiersStyles={modifiersStyles}
+            modifiers={modifiers}
+            onChange={handleChange}
+        />
+    );
+};
 
 function addDescription(component, description) {
     component.parameters = {
