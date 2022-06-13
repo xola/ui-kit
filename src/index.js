@@ -30,6 +30,7 @@ export { ComboBox } from "./components/Forms/ComboBox";
 export { Switch } from "./components/Forms/Switch";
 export { Checkbox } from "./components/Forms/Checkbox";
 export { Label } from "./components/Forms/Label";
+export { RangeSlider } from "./components/Forms/RangeSlider/RangeSlider";
 export { HeaderToolbar } from "./components/HeaderToolbar";
 export { Tabs } from "./components/Tabs";
 export { Skeleton } from "./components/Skeleton";
