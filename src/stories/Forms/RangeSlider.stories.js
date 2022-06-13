@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Label, FormGroup, RangeSlider } from "../..";
 
 const RangeSliderStories = {
@@ -12,7 +12,7 @@ export const Default = () => {
     return (
         <FormGroup>
             <Label>Default</Label>
-            <RangeSlider values={values} min={0} max={50} tooltipLabel="%" isConnectHandles={true} />
+            <RangeSlider isConnectHandles values={values} min={0} max={50} tooltipLabel="%" />
         </FormGroup>
     );
 };

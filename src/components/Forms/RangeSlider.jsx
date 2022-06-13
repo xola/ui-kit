@@ -12,7 +12,7 @@ export const RangeSlider = ({
     isDisabled = false,
     isConnectHandles = false,
     step = 1,
-    showToolTip = true,
+    isShowToolTip = true,
     tooltipLabel,
     className,
     onChange,
@@ -28,7 +28,7 @@ export const RangeSlider = ({
                 max,
             }}
             step={step}
-            tooltips={showToolTip}
+            tooltips={isShowToolTip}
             format={{
                 from: (value) => value,
                 to: (value) => value.toFixed() + tooltipLabel,
@@ -44,7 +44,7 @@ RangeSlider.propTypes = {
     max: PropTypes.number.isRequired,
     isDisabled: PropTypes.bool,
     isConnectHandles: PropTypes.bool,
-    showToolTip: PropTypes.bool,
+    isShowToolTip: PropTypes.bool,
     tooltipLabel: PropTypes.string,
     step: PropTypes.number,
     onChange: PropTypes.func,
