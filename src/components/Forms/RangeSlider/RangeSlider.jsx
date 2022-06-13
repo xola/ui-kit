@@ -6,9 +6,9 @@ import { Rail } from "./Rail";
 import { sortAsc, valueToPosition, positionToValue } from "./utils";
 import "./Slider.css";
 
-export const RangeSlider = ({ values, min, max, knobs, step, className, classNames = {}, onChange, ...rest }) => {
+export const RangeSlider = ({ values, min, max, knobs, step, className, onChange, ...rest }) => {
     const [activeHandleIndex, setActiveHandleIndex] = useState(null);
-    const sliderRef = useRef();
+    const sliderReference = useRef();
 
     useEffect(() => {
         document.addEventListener("mousemove", mouseMoveHandler);
@@ -26,10 +26,10 @@ export const RangeSlider = ({ values, min, max, knobs, step, className, classNam
 
     // Coordinates, in pixels, of the slider component in the DOM.
     const getSliderCoordinates = useCallback(() => {
-        return sliderRef.current !== null
-            ? sliderRef.current.getBoundingClientRect()
-            : { left: null, right: null, top: null, bottom: null };
-    }, [sliderRef]);
+        return sliderReference.current === null
+            ? { left: null, right: null, top: null, bottom: null }
+            : sliderReference.current.getBoundingClientRect();
+    }, [sliderReference]);
 
     // The length of this slider component in pixels.
     const sliderPixelLength = useCallback(() => {
@@ -37,29 +37,29 @@ export const RangeSlider = ({ values, min, max, knobs, step, className, classNam
         return right - left;
     }, [getSliderCoordinates]);
 
-    const getHandlePositions = values.map((val) => {
+    const getHandlePositions = values.map((value) => {
         // These checks ensure handles never fly off the rails
-        if (val > max) return 100;
-        else if (val < min) return 0;
-        else return valueToPosition(val, min, max, step);
+        if (value > max) return 100;
+        if (value < min) return 0;
+        return valueToPosition(value, min, max, step);
     });
 
     const getColoredRailPositions = useMemo(() => {
-        if (!rest.isColoredRailEnabled || getHandlePositions.length < 1) {
+        if (!rest.isColoredRailEnabled || getHandlePositions.length === 0) {
             return null;
         }
 
         if (getHandlePositions.length === 1) {
             return [0, getHandlePositions[0]];
-        } else {
-            const sortedHandlePositions = sortAsc(getHandlePositions);
-            return [sortedHandlePositions[0], sortedHandlePositions.slice(-1)];
         }
+
+        const sortedHandlePositions = sortAsc(getHandlePositions);
+        return [sortedHandlePositions[0], sortedHandlePositions.slice(-1)];
     }, [getHandlePositions, rest.isColoredRailEnabled]);
 
     const snapToThresholds = () => {
         return knobs
-            .filter(({ snapToThreshold }) => !isNaN(snapToThreshold) && snapToThreshold > 0)
+            .filter(({ snapToThreshold }) => !Number.isNaN(snapToThreshold) && snapToThreshold > 0)
             .map(({ position, snapToThreshold }) => [position, snapToThreshold]);
     };
 
@@ -75,13 +75,13 @@ export const RangeSlider = ({ values, min, max, knobs, step, className, classNam
     };
 
     const calculateSnappedPosition = (position) => {
-        snapToThresholds().forEach(([snapToPos, threshold]) => {
+        for (const [snapToPos, threshold] of snapToThresholds()) {
             const lowerBound = snapToPos - threshold;
             const upperBound = snapToPos + threshold;
             if (position >= lowerBound && position <= upperBound) {
                 position = snapToPos;
             }
-        });
+        }
 
         return position;
     };
@@ -108,7 +108,7 @@ export const RangeSlider = ({ values, min, max, knobs, step, className, classNam
                 cursorValue = positionToValue(cursorPosition, min, max, step);
             }
 
-            let newValues = [...values];
+            const newValues = [...values];
             newValues[activeHandleIndex] = cursorValue;
 
             onChange(newValues);
@@ -128,22 +128,23 @@ export const RangeSlider = ({ values, min, max, knobs, step, className, classNam
 
     const handles = getHandlePositions.map((position, handleIndex) => (
         <Handle
+            // eslint-disable-next-line react/no-array-index-key
+            key={`handle_${handleIndex}`} // Index is fine, adding new only appends.
             position={position}
             value={positionToValue(position, min, max, step)}
             tooltipLabel={rest.tooltipLabel}
             isActive={activeHandleIndex === handleIndex}
             onMouseDown={() => setActiveHandleIndex(handleIndex)}
             onTouchStart={() => setActiveHandleIndex(handleIndex)}
-            key={`handle_${handleIndex}`}
         />
     ));
 
     const knobsComponent = knobs.map(({ position, type }) => (
-        <Knob position={position} type={type} isColored={getKnobIsColored(position)} key={`knob_${position}`} />
+        <Knob key={`knob_${position}`} position={position} type={type} isColored={getKnobIsColored(position)} />
     ));
 
     return (
-        <div className="ui-range-slider" ref={sliderRef}>
+        <div ref={sliderReference} className="ui-range-slider">
             <Rail coloredRailPositions={getColoredRailPositions} />
             {handles}
             {knobsComponent}

@@ -6,10 +6,7 @@ export const Rail = ({ coloredRailPositions }) => {
     if (Array.isArray(coloredRailPositions) && coloredRailPositions.length === 2) {
         const [startPos, endPos] = coloredRailPositions;
         coloredRail = (
-            <div
-                className="ui-range-slider-rail-colored"
-                style={{ left: `${startPos}%`, right: `${100 - endPos}%` }}
-            ></div>
+            <div className="ui-range-slider-rail-colored" style={{ left: `${startPos}%`, right: `${100 - endPos}%` }} />
         );
     }
 

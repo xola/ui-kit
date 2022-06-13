@@ -1,10 +1,10 @@
 /**
  * Sort an array of numbers in ascending order without mutating the original
  * array.
- * @param {number[]} numArr
+ * @param {number[]} numberArray
  * @returns {number[]}
  */
-export const sortAsc = (numArr) => [...numArr].sort((a, b) => a - b);
+export const sortAsc = (numberArray) => [...numberArray].sort((a, b) => a - b);
 
 /**
  * Convert a slider value to a percentage-based position.
@@ -16,8 +16,8 @@ export const sortAsc = (numArr) => [...numArr].sort((a, b) => a - b);
  */
 // export const valueToPosition = (value, min, max, step) => (value - min) / (max - min) * 100;
 export const valueToPosition = (value, min, max, step) => {
-    let position = ((value - min) / (max - min)) * 100;
-    let nearbyStepPosition = Math.round(position / step) * step;
+    const position = ((value - min) / (max - min)) * 100;
+    const nearbyStepPosition = Math.round(position / step) * step;
     return Math.round(nearbyStepPosition * 100) / 100;
 };
 
@@ -31,14 +31,16 @@ export const valueToPosition = (value, min, max, step) => {
  */
 // export const positionToValue = (position, min, max, step) => ((position / 100) * (max - min)) + min;
 export const positionToValue = (position, min, max, step) => {
-    let value = (position / 100) * (max - min) + min;
-    let nearbyStepValue = Math.round(value / step) * step;
+    const value = (position / 100) * (max - min) + min;
+    const nearbyStepValue = Math.round(value / step) * step;
     return Number(nearbyStepValue.toFixed(countDecimals(step)));
 };
 
 export const countDecimals = (value) => {
     if (Math.floor(value) !== value) {
-        return value.toString().split(".")[1].length || 0;
+        const decimalCount = value.toString().split(".")[1].length;
+        return decimalCount > 0 ? decimalCount : 0;
     }
+
     return 0;
 };
