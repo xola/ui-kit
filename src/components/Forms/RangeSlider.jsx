@@ -14,7 +14,7 @@ import "./RangeSlider.css";
  * @param {boolean?}    props.shouldConnectHandles      To Display colored bars between handles.
  * @param {number?}     props.step                      Increament / decrement slider input by this Step count.
  * @param {boolean?}    props.isToolTipEnabled          Show tooltip on slider.
- * @param {object[]?}    props.tooltipCustomFormatter    Custom tooltip formatter.
+ * @param {object[]?}   props.tooltipCustomFormatter    Custom tooltip formatter.
  * @param {string?}     props.toolTipSuffix             Suffix to be added to the tooltip.
  * @param {Function?}   props.onChange                  Debounced callback when range slider is changed.
  */
