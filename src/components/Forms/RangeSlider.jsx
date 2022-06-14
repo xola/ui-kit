@@ -13,9 +13,9 @@ import "./RangeSlider.css";
  * @param {boolean?}    props.isDisabled                To disabled the range slider.
  * @param {boolean?}    props.shouldConnectHandles      To Display colored bars between handles.
  * @param {number?}     props.step                      Increament / decrement slider input by this Step count.
- * @param {boolean?}    props.isToolTipEnabled          Show tooltip on slider.
+ * @param {boolean?}    props.isTooltipEnabled          Show tooltip on slider.
  * @param {object[]?}   props.tooltipCustomFormatter    Custom tooltip formatter.
- * @param {string?}     props.toolTipSuffix             Suffix to be added to the tooltip.
+ * @param {string?}     props.tooltipSuffix             Suffix to be added to the tooltip.
  * @param {Function?}   props.onChange                  Debounced callback when range slider is changed.
  */
 export const RangeSlider = ({
@@ -26,9 +26,9 @@ export const RangeSlider = ({
     isDisabled = false,
     shouldConnectHandles = false,
     step = 1,
-    isToolTipEnabled = true,
+    isTooltipEnabled = true,
     tooltipCustomFormatter = null,
-    toolTipSuffix,
+    tooltipSuffix,
     onChange,
 }) => {
     const tooltipFormatter =
@@ -36,7 +36,7 @@ export const RangeSlider = ({
         values.map(() => {
             return {
                 from: (value) => value,
-                to: (value) => Math.round(value) + toolTipSuffix,
+                to: (value) => Math.round(value) + tooltipSuffix,
             };
         });
 
@@ -48,7 +48,7 @@ export const RangeSlider = ({
             start={values}
             range={{ min, max }}
             step={step}
-            tooltips={isToolTipEnabled ? tooltipFormatter : false}
+            tooltips={isTooltipEnabled ? tooltipFormatter : false}
             format={{
                 from: (value) => value,
                 to: (value) => Math.round(value),
@@ -65,8 +65,8 @@ RangeSlider.propTypes = {
     max: PropTypes.number.isRequired,
     isDisabled: PropTypes.bool,
     shouldConnectHandles: PropTypes.bool,
-    isToolTipEnabled: PropTypes.bool,
-    toolTipSuffix: PropTypes.string,
+    isTooltipEnabled: PropTypes.bool,
+    tooltipSuffix: PropTypes.string,
     tooltipCustomFormatter: PropTypes.arrayOf(
         PropTypes.shape({
             from: PropTypes.func.isRequired,
