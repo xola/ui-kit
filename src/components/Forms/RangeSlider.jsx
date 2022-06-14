@@ -49,10 +49,6 @@ export const RangeSlider = ({
             range={{ min, max }}
             step={step}
             tooltips={isTooltipEnabled ? tooltipFormatter : false}
-            format={{
-                from: (value) => value,
-                to: (value) => Math.round(value),
-            }}
             onChange={onChange}
         />
     );
