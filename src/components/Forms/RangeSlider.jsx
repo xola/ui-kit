@@ -17,6 +17,13 @@ export const RangeSlider = ({
     className,
     onChange,
 }) => {
+    const tooltipFormatter = values.map(() => {
+        return {
+            from: (value) => value,
+            to: (value) => Math.round(value) + tooltipLabel,
+        };
+    });
+
     return (
         <Nouislider
             className={clsx("ui-range-slider", className)}
@@ -28,10 +35,10 @@ export const RangeSlider = ({
                 max,
             }}
             step={step}
-            tooltips={isShowToolTip}
+            tooltips={isShowToolTip ? tooltipFormatter : false}
             format={{
                 from: (value) => value,
-                to: (value) => value.toFixed() + tooltipLabel,
+                to: (value) => Math.round(value),
             }}
             onChange={onChange}
         />
