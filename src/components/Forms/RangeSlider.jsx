@@ -5,37 +5,46 @@ import Nouislider from "nouislider-react";
 import "nouislider/distribute/nouislider.css";
 import "./RangeSlider.css";
 
+/**
+ * @param {string?}     props.className             Class name to apply to the Range slider input.
+ * @param {number[]}    props.values                Initial values to be display on the slider input.
+ * @param {number}      props.min                   Slider Minimum value.
+ * @param {number}      props.max                   Slider Maximum value.
+ * @param {boolean?}    props.isDisabled            To disabled the range slider.
+ * @param {boolean?}    props.shouldConnectHandles  To Display colored bars between handles.
+ * @param {number?}     props.step                  Increament / decrement slider input by this Step count.
+ * @param {boolean?}    props.isToolTipEnabled      Show tooltip on slider.
+ * @param {string?}     props.toolTipSuffix         Suffix to be added to the tooltip.
+ * @param {Function?}   props.onChange              Debounced callback when range slider is changed.
+ */
 export const RangeSlider = ({
+    className,
     values,
     min,
     max,
     isDisabled = false,
-    isConnectHandles = false,
+    shouldConnectHandles = false,
     step = 1,
-    isShowToolTip = true,
-    tooltipLabel,
-    className,
+    isToolTipEnabled = true,
+    toolTipSuffix,
     onChange,
 }) => {
     const tooltipFormatter = values.map(() => {
         return {
             from: (value) => value,
-            to: (value) => Math.round(value) + tooltipLabel,
+            to: (value) => Math.round(value) + toolTipSuffix,
         };
     });
 
     return (
         <Nouislider
             className={clsx("ui-range-slider", className)}
-            connect={isConnectHandles}
+            connect={shouldConnectHandles}
             disabled={isDisabled}
             start={values}
-            range={{
-                min,
-                max,
-            }}
+            range={{ min, max }}
             step={step}
-            tooltips={isShowToolTip ? tooltipFormatter : false}
+            tooltips={isToolTipEnabled ? tooltipFormatter : false}
             format={{
                 from: (value) => value,
                 to: (value) => Math.round(value),
@@ -50,9 +59,9 @@ RangeSlider.propTypes = {
     min: PropTypes.number.isRequired,
     max: PropTypes.number.isRequired,
     isDisabled: PropTypes.bool,
-    isConnectHandles: PropTypes.bool,
-    isShowToolTip: PropTypes.bool,
-    tooltipLabel: PropTypes.string,
+    shouldConnectHandles: PropTypes.bool,
+    isToolTipEnabled: PropTypes.bool,
+    toolTipSuffix: PropTypes.string,
     step: PropTypes.number,
     onChange: PropTypes.func,
     className: PropTypes.string,
