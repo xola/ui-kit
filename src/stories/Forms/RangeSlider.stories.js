@@ -12,7 +12,7 @@ export const Default = () => {
     return (
         <FormGroup>
             <Label>Default</Label>
-            <RangeSlider shouldConnectHandles values={values} min={0} max={50} toolTipSuffix="%" />
+            <RangeSlider shouldConnectHandles values={values} min={0} max={50} tooltipSuffix="%" />
         </FormGroup>
     );
 };
@@ -24,7 +24,7 @@ export const MultipleInput = () => {
         <FormGroup>
             <Label>Select Days</Label>
 
-            <RangeSlider values={values} min={0} max={31} toolTipSuffix=" days" />
+            <RangeSlider values={values} min={0} max={31} tooltipSuffix=" days" />
         </FormGroup>
     );
 };
