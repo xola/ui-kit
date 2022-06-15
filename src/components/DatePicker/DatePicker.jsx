@@ -46,6 +46,9 @@ export const DatePicker = ({
     }, [currentMonth, onMonthChange]);
 
     const handleDayClick = (day, options, event) => {
+        if (options.disabled) {
+            return;
+        }
         setRangeName("");
         if (isRangeVariant) {
             if (value.from && value.to) {
@@ -96,8 +99,6 @@ export const DatePicker = ({
 
     // Comparing `from` and `to` dates hides a weird CSS style when you select the same date twice in a date range.
     const useDateRangeStyle = isRangeVariant && value.from?.getTime() !== value.to?.getTime();
-
-    console.log({ value });
 
     return (
         <>
