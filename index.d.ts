@@ -127,6 +127,7 @@ export {
     PrintIcon,
     ProductsIcon,
     QuestionnaireIcon,
+    RangeSlider,
     ReceiptIcon,
     RefreshIcon,
     RosterIcon,
