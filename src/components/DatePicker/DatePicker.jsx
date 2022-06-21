@@ -49,6 +49,7 @@ export const DatePicker = ({
         if (options.disabled) {
             return;
         }
+
         setRangeName("");
         if (isRangeVariant) {
             if (value.from && value.to) {
