@@ -14,4 +14,4 @@ export const UserAddIcon = createIcon((props) => {
     );
 });
 
-UserAddIcon.tags = ["plus"];
+UserAddIcon.tags = ["plus", "change quantity"];

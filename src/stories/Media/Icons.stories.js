@@ -1,7 +1,8 @@
 import { map, omitBy } from "lodash";
 import React, { useState } from "react";
+import { Toaster } from "react-hot-toast";
 import * as all from "../..";
-import { Input } from "../..";
+import { flash, Input } from "../..";
 
 const iconNames = omitBy(all, (Icon, name) => !name.endsWith("Icon"));
 const icons = map(iconNames, (Icon, name) => ({ Icon, name }));
@@ -57,6 +58,19 @@ const IconList = ({ size, color }) => {
         return re.test(name) || tags.some((tag) => re.test(tag));
     });
 
+    const handleClick = (name) => {
+        const iconName = `<${name} />`;
+        navigator.clipboard.writeText(iconName);
+        flash.show({
+            text: (
+                <>
+                    Copied <span className="font-mono">{iconName}</span> to your clipboard
+                </>
+            ),
+            color: "success",
+        });
+    };
+
     return (
         <div className="flex flex-row flex-wrap gap-3">
             <div className="sticky top-2 z-50 w-full bg-white opacity-90">
@@ -68,6 +82,7 @@ const IconList = ({ size, color }) => {
                     onChange={handleSearch}
                 />
                 <all.SearchIcon className="!absolute left-2 top-3" />
+                <p className="my-4">Click on an icon to copy the name</p>
             </div>
 
             {filteredIcons.map(({ Icon, name }) => {
@@ -80,7 +95,11 @@ const IconList = ({ size, color }) => {
                 return (
                     <React.Fragment key={name}>
                         {isNew && <div className="mt-3 w-full flex-grow text-lg font-bold">{firstLetter}</div>}
-                        <div className="space-y-2 rounded border border-gray-lighter p-2 text-center">
+                        <div
+                            className="space-y-2 rounded border border-gray-lighter p-2 text-center hover:cursor-pointer hover:bg-gray-hover"
+                            title="Click to copy name"
+                            onClick={() => handleClick(name)}
+                        >
                             <Icon size={size} className={color} />
                             <div className="w-40 font-mono text-gray-dark">{name}</div>
                             <div title="tags" className="w-40 whitespace-normal text-xs text-gray">
@@ -90,6 +109,8 @@ const IconList = ({ size, color }) => {
                     </React.Fragment>
                 );
             })}
+
+            <Toaster />
         </div>
     );
 };
