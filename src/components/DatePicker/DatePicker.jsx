@@ -46,6 +46,10 @@ export const DatePicker = ({
     }, [currentMonth, onMonthChange]);
 
     const handleDayClick = (day, options, event) => {
+        if (options.disabled) {
+            return;
+        }
+
         setRangeName("");
         if (isRangeVariant) {
             if (value.from && value.to) {
