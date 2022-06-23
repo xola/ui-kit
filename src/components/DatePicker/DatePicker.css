@@ -17,7 +17,7 @@
 }
 
 .DayPicker-Months {
-    @apply space-x-2 justify-start;
+    @apply justify-start space-x-2;
 }
 
 /**
@@ -135,8 +135,12 @@
  *  3. Hover over start and end
  *  4. Dates are disabled
  */
-.date-range-picker .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) .ui-date-picker-day,
-.date-range-picker .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside):hover .ui-date-picker-day {
+.date-range-picker
+    .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside)
+    .ui-date-picker-day,
+.date-range-picker
+    .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside):hover
+    .ui-date-picker-day {
     @apply bg-transparent text-black;
 }
 
@@ -146,7 +150,7 @@
 }
 
 .ui-date-picker-day {
-    @apply w-8 h-8;
+    @apply h-8 w-8;
 }
 
 /* The explicit start date & end date of the range */
@@ -170,7 +174,7 @@
 /* Make the end date have a 50% light blue background towards the LEFT side */
 .date-range-picker .DayPicker-Day--end {
     @apply rounded-none;
-    background: linear-gradient(90deg, #D1E1FF 40%, #ffffff 25%); /* D1E1FF Blue lighter */
+    background: linear-gradient(90deg, #d1e1ff 40%, #ffffff 25%); /* D1E1FF Blue lighter */
 }
 
 .date-range-picker .DayPicker-Day--end div {

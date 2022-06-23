@@ -35,9 +35,7 @@ const today = dayjs().toDate();
 export const Default = () => {
     const [value, setValue] = useState({ from: new Date("2022-02-03"), to: new Date("2022-03-08") });
 
-    return (
-            <DatePicker variant="range" value={value} onChange={setValue} />
-    );
+    return <DatePicker variant="range" value={value} onChange={setValue} />;
 };
 
 export const RelativeDateRanges = () => {
@@ -46,10 +44,10 @@ export const RelativeDateRanges = () => {
     return (
         <div className="flex w-[720px] flex-col">
             <DatePicker
-                value={value}
-                variant="range"
                 shouldShowYearPicker
                 shouldShowRelativeRanges
+                value={value}
+                variant="range"
                 onChange={setValue}
             />
         </div>

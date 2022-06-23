@@ -168,7 +168,7 @@ export const DatePicker = ({
             {components.Footer ? <components.Footer /> : null}
 
             {useDateRangeStyle && shouldShowRelativeRanges && (
-                <div className="pl-5 pr-10 pb-5 w-6/12 ml-auto">
+                <div className="ml-auto w-6/12 pl-5 pr-10 pb-5">
                     <RelativeDateRange value={rangeName} ranges={ranges} onChange={handleRelativeRangeChanged} />
                 </div>
             )}
