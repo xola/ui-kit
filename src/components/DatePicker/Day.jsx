@@ -43,13 +43,7 @@ const DayContent = ({ selectedDate, date, getContent }) => {
     return (
         <div className="ui-day-content align-center flex flex-col justify-center">
             {/* The date itself */}
-            <div
-                className={clsx("ui-day-content-value", {
-                    "selected text-white": isSameDay,
-                })}
-            >
-                {day}
-            </div>
+            <div className={clsx("ui-day-content-value", { "selected text-white": isSameDay })}>{day}</div>
 
             {/* The custom content below it */}
             {contentValue ? <div className="ui-day-content-custom">{contentValue}</div> : null}
