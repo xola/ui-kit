@@ -44,7 +44,7 @@ export const RelativeDateRanges = () => {
     const [value, setValue] = useState({ from: new Date("2022-01-03"), to: new Date("2022-02-08") });
 
     return (
-        <div className="flex w-[800px] flex-col items-start">
+        <div className="flex w-[800px] flex-col">
             <DatePicker
                 value={value}
                 variant="range"

@@ -17,7 +17,7 @@
 }
 
 .DayPicker-Months {
-    @apply space-x-2;
+    @apply space-x-2 justify-start;
 }
 
 /**
