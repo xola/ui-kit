@@ -10,7 +10,7 @@ const sizes = {
 
 export const BaseInput = ({ as: Tag, size = "medium", isError, className, isRequired, ...rest }) => {
     return (
-        <div className="relative flex items-center">
+        <div className="relative flex w-full items-center">
             <Tag
                 className={clsx(
                     "w-full rounded text-gray-darker placeholder-gray-dark hover:placeholder-gray-darker disabled:text-gray",
