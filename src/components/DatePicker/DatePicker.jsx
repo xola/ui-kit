@@ -85,7 +85,7 @@ export const DatePicker = ({
         : undefined;
 
     const renderDay = (date) => {
-        const tooltipContent = getTooltip && getTooltip(date);
+        const tooltipContent = getTooltip?.(date);
 
         return tooltipContent ? (
             <Tooltip placement="top" content={tooltipContent}>
@@ -147,6 +147,7 @@ export const DatePicker = ({
                         "ui-date-picker rounded-lg pt-3",
                         useDateRangeStyle ? "date-range-picker" : null,
                         getDayContent ? "has-custom-content" : null,
+                        modifiers.waitlist ? "has-custom-content" : null,
                     )}
                     todayButton={variant === "single" && "Today"}
                     selectedDays={value}
