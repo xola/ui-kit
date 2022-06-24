@@ -39,7 +39,7 @@ export const Default = () => {
 };
 
 export const RelativeDateRanges = () => {
-    const [value, setValue] = useState({ from: new Date("2022-01-03"), to: new Date("2022-02-08") });
+    const [value, setValue] = useState({ from: new Date("2022-03-03"), to: new Date("2022-04-08") });
 
     return (
         <div className="flex w-[720px] flex-col">

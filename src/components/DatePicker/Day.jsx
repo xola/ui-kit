@@ -15,7 +15,7 @@ export const Day = ({ selectedDate, date, getContent, currentMonth }) => {
         <div
             className={clsx(
                 "ui-date-picker-day",
-                "flex h-full w-full items-center justify-center",
+                "flex items-center justify-center",
                 isSameDay && isSameMonth ? "selected text-white" : null,
                 isSameMonth ? "date" : null,
             )}
