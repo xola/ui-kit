@@ -52,7 +52,7 @@ export const DisabledDays = () => {
         {
             // All days between these two dates
             after: new Date(today.setDate(18)),
-            before: new Date(today.setDate(25)),
+            before: new Date(today.setDate(23)),
         },
         {
             // Disabled all Sundays
@@ -127,8 +127,7 @@ export const ModifyCellStyle = () => {
 
     const modifiersStyles = {
         thursdays: {
-            color: colors.white,
-            backgroundColor: colors.blue.light,
+            color: colors.primary.darker,
         },
         outside: {
             backgroundColor: colors.white,

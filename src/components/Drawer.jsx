@@ -41,8 +41,8 @@ export const Drawer = ({ isOpen = false, title, content, onClose, classNames = {
                                             </Dialog.Title>
                                             <div className={clsx("ml-3 flex h-7 items-center")}>
                                                 <Button
-                                                    size="small"
-                                                    color="link"
+                                                    color="secondary"
+                                                    variant="link"
                                                     className="focus:hidden"
                                                     onClick={onClose}
                                                 >
