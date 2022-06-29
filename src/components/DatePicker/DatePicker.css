@@ -5,11 +5,10 @@
 /* The parent component of the entire date picker */
 .ui-date-picker {
     @apply pt-6 tracking-tightest ring-0 focus:outline-none focus:ring-0;
-    width: 400px;
 }
 
 .date-range-picker {
-    @apply w-full px-5;
+    @apply w-[810px];
 }
 
 .DayPicker-NavBar {
@@ -26,13 +25,13 @@
   */
 .DayPicker-Month {
     @apply my-0 mx-0 p-0 pt-0.5 ring-0 focus:outline-none focus:ring-0;
-    min-width: 330px; /* Odd width given from Figma */
+    min-width: 400px; /* Odd width given from Figma */
     border-collapse: inherit;
     border-spacing: 0 8px; /* 8px between each week (row) */
 }
 
 .DayPicker-Month .DayPicker-Caption {
-    @apply m-0 h-10 p-0;
+    @apply m-0 h-10 p-0 pl-4;
     margin-bottom: 10px;
 }
 
@@ -68,6 +67,7 @@
 
 .DayPicker-Day {
     @apply h-8 w-8 !p-0 leading-3 ring-0 focus:outline-none focus:ring-0;
+    @apply !pl-3; /* This will center the cell */
 }
 
 /* .DayPicker-Day .ui-day-content-value {
