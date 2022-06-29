@@ -54,7 +54,7 @@ export const DatePickerPopover = ({
                 />
             )}
 
-            <Popover.Content>
+            <Popover.Content className="pr-1">
                 <DatePicker
                     variant={variant}
                     getDayContent={getDayContent}
