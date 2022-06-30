@@ -19,3 +19,5 @@ export const ArrowCwIcon = createIcon((props) => {
         </svg>
     );
 });
+
+ArrowCwIcon.tags = ["clockwise", "right", "rotate"];

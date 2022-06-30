@@ -8,7 +8,7 @@ export const HeaderToolbar = ({ classNames, children }) => {
         <div
             className={clsx(
                 "ui-header-toolbar",
-                "flex w-full items-center space-x-2 border-b border-gray-light px-5 py-3 pr-3 xl:space-x-6 xl:px-6 xl:py-5",
+                "flex w-full items-center space-x-2 border-b border-gray-light px-5 py-3 pr-3 xl:space-x-6 xl:px-10 xl:py-5",
                 classNames,
             )}
         >

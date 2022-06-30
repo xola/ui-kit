@@ -20,4 +20,4 @@ export const ArrowCcwIcon = createIcon((props) => {
     );
 });
 
-ArrowCcwIcon.tags = ["counter clockwise"];
+ArrowCcwIcon.tags = ["counter clockwise", "load more", "left", "revert", "undo", "rotate"];
