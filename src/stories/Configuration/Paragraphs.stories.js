@@ -1,10 +1,10 @@
 import React from "react";
 
 const ParagraphsStories = {
-    title: "Typography/Paragraph",
+    title: "Configuration/Paragraph",
 };
 
-export const Default = () => {
+export const Paragraph = () => {
     return (
         <div className="space-y-4">
             <p className="p1">

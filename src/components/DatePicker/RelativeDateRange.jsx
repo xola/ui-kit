@@ -216,7 +216,7 @@ export const RelativeDateRange = ({ ranges = ["day", "week", "month", "quarter",
     };
 
     return (
-        <Select size="large" value={value} onChange={handleChange}>
+        <Select size="medium" value={value} onChange={handleChange}>
             <option value="">Relative Date Range</option>
             {ranges.map((rangeKey) => {
                 const range = dateRanges[rangeKey];

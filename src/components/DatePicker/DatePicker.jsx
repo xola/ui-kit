@@ -5,6 +5,7 @@ import DayPicker, { DateUtils } from "react-day-picker";
 import "react-day-picker/lib/style.css";
 import "./DatePicker.css";
 import dayjs from "dayjs";
+import { Tooltip } from "../..";
 import { Day } from "./Day";
 import { MonthYearSelector } from "./MonthYearSelector";
 import { NavbarElement } from "./NavbarElement";
@@ -29,6 +30,9 @@ export const DatePicker = ({
     modifiers = {},
     ranges,
     shouldShowRelativeRanges = false,
+    components = {},
+    getTooltip,
+    upcomingDates,
     ...rest
 }) => {
     const initialValue = variant === variants.single ? value : value.from;
@@ -42,6 +46,10 @@ export const DatePicker = ({
     }, [currentMonth, onMonthChange]);
 
     const handleDayClick = (day, options, event) => {
+        if (options.disabled) {
+            return;
+        }
+
         setRangeName("");
         if (isRangeVariant) {
             if (value.from && value.to) {
@@ -76,8 +84,16 @@ export const DatePicker = ({
         ? ({ date }) => <MonthYearSelector date={date} currentMonth={currentMonth} onChange={handleMonthChange} />
         : undefined;
 
-    const renderDay = (day) => {
-        return <Day selectedDate={value} day={day} getContent={getDayContent} />;
+    const renderDay = (date) => {
+        const tooltipContent = getTooltip?.(date);
+
+        return tooltipContent ? (
+            <Tooltip placement="top" content={tooltipContent}>
+                <Day selectedDate={value} date={date} getContent={getDayContent} currentMonth={currentMonth} />
+            </Tooltip>
+        ) : (
+            <Day selectedDate={value} date={date} getContent={getDayContent} currentMonth={currentMonth} />
+        );
     };
 
     const rangeModifier = isRangeVariant ? { start: value.from, end: value.to } : null;
@@ -87,29 +103,72 @@ export const DatePicker = ({
 
     return (
         <>
-            <DayPicker
-                showOutsideDays
-                className={clsx(
-                    "ui-date-picker rounded-lg pt-3",
-                    useDateRangeStyle ? "date-range-picker" : null,
-                    getDayContent ? "has-custom-content" : null,
-                )}
-                todayButton="Today"
-                selectedDays={value}
-                month={currentMonth}
-                modifiers={{ ...modifiers, ...rangeModifier }}
-                numberOfMonths={isRangeVariant ? 2 : 1}
-                disabledDays={disabledDays}
-                captionElement={captionElement}
-                renderDay={renderDay}
-                navbarElement={NavbarElement}
-                onDayClick={handleDayClick}
-                onMonthChange={handleMonthChange}
-                onTodayButtonClick={handleDayClick}
-                {...rest}
-            />
+            <div className="flex">
+                {upcomingDates ? (
+                    <div className="rounded-l-lg border-r border-gray pt-8">
+                        <p className="mb-2 px-6 text-lg font-bold">Upcoming</p>
+                        {upcomingDates?.length > 0 ? (
+                            <div className="mt-5">
+                                {upcomingDates?.map((date, index) => {
+                                    return (
+                                        <div
+                                            key={index.toString()}
+                                            value
+                                            className={clsx(
+                                                "mx-6 mt-3 flex min-w-[160px] cursor-pointer items-center justify-center rounded border border-gray py-3 hover:border-blue hover:bg-blue hover:text-white",
+                                                {
+                                                    "border-blue bg-blue text-white": dayjs(date).isSame(
+                                                        dayjs(value),
+                                                        "day",
+                                                    ),
+                                                },
+                                            )}
+                                            onClick={(event) => {
+                                                handleDayClick(date, {}, event);
+                                                handleMonthChange(date);
+                                            }}
+                                        >
+                                            {dayjs(date).format("ddd DD MMMM")}
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        ) : (
+                            <div className="mx-6 mt-7 max-w-[160px] items-center justify-center rounded bg-yellow-lighter p-3">
+                                There is no future availability for this product.
+                            </div>
+                        )}
+                    </div>
+                ) : null}
+
+                <DayPicker
+                    showOutsideDays
+                    className={clsx(
+                        "ui-date-picker rounded-lg pt-3",
+                        useDateRangeStyle ? "date-range-picker" : null,
+                        getDayContent ? "has-custom-content" : null,
+                        modifiers.waitlist ? "has-custom-content" : null,
+                    )}
+                    todayButton={variant === "single" && "Today"}
+                    selectedDays={value}
+                    month={currentMonth}
+                    modifiers={{ ...modifiers, ...rangeModifier }}
+                    numberOfMonths={isRangeVariant ? 2 : 1}
+                    disabledDays={disabledDays}
+                    captionElement={captionElement}
+                    renderDay={renderDay}
+                    navbarElement={NavbarElement}
+                    onDayClick={handleDayClick}
+                    onMonthChange={handleMonthChange}
+                    onTodayButtonClick={handleDayClick}
+                    {...rest}
+                />
+            </div>
+
+            {components.Footer ? <components.Footer /> : null}
+
             {useDateRangeStyle && shouldShowRelativeRanges && (
-                <div className="px-5 pb-5">
+                <div className="ml-auto w-6/12 pl-5 pr-10 pb-5">
                     <RelativeDateRange value={rangeName} ranges={ranges} onChange={handleRelativeRangeChanged} />
                 </div>
             )}
@@ -120,6 +179,7 @@ export const DatePicker = ({
 DatePicker.propTypes = {
     variant: PropTypes.oneOf(Object.keys(variants)),
     value: PropTypes.objectOf(Date),
+    upcomingDates: PropTypes.arrayOf(Date),
     onChange: PropTypes.func.isRequired,
     onMonthChange: PropTypes.func,
     disabledDays: PropTypes.oneOfType([PropTypes.object, PropTypes.array, PropTypes.func]),
@@ -128,4 +188,6 @@ DatePicker.propTypes = {
     modifiers: PropTypes.object,
     ranges: PropTypes.arrayOf(PropTypes.oneOf(["day", "week", "month", "quarter", "year"])),
     shouldShowRelativeRanges: PropTypes.bool,
+    components: PropTypes.shape({ Footer: PropTypes.oneOfType([PropTypes.node, PropTypes.func]) }),
+    getTooltip: PropTypes.func,
 };

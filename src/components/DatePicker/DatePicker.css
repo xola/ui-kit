@@ -5,11 +5,10 @@
 /* The parent component of the entire date picker */
 .ui-date-picker {
     @apply pt-6 tracking-tightest ring-0 focus:outline-none focus:ring-0;
-    width: 400px;
 }
 
 .date-range-picker {
-    @apply w-full px-5;
+    @apply w-[810px];
 }
 
 .DayPicker-NavBar {
@@ -17,7 +16,7 @@
 }
 
 .DayPicker-Months {
-    @apply space-x-2;
+    @apply justify-start space-x-2;
 }
 
 /**
@@ -26,13 +25,18 @@
   */
 .DayPicker-Month {
     @apply my-0 mx-0 p-0 pt-0.5 ring-0 focus:outline-none focus:ring-0;
+    min-width: 400px; /* Odd width given from Figma */
     border-collapse: inherit;
-    border-spacing: 0 16px;
+    border-spacing: 0 8px; /* 8px between each week (row) */
 }
 
 .DayPicker-Month .DayPicker-Caption {
-    @apply m-0 h-10 p-0;
+    @apply m-0 h-10 p-0 pl-4;
     margin-bottom: 10px;
+}
+
+.DayPicker-Day--outside {
+    pointer-events: none;
 }
 
 /* The name of the month July 2021 */
@@ -62,7 +66,8 @@
 }
 
 .DayPicker-Day {
-    @apply h-12 w-12 p-0 leading-3 ring-0 focus:outline-none focus:ring-0;
+    @apply h-8 w-8 !p-0 leading-3 ring-0 focus:outline-none focus:ring-0;
+    @apply !pl-3; /* This will center the cell */
 }
 
 /* .DayPicker-Day .ui-day-content-value {
@@ -82,10 +87,16 @@
     @apply bg-transparent ring-0 focus:outline-none focus:ring-0;
 }
 
-/* State when a day is selected */
+/* State when a day is selected -- parent div */
 .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside),
 .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside):hover {
-    @apply border-transparent bg-blue text-white;
+    @apply border-transparent;
+}
+
+/* State when a day is selected -- inner div with date number */
+.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) .ui-date-picker-day,
+.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside):hover .ui-date-picker-day {
+    @apply rounded-full bg-blue text-white;
 }
 
 /* State when you hover on a day */
@@ -116,25 +127,44 @@
 }
 
 /*
- * Date range
+ * DATE RANGE PICKER. THE CSS IS COMPLEX, MAKE SURE YOU KNOW WHAT YOU ARE DOING
+ * Make sure you test with dates 10 days apart to ensure the correct styles are applied
+ * Scenarios:
+ *  1. Start date is selected, end date is not selected
+ *  2. Start date is selected, end date is selected
+ *  3. Hover over start and end
+ *  4. Dates are disabled
  */
+.date-range-picker
+    .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside)
+    .ui-date-picker-day,
+.date-range-picker
+    .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside):hover
+    .ui-date-picker-day {
+    @apply bg-transparent text-black;
+}
+
 .date-range-picker .DayPicker-Day--selected:not(.DayPicker-Day--disabled) .date,
 .date-range-picker .DayPicker-Day--selected:not(.DayPicker-Day--disabled) .date:hover {
     @apply bg-blue-lighter text-black;
 }
 
+.ui-date-picker-day {
+    @apply h-8 w-8;
+}
+
 /* The explicit start date & end date of the range */
-.date-range-picker .DayPicker-Day--start:not(.DayPicker-Day--disabled) .date,
-.date-range-picker .DayPicker-Day--start:not(.DayPicker-Day--disabled) .date:hover,
-.date-range-picker .DayPicker-Day--end:not(.DayPicker-Day--disabled) .date,
-.date-range-picker .DayPicker-Day--end:not(.DayPicker-Day--disabled) .date:hover {
-    @apply bg-blue text-white;
+.date-range-picker .DayPicker-Day--start:not(.DayPicker-Day--disabled) .ui-date-picker-day,
+.date-range-picker .DayPicker-Day--start:not(.DayPicker-Day--disabled) .ui-date-picker-day:hover,
+.date-range-picker .DayPicker-Day--end:not(.DayPicker-Day--disabled) .ui-date-picker-day,
+.date-range-picker .DayPicker-Day--end:not(.DayPicker-Day--disabled) .ui-date-picker-day:hover {
+    @apply !bg-blue !text-white;
 }
 
 /* Make the start date have a 50% light blue background towards the RIGHT side */
 .date-range-picker .DayPicker-Day--start {
     @apply rounded-none;
-    background: linear-gradient(90deg, #ffffff 50%, #d1e1ff 25%);
+    background: linear-gradient(90deg, #ffffff 40%, #d1e1ff 25%);
 }
 
 .date-range-picker .DayPicker-Day--start div {
@@ -144,7 +174,7 @@
 /* Make the end date have a 50% light blue background towards the LEFT side */
 .date-range-picker .DayPicker-Day--end {
     @apply rounded-none;
-    background: linear-gradient(90deg, #d1e1ff 50%, #ffffff 25%);
+    background: linear-gradient(90deg, #d1e1ff 40%, #ffffff 25%); /* D1E1FF Blue lighter */
 }
 
 .date-range-picker .DayPicker-Day--end div {
@@ -158,8 +188,8 @@
     border-spacing: 1px 16px;
 }
 
-.has-custom-content .DayPicker-Day,
-.has-custom-content .DayPicker-Day:hover {
+.has-custom-content .DayPicker-Day .ui-date-picker-day,
+.has-custom-content .DayPicker-Day:hover .ui-date-picker-day {
     @apply h-12 w-12 border border-transparent;
 }
 
@@ -182,10 +212,6 @@
 
 .has-custom-content .DayPicker-Day .ui-day-content {
     @apply h-12 w-12 rounded-full border border-transparent;
-}
-
-.has-custom-content .DayPicker-Day .ui-day-content .ui-day-content-value {
-    @apply pt-3 leading-4;
 }
 
 .has-custom-content .DayPicker-Day .ui-day-content:hover {
@@ -229,8 +255,9 @@
     @apply text-gray-dark;
 }
 
-/***************/
-
+/**
+ * Styling for waitlist. Just a dot
+ */
 .DayPicker-Day.DayPicker-Day--waitlist > div {
     @apply relative;
 }

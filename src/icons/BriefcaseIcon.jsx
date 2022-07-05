@@ -19,3 +19,5 @@ export const BriefcaseIcon = createIcon((props) => {
         </svg>
     );
 });
+
+BriefcaseIcon.tags = ["back office", "work", "business"];

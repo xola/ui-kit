@@ -3,54 +3,56 @@ import dayjs from "dayjs";
 import PropTypes from "prop-types";
 import React from "react";
 
-export const Day = ({ selectedDate, day, getContent }) => {
-    if (getContent) {
-        return <DayContent selectedDate={selectedDate} day={day} getContent={getContent} />;
+export const Day = ({ selectedDate, date, getContent, currentMonth }) => {
+    const isSameMonth = dayjs(currentMonth).isSame(date, "month");
+    if (getContent && isSameMonth) {
+        return <DayContent selectedDate={selectedDate} date={date} getContent={getContent} />;
     }
 
-    const isSameDay = selectedDate && dayjs(selectedDate).isSame(day, "day");
+    const isSameDay = selectedDate && dayjs(selectedDate).isSame(date, "day");
 
     return (
         <div
             className={clsx(
                 "ui-date-picker-day",
-                "date flex h-full w-full items-center justify-center",
-                isSameDay ? "selected text-white" : null,
+                "flex items-center justify-center",
+                isSameDay && isSameMonth ? "selected text-white" : null,
+                isSameMonth ? "date" : null,
             )}
         >
-            {day.getDate()}
+            {date.getDate()}
         </div>
     );
 };
 
 Day.propTypes = {
     selectedDate: PropTypes.objectOf(Date),
-    day: PropTypes.objectOf(Date),
+    date: PropTypes.objectOf(Date),
     getContent: PropTypes.func,
+    currentMonth: PropTypes.objectOf(Date),
 };
 
 /**
  * Render custom content in the cell and mark the active day
  */
-const DayContent = ({ selectedDate, day, getContent }) => {
-    const date = day.getDate();
-    const value = getContent(date) ?? "N/A";
-    const isSameDay = selectedDate && dayjs(selectedDate).isSame(day, "day");
-    const shouldShowContent = !dayjs(day).isBefore(dayjs(), "day");
+const DayContent = ({ selectedDate, date, getContent }) => {
+    const day = date.getDate();
+    const contentValue = getContent(day, date);
+    const isSameDay = selectedDate && dayjs(selectedDate).isSame(date, "day");
 
     return (
-        <div className="ui-day-content">
+        <div className="ui-day-content align-center flex flex-col justify-center">
             {/* The date itself */}
-            <div className={clsx("ui-day-content-value", isSameDay ? "selected text-white" : null)}>{date}</div>
+            <div className={clsx("ui-day-content-value", { "selected text-white": isSameDay })}>{day}</div>
 
             {/* The custom content below it */}
-            {shouldShowContent ? <div className="ui-day-content-custom">{value}</div> : null}
+            {contentValue ? <div className="ui-day-content-custom">{contentValue}</div> : null}
         </div>
     );
 };
 
 DayContent.propTypes = {
     selectedDate: PropTypes.objectOf(Date),
-    day: PropTypes.objectOf(Date),
+    date: PropTypes.objectOf(Date),
     getContent: PropTypes.func.isRequired,
 };

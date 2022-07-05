@@ -1,0 +1,30 @@
+/* Hide markers on slider handles */
+.ui-range-slider .noUi-handle::before,
+.ui-range-slider .noUi-handle::after {
+    display: none;
+}
+
+/* Slider Bar */
+.ui-range-slider {
+    @apply h-2 w-full bg-secondary-lighter;
+}
+
+/* Slider handle connector */
+.ui-range-slider .noUi-connect {
+    @apply bg-primary;
+}
+
+/* Slider handle */
+.ui-range-slider .noUi-handle {
+    @apply h-5 w-5 -translate-x-2/4 rounded-full bg-primary shadow-none;
+}
+
+.ui-range-slider .noUi-tooltip {
+    @apply left-1/2 top-[130%] h-8 -translate-x-2/4 bg-black text-white;
+}
+
+.ui-range-slider .noUi-tooltip::after {
+    content: "";
+    border-color: transparent transparent black transparent;
+    @apply absolute bottom-full left-1/2 -ml-1 border-4 border-solid;
+}

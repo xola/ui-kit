@@ -1,6 +1,6 @@
 {
     "name": "@xola/ui-kit",
-    "version": "2.0.0-52",
+    "version": "2.0.0-70",
     "description": "Xola UI Kit",
     "license": "MIT",
     "files": [
@@ -38,10 +38,12 @@
         "get-user-locale": "^1.4.0",
         "google-libphonenumber": "^3.2.22",
         "mathjs": "^9.4.4",
+        "nouislider-react": "^3.4.1",
         "prop-types": "^15.7.2",
         "react-day-picker": "^7.4.10",
         "react-hot-toast": "^2.1.0",
         "react-hotkeys-hook": "^3.4.0",
+        "react-json-view": "^1.21.3",
         "react-select": "^5.1.0",
         "tippy.js": "^6.3.1"
     },

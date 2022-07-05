@@ -1,7 +1,8 @@
 import dayjs from "dayjs";
 import { random } from "lodash";
 import React, { useState } from "react";
-import { DatePicker, DatePickerPopover, theme, Button } from "../..";
+import { DatePicker, DatePickerPopover, theme, Button, Switch } from "../..";
+import { formatDate } from "../../helpers/date";
 
 const DatePickerStories = {
     title: "Data Display/Date & Time/Date Picker",
@@ -23,6 +24,19 @@ const handleOnChange = (date) => {
     console.log("Got date", date);
 };
 
+const getDaysArrayByMonth = (month) => {
+    let daysInMonth = dayjs(month).daysInMonth();
+    const arrayDays = [];
+
+    while (daysInMonth) {
+        const current = dayjs(month).date(daysInMonth);
+        arrayDays.push(current);
+        daysInMonth--;
+    }
+
+    return arrayDays;
+};
+
 export const Default = () => {
     const [value, setValue] = useState(new Date());
     return <DatePicker value={value} onChange={setValue} />;
@@ -38,7 +52,7 @@ export const DisabledDays = () => {
         {
             // All days between these two dates
             after: new Date(today.setDate(18)),
-            before: new Date(today.setDate(25)),
+            before: new Date(today.setDate(23)),
         },
         {
             // Disabled all Sundays
@@ -52,6 +66,36 @@ export const DisabledDays = () => {
 addDescription(
     DisabledDays,
     'Use the `disabledDays` prop to display days with a "disabled" style. You can match a wide range of days by passing one or more [different modifiers](http://react-day-picker.js.org/docs/matching-days) to disabledDays',
+);
+
+export const WithFooter = () => {
+    const [value, setValue] = useState(new Date());
+
+    const [isChecked, setIsChecked] = useState(false);
+
+    return (
+        <DatePicker
+            month={today}
+            value={value}
+            components={{
+                Footer: () => (
+                    <div className="px-5 pb-5">
+                        <Switch.Group>
+                            <Switch isChecked={isChecked} size="large" onChange={() => setIsChecked(!isChecked)} />
+
+                            <Switch.Label direction="right">Switch toggle</Switch.Label>
+                        </Switch.Group>
+                    </div>
+                ),
+            }}
+            onChange={setValue}
+        />
+    );
+};
+
+addDescription(
+    WithFooter,
+    "Use the `components` prop to extend DatePicker functionality by passing a react components that will be positioned in the footer are of the component",
 );
 
 export const RestrictNavigation = () => {
@@ -83,8 +127,7 @@ export const ModifyCellStyle = () => {
 
     const modifiersStyles = {
         thursdays: {
-            color: colors.white,
-            backgroundColor: colors.blue.light,
+            color: colors.primary.darker,
         },
         outside: {
             backgroundColor: colors.white,
@@ -202,6 +245,24 @@ export const InputWithCustomContent = () => {
     );
 };
 
+export const DatePickerWithTooltip = () => {
+    const [value, setValue] = useState(new Date());
+    const [month, setMonth] = useState(dayjs());
+
+    const tooltips = {};
+    for (const date of getDaysArrayByMonth(month)) {
+        tooltips[formatDate(date)] = { title: customContent[date.get("day")] };
+    }
+
+    const getTooltip = (date) => {
+        if (tooltips[formatDate(date)]) {
+            return tooltips[formatDate(date)].title;
+        }
+    };
+
+    return <DatePicker getTooltip={getTooltip} value={value} onChange={setValue} onMonthChange={setMonth} />;
+};
+
 export const EventHandlers = () => {
     const [value, setValue] = useState(new Date());
     const [month, setMonth] = useState(new Date());
@@ -233,6 +294,43 @@ addDescription(
     EventHandlers,
     "This shows various useful [event handlers](https://react-day-picker.js.org/api/DayPicker#onBlur) with `DatePicker` ",
 );
+
+export const WithUpcomingDates = () => {
+    const [value, setValue] = useState(new Date());
+
+    const handleChange = (value) => {
+        setValue(value);
+    };
+
+    const modifiers = {
+        thursdays: { daysOfWeek: [4] },
+        waitlist: [new Date(today.setDate(18)), dayjs().set("day", 4).toDate()],
+    };
+
+    const modifiersStyles = {
+        outside: {
+            backgroundColor: colors.white,
+        },
+    };
+    const upcomingDates = [
+        new Date(2022, 6, 20),
+        new Date(2022, 4, 4),
+        new Date(2022, 5, 5),
+        new Date(2022, 2, 2),
+        new Date(2022, 7, 7),
+        new Date(2022, 6, 6),
+    ];
+
+    return (
+        <DatePicker
+            value={value}
+            upcomingDates={upcomingDates}
+            modifiersStyles={modifiersStyles}
+            modifiers={modifiers}
+            onChange={handleChange}
+        />
+    );
+};
 
 function addDescription(component, description) {
     component.parameters = {

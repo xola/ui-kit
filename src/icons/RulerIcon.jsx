@@ -14,4 +14,4 @@ export const RulerIcon = createIcon((props) => {
     );
 });
 
-RulerIcon.tags = ["measure", "scale"];
+RulerIcon.tags = ["measure", "scale", "size"];

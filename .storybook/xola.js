@@ -1,5 +1,3 @@
-// .storybook/YourTheme.js
-
 import { create } from "@storybook/theming";
 
 export default create({
@@ -15,8 +13,7 @@ export default create({
     appBorderRadius: 4,
 
     // Typography
-    fontBase:
-        "Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji'",
+    fontBase: "Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
     fontCode: "'Roboto Mono', monospace",
 
     // Text colors

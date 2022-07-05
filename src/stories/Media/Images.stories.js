@@ -61,7 +61,7 @@ const ImageList = ({ color }) => {
     );
 };
 
-export const DefaultSize = ({ color }) => {
+export const Images = ({ color }) => {
     return <ImageList color={color} size="large" />;
 };
 
