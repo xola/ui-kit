@@ -38,12 +38,19 @@ export const DatePicker = ({
     const initialValue = variant === variants.single ? value : value.from;
     const [currentMonth, setCurrentMonth] = useState(initialValue);
     const [rangeName, setRangeName] = useState("");
+    const [showTodayButton, setShowTodayButton] = useState(variant === "single");
     const isRangeVariant = variant === variants.range;
 
     // Sync internal month state with outside.
     useEffect(() => {
         onMonthChange?.(currentMonth);
     }, [currentMonth, onMonthChange]);
+
+    useEffect(() => {
+        if (disabledDays.some((date) => dayjs(date).isSame(new Date(), "day"))) {
+            setShowTodayButton(false);
+        }
+    }, []);
 
     const handleDayClick = (day, options, event) => {
         if (options.disabled) {
@@ -86,13 +93,26 @@ export const DatePicker = ({
 
     const renderDay = (date) => {
         const tooltipContent = getTooltip?.(date);
+        const disabled = disabledDays.some((_date) => dayjs(_date).isSame(date, "day"));
 
         return tooltipContent ? (
             <Tooltip placement="top" content={tooltipContent}>
-                <Day selectedDate={value} date={date} getContent={getDayContent} currentMonth={currentMonth} />
+                <Day
+                    disabled={disabled}
+                    selectedDate={value}
+                    date={date}
+                    getContent={getDayContent}
+                    currentMonth={currentMonth}
+                />
             </Tooltip>
         ) : (
-            <Day selectedDate={value} date={date} getContent={getDayContent} currentMonth={currentMonth} />
+            <Day
+                disabled={disabled}
+                selectedDate={value}
+                date={date}
+                getContent={getDayContent}
+                currentMonth={currentMonth}
+            />
         );
     };
 
@@ -149,7 +169,7 @@ export const DatePicker = ({
                         getDayContent ? "has-custom-content" : null,
                         modifiers.waitlist ? "has-custom-content" : null,
                     )}
-                    todayButton={variant === "single" && "Today"}
+                    todayButton={showTodayButton ? "Today" : undefined}
                     selectedDays={value}
                     month={currentMonth}
                     modifiers={{ ...modifiers, ...rangeModifier }}
