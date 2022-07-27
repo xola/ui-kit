@@ -14,6 +14,10 @@ const ButtonGroup = ({ size, value, isCollapsed = false, onChange, className, ch
             {Children.map(children, (child, index) => {
                 const buttonProps = { size };
 
+                if (child.props.isHidden) {
+                    return;
+                }
+
                 // Conditionally adding props like this so that we
                 // are also able to control the props on `ButtonGroup.Button`
                 // directly, if `value` and `onChange` are not passed on the parent.
@@ -68,7 +72,8 @@ const Button = ({
     return (
         <Tag className={classes} {...rest}>
             {icon && iconPlacement === "left" ? <span className="mr-2 flex-shrink-0">{icon}</span> : null}
-            {shouldShowText ? children : null}
+            {/* Always show text if the icon isn't specified */}
+            {shouldShowText ? children : icon ? null : children}
             {icon && iconPlacement === "right" ? <span className="ml-2 flex-shrink-0">{icon}</span> : null}
         </Tag>
     );
@@ -79,6 +84,7 @@ Button.propTypes = {
     as: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]),
     isActive: PropTypes.bool,
     shouldShowText: PropTypes.bool,
+    isHidden: PropTypes.bool,
     size: PropTypes.oneOf(Object.keys(sizes)),
     icon: PropTypes.element,
     iconPlacement: PropTypes.oneOf(["left", "right"]),
