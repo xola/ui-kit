@@ -45,7 +45,7 @@ export const Drawer = ({ isOpen = false, title, content, onClose, classNames = {
                                             <Button
                                                 size="small"
                                                 color="link"
-                                                className="focus:hidden"
+                                                className="text-gray-darker focus:hidden"
                                                 onClick={onClose}
                                             >
                                                 <CloseIcon />

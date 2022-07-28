@@ -11,6 +11,7 @@ export const Default = () => {
         <div className="h-screen">
             <Sidebar
                 notifications={3}
+                announcements={3}
                 footer={
                     <Sidebar.Footer>
                         <Sidebar.Menu
