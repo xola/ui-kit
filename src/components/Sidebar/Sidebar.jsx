@@ -37,7 +37,7 @@ export const Sidebar = ({
             )}
         >
             <div className="flex p-2 sm:justify-center xl:justify-between">
-                <div className={clsx("sm:text-center", announcements ? null : "hidden")}>
+                <div className={clsx("cursor-pointer sm:text-center", announcements ? null : "hidden")}>
                     <Counter
                         className="mr-2 text-sm"
                         onClick={(e) => {
@@ -53,7 +53,7 @@ export const Sidebar = ({
                     </Counter>
                 </div>
 
-                <div className={clsx("sm:text-center", notifications ? null : "hidden")}>
+                <div className={clsx("cursor-pointer sm:text-center", notifications ? null : "hidden")}>
                     <Counter
                         className="text-sm"
                         onClick={(e) => {
