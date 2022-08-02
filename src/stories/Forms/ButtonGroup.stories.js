@@ -42,9 +42,11 @@ export const WithIcons = ({ size, value = -1 }) => {
 
     return (
         <ButtonGroup size={size} value={active} onChange={(index) => setActive(index)}>
-            <ButtonGroup.Button icon={<ChecklistIcon />}>Reserved</ButtonGroup.Button>
+            <ButtonGroup.Button>Reserved</ButtonGroup.Button>
             <ButtonGroup.Button icon={<WaitlistIcon />}>Waitlist</ButtonGroup.Button>
-            <ButtonGroup.Button icon={<EmptyChecklistIcon />}>Available</ButtonGroup.Button>
+            <ButtonGroup.Button isHidden icon={<EmptyChecklistIcon />}>
+                Available
+            </ButtonGroup.Button>
             <ButtonGroup.Button icon={<MixedChecklistIcon />}>All</ButtonGroup.Button>
         </ButtonGroup>
     );
@@ -75,6 +77,29 @@ Collapsible.parameters = {
     docs: {
         description: {
             story: "Pass `isCollapsed` to only show the active button's text in the ButtonGroup",
+        },
+    },
+};
+
+export const CollapsibleWithTextFallback = ({ size, value = 0 }) => {
+    const [active, setActive] = useState(value);
+
+    return (
+        <ButtonGroup isCollapsed size={size} value={active} onChange={(index) => setActive(index)}>
+            <ButtonGroup.Button>Reserved</ButtonGroup.Button>
+            <ButtonGroup.Button icon={<WaitlistIcon />}>Waitlist</ButtonGroup.Button>
+            <ButtonGroup.Button isHidden icon={<EmptyChecklistIcon />}>
+                Available
+            </ButtonGroup.Button>
+            <ButtonGroup.Button icon={<MixedChecklistIcon />}>All</ButtonGroup.Button>
+        </ButtonGroup>
+    );
+};
+
+CollapsibleWithTextFallback.parameters = {
+    docs: {
+        description: {
+            story: "If icon isn't specified the text will be displayed in the collapsed state instead. Use `isHidden` to hide a button.",
         },
     },
 };
