@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { Drawer } from "../..";
 import { AnnounceIcon, CheckIcon, ExportIcon, Sidebar, StarIcon, UserIcon } from "../..";
 
 const SidebarStories = {
@@ -7,11 +8,38 @@ const SidebarStories = {
 };
 
 export const Default = () => {
+    const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+    const [isAnnouncementsOpen, setIsAnnouncementsOpen] = useState(false);
+
     return (
         <div className="h-screen">
             <Sidebar
-                notifications={3}
-                announcements={3}
+                components={{
+                    Left: {
+                        content: () => (
+                            <Drawer
+                                title="Announcements"
+                                content={<div>Hello some content</div>}
+                                isOpen={isAnnouncementsOpen}
+                                onClose={() => setIsAnnouncementsOpen(false)}
+                            />
+                        ),
+                        count: 3,
+                        clickHandler: () => setIsAnnouncementsOpen(true),
+                    },
+                    Right: {
+                        content: () => (
+                            <Drawer
+                                title="Notifications & Pending items"
+                                content={<div>Hello some content</div>}
+                                isOpen={isNotificationsOpen}
+                                onClose={() => setIsNotificationsOpen(false)}
+                            />
+                        ),
+                        count: 3,
+                        clickHandler: () => setIsNotificationsOpen(true),
+                    },
+                }}
                 footer={
                     <Sidebar.Footer>
                         <Sidebar.Menu

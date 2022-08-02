@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import React, { useState } from "react";
+import React, { useMemo } from "react";
 import { XolaLogoCircle } from "../../images/XolaLogoCircle";
 import { Counter } from "../Counter";
 import { SidebarAccount } from "./Sidebar.Account";
@@ -9,23 +9,16 @@ import { SidebarFooter } from "./Sidebar.Footer";
 import { SidebarLink } from "./Sidebar.Link";
 import { SidebarMenu } from "./Sidebar.Menu";
 import { SidebarHeading } from "./Sidebar.Heading";
-import { Drawer } from "../Drawer";
 import { BellIcon } from "../../icons/BellIcon";
 import { AnnounceIcon } from "../../icons/AnnounceIcon";
 
-export const Sidebar = ({
-    children,
-    className,
-    footer,
-    notifications,
-    announcements,
-    notificationsContent,
-    announcementsContent,
-    isFixed = true,
-    onLogoClick,
-}) => {
-    const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
-    const [isAnnouncementsOpen, setIsAnnouncementsOpen] = useState(false);
+export const Sidebar = ({ children, className, footer, components = {}, isFixed = true, onLogoClick }) => {
+    const style = useMemo(
+        () => ({
+            background: "linear-gradient(138.65deg, #583DFF 19.59%, #F849C7 62.96%, #FFC03D 97.07%)",
+        }),
+        [],
+    );
 
     return (
         <div
@@ -37,49 +30,23 @@ export const Sidebar = ({
             )}
         >
             <div className="flex p-2 sm:justify-center xl:justify-between">
-                <div className={clsx("cursor-pointer sm:text-center", announcements ? null : "hidden")}>
-                    <Counter
-                        className="mr-2 text-sm"
-                        onClick={(e) => {
-                            setIsAnnouncementsOpen(true);
-                            e.stopPropagation();
-                        }}
-                        style={{
-                            background: "linear-gradient(138.65deg, #583DFF 19.59%, #F849C7 62.96%, #FFC03D 97.07%)",
-                        }}
-                    >
+                <div className={clsx("cursor-pointer sm:text-center", components.Left.count ? null : "hidden")}>
+                    <Counter className="mr-2 text-sm" onClick={components.Left.clickHandler} style={style}>
                         <AnnounceIcon className="mr-1 sm:hidden xl:block" />
-                        {announcements}
+                        {components.Left.count}
                     </Counter>
                 </div>
 
-                <div className={clsx("cursor-pointer sm:text-center", notifications ? null : "hidden")}>
-                    <Counter
-                        className="text-sm"
-                        onClick={(e) => {
-                            setIsNotificationsOpen(true);
-                            e.stopPropagation();
-                        }}
-                    >
+                <div className={clsx("cursor-pointer sm:text-center", components.Right.count ? null : "hidden")}>
+                    <Counter className="text-sm" onClick={components.Right.clickHandler}>
                         <BellIcon className="sm:hidden xl:block" />
-                        {notifications}
+                        {components.Right.count}
                     </Counter>
                 </div>
             </div>
 
-            <Drawer
-                title="Announcements"
-                content={announcementsContent}
-                isOpen={isAnnouncementsOpen}
-                onClose={() => setIsAnnouncementsOpen(false)}
-            />
-
-            <Drawer
-                title="Notifications & Pending items"
-                content={notificationsContent}
-                isOpen={isNotificationsOpen}
-                onClose={() => setIsNotificationsOpen(false)}
-            />
+            {components.Left.content ? <components.Left.content /> : null}
+            {components.Right.content ? <components.Right.content /> : null}
 
             <div className="mt-4 mb-10 text-center">
                 <XolaLogoCircle
@@ -101,12 +68,20 @@ Sidebar.propTypes = {
     children: PropTypes.node.isRequired,
     className: PropTypes.string,
     footer: PropTypes.element.isRequired,
-    notifications: PropTypes.number,
-    announcements: PropTypes.number,
     isFixed: PropTypes.bool,
     onLogoClick: PropTypes.func.isRequired,
-    notificationsContent: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
-    announcementsContent: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
+    components: PropTypes.shape({
+        Left: PropTypes.shape({
+            count: PropTypes.number,
+            content: PropTypes.oneOfType([PropTypes.node]),
+            clickHandler: PropTypes.func,
+        }),
+        Right: PropTypes.shape({
+            count: PropTypes.number,
+            content: PropTypes.oneOfType([PropTypes.node]),
+            clickHandler: PropTypes.func,
+        }),
+    }),
 };
 
 Sidebar.Account = SidebarAccount;

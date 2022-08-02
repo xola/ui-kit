@@ -10,7 +10,7 @@ export const Drawer = ({ isOpen = false, title, content, onClose, classNames = {
         <Transition.Root show={isOpen} as={Fragment}>
             <Dialog
                 as="div"
-                className="ui-drawer fixed inset-0 z-30 overflow-hidden md:left-24 xl:left-50"
+                className="ui-drawer fixed inset-0 overflow-hidden md:left-24 xl:left-50"
                 open={isOpen}
                 onClose={onClose}
             >
@@ -26,7 +26,6 @@ export const Drawer = ({ isOpen = false, title, content, onClose, classNames = {
                     >
                         <Dialog.Overlay className="absolute inset-0 bg-gray bg-opacity-75 transition-opacity" />
                     </Transition.Child>
-
                     <Transition.Child
                         as={Fragment}
                         enter="transform transition ease-in-out duration-700 sm:duration-700"
@@ -36,11 +35,11 @@ export const Drawer = ({ isOpen = false, title, content, onClose, classNames = {
                         leaveFrom="translate-x-0"
                         leaveTo="-translate-x-full"
                     >
-                        <div className="w-screen max-w-xl">
+                        <div className="z-30 w-screen max-w-xl">
                             <div className="flex h-full flex-col overflow-y-auto bg-white py-8 shadow-xl">
                                 <div className="px-4 sm:px-6">
                                     <div className="flex items-start justify-between">
-                                        <Dialog.Title className={classNames.title}>{title}</Dialog.Title>
+                                        <Dialog.Title>{title}</Dialog.Title>
                                         <div className={clsx("ml-3 flex h-7 items-center")}>
                                             <Button
                                                 size="small"
