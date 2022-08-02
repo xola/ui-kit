@@ -46,8 +46,10 @@ export const DatePicker = ({
         onMonthChange?.(currentMonth);
     }, [currentMonth, onMonthChange]);
 
+    console.log({ disabledDays });
+
     useEffect(() => {
-        if (disabledDays.some((date) => dayjs(date).isSame(new Date(), "day"))) {
+        if (Array.isArray(disabledDays) && disabledDays.some((date) => dayjs(date).isSame(new Date(), "day"))) {
             setShowTodayButton(false);
         }
     }, []);
@@ -93,7 +95,8 @@ export const DatePicker = ({
 
     const renderDay = (date) => {
         const tooltipContent = getTooltip?.(date);
-        const disabled = disabledDays.some((_date) => dayjs(_date).isSame(date, "day"));
+        console.log({ disabledDays });
+        const disabled = Array.isArray(disabledDays) && disabledDays.some((_date) => dayjs(_date).isSame(date, "day"));
 
         return tooltipContent ? (
             <Tooltip placement="top" content={tooltipContent}>
