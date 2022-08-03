@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { XolaLogoCircle } from "../../images/XolaLogoCircle";
 import { Counter } from "../Counter";
 import { SidebarAccount } from "./Sidebar.Account";
@@ -11,14 +11,26 @@ import { SidebarMenu } from "./Sidebar.Menu";
 import { SidebarHeading } from "./Sidebar.Heading";
 import { BellIcon } from "../../icons/BellIcon";
 import { AnnounceIcon } from "../../icons/AnnounceIcon";
+import { Drawer } from "../Drawer";
 
-export const Sidebar = ({ children, className, footer, components = {}, isFixed = true, onLogoClick }) => {
+export const Sidebar = ({ children, className, footer, notifications = {}, isFixed = true, onLogoClick }) => {
+    const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+    const [isAnnouncementsOpen, setIsAnnouncementsOpen] = useState(false);
+
     const style = useMemo(
         () => ({
             background: "linear-gradient(138.65deg, #583DFF 19.59%, #F849C7 62.96%, #FFC03D 97.07%)",
         }),
         [],
     );
+
+    const handleAnnounceClick = () => {
+        setIsAnnouncementsOpen(true);
+    };
+
+    const handleNotificationClick = () => {
+        setIsNotificationsOpen(true);
+    };
 
     return (
         <div
@@ -30,23 +42,43 @@ export const Sidebar = ({ children, className, footer, components = {}, isFixed 
             )}
         >
             <div className="flex p-2 sm:justify-center xl:justify-between">
-                <div className={clsx("cursor-pointer sm:text-center", components.Left.count ? null : "hidden")}>
-                    <Counter className="mr-2 text-sm" onClick={components.Left.clickHandler} style={style}>
+                <div
+                    className={clsx(
+                        "cursor-pointer sm:text-center",
+                        notifications?.announcements?.count ? null : "hidden",
+                    )}
+                >
+                    <Counter className="mr-2 text-sm" onClick={handleAnnounceClick} style={style}>
                         <AnnounceIcon className="mr-1 sm:hidden xl:block" />
-                        {components.Left.count}
+                        {notifications?.announcements?.count}
                     </Counter>
                 </div>
 
-                <div className={clsx("cursor-pointer sm:text-center", components.Right.count ? null : "hidden")}>
-                    <Counter className="text-sm" onClick={components.Right.clickHandler}>
+                <div className={clsx("cursor-pointer sm:text-center", notifications?.notices?.count ? null : "hidden")}>
+                    <Counter className="text-sm" onClick={handleNotificationClick}>
                         <BellIcon className="sm:hidden xl:block" />
-                        {components.Right.count}
+                        {notifications?.notices?.count}
                     </Counter>
                 </div>
             </div>
 
-            {components.Left.content ? <components.Left.content /> : null}
-            {components.Right.content ? <components.Right.content /> : null}
+            <Drawer
+                classNames={{ left: "md:left-24 xl:left-50" }}
+                position="left"
+                title="Announcements"
+                content={notifications?.announcements?.content}
+                isOpen={isAnnouncementsOpen}
+                onClose={() => setIsAnnouncementsOpen(false)}
+            />
+
+            <Drawer
+                classNames={{ left: "md:left-24 xl:left-50" }}
+                title="Notifications & Pending items"
+                position="left"
+                content={notifications?.notices?.content}
+                isOpen={isNotificationsOpen}
+                onClose={() => setIsNotificationsOpen(false)}
+            />
 
             <div className="mt-4 mb-10 text-center">
                 <XolaLogoCircle
@@ -70,16 +102,14 @@ Sidebar.propTypes = {
     footer: PropTypes.element.isRequired,
     isFixed: PropTypes.bool,
     onLogoClick: PropTypes.func.isRequired,
-    components: PropTypes.shape({
-        Left: PropTypes.shape({
+    notifications: PropTypes.shape({
+        announcements: PropTypes.shape({
             count: PropTypes.number,
-            content: PropTypes.oneOfType([PropTypes.node]),
-            clickHandler: PropTypes.func,
+            content: PropTypes.node,
         }),
-        Right: PropTypes.shape({
+        notices: PropTypes.shape({
             count: PropTypes.number,
-            content: PropTypes.oneOfType([PropTypes.node]),
-            clickHandler: PropTypes.func,
+            content: PropTypes.node,
         }),
     }),
 };

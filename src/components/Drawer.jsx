@@ -5,12 +5,12 @@ import React, { Fragment } from "react";
 import { CloseIcon } from "../icons/CloseIcon";
 import { Button } from "./Buttons/Button";
 
-export const Drawer = ({ isOpen = false, title, content, onClose, classNames = {} }) => {
+export const Drawer = ({ isOpen = false, title, content, onClose, classNames = {}, position = "right" }) => {
     return (
         <Transition.Root show={isOpen} as={Fragment}>
             <Dialog
                 as="div"
-                className="ui-drawer fixed inset-0 overflow-hidden md:left-24 xl:left-50"
+                className={clsx("ui-drawer fixed inset-0 z-30 overflow-hidden", classNames.left && classNames.left)}
                 open={isOpen}
                 onClose={onClose}
             >
@@ -26,38 +26,46 @@ export const Drawer = ({ isOpen = false, title, content, onClose, classNames = {
                     >
                         <Dialog.Overlay className="absolute inset-0 bg-gray bg-opacity-75 transition-opacity" />
                     </Transition.Child>
-                    <Transition.Child
-                        as={Fragment}
-                        enter="transform transition ease-in-out duration-700 sm:duration-700"
-                        enterFrom="-translate-x-full"
-                        enterTo="translate-x-0"
-                        leave="transform transition ease-in-out duration-700 sm:duration-700"
-                        leaveFrom="translate-x-0"
-                        leaveTo="-translate-x-full"
+                    <div
+                        className={clsx(
+                            "fixed inset-y-0 flex max-w-full",
+                            classNames.left && classNames.left,
+                            position === "right" ? "right-0" : "left-0",
+                        )}
                     >
-                        <div className="z-30 w-screen max-w-xl">
-                            <div className="flex h-full flex-col overflow-y-auto bg-white py-8 shadow-xl">
-                                <div className="px-4 sm:px-6">
-                                    <div className="flex items-start justify-between">
-                                        <Dialog.Title>{title}</Dialog.Title>
-                                        <div className={clsx("ml-3 flex h-7 items-center")}>
-                                            <Button
-                                                size="small"
-                                                color="link"
-                                                className="text-gray-darker focus:hidden"
-                                                onClick={onClose}
-                                            >
-                                                <CloseIcon />
-                                            </Button>
+                        <Transition.Child
+                            as={Fragment}
+                            enter="transform transition ease-in-out duration-500 sm:duration-700"
+                            enterFrom={position === "right" ? "translate-x-full" : "-translate-x-full"}
+                            enterTo="translate-x-0"
+                            leave="transform transition ease-out-in duration-500 sm:duration-700"
+                            leaveFrom="translate-x-0"
+                            leaveTo={position === "right" ? "translate-x-full" : "-translate-x-full"}
+                        >
+                            <div className="w-screen max-w-xl ">
+                                <div className="flex h-full flex-col overflow-y-auto bg-white py-8 shadow-xl">
+                                    <div className="px-4 sm:px-6">
+                                        <div className="flex items-start justify-between">
+                                            <Dialog.Title>{title}</Dialog.Title>
+                                            <div className={clsx("ml-3 flex h-7 items-center")}>
+                                                <Button
+                                                    size="small"
+                                                    color="link"
+                                                    className="text-gray-darker focus:hidden"
+                                                    onClick={onClose}
+                                                >
+                                                    <CloseIcon />
+                                                </Button>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div className={clsx("relative mt-3 flex-1 px-4 sm:px-6", classNames.content)}>
-                                    {content}
+                                    <div className={clsx("relative mt-3 flex-1 px-4 sm:px-6", classNames.content)}>
+                                        {content}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </Transition.Child>
+                        </Transition.Child>
+                    </div>
                 </div>
             </Dialog>
         </Transition.Root>
@@ -70,4 +78,5 @@ Drawer.propTypes = {
     content: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
     onClose: PropTypes.func.isRequired,
     classNames: PropTypes.object,
+    position: PropTypes.string,
 };
