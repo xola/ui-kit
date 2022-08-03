@@ -90,10 +90,12 @@ export const SidebarWithNotifications = () => {
                     announcements: {
                         count: 3,
                         content: <div>Some content</div>,
+                        title: "Announcements",
                     },
                     notices: {
                         count: 3,
                         content: <div>Some content</div>,
+                        title: "Notifications & Pending items",
                     },
                 }}
                 onLogoClick={() => {}}

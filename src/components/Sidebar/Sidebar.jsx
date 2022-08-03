@@ -13,16 +13,13 @@ import { BellIcon } from "../../icons/BellIcon";
 import { AnnounceIcon } from "../../icons/AnnounceIcon";
 import { Drawer } from "../Drawer";
 
+const AnnounceIconStyle = {
+    background: "linear-gradient(138.65deg, #583DFF 19.59%, #F849C7 62.96%, #FFC03D 97.07%)",
+};
+
 export const Sidebar = ({ children, className, footer, notifications = {}, isFixed = true, onLogoClick }) => {
     const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
     const [isAnnouncementsOpen, setIsAnnouncementsOpen] = useState(false);
-
-    const style = useMemo(
-        () => ({
-            background: "linear-gradient(138.65deg, #583DFF 19.59%, #F849C7 62.96%, #FFC03D 97.07%)",
-        }),
-        [],
-    );
 
     const handleAnnounceClick = () => {
         setIsAnnouncementsOpen(true);
@@ -48,7 +45,7 @@ export const Sidebar = ({ children, className, footer, notifications = {}, isFix
                         notifications?.announcements?.count ? null : "hidden",
                     )}
                 >
-                    <Counter className="mr-2 text-sm" onClick={handleAnnounceClick} style={style}>
+                    <Counter className="mr-2 text-sm" onClick={handleAnnounceClick} style={AnnounceIconStyle}>
                         <AnnounceIcon className="mr-1 sm:hidden xl:block" />
                         {notifications?.announcements?.count}
                     </Counter>
@@ -63,17 +60,17 @@ export const Sidebar = ({ children, className, footer, notifications = {}, isFix
             </div>
 
             <Drawer
-                classNames={{ left: "md:left-24 xl:left-50" }}
+                classNames={{ positionLeft: "md:left-24 xl:left-50" }}
                 position="left"
-                title="Announcements"
+                title={notifications?.announcements?.title}
                 content={notifications?.announcements?.content}
                 isOpen={isAnnouncementsOpen}
                 onClose={() => setIsAnnouncementsOpen(false)}
             />
 
             <Drawer
-                classNames={{ left: "md:left-24 xl:left-50" }}
-                title="Notifications & Pending items"
+                classNames={{ positionLeft: "md:left-24 xl:left-50" }}
+                title={notifications?.notices?.title}
                 position="left"
                 content={notifications?.notices?.content}
                 isOpen={isNotificationsOpen}
@@ -106,10 +103,12 @@ Sidebar.propTypes = {
         announcements: PropTypes.shape({
             count: PropTypes.number,
             content: PropTypes.node,
+            title: PropTypes.string,
         }),
         notices: PropTypes.shape({
             count: PropTypes.number,
             content: PropTypes.node,
+            title: PropTypes.string,
         }),
     }),
 };

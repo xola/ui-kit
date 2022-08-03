@@ -10,7 +10,10 @@ export const Drawer = ({ isOpen = false, title, content, onClose, classNames = {
         <Transition.Root show={isOpen} as={Fragment}>
             <Dialog
                 as="div"
-                className={clsx("ui-drawer fixed inset-0 z-30 overflow-hidden", classNames.left && classNames.left)}
+                className={clsx(
+                    "ui-drawer fixed inset-0 z-30 overflow-hidden",
+                    classNames.positionLeft && classNames.positionLeft,
+                )}
                 open={isOpen}
                 onClose={onClose}
             >
@@ -29,7 +32,7 @@ export const Drawer = ({ isOpen = false, title, content, onClose, classNames = {
                     <div
                         className={clsx(
                             "fixed inset-y-0 flex max-w-full",
-                            classNames.left && classNames.left,
+                            classNames.positionLeft && classNames.positionLeft,
                             position === "right" ? "right-0" : "left-0",
                         )}
                     >
