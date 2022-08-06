@@ -33,7 +33,7 @@ export { Label } from "./components/Forms/Label";
 export { RangeSlider } from "./components/Forms/RangeSlider";
 export { HeaderToolbar } from "./components/HeaderToolbar";
 export { Tabs } from "./components/Tabs";
-export { Skeleton } from "./components/Skeleton";
+export { Skeleton, SkeletonList } from "./components/Skeleton";
 export { Drawer } from "./components/Drawer";
 export { Key } from "./components/Key";
 export { Login } from "./components/Screens/Login";

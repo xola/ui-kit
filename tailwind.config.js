@@ -136,6 +136,14 @@ module.exports = {
 
         spacing,
 
+        keyframes: {
+            shimmer: {
+                "100%": {
+                    transform: "translateX(100%)",
+                },
+            },
+        },
+
         // Figma: https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%F0%9F%9B%A0-Xola-DS-Desktop-Master-%F0%9F%9B%A0?node-id=1885%3A51905
         fontSize: {
             xs: "10px",
