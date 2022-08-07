@@ -11,7 +11,7 @@ export const ImageUpload = ({
     onError,
     isLoading = false,
     maxSize = 5,
-    allowDelete = true,
+    hasDelete = true,
     requirements = null,
     ...props
 }) => {
@@ -53,7 +53,7 @@ export const ImageUpload = ({
 
             <div className="flex flex-col space-y-2">
                 <div className="space-x-1">
-                    {allowDelete ? (
+                    {hasDelete ? (
                         <>
                             <Button
                                 variant="outline"
@@ -106,6 +106,6 @@ ImageUpload.propTypes = {
     onError: PropTypes.func.isRequired,
     isLoading: PropTypes.bool,
     maxSize: PropTypes.number,
-    allowDelete: PropTypes.bool,
+    hasDelete: PropTypes.bool,
     requirements: PropTypes.oneOf(PropTypes.string, PropTypes.node),
 };
