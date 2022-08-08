@@ -27,15 +27,22 @@ export const DatePickerPopover = ({
     };
 
     const handleChange = (date, options, event) => {
-        onChange?.(date, options, event);
+        if (variant === "single") {
+            onChange?.(date, options, event);
+            toggleVisibility();
+        } else {
+            onChange?.(date, originalValue, options, event);
+        }
     };
 
     const handleSubmitDateRange = () => {
-        setIsVisible(false);
         setOriginalValue(value);
+        onChange?.(value);
+        setIsVisible(false);
     };
 
     const handleClickOutside = () => {
+        // Revert back to the original value because the user didn't apply the changes
         onChange(originalValue);
         toggleVisibility();
     };
