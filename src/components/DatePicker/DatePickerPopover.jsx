@@ -19,6 +19,7 @@ export const DatePickerPopover = ({
     getDayContent,
     ...rest
 }) => {
+    const [originalValue, setOriginalValue] = useState(value);
     const [isVisible, setIsVisible] = useState(false);
 
     const toggleVisibility = () => {
@@ -27,10 +28,16 @@ export const DatePickerPopover = ({
 
     const handleChange = (date, options, event) => {
         onChange?.(date, options, event);
+    };
 
-        if (!options.disabled && (variant === "single" || (date.from && date.to))) {
-            setIsVisible(false);
-        }
+    const handleSubmitDateRange = () => {
+        setIsVisible(false);
+        setOriginalValue(value);
+    };
+
+    const handleClickOutside = () => {
+        onChange(originalValue);
+        toggleVisibility();
     };
 
     return (
@@ -40,7 +47,7 @@ export const DatePickerPopover = ({
             distance={18}
             placement="bottom"
             className={clsx("ui-date-picker-input", classNames.popover)}
-            onClickOutside={toggleVisibility}
+            onClickOutside={handleClickOutside}
             {...popoverProps}
         >
             {children ? (
@@ -61,6 +68,7 @@ export const DatePickerPopover = ({
                     value={value}
                     components={components}
                     onChange={handleChange}
+                    onSubmitDateRange={handleSubmitDateRange}
                     {...rest}
                 />
             </Popover.Content>

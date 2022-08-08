@@ -1,11 +1,11 @@
 import clsx from "clsx";
+import dayjs from "dayjs";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import DayPicker, { DateUtils } from "react-day-picker";
 import "react-day-picker/lib/style.css";
-import "./DatePicker.css";
-import dayjs from "dayjs";
 import { Tooltip } from "../..";
+import "./DatePicker.css";
 import { Day } from "./Day";
 import { MonthYearSelector } from "./MonthYearSelector";
 import { NavbarElement } from "./NavbarElement";
@@ -27,6 +27,7 @@ export const DatePicker = ({
     shouldShowYearPicker = false,
     onChange,
     onMonthChange,
+    onSubmitDateRange,
     modifiers = {},
     ranges,
     shouldShowRelativeRanges = false,
@@ -57,11 +58,9 @@ export const DatePicker = ({
                 // if both dates are selected.
                 onChange({ from: day, to: null }, options, event);
             } else if ((value.from || value.to).getTime() === day.getTime()) {
-                onChange(
-                    { from: dayjs(day).startOf("day").toDate(), to: dayjs(day).endOf("day").toDate() },
-                    options,
-                    event,
-                );
+                const from = dayjs(day).startOf("day").toDate();
+                const to = dayjs(day).endOf("day").toDate();
+                onChange({ from, to }, options, event);
             } else {
                 onChange(DateUtils.addDayToRange(day, value), options, event);
             }
@@ -170,7 +169,12 @@ export const DatePicker = ({
             {useDateRangeStyle && shouldShowRelativeRanges && (
                 <div className="ui-relative-date-ranges flex">
                     <div className="ml-auto">
-                        <RelativeDateRange value={rangeName} ranges={ranges} onChange={handleRelativeRangeChanged} />
+                        <RelativeDateRange
+                            value={rangeName}
+                            ranges={ranges}
+                            onChange={handleRelativeRangeChanged}
+                            onSubmit={onSubmitDateRange}
+                        />
                     </div>
                 </div>
             )}

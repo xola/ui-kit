@@ -1,7 +1,7 @@
-import React from "react";
-import PropTypes from "prop-types";
 import dayjs from "dayjs";
-import { Select } from "../..";
+import PropTypes from "prop-types";
+import React from "react";
+import { Button, Select } from "../..";
 
 const options = {
     YESTERDAY: "P1D:last",
@@ -208,7 +208,12 @@ const handlers = {
     }),
 };
 
-export const RelativeDateRange = ({ ranges = ["day", "week", "month", "quarter", "year"], value, onChange }) => {
+export const RelativeDateRange = ({
+    ranges = ["day", "week", "month", "quarter", "year"],
+    value,
+    onChange,
+    onSubmit,
+}) => {
     const handleChange = (e) => {
         const rangeName = e.target.value;
         const range = handlers[rangeName]();
@@ -216,27 +221,31 @@ export const RelativeDateRange = ({ ranges = ["day", "week", "month", "quarter",
     };
 
     return (
-        <Select size="medium" value={value} onChange={handleChange} className="pr-8 leading-4">
-            <option value="">Relative Date Range</option>
-            {ranges.map((rangeKey) => {
-                const range = dateRanges[rangeKey];
+        <div className="flex space-x-2">
+            <Select size="medium" value={value} onChange={handleChange} className="pr-8 leading-5">
+                <option value="">Relative Date Range</option>
+                {ranges.map((rangeKey) => {
+                    const range = dateRanges[rangeKey];
 
-                return (
-                    <optgroup key={rangeKey} label={range.label}>
-                        {range.options.map((option) => (
-                            <option key={option.value} value={option.value}>
-                                {option.label}
-                            </option>
-                        ))}
-                    </optgroup>
-                );
-            })}
-        </Select>
+                    return (
+                        <optgroup key={rangeKey} label={range.label}>
+                            {range.options.map((option) => (
+                                <option key={option.value} value={option.value}>
+                                    {option.label}
+                                </option>
+                            ))}
+                        </optgroup>
+                    );
+                })}
+            </Select>
+            <Button onClick={onSubmit}>Apply</Button>
+        </div>
     );
 };
 
 RelativeDateRange.propTypes = {
     ranges: PropTypes.arrayOf(PropTypes.oneOf(["day", "week", "month", "quarter", "year"])),
     onChange: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
     value: PropTypes.string,
 };
