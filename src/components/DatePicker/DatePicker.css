@@ -6,7 +6,7 @@
 .ui-date-picker {
     @apply pt-6 tracking-tightest ring-0 focus:outline-none focus:ring-0;
 }
-
+.ui-relative-date-ranges,
 .date-range-picker {
     @apply w-[810px];
 }

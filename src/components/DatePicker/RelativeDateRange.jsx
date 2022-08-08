@@ -216,20 +216,18 @@ export const RelativeDateRange = ({ ranges = ["day", "week", "month", "quarter",
     };
 
     return (
-        <Select size="medium" value={value} onChange={handleChange}>
+        <Select size="medium" value={value} onChange={handleChange} className="pr-8 leading-4">
             <option value="">Relative Date Range</option>
             {ranges.map((rangeKey) => {
                 const range = dateRanges[rangeKey];
 
                 return (
-                    <optgroup key={`${rangeKey}`} label={range.label}>
-                        {range.options.map((option) => {
-                            return (
-                                <option key={option.value} value={option.value}>
-                                    {option.label}
-                                </option>
-                            );
-                        })}
+                    <optgroup key={rangeKey} label={range.label}>
+                        {range.options.map((option) => (
+                            <option key={option.value} value={option.value}>
+                                {option.label}
+                            </option>
+                        ))}
                     </optgroup>
                 );
             })}

@@ -168,8 +168,10 @@ export const DatePicker = ({
             {components.Footer ? <components.Footer /> : null}
 
             {useDateRangeStyle && shouldShowRelativeRanges && (
-                <div className="ml-auto w-6/12 pl-5 pr-10 pb-5">
-                    <RelativeDateRange value={rangeName} ranges={ranges} onChange={handleRelativeRangeChanged} />
+                <div className="ui-relative-date-ranges flex">
+                    <div className="ml-auto">
+                        <RelativeDateRange value={rangeName} ranges={ranges} onChange={handleRelativeRangeChanged} />
+                    </div>
                 </div>
             )}
         </>
