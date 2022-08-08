@@ -39,7 +39,7 @@ export const DatePickerPopover = ({
             maxWidth={900}
             distance={18}
             placement="bottom"
-            className={classNames.popover}
+            className={clsx("ui-date-picker-input", classNames.popover)}
             onClickOutside={toggleVisibility}
             {...popoverProps}
         >
