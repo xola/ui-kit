@@ -8,7 +8,7 @@
 }
 
 .ui-date-picker-input {
-    @apply p-6 pt-0;
+    @apply p-6 pt-3;
 }
 
 .ui-relative-date-ranges,
