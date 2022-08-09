@@ -1,5 +1,5 @@
 import React from "react";
-import { Skeleton, SkeletonList } from "../..";
+import { Skeleton, SkeletonGrid, SkeletonIcon, ImageIcon, BarGraphIcon, MountainIcon } from "../..";
 
 const SkeletonStories = {
     title: "Data Display/Skeleton",
@@ -30,12 +30,35 @@ export const MultipleSkeletons = () => {
         <div className="space-y-5">
             <p>Quickly create multiple Skeleton children</p>
             <div className="space-y-2">
-                <p>A grid of <code>3x2</code> by passing in <code>grid=&#123;[3x2]&#125;</code></p>
-                <SkeletonList grid={[3, 2]} />
+                <p>
+                    A grid of <code>3x2</code> by passing in <code>grid=&#123;[3x2]&#125;</code>
+                </p>
+                <SkeletonGrid grid={[3, 2]} />
             </div>
             <div className="space-y-2">
-                <p>A grid of <code>2x4</code> by passing in <code>grid=&#123;[2x4]&#125;</code></p>
-                <SkeletonList grid={[2, 4]} />
+                <p>
+                    A grid of <code>2x4</code> by passing in <code>grid=&#123;[2x4]&#125;</code>
+                </p>
+                <SkeletonGrid grid={[2, 4]} />
+            </div>
+        </div>
+    );
+};
+
+export const WithIcons = () => {
+    return (
+        <div className="flex flex-row space-x-10 text-gray-dark ">
+            <div>
+                Generic Image
+                <SkeletonIcon icon={<ImageIcon />} />
+            </div>
+            <div>
+                Experience Image
+                <SkeletonIcon icon={<MountainIcon />} />
+            </div>
+            <div>
+                Bar Graph
+                <SkeletonIcon icon={<BarGraphIcon />} />
             </div>
         </div>
     );

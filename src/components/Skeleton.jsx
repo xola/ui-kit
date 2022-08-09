@@ -1,7 +1,7 @@
 import clsx from "clsx";
+import { range } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
-import { range, uniqueId } from "lodash";
 
 export const Skeleton = ({ height = "h-full", children, className, ...rest }) => {
     return (
@@ -32,7 +32,7 @@ Skeleton.propTypes = {
     children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
 };
 
-export const SkeletonList = ({ grid = [3, 2], classNames = {} }) => {
+export const SkeletonGrid = ({ grid = [3, 2], classNames = {} }) => {
     const [horizontalCount, verticalCount] = grid;
     const horizontalClasses = `grid grid-cols-${horizontalCount} gap-x-2`;
     const verticalClasses = `grid grid-rows-${verticalCount} gap-y-2`;
@@ -58,4 +58,9 @@ const SkeletonPerCount = ({ count, className }) => {
             </div>
         )
     );
+};
+
+export const SkeletonIcon = ({ icon, classNames = { skeleton: "h-28 w-28", icon: "h-1/2 w-1/2 text-gray" } }) => {
+    const adjustedIcon = React.cloneElement(icon, { className: classNames.icon });
+    return <Skeleton className={classNames.skeleton}>{adjustedIcon}</Skeleton>;
 };
