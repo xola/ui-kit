@@ -37,13 +37,13 @@ export const SkeletonGrid = ({ grid = [3, 2], classNames = {} }) => {
     const horizontalClasses = `grid grid-cols-${horizontalCount} gap-x-2`;
     const verticalClasses = `grid grid-rows-${verticalCount} gap-y-2`;
 
-    const defaultParentClassNames = ""; // TODO: For later
+    const defaultParentClassNames = "h-full";
     const parentClassName = classNames.parent ?? defaultParentClassNames;
 
     return (
         <div className={clsx("flex flex-col space-y-1", parentClassName)}>
-            <SkeletonPerCount count={horizontalCount} className={horizontalClasses} />
-            <SkeletonPerCount count={verticalCount} className={verticalClasses} />
+            <SkeletonPerCount count={horizontalCount} className={clsx(horizontalClasses, classNames.horizontal)} />
+            <SkeletonPerCount count={verticalCount} className={clsx(verticalClasses, classNames.vertical)} />
         </div>
     );
 };
