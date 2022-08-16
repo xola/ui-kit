@@ -17,6 +17,7 @@ export const DatePickerPopover = ({
     components = {},
     popoverProps,
     getDayContent,
+    defaultInputPlaceholder = "Select Date",
     ...rest
 }) => {
     const [originalValue, setOriginalValue] = useState(value);
@@ -65,6 +66,7 @@ export const DatePickerPopover = ({
                     size="medium"
                     value={value ? formatDate(value, dateFormat) : ""}
                     onClick={toggleVisibility}
+                    placeholder={defaultInputPlaceholder}
                 />
             )}
 
@@ -89,17 +91,26 @@ DatePickerPopover.propTypes = {
     classNames: PropTypes.object,
     popoverProps: PropTypes.object,
     children: PropTypes.node,
+    defaultInputPlaceholder: PropTypes.string,
 };
 
-const DefaultInput = forwardRef(({ className, ...rest }, reference) => {
+const DefaultInput = forwardRef(({ className, placeholder, onClick, ...rest }, reference) => {
     return (
-        <div ref={reference} className="relative flex bg-gray-lighter">
-            <div className="pointer-events-none absolute inset-0 flex items-center pl-3">
-                <CalendarIcon className="inline-block" />
+        <div
+            ref={reference}
+            className="relative flex rounded border border-gray-light hover:border-black hover:bg-gray-lighter"
+            onClick={onClick}
+        >
+            <div className="flex">
+                <div className="pointer-events-none inset-0 flex items-center pl-3">
+                    <CalendarIcon />
+                </div>
+                <Input
+                    className={clsx("cursor-pointer border-none hover:bg-gray-lighter", className)}
+                    placeholder={placeholder}
+                    {...rest}
+                />
             </div>
-
-            <Input className={clsx("cursor-pointer px-8", className)} placeholder="Select Date" {...rest} />
-
             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
                 <DownArrowIcon className="inline-block" />
             </div>
@@ -110,4 +121,6 @@ const DefaultInput = forwardRef(({ className, ...rest }, reference) => {
 DefaultInput.propTypes = {
     // eslint-disable-next-line react/require-default-props
     className: PropTypes.string,
+    placeholder: PropTypes.string,
+    onClick: PropTypes.func,
 };
