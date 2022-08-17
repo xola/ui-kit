@@ -1,11 +1,11 @@
 ## Xola UI Kit
 
-React component library for the next generation of Xola apps.
+React component library for the next generation of Xola apps. See a preview at https://ui.xola.io
 
 ### Requirements
 
 -   Node.js v16
--   NPM v7
+-   NPM v7 or higher
 
 ### Usage
 
