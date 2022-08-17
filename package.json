@@ -9,7 +9,6 @@
         "tailwind.config.js",
         "postcss.config.js"
     ],
-    "main": "build/ui-kit.umd.js",
     "module": "build/ui-kit.es.js",
     "types": "index.d.ts",
     "scripts": {
