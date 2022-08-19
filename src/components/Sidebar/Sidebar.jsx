@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import { XolaLogoCircle } from "../../images/XolaLogoCircle";
 import { Counter } from "../Counter";
 import { SidebarAccount } from "./Sidebar.Account";
@@ -17,7 +17,7 @@ const AnnounceIconStyle = {
     background: "linear-gradient(138.65deg, #583DFF 19.59%, #F849C7 62.96%, #FFC03D 97.07%)",
 };
 
-export const Sidebar = ({ children, className, footer, notifications = {}, isFixed = true, onLogoClick }) => {
+export const Sidebar = ({ children, className, footer, notifications, isFixed = true, onLogoClick }) => {
     const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
     const [isAnnouncementsOpen, setIsAnnouncementsOpen] = useState(false);
 
@@ -38,26 +38,43 @@ export const Sidebar = ({ children, className, footer, notifications = {}, isFix
                 className,
             )}
         >
-            <div className="flex p-2 sm:justify-center xl:justify-between">
-                <div
-                    className={clsx(
-                        "cursor-pointer sm:text-center",
-                        notifications?.announcements?.count ? null : "hidden",
-                    )}
-                >
-                    <Counter className="mr-2 text-sm" onClick={handleAnnounceClick} style={AnnounceIconStyle}>
-                        <AnnounceIcon className="mr-1 sm:hidden xl:block" />
-                        {notifications?.announcements?.count}
-                    </Counter>
-                </div>
+            {notifications ? (
+                <div className="flex p-2 sm:justify-center xl:justify-between">
+                    <div
+                        className={clsx(
+                            "cursor-pointer sm:text-center",
+                            notifications?.announcements?.hide ? "hidden" : null,
+                        )}
+                    >
+                        {notifications?.announcements?.count ? (
+                            <Counter className="mr-2 text-sm" onClick={handleAnnounceClick} style={AnnounceIconStyle}>
+                                <AnnounceIcon className="mr-1 sm:hidden xl:block" />
+                                {notifications?.announcements?.count}
+                            </Counter>
+                        ) : (
+                            <span
+                                className="mr-2 inline-flex items-center rounded-full px-1 py-1"
+                                style={AnnounceIconStyle}
+                                onClick={handleAnnounceClick}
+                            >
+                                <AnnounceIcon className="xl:block" />
+                            </span>
+                        )}
+                    </div>
 
-                <div className={clsx("cursor-pointer sm:text-center", notifications?.notices?.count ? null : "hidden")}>
-                    <Counter className="text-sm" onClick={handleNotificationClick}>
-                        <BellIcon className="sm:hidden xl:block" />
-                        {notifications?.notices?.count}
-                    </Counter>
+                    <div
+                        className={clsx(
+                            "cursor-pointer sm:text-center",
+                            notifications?.notices?.count ? null : "hidden",
+                        )}
+                    >
+                        <Counter className="text-sm" onClick={handleNotificationClick}>
+                            <BellIcon className="sm:hidden xl:block" />
+                            {notifications?.notices?.count}
+                        </Counter>
+                    </div>
                 </div>
-            </div>
+            ) : null}
 
             <Drawer
                 classNames={{ positionLeft: "md:left-24 xl:left-50" }}
@@ -65,7 +82,10 @@ export const Sidebar = ({ children, className, footer, notifications = {}, isFix
                 title={notifications?.announcements?.title}
                 content={notifications?.announcements?.content}
                 isOpen={isAnnouncementsOpen}
-                onClose={() => setIsAnnouncementsOpen(false)}
+                onClose={() => {
+                    setIsAnnouncementsOpen(false);
+                    notifications?.announcements?.onClose();
+                }}
             />
 
             <Drawer
@@ -104,6 +124,8 @@ Sidebar.propTypes = {
             count: PropTypes.number,
             content: PropTypes.node,
             title: PropTypes.string,
+            hide: PropTypes.bool,
+            onClose: PropTypes.func,
         }),
         notices: PropTypes.shape({
             count: PropTypes.number,

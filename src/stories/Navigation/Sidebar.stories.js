@@ -10,7 +10,6 @@ export const Default = () => {
     return (
         <div className="h-screen">
             <Sidebar
-                notifications={3}
                 footer={
                     <Sidebar.Footer>
                         <Sidebar.Menu
@@ -91,6 +90,7 @@ export const SidebarWithNotifications = () => {
                         count: 3,
                         content: <div>Some content</div>,
                         title: "Announcements",
+                        onClose: () => {},
                     },
                     notices: {
                         count: 3,
