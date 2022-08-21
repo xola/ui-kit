@@ -10,28 +10,33 @@ const InlineValuePopoverStories = {
 export const Default = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [text, setText] = useState("8 hours");
+    const [value, setValue] = useState(8);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setText(`${random(1, 10)} hours`);
+        setText(`${value} hours`);
         setIsOpen(false);
     };
 
+    const updateValue = (e) => setValue(e.target.value);
+
+    const handleClickOutside = () => {
+        console.log("Setting", value);
+        setIsOpen(!isOpen);
+        setValue(value);
+    };
+
     return (
-        <div>
-            <div className="mb-5">
-                <b>Values are randomly set</b> just for testing/story purposes. Use your form library to fetch form
-                values and set them properly
-            </div>
+        <div className="h-20">
             <InlineValuePopover
                 text={text}
                 isOpen={isOpen}
                 onClick={() => setIsOpen(!isOpen)}
-                onClickOutside={() => setIsOpen(!isOpen)}
+                onClickOutside={handleClickOutside}
             >
                 <form onSubmit={handleSubmit}>
                     <FormGroup className="!m-0 flex flex-row space-x-2">
-                        <Input />
+                        <Input value={value} onChange={updateValue} />
                         <Select>
                             <option value="hours">hours</option>
                             <option value="minutes">minutes</option>

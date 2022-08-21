@@ -14,11 +14,13 @@ export const InlineValuePopover = ({
     ...rest
 }) => {
     const ref = useRef();
-    const handleClick = () => {
+    const handleClick = (e) => {
         setTimeout(() => {
-            ref?.current.querySelector("input").focus();
+            // This may technically belong in Seller app, but the most common use case for this component here is
+            // to use inputs, so we'll provide some helpers for that
+            ref?.current.querySelector("select,textarea,input")?.focus();
         }, 0);
-        onClick?.();
+        onClick?.(e);
     };
 
     return (
