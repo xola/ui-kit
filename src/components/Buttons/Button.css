@@ -1,0 +1,92 @@
+.ui-button {
+    @apply inline-flex items-center justify-center rounded border font-semibold transition-colors focus:ring disabled:cursor-default disabled:bg-gray-lighter disabled:text-gray-dark;
+}
+
+.ui-button-tiny {
+    /* 20px */
+    @apply px-2 py-0.5 text-xs leading-xs;
+}
+
+.ui-button-small {
+    /* 30px */
+    @apply h-[30px] px-3 py-2 text-sm leading-sm;
+}
+
+.ui-button-medium {
+    /* 40px */
+    @apply h-[40px] px-4.5 py-3 text-base leading-base;
+}
+
+.ui-button-large {
+    /* 50px */
+    @apply h-[50px] px-6 py-4 text-md leading-md;
+}
+
+.ui-button-standard {
+    @apply border-transparent text-white;
+}
+.ui-button-standard-primary {
+    @apply bg-primary hover:bg-primary-darker active:bg-primary;
+}
+.ui-button-standard-secondary {
+    @apply border-transparent bg-secondary text-white hover:bg-secondary-dark active:bg-secondary;
+}
+.ui-button-standard-success {
+    @apply bg-success hover:bg-success-dark active:bg-success;
+}
+.ui-button-standard-warning {
+    @apply bg-warning hover:bg-warning-dark active:bg-warning;
+}
+.ui-button-standard-caution {
+    @apply bg-caution hover:bg-caution-dark active:bg-caution;
+}
+.ui-button-standard-danger {
+    @apply bg-danger hover:bg-danger-dark active:bg-danger;
+}
+
+.ui-button-outline {
+    @apply border bg-white hover:bg-white active:text-white;
+}
+.ui-button-outline-default {
+    @apply border-gray-light hover:border-gray-dark active:border-primary active:bg-primary-lighter active:text-black;
+}
+.ui-button-outline-primary {
+    @apply border-primary text-primary hover:border-primary-dark hover:text-primary-dark active:bg-primary-light;
+}
+.ui-button-outline-secondary {
+    @apply border-gray-light hover:border-gray-dark active:border-primary active:bg-primary-lighter active:text-black;
+}
+.ui-button-outline-success {
+    @apply text-success border-success hover:text-success-dark hover:border-success-dark active:bg-success-light;
+}
+.ui-button-outline-warning {
+    @apply text-warning border-warning hover:text-warning-dark hover:border-warning-dark active:bg-warning-light;
+}
+.ui-button-outline-caution {
+    @apply text-caution border-caution hover:text-caution-dark hover:border-caution-dark active:bg-caution-light;
+}
+.ui-button-outline-danger {
+    @apply text-danger border-danger hover:text-danger-dark hover:border-danger-dark active:bg-danger-light;
+}
+
+.ui-button-link {
+    @apply border-transparent hover:underline;
+}
+.ui-button-link-primary {
+    @apply text-primary;
+}
+.ui-button-link-secondary {
+    @apply text-secondary;
+}
+.ui-button-link-success {
+    @apply text-success;
+}
+.ui-button-link-warning {
+    @apply text-warning;
+}
+.ui-button-link-caution {
+    @apply text-caution;
+}
+.ui-button-link-danger {
+    @apply text-danger
+}
