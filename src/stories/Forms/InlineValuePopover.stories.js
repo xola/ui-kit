@@ -31,7 +31,7 @@ export const Default = () => {
             >
                 <form onSubmit={handleSubmit}>
                     <FormGroup className="!m-0 flex flex-row space-x-2">
-                        <Input autoFocus data-foo="bar" />
+                        <Input />
                         <Select>
                             <option value="hours">hours</option>
                             <option value="minutes">minutes</option>
