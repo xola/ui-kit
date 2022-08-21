@@ -1,5 +1,5 @@
 import React from "react";
-import { Select, Label, FormGroup } from "../..";
+import { FormGroup, Label, Select } from "../..";
 
 const SelectStories = {
     primary: true,
