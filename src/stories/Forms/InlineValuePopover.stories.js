@@ -20,19 +20,18 @@ export const Default = () => {
     return (
         <div>
             <div className="mb-5">
-                Values are randomly set just for story purposes. Use your form library to fetch form values and set them
-                properly
+                <b>Values are randomly set</b> just for testing/story purposes. Use your form library to fetch form
+                values and set them properly
             </div>
             <InlineValuePopover
                 text={text}
                 isOpen={isOpen}
-                classNames={{ text: "text-blue" }}
                 onClick={() => setIsOpen(!isOpen)}
                 onClickOutside={() => setIsOpen(!isOpen)}
             >
                 <form onSubmit={handleSubmit}>
                     <FormGroup className="!m-0 flex flex-row space-x-2">
-                        <Input />
+                        <Input autoFocus data-foo="bar" />
                         <Select>
                             <option value="hours">hours</option>
                             <option value="minutes">minutes</option>
@@ -45,7 +44,7 @@ export const Default = () => {
     );
 };
 
-export const WithArrow = () => {
+export const WithoutArrow = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [text, setText] = useState("8 hours");
 
@@ -62,10 +61,9 @@ export const WithArrow = () => {
                 properly
             </div>
             <InlineValuePopover
-                showArrow
+                showArrow={false}
                 text={text}
                 isOpen={isOpen}
-                classNames={{ text: "text-blue" }}
                 onClick={() => setIsOpen(!isOpen)}
                 onClickOutside={() => setIsOpen(!isOpen)}
             >
