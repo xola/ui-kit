@@ -1,0 +1,18 @@
+.ui-toggle-button-outline-primary {
+    @apply bg-primary-lighter border border-primary-light hover:focus:bg-primary-lighter;
+}
+.ui-toggle-button-outline-secondary {
+    @apply bg-secondary-lighter border border-secondary-light hover:focus:bg-secondary-lighter
+}
+.ui-toggle-button-outline-success {
+    @apply bg-success-lighter border border-success-light hover:focus:bg-success-lighter;
+}
+.ui-toggle-button-outline-warning {
+    @apply bg-warning-lighter border border-warning-light hover:focus:bg-warning-lighter;
+}
+.ui-toggle-button-outline-caution {
+    @apply bg-caution-lighter border border-caution-light hover:focus:bg-caution-lighter
+}
+.ui-toggle-button-outline-danger {
+    @apply bg-danger-lighter border border-danger-light hover:focus:bg-danger-lighter;
+}
