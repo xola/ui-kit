@@ -1,4 +1,4 @@
-import { round } from "mathjs";
+import { round } from "lodash";
 import getUserLocale from "get-user-locale";
 import { isZeroDecimal } from "./currency";
 

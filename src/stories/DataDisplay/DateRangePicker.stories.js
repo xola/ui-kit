@@ -42,7 +42,7 @@ export const RelativeDateRanges = () => {
     const [value, setValue] = useState({ from: new Date("2022-03-03"), to: new Date("2022-04-08") });
 
     return (
-        <div className="flex w-[720px] flex-col">
+        <div className="flex w-3/4 flex-col">
             <DatePicker
                 shouldShowYearPicker
                 shouldShowRelativeRanges
@@ -55,7 +55,15 @@ export const RelativeDateRanges = () => {
 };
 
 export const DateRangeWithInput = ({ shouldShowRelativeRanges, ranges }) => {
-    const [value, setValue] = useState({ from: today, to: dayjs().add(7, "days").toDate() });
+    const defaultValue = { from: today, to: dayjs().add(7, "days").toDate() };
+    const [value, setValue] = useState(defaultValue);
+    const [displayValue, setDisplayValue] = useState(defaultValue);
+
+    const handleChange = (newValue, displayValue) => {
+        setValue(newValue);
+        setDisplayValue(displayValue ?? newValue);
+    };
+
     return (
         <div>
             <DatePickerPopover
@@ -64,12 +72,12 @@ export const DateRangeWithInput = ({ shouldShowRelativeRanges, ranges }) => {
                 popoverProps={{ placement: "bottom-start" }}
                 shouldShowRelativeRanges={!!shouldShowRelativeRanges}
                 ranges={ranges}
-                onChange={setValue}
+                onChange={handleChange}
             >
                 <div className="w-75 cursor-pointer bg-gray-lighter p-3">
-                    {dayjs(value.from).format("LL")}
+                    {dayjs(displayValue.from).format("LL")}
                     &nbsp;to&nbsp;
-                    {value.to ? dayjs(value.to).format("LL") : "Pending"}
+                    {displayValue.to ? dayjs(displayValue.to).format("LL") : "Pending"}
                 </div>
             </DatePickerPopover>
         </div>
