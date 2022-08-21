@@ -21,25 +21,27 @@ const sizes = {
     },
 };
 
-// TODO: Native checkbox input `checked` and `disabled` properties are not prefixed with `is`.
-// Decide on the naming convention.
-export const Switch = ({ isChecked = false, size = "medium", ...rest }) => {
+export const Switch = ({ isChecked = false, size = "medium", classNames = { parent: "", inner: "" }, ...rest }) => {
     return (
         <HeadlessSwitch
             checked={isChecked}
             className={clsx(
                 "ui-switch",
                 isChecked ? "bg-primary disabled:bg-gray-light" : "bg-gray disabled:bg-gray-light",
-                "relative inline-flex flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none",
+                "relative inline-flex flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent",
+                "transition-colors duration-200 ease-in-out focus:outline-none",
                 sizes[size].parent,
+                classNames.parent,
             )}
             {...rest}
         >
             <span
                 className={clsx(
+                    "ui-switch-inner pointer-events-none inline-block transform rounded-full bg-white shadow ring-0",
                     isChecked ? sizes[size].translate : "translate-x-0",
-                    "ui-switch-inner pointer-events-none inline-block transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out",
+                    "transition duration-200 ease-in-out",
                     sizes[size].inner,
+                    classNames.inner,
                 )}
             />
         </HeadlessSwitch>
@@ -49,6 +51,7 @@ export const Switch = ({ isChecked = false, size = "medium", ...rest }) => {
 Switch.propTypes = {
     isChecked: PropTypes.bool,
     size: PropTypes.string,
+    classNames: PropTypes.shape({ switch: PropTypes.string, content: PropTypes.string }),
 };
 
 Switch.Group = ({ className, children }) => {
