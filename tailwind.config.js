@@ -105,12 +105,13 @@ const spacing = {
     56: "224px",
     60: "240px",
     64: "256px",
-    65: "260px", // CODE REVIEW: Should switch to w-64 260px
+    65: "260px", // CODE REVIEW: Should switch to w-64 260px or use Barth's spacing here?
     72: "288px",
     75: "300px",
     80: "320px",
     82: "350px",
     96: "384px",
+    105: "420px",
     140: "560px",
     200: "800px",
 };
