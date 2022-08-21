@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import React, { Children, cloneElement } from "react";
+import "./ButtonGroup.css";
 
 const sizes = {
     small: "px-2 py-1.5 text-sm",
@@ -10,7 +11,7 @@ const sizes = {
 
 const ButtonGroup = ({ size, value, isCollapsed = false, onChange, className, children, ...rest }) => {
     return (
-        <span className={clsx("ui-button-group", "inline-flex whitespace-nowrap", className)} {...rest}>
+        <span className={clsx("ui-button-group", className)} {...rest}>
             {Children.map(children, (child, index) => {
                 const buttonProps = { size };
 
@@ -61,11 +62,8 @@ const Button = ({
 }) => {
     const classes = clsx(
         "ui-button-group-button",
-        "inline-flex border-t border-l border-b last:border-r first:rounded-l-md last:rounded-r-md transition-colors focus:ring disabled:opacity-60 focus:z-10 leading-none",
         sizes[size],
-        isActive
-            ? "bg-primary border-primary text-white hover:bg-primary-dark"
-            : "border-gray-light hover:bg-gray-lighter text-gray-darker",
+        isActive ? "ui-button-group-button-active" : "ui-button-group-button-inactive",
         className,
     );
 

@@ -1,0 +1,15 @@
+.ui-button-group {
+    @apply inline-flex whitespace-nowrap;
+}
+
+.ui-button-group-button {
+    @apply inline-flex border-t border-l border-b last:border-r first:rounded-l-md last:rounded-r-md transition-colors focus:ring disabled:opacity-60 focus:z-10 leading-none;
+}
+
+.ui-button-group-button-active {
+    @apply bg-primary border-primary text-white hover:bg-primary-dark;
+}
+
+.ui-button-group-button-inactive {
+    @apply border-gray-light hover:bg-gray-lighter text-gray-darker;
+}
