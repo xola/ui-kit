@@ -51,6 +51,8 @@ export const Default = () => {
                                 <Sidebar.Link isSubMenuItem>Coupons</Sidebar.Link>
                                 <Sidebar.Link isSubMenuItem>Partners</Sidebar.Link>
                                 <Sidebar.Link isSubMenuItem>XolaBot</Sidebar.Link>
+                                <Sidebar.Separator />
+                                <Sidebar.Link isSubMenuItem>Global Settings</Sidebar.Link>
                             </div>
                         </div>
                     }
