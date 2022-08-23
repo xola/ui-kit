@@ -1,5 +1,5 @@
 import React from "react";
-import { Input, Label, FormGroup } from "../..";
+import { FormGroup, Input, Label } from "../..";
 
 const InputStories = {
     primary: true,

@@ -1,6 +1,6 @@
 {
     "name": "@xola/ui-kit",
-    "version": "2.0.0-71",
+    "version": "2.0.0-76",
     "description": "Xola UI Kit",
     "license": "MIT",
     "files": [
@@ -10,7 +10,7 @@
         "postcss.config.js"
     ],
     "main": "build/ui-kit.umd.js",
-    "module": "build/ui-kit.es.js",
+    "module": "build/ui-kit.mjs",
     "types": "index.d.ts",
     "scripts": {
         "prepare": "node scripts/prepare && vite build",
@@ -37,7 +37,6 @@
         "downshift": "^6.1.5",
         "get-user-locale": "^1.4.0",
         "google-libphonenumber": "^3.2.22",
-        "mathjs": "^9.4.4",
         "nouislider-react": "^3.4.1",
         "prop-types": "^15.7.2",
         "react-day-picker": "^7.4.10",
@@ -57,20 +56,20 @@
         "@storybook/addons": "^6.4.9",
         "@storybook/react": "^6.4.9",
         "@storybook/theming": "^6.4.9",
-        "@xola/jslint": "^1.0.0",
+        "@xola/jslint": "^2.1.0",
         "autoprefixer": "^10.4.2",
         "babel-jest": "^27.2.0",
         "babel-loader": "^8.2.2",
         "jest": "^27.2.0",
         "lodash": "^4.17.21",
         "postcss": "^8.4.5",
-        "prettier": "^2.5.1",
-        "prettier-plugin-tailwindcss": "^0.1.7",
+        "prettier": "^2.7.1",
+        "prettier-plugin-tailwindcss": "^0.1.13",
         "react": "^17.0.2",
         "react-dom": "^17.0.2",
         "storybook-css-modules-preset": "^1.1.1",
-        "tailwindcss": "^3.0.18",
-        "vite": "^2.5.7"
+        "tailwindcss": "^3.1.8",
+        "vite": "^3.0.8"
     },
     "peerDependencies": {
         "autoprefixer": "^10.3.1",
