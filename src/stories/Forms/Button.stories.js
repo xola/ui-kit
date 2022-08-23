@@ -154,23 +154,24 @@ export const IconOnly = () => {
     const sizes = ["tiny", "small", "medium", "large"];
     return (
         <div className="space-y-6">
-            <div className="py-3 font-mono">
-                Most of our icon only buttons use the &quot;variant=outline&quot; prop.
+            <div className="py-3">
+                We use the <code>Button.Icon</code> component when we want to have an icon only button. Most of our icon
+                only buttons use the &quot;<code>variant=outline</code>&quot; prop.
             </div>
             {sizes.map((size) => {
                 return (
                     <div className="space-y-2">
                         <div>{capitalize(size)}</div>
-                        <div className="grid w-50 grid-flow-col">
-                            <Button variant="outline" color="secondary" size={size}>
+                        <div className="grid w-50 grid-flow-col gap-x-5">
+                            <Button.Icon variant="outline" color="secondary" size={size}>
                                 <EllipsisIcon />
-                            </Button>
-                            <Button variant="outline" color="primary" size={size}>
+                            </Button.Icon>
+                            <Button.Icon variant="outline" color="primary" size={size}>
                                 <CheckIcon />
-                            </Button>
-                            <Button variant="outline" color="success" size={size}>
+                            </Button.Icon>
+                            <Button.Icon variant="outline" color="success" size={size}>
                                 <PlusIcon />
-                            </Button>
+                            </Button.Icon>
                         </div>
                     </div>
                 );

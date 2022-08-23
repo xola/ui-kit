@@ -41,10 +41,10 @@ const colors = {
 };
 
 const sizes = {
-    tiny: "w-7.5 h-5 text-xs leading-xs", // 20px
-    small: "w-7.5 h-7.5 text-sm leading-sm", // 30px
-    medium: "w-10 h-10 text-base leading-base", // 40px
-    large: "w-[50px] h-[50px] text-md leading-md", // 50px
+    tiny: "h-5 text-xs leading-xs", // 20px
+    small: "h-7.5 text-sm leading-sm", // 30px
+    medium: "h-10 text-base leading-base", // 40px
+    large: "h-[50px] text-md leading-md", // 50px
 };
 
 export const Button = ({
@@ -62,7 +62,8 @@ export const Button = ({
         <Tag
             className={clsx(
                 "ui-button",
-                "inline-flex rounded border transition-colors focus:ring disabled:cursor-default disabled:bg-gray-lighter disabled:text-gray-dark",
+                "inline-flex rounded border transition-colors focus:ring",
+                "disabled:cursor-default disabled:bg-gray-lighter disabled:text-gray-dark",
                 "items-center justify-center font-semibold",
                 colors[variant].common,
                 colors[variant][color],
@@ -97,3 +98,17 @@ Button.propTypes = {
     },
     iconPlacement: PropTypes.string,
 };
+
+const iconWidths = {
+    tiny: "w-7.5",
+    small: "w-7.5",
+    medium: "w-10",
+    large: "w-[50px]",
+};
+
+const Icon = (props) => {
+    const className = clsx(className, iconWidths[props.size ?? "medium"]);
+    return <Button {...props} className={className} />;
+};
+
+Button.Icon = Icon;
