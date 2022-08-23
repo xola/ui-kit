@@ -41,10 +41,10 @@ const colors = {
 };
 
 const sizes = {
-    tiny: "px-2 py-0.5 text-xs leading-xs", // 20px
-    small: "px-3 py-2 h-[30px] text-sm leading-sm", // 30px
-    medium: "px-4.5 py-3 h-[40px] text-base leading-base", // 40px
-    large: "px-6 py-4 h-[50px] text-md leading-md", // 50px
+    tiny: "w-7.5 h-5 text-xs leading-xs", // 20px
+    small: "w-7.5 h-7.5 text-sm leading-sm", // 30px
+    medium: "w-10 h-10 text-base leading-base", // 40px
+    large: "w-[50px] h-[50px] text-md leading-md", // 50px
 };
 
 export const Button = ({

@@ -1,5 +1,6 @@
+import { capitalize } from "lodash";
 import React from "react";
-import { Button, EllipsisIcon, KeyIcon, PlusIcon, UserIcon, WaitlistIcon, WarningIcon } from "../..";
+import { Button, CheckIcon, EllipsisIcon, PlusIcon, UserIcon } from "../..";
 
 const ButtonStories = {
     title: "Forms & Fields/Buttons/Button",
@@ -150,28 +151,30 @@ export const FullWidth = () => {
 };
 
 export const IconOnly = () => {
+    const sizes = ["tiny", "small", "medium", "large"];
     return (
-        <div className="space-x-6">
-            <div className="py-3 font-mono">Most of our icon only buttons use the &quot;variant=outline&quot; prop</div>
-            <Button variant="outline" color="secondary" size="tiny">
-                <EllipsisIcon />
-            </Button>
-
-            <Button variant="outline" color="primary" size="small">
-                <WaitlistIcon />
-            </Button>
-
-            <Button variant="outline" color="success" size="small">
-                <PlusIcon />
-            </Button>
-
-            <Button variant="outline" color="warning" size="medium">
-                <WarningIcon />
-            </Button>
-
-            <Button variant="outline" color="caution" size="medium">
-                <KeyIcon />
-            </Button>
+        <div className="space-y-6">
+            <div className="py-3 font-mono">
+                Most of our icon only buttons use the &quot;variant=outline&quot; prop.
+            </div>
+            {sizes.map((size) => {
+                return (
+                    <div className="space-y-2">
+                        <div>{capitalize(size)}</div>
+                        <div className="grid w-50 grid-flow-col">
+                            <Button variant="outline" color="secondary" size={size}>
+                                <EllipsisIcon />
+                            </Button>
+                            <Button variant="outline" color="primary" size={size}>
+                                <CheckIcon />
+                            </Button>
+                            <Button variant="outline" color="success" size={size}>
+                                <PlusIcon />
+                            </Button>
+                        </div>
+                    </div>
+                );
+            })}
         </div>
     );
 };
