@@ -6,7 +6,7 @@ import { Counter } from "../Counter";
 import { SidebarAccount } from "./Sidebar.Account";
 import { SidebarButton } from "./Sidebar.Button";
 import { SidebarFooter } from "./Sidebar.Footer";
-import { SidebarLink } from "./Sidebar.Link";
+import { SidebarLink, SidebarSeparator } from "./Sidebar.Link";
 import { SidebarMenu } from "./Sidebar.Menu";
 import { SidebarHeading } from "./Sidebar.Heading";
 
@@ -53,5 +53,6 @@ Sidebar.Account = SidebarAccount;
 Sidebar.Button = SidebarButton;
 Sidebar.Footer = SidebarFooter;
 Sidebar.Link = SidebarLink;
+Sidebar.Separator = SidebarSeparator;
 Sidebar.Menu = SidebarMenu;
 Sidebar.Heading = SidebarHeading;
