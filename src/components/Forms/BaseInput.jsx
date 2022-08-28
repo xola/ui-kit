@@ -2,6 +2,7 @@ import clsx from "clsx";
 import PropTypes from "prop-types";
 import React from "react";
 import { Dot } from "../Dot";
+import "./BaseInput.css";
 
 const sizes = {
     small: "px-3 py-1.5 text-sm leading-sm", // 30px
@@ -12,18 +13,7 @@ const sizes = {
 export const BaseInput = ({ as: Tag, size = "medium", isError, className, isRequired, ...rest }) => {
     return (
         <div className="relative flex w-full items-center">
-            <Tag
-                className={clsx(
-                    "w-full rounded text-gray-darker placeholder-gray-dark hover:placeholder-gray-darker disabled:text-gray",
-                    "border border-transparent hover:border-black hover:bg-gray-lighter focus:text-black active:text-black disabled:bg-gray-lighter",
-                    sizes[size],
-                    isError
-                        ? "border-danger focus:border-danger focus:ring-0 focus:ring-danger"
-                        : "border-gray-light focus:border-primary focus:ring-0 focus:ring-primary",
-                    className,
-                )}
-                {...rest}
-            />
+            <Tag className={clsx("ui-input-tag", sizes[size], isError && "ui-input-tag-error", className)} {...rest} />
             {isRequired && <Dot className="absolute right-3" color="danger" />}
         </div>
     );

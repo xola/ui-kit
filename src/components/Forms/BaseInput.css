@@ -1,0 +1,9 @@
+.ui-input-tag {
+    @apply w-full rounded text-gray-darker placeholder-gray-dark hover:placeholder-gray-darker disabled:text-gray;
+    @apply border border-transparent hover:border-black hover:bg-gray-lighter focus:text-black active:text-black disabled:bg-gray-lighter;
+    @apply border-gray-light focus:border-primary focus:ring-0 focus:ring-primary;
+}
+
+.ui-input-tag-error {
+    @apply border-danger hover:border-danger focus:border-danger focus:ring-0 focus:ring-danger;
+}
