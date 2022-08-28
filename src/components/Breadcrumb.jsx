@@ -1,6 +1,6 @@
 import clsx from "clsx";
-import React, { Children } from "react";
 import PropTypes from "prop-types";
+import React, { Children } from "react";
 
 export const Breadcrumb = ({ className, classNames = {}, separator = "/", children, ...rest }) => {
     const count = Children.count(children) - 1;
@@ -34,7 +34,7 @@ Breadcrumb.propTypes = {
 Breadcrumb.Item = ({ className, onClick, children }) => {
     return (
         <div
-            className={clsx("ui-breadcrumb-item", className, "inline", onClick && "cursor-pointer hover:underline")}
+            className={clsx("ui-breadcrumb-item inline", onClick && "cursor-pointer hover:underline", className)}
             onClick={onClick}
         >
             {children}
