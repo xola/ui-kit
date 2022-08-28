@@ -31,7 +31,7 @@ export const Button = ({
     );
 };
 
-const sizes = ["tiny", "sma;", "small", "medium", "large"];
+const sizes = ["tiny", "small", "medium", "large"];
 const colors = ["primary", "secondary", "success", "danger", "caution", "warning"];
 const variants = ["standard", "outline", "link"];
 
