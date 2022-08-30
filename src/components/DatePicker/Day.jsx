@@ -46,7 +46,7 @@ const DayContent = ({ selectedDate, date, getContent }) => {
             <div className={clsx("ui-day-content-value", { "selected text-white": isSameDay })}>{day}</div>
 
             {/* The custom content below it */}
-            {contentValue ? <div className="ui-day-content-custom mt-1">{contentValue}</div> : null}
+            {contentValue ? <div className="ui-day-content-custom">{contentValue}</div> : null}
         </div>
     );
 };

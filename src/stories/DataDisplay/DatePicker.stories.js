@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import { random } from "lodash";
 import React, { useState } from "react";
-import { Button, DatePicker, DatePickerPopover, Switch, theme } from "../..";
+import { DatePicker, DatePickerPopover, theme, Button, Switch } from "../..";
 import { formatDate } from "../../helpers/date";
 
 const DatePickerStories = {

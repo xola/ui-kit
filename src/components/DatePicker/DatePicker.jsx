@@ -1,11 +1,12 @@
 import clsx from "clsx";
-import dayjs from "dayjs";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import DayPicker, { DateUtils } from "react-day-picker";
 import "react-day-picker/lib/style.css";
-import { Tooltip } from "../..";
 import "./DatePicker.css";
+import dayjs from "dayjs";
+import { isArray, isFunction } from "lodash";
+import { Tooltip } from "../..";
 import { Day } from "./Day";
 import { MonthYearSelector } from "./MonthYearSelector";
 import { NavbarElement } from "./NavbarElement";
@@ -27,7 +28,6 @@ export const DatePicker = ({
     shouldShowYearPicker = false,
     onChange,
     onMonthChange,
-    onSubmitDateRange,
     modifiers = {},
     ranges,
     shouldShowRelativeRanges = false,
@@ -37,6 +37,7 @@ export const DatePicker = ({
     ...rest
 }) => {
     const initialValue = variant === variants.single ? value : value.from;
+    console.log(value, "value");
     const [currentMonth, setCurrentMonth] = useState(initialValue);
     const [rangeName, setRangeName] = useState("");
     const [showTodayButton, setShowTodayButton] = useState(variant === "single");
@@ -48,7 +49,11 @@ export const DatePicker = ({
     }, [currentMonth, onMonthChange]);
 
     useEffect(() => {
-        if (Array.isArray(disabledDays) && disabledDays.some((date) => dayjs(date).isSame(new Date(), "day"))) {
+        if (isArray(disabledDays)) {
+            if (disabledDays.some((date) => dayjs(date).isSame(new Date(), "day"))) {
+                setShowTodayButton(false);
+            }
+        } else if (isFunction(disabledDays) && disabledDays(new Date())) {
             setShowTodayButton(false);
         }
     }, []);
@@ -65,9 +70,11 @@ export const DatePicker = ({
                 // if both dates are selected.
                 onChange({ from: day, to: null }, options, event);
             } else if ((value.from || value.to).getTime() === day.getTime()) {
-                const from = dayjs(day).startOf("day").toDate();
-                const to = dayjs(day).endOf("day").toDate();
-                onChange({ from, to }, options, event);
+                onChange(
+                    { from: dayjs(day).startOf("day").toDate(), to: dayjs(day).endOf("day").toDate() },
+                    options,
+                    event,
+                );
             } else {
                 onChange(DateUtils.addDayToRange(day, value), options, event);
             }
@@ -90,10 +97,17 @@ export const DatePicker = ({
         ? ({ date }) => <MonthYearSelector date={date} currentMonth={currentMonth} onChange={handleMonthChange} />
         : undefined;
 
+    const handleDisabled = (date) => {
+        if (isArray(disabledDays)) {
+            return disabledDays.some((_date) => dayjs(_date).isSame(date, "day"));
+        }
+
+        return disabledDays(date);
+    };
+
     const renderDay = (date) => {
         const tooltipContent = getTooltip?.(date);
-        const disabled = Array.isArray(disabledDays) && disabledDays.some((_date) => dayjs(_date).isSame(date, "day"));
-
+        const disabled = handleDisabled(date);
         return tooltipContent ? (
             <Tooltip placement="top" content={tooltipContent}>
                 <Day
@@ -187,15 +201,8 @@ export const DatePicker = ({
             {components.Footer ? <components.Footer /> : null}
 
             {useDateRangeStyle && shouldShowRelativeRanges && (
-                <div className="ui-relative-date-ranges flex">
-                    <div className="ml-auto">
-                        <RelativeDateRange
-                            value={rangeName}
-                            ranges={ranges}
-                            onChange={handleRelativeRangeChanged}
-                            onSubmit={onSubmitDateRange}
-                        />
-                    </div>
+                <div className="ml-auto w-6/12 pl-5 pr-10 pb-5">
+                    <RelativeDateRange value={rangeName} ranges={ranges} onChange={handleRelativeRangeChanged} />
                 </div>
             )}
         </>
