@@ -28,6 +28,7 @@ export const DatePicker = ({
     shouldShowYearPicker = false,
     onChange,
     onMonthChange,
+    onSubmitDateRange,
     modifiers = {},
     ranges,
     shouldShowRelativeRanges = false,
