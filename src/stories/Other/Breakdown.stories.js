@@ -1,5 +1,5 @@
 import React from "react";
-import { Breakdown, CardIcon, Button } from "../..";
+import { Breakdown, Button, CardIcon } from "../..";
 
 const BreakdownStories = {
     title: "Other/Breakdown",

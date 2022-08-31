@@ -1,16 +1,34 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useState } from "react";
 import { XolaLogoCircle } from "../../images/XolaLogoCircle";
 import { Counter } from "../Counter";
 import { SidebarAccount } from "./Sidebar.Account";
 import { SidebarButton } from "./Sidebar.Button";
 import { SidebarFooter } from "./Sidebar.Footer";
-import { SidebarLink } from "./Sidebar.Link";
+import { SidebarLink, SidebarSeparator } from "./Sidebar.Link";
 import { SidebarMenu } from "./Sidebar.Menu";
 import { SidebarHeading } from "./Sidebar.Heading";
+import { BellIcon } from "../../icons/BellIcon";
+import { AnnounceIcon } from "../../icons/AnnounceIcon";
+import { Drawer } from "../Drawer";
+
+const AnnounceIconStyle = {
+    background: "linear-gradient(138.65deg, #583DFF 19.59%, #F849C7 62.96%, #FFC03D 97.07%)",
+};
 
 export const Sidebar = ({ children, className, footer, notifications, isFixed = true, onLogoClick }) => {
+    const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+    const [isAnnouncementsOpen, setIsAnnouncementsOpen] = useState(false);
+
+    const handleAnnounceClick = () => {
+        setIsAnnouncementsOpen(true);
+    };
+
+    const handleNotificationClick = () => {
+        setIsNotificationsOpen(true);
+    };
+
     return (
         <div
             className={clsx(
@@ -20,11 +38,66 @@ export const Sidebar = ({ children, className, footer, notifications, isFixed = 
                 className,
             )}
         >
-            <div className={clsx("p-2 text-center xl:text-left", notifications ? null : "invisible")}>
-                <Counter className="text-sm">{notifications}</Counter>
-            </div>
+            {notifications ? (
+                <div className="flex p-2 sm:justify-center xl:justify-between">
+                    <div
+                        className={clsx(
+                            "cursor-pointer sm:text-center",
+                            notifications?.announcements?.hide ? "hidden" : null,
+                        )}
+                    >
+                        {notifications?.announcements?.count ? (
+                            <Counter className="mr-2 text-sm" onClick={handleAnnounceClick} style={AnnounceIconStyle}>
+                                <AnnounceIcon className="mr-1 sm:hidden xl:block" />
+                                {notifications?.announcements?.count}
+                            </Counter>
+                        ) : (
+                            <span
+                                className="mr-2 inline-flex items-center rounded-full px-1 py-1"
+                                style={AnnounceIconStyle}
+                                onClick={handleAnnounceClick}
+                            >
+                                <AnnounceIcon className="xl:block" />
+                            </span>
+                        )}
+                    </div>
 
-            <div className="mb-10 text-center">
+                    <div
+                        className={clsx(
+                            "cursor-pointer sm:text-center",
+                            notifications?.notices?.count ? null : "hidden",
+                        )}
+                    >
+                        <Counter className="text-sm" onClick={handleNotificationClick}>
+                            <BellIcon className="sm:hidden xl:block" />
+                            {notifications?.notices?.count}
+                        </Counter>
+                    </div>
+                </div>
+            ) : null}
+
+            <Drawer
+                classNames={{ positionLeft: "md:left-24 xl:left-50" }}
+                position="left"
+                title={notifications?.announcements?.title}
+                content={notifications?.announcements?.content}
+                isOpen={isAnnouncementsOpen}
+                onClose={() => {
+                    setIsAnnouncementsOpen(false);
+                    notifications?.announcements?.onClose();
+                }}
+            />
+
+            <Drawer
+                classNames={{ positionLeft: "md:left-24 xl:left-50" }}
+                title={notifications?.notices?.title}
+                position="left"
+                content={notifications?.notices?.content}
+                isOpen={isNotificationsOpen}
+                onClose={() => setIsNotificationsOpen(false)}
+            />
+
+            <div className="mt-4 mb-10 text-center">
                 <XolaLogoCircle
                     className={clsx(
                         "inline-block h-12 w-12 xl:h-24 xl:w-24",
@@ -44,14 +117,28 @@ Sidebar.propTypes = {
     children: PropTypes.node.isRequired,
     className: PropTypes.string,
     footer: PropTypes.element.isRequired,
-    notifications: PropTypes.number,
     isFixed: PropTypes.bool,
     onLogoClick: PropTypes.func.isRequired,
+    notifications: PropTypes.shape({
+        announcements: PropTypes.shape({
+            count: PropTypes.number,
+            content: PropTypes.node,
+            title: PropTypes.string,
+            hide: PropTypes.bool,
+            onClose: PropTypes.func,
+        }),
+        notices: PropTypes.shape({
+            count: PropTypes.number,
+            content: PropTypes.node,
+            title: PropTypes.string,
+        }),
+    }),
 };
 
 Sidebar.Account = SidebarAccount;
 Sidebar.Button = SidebarButton;
 Sidebar.Footer = SidebarFooter;
 Sidebar.Link = SidebarLink;
+Sidebar.Separator = SidebarSeparator;
 Sidebar.Menu = SidebarMenu;
 Sidebar.Heading = SidebarHeading;

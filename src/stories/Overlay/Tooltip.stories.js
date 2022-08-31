@@ -106,9 +106,9 @@ export const WithHTMLContent = () => {
 export const OnAnIcon = (config) => {
     return (
         <Tooltip {...config}>
-            <Button.Icon color="outline" size="medium">
+            <Button color="secondary" variant="outline" size="medium">
                 <UserIcon size="medium" />
-            </Button.Icon>
+            </Button>
         </Tooltip>
     );
 };

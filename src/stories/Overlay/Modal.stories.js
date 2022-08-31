@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Modal, Input } from "../..";
+import { Button, Input, Modal } from "../..";
 
 const ModalStories = {
     title: "Overlay/Modal",
