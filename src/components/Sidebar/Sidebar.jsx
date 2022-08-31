@@ -1,32 +1,52 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
+import { AnnounceIcon } from "../../icons/AnnounceIcon";
+import { BellIcon } from "../../icons/BellIcon";
 import { XolaLogoCircle } from "../../images/XolaLogoCircle";
 import { Counter } from "../Counter";
+import { Drawer } from "../Drawer";
 import { SidebarAccount } from "./Sidebar.Account";
 import { SidebarButton } from "./Sidebar.Button";
 import { SidebarFooter } from "./Sidebar.Footer";
+import { SidebarHeading } from "./Sidebar.Heading";
 import { SidebarLink, SidebarSeparator } from "./Sidebar.Link";
 import { SidebarMenu } from "./Sidebar.Menu";
-import { SidebarHeading } from "./Sidebar.Heading";
-import { BellIcon } from "../../icons/BellIcon";
-import { AnnounceIcon } from "../../icons/AnnounceIcon";
-import { Drawer } from "../Drawer";
 
-const AnnounceIconStyle = {
+const LeftDrawerCountStyle = {
+    // From Figma
     background: "linear-gradient(138.65deg, #583DFF 19.59%, #F849C7 62.96%, #FFC03D 97.07%)",
 };
 
 export const Sidebar = ({ children, className, footer, notifications, isFixed = true, onLogoClick }) => {
-    const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
-    const [isAnnouncementsOpen, setIsAnnouncementsOpen] = useState(false);
-
-    const handleAnnounceClick = () => {
-        setIsAnnouncementsOpen(true);
+    const [isLeftDrawerOpen, setIsLeftDrawerOpen] = useState(false);
+    const [isRightDrawerOpen, setIsRightDrawerOpen] = useState(false);
+    const toggleLeftDrawer = () => {
+        if (!isLeftDrawerOpen) {
+            // Close the right drawer when you open the left
+            setIsRightDrawerOpen(false);
+        }
+        setIsLeftDrawerOpen(!isLeftDrawerOpen);
+    };
+    const toggleRightDrawer = () => {
+        if (!isRightDrawerOpen) {
+            // Close the left drawer when you open the right
+            setIsLeftDrawerOpen(false);
+        }
+        setIsRightDrawerOpen(!isRightDrawerOpen);
     };
 
-    const handleNotificationClick = () => {
-        setIsNotificationsOpen(true);
+    const { announcements: leftDrawer, notices: rightDrawer } = notifications;
+    const hideRightDrawer = rightDrawer?.count <= 0 || !rightDrawer;
+
+    const handleOnClose = (direction, closeDrawer) => {
+        if (direction === "left") {
+            closeDrawer && setIsLeftDrawerOpen(false);
+            leftDrawer.onClose?.();
+        } else {
+            closeDrawer && setIsRightDrawerOpen(false);
+            rightDrawer.onClose?.();
+        }
     };
 
     return (
@@ -34,68 +54,53 @@ export const Sidebar = ({ children, className, footer, notifications, isFixed = 
             className={clsx(
                 "ui-sidebar",
                 isFixed ? "fixed" : "relative",
-                "flex h-full w-16 flex-col overflow-y-auto bg-black py-2 px-1 text-white md:w-24 xl:w-50",
+                "z-50 flex h-full w-16 flex-col overflow-y-auto bg-black py-2 px-1 text-white md:w-24 xl:w-50",
                 className,
             )}
         >
-            {notifications ? (
-                <div className="flex p-2 sm:justify-center xl:justify-between">
-                    <div
-                        className={clsx(
-                            "cursor-pointer sm:text-center",
-                            notifications?.announcements?.hide ? "hidden" : null,
-                        )}
-                    >
-                        {notifications?.announcements?.count ? (
-                            <Counter className="mr-2 text-sm" onClick={handleAnnounceClick} style={AnnounceIconStyle}>
+            {leftDrawer || rightDrawer ? (
+                <div className="flex w-full p-2 sm:justify-center sm:space-x-2 xl:justify-between">
+                    {leftDrawer && (
+                        <div className={clsx("cursor-pointer sm:text-center", leftDrawer.hide && "hidden")}>
+                            <Counter style={LeftDrawerCountStyle} onClick={toggleLeftDrawer}>
                                 <AnnounceIcon className="mr-1 sm:hidden xl:block" />
-                                {notifications?.announcements?.count}
+                                {leftDrawer.count}
                             </Counter>
-                        ) : (
-                            <span
-                                className="mr-2 inline-flex items-center rounded-full px-1 py-1"
-                                style={AnnounceIconStyle}
-                                onClick={handleAnnounceClick}
-                            >
-                                <AnnounceIcon className="xl:block" />
-                            </span>
-                        )}
-                    </div>
+                        </div>
+                    )}
 
-                    <div
-                        className={clsx(
-                            "cursor-pointer sm:text-center",
-                            notifications?.notices?.count ? null : "hidden",
-                        )}
-                    >
-                        <Counter className="text-sm" onClick={handleNotificationClick}>
-                            <BellIcon className="sm:hidden xl:block" />
-                            {notifications?.notices?.count}
-                        </Counter>
-                    </div>
+                    {rightDrawer && (
+                        <div className={clsx("ml-auto cursor-pointer sm:text-center", hideRightDrawer && "hidden")}>
+                            <Counter className="text-sm" onClick={toggleRightDrawer}>
+                                <BellIcon className="sm:hidden xl:block" />
+                                {rightDrawer.count}
+                            </Counter>
+                        </div>
+                    )}
                 </div>
             ) : null}
 
-            <Drawer
-                classNames={{ positionLeft: "md:left-24 xl:left-50" }}
-                position="left"
-                title={notifications?.announcements?.title}
-                content={notifications?.announcements?.content}
-                isOpen={isAnnouncementsOpen}
-                onClose={() => {
-                    setIsAnnouncementsOpen(false);
-                    notifications?.announcements?.onClose();
-                }}
-            />
+            {leftDrawer && (
+                <Drawer
+                    classNames={{ dialog: "md:left-24 xl:left-50" }}
+                    position="left"
+                    title={leftDrawer.title}
+                    content={leftDrawer.content}
+                    isOpen={isLeftDrawerOpen}
+                    onClose={(e) => handleOnClose("left", !!e)}
+                />
+            )}
 
-            <Drawer
-                classNames={{ positionLeft: "md:left-24 xl:left-50" }}
-                title={notifications?.notices?.title}
-                position="left"
-                content={notifications?.notices?.content}
-                isOpen={isNotificationsOpen}
-                onClose={() => setIsNotificationsOpen(false)}
-            />
+            {rightDrawer && (
+                <Drawer
+                    classNames={{ dialog: "md:left-24 xl:left-50" }}
+                    position="left"
+                    title={rightDrawer.title}
+                    content={rightDrawer.content}
+                    isOpen={isRightDrawerOpen}
+                    onClose={(e) => handleOnClose("right", !!e)}
+                />
+            )}
 
             <div className="mt-4 mb-10 text-center">
                 <XolaLogoCircle
@@ -131,6 +136,7 @@ Sidebar.propTypes = {
             count: PropTypes.number,
             content: PropTypes.node,
             title: PropTypes.string,
+            onClose: PropTypes.func,
         }),
     }),
 };
