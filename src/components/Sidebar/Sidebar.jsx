@@ -39,7 +39,7 @@ export const Sidebar = ({ children, className, footer, notifications, isFixed = 
         setIsRightDrawerOpen(!isRightDrawerOpen);
     };
 
-    const { announcements: leftDrawer, notices: rightDrawer } = notifications;
+    const { announcements: leftDrawer, notices: rightDrawer } = notifications ?? {};
     const hideRightDrawer = rightDrawer?.count <= 0 || !rightDrawer;
 
     const handleOnClose = (direction, closeDrawer) => {

@@ -29,10 +29,14 @@ const SidebarFooter = () => {
     );
 };
 
+const handleLogoClick = () => {
+    window.location.reload();
+};
+
 export const Default = () => {
     return (
         <div className="h-screen">
-            <Sidebar footer={<SidebarFooter />}>
+            <Sidebar footer={<SidebarFooter />} onLogoClick={handleLogoClick}>
                 <Sidebar.Link isActive icon={UserIcon}>
                     Sellers
                 </Sidebar.Link>
@@ -80,7 +84,7 @@ export const SidebarWithNotifications = () => {
     };
     return (
         <div className="h-screen">
-            <Sidebar footer={<SidebarFooter />} notifications={notifications}>
+            <Sidebar footer={<SidebarFooter />} notifications={notifications} onLogoClick={handleLogoClick}>
                 <Sidebar.Link isActive icon={UserIcon}>
                     Sellers
                 </Sidebar.Link>
