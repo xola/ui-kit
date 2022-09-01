@@ -28,10 +28,11 @@ const SidebarFooter = () => {
         </Sidebar.Footer>
     );
 };
+
 export const Default = () => {
     return (
         <div className="h-screen">
-            <Sidebar footer={<SidebarFooter />} onLogoClick={() => {}}>
+            <Sidebar footer={<SidebarFooter />}>
                 <Sidebar.Link isActive icon={UserIcon}>
                     Sellers
                 </Sidebar.Link>
@@ -79,7 +80,7 @@ export const SidebarWithNotifications = () => {
     };
     return (
         <div className="h-screen">
-            <Sidebar footer={<SidebarFooter />} notifications={notifications} onLogoClick={() => {}}>
+            <Sidebar footer={<SidebarFooter />} notifications={notifications}>
                 <Sidebar.Link isActive icon={UserIcon}>
                     Sellers
                 </Sidebar.Link>

@@ -26,13 +26,16 @@ export const Sidebar = ({ children, className, footer, notifications, isFixed = 
             // Close the right drawer when you open the left
             setIsRightDrawerOpen(false);
         }
+
         setIsLeftDrawerOpen(!isLeftDrawerOpen);
     };
+
     const toggleRightDrawer = () => {
         if (!isRightDrawerOpen) {
             // Close the left drawer when you open the right
             setIsLeftDrawerOpen(false);
         }
+
         setIsRightDrawerOpen(!isRightDrawerOpen);
     };
 
@@ -41,10 +44,16 @@ export const Sidebar = ({ children, className, footer, notifications, isFixed = 
 
     const handleOnClose = (direction, closeDrawer) => {
         if (direction === "left") {
-            closeDrawer && setIsLeftDrawerOpen(false);
+            if (closeDrawer) {
+                setIsLeftDrawerOpen(false);
+            }
+
             leftDrawer.onClose?.();
         } else {
-            closeDrawer && setIsRightDrawerOpen(false);
+            if (closeDrawer) {
+                setIsRightDrawerOpen(false);
+            }
+
             rightDrawer.onClose?.();
         }
     };
