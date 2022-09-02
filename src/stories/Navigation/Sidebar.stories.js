@@ -1,5 +1,5 @@
 import React from "react";
-import { AnnounceIcon, CheckIcon, ExportIcon, Sidebar, StarIcon, UserIcon } from "../..";
+import { AnnounceIcon, CheckIcon, ExportIcon, Sidebar, StarIcon, UserIcon, LogoutIcon, HelpCenterIcon, PolicyIcon } from "../..";
 
 const SidebarStories = {
     title: "Navigation/Sidebar",
@@ -14,15 +14,27 @@ export const Default = () => {
                     <Sidebar.Footer>
                         <Sidebar.Menu
                             content={
-                                <div className="space-y-2">
-                                    <Sidebar.Account
-                                        name="Twitter"
-                                        description="San Francisco, CA"
-                                        icon={<CheckIcon className="text-green" />}
-                                    />
+                                <div className="space-y-3">
+                                    <div className="space-y-2">
+                                        <Sidebar.Account
+                                            name="Twitter"
+                                            description="San Francisco, CA"
+                                            icon={<CheckIcon className="text-green" />}
+                                        />
+                                        <Sidebar.Account name="Slack" description="San Francisco, CA" />
+                                    </div>
 
-                                    <Sidebar.Account name="Slack" description="San Francisco, CA" />
-                                    <Sidebar.Button icon={ExportIcon} label="Logout" />
+                                    <div className="space-y-2">
+
+                                        <Sidebar.Separator className="my-0 mt-4 mx-0" />
+                                        <Sidebar.Button icon={PolicyIcon} label="Privacy Policy" />
+
+                                        <Sidebar.Separator className="mx-0" />
+                                        <Sidebar.Button icon={HelpCenterIcon} label="Help Center" />
+
+                                        <Sidebar.Separator className="mx-0" />
+                                        <Sidebar.Button icon={LogoutIcon} label="Logout" />
+                                    </div>
                                 </div>
                             }
                         >
