@@ -14,8 +14,8 @@ const colors = {
 };
 
 const sizes = {
-    small: "px-3 py-2 text-sm leading-3.5 shadow max-w-[200px]",
-    medium: "px-4 py-3 text-base leading-4 shadow-md max-w-[400px]",
+    small: "px-3 py-2 text-sm leading-3.5 shadow max-w-50",
+    medium: "px-4 py-3 text-base leading-4 shadow-md max-w-100",
     large: "px-4 py-4 text-lg leading-4.5 shadow-lg max-w-xl",
 };
 

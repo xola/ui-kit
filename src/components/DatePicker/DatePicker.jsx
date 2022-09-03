@@ -114,7 +114,7 @@ export const DatePicker = ({
                                             key={index.toString()}
                                             value
                                             className={clsx(
-                                                "mx-6 mt-3 flex min-w-[160px] cursor-pointer items-center justify-center rounded border border-gray py-3 hover:border-blue hover:bg-blue hover:text-white",
+                                                "mx-6 mt-3 flex min-w-40 cursor-pointer items-center justify-center rounded border border-gray py-3 hover:border-blue hover:bg-blue hover:text-white",
                                                 {
                                                     "border-blue bg-blue text-white": dayjs(date).isSame(
                                                         dayjs(value),
@@ -133,7 +133,7 @@ export const DatePicker = ({
                                 })}
                             </div>
                         ) : (
-                            <div className="mx-6 mt-7 max-w-[160px] items-center justify-center rounded bg-yellow-lighter p-3">
+                            <div className="mx-6 mt-7 max-w-40 items-center justify-center rounded bg-yellow-lighter p-3">
                                 There is no future availability for this product.
                             </div>
                         )}
