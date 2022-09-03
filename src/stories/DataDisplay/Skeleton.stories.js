@@ -10,10 +10,9 @@ export const Default = () => {
     return (
         <div className="h-75 w-full space-y-4">
             <p>
-                Parent div set with <code>w-full</code> and <code>h-75</code> (300px). No children specified so text
-                defaults to "Loading..."
+                Parent div set with <code>w-full</code> and <code>h-75</code> (300px). No children specified
             </p>
-            <Skeleton />
+            <Skeleton text="Loading..." />
         </div>
     );
 };
@@ -31,9 +30,9 @@ export const MultipleSkeletons = () => {
             <p>Quickly create multiple Skeleton children</p>
             <div className="space-y-2">
                 <p>
-                    A grid of <code>3x2</code> by passing in <code>grid=&#123;[3x2]&#125;</code>
+                    A grid of <code>4x2</code> by passing in <code>grid=&#123;[4x2]&#125;</code>
                 </p>
-                <SkeletonGrid grid={[3, 2]} />
+                <SkeletonGrid grid={[4, 2]} />
             </div>
             <div className="space-y-2">
                 <p>
