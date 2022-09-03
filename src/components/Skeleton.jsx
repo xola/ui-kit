@@ -16,9 +16,11 @@ export const Skeleton = ({ height = "h-full", children, className, classNames = 
             {...rest}
         >
             <div className={clsx("absolute h-full w-full", styles.shimmer, classNames.shimmer)} />
-            <div className={clsx("flex w-full items-center justify-center text-gray", classNames.text)}>
-                {children ?? "Loading..."}
-            </div>
+            {children ?? (
+                <div className={clsx("flex h-full w-full items-center justify-center text-gray", classNames.content)}>
+                    Loading...
+                </div>
+            )}
         </div>
     );
 };
