@@ -39,3 +39,13 @@ SidebarLink.propTypes = {
     children: PropTypes.node.isRequired,
     isSubMenuItem: PropTypes.bool,
 };
+
+export const SidebarSeparator = ({ className }) => {
+    return <hr className={clsx("mx-3 my-4 border-gray-lighter/20", className)} />;
+};
+
+SidebarSeparator.displayName = "Sidebar.Separator";
+
+SidebarSeparator.propTypes = {
+    className: PropTypes.string,
+};
