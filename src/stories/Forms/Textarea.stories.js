@@ -1,5 +1,5 @@
 import React from "react";
-import { Textarea, Label, FormGroup } from "../..";
+import { FormGroup, Label, Textarea } from "../..";
 
 const TextareaStories = {
     primary: true,

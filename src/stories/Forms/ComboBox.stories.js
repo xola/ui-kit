@@ -1,6 +1,6 @@
 import React from "react";
 import clsx from "clsx";
-import { ComboBox, Label, FormGroup, Currency } from "../..";
+import { ComboBox, Currency, FormGroup, Label } from "../..";
 
 const ComboBoxStories = {
     primary: true,
