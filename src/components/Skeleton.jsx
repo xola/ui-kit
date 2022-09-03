@@ -2,26 +2,23 @@ import clsx from "clsx";
 import { range } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
+import styles from "./Skeleton.module.css";
 
-export const Skeleton = ({ height = "h-full", children, className, ...rest }) => {
+export const Skeleton = ({ height = "h-full", children, className, classNames = {}, ...rest }) => {
     return (
         <div
             className={clsx(
-                "ui-skeleton-new relative flex items-center justify-center overflow-hidden rounded p-2 text-gray-dark before:absolute before:inset-0",
-                // The shimmer is keyframes which is defined in tailwind config that goes from left to the right
-                "before:-translate-x-full before:animate-[shimmer_4s_infinite]",
-                // These define the animation of the gradient from start to finish
-                "before:bg-gradient-to-r before:from-transparent before:via-gray-light before:to-transparent",
-                // The background on which the gradient is applied. It should be a lighter color than the gradient
-                "bg-gray-lighter",
-                // This is a border at the top of the div that will animate too
-                "before:border-t before:border-gray-light",
-                `${height} w-full`,
+                "ui-skeleton",
+                "relative flex items-center justify-center overflow-hidden rounded border border-gray-lighter bg-gray-lighter",
+                height,
                 className,
             )}
             {...rest}
         >
-            {children ?? "Loading..."}
+            <div className={clsx("absolute h-full w-full", styles.shimmer, classNames.shimmer)} />
+            <div className={clsx("flex w-full items-center justify-center text-gray", classNames.text)}>
+                {children ?? "Loading..."}
+            </div>
         </div>
     );
 };
@@ -32,10 +29,10 @@ Skeleton.propTypes = {
     children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
 };
 
-export const SkeletonGrid = ({ grid = [3, 2], classNames = {} }) => {
+export const SkeletonGrid = ({ grid = [3, 2], classNames = { horizontal: "h-10", vertical: "!h-10" } }) => {
     const [horizontalCount, verticalCount] = grid;
     const horizontalClasses = `grid grid-cols-${horizontalCount} gap-x-2`;
-    const verticalClasses = `grid grid-rows-${verticalCount} gap-y-2`;
+    const verticalClasses = `grid grid-rows-${verticalCount - 1} gap-y-2`;
 
     const defaultParentClassNames = "h-full";
     const parentClassName = classNames.parent ?? defaultParentClassNames;
@@ -43,17 +40,21 @@ export const SkeletonGrid = ({ grid = [3, 2], classNames = {} }) => {
     return (
         <div className={clsx("flex flex-col space-y-1", parentClassName)}>
             <SkeletonPerCount count={horizontalCount} className={clsx(horizontalClasses, classNames.horizontal)} />
-            <SkeletonPerCount count={verticalCount} className={clsx(verticalClasses, classNames.vertical)} />
+            <SkeletonPerCount
+                count={verticalCount - 1}
+                className={clsx(verticalClasses, "h-10")}
+                classNames={{ skeleton: classNames.vertical }}
+            />
         </div>
     );
 };
 
-const SkeletonPerCount = ({ count, className }) => {
+const SkeletonPerCount = ({ count, className, classNames = {} }) => {
     return (
         count > 0 && (
             <div className={className}>
                 {range(0, count).map((index) => (
-                    <Skeleton />
+                    <Skeleton key={index} className={classNames.skeleton} />
                 ))}
             </div>
         )
