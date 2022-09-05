@@ -26,7 +26,6 @@ const SidebarFooter = () => {
                             <Sidebar.Separator className="my-0 mt-4 mx-0" />
                             <Sidebar.Button icon={PolicyIcon} label="Privacy Policy" />
 
-                            <Sidebar.Separator className="mx-0" />
                             <Sidebar.Button icon={HelpCenterIcon} label="Help Center" />
 
                             <Sidebar.Separator className="mx-0" />
