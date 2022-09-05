@@ -8,3 +8,5 @@ export const PolicyIcon = createIcon((props) => {
         </svg>
     );
 });
+
+PolicyIcon.tags = ["privacy", "policy", "shield"];

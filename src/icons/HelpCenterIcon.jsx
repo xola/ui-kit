@@ -13,3 +13,5 @@ export const HelpCenterIcon = createIcon((props) => {
         </svg>
     );
 });
+
+HelpCenterIcon.tags = ["help", "center"];

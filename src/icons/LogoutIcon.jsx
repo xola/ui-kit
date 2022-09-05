@@ -10,3 +10,5 @@ export const LogoutIcon = createIcon((props) => {
         </svg>
     );
 });
+
+LogoutIcon.tags = ["logout"];
