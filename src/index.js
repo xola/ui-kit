@@ -116,6 +116,7 @@ export { ChipIcon } from "./icons/ChipIcon";
 export { ClipboardIcon } from "./icons/ClipboardIcon";
 export { ClockAltIcon } from "./icons/ClockAltIcon";
 export { ClockIcon } from "./icons/ClockIcon";
+export { ClockManualIcon } from "./icons/ClockManualIcon";
 export { CloseIcon } from "./icons/CloseIcon";
 export { CommentIcon } from "./icons/CommentIcon";
 export { CommentAltIcon } from "./icons/CommentAltIcon";
