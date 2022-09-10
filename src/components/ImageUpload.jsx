@@ -107,5 +107,5 @@ ImageUpload.propTypes = {
     isLoading: PropTypes.bool,
     maxSize: PropTypes.number,
     hasDelete: PropTypes.bool,
-    requirements: PropTypes.oneOf(PropTypes.string, PropTypes.node),
+    requirements: PropTypes.oneOf([PropTypes.string, PropTypes.node]),
 };
