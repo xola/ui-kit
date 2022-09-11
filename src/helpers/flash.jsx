@@ -21,7 +21,7 @@ const sizes = {
 
 const defaultProps = {
     duration: 3000,
-    position: "top-right",
+    position: "bottom-right",
     reverseOrder: false,
 };
 
@@ -37,6 +37,33 @@ export const flash = {
 
         const classNames = flash.getStyles(color, size, className, canClose);
         toast.custom(flash.container.bind(this, text, classNames, canClose ? onClose : null), finalProps);
+    },
+
+    //
+    // Shortcut methods for flash.show
+    //
+    primary(text, props) {
+        this.show({ color: "primary", text, ...props });
+    },
+
+    secondary(text, props) {
+        this.show({ color: "secondary", text, ...props });
+    },
+
+    success(text, props) {
+        this.show({ color: "success", text, ...props });
+    },
+
+    warning(text, props) {
+        this.show({ color: "warning", text, ...props });
+    },
+
+    caution(text, props) {
+        this.show({ color: "caution", text, ...props });
+    },
+
+    danger(text, props) {
+        this.show({ color: "danger", text, text, ...props });
     },
 
     getStyles(color, size, className) {
@@ -57,7 +84,7 @@ export const flash = {
                 as={Fragment}
                 show={toastObject.visible}
                 enter="transition transform duration-500 ease-out"
-                enterFrom="-translate-y-full !opacity-0"
+                enterFrom="translate-y-full !opacity-0"
                 enterTo="translate-y-0 !opacity-90"
                 leave="transition transform duration-500 ease-in"
                 leaveFrom="!opacity-90"

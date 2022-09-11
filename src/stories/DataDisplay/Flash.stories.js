@@ -53,18 +53,21 @@ const FlashStories = {
 };
 
 const toastMe = (props) => {
-    props.onClose = (event_, toast) => {
-        flash.dismiss(toast.id);
-    };
-
+    props.onClose = (event_, toast) => flash.dismiss(toast.id);
     flash.show(props);
 };
 
 export const Default = (props) => {
     return (
-        <div className="space-y-3">
+        <div className="space-y-6">
             <div>Click below to show a flash</div>
             <Button onClick={() => toastMe(props)}>{props.text}</Button>
+
+            <pre>
+                <code>{`flash.show({ text: "${props.text}", color: "${props.color ?? "primary"}", duration: ${
+                    props.duration
+                } })`}</code>
+            </pre>
 
             <div>
                 <Button size="small" color="warning" onClick={() => flash.dismiss()}>
