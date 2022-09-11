@@ -32,8 +32,8 @@ const FlashStories = {
             },
         },
         color: {
-            options: ["primary", "secondary", "success", "warning", "danger"],
-            control: { type: "select" },
+            options: ["primary", "secondary", "success", "warning", "danger", "caution"],
+            control: { type: "inline-radio" },
             table: {
                 defaultValue: { summary: "primary" },
             },
@@ -81,9 +81,18 @@ export const Default = (props) => {
     );
 };
 
-export const ViewContainer = (props) => {
-    const classes = flash.getStyles(props.color, props.size, "relative", true);
-    return flash.container(props.text, classes, props.canClose ? () => {} : null, { id: "foo", visible: true });
+export const AllStyles = (props) => {
+    return (
+        <div className="w-96 space-y-8">
+            {FlashStories.argTypes.color.options.map((color) => {
+                const classes = flash.getStyles(color, props.size, "relative", true);
+                return flash.container(`[${color}] ${props.text}`, classes, props.canClose ? () => {} : null, {
+                    id: `flash-${color}`,
+                    visible: true,
+                });
+            })}
+        </div>
+    );
 };
 
 export default FlashStories;
