@@ -1,17 +1,17 @@
 import React from "react";
 import { createIcon } from "../helpers/icon";
 
-export const LightIcon = createIcon((props) => {
+export const HouseIcon = createIcon((props) => {
     return (
         <svg viewBox="0 0 14 14" width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
             <path
-                d="M7 9.042A4.083 4.083 0 107 .875a4.083 4.083 0 000 8.167zM5.367 10.675h3.267M5.367 12.308h3.267M7 13.125v-.817"
+                d="M1.949 5.634L7 1.5l5.051 4.134c.284.231.448.579.448.945v4.699c0 .675-.547 1.222-1.222 1.222H2.722A1.222 1.222 0 011.5 11.278V6.58c0-.367.164-.715.449-.946v0z"
                 stroke="currentColor"
                 strokeLinecap="round"
                 strokeLinejoin="round"
             />
             <path
-                d="M7 9.042V7L5.773 5.775M7 7l1.225-1.225"
+                d="M8.722 12V8.333c0-.675-.547-1.222-1.222-1.222H6.278c-.675 0-1.222.547-1.222 1.222V12"
                 stroke="currentColor"
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -20,4 +20,4 @@ export const LightIcon = createIcon((props) => {
     );
 });
 
-LightIcon.tags = ["bulb", "idea"];
+HouseIcon.tags = ["house", "pick-up", "pickup", "location"];

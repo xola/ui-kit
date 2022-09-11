@@ -3,19 +3,23 @@ import { createIcon } from "../helpers/icon";
 
 export const MouseIcon = createIcon((props) => {
     return (
-        <svg viewBox="0 0 14 14" width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+        <svg viewBox="0 0 18 18" width={18} height={18} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
             <path
-                d="M7 6.611a.778.778 0 01-.777-.778V4.278a.778.778 0 111.555 0v1.555A.778.778 0 017 6.611z"
+                d="M9 8.5a1 1 0 01-1-1v-2a1 1 0 012 0v2a1 1 0 01-1 1z"
                 stroke="currentColor"
+                strokeWidth={1.3}
                 strokeLinecap="round"
                 strokeLinejoin="round"
             />
             <path
-                d="M10.89 5.056a3.889 3.889 0 10-7.779 0v3.889a3.889 3.889 0 107.778 0v-3.89z"
+                d="M14 6.5a5 5 0 00-10 0v5a5 5 0 1010 0v-5z"
                 stroke="currentColor"
+                strokeWidth={1.3}
                 strokeLinecap="round"
                 strokeLinejoin="round"
             />
         </svg>
     );
 });
+
+MouseIcon.tags = ["pointer", "cursor"];
