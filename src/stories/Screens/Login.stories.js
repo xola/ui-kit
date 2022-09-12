@@ -52,8 +52,8 @@ export const X2 = () => {
 
 export const Admin = () => {
     const label = (
-        <Badge color="secondary" className="!rounded">
-            Admin
+        <Badge color="danger" size="medium" className="!rounded">
+            THIS IS THE ADMIN PANEL!!111
         </Badge>
     );
     return <Login backgroundType="admin" label={label} onSubmit={onSubmit} />;

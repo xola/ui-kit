@@ -1,5 +1,5 @@
 import React from "react";
-import { Breakdown, CardIcon, Button } from "../..";
+import { Breakdown, Button, CardIcon } from "../..";
 
 const BreakdownStories = {
     title: "Other/Breakdown",
@@ -18,7 +18,7 @@ export const Default = () => {
                 <Breakdown.Separator />
 
                 <Breakdown.SubtotalItem info="Total" value={162}>
-                    <Button color="outline" size="small">
+                    <Button color="secondary" variant="outline" size="small">
                         Modify Taxes &amp; Fees
                     </Button>
                 </Breakdown.SubtotalItem>
@@ -34,7 +34,7 @@ export const Default = () => {
                 <Breakdown.Separator />
 
                 <Breakdown.SubtotalItem info="Paid" value={62}>
-                    <Button color="outline" size="small">
+                    <Button color="secondary" variant="outline" size="small">
                         Apply Code
                     </Button>
                 </Breakdown.SubtotalItem>

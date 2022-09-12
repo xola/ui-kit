@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
-import { Logo, Button, Spinner, ImageIcon, TrashIcon } from "..";
+import { Button, ImageIcon, Logo, Spinner, TrashIcon } from "..";
 
 export const ImageUpload = ({
     src,
@@ -11,6 +11,8 @@ export const ImageUpload = ({
     onError,
     isLoading = false,
     maxSize = 5,
+    hasDelete = true,
+    requirements = null,
     ...props
 }) => {
     const inputReference = useRef();
@@ -48,35 +50,48 @@ export const ImageUpload = ({
                     </div>
                 )}
             </div>
+
             <div className="flex flex-col space-y-2">
                 <div className="space-x-1">
-                    <Button
-                        variant="outline"
-                        color="secondary"
-                        icon={<TrashIcon />}
-                        disabled={isLoading}
-                        onClick={handleDelete}
-                    >
-                        Delete
-                    </Button>
-                    <Button disabled={isLoading} onClick={handleUploadClick}>
-                        Upload New Picture
-                    </Button>
-                    <input
-                        key={inputKey}
-                        ref={inputReference}
-                        className="hidden"
-                        type="file"
-                        multiple={false}
-                        accept="image/png,image/jpeg"
-                        onChange={handleChange}
-                        {...props}
-                    />
-                    {isLoading && <Spinner />}
+                    {hasDelete ? (
+                        <>
+                            <Button
+                                variant="outline"
+                                color="secondary"
+                                icon={<TrashIcon />}
+                                disabled={isLoading}
+                                onClick={handleDelete}
+                            >
+                                Delete
+                            </Button>
+                            <Button disabled={isLoading} onClick={handleUploadClick}>
+                                Upload New Picture
+                            </Button>
+                            {isLoading && <Spinner />}
+                        </>
+                    ) : (
+                        <Button disabled={isLoading} onClick={handleUploadClick}>
+                            {src ? "Replace Photo" : "Upload New Photo"}
+                        </Button>
+                    )}
                 </div>
+                <input
+                    key={inputKey}
+                    ref={inputReference}
+                    className="hidden"
+                    type="file"
+                    multiple={false}
+                    accept="image/png,image/jpeg"
+                    onChange={handleChange}
+                    {...props}
+                />
                 <div className="text-xs text-gray-darker">
-                    Check that the image is in PNG or JPG format
-                    {maxSize ? ` and does not exceed ${maxSize}MB` : ""}
+                    {requirements ?? (
+                        <div>
+                            Check that the image is in PNG or JPG format
+                            {maxSize ? ` and does not exceed ${maxSize}MB` : ""}
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
@@ -91,4 +106,6 @@ ImageUpload.propTypes = {
     onError: PropTypes.func.isRequired,
     isLoading: PropTypes.bool,
     maxSize: PropTypes.number,
+    hasDelete: PropTypes.bool,
+    requirements: PropTypes.oneOf([PropTypes.string, PropTypes.node]),
 };
