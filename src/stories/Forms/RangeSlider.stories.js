@@ -1,5 +1,5 @@
 import React from "react";
-import { Label, FormGroup, RangeSlider } from "../..";
+import { FormGroup, Label, RangeSlider } from "../..";
 
 const RangeSliderStories = {
     primary: true,
