@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Button, FormGroup, InlineValuePopover, Input, Select } from "../..";
 
 const InlineValuePopoverStories = {
-    title: "Forms & Fields/Inline Selector",
+    title: "Forms & Fields/Inline Value Popover",
     component: InlineValuePopover,
 };
 
@@ -14,7 +14,7 @@ export const Default = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setText(`${value} hours`);
+        setText(`${value} hours with a very large string in here`);
         setIsOpen(false);
     };
 
