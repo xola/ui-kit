@@ -3,36 +3,40 @@ import React, { useState } from "react";
 import { Button, FormGroup, InlineValuePopover, Input, Select } from "../..";
 
 const InlineValuePopoverStories = {
-    title: "Forms & Fields/Inline Selector",
+    title: "Forms & Fields/Inline Value Popover",
     component: InlineValuePopover,
 };
 
 export const Default = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [text, setText] = useState("8 hours");
+    const [value, setValue] = useState(8);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setText(`${random(1, 10)} hours`);
+        setText(`${value} hours with a very large string in here`);
         setIsOpen(false);
     };
 
+    const updateValue = (e) => setValue(e.target.value);
+
+    const handleClickOutside = () => {
+        console.log("Setting", value);
+        setIsOpen(!isOpen);
+        setValue(value);
+    };
+
     return (
-        <div>
-            <div className="mb-5">
-                Values are randomly set just for story purposes. Use your form library to fetch form values and set them
-                properly
-            </div>
+        <div className="h-20">
             <InlineValuePopover
                 text={text}
                 isOpen={isOpen}
-                classNames={{ text: "text-blue" }}
                 onClick={() => setIsOpen(!isOpen)}
-                onClickOutside={() => setIsOpen(!isOpen)}
+                onClickOutside={handleClickOutside}
             >
                 <form onSubmit={handleSubmit}>
                     <FormGroup className="!m-0 flex flex-row space-x-2">
-                        <Input />
+                        <Input value={value} onChange={updateValue} />
                         <Select>
                             <option value="hours">hours</option>
                             <option value="minutes">minutes</option>
@@ -45,7 +49,7 @@ export const Default = () => {
     );
 };
 
-export const WithArrow = () => {
+export const WithoutArrow = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [text, setText] = useState("8 hours");
 
@@ -62,10 +66,9 @@ export const WithArrow = () => {
                 properly
             </div>
             <InlineValuePopover
-                showArrow
+                showArrow={false}
                 text={text}
                 isOpen={isOpen}
-                classNames={{ text: "text-blue" }}
                 onClick={() => setIsOpen(!isOpen)}
                 onClickOutside={() => setIsOpen(!isOpen)}
             >
