@@ -59,7 +59,7 @@ export const Login = ({
         >
             <div className="md:full flex h-[90%] w-full flex-col items-center justify-center space-y-8">
                 <div className="w-82 rounded-lg py-0 px-9 md:bg-white md:py-10">
-                    <div className="mb-12 space-y-2 md:mb-20">
+                    <div className="mb-12 space-y-4 md:mb-20">
                         <XolaLogo className="mx-auto h-10 w-auto md:h-12" />
                         {label && <div className="flex items-center justify-center">{label}</div>}
                     </div>

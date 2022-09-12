@@ -49,6 +49,7 @@ export const RelativeDateRanges = () => {
                 value={value}
                 variant="range"
                 onChange={setValue}
+                onSubmitDateRange={console.log}
             />
         </div>
     );
