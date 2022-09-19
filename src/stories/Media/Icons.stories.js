@@ -59,12 +59,11 @@ const IconList = ({ size, color }) => {
     });
 
     const handleClick = (name) => {
-        const iconName = `<${name} />`;
-        navigator.clipboard.writeText(iconName);
+        navigator.clipboard.writeText(name);
         flash.show({
             text: (
                 <>
-                    Copied <span className="font-mono">{iconName}</span> to your clipboard
+                    Copied <span className="font-mono">{name}</span> to your clipboard
                 </>
             ),
             color: "success",

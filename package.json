@@ -1,6 +1,6 @@
 {
     "name": "@xola/ui-kit",
-    "version": "2.0.0-77",
+    "version": "2.0.0-82",
     "description": "Xola UI Kit",
     "license": "MIT",
     "files": [
@@ -49,13 +49,13 @@
     "devDependencies": {
         "@babel/core": "^7.14.8",
         "@babel/preset-env": "^7.15.6",
-        "@storybook/addon-actions": "^6.4.9",
-        "@storybook/addon-essentials": "^6.4.9",
-        "@storybook/addon-links": "^6.4.9",
+        "@storybook/addon-actions": "^6.5.10",
+        "@storybook/addon-essentials": "^6.5.10",
+        "@storybook/addon-links": "^6.5.10",
         "@storybook/addon-postcss": "^2.0.0",
-        "@storybook/addons": "^6.4.9",
-        "@storybook/react": "^6.4.9",
-        "@storybook/theming": "^6.4.9",
+        "@storybook/addons": "^6.5.10",
+        "@storybook/react": "^6.5.10",
+        "@storybook/theming": "^6.5.10",
         "@xola/jslint": "^2.1.0",
         "autoprefixer": "^10.4.5",
         "babel-jest": "^27.2.0",
