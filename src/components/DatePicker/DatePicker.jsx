@@ -40,23 +40,12 @@ export const DatePicker = ({
     const initialValue = variant === variants.single ? value : value.from;
     const [currentMonth, setCurrentMonth] = useState(initialValue);
     const [rangeName, setRangeName] = useState("");
-    const [showTodayButton, setShowTodayButton] = useState(variant === "single");
     const isRangeVariant = variant === variants.range;
 
     // Sync internal month state with outside.
     useEffect(() => {
         onMonthChange?.(currentMonth);
     }, [currentMonth, onMonthChange]);
-
-    useEffect(() => {
-        if (isArray(disabledDays)) {
-            if (disabledDays.some((date) => dayjs(date).isSame(new Date(), "day"))) {
-                setShowTodayButton(false);
-            }
-        } else if (isFunction(disabledDays) && disabledDays(new Date())) {
-            setShowTodayButton(false);
-        }
-    }, []);
 
     const handleDayClick = (day, options, event) => {
         if (options.disabled) {
@@ -82,6 +71,20 @@ export const DatePicker = ({
         }
     };
 
+    const handleTodayClick = (day, options, event) => {
+        if (isRangeVariant) {
+            return;
+        }
+
+        const today = new Date();
+        if (options.disabled || isDisabled(today)) {
+            setCurrentMonth(today);
+            onMonthChange?.(today);
+        } else {
+            onChange(day, options, event);
+        }
+    }
+
     const handleRelativeRangeChanged = (rangeName, range) => {
         setCurrentMonth(range.from);
         onChange(range, modifiers, null);
@@ -99,6 +102,8 @@ export const DatePicker = ({
     const isDisabled = (date) => {
         if (isArray(disabledDays)) {
             return disabledDays.some((_date) => dayjs(_date).isSame(date, "day"));
+        } else if (isFunction(disabledDays)) {
+            return disabledDays(date);
         }
 
         return disabledDays(date);
@@ -181,7 +186,7 @@ export const DatePicker = ({
                         getDayContent ? "has-custom-content" : null,
                         modifiers.waitlist ? "has-custom-content" : null,
                     )}
-                    todayButton={showTodayButton ? "Today" : undefined}
+                    todayButton={variant === "single" ? "Today" : undefined}
                     selectedDays={value}
                     month={currentMonth}
                     modifiers={{ ...modifiers, ...rangeModifier }}
@@ -192,7 +197,7 @@ export const DatePicker = ({
                     navbarElement={NavbarElement}
                     onDayClick={handleDayClick}
                     onMonthChange={handleMonthChange}
-                    onTodayButtonClick={handleDayClick}
+                    onTodayButtonClick={handleTodayClick}
                     {...rest}
                 />
             </div>
