@@ -63,7 +63,7 @@ export const flash = {
     },
 
     danger(text, props) {
-        this.show({ color: "danger", text, text, ...props });
+        this.show({ color: "danger", text, ...props });
     },
 
     getStyles(color, size, className) {
