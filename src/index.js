@@ -256,5 +256,8 @@ export { WriteIcon } from "./icons/WriteIcon";
 export { XolaBotIcon } from "./icons/XolaBotIcon";
 export { XrayIcon } from "./icons/XrayIcon";
 export { YelpIcon } from "./icons/Logos/YelpIcon";
+export { LogoutIcon } from "./icons/LogoutIcon";
+export { HelpCenterIcon } from "./icons/HelpCenterIcon";
+export { PolicyIcon } from "./icons/PolicyIcon";
 
 export { theme } from "./theme";
