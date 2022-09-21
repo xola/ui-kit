@@ -38,6 +38,7 @@ export { Drawer } from "./components/Drawer";
 export { Key } from "./components/Key";
 export { Login } from "./components/Screens/Login";
 export { DatePicker } from "./components/DatePicker/DatePicker";
+export { RelativeDateRange } from "./components/DatePicker/RelativeDateRange";
 export { DatePickerPopover } from "./components/DatePicker/DatePickerPopover";
 export { InlineValuePopover } from "./components/Forms/InlineValuePopover";
 export { ImageUpload } from "./components/ImageUpload";
