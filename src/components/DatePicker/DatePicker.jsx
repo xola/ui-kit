@@ -4,8 +4,9 @@ import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import DayPicker, { DateUtils } from "react-day-picker";
 import "react-day-picker/lib/style.css";
-import { Tooltip } from "../..";
 import "./DatePicker.css";
+import { isArray, isFunction } from "lodash";
+import { Tooltip } from "../..";
 import { Day } from "./Day";
 import { MonthYearSelector } from "./MonthYearSelector";
 import { NavbarElement } from "./NavbarElement";
@@ -60,6 +61,7 @@ export const DatePicker = ({
             } else if ((value.from || value.to).getTime() === day.getTime()) {
                 const from = dayjs(day).startOf("day").toDate();
                 const to = dayjs(day).endOf("day").toDate();
+
                 onChange({ from, to }, options, event);
             } else {
                 onChange(DateUtils.addDayToRange(day, value), options, event);
@@ -68,6 +70,20 @@ export const DatePicker = ({
             onChange(day, options, event);
         }
     };
+
+    const handleTodayClick = (day, options, event) => {
+        if (isRangeVariant) {
+            return;
+        }
+
+        const today = new Date();
+        if (options.disabled || isDisabled(today)) {
+            setCurrentMonth(today);
+            onMonthChange?.(today);
+        } else {
+            onChange(day, options, event);
+        }
+    }
 
     const handleRelativeRangeChanged = (rangeName, range) => {
         setCurrentMonth(range.from);
@@ -83,15 +99,37 @@ export const DatePicker = ({
         ? ({ date }) => <MonthYearSelector date={date} currentMonth={currentMonth} onChange={handleMonthChange} />
         : undefined;
 
+    const isDisabled = (date) => {
+        if (isArray(disabledDays)) {
+            return disabledDays.some((_date) => dayjs(_date).isSame(date, "day"));
+        } else if (isFunction(disabledDays)) {
+            return disabledDays(date);
+        }
+
+        return disabledDays(date);
+    };
+
     const renderDay = (date) => {
         const tooltipContent = getTooltip?.(date);
-
+        const disabled = isDisabled(date);
         return tooltipContent ? (
             <Tooltip placement="top" content={tooltipContent}>
-                <Day selectedDate={value} date={date} getContent={getDayContent} currentMonth={currentMonth} />
+                <Day
+                    disabled={disabled}
+                    selectedDate={value}
+                    date={date}
+                    getContent={getDayContent}
+                    currentMonth={currentMonth}
+                />
             </Tooltip>
         ) : (
-            <Day selectedDate={value} date={date} getContent={getDayContent} currentMonth={currentMonth} />
+            <Day
+                disabled={disabled}
+                selectedDate={value}
+                date={date}
+                getContent={getDayContent}
+                currentMonth={currentMonth}
+            />
         );
     };
 
@@ -148,7 +186,7 @@ export const DatePicker = ({
                         getDayContent ? "has-custom-content" : null,
                         modifiers.waitlist ? "has-custom-content" : null,
                     )}
-                    todayButton={variant === "single" && "Today"}
+                    todayButton={variant === "single" ? "Today" : undefined}
                     selectedDays={value}
                     month={currentMonth}
                     modifiers={{ ...modifiers, ...rangeModifier }}
@@ -159,7 +197,7 @@ export const DatePicker = ({
                     navbarElement={NavbarElement}
                     onDayClick={handleDayClick}
                     onMonthChange={handleMonthChange}
-                    onTodayButtonClick={handleDayClick}
+                    onTodayButtonClick={handleTodayClick}
                     {...rest}
                 />
             </div>
@@ -167,15 +205,13 @@ export const DatePicker = ({
             {components.Footer ? <components.Footer /> : null}
 
             {useDateRangeStyle && shouldShowRelativeRanges && (
-                <div className="ui-relative-date-ranges flex">
-                    <div className="ml-auto">
-                        <RelativeDateRange
-                            value={rangeName}
-                            ranges={ranges}
-                            onChange={handleRelativeRangeChanged}
-                            onSubmit={onSubmitDateRange}
-                        />
-                    </div>
+                <div className="ml-auto w-6/12 pl-5 pr-10 pb-5">
+                    <RelativeDateRange
+                        value={rangeName}
+                        ranges={ranges}
+                        onChange={handleRelativeRangeChanged}
+                        onSubmit={onSubmitDateRange}
+                    />
                 </div>
             )}
         </>

@@ -63,7 +63,7 @@ export const Sidebar = ({ children, className, footer, notifications, isFixed = 
             className={clsx(
                 "ui-sidebar",
                 isFixed ? "fixed" : "relative",
-                "z-50 flex h-full w-16 flex-col overflow-y-auto bg-black py-2 px-1 text-white md:w-24 xl:w-50",
+                "z-20 flex h-full w-16 flex-col overflow-y-auto bg-black py-2 px-1 text-white md:w-24 xl:w-50",
                 className,
             )}
         >
