@@ -211,6 +211,7 @@ const handlers = {
 export const RelativeDateRange = ({
     ranges = ["day", "week", "month", "quarter", "year"],
     value,
+    showApply = true,
     onChange,
     onSubmit,
 }) => {
@@ -238,7 +239,7 @@ export const RelativeDateRange = ({
                     );
                 })}
             </Select>
-            <Button onClick={onSubmit}>Apply</Button>
+            {showApply && <Button onClick={onSubmit}>Apply</Button>}
         </div>
     );
 };
@@ -247,5 +248,6 @@ RelativeDateRange.propTypes = {
     ranges: PropTypes.arrayOf(PropTypes.oneOf(["day", "week", "month", "quarter", "year"])),
     onChange: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
+    showApply: PropTypes.bool,
     value: PropTypes.string,
 };
