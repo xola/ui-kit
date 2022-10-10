@@ -36,7 +36,7 @@ export const SubmitButton = ({ color = "primary", isLoading, className, children
                     enterFrom="opacity-0"
                     enterTo="opacity-100"
                 >
-                    <Spinner size="current" color="current" className="relative top-[-1px] text-white" />
+                    <Spinner size="current" color="current" className="relative -top-0.25 text-white" />
                 </Transition>
             </span>
             <span className={clsx(isLoading ? "flex-shrink flex-grow opacity-0" : "opacity-100")}>{children}</span>

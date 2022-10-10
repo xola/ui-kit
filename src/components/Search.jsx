@@ -129,7 +129,7 @@ export const Search = ({
     return (
         <div className="ui-search relative w-full">
             <div {...getComboboxProps({ className: "w-full relative rounded-md" })}>
-                <div className="pointer-events-none absolute inset-y-0 top-[-2px] left-0 hidden items-center md:flex">
+                <div className="pointer-events-none absolute inset-y-0 -top-0.5 left-0 hidden items-center md:flex">
                     <SearchIcon className="h-4 w-4 text-gray-darker" />
                 </div>
 

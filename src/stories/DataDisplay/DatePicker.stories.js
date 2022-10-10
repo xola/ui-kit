@@ -205,7 +205,7 @@ export const PickerWithInput = () => {
     };
 
     return (
-        <div className="h-[300px] w-75">
+        <div className="h-75 w-75">
             <div>
                 <Button className="mb-4" onClick={handleClearDateClick}>
                     Clear Date
@@ -224,7 +224,7 @@ addDescription(
 
 export const PickerCustomInput = () => {
     return (
-        <div className="h-[300px]">
+        <div className="h-75">
             <DatePickerPopover value={new Date()} dateFormat="DD MMM" onChange={handleOnChange}>
                 <div className="cursor-pointer bg-gray-lighter p-3">Hello, click me to open up a date picker</div>
             </DatePickerPopover>
@@ -235,7 +235,7 @@ export const PickerCustomInput = () => {
 export const InputWithCustomContent = () => {
     const [value, setValue] = useState(new Date());
     return (
-        <div className="h-[300px]">
+        <div className="h-75">
             <DatePickerPopover
                 value={value}
                 getDayContent={(date) => customContent[date]}
