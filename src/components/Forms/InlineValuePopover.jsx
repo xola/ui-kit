@@ -12,7 +12,7 @@ export const InlineValuePopover = ({
     onClickOutside,
     classNames,
     children,
-    error,
+    error = null,
     ...rest
 }) => {
     const ref = useRef();
