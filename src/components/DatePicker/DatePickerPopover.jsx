@@ -64,7 +64,7 @@ export const DatePickerPopover = ({
                     readOnly
                     size="medium"
                     value={value ? formatDate(value, dateFormat) : ""}
-                    className={clsx(classNames.input ?? null)}
+                    className={clsx(classNames?.input ?? null, "!bg-red")}
                     onClick={toggleVisibility}
                 />
             )}
