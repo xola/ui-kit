@@ -47,6 +47,7 @@ export const DatePickerPopover = ({
         toggleVisibility();
     };
 
+    console.log(classNames);
     return (
         <Popover
             visible={isVisible}
@@ -93,6 +94,8 @@ DatePickerPopover.propTypes = {
 };
 
 const DefaultInput = forwardRef(({ className, ...rest }, reference) => {
+    console.log("classname in default input");
+    console.log(className);
     return (
         <div ref={reference} className="relative flex bg-gray-lighter">
             <div className="pointer-events-none absolute inset-0 flex items-center pl-3">
