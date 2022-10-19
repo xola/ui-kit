@@ -47,7 +47,6 @@ export const DatePickerPopover = ({
         toggleVisibility();
     };
 
-    console.log(classNames);
     return (
         <Popover
             visible={isVisible}
@@ -65,7 +64,7 @@ export const DatePickerPopover = ({
                     readOnly
                     size="medium"
                     value={value ? formatDate(value, dateFormat) : ""}
-                    className={clsx(classNames?.input ?? null, "!bg-red")}
+                    className={classNames?.input ?? ""}
                     onClick={toggleVisibility}
                 />
             )}
@@ -94,15 +93,13 @@ DatePickerPopover.propTypes = {
 };
 
 const DefaultInput = forwardRef(({ className, ...rest }, reference) => {
-    console.log("classname in default input");
-    console.log(className);
     return (
         <div ref={reference} className="relative flex bg-gray-lighter">
             <div className="pointer-events-none absolute inset-0 flex items-center pl-3">
                 <CalendarIcon className="inline-block" />
             </div>
 
-            <Input className={clsx("cursor-pointer px-8", className)} placeholder="Pick Date" {...rest} />
+            <Input className={clsx("cursor-pointer", className)} placeholder="Pick Date" {...rest} />
 
             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
                 <DownArrowIcon className="inline-block" />
