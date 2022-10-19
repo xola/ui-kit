@@ -99,7 +99,7 @@ const DefaultInput = forwardRef(({ className, ...rest }, reference) => {
                 <CalendarIcon className="inline-block" />
             </div>
 
-            <Input className={clsx("cursor-pointer", className)} placeholder="Pick Date" {...rest} />
+            <Input className={clsx("cursor-pointer px-8", className)} placeholder="Pick Date" {...rest} />
 
             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
                 <DownArrowIcon className="inline-block" />
