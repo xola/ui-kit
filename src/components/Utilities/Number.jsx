@@ -5,8 +5,8 @@ import { numberFormat } from "../../helpers/numbers";
 
 const userLocale = getUserLocale();
 
-export const Number = ({ locale = userLocale, maximumFractionDigits = 2, children }) => {
-    const formattedNumber = numberFormat(children, null, locale, maximumFractionDigits);
+export const Number = ({ locale = userLocale, maximumFractionDigits = 2, shorten = false, children }) => {
+    const formattedNumber = numberFormat(children, null, locale, maximumFractionDigits, shorten);
     return <span className="ui-number">{formattedNumber}</span>;
 };
 
