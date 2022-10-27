@@ -49,7 +49,7 @@ export { Phone } from "./components/Utilities/Phone";
 export { Number } from "./components/Utilities/Number";
 export { XolaLogoCircle } from "./images/XolaLogoCircle";
 export { XolaLogo } from "./images/XolaLogo";
-export { XolaV2Logo } from "./images/XolaV2Logo";
+export { XolaLogoSimple } from "./images/XolaLogoSimple";
 
 // Helpers
 export { almostZero, numberFormat, roundNumber } from "./helpers/numbers";

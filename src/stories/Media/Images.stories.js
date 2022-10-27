@@ -3,7 +3,7 @@ import React from "react";
 import * as all from "../..";
 import { XolaLogoCircle } from "../../";
 import { XolaLogo } from "../../";
-import { XolaV2Logo } from "../../";
+import { XolaLogoSimple } from "../../";
 
 const imageNames = omitBy(all, (Image, name) => !name.endsWith("Image"));
 const images = map(imageNames, (Image, name) => ({ Image, name }));
@@ -81,8 +81,8 @@ export const XolaLogos = () => {
                 <XolaLogo />
             </div>
             <div className="pt-8">
-                <div className="mb-4 font-mono text-md">&lt;XolaV2Logo /&gt;</div>
-                <XolaV2Logo size="large" />
+                <div className="mb-4 font-mono text-md">&lt;XolaLogoSimple /&gt;</div>
+                <XolaLogoSimple size="large" />
             </div>
         </div>
     );
