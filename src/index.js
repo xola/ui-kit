@@ -48,6 +48,8 @@ export { Currency } from "./components/Utilities/Currency";
 export { Phone } from "./components/Utilities/Phone";
 export { Number } from "./components/Utilities/Number";
 export { XolaLogoCircle } from "./images/XolaLogoCircle";
+export { XolaLogo } from "./images/XolaLogo";
+export { XolaLogoSimple } from "./images/XolaLogoSimple";
 
 // Helpers
 export { almostZero, numberFormat, roundNumber } from "./helpers/numbers";
