@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { AnnounceIcon } from "../../icons/AnnounceIcon";
 import { BellIcon } from "../../icons/BellIcon";
 import { XolaLogoCircle } from "../../images/XolaLogoCircle";
+import { XolaLogoSimple } from "../../images/XolaLogoSimple";
 import { Counter } from "../Counter";
 import { Drawer } from "../Drawer";
 import { SidebarAccount } from "./Sidebar.Account";
@@ -112,9 +113,9 @@ export const Sidebar = ({ children, className, footer, notifications, isFixed = 
             )}
 
             <div className="mt-4 mb-10 text-center">
-                <XolaLogoCircle
+                <XolaLogoSimple
                     className={clsx(
-                        "inline-block h-12 w-12 xl:h-24 xl:w-24",
+                        "inline-block h-12 w-12 xl:h-30 xl:w-30",
                         onLogoClick && "cursor-pointer transition-opacity hover:opacity-80",
                     )}
                     onClick={onLogoClick}
