@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React, { useState } from "react";
-import XolaLogo from "../../images/XolaLogo";
+import { XolaLogoSimple } from "../../images/XolaLogoSimple";
 import { Alert } from "../Alert";
 import { Button } from "../Buttons/Button";
 import { Checkbox } from "../Forms/Checkbox";
@@ -61,7 +61,7 @@ export const Login = ({
             <div className="md:full flex h-[88%] w-full flex-col items-center justify-center space-y-8">
                 <div className="w-82 rounded-lg py-0 px-9 md:bg-white md:py-10">
                     <div className="mb-12 space-y-4 md:mb-20">
-                        <XolaLogo className="mx-auto h-10 w-auto md:h-12" />
+                        <XolaLogoSimple className="mx-auto h-10 w-auto md:h-12" />
                         {label && <div className="flex items-center justify-center">{label}</div>}
                     </div>
 
