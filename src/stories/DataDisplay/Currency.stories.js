@@ -139,14 +139,14 @@ export const SplitAmountFormatting = ({ amount, currency = "USD", locale = "en-U
     );
 };
 
-export const ShortenNumbers = ({ locale }) => {
+export const CompactValues = ({ locale }) => {
     const amounts = [123, 1234, 123_456, 123_456_789, 123_456_789_123];
 
     return amounts.map((amount) => (
         <div className="my-2 font-mono tracking-tighter">
             {numberFormat(amount, null, locale, 0)}:{" "}
             <span className="font-semibold">
-                <Currency shorten locale={locale}>
+                <Currency compact locale={locale}>
                     {amount}
                 </Currency>
             </span>

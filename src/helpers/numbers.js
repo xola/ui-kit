@@ -14,7 +14,7 @@ export const numberFormat = (
     currency = null,
     locale = userLocale,
     maximumFractionDigits = 2,
-    shorten = false,
+    compact = false,
 ) => {
     const style = currency ? "currency" : "decimal";
 
@@ -24,7 +24,7 @@ export const numberFormat = (
         params.currencyDisplay = "narrowSymbol";
     }
 
-    return shorten ? shortenNumber(amount) : new Intl.NumberFormat(locale, params).format(amount);
+    return compact ? compactNumber(amount, locale) : new Intl.NumberFormat(locale, params).format(amount);
 };
 
 export const roundNumber = (currency, amount) => {
@@ -41,24 +41,6 @@ export const roundNumber = (currency, amount) => {
         return round(number, 2);
     }
 };
-export const shortenNumber = (value) => {
-    if (Math.abs(value) < 1000) {
-        return numberFormat(value).replace(".00", "");
-    }
-
-    const si = [
-        { v: 1e3, s: "K" },
-        { v: 1e6, s: "M" },
-        { v: 1e9, s: "B" },
-        { v: 1e12, s: "T" },
-    ];
-
-    let index;
-    for (index = si.length - 1; index > 0; index--) {
-        if (value >= si[index].v) {
-            break;
-        }
-    }
-
-    return numberFormat(value / si[index].v) + si[index].s;
+export const compactNumber = (value, locale = userLocale) => {
+    return Intl.NumberFormat(locale, { notation: "compact", maximumFractionDigits: 1 }).format(value);
 };

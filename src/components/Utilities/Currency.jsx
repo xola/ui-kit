@@ -11,7 +11,7 @@ export const Currency = ({
     locale = userLocale,
     shouldRemoveTrailingZeroes = true,
     maximumFractionDigits = 2,
-    shorten = false,
+    compact = false,
     children,
 }) => {
     let amount = children;
@@ -20,8 +20,8 @@ export const Currency = ({
     }
 
     const maxDigits = isZeroDecimal(currency) ? 0 : maximumFractionDigits;
-    let formattedAmount = numberFormat(amount, currency, locale, maxDigits, shorten);
-    if (shorten) {
+    let formattedAmount = numberFormat(amount, currency, locale, maxDigits, compact);
+    if (compact) {
         return (
             <span className="ui-currency">
                 {getSymbol(currency, locale)}
