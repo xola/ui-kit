@@ -83,7 +83,7 @@ export const DatePicker = ({
         } else {
             onChange(day, options, event);
         }
-    }
+    };
 
     const handleRelativeRangeChanged = (rangeName, range) => {
         setCurrentMonth(range.from);
