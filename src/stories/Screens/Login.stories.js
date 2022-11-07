@@ -64,4 +64,9 @@ export const Scaffold = () => {
     return <Login backgroundType="scaffold" label={label} onSubmit={onSubmit} />;
 };
 
+export const Custom = () => {
+    const label = <Badge className="!rounded">Custom Background for Internal Tools</Badge>;
+    return <Login backgroundImage="http://source.unsplash.com/noOXRT9gfQ8/w=4096" label={label} onSubmit={onSubmit} />;
+};
+
 export default LoginStories;
