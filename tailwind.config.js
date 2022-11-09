@@ -58,6 +58,7 @@ const colors = {
 
     orange: {
         lighter: "#FFF1E7",
+        lightish: "#FFF1E7",
         light: "#FFB493",
         DEFAULT: "#FF9668",
         dark: "#EC743F",
