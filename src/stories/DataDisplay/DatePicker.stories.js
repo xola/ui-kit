@@ -172,7 +172,7 @@ addDescription(
 
 const customContent = [null];
 for (let day = 1; day <= dayjs().daysInMonth(); day++) {
-    customContent.push(`$${random(1, 200)}`);
+    customContent.push(`$${day * 3.5}`);
 }
 
 customContent[random(1, dayjs().daysInMonth())] = "Please Call/Email";
