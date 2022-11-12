@@ -75,7 +75,7 @@ export const CustomWidth = ({ size, shouldCloseOnOutsideClick }) => {
             <Button onClick={toggle}>Click me to launch a modal</Button>
 
             <Modal
-                className="!max-w-[800px]"
+                className="!max-w-200"
                 size={size}
                 isOpen={isOpen}
                 shouldCloseOnOutsideClick={shouldCloseOnOutsideClick}
