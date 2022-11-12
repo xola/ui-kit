@@ -32,14 +32,14 @@ export const roundNumber = (currency, amount) => {
 
     if (isZeroDecimal(currency)) {
         return round(number);
-    } else {
-        // It's done this odd way to ensure JS rounds numbers the same way as PHP
-        if (round(number, 3) === round(number, 4)) {
-            number = round(number, 3);
-        }
-
-        return round(number, 2);
     }
+
+    // It's done this odd way to ensure JS rounds numbers the same way as PHP
+    if (round(number, 3) === round(number, 4)) {
+        number = round(number, 3);
+    }
+
+    return round(number, 2);
 };
 export const compactNumber = (value, locale = userLocale) => {
     return Intl.NumberFormat(locale, { notation: "compact", maximumFractionDigits: 1 }).format(value);

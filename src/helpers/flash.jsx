@@ -29,7 +29,7 @@ const defaultProps = {
  * React Hot Toast https://react-hot-toast.com/docs
  */
 export const flash = {
-    show({ text, size = "medium", color = "success", className, canClose = true, onClose, children, ...rest }) {
+    show({ text, size = "medium", color = "success", className, canClose = true, onClose, ...rest }) {
         const finalProps = { ...defaultProps, ...rest };
         if (!canClose) {
             finalProps.duration = Number.POSITIVE_INFINITY;
