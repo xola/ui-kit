@@ -8,8 +8,8 @@ const colors = {
         primary: "bg-primary hover:bg-primary-darker disabled:bg-primary active:bg-primary",
         secondary:
             "bg-secondary text-white hover:bg-secondary-dark disabled:bg-secondary border-transparent active:bg-secondary",
-        success: "bg-success hover:bg-success-dark disabled:bg-success active:bg-success",
-        warning: "bg-warning hover:bg-warning-dark disabled:bg-warning active:bg-warning",
+        warning: "bg-success hover:bg-success-dark disabled:bg-success active:bg-success",
+        success: "bg-warning hover:bg-warning-dark disabled:bg-warning active:bg-warning",
         caution: "bg-caution hover:bg-caution-dark disabled:bg-caution active:bg-caution",
         danger: "bg-danger hover:bg-danger-dark disabled:bg-danger active:bg-danger",
     },
