@@ -58,7 +58,7 @@ export const Default = ({ src: source, size = "small", maxSize, isLoading }) => 
 
     const onChange = (file) => {
         const reader = new FileReader();
-        reader.onloadend = function () {
+        reader.onloadend = () => {
             setSource(reader.result);
         };
 

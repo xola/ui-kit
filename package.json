@@ -21,9 +21,9 @@
         "watch": "npm run build -- --watch",
         "clean": "rm -rf node_modules/.vite",
         "build:storybook": "node scripts/prepare && build-storybook -s public",
-        "lint": "xola-lint src",
-        "lint:fix": "xola-lint src --fix",
-        "lint:report": "xola-lint --reporter=json src > eslint_report.json && echo 'ESLint report saved to eslint_report.json'",
+        "lint": "xola-lint --ignore src/stories src",
+        "lint:fix": "xola-lint --ignore src/stories src --fix",
+        "lint:report": "xola-lint --ignore src/stories src --reporter=json src > eslint_report.json && echo 'ESLint report saved to eslint_report.json'",
         "format": "prettier --write src",
         "test": "xola-lint && jest",
         "chromatic": "chromatic --exit-zero-on-changes --build-script-name build:storybook"
@@ -45,7 +45,8 @@
         "react-hotkeys-hook": "^3.4.0",
         "react-json-view": "^1.21.3",
         "react-select": "^5.1.0",
-        "tippy.js": "^6.3.1"
+        "tippy.js": "^6.3.1",
+        "typescript": "4.7"
     },
     "devDependencies": {
         "@babel/core": "^7.14.8",
@@ -57,7 +58,7 @@
         "@storybook/addons": "^6.5.10",
         "@storybook/react": "^6.5.10",
         "@storybook/theming": "^6.5.10",
-        "@xola/jslint": "^2.1.0",
+        "@xola/jslint": "^2.1.2",
         "autoprefixer": "^10.4.5",
         "babel-jest": "^27.2.0",
         "babel-loader": "^8.2.2",
@@ -81,6 +82,9 @@
         "react-dom": "^17.0.2",
         "tailwindcss": "^3.0.18"
     },
+    "engines": {
+        "node": ">=16"
+    },
     "prettier": {
         "semi": true,
         "printWidth": 120,
@@ -89,6 +93,7 @@
         "bracketSpacing": true,
         "useTabs": false,
         "arrowParens": "always",
+        "bracketSameLine": false,
         "tabWidth": 4
     }
 }
