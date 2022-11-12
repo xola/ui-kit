@@ -1,0 +1,57 @@
+name: Annotate ES Lint Results
+
+on:
+    push:
+    pull_request_target:
+        types: [assigned, opened, synchronize, reopened]
+
+env:
+    DISABLE_PROGRESS: true
+
+concurrency:
+    group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+    cancel-in-progress: true
+
+jobs:
+    GenerateReport:
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v2
+              with:
+                  token: "${{ secrets.ES_LINT_TOKEN }}"
+                  ref: ${{github.event.pull_request.head.sha}}
+                  repository: ${{github.event.pull_request.head.repo.full_name}}
+                  persist-credential: false
+
+            - name: Node.JS 16
+              uses: actions/setup-node@v2
+              with:
+                  node-version: 16
+                  cache: "npm"
+
+            # - run: git config --global url."https://${{ secrets.ES_LINT_TOKEN }}@github.com/".insteadOf ssh://git@github.com/
+
+            - name: Install Node Dependencies
+              run: npm ci
+              env:
+                  CI: TRUE
+
+            - name: Save Code Linting Report to JSON
+              # This is to show failures in Github pull request using the action below
+              run: npm run lint:report -w seller
+              continue-on-error: true
+              env:
+                  DISABLE_PROGRESS: true
+
+            - name: Annotate Code Linting Results
+              uses: ataylorme/eslint-annotate-action@1.2.0
+              with:
+                  repo-token: "${{ secrets.GITHUB_TOKEN }}"
+                  report-json: "apps/seller/eslint_report.json"
+
+            - name: Upload ESLint report
+              uses: actions/upload-artifact@v2
+              with:
+                  name: eslint_report.json
+                  path: eslint_report.json
