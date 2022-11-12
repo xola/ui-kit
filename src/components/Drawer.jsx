@@ -46,6 +46,7 @@ export const Drawer = ({ isOpen = false, title, content, onClose, classNames = {
                                 <div className="flex h-full flex-col overflow-y-auto bg-white py-8 shadow-xl">
                                     <div className="px-4 sm:px-6">
                                         <div className="flex items-start justify-between">
+                                            {/* eslint-disable-next-line react/jsx-max-depth */}
                                             <Dialog.Title>{title}</Dialog.Title>
                                             <div className={clsx("ml-3 flex h-7 items-center")}>
                                                 <Button
@@ -54,6 +55,7 @@ export const Drawer = ({ isOpen = false, title, content, onClose, classNames = {
                                                     className="text-gray-darker focus:hidden"
                                                     onClick={onClose}
                                                 >
+                                                    {/* eslint-disable-next-line react/jsx-max-depth */}
                                                     <CloseIcon />
                                                 </Button>
                                             </div>

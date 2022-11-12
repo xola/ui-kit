@@ -83,7 +83,7 @@ export const DatePicker = ({
         } else {
             onChange(day, options, event);
         }
-    }
+    };
 
     const handleRelativeRangeChanged = (rangeName, range) => {
         setCurrentMonth(range.from);
@@ -102,7 +102,9 @@ export const DatePicker = ({
     const isDisabled = (date) => {
         if (isArray(disabledDays)) {
             return disabledDays.some((_date) => dayjs(_date).isSame(date, "day"));
-        } else if (isFunction(disabledDays)) {
+        }
+
+        if (isFunction(disabledDays)) {
             return disabledDays(date);
         }
 
@@ -146,19 +148,17 @@ export const DatePicker = ({
                         <p className="mb-2 px-6 text-lg font-bold">Upcoming</p>
                         {upcomingDates?.length > 0 ? (
                             <div className="mt-5">
-                                {upcomingDates?.map((date, index) => {
+                                {upcomingDates?.map((date) => {
+                                    const isSameDay = dayjs(date).isSame(dayjs(value), "day");
+                                    const key = dayjs(date).format();
                                     return (
                                         <div
-                                            key={index.toString()}
+                                            key={key}
                                             value
                                             className={clsx(
-                                                "mx-6 mt-3 flex min-w-40 cursor-pointer items-center justify-center rounded border border-gray py-3 hover:border-blue hover:bg-blue hover:text-white",
-                                                {
-                                                    "border-blue bg-blue text-white": dayjs(date).isSame(
-                                                        dayjs(value),
-                                                        "day",
-                                                    ),
-                                                },
+                                                "mx-6 mt-3 flex min-w-40 cursor-pointer items-center justify-center",
+                                                "rounded border border-gray py-3 hover:border-blue hover:bg-blue hover:text-white",
+                                                { "border-blue bg-blue text-white": isSameDay },
                                             )}
                                             onClick={(event) => {
                                                 handleDayClick(date, {}, event);
