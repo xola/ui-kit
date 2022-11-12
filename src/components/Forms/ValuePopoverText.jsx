@@ -1,6 +1,5 @@
 import React from "react";
-import { WarningDiamondIcon } from "../..";
-import { Tooltip } from "../..";
+import { WarningDiamondIcon, Tooltip } from "../..";
 
 export const ValuePopoverText = ({ value, error }) => {
     return (

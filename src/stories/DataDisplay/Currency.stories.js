@@ -117,7 +117,7 @@ export const LocalesWithUSDollar = () => {
 };
 
 export const RoundOnly = () => {
-    const amount = 109_482.9123123;
+    const amount = 109_482.912_312_3;
     return (
         <div className="flex flex-col space-y-2">
             <span className="mb-1 font-semibold">Amount: {amount}</span>
