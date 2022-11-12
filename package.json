@@ -25,7 +25,8 @@
         "lint:fix": "xola-lint src --fix",
         "lint:report": "xola-lint --reporter=json src > eslint_report.json && echo 'ESLint report saved to eslint_report.json'",
         "format": "prettier --write src",
-        "test": "xola-lint && jest"
+        "test": "xola-lint && jest",
+        "chromatic": "chromatic --exit-zero-on-changes --build-script-name build:storybook"
     },
     "dependencies": {
         "@headlessui/react": "^1.4.0",
@@ -60,6 +61,7 @@
         "autoprefixer": "^10.4.5",
         "babel-jest": "^27.2.0",
         "babel-loader": "^8.2.2",
+        "chromatic": "^6.11.4",
         "jest": "^27.2.0",
         "lodash": "^4.17.21",
         "postcss": "^8.4.5",
