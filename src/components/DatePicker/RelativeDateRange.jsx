@@ -211,6 +211,8 @@ const handlers = {
 export const RelativeDateRange = ({
     ranges = ["day", "week", "month", "quarter", "year"],
     value,
+    // TODO: Prop name (showApply) doesn't match rule (^(is|has|should)[A-Z]([A-Za-z0-9]?)+)
+    showApply = true,
     onChange,
     onSubmit,
 }) => {
@@ -222,7 +224,7 @@ export const RelativeDateRange = ({
 
     return (
         <div className="flex space-x-2">
-            <Select size="medium" value={value} onChange={handleChange} className="pr-8 leading-5">
+            <Select size="medium" value={value} className="pr-8 leading-5" onChange={handleChange}>
                 <option value="">Relative Date Range</option>
                 {ranges.map((rangeKey) => {
                     const range = dateRanges[rangeKey];
@@ -238,7 +240,7 @@ export const RelativeDateRange = ({
                     );
                 })}
             </Select>
-            <Button onClick={onSubmit}>Apply</Button>
+            {showApply && <Button onClick={onSubmit}>Apply</Button>}
         </div>
     );
 };
@@ -247,5 +249,7 @@ RelativeDateRange.propTypes = {
     ranges: PropTypes.arrayOf(PropTypes.oneOf(["day", "week", "month", "quarter", "year"])),
     onChange: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/boolean-prop-naming
+    showApply: PropTypes.bool,
     value: PropTypes.string,
 };

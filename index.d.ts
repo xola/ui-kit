@@ -129,6 +129,7 @@ export {
     QuestionnaireIcon,
     RangeSlider,
     ReceiptIcon,
+    RelativeDateRange,
     RefreshIcon,
     RosterIcon,
     RoundedSquareIcon,
