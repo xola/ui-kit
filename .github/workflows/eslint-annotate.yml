@@ -30,7 +30,7 @@ jobs:
                   node-version: 16
                   cache: "npm"
 
-            # - run: git config --global url."https://${{ secrets.ES_LINT_TOKEN }}@github.com/".insteadOf ssh://git@github.com/
+            - run: git config --global url."https://${{ secrets.ES_LINT_TOKEN }}@github.com/".insteadOf ssh://git@github.com/
 
             - name: Install Node Dependencies
               run: npm ci

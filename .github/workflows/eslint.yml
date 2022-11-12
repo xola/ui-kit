@@ -2,10 +2,15 @@ name: Run ES Lint
 
 on:
     push:
-    pull_request:
-        types: [assigned, opened, synchronize, reopened]
     pull_request_target:
         types: [assigned, opened, synchronize, reopened]
+
+env:
+    DISABLE_PROGRESS: true
+
+concurrency:
+    group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+    cancel-in-progress: true
 
 jobs:
     RunLint:
@@ -28,24 +33,7 @@ jobs:
               env:
                   CI: TRUE
 
-            - name: Test Code Linting
+            - name: Lint Report
               # This is to show the failures in Github actions
               run: npm run lint
               continue-on-error: true
-
-            - name: Save Code Linting Report to JSON
-              # This is to show failures in Github pull request using the action below
-              run: npm run lint:report
-              continue-on-error: true
-
-            - name: Annotate Code Linting Results
-              uses: ataylorme/eslint-annotate-action@1.2.0
-              with:
-                  repo-token: "${{ secrets.GITHUB_TOKEN }}"
-                  report-json: "eslint_report.json"
-
-            - name: Upload ESLint report
-              uses: actions/upload-artifact@v2
-              with:
-                  name: eslint_report.json
-                  path: eslint_report.json
