@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import React, { useState } from "react";
 import { AnnounceIcon } from "../../icons/AnnounceIcon";
 import { BellIcon } from "../../icons/BellIcon";
-import { XolaLogoCircle } from "../../images/XolaLogoCircle";
 import { XolaLogoSimple } from "../../images/XolaLogoSimple";
 import { Counter } from "../Counter";
 import { Drawer } from "../Drawer";
