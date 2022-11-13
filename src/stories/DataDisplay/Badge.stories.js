@@ -9,6 +9,12 @@ const BadgeStories = {
         color: "primary",
         size: "small",
     },
+    parameters: {
+        design: {
+            type: "figma",
+            url: "https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%E2%9A%99%EF%B8%8F-01---DS-Core?node-id=384%3A60",
+        },
+    },
     argTypes: {
         text: {
             type: { required: true },

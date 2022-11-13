@@ -4,6 +4,12 @@ import { Button, EllipsisIcon, KeyIcon, PlusIcon, UserIcon, WaitlistIcon, Warnin
 const ButtonStories = {
     title: "Forms & Fields/Buttons/Button",
     component: Button,
+    parameters: {
+        design: {
+            type: "figma",
+            url: "https://www.figma.com/file/EFmxLREOeGUse5zksD3iT4/%E2%9A%99%EF%B8%8F-02---DS-Application-UI?node-id=196%3A103411&viewport=-3086%2C515%2C0.36",
+        },
+    },
     args: {
         as: "button",
         size: "medium",
