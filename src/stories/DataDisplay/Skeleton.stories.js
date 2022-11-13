@@ -1,5 +1,5 @@
 import React from "react";
-import { Skeleton, SkeletonGrid, SkeletonIcon, ImageIcon, BarGraphIcon, MountainIcon } from "../..";
+import { Skeleton, SkeletonGrid, SkeletonIconOnly, ImageIcon, BarGraphIcon, MountainIcon } from "../..";
 
 const SkeletonStories = {
     title: "Data Display/Skeleton",
@@ -49,15 +49,15 @@ export const WithIcons = () => {
         <div className="flex flex-row space-x-10 text-gray-dark ">
             <div>
                 Generic Image
-                <SkeletonIcon icon={<ImageIcon />} />
+                <SkeletonIconOnly icon={<ImageIcon />} />
             </div>
             <div>
                 Experience Image
-                <SkeletonIcon icon={<MountainIcon />} />
+                <SkeletonIconOnly icon={<MountainIcon />} />
             </div>
             <div>
                 Bar Graph
-                <SkeletonIcon icon={<BarGraphIcon />} />
+                <SkeletonIconOnly icon={<BarGraphIcon />} />
             </div>
         </div>
     );
