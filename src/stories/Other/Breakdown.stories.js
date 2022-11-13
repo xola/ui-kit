@@ -6,6 +6,7 @@ const BreakdownStories = {
     component: Breakdown,
     parameters: {
         design: {
+            name: "Figma",
             type: "figma",
             url: "https://www.figma.com/file/EFmxLREOeGUse5zksD3iT4/%E2%9A%99%EF%B8%8F-02---DS-Application-UI?node-id=236%3A144618&viewport=-3895%2C-275%2C0.33",
         },

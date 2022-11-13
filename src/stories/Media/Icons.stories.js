@@ -25,6 +25,7 @@ const IconsStories = {
     },
     parameters: {
         design: {
+            name: "Figma",
             type: "figma",
             url: "https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%E2%9A%99%EF%B8%8F-01---DS-Core?node-id=384%3A0&viewport=4979%2C1071%2C0.31",
         },

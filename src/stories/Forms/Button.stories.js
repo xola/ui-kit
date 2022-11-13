@@ -6,6 +6,7 @@ const ButtonStories = {
     component: Button,
     parameters: {
         design: {
+            name: "Figma",
             type: "figma",
             url: "https://www.figma.com/file/EFmxLREOeGUse5zksD3iT4/%E2%9A%99%EF%B8%8F-02---DS-Application-UI?node-id=196%3A103411&viewport=-3086%2C515%2C0.36",
         },
