@@ -11,7 +11,7 @@ const ButtonGroupStories = {
         design: {
             name: "Figma",
             type: "figma",
-            url: "https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%E2%9A%99%EF%B8%8F-01---DS-Core?node-id=1312%3A44024",
+            url: "https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%E2%9A%99%EF%B8%8F-01---DS-Core?node-id=7456%3A467977",
         },
     },
     argTypes: {
