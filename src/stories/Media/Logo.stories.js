@@ -39,7 +39,7 @@ const LogoStories = {
     },
 };
 
-export const Default = ({ src: source = "http://placekitten.com/300/300", size = "small" }) => {
+export const Default = ({ src: source = "http://seller.staging.xola.app/favicon.svg", size = "small" }) => {
     return <Logo src={source} size={size} />;
 };
 
