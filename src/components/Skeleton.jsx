@@ -94,6 +94,7 @@ export const SkeletonIconOnly = ({ icon, classNames = { skeleton: "h-28 w-28", i
     if (!icon) {
         return null;
     }
+
     const adjustedIcon = React.cloneElement(icon, { className: classNames.icon });
     return <Skeleton className={classNames.skeleton}>{adjustedIcon}</Skeleton>;
 };
