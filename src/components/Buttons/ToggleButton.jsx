@@ -5,9 +5,8 @@ import { Button } from "./Button";
 
 const colors = {
     outline: {
-        primary: "bg-primary-lightish border border-primary hover:bg-primary-light hover:border-primary-dark",
-        secondary:
-            "bg-secondary-lightish border border-secondary-light hover:bg-secondary-light hover:border-secondary",
+        primary: "bg-primary-lighter border border-primary hover:bg-primary-light hover:border-primary-dark",
+        secondary: "bg-secondary-light border border-secondary-light hover:bg-secondary-light hover:border-secondary",
         success: "bg-success-lightish border border-success hover:bg-success-light hover:border-success-dark",
         warning: "bg-warning-lightish border border-warning hover:bg-warning-light hover:border-warning-dark",
         caution: "bg-caution-lightish border border-caution hover:bg-caution-light hover:border-caution-dark",
