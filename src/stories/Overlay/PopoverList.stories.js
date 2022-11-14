@@ -38,6 +38,11 @@ const PopoverStories = {
                     "Render a list of items with icons in the Popover. All other arguments are not documented here because they are same as **Popover**",
             },
         },
+        design: {
+            name: "Figma",
+            type: "figma",
+            url: "https://www.figma.com/file/EFmxLREOeGUse5zksD3iT4/%E2%9A%99%EF%B8%8F-02---DS-Application-UI?node-id=220%3A189753",
+        },
     },
 };
 

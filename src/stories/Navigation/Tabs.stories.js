@@ -10,6 +10,11 @@ const TabsStories = {
                 component: "Tabbed interface to show different sections on select of a tab",
             },
         },
+        design: {
+            name: "Figma",
+            type: "figma",
+            url: "https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%E2%9A%99%EF%B8%8F-01---DS-Core?node-id=3355%3A127055",
+        },
     },
     args: {
         variant: "default",

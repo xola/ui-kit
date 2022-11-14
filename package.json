@@ -23,7 +23,7 @@
         "build:storybook": "node scripts/prepare && build-storybook -s public",
         "lint": "xola-lint --ignore src/stories src",
         "lint:fix": "xola-lint --ignore src/stories src --fix",
-        "lint:report": "xola-lint --reporter=json src > eslint_report.json && echo 'ESLint report saved to eslint_report.json'",
+        "lint:report": "xola-lint --ignore src/stories src --reporter=json src > eslint_report.json && echo 'ESLint report saved to eslint_report.json'",
         "format": "prettier --write src",
         "test": "xola-lint && jest",
         "chromatic": "chromatic --exit-zero-on-changes --build-script-name build:storybook"
@@ -45,6 +45,7 @@
         "react-hotkeys-hook": "^3.4.0",
         "react-json-view": "^1.21.3",
         "react-select": "^5.1.0",
+        "storybook-addon-designs": "^6.3.1",
         "tippy.js": "^6.3.1",
         "typescript": "4.7"
     },

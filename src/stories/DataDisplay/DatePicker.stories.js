@@ -1,5 +1,4 @@
 import dayjs from "dayjs";
-import { random } from "lodash";
 import React, { useState } from "react";
 import { Button, DatePicker, DatePickerPopover, Switch, theme } from "../..";
 import { formatDate } from "../../helpers/date";
@@ -13,6 +12,11 @@ const DatePickerStories = {
                 component:
                     "Rendering a date picker with various functionality based on [React Day Picker](https://react-day-picker.js.org) library",
             },
+        },
+        design: {
+            name: "Figma",
+            type: "figma",
+            url: "https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%E2%9A%99%EF%B8%8F-01---DS-Core?node-id=2746%3A97005",
         },
     },
 };
@@ -175,10 +179,10 @@ for (let day = 1; day <= dayjs().daysInMonth(); day++) {
     customContent.push(`$${day * 3.5}`);
 }
 
-customContent[random(1, dayjs().daysInMonth())] = "Please Call/Email";
-customContent[random(1, dayjs().daysInMonth())] = "Sold Out";
-customContent[random(1, dayjs().daysInMonth())] = "Sold Out";
-customContent[random(1, dayjs().daysInMonth())] = "205 spots";
+customContent[10] = "Please Call/Email";
+customContent[15] = "Sold Out";
+customContent[23] = "205 spots";
+customContent[22] = "Sold Out";
 
 export const WithCustomContent = () => {
     const [value, setValue] = useState(new Date());

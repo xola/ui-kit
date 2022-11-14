@@ -10,6 +10,11 @@ const LoginStories = {
                 component: "A default login screen specifically for Xola",
             },
         },
+        design: {
+            name: "Figma",
+            type: "figma",
+            url: "https://www.figma.com/file/loaaBJLNhy9ipQe3HW5wIn/14---Login?node-id=2%3A12437",
+        },
     },
     args: {
         backgroundType: "default",
