@@ -4,6 +4,13 @@ import { FormGroup, Input, Label } from "../..";
 const InputStories = {
     primary: true,
     title: "Forms & Fields/Input",
+    parameters: {
+        design: {
+            name: "Figma",
+            type: "figma",
+            url: "https://www.figma.com/file/EFmxLREOeGUse5zksD3iT4/%E2%9A%99%EF%B8%8F-02---DS-Application-UI?node-id=196%3A113261&viewport=-3655%2C339%2C0.3",
+        },
+    },
 };
 
 export const Default = () => {

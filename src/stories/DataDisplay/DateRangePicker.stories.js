@@ -12,6 +12,11 @@ const DateRangePickerStories = {
                     "Rendering a date *range* picker with various functionality based on [React Day Picker](https://react-day-picker.js.org) library",
             },
         },
+        design: {
+            name: "Figma",
+            type: "figma",
+            url: "https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%E2%9A%99%EF%B8%8F-01---DS-Core?node-id=3063%3A140153",
+        },
     },
     args: {
         shouldShowRelativeRanges: "boolean",

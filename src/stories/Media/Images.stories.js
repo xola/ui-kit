@@ -22,6 +22,20 @@ const ImagesStories = {
     args: {
         color: "text-black",
     },
+    parameters: {
+        design: [
+            {
+                name: "Original Logos",
+                type: "figma",
+                url: "https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%E2%9A%99%EF%B8%8F-01---DS-Core?node-id=2391%3A70526",
+            },
+            {
+                name: "New Logos",
+                type: "figma",
+                url: "https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%E2%9A%99%EF%B8%8F-01---DS-Core?node-id=7869%3A616543",
+            },
+        ],
+    },
     argTypes: {
         color: {
             description: "Colors",

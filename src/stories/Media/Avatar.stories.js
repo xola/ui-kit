@@ -20,6 +20,11 @@ const AvatarStories = {
                     "The avatar component is used to represent a user or seller. If the seller has a profile image that should be used instead",
             },
         },
+        design: {
+            name: "Figma",
+            type: "figma",
+            url: "https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%E2%9A%99%EF%B8%8F-01---DS-Core?node-id=1848%3A51732",
+        },
     },
     args: {
         size: "large",
