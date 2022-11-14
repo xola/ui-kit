@@ -4,7 +4,13 @@ module.exports = {
     addons: [
         "@storybook/addon-postcss",
         "@storybook/addon-links",
-        "@storybook/addon-essentials",
         "storybook-css-modules-preset",
+        "storybook-addon-designs",
+        {
+            name: "@storybook/addon-essentials",
+            options: {
+                backgrounds: false,
+            },
+        },
     ],
 };

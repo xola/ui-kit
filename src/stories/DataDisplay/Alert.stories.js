@@ -10,6 +10,11 @@ const AlertStories = {
                 component: "Alerts are short one line components whereas banners are multi-line versions of banners",
             },
         },
+        design: {
+            name: "Figma",
+            type: "figma",
+            url: "https://www.figma.com/file/EFmxLREOeGUse5zksD3iT4/%E2%9A%99%EF%B8%8F-02---DS-Application-UI?node-id=198%3A110085&viewport=-5176%2C179%2C0.57",
+        },
     },
     args: {
         text: "Space, the final frontier. These are the voyages of the starship Enterprise. Its five year mission: to explore strange new worlds, to seek out new life and new civilizations, to boldly go where no man has gone before!",

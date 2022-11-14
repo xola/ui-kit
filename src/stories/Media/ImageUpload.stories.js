@@ -10,6 +10,11 @@ const ImageUploadStories = {
                 component: "Use to upload images",
             },
         },
+        design: {
+            name: "Figma",
+            type: "figma",
+            url: "https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%E2%9A%99%EF%B8%8F-01---DS-Core?node-id=6460%3A394875",
+        },
     },
     args: {
         size: "medium",
