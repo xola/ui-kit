@@ -146,7 +146,7 @@ export const CompactValues = ({ locale }) => {
         <div className="my-2 font-mono tracking-tighter">
             {numberFormat(amount, null, locale, 0)}:{" "}
             <span className="font-semibold">
-                <Currency compact locale={locale}>
+                <Currency isCompact locale={locale}>
                     {amount}
                 </Currency>
             </span>

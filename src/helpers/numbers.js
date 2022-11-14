@@ -14,7 +14,7 @@ export const numberFormat = (
     currency = null,
     locale = userLocale,
     maximumFractionDigits = 2,
-    compact = false,
+    isCompact = false,
 ) => {
     const style = currency ? "currency" : "decimal";
 
@@ -24,7 +24,7 @@ export const numberFormat = (
         params.currencyDisplay = "narrowSymbol";
     }
 
-    return compact ? compactNumber(amount, locale) : new Intl.NumberFormat(locale, params).format(amount);
+    return isCompact ? compactNumber(amount, locale) : new Intl.NumberFormat(locale, params).format(amount);
 };
 
 export const roundNumber = (currency, amount) => {
@@ -41,6 +41,7 @@ export const roundNumber = (currency, amount) => {
 
     return round(number, 2);
 };
+
 export const compactNumber = (value, locale = userLocale) => {
-    return Intl.NumberFormat(locale, { notation: "compact", maximumFractionDigits: 1 }).format(value);
+    return new Intl.NumberFormat(locale, { notation: "compact", maximumFractionDigits: 1 }).format(value);
 };
