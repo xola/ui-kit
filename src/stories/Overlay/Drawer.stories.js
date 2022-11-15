@@ -10,6 +10,11 @@ const DrawerStories = {
                 component: "The Drawer component is a dynamic sidebar that is used to show data on the right side",
             },
         },
+        design: {
+            name: "Figma",
+            type: "figma",
+            url: "https://www.figma.com/file/YCbs6YcoYUNYGq9VhrEFQ0/13-Admin?node-id=960%3A27700&viewport=1028%2C673%2C0.38",
+        },
     },
     argTypes: {
         open: {
