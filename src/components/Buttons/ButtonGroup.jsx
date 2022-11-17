@@ -52,6 +52,7 @@ const Button = ({
     as: Tag = "button",
     isActive,
     shouldShowText = true,
+    isHidden = false,
     size = "medium",
     icon,
     iconPlacement = "left",
