@@ -37,8 +37,8 @@ const BreakdownItem = ({ children, info, value, className, color = "default", ..
 
     return (
         <tr className={clsx("ui-breakdown-item", colors[color], className)} {...rest}>
-            <td className="text-left">{children}</td>
-            <td className="text-right">{info}</td>
+            <td className="text-left">{info}  {children}</td>
+            <td></td>
 
             <td className="w-[1%] whitespace-nowrap pl-4 text-right">
                 <Currency shouldRemoveTrailingZeroes={false} currency={currency}>
