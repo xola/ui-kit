@@ -26,7 +26,7 @@ const TagStories = {
             control: { type: "select" },
         },
         size: {
-            options: ["small", "medium"],
+            options: ["small", "medium", "large"],
             control: { type: "radio" },
         },
     },
