@@ -30,11 +30,11 @@ export const Default = () => {
                     </Button>
                 </Breakdown.SubtotalItem>
 
-                <Breakdown.Item value={62} info={<CardIcon />}>
+                <Breakdown.Item value={62} info={"*0259"} methodIcon={<CardIcon />}>
                     Payment (12/18/2019)
                 </Breakdown.Item>
 
-                <Breakdown.Item color="primary" value={-62} info={<CardIcon />}>
+                <Breakdown.Item color="primary" value={-62} methodIcon={<CardIcon />}>
                     Refund (07/23/2021)
                 </Breakdown.Item>
 
