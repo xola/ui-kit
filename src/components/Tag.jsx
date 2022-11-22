@@ -13,8 +13,9 @@ const colors = {
 };
 
 const sizes = {
-    small: "px-1 py-0.75 text-sm",
-    medium: "px-2 py-1 text-base",
+    small: "px-1 py-0.75 text-sm leading-3.5",
+    medium: "px-2 py-1 text-base leading-3.5",
+    large: "px-2 py-1.5 text-base leading-4",
 };
 
 // Dashboard - height 25 Padding 6, 8Purchases - 20 padding 3,4
@@ -26,15 +27,16 @@ export const Tag = ({ color = "primary", size = "small", onClose, className, chi
     };
 
     return (
-        <span
-            className={clsx("ui-tag", "inline-flex rounded leading-3.5", colors[color], sizes[size], className)}
-            {...rest}
-        >
+        <span className={clsx("ui-tag", "inline-flex rounded", colors[color], sizes[size], className)} {...rest}>
             {children}
 
             {onClose ? (
                 <CloseIcon
-                    className="text-block ui-tag-close float-right ml-2 cursor-pointer hover:text-gray-darker"
+                    size="small"
+                    className={clsx(
+                        "ui-tag-close ml-2 cursor-pointer leading-4 hover:text-gray-darker",
+                        size === "large" ? "mt-0.5" : "mt-0.25",
+                    )}
                     onClick={handleClose}
                 />
             ) : null}
