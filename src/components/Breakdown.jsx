@@ -32,15 +32,18 @@ Breakdown.propTypes = {
     currency: PropTypes.string.isRequired,
 };
 
-const BreakdownItem = ({ children, info, methodIcon, value, className, color = "default", ...rest }) => {
+const BreakdownItem = ({ children, info, methodIcon, secondary, value, className, color = "default", ...rest }) => {
     const currency = useContext(CurrencyContext);
 
     return (
         <tr className={clsx("ui-breakdown-item", colors[color], className)} {...rest}>
-            <td className="text-left leading-none">
+            <td colSpan={2} className="text-left leading-none">
                 {methodIcon} {children}
+                <span className="ml-1 space-x-2 text-sm">
+                    {info && <span className="rounded bg-white p-1">{info}</span>}
+                    {secondary && <span>{secondary}</span>}
+                </span>
             </td>
-            <td className="text-left">{info}</td>
 
             <td className="w-[1%] whitespace-nowrap pl-4 text-right">
                 <Currency shouldRemoveTrailingZeroes={false} currency={currency}>
@@ -55,6 +58,7 @@ BreakdownItem.propTypes = {
     children: PropTypes.node,
     info: PropTypes.node,
     methodIcon: PropTypes.node,
+    secondary: PropTypes.node,
     value: PropTypes.node,
     className: PropTypes.string,
     color: PropTypes.oneOf(Object.keys(colors)),
