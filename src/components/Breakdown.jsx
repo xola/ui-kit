@@ -40,8 +40,8 @@ const BreakdownItem = ({ children, info, methodIcon, secondary, value, className
             <td colSpan={2} className="text-left leading-none">
                 {methodIcon} {children}
                 <span className="ml-1 space-x-2 text-sm">
-                    {info && <span className="rounded bg-white p-1">{info}</span>}
-                    {secondary && <span>{secondary}</span>}
+                    {info && <span className="rounded bg-white p-1 empty:hidden">{info}</span>}
+                    {secondary && <span className="empty:hidden">{secondary}</span>}
                 </span>
             </td>
 

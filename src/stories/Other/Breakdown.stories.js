@@ -14,6 +14,9 @@ const BreakdownStories = {
 };
 
 export const Default = () => {
+    // Just for a basic showcase of when info is null
+    const EmptyComponent = () => null;
+
     return (
         <div className="w-80 bg-gray-lighter p-4">
             <Breakdown currency="USD">
@@ -23,6 +26,9 @@ export const Default = () => {
                 </Breakdown.Item>
                 <Breakdown.Item value={29} secondary="($29.00 x 1)">
                     Adults
+                </Breakdown.Item>
+                <Breakdown.Item value={29} info={<EmptyComponent />}>
+                    Null Info
                 </Breakdown.Item>
                 <Breakdown.Item value={4} secondary="($2.00 x 2)">
                     VAT
@@ -36,7 +42,7 @@ export const Default = () => {
                     </Button>
                 </Breakdown.SubtotalItem>
 
-                <Breakdown.Item value={62} secondary="12/18/2019" info={"*0259"} methodIcon={<CardIcon />}>
+                <Breakdown.Item value={62} secondary="12/18/2019" info="0259" methodIcon={<CardIcon />}>
                     Payment
                 </Breakdown.Item>
 
