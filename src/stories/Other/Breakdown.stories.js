@@ -50,7 +50,7 @@ export const Default = () => {
                     Refund
                 </Breakdown.Item>
 
-                <Breakdown.Item secondary="07/23/2021" info={<EmptyComponent />} methodIcon={<CardIcon />}>
+                <Breakdown.Item secondary="07/23/2021" info={<EmptyComponent />} value={0} methodIcon={<CardIcon />}>
                     Dummy
                 </Breakdown.Item>
 
