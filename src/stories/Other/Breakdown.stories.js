@@ -27,7 +27,7 @@ export const Default = () => {
                 <Breakdown.Item value={29} secondary="($29.00 x 1)">
                     Adults
                 </Breakdown.Item>
-                <Breakdown.Item value={29} info={<EmptyComponent />}>
+                <Breakdown.Item value={29} methodIcon={<EmptyComponent />} info={<EmptyComponent />}>
                     Null Info
                 </Breakdown.Item>
                 <Breakdown.Item value={4} secondary="($2.00 x 2)">
@@ -48,6 +48,10 @@ export const Default = () => {
 
                 <Breakdown.Item color="primary" secondary="07/23/2021" value={-62} methodIcon={<CardIcon />}>
                     Refund
+                </Breakdown.Item>
+
+                <Breakdown.Item secondary="07/23/2021" info={<EmptyComponent />} methodIcon={<CardIcon />}>
+                    Dummy
                 </Breakdown.Item>
 
                 <Breakdown.Separator />
