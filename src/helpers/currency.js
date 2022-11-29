@@ -13,6 +13,7 @@ export const getSymbol = (currency, locale = userLocale, amount = 0) => {
         style: "currency",
         currency,
         maximumFractionDigits: 0,
+        currencyDisplay: "narrowSymbol",
     }).format(amount);
 
     return string.replace(/\d/g, "").trim();

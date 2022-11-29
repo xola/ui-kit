@@ -1,7 +1,7 @@
 import getUserLocale from "get-user-locale";
-import React from "react";
 import PropTypes from "prop-types";
-import { isZeroDecimal } from "../../helpers/currency";
+import React from "react";
+import { getSymbol, isZeroDecimal } from "../../helpers/currency";
 import { almostZero, numberFormat, roundNumber } from "../../helpers/numbers";
 
 const userLocale = getUserLocale();
@@ -11,6 +11,7 @@ export const Currency = ({
     locale = userLocale,
     shouldRemoveTrailingZeroes = true,
     maximumFractionDigits = 2,
+    compact = false,
     children,
 }) => {
     let amount = children;
@@ -18,9 +19,18 @@ export const Currency = ({
         amount = 0;
     }
 
-    let formattedAmount = numberFormat(amount, currency, locale, isZeroDecimal(currency) ? 0 : maximumFractionDigits);
-    formattedAmount = shouldRemoveTrailingZeroes ? formattedAmount.replace(".00", "") : formattedAmount;
+    const maxDigits = isZeroDecimal(currency) ? 0 : maximumFractionDigits;
+    let formattedAmount = numberFormat(amount, currency, locale, maxDigits, compact);
+    if (compact) {
+        return (
+            <span className="ui-currency">
+                {getSymbol(currency, locale)}
+                {formattedAmount}
+            </span>
+        );
+    }
 
+    formattedAmount = shouldRemoveTrailingZeroes ? formattedAmount.replace(".00", "") : formattedAmount;
     return <span className="ui-currency">{formattedAmount}</span>;
 };
 

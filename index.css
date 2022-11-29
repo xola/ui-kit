@@ -72,6 +72,10 @@
         top: -1px;
     }
 
+    sup {
+        top: -7px;
+    }
+
     .font-bold {
         @apply antialiased;
     }
