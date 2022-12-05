@@ -1,5 +1,5 @@
 import React from "react";
-import { Currency } from "../..";
+import { Currency, numberFormat } from "../..";
 
 const CurrencyStories = {
     title: "Data Display/Currency",
@@ -137,6 +137,21 @@ export const SplitAmountFormatting = ({ amount, currency = "USD", locale = "en-U
             {amount}
         </Currency.Split>
     );
+};
+
+export const CompactValues = ({ locale }) => {
+    const amounts = [123, 1234, 123_456, 123_456_789, 123_456_789_123];
+
+    return amounts.map((amount) => (
+        <div className="my-2 font-mono tracking-tighter">
+            {numberFormat(amount, null, locale, 0)}:{" "}
+            <span className="font-semibold">
+                <Currency isCompact locale={locale}>
+                    {amount}
+                </Currency>
+            </span>
+        </div>
+    ));
 };
 
 export default CurrencyStories;
