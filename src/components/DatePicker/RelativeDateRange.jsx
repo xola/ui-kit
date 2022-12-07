@@ -168,8 +168,8 @@ const handlers = {
 
     [options.LAST_QUARTER]: () => {
         return {
-            from: dayjs().startOf("month").subtract(3, "month").toDate(),
-            to: dayjs().startOf("month").subtract(1, "day").toDate(),
+            from: dayjs().subtract(1, "quarter").startOf("quarter").toDate(),
+            to: dayjs().subtract(1, "quarter").endOf("quarter").toDate(),
         };
     },
 
