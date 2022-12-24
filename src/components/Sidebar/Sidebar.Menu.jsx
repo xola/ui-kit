@@ -4,13 +4,14 @@ import PropTypes from "prop-types";
 import React from "react";
 import styles from "./Sidebar.Menu.module.css";
 
+const appendTo = global.document ? global.document.body : undefined;
+
 export const SidebarMenu = ({ children, content, ...rest }) => {
     return (
         <Tippy
             interactive
             trigger="mouseenter" // Required otherwise menu will be truncated by the sidebar.
-            /* global document */
-            appendTo={document.body}
+            appendTo={appendTo}
             placement="right"
             offset={[0, 4]}
             arrow={false}
