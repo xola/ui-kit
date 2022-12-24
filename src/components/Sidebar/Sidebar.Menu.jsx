@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import styles from "./Sidebar.Menu.module.css";
 
-const appendTo = global.document ? global.document.body : undefined;
+const appendTo = typeof window === "undefined" ? undefined : window.document.body;
 
 export const SidebarMenu = ({ children, content, ...rest }) => {
     return (

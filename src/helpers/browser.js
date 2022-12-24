@@ -1,1 +1,1 @@
-export const isOSX = global.navigator ? global.navigator.userAgent.includes("Macintosh") : false;
+export const isOSX = typeof window === "undefined" ? false : window.navigator.userAgent.includes("Macintosh");
