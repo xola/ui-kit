@@ -43,5 +43,5 @@ export const roundNumber = (currency, amount) => {
 };
 
 export const compactNumber = (value, locale = userLocale) => {
-    return new Intl.NumberFormat(locale, { notation: "compact", maximumFractionDigits: 1 }).format(value);
+    return new Intl.NumberFormat(locale, { notation: "compact", maximumFractionDigits: 2 }).format(value);
 };
