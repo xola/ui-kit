@@ -11,14 +11,11 @@ import { Day } from "./Day";
 import { MonthYearSelector } from "./MonthYearSelector";
 import { NavbarElement } from "./NavbarElement";
 import { RelativeDateRange } from "./RelativeDateRange";
-import getUserLocale from "get-user-locale";
 
 const variants = {
     single: "single",
     range: "range",
 };
-
-const userLocale = getUserLocale();
 
 /**
  * Figma Design link: https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%F0%9F%9B%A0-Xola-DS-Desktop-Master-%F0%9F%9B%A0?node-id=2689%3A101580
@@ -201,9 +198,8 @@ export const DatePicker = ({
                     onDayClick={handleDayClick}
                     onMonthChange={handleMonthChange}
                     onTodayButtonClick={handleTodayClick}
-                    locale={userLocale}
-                    {...rest}
                     weekStartsOn={1}
+                    {...rest}
                 />
             </div>
 
