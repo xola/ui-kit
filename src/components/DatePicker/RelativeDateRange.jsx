@@ -2,6 +2,7 @@ import dayjs from "dayjs";
 import PropTypes from "prop-types";
 import React from "react";
 import { Button, Select } from "../..";
+import getUserLocale from "get-user-locale";
 
 const options = {
     YESTERDAY: "P1D:last",
@@ -23,6 +24,8 @@ const options = {
     TRAILING_YEAR: "P1Y:trailing",
     THIS_YEAR: "P1Y:current",
 };
+
+const userLocale = getUserLocale();
 
 export const dateRanges = {
     day: {
@@ -241,6 +244,7 @@ export const RelativeDateRange = ({
                 })}
             </Select>
             {showApply && <Button onClick={onSubmit}>Apply</Button>}
+            {userLocale}
         </div>
     );
 };
