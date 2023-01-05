@@ -206,7 +206,6 @@ export const DatePicker = ({
                     onDayClick={handleDayClick}
                     onMonthChange={handleMonthChange}
                     onTodayButtonClick={handleTodayClick}
-                    weekStartsOn={1}
                     {...rest}
                 />
             </div>
