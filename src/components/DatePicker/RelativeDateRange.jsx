@@ -243,7 +243,8 @@ export const RelativeDateRange = ({
                     );
                 })}
             </Select>
-            {showApply && <Button onClick={onSubmit}>Apply</Button>}
+            {showApply && <Button onClick={onSubmit}>Use</Button>}
+
             {userLocale}
         </div>
     );
