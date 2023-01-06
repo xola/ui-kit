@@ -88,13 +88,14 @@ export const DatePicker = ({
 
     const handleRelativeRangeChanged = (rangeName, range) => {
         setCurrentMonth(range.from);
-        let newRange = {...range};
-        if (!shouldSelectFutureDatesInRelativeRange) {
-            // don't select future dates, e.g. for cash flow report
-            if (range.to.isAfter(dayjs().get('date'))) {
-                newRange.to = dayjs().get('date');
-            }
+        const newRange = { ...range };
+        if (
+            !shouldSelectFutureDatesInRelativeRange && // don't select future dates, e.g. for cash flow report
+            range.to.isAfter(dayjs().get("date"))
+        ) {
+            newRange.to = dayjs().get("date");
         }
+
         onChange(newRange, modifiers, null);
     };
 
