@@ -7,8 +7,8 @@ const today = dayjs();
 
 export const MonthYearSelector = ({ date, onChange, currentMonth }) => {
     const months = [...Array.from({ length: 12 }).keys()].map((m) => today.month(m).format("MMM"));
-    // 2012 as baseline + 5 years in future
-    const years = [...Array.from({ length: today.year() - 2012 + 5 + 1 }).keys()].map((y) =>
+        // 2012 as baseline + 5 years in future
+        const years = [...Array.from({ length: today.year() - 2012 + 5 + 1 }).keys()].map((y) =>
         today.year(2012 + y).format("YYYY"),
     );
 
