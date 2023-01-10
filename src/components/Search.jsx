@@ -2,9 +2,10 @@ import clsx from "clsx";
 import { useCombobox } from "downshift";
 import debounce from "lodash/debounce";
 import PropTypes from "prop-types";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useId } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { isOSX } from "../helpers/browser";
+import { useIsClient } from "../hooks/useIsClient";
 import { SearchIcon } from "../icons/SearchIcon";
 import { Key } from "./Key";
 import { Spinner } from "./Spinner";
@@ -40,6 +41,9 @@ export const Search = ({
     const [showShortcutKey, setShowShortcutKey] = useState(true);
     const [inputValue, setInputValue] = useState(defaultValue ?? "");
     const inputReference = useRef();
+    const inputId = useId("search-input");
+    const menuId = useId("search-menu");
+    const isClient = useIsClient();
 
     // Flag for controlling the delay before actually closing the menu.
     const [canClose, setCanClose] = useState(true);
@@ -135,6 +139,7 @@ export const Search = ({
 
                 <input
                     {...getInputProps({
+                        id: inputId,
                         type: "text",
                         className: clsx(
                             "ui-search-input",
@@ -149,7 +154,7 @@ export const Search = ({
                 />
 
                 <div className="pointer-events-none absolute inset-y-0 right-0 hidden items-center space-x-1 pr-3 lg:flex">
-                    {showShortcutKey ? (
+                    {isClient && showShortcutKey ? (
                         <>
                             <Key char="cmd" /> <Key char="K" />
                         </>
@@ -159,6 +164,7 @@ export const Search = ({
 
             <ul
                 {...getMenuProps({
+                    id: menuId,
                     className: clsx(
                         "ui-search-menu",
                         "absolute top-10 divide-y divide-gray-light w-full xl:w-2/3 max-h-[75vh] border border-blue-light mt-1 rounded overflow-auto z-10 bg-white",
