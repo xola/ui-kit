@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import styles from "./Sidebar.Menu.module.css";
 
+// eslint-disable-next-line no-undef
 const appendTo = typeof window === "undefined" ? undefined : window.document.body;
 
 export const SidebarMenu = ({ children, content, ...rest }) => {
