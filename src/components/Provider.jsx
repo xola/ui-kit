@@ -6,6 +6,11 @@ export const Context = createContext({
     },
 });
 
+/**
+ * UI Kit's default provider.
+ * Must be used from now on in order to generate correct component IDs.
+ * Also a good place to implement any global state required for the UI Kit in the future.
+ */
 export const Provider = ({ children }) => {
     const idCounterRef = useRef(1);
 
