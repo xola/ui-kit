@@ -79,4 +79,20 @@
     .font-bold {
         @apply antialiased;
     }
+
+    .debug, .debug-red {
+        @apply !bg-red-lighter !outline !outline-red;
+    }
+
+    .debug-blue {
+        @apply !bg-blue-lighter !outline !outline-blue;
+    }
+
+    .debug-green {
+        @apply !bg-green-lighter !outline !outline-green;
+    }
+
+    .debug-yellow {
+        @apply !bg-yellow-lighter !outline !outline-yellow;
+    }
 }

@@ -223,8 +223,8 @@ export const RelativeDateRange = ({
     };
 
     return (
-        <div className="flex space-x-2">
-            <Select size="medium" value={value} className="pr-8 leading-5" onChange={handleChange}>
+        <div className="flex items-center space-x-2">
+            <Select size="medium" value={value} className="h-10 pr-8 leading-5" onChange={handleChange}>
                 <option value="">Relative Date Range</option>
                 {ranges.map((rangeKey) => {
                     const range = dateRanges[rangeKey];
