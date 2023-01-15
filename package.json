@@ -43,7 +43,6 @@
         "react-day-picker": "^7.4.10",
         "react-hot-toast": "^2.1.0",
         "react-hotkeys-hook": "^3.4.0",
-        "react-id-generator": "^3.0.2",
         "react-json-view": "^1.21.3",
         "react-select": "^5.7.0",
         "storybook-addon-designs": "^6.3.1",

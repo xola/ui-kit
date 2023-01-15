@@ -4,8 +4,8 @@ import debounce from "lodash/debounce";
 import PropTypes from "prop-types";
 import React, { useEffect, useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
-import { useId } from "react-id-generator";
 import { isOSX } from "../helpers/browser";
+import { useId } from "../hooks/useId";
 import { useIsClient } from "../hooks/useIsClient";
 import { SearchIcon } from "../icons/SearchIcon";
 import { Key } from "./Key";
@@ -42,8 +42,8 @@ export const Search = ({
     const [showShortcutKey, setShowShortcutKey] = useState(true);
     const [inputValue, setInputValue] = useState(defaultValue ?? "");
     const inputReference = useRef();
-    const [inputId] = useId(1, "search-input");
-    const [menuId] = useId(1, "search-menu");
+    const inputId = useId("search-input");
+    const menuId = useId("search-menu");
     const isClient = useIsClient();
 
     // Flag for controlling the delay before actually closing the menu.

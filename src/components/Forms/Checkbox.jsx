@@ -1,11 +1,11 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import React from "react";
-import { useId } from "react-id-generator";
+import { useId } from "../../hooks/useId";
 import styles from "./Checkbox.module.css";
 
 export const Checkbox = ({ label, className, classNames = {}, ...rest }) => {
-    const [id] = useId(1, "checkbox");
+    const id = useId("checkbox");
 
     return (
         <div className={clsx("ui-checkbox", className, "flex items-center")}>
