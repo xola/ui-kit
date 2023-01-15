@@ -23,7 +23,7 @@ export const MonthYearSelector = ({ date, onChange, currentMonth }) => {
     };
 
     return (
-        <form className="DayPicker-Caption space-x-2">
+        <form className="DayPicker-Caption space-x-2 !pl-0">
             <span className="inline-block">
                 <Select name="month" value={date.getMonth()} className="month-selector" onChange={handleMonthChange}>
                     {months.map((month, index) => (
