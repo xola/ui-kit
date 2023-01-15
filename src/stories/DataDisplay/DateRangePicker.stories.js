@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import React, { useState } from "react";
-import { DatePicker, DatePickerPopover } from "../..";
+import { CalendarIcon, DatePicker, DatePickerPopover } from "../..";
 
 const DateRangePickerStories = {
     title: "Data Display/Date & Time/Date Range Picker",
@@ -38,16 +38,11 @@ const DateRangePickerStories = {
 const today = dayjs("2022-10-10").toDate();
 
 export const Default = () => {
-    const [value, setValue] = useState({ from: new Date("2022-02-03"), to: new Date("2022-03-08") });
-
-    return <DatePicker variant="range" value={value} onChange={setValue} />;
-};
-
-export const RelativeDateRanges = () => {
     const [value, setValue] = useState({ from: new Date("2022-03-03"), to: new Date("2022-04-08") });
 
     return (
-        <div className="flex w-3/4 flex-col border border-gray-dark">
+        <div className="flex w-3/4 flex-col border border-gray-light p-4">
+            <p className="text-gray-darker">The above border is added to show the width of 810px on the date picker</p>
             <DatePicker
                 shouldShowYearPicker
                 shouldShowRelativeRanges
@@ -80,7 +75,8 @@ export const DateRangeWithInput = ({ shouldShowRelativeRanges, ranges }) => {
                 ranges={ranges}
                 onChange={handleChange}
             >
-                <div className="w-75 cursor-pointer bg-gray-lighter p-3">
+                <div className="flex h-10 w-75 cursor-pointer items-center rounded border border-gray-light p-3">
+                    <CalendarIcon className="mr-1" size="medium" />
                     {dayjs(displayValue.from).format("LL")}
                     &nbsp;to&nbsp;
                     {displayValue.to ? dayjs(displayValue.to).format("LL") : "Pending"}

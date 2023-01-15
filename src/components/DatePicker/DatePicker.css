@@ -11,7 +11,7 @@
     @apply p-6 pt-3;
 }
 
-.ui-relative-date-ranges,
+.ui-range-picker-wrapper,
 .date-range-picker {
     @apply w-[810px];
 }
