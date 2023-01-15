@@ -148,7 +148,7 @@ export const DatePicker = ({
                     <UpcomingDatePicker
                         upcomingDates={upcomingDates}
                         value={value}
-                        onDayClick={handleDayClick}
+                        onChange={handleDayClick}
                         onMonthChange={handleMonthChange}
                     />
                 ) : null}
