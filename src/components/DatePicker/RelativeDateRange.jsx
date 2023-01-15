@@ -208,8 +208,10 @@ const handlers = {
     }),
 };
 
+const rangeList = ["day", "week", "month", "quarter", "year"];
+
 export const RelativeDateRange = ({
-    ranges = ["day", "week", "month", "quarter", "year"],
+    ranges = rangeList,
     value,
     // TODO: Prop name (showApply) doesn't match rule (^(is|has|should)[A-Z]([A-Za-z0-9]?)+)
     showApply = true,
@@ -246,7 +248,7 @@ export const RelativeDateRange = ({
 };
 
 RelativeDateRange.propTypes = {
-    ranges: PropTypes.arrayOf(PropTypes.oneOf(["day", "week", "month", "quarter", "year"])),
+    ranges: PropTypes.arrayOf(PropTypes.oneOf(rangeList)),
     onChange: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     // eslint-disable-next-line react/boolean-prop-naming

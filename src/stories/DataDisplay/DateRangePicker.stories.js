@@ -49,7 +49,6 @@ export const Default = () => {
                 value={value}
                 variant="range"
                 onChange={setValue}
-                onSubmitDateRange={console.log}
             />
         </div>
     );
@@ -58,11 +57,9 @@ export const Default = () => {
 export const DateRangeWithInput = ({ shouldShowRelativeRanges, ranges }) => {
     const defaultValue = { from: today, to: dayjs(today).add(7, "days").toDate() };
     const [value, setValue] = useState(defaultValue);
-    const [displayValue, setDisplayValue] = useState(defaultValue);
 
     const handleChange = (newValue, displayValue) => {
         setValue(newValue);
-        setDisplayValue(displayValue ?? newValue);
     };
 
     return (
@@ -77,9 +74,9 @@ export const DateRangeWithInput = ({ shouldShowRelativeRanges, ranges }) => {
             >
                 <div className="flex h-10 w-75 cursor-pointer items-center rounded border border-gray-light p-3">
                     <CalendarIcon className="mr-1" size="medium" />
-                    {dayjs(displayValue.from).format("LL")}
+                    {dayjs(value.from).format("ll")}
                     &nbsp;to&nbsp;
-                    {displayValue.to ? dayjs(displayValue.to).format("LL") : "Pending"}
+                    {value.to ? dayjs(value.to).format("ll") : "Pending"}
                 </div>
             </DatePickerPopover>
         </div>
