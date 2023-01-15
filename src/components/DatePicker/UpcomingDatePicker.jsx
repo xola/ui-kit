@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 import clsx from "clsx";
 import PropTypes from "prop-types";
 
-export const UpcomingDatePicker = ({ value, upcomingDates, onDayClick, onMonthChange }) => {
+export const UpcomingDatePicker = ({ value, upcomingDates, onChange, onMonthChange }) => {
     return (
         <div className="rounded-l-lg border-r border-gray pt-8">
             <p className="mb-2 px-6 text-lg font-bold">Upcoming</p>
@@ -21,7 +21,7 @@ export const UpcomingDatePicker = ({ value, upcomingDates, onDayClick, onMonthCh
                                     { "border-blue bg-blue text-white": isSameDay },
                                 )}
                                 onClick={(event) => {
-                                    onDayClick(date, {}, event);
+                                    onChange(date, {}, event);
                                     onMonthChange(date);
                                 }}
                             >
@@ -42,6 +42,6 @@ export const UpcomingDatePicker = ({ value, upcomingDates, onDayClick, onMonthCh
 UpcomingDatePicker.propTypes = {
     value: PropTypes.objectOf(Date),
     upcomingDates: PropTypes.arrayOf(Date).isRequired,
-    onDayClick: PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired,
     onMonthChange: PropTypes.func.isRequired,
 };
