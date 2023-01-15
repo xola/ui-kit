@@ -29,7 +29,6 @@ export const DatePicker = ({
     shouldShowYearPicker = false,
     onChange,
     onMonthChange,
-    onSubmitDateRange,
     modifiers = {},
     ranges,
     shouldShowRelativeRanges = false,
@@ -38,8 +37,8 @@ export const DatePicker = ({
     upcomingDates,
     ...rest
 }) => {
-    const initialValue = variant === variants.single ? value : value.from;
-    const [currentMonth, setCurrentMonth] = useState(initialValue);
+    const [internalValue, setInternalValue] = useState(value); // For a relative date picker we need an internal state
+    const [currentMonth, setCurrentMonth] = useState(internalValue.from);
     const [rangeName, setRangeName] = useState("");
     const isRangeVariant = variant === variants.range;
 
@@ -54,21 +53,27 @@ export const DatePicker = ({
         }
 
         setRangeName("");
+
+        let newInternalValue; // Track the new value to change to internally
         if (isRangeVariant) {
-            if (value.from && value.to) {
-                // This allows us to easily select another date range,
-                // if both dates are selected.
-                onChange({ from: day, to: null }, options, event);
-            } else if ((value.from || value.to).getTime() === day.getTime()) {
+            if (internalValue.from && internalValue.to) {
+                // This allows us to easily select another date range, if both dates are selected.
+                newInternalValue = { from: day, to: null };
+            } else if ((internalValue.from || internalValue.to).getTime() === day.getTime()) {
                 const from = dayjs(day).startOf("day").toDate();
                 const to = dayjs(day).endOf("day").toDate();
-
-                onChange({ from, to }, options, event);
+                newInternalValue = { from, to };
             } else {
-                onChange(DateUtils.addDayToRange(day, value), options, event);
+                newInternalValue = DateUtils.addDayToRange(day, internalValue);
+            }
+
+            if (newInternalValue) {
+                setInternalValue(newInternalValue);
+                onChange(newInternalValue, options, event);
             }
         } else {
             onChange(day, options, event);
+            setInternalValue(day);
         }
     };
 
@@ -88,7 +93,12 @@ export const DatePicker = ({
 
     const handleRelativeRangeChanged = (rangeName, range) => {
         setCurrentMonth(range.from);
-        onChange(range, modifiers, null);
+        setInternalValue(range);
+        // We won't fire onChange here because relative date range is only submit when the user clicks on the submit button
+    };
+
+    const handleSubmitDateRange = () => {
+        onChange(internalValue, modifiers, null);
     };
 
     const handleMonthChange = (m) => {
@@ -119,7 +129,7 @@ export const DatePicker = ({
             <Tooltip placement="top" content={tooltipContent}>
                 <Day
                     disabled={disabled}
-                    selectedDate={value}
+                    selectedDate={internalValue}
                     date={date}
                     getContent={getDayContent}
                     currentMonth={currentMonth}
@@ -128,7 +138,7 @@ export const DatePicker = ({
         ) : (
             <Day
                 disabled={disabled}
-                selectedDate={value}
+                selectedDate={internalValue}
                 date={date}
                 getContent={getDayContent}
                 currentMonth={currentMonth}
@@ -136,10 +146,10 @@ export const DatePicker = ({
         );
     };
 
-    const rangeModifier = isRangeVariant ? { start: value.from, end: value.to } : null;
+    const rangeModifier = isRangeVariant ? { start: internalValue.from, end: internalValue.to } : null;
 
     // Comparing `from` and `to` dates hides a weird CSS style when you select the same date twice in a date range.
-    const useDateRangeStyle = isRangeVariant && value.from?.getTime() !== value.to?.getTime();
+    const useDateRangeStyle = isRangeVariant && internalValue.from?.getTime() !== internalValue.to?.getTime();
 
     return (
         <>
@@ -147,7 +157,7 @@ export const DatePicker = ({
                 {upcomingDates ? (
                     <UpcomingDatePicker
                         upcomingDates={upcomingDates}
-                        value={value}
+                        value={internalValue}
                         onChange={handleDayClick}
                         onMonthChange={handleMonthChange}
                     />
@@ -162,7 +172,7 @@ export const DatePicker = ({
                         modifiers.waitlist ? "has-custom-content" : null,
                     )}
                     todayButton={variant === "single" ? "Today" : undefined}
-                    selectedDays={value}
+                    selectedDays={internalValue}
                     month={currentMonth}
                     modifiers={{ ...modifiers, ...rangeModifier }}
                     numberOfMonths={isRangeVariant ? 2 : 1}
@@ -185,7 +195,7 @@ export const DatePicker = ({
                         value={rangeName}
                         ranges={ranges}
                         onChange={handleRelativeRangeChanged}
-                        onSubmit={onSubmitDateRange}
+                        onSubmit={handleSubmitDateRange}
                     />
                 </div>
             )}

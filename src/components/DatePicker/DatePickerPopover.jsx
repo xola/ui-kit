@@ -31,7 +31,10 @@ export const DatePickerPopover = ({
             onChange?.(date, options, event);
             toggleVisibility();
         } else {
-            onChange?.(date, originalValue, options, event);
+            onChange?.(date, options, event);
+            if (date.from && date.to) {
+                toggleVisibility();
+            }
         }
     };
 
