@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import React, { useId } from "react";
+import React from "react";
+import { useId } from "../../hooks/useId";
 import styles from "./Checkbox.module.css";
 
 export const Checkbox = ({ label, className, classNames = {}, ...rest }) => {

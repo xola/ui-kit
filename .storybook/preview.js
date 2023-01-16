@@ -1,5 +1,7 @@
-import "../index.css";
+import React from "react";
+import { Provider } from "../src";
 import xola from "./xola";
+import "../index.css";
 
 export const parameters = {
     actions: { argTypesRegex: "^on[A-Z].*" },
@@ -14,3 +16,11 @@ export const parameters = {
         },
     },
 };
+
+export const decorators = [
+    (Story) => (
+        <Provider>
+            <Story />
+        </Provider>
+    ),
+];
