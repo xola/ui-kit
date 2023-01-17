@@ -1,8 +1,15 @@
 import React, { createContext, useCallback, useMemo, useRef } from "react";
 
+// Fallback ID counter when not using `Provider`
+let fallbackIdCounter = 1;
+
 export const Context = createContext({
     generateId: () => {
-        throw new Error("Please wrap your app with <Provider /> component from @xola/ui-kit");
+        console.warn(
+            "Please wrap your app with `<Provider />` component from `@xola/ui-kit`. Otherwise your app will not work with SSR frameworks.",
+        );
+
+        return fallbackIdCounter++;
     },
 });
 
