@@ -264,3 +264,5 @@ export { HelpCenterIcon } from "./icons/HelpCenterIcon";
 export { PolicyIcon } from "./icons/PolicyIcon";
 
 export { theme } from "./theme";
+
+export { Provider } from "./components/Provider";
