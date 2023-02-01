@@ -12,6 +12,7 @@ export const Currency = ({
     shouldRemoveTrailingZeroes = true,
     maximumFractionDigits = 2,
     compact = false,
+    narrowSymbolForm,
     children,
 }) => {
     let amount = children;
@@ -24,7 +25,7 @@ export const Currency = ({
     if (compact) {
         return (
             <span className="ui-currency">
-                {getSymbol(currency, locale)}
+                {getSymbol(currency, locale, narrowSymbolForm)}
                 {formattedAmount}
             </span>
         );
