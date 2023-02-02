@@ -15,13 +15,14 @@ export const numberFormat = (
     locale = userLocale,
     maximumFractionDigits = 2,
     isCompact = false,
+    isNarrowSymbolForm = false,
 ) => {
     const style = currency ? "currency" : "decimal";
 
     const params = { style, minimumFractionDigits: maximumFractionDigits, maximumFractionDigits };
     if (currency) {
         params.currency = currency;
-        params.currencyDisplay = "narrowSymbol";
+        params.currencyDisplay = isNarrowSymbolForm ? "narrowSymbol" : "symbol";
     }
 
     return isCompact ? compactNumber(amount, locale) : new Intl.NumberFormat(locale, params).format(amount);
