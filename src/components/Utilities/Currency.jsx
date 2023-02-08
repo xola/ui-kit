@@ -12,6 +12,7 @@ export const Currency = ({
     shouldRemoveTrailingZeroes = true,
     maximumFractionDigits = 2,
     compact = false,
+    isNarrowSymbolForm,
     children,
 }) => {
     let amount = children;
@@ -24,7 +25,7 @@ export const Currency = ({
     if (compact) {
         return (
             <span className="ui-currency">
-                {getSymbol(currency, locale)}
+                {getSymbol(currency, locale, isNarrowSymbolForm)}
                 {formattedAmount}
             </span>
         );
@@ -53,7 +54,7 @@ Currency.Round.propTypes = {
     children: PropTypes.node.isRequired,
 };
 
-Currency.Split = ({ currency = "USD", locale = userLocale, children }) => {
+Currency.Split = ({ currency = "USD", locale = userLocale, isNarrowSymbolForm, children }) => {
     let amount = children;
     if (almostZero(amount)) {
         amount = 0;
@@ -68,7 +69,7 @@ Currency.Split = ({ currency = "USD", locale = userLocale, children }) => {
         amountDecimal += "0";
     }
 
-    const formattedAmountInt = numberFormat(amountInt, currency, locale, 0);
+    const formattedAmountInt = numberFormat(amountInt, currency, locale, 0, isNarrowSymbolForm);
 
     return (
         <span title={amount} className="ui-currency-split">
@@ -86,4 +87,5 @@ Currency.Split.propTypes = {
     currency: PropTypes.string,
     locale: PropTypes.string,
     children: PropTypes.node.isRequired,
+    isNarrowSymbolForm: PropTypes.bool,
 };
