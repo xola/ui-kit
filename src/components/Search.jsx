@@ -64,6 +64,11 @@ export const Search = ({
             return;
         }
 
+        if (type === useCombobox.stateChangeTypes.FunctionCloseMenu) {
+            // Fired when you close the menu which can happen when you click on an item
+            return;
+        }
+
         if (selectedItem === submitValueItem) {
             onSubmit?.(inputValue);
             inputReference.current.blur(); // Remove focus so that focusing away and coming doesn't open the search box

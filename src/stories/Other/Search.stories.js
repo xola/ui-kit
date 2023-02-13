@@ -14,8 +14,8 @@ const SearchStories = {
 };
 
 const fetchUsers = async (search) => {
-    const results = await fetch("https://dummyapi.io/data/api/user?limit=100", {
-        headers: { "app-id": "lTE5abbDxdjGplutvTuc" }, // Some random dude's API key.
+    const results = await fetch("https://xola.com/api/sellers", {
+        headers: { "X-API-KEY": "" }, // Some random dude's API key.
     });
 
     const response = await results.json();
@@ -27,7 +27,7 @@ export const Default = () => {
     const [items, setItems] = useState([]);
 
     const handleSelect = (item) => {
-        console.log(`You selected "${item.firstName}"`);
+        console.log(`You selected "${item.name}"`);
     };
 
     const handleSubmit = (inputValue) => {
@@ -61,9 +61,7 @@ export const Default = () => {
                     <img className="h-12 w-12 rounded-full" src={item.picture} />
 
                     <div className="pl-3">
-                        <div>
-                            {item.firstName} {item.lastName}
-                        </div>
+                        <div>{item.name}</div>
 
                         <div
                             className={clsx(
