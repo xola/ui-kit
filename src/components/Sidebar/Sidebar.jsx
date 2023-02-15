@@ -1,3 +1,6 @@
+import clsx from "clsx";
+import PropTypes from "prop-types";
+import React, { useState, useEffect } from "react";
 import { AnnounceIcon } from "../../icons/AnnounceIcon";
 import { BellIcon } from "../../icons/BellIcon";
 import { XolaLogoSimple } from "../../images/XolaLogoSimple";
@@ -9,9 +12,6 @@ import { SidebarFooter } from "./Sidebar.Footer";
 import { SidebarHeading } from "./Sidebar.Heading";
 import { SidebarLink, SidebarSeparator } from "./Sidebar.Link";
 import { SidebarMenu } from "./Sidebar.Menu";
-import clsx from "clsx";
-import PropTypes from "prop-types";
-import React, { useState, useEffect } from "react";
 
 const LeftDrawerCountStyle = {
     // From Figma
