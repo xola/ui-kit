@@ -66,6 +66,8 @@ export const Sidebar = ({ logo, children, className, footer, notifications, isFi
             rightDrawer.onClose?.();
         }
     };
+    
+    console.log("ui-kit");
 
     return (
         <div
