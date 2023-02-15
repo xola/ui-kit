@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import { AnnounceIcon, CheckIcon, HelpCenterIcon, LogoutIcon, PolicyIcon, Sidebar, StarIcon, UserIcon } from "../..";
 
 const SidebarStories = {
@@ -103,7 +103,6 @@ export const CustomLogo = () => {
 };
 
 export const SidebarWithNotifications = () => {
-    const [isOpen, setIsOpen] = useState(false)
     const notifications = {
         announcements: {
             count: 1,
@@ -112,13 +111,11 @@ export const SidebarWithNotifications = () => {
             onClose: () => console.log("Announcements closed"),
         },
         notices: {
-            isOpen: isOpen,
             count: 32,
-            content: <div onClick={() => setIsOpen(!isOpen)}>Some content: Click here to Close this Drawer</div>,
+            content: <div>Some content</div>,
             title: "Notifications & Pending items",
         },
     };
-
     return (
         <div className="h-screen">
             <Sidebar footer={<SidebarFooter />} notifications={notifications} onLogoClick={handleLogoClick}>

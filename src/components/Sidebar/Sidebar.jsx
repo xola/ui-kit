@@ -1,6 +1,3 @@
-import clsx from "clsx";
-import PropTypes from "prop-types";
-import React, { useState, useEffect } from "react";
 import { AnnounceIcon } from "../../icons/AnnounceIcon";
 import { BellIcon } from "../../icons/BellIcon";
 import { XolaLogoSimple } from "../../images/XolaLogoSimple";
@@ -12,6 +9,9 @@ import { SidebarFooter } from "./Sidebar.Footer";
 import { SidebarHeading } from "./Sidebar.Heading";
 import { SidebarLink, SidebarSeparator } from "./Sidebar.Link";
 import { SidebarMenu } from "./Sidebar.Menu";
+import clsx from "clsx";
+import PropTypes from "prop-types";
+import React, { useState, useEffect } from "react";
 
 const LeftDrawerCountStyle = {
     // From Figma
@@ -24,7 +24,8 @@ export const Sidebar = ({ logo, children, className, footer, notifications, isFi
     const [isRightDrawerOpen, setIsRightDrawerOpen] = useState(false);
 
     useEffect(() => {
-        setIsRightDrawerOpen(false); // Close the drawer if notification changes
+        setIsLeftDrawerOpen(false); // Close the drawer if notifications changes
+        setIsRightDrawerOpen(false);
     }, [notifications]);
 
     const toggleLeftDrawer = () => {
