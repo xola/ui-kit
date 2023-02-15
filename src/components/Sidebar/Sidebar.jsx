@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { AnnounceIcon } from "../../icons/AnnounceIcon";
 import { BellIcon } from "../../icons/BellIcon";
 import { XolaLogoSimple } from "../../images/XolaLogoSimple";
@@ -19,8 +19,18 @@ const LeftDrawerCountStyle = {
 };
 
 export const Sidebar = ({ logo, children, className, footer, notifications, isFixed = true, onLogoClick }) => {
-    const [isLeftDrawerOpen, setIsLeftDrawerOpen] = useState(false);
-    const [isRightDrawerOpen, setIsRightDrawerOpen] = useState(false);
+    const { announcements: leftDrawer, notices: rightDrawer } = notifications ?? {};
+    const [isLeftDrawerOpen, setIsLeftDrawerOpen] = useState(leftDrawer.isOpen);
+    const [isRightDrawerOpen, setIsRightDrawerOpen] = useState(rightDrawer.isOpen);
+
+    useEffect(() => {
+        setIsRightDrawerOpen(rightDrawer.isOpen);
+    }, [rightDrawer.isOpen]);
+
+    useEffect(() => {
+        setIsLeftDrawerOpen(leftDrawer.isOpen);
+    }, [leftDrawer.isOpen]);
+
     const toggleLeftDrawer = () => {
         if (!isLeftDrawerOpen) {
             // Close the right drawer when you open the left
@@ -39,7 +49,6 @@ export const Sidebar = ({ logo, children, className, footer, notifications, isFi
         setIsRightDrawerOpen(!isRightDrawerOpen);
     };
 
-    const { announcements: leftDrawer, notices: rightDrawer } = notifications ?? {};
     const hideRightDrawer = rightDrawer?.count <= 0 || !rightDrawer;
 
     const handleOnClose = (direction, closeDrawer) => {
@@ -57,6 +66,8 @@ export const Sidebar = ({ logo, children, className, footer, notifications, isFi
             rightDrawer.onClose?.();
         }
     };
+
+    console.log(" ui - kit ");
 
     return (
         <div
@@ -138,6 +149,7 @@ Sidebar.propTypes = {
     onLogoClick: PropTypes.func.isRequired,
     notifications: PropTypes.shape({
         announcements: PropTypes.shape({
+            isOpen: PropTypes.bool,
             count: PropTypes.number,
             content: PropTypes.node,
             title: PropTypes.string,
@@ -145,6 +157,7 @@ Sidebar.propTypes = {
             onClose: PropTypes.func,
         }),
         notices: PropTypes.shape({
+            isOpen: PropTypes.bool,
             count: PropTypes.number,
             content: PropTypes.node,
             title: PropTypes.string,
