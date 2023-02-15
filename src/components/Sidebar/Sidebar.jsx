@@ -62,7 +62,7 @@ export const Sidebar = ({ logo, children, className, footer, notifications, isFi
             rightDrawer.onClose?.();
         }
     };
-    
+
     return (
         <div
             className={clsx(
