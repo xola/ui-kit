@@ -24,12 +24,8 @@ export const Sidebar = ({ logo, children, className, footer, notifications, isFi
     const [isRightDrawerOpen, setIsRightDrawerOpen] = useState(false);
 
     useEffect(() => {
-        setIsRightDrawerOpen(false); // Close the drawer if isOpen is passed
-    }, [rightDrawer?.isOpen]);
-
-    useEffect(() => {
-        setIsLeftDrawerOpen(false);
-    }, [leftDrawer?.isOpen]);
+        setIsRightDrawerOpen(false); // Close the drawer if notification changes
+    }, [notifications]);
 
     const toggleLeftDrawer = () => {
         if (!isLeftDrawerOpen) {
@@ -67,8 +63,6 @@ export const Sidebar = ({ logo, children, className, footer, notifications, isFi
         }
     };
     
-    console.log("ui-kit");
-
     return (
         <div
             className={clsx(
