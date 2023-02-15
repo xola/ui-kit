@@ -28,7 +28,7 @@ export const Modal = ({
     return (
         <Transition appear show={isOpen} as={Fragment}>
             <Dialog as="div" className="ui-modal fixed inset-0 z-30 overflow-y-auto" onClose={handleOutsideClick}>
-                <div className="min-h-screen px-4 text-center">
+                <div className="min-h-screen p-0 pt-10 text-center">
                     <Transition.Child
                         as={Fragment}
                         enter="ease-out duration-300"
@@ -59,7 +59,7 @@ export const Modal = ({
                             className={clsx(
                                 className,
                                 sizes[size],
-                                "inline-block w-full transform overflow-hidden rounded-lg bg-white p-10 text-left",
+                                "inline-block w-full transform overflow-hidden rounded-tl-2xl rounded-tr-2xl bg-white p-10 text-left",
                                 "align-bottom shadow-xl transition-all",
                             )}
                         >
