@@ -1,6 +1,3 @@
-import clsx from "clsx";
-import PropTypes from "prop-types";
-import React, { useState, useEffect } from "react";
 import { AnnounceIcon } from "../../icons/AnnounceIcon";
 import { BellIcon } from "../../icons/BellIcon";
 import { XolaLogoSimple } from "../../images/XolaLogoSimple";
@@ -12,6 +9,9 @@ import { SidebarFooter } from "./Sidebar.Footer";
 import { SidebarHeading } from "./Sidebar.Heading";
 import { SidebarLink, SidebarSeparator } from "./Sidebar.Link";
 import { SidebarMenu } from "./Sidebar.Menu";
+import clsx from "clsx";
+import PropTypes from "prop-types";
+import React, { useState, useEffect } from "react";
 
 const LeftDrawerCountStyle = {
     // From Figma
@@ -20,16 +20,16 @@ const LeftDrawerCountStyle = {
 
 export const Sidebar = ({ logo, children, className, footer, notifications, isFixed = true, onLogoClick }) => {
     const { announcements: leftDrawer, notices: rightDrawer } = notifications ?? {};
-    const [isLeftDrawerOpen, setIsLeftDrawerOpen] = useState(leftDrawer.isOpen);
-    const [isRightDrawerOpen, setIsRightDrawerOpen] = useState(rightDrawer.isOpen);
+    const [isLeftDrawerOpen, setIsLeftDrawerOpen] = useState(false);
+    const [isRightDrawerOpen, setIsRightDrawerOpen] = useState(false);
 
     useEffect(() => {
-        setIsRightDrawerOpen(rightDrawer.isOpen);
-    }, [rightDrawer.isOpen]);
+        setIsRightDrawerOpen(false); // Close the drawer if isOpen is passed
+    }, [rightDrawer?.isOpen]);
 
     useEffect(() => {
-        setIsLeftDrawerOpen(leftDrawer.isOpen);
-    }, [leftDrawer.isOpen]);
+        setIsLeftDrawerOpen(false);
+    }, [leftDrawer?.isOpen]);
 
     const toggleLeftDrawer = () => {
         if (!isLeftDrawerOpen) {
@@ -66,8 +66,6 @@ export const Sidebar = ({ logo, children, className, footer, notifications, isFi
             rightDrawer.onClose?.();
         }
     };
-
-    console.log(" ui - kit ");
 
     return (
         <div

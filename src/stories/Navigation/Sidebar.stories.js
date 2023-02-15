@@ -114,7 +114,7 @@ export const SidebarWithNotifications = () => {
         notices: {
             isOpen: isOpen,
             count: 32,
-            content: <div onClick={() => setIsOpen(!isOpen)}>Some content: Click me to Close this Drawer</div>,
+            content: <div onClick={() => setIsOpen(!isOpen)}>Some content: Click here to Close this Drawer</div>,
             title: "Notifications & Pending items",
         },
     };
