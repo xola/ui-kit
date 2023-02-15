@@ -41,17 +41,17 @@ export const Modal = ({
                         <Dialog.Overlay className="ui-modal-overlay fixed inset-0 bg-gray-dark bg-opacity-75 transition-opacity" />
                     </Transition.Child>
 
-                    {/* This element is to trick the browser into centering the modal contents. */}
-                    <span className="inline-block h-screen align-middle" aria-hidden="true">
+                    {/* For desktop only this element is to trick the browser into centering the modal contents. */}
+                    <span className="hidden h-screen align-middle sm:inline-block" aria-hidden="true">
                         &#8203;
                     </span>
 
                     <Transition.Child
                         as={Fragment}
-                        enter="ease-out duration-300"
-                        enterFrom="opacity-0 translate-y-full sm:translate-y-0 sm:scale-95"
+                        enter="ease-in-out duration-500 sm:duration-300"
+                        enterFrom="opacity-0 translate-y-30 sm:translate-y-4 sm:scale-95"
                         enterTo="opacity-100 translate-y-0 sm:scale-100"
-                        leave="ease-in duration-200"
+                        leave="ease-in duration-500 sm:duration-200"
                         leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                         leaveTo="opacity-0 translate-y-full sm:translate-y-0 sm:scale-95"
                     >
@@ -59,8 +59,10 @@ export const Modal = ({
                             className={clsx(
                                 className,
                                 sizes[size],
-                                "inline-block w-full transform overflow-hidden rounded-tl-2xl rounded-tr-2xl bg-white p-10 text-left",
-                                "align-bottom shadow-xl transition-all",
+                                "w-full transform overflow-hidden rounded-tl-2xl rounded-tr-2xl bg-white sm:rounded-lg",
+                                "absolute bottom-0 sm:relative sm:inline-block sm:inline-block",
+                                "p-10 text-left",
+                                "shadow-xl transition-all",
                             )}
                         >
                             {onClose ? (
