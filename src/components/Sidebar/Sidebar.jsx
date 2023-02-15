@@ -19,7 +19,6 @@ const LeftDrawerCountStyle = {
 };
 
 export const Sidebar = ({ logo, children, className, footer, notifications, isFixed = true, onLogoClick }) => {
-    const { announcements: leftDrawer, notices: rightDrawer } = notifications ?? {};
     const [isLeftDrawerOpen, setIsLeftDrawerOpen] = useState(false);
     const [isRightDrawerOpen, setIsRightDrawerOpen] = useState(false);
 
@@ -46,6 +45,7 @@ export const Sidebar = ({ logo, children, className, footer, notifications, isFi
         setIsRightDrawerOpen(!isRightDrawerOpen);
     };
 
+    const { announcements: leftDrawer, notices: rightDrawer } = notifications ?? {};
     const hideRightDrawer = rightDrawer?.count <= 0 || !rightDrawer;
 
     const handleOnClose = (direction, closeDrawer) => {
@@ -144,7 +144,6 @@ Sidebar.propTypes = {
     onLogoClick: PropTypes.func.isRequired,
     notifications: PropTypes.shape({
         announcements: PropTypes.shape({
-            isOpen: PropTypes.bool,
             count: PropTypes.number,
             content: PropTypes.node,
             title: PropTypes.string,
@@ -152,7 +151,6 @@ Sidebar.propTypes = {
             onClose: PropTypes.func,
         }),
         notices: PropTypes.shape({
-            isOpen: PropTypes.bool,
             count: PropTypes.number,
             content: PropTypes.node,
             title: PropTypes.string,
