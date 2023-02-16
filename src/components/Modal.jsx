@@ -20,23 +20,29 @@ export const Modal = ({
     children,
     className,
 }) => {
-    const [startCoordinates, setStartCoordinates] = useState();
     const handleOutsideClick = () => {
         if (shouldCloseOnOutsideClick) {
             onClose();
         }
     };
 
+    const [clientY, setClientY] = useState();
     const handleTouchStart = (e) => {
-        setStartCoordinates(e.touches[0].clientY);
+        e.stopPropagation();
+        setClientY(e.touches?.[0].clientY);
     };
 
     const handleTouchMove = (e) => {
-        const currentY = e.touches[0].clientY;
-        const diffY = currentY - startCoordinates;
-
-        if (diffY > 100) {
-            onClose?.();
+        e.stopPropagation();
+        const currentY = e.touches?.[0].clientY;
+        const diffY = currentY - clientY;
+        if (diffY > 80) {
+            // The swipe was more than 80px, so close the div
+            setTimeout(() => {
+                // Hack because sometimes there are other operations queued up and calling close now won't close it
+                onClose();
+                setClientY(null);
+            }, 100);
         }
     };
 
@@ -44,12 +50,12 @@ export const Modal = ({
         <Transition appear show={isOpen} as={Fragment}>
             <Dialog
                 as="div"
-                className="ui-modal fixed inset-0 z-30 overflow-y-auto"
+                className="ui-modal absolute inset-0 z-30 overflow-hidden sm:fixed sm:overflow-auto"
                 onTouchStart={handleTouchStart}
                 onTouchMove={handleTouchMove}
                 onClose={handleOutsideClick}
             >
-                <div className="min-h-screen p-0 text-center">
+                <div className="sm:min-h-screen sm:p-0 sm:text-center">
                     <Transition.Child
                         as={Fragment}
                         enter="ease-out duration-300"
