@@ -50,7 +50,7 @@ export const Modal = ({
         <Transition appear show={isOpen} as={Fragment}>
             <Dialog
                 as="div"
-                className="ui-modal absolute inset-0 z-30 overflow-hidden sm:fixed sm:overflow-auto"
+                className="ui-modal fixed inset-0 z-30"
                 onTouchStart={handleTouchStart}
                 onTouchMove={handleTouchMove}
                 onClose={handleOutsideClick}
@@ -80,7 +80,7 @@ export const Modal = ({
                         enterTo="opacity-100 translate-y-0 sm:scale-100"
                         leave="ease-in duration-500 sm:duration-200"
                         leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-                        leaveTo="opacity-0 translate-y-full sm:translate-y-0 sm:scale-95"
+                        leaveTo="opacity-0 translate-y-30 sm:translate-y-0 sm:scale-95"
                     >
                         <div
                             className={clsx(
