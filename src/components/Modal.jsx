@@ -86,7 +86,7 @@ export const Modal = ({
                             className={clsx(
                                 className,
                                 sizes[size],
-                                "absolute bottom-0 sm:relative sm:inline-block sm:inline-block",
+                                "absolute bottom-0 sm:relative sm:inline-block",
                                 "w-full transform overflow-hidden rounded-tl-2xl rounded-tr-2xl bg-white py-4 px-8",
                                 "text-left shadow-xl transition-all sm:rounded-lg sm:p-10",
                             )}
