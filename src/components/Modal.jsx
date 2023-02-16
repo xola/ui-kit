@@ -76,7 +76,7 @@ export const Modal = ({
                             ) : null}
 
                             {/* Show a little bar at the top in mobile only to show you can swipe this down */}
-                            <div className="absolute left-1/2 h-1.5 w-18 -translate-x-1/2 rounded-full bg-black opacity-10 sm:hidden"></div>
+                            <div className="absolute left-1/2 h-1.5 w-18 -translate-x-1/2 rounded-full bg-black opacity-10 sm:hidden" />
 
                             {/* The actual content of the modal with padding for mobile only */}
                             <div className="pt-6 sm:pt-0">{children}</div>
