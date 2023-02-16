@@ -1,7 +1,7 @@
 import { Dialog, Transition } from "@headlessui/react";
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { CloseIcon } from "../icons/CloseIcon";
 
 // Widths are for desktop designs because mobile is always full width
@@ -20,15 +20,35 @@ export const Modal = ({
     children,
     className,
 }) => {
+    const [startCoordinates, setStartCoordinates] = useState();
     const handleOutsideClick = () => {
         if (shouldCloseOnOutsideClick) {
             onClose();
         }
     };
 
+    const handleTouchStart = (e) => {
+        setStartCoordinates(e.touches[0].clientY);
+    };
+
+    const handleTouchMove = (e) => {
+        const currentY = e.touches[0].clientY;
+        const diffY = currentY - startCoordinates;
+
+        if (diffY > 100) {
+            onClose?.();
+        }
+    };
+
     return (
         <Transition appear show={isOpen} as={Fragment}>
-            <Dialog as="div" className="ui-modal fixed inset-0 z-30 overflow-y-auto" onClose={handleOutsideClick}>
+            <Dialog
+                as="div"
+                className="ui-modal fixed inset-0 z-30 overflow-y-auto"
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onClose={handleOutsideClick}
+            >
                 <div className="min-h-screen p-0 text-center">
                     <Transition.Child
                         as={Fragment}
