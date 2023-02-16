@@ -4,11 +4,12 @@ import PropTypes from "prop-types";
 import React, { Fragment } from "react";
 import { CloseIcon } from "../icons/CloseIcon";
 
+// Widths are for desktop designs because mobile is always full width
 const sizes = {
-    small: "max-w-100",
-    medium: "max-w-125",
-    large: "max-w-150",
-    huge: "max-w-200",
+    small: "sm:max-w-100",
+    medium: "sm:max-w-125",
+    large: "sm:max-w-150",
+    huge: "sm:max-w-200",
 };
 
 export const Modal = ({
@@ -28,7 +29,7 @@ export const Modal = ({
     return (
         <Transition appear show={isOpen} as={Fragment}>
             <Dialog as="div" className="ui-modal fixed inset-0 z-30 overflow-y-auto" onClose={handleOutsideClick}>
-                <div className="min-h-screen p-0 pt-10 text-center">
+                <div className="min-h-screen p-0 text-center">
                     <Transition.Child
                         as={Fragment}
                         enter="ease-out duration-300"
@@ -59,10 +60,9 @@ export const Modal = ({
                             className={clsx(
                                 className,
                                 sizes[size],
-                                "w-full transform overflow-hidden rounded-tl-2xl rounded-tr-2xl bg-white sm:rounded-lg",
                                 "absolute bottom-0 sm:relative sm:inline-block sm:inline-block",
-                                "p-10 text-left",
-                                "shadow-xl transition-all",
+                                "w-full transform overflow-hidden rounded-tl-2xl rounded-tr-2xl bg-white py-4 px-8",
+                                "text-left shadow-xl transition-all sm:rounded-lg sm:p-10",
                             )}
                         >
                             {onClose ? (
@@ -75,7 +75,11 @@ export const Modal = ({
                                 </button>
                             ) : null}
 
-                            {children}
+                            {/* Show a little bar at the top in mobile only to show you can swipe this down */}
+                            <div className="absolute left-1/2 h-1.5 w-18 -translate-x-1/2 rounded-full bg-black opacity-10 sm:hidden"></div>
+
+                            {/* The actual content of the modal with padding for mobile only */}
+                            <div className="pt-6 sm:pt-0">{children}</div>
                         </div>
                     </Transition.Child>
                 </div>
