@@ -30,13 +30,13 @@
   */
 .DayPicker-Month {
     @apply my-0 mx-0 p-0 pt-0.5 ring-0 focus:outline-none focus:ring-0;
-    min-width: 400px; /* Odd width given from Figma */
+    @apply min-w-[200px] sm:min-w-[400px];
     border-collapse: inherit;
     border-spacing: 0 8px; /* 8px between each week (row) */
 }
 
 .DayPicker-Month .DayPicker-Caption {
-    @apply m-0 h-10 p-0 pl-4;
+    @apply m-0 h-10 p-0 pl-2 sm:pl-4;
     margin-bottom: 10px;
 }
 
@@ -52,7 +52,7 @@
 /* The "Today" button.
     A lot of specific vaules which I normally wouldn't use. But this is a third party lib where I cannot change the markup */
 .DayPicker-TodayButton {
-    @apply absolute top-0 right-24 h-10 px-3.5 py-2.5 leading-4;
+    @apply absolute top-0 right-20 sm:right-24 h-10 px-2 sm:px-3.5 py-2.5 leading-4;
     @apply rounded border border-solid border-gray bg-white text-base font-semibold tracking-tightest text-black hover:border-blue hover:bg-blue-lighter;
 }
 
@@ -71,8 +71,8 @@
 }
 
 .DayPicker-Day {
-    @apply h-8 w-8 !p-0 leading-3 ring-0 focus:outline-none focus:ring-0;
-    @apply !pl-3; /* This will center the cell */
+    @apply h-5 w-5 sm:h-8 sm:w-8 !p-0 leading-3 ring-0 focus:outline-none focus:ring-0;
+    @apply !pl-2 sm:!pl-3; /* This will center the cell */
 }
 
 /* .DayPicker-Day .ui-day-content-value {
