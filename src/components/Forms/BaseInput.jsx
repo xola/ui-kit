@@ -1,8 +1,8 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import React from "react";
+import { isEmpty } from "lodash";
 import { Dot } from "../Dot";
-import {isEmpty} from "lodash";
 
 const sizes = {
     small: "px-3 py-1.5 text-sm leading-sm", // 30px
@@ -37,5 +37,5 @@ BaseInput.propTypes = {
     className: PropTypes.string,
     isError: PropTypes.bool,
     isRequired: PropTypes.bool,
-    value: PropTypes.string
+    value: PropTypes.string,
 };
