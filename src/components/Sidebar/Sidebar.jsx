@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { AnnounceIcon } from "../../icons/AnnounceIcon";
 import { BellIcon } from "../../icons/BellIcon";
 import { XolaLogoSimple } from "../../images/XolaLogoSimple";
@@ -21,6 +21,12 @@ const LeftDrawerCountStyle = {
 export const Sidebar = ({ logo, children, className, footer, notifications, isFixed = true, onLogoClick }) => {
     const [isLeftDrawerOpen, setIsLeftDrawerOpen] = useState(false);
     const [isRightDrawerOpen, setIsRightDrawerOpen] = useState(false);
+
+    useEffect(() => {
+        setIsLeftDrawerOpen(false); // Close the drawer if notifications changes
+        setIsRightDrawerOpen(false);
+    }, [notifications]);
+
     const toggleLeftDrawer = () => {
         if (!isLeftDrawerOpen) {
             // Close the right drawer when you open the left
