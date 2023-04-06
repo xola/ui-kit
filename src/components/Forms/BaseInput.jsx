@@ -26,7 +26,8 @@ export const BaseInput = ({ as: Tag, size = "medium", isError, className, isRequ
                 value={value}
                 {...rest}
             />
-            {isRequired && isEmpty(value) && <Dot className="absolute right-3" color="danger" />}
+             {/* added trim method to prevent the leading and trailing white spaces */}
+            {isRequired && isEmpty(value.trim()) && <Dot className="absolute right-3" color="danger" />}
         </div>
     );
 };
