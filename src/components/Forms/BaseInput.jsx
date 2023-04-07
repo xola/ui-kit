@@ -11,6 +11,8 @@ const sizes = {
 };
 
 export const BaseInput = ({ as: Tag, size = "medium", isError, className, isRequired, value, ...rest }) => {
+    console.log("🚀 ~ file: BaseInput.jsx:14 ~ BaseInput ~ value:", value)
+    {/* added trim method for in case value is string type to prevent the leading and trailing white spaces */}
     const isEmptyValue = isString(value) ? isEmpty(value.trim()) : isEmpty(value);
 
     return (
@@ -28,7 +30,6 @@ export const BaseInput = ({ as: Tag, size = "medium", isError, className, isRequ
                 value={value}
                 {...rest}
             />
-            {/* added trim method to prevent the leading and trailing white spaces */}
             {isRequired && isEmptyValue && <Dot className="absolute right-3" color="danger" />}
         </div>
     );
