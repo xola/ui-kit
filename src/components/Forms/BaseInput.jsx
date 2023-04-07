@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import React from "react";
-import { isEmpty } from "lodash";
+import { isEmpty, isString } from "lodash";
 import { Dot } from "../Dot";
 
 const sizes = {
@@ -11,6 +11,8 @@ const sizes = {
 };
 
 export const BaseInput = ({ as: Tag, size = "medium", isError, className, isRequired, value, ...rest }) => {
+    const isEmptyValue = isString(value) ? isEmpty(value.trim()) : isEmpty(value);
+
     return (
         <div className="relative flex w-full items-center">
             <Tag
@@ -27,7 +29,7 @@ export const BaseInput = ({ as: Tag, size = "medium", isError, className, isRequ
                 {...rest}
             />
             {/* added trim method to prevent the leading and trailing white spaces */}
-            {isRequired && isEmpty(value.trim()) && <Dot className="absolute right-3" color="danger" />}
+            {isRequired && isEmptyValue && <Dot className="absolute right-3" color="danger" />}
         </div>
     );
 };
