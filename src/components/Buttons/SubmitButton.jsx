@@ -19,14 +19,21 @@ export const SubmitButton = ({ color = "primary", isLoading, isSuccess, classNam
     const [showSuccess, setShowSuccess] = useState(false);
 
     useEffect(() => {
+        let timer = null;
         if (isSuccess && !isLoading) {
             setShowSuccess(true);
-            setTimeout(() => setShowSuccess(false), 3000);
+            timer = setTimeout(() => setShowSuccess(false), 3000);
         }
 
         if (isLoading) {
             setShowSuccess(false);
         }
+
+        return () => {
+            if (timer) {
+                clearTimeout(timer);
+            }
+        };
     }, [isSuccess, isLoading]);
 
     const showTransition = isLoading || showSuccess;
