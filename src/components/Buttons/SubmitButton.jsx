@@ -1,9 +1,10 @@
 import { Transition } from "@headlessui/react";
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Spinner } from "../Spinner";
 import { Button } from "./Button";
+import { CheckIcon } from "../../icons/CheckIcon";
 
 const loadingColors = {
     primary: "!bg-primary-light",
@@ -14,7 +15,21 @@ const loadingColors = {
     danger: "!bg-danger-light",
 };
 
-export const SubmitButton = ({ color = "primary", isLoading, className, children, ...rest }) => {
+export const SubmitButton = ({ color = "primary", isLoading, isSuccess, isError, className, children, ...rest }) => {
+    const [showSuccess, setShowSuccess] = useState(false);
+
+    useEffect(() => {
+        if (isSuccess && !isLoading) {
+            setShowSuccess(true);
+            setTimeout(() => setShowSuccess(false), 3000);
+        }
+        if (isLoading) {
+            setShowSuccess(false);
+        }
+    }, [isSuccess, isLoading]);
+
+    const showTransition = isLoading || showSuccess;
+
     return (
         <Button
             color={color}
@@ -25,21 +40,28 @@ export const SubmitButton = ({ color = "primary", isLoading, className, children
             <span
                 className={clsx(
                     "absolute inset-0 flex items-center justify-center",
-                    isLoading ? "opacity-100" : "opacity-0",
+                    showTransition ? "opacity-100" : "opacity-0",
                 )}
             >
-                <Transition
-                    appear
-                    as="span"
-                    show={isLoading}
-                    enter="transition-all duration-700"
-                    enterFrom="opacity-0"
-                    enterTo="opacity-100"
-                >
-                    <Spinner size="current" color="current" className="relative -top-0.25 text-white" />
-                </Transition>
+                {showTransition && (
+                    <Transition
+                        appear
+                        as="span"
+                        show={showTransition}
+                        enter="transition-all duration-700"
+                        enterFrom="opacity-0"
+                        enterTo="opacity-100"
+                    >
+                        {showSuccess && (
+                            <CheckIcon size="medium" color="current" className="relative -top-0.25 text-white" />
+                        )}
+                        {isLoading && !showSuccess && (
+                            <Spinner size="current" color="current" className="relative -top-0.25 text-white" />
+                        )}
+                    </Transition>
+                )}
             </span>
-            <span className={clsx(isLoading ? "flex-shrink flex-grow opacity-0" : "opacity-100")}>{children}</span>
+            <span className={clsx(showTransition ? "flex-shrink flex-grow opacity-0" : "opacity-100")}>{children}</span>
         </Button>
     );
 };
@@ -47,4 +69,5 @@ export const SubmitButton = ({ color = "primary", isLoading, className, children
 SubmitButton.propTypes = {
     ...Button.propTypes,
     isLoading: PropTypes.bool,
+    isSuccess: PropTypes.bool,
 };
