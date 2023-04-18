@@ -3,8 +3,8 @@ import clsx from "clsx";
 import PropTypes from "prop-types";
 import React, { useState, useEffect } from "react";
 import { Spinner } from "../Spinner";
-import { Button } from "./Button";
 import { CheckIcon } from "../../icons/CheckIcon";
+import { Button } from "./Button";
 
 const loadingColors = {
     primary: "!bg-primary-light",
@@ -15,7 +15,7 @@ const loadingColors = {
     danger: "!bg-danger-light",
 };
 
-export const SubmitButton = ({ color = "primary", isLoading, isSuccess, isError, className, children, ...rest }) => {
+export const SubmitButton = ({ color = "primary", isLoading, isSuccess, className, children, ...rest }) => {
     const [showSuccess, setShowSuccess] = useState(false);
 
     useEffect(() => {
@@ -23,6 +23,7 @@ export const SubmitButton = ({ color = "primary", isLoading, isSuccess, isError,
             setShowSuccess(true);
             setTimeout(() => setShowSuccess(false), 3000);
         }
+
         if (isLoading) {
             setShowSuccess(false);
         }
