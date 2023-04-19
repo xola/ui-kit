@@ -38,7 +38,8 @@ const BreakdownItem = ({ children, info, methodIcon, secondary, value, className
     return (
         <tr className={clsx("ui-breakdown-item", colors[color], className)} {...rest}>
             <td colSpan={2} className="text-left leading-none">
-                {methodIcon} {children}
+                <span className="mr-0.5">{methodIcon}</span>
+                <span>{children}</span>
                 <span className="ml-1 text-sm">
                     {info && (
                         <span className="mr-2 rounded bg-white p-1 uppercase text-black empty:hidden">{info}</span>
