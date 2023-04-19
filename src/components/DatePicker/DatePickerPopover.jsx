@@ -70,15 +70,17 @@ export const DatePickerPopover = ({
             )}
 
             <Popover.Content className="pr-1">
-                <DatePicker
-                    variant={variant}
-                    getDayContent={getDayContent}
-                    value={value}
-                    components={components}
-                    onChange={handleChange}
-                    onSubmitDateRange={handleSubmitDateRange}
-                    {...rest}
-                />
+                {isVisible && (
+                    <DatePicker
+                        variant={variant}
+                        getDayContent={getDayContent}
+                        value={value}
+                        components={components}
+                        onChange={handleChange}
+                        onSubmitDateRange={handleSubmitDateRange}
+                        {...rest}
+                    />
+                )}
             </Popover.Content>
         </Popover>
     );
