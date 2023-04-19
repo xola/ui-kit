@@ -41,7 +41,7 @@ const BreakdownItem = ({ children, info, methodIcon, secondary, value, className
                 {methodIcon} {children}
                 <span className="ml-1 text-sm">
                     {info && (
-                        <span className="mr-2 rounded bg-white p-1 uppercase text-black empty:hidden">{info}</span>
+                        <span className="mr-1 rounded bg-white p-0.5 uppercase text-black empty:hidden">{info}</span>
                     )}
                     {secondary && <span className="empty:hidden">{secondary}</span>}
                 </span>
