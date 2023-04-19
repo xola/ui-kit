@@ -28,6 +28,7 @@ export const SubmitButton = ({ color = "primary", isLoading, isSuccess, classNam
         if (isLoading && showSuccess) {
             setShowSuccess(false);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isSuccess, isLoading]);
 
     const showTransition = isLoading || showSuccess;
