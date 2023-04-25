@@ -11,7 +11,8 @@ const sizes = {
 };
 
 export const BaseInput = ({ as: Tag, size = "medium", isError, className, isRequired, value, ...rest }) => {
-    const stringValue = isString(value) && value.replace("$", "").trim();
+    //added regexp to return only numbers
+    const stringValue = isString(value) && value.replace(/[^.\d]+/g, "");
     // Added trim method for string value to prevent leading and trailing spaces.
     // Since the input can only be a string or a number, added the toString method for a numeric value, because lodash's IsEmpty method returns true for any number.
     const isEmptyValue = isString(value) ? isEmpty(stringValue) : isEmpty(value?.toString());
