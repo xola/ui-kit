@@ -99,6 +99,7 @@ export const Search = ({
         closeMenu,
     } = useCombobox({
         items: itemList,
+        inputValue,
         onInputValueChange: handleInputChange,
         itemToString: () => inputValue, // We will not change the search input after an item is selected.
         defaultHighlightedIndex: 0,
@@ -154,6 +155,9 @@ export const Search = ({
                         ref: inputReference,
                         onFocus: handleInputFocus,
                         onBlur: () => setShowShortcutKey(true),
+                        onChange: (e) => {
+                            setInputValue(e.target.value);
+                        },
                         ...rest,
                     })}
                 />
