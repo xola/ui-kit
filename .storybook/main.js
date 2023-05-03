@@ -1,5 +1,6 @@
 module.exports = {
     stories: ["../src/**/*.stories.@(js|jsx|mdx)"],
+    staticDirs: ["../public"],
 
     addons: [
         "@storybook/addon-postcss",
