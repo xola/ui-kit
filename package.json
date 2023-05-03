@@ -26,7 +26,8 @@
         "lint:report": "xola-lint --ignore src/stories src --reporter=json src > eslint_report.json && echo 'ESLint report saved to eslint_report.json'",
         "format": "prettier --write src",
         "test": "xola-lint && jest",
-        "chromatic": "chromatic --exit-zero-on-changes --build-script-name build:storybook"
+        "chromatic": "chromatic --exit-zero-on-changes --build-script-name build:storybook",
+        "publish": "npm run build && np --no-tests --any-branch"
     },
     "dependencies": {
         "@headlessui/react": "^1.4.0",
