@@ -1,6 +1,6 @@
 {
     "name": "@xola/ui-kit",
-    "version": "2.2.0-1",
+    "version": "2.2.0-2",
     "description": "Xola UI Kit",
     "license": "MIT",
     "files": [
@@ -16,23 +16,17 @@
         "prebuild": "node scripts/prepare",
         "build": "npx tsc && vite build",
         "watch": "npm run build -- --watch",
-
         "prestart": "node scripts/prepare",
         "start": "start-storybook -p 6006 --no-open --quiet",
-
         "predev": "node scripts/prepare",
         "dev": "start-storybook -p 6006 --no-open --no-manager-cache",
         "clean": "rm -rf node_modules/.vite",
-
         "lint:fix": "xola-lint --ignore src/stories src --fix",
         "lint:report": "xola-lint --ignore src/stories src --reporter=json src > eslint_report.json && echo 'ESLint report saved to eslint_report.json'",
         "format": "prettier --write src",
-        
         "test": "jest",
-
         "build:storybook": "npm run prebuild && build-storybook",
         "chromatic": "chromatic --exit-zero-on-changes --build-script-name build:storybook",
-
         "prepublish": "npm run build",
         "publish": "np --no-tests --any-branch"
     },
