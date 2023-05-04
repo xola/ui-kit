@@ -56,7 +56,13 @@ export const SubmitButton = ({ color = "primary", isLoading, isSuccess, classNam
                         enterTo="opacity-100"
                     >
                         {showSuccess && (
-                            <CheckIcon size="medium" color="current" className="relative -top-0.25 text-white" />
+                            <CheckIcon
+                                size="medium"
+                                color="current"
+                                className={clsx("relative -top-0.25 text-white", {
+                                    "text-black": rest.variant === "outline",
+                                })}
+                            />
                         )}
                         {isLoading && !showSuccess && (
                             <Spinner size="current" color="current" className="relative -top-0.25 text-white" />
