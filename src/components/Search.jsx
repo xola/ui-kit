@@ -155,6 +155,7 @@ export const Search = ({
                         ref: inputReference,
                         onFocus: handleInputFocus,
                         onBlur: () => setShowShortcutKey(true),
+                        onChange: (e) => setInputValue(e.target.value),
                         ...rest,
                     })}
                 />
