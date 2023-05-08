@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import React from "react";
+import { isEmpty, isString } from "lodash";
 import { Dot } from "../Dot";
 
 const sizes = {
@@ -9,7 +10,12 @@ const sizes = {
     large: "px-5 py-3.5 text-md leading-md", // 50px
 };
 
-export const BaseInput = ({ as: Tag, size = "medium", isError, className, isRequired, ...rest }) => {
+export const BaseInput = ({ as: Tag, size = "medium", isError, className, isRequired, value, ...rest }) => {
+    // added regexp to return only non-whitespace characters for strings and remove currency sign for currency input
+    const stringValue = isString(value) && value.replace(/[^.\S]+/g, "").replace(/[\p{Sc}]/u, "");
+    // Since the input can only be a string or a number, added the toString method for a numeric value, because lodash's IsEmpty method returns true for any number.
+    const isEmptyValue = isString(value) ? isEmpty(stringValue) : isEmpty(value?.toString());
+
     return (
         <div className="relative flex w-full items-center">
             <Tag
@@ -22,9 +28,10 @@ export const BaseInput = ({ as: Tag, size = "medium", isError, className, isRequ
                         : "border-gray-light focus:border-primary focus:ring-0 focus:ring-primary",
                     className,
                 )}
+                value={value}
                 {...rest}
             />
-            {isRequired && <Dot className="absolute right-3" color="danger" />}
+            {isRequired && isEmptyValue && <Dot className="absolute right-3" color="danger" />}
         </div>
     );
 };
@@ -35,4 +42,5 @@ BaseInput.propTypes = {
     className: PropTypes.string,
     isError: PropTypes.bool,
     isRequired: PropTypes.bool,
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
