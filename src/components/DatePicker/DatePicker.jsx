@@ -35,6 +35,7 @@ export const DatePicker = ({
     components = {},
     getTooltip,
     upcomingDates,
+    shouldSelectFutureDatesInRelativeRange = true,
     ...rest
 }) => {
     const initialValue = variant === variants.single ? value : value.from;
@@ -87,7 +88,15 @@ export const DatePicker = ({
 
     const handleRelativeRangeChanged = (rangeName, range) => {
         setCurrentMonth(range.from);
-        onChange(range, modifiers, null);
+        const newRange = { ...range };
+        if (
+            !shouldSelectFutureDatesInRelativeRange && // don't select future dates, e.g. for cash flow report
+            range.to.isAfter(dayjs().get("date"))
+        ) {
+            newRange.to = dayjs().get("date");
+        }
+
+        onChange(newRange, modifiers, null);
     };
 
     const handleMonthChange = (m) => {
