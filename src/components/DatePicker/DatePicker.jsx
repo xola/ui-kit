@@ -35,7 +35,7 @@ export const DatePicker = ({
     components = {},
     getTooltip,
     upcomingDates,
-    timezone = null, // seller timezone (e.g. "America/Los_Angeles") to return correct today date
+    timezoneName = null, // seller timezone (e.g. "America/Los_Angeles") to return correct today date
     ...rest
 }) => {
     const initialValue = variant === variants.single ? value : value.from;
@@ -77,7 +77,7 @@ export const DatePicker = ({
             return;
         }
 
-        const today = timezone ? dayjs().tz(timezone).toDate() : new Date();
+        const today = timezoneName ? dayjs().tz(timezoneName).toDate() : new Date();
 
         if (options.disabled || isDisabled(today)) {
             setCurrentMonth(today);
@@ -234,5 +234,5 @@ DatePicker.propTypes = {
     shouldShowRelativeRanges: PropTypes.bool,
     components: PropTypes.shape({ Footer: PropTypes.oneOfType([PropTypes.node, PropTypes.func]) }),
     getTooltip: PropTypes.func,
-    timezone: PropTypes.string,
+    timezoneName: PropTypes.string,
 };
