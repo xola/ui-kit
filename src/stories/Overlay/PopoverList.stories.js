@@ -58,8 +58,77 @@ export const Default = () => {
 
     return (
         <div className="h-64">
-            <PopoverList offset={[0, 18]} visible={visible} onClickOutside={hide}>
+            <PopoverList
+                className="max-h-60 !w-72 overflow-y-auto"
+                offset={[0, 18]}
+                visible={visible}
+                onClickOutside={hide}
+            >
                 <Button onClick={visible ? hide : show}>Hover over me</Button>
+                <PopoverList.Item name="list" onClickItem={onClickItem}>
+                    <MenuIcon />
+                    <span>List</span>
+                </PopoverList.Item>
+                <PopoverList.Item isActive name="day" onClickItem={onClickItem}>
+                    <CalendarDayIcon />
+                    <span>Day</span>
+                </PopoverList.Item>
+                <PopoverList.Item name="week" onClickItem={onClickItem}>
+                    <CalendarWeekIcon />
+                    <span>Week</span>
+                </PopoverList.Item>
+                <PopoverList.Item name="month" onClickItem={onClickItem}>
+                    <CalendarMonthIcon />
+                    <span>Month</span>
+                </PopoverList.Item>
+                <PopoverList.Item name="list" onClickItem={onClickItem}>
+                    <MenuIcon />
+                    <span>List</span>
+                </PopoverList.Item>
+                <PopoverList.Item isActive name="day" onClickItem={onClickItem}>
+                    <CalendarDayIcon />
+                    <span>Day</span>
+                </PopoverList.Item>
+                <PopoverList.Item name="week" onClickItem={onClickItem}>
+                    <CalendarWeekIcon />
+                    <span>Week</span>
+                </PopoverList.Item>
+                <PopoverList.Item name="month" onClickItem={onClickItem}>
+                    <CalendarMonthIcon />
+                    <span>Month</span>
+                </PopoverList.Item>
+                <PopoverList.Item name="list" onClickItem={onClickItem}>
+                    <MenuIcon />
+                    <span>List</span>
+                </PopoverList.Item>
+                <PopoverList.Item isActive name="day" onClickItem={onClickItem}>
+                    <CalendarDayIcon />
+                    <span>Day</span>
+                </PopoverList.Item>
+                <PopoverList.Item name="week" onClickItem={onClickItem}>
+                    <CalendarWeekIcon />
+                    <span>Week</span>
+                </PopoverList.Item>
+                <PopoverList.Item name="month" onClickItem={onClickItem}>
+                    <CalendarMonthIcon />
+                    <span>Month</span>
+                </PopoverList.Item>
+                <PopoverList.Item name="list" onClickItem={onClickItem}>
+                    <MenuIcon />
+                    <span>List</span>
+                </PopoverList.Item>
+                <PopoverList.Item isActive name="day" onClickItem={onClickItem}>
+                    <CalendarDayIcon />
+                    <span>Day</span>
+                </PopoverList.Item>
+                <PopoverList.Item name="week" onClickItem={onClickItem}>
+                    <CalendarWeekIcon />
+                    <span>Week</span>
+                </PopoverList.Item>
+                <PopoverList.Item name="month" onClickItem={onClickItem}>
+                    <CalendarMonthIcon />
+                    <span>Month</span>
+                </PopoverList.Item>
                 <PopoverList.Item name="list" onClickItem={onClickItem}>
                     <MenuIcon />
                     <span>List</span>
