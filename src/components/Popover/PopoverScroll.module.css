@@ -1,3 +1,5 @@
+/* Scrollfix for Popover components (macOS) */
+
 ::-webkit-scrollbar {
     -webkit-appearance: none;
     width: 8px;

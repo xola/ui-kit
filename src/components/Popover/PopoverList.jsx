@@ -2,7 +2,7 @@ import clsx from "clsx";
 import PropTypes from "prop-types";
 import React, { Children } from "react";
 import { Popover } from "./Popover";
-import style from "./PopoverList.css";
+import scrollFix from "./PopoverScroll.module.css";
 
 export const PopoverList = ({ placement = "bottom", className, children, ...rest }) => {
     const childrenArray = Children.toArray(children);
@@ -14,7 +14,7 @@ export const PopoverList = ({ placement = "bottom", className, children, ...rest
 
     const content = (
         <Popover.Content
-            className={clsx(style, "ui-popover-list-content divide-y divide-solid divide-gray-lighter p-0 ")}
+            className={clsx(scrollFix, "ui-popover-list-content divide-y divide-solid divide-gray-lighter p-0 ")}
         >
             {items}
         </Popover.Content>

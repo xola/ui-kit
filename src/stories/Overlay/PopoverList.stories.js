@@ -114,4 +114,58 @@ export const NoIcons = (props) => {
     );
 };
 
+export const Scrollable = () => {
+    const [visible, setVisible] = useState(false);
+    const show = () => setVisible(true);
+    const hide = () => setVisible(false);
+
+    const onClickItem = (event_, element) => {
+        console.log("Clicked on", event_, element);
+        setVisible(false);
+    };
+
+    return (
+        <div className="h-64">
+            <PopoverList
+                className="max-h-96 w-75 overflow-y-auto"
+                offset={[0, 18]}
+                visible={visible}
+                onClickOutside={hide}
+            >
+                <Button onClick={visible ? hide : show}>Click here</Button>
+                <PopoverList.Item name="item1" onClickItem={onClickItem}>
+                    Item 1
+                </PopoverList.Item>
+                <PopoverList.Item name="item2" onClickItem={onClickItem}>
+                    Item 2
+                </PopoverList.Item>
+                <PopoverList.Item name="item3" onClickItem={onClickItem}>
+                    Item 3
+                </PopoverList.Item>
+                <PopoverList.Item name="item4" onClickItem={onClickItem}>
+                    Item 4
+                </PopoverList.Item>
+                <PopoverList.Item name="item5" onClickItem={onClickItem}>
+                    Item 5
+                </PopoverList.Item>
+                <PopoverList.Item name="item6" onClickItem={onClickItem}>
+                    Item 6
+                </PopoverList.Item>
+                <PopoverList.Item name="item7" onClickItem={onClickItem}>
+                    Item 7
+                </PopoverList.Item>
+                <PopoverList.Item name="item8" onClickItem={onClickItem}>
+                    Item 8
+                </PopoverList.Item>
+                <PopoverList.Item name="item9" onClickItem={onClickItem}>
+                    Item 9
+                </PopoverList.Item>
+                <PopoverList.Item name="item10" onClickItem={onClickItem}>
+                    Item 10
+                </PopoverList.Item>
+            </PopoverList>
+        </div>
+    );
+};
+
 export default PopoverStories;
