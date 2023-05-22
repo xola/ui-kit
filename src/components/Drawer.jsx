@@ -42,7 +42,7 @@ export const Drawer = ({ isOpen = false, title, content, onClose, classNames = {
                             leaveFrom="translate-x-0"
                             leaveTo={position === "right" ? "translate-x-full" : "-translate-x-full"}
                         >
-                            <div className="w-screen max-w-xl ">
+                            <div className="w-screen max-w-xl md:max-w-screen-md">
                                 <div className="flex h-full flex-col overflow-y-auto bg-white py-8 shadow-xl">
                                     <div className="px-4 sm:px-6">
                                         <div className="flex items-start justify-between">
