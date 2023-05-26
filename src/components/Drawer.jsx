@@ -52,7 +52,7 @@ export const Drawer = ({
                         >
                             <div className="flex w-screen max-w-xl md:max-w-screen-md">
                                 {isCloseButtonOutside && position === "right" ? (
-                                    <CloseButton onClose={onClose} isCloseButtonOutside />
+                                    <CloseButton isCloseButtonOutside onClose={onClose} />
                                 ) : null}
 
                                 <div className="flex h-full w-full flex-col overflow-y-auto bg-white py-8 shadow-xl">
@@ -60,7 +60,7 @@ export const Drawer = ({
                                         <div className="flex items-start justify-between">
                                             {/* eslint-disable-next-line react/jsx-max-depth */}
                                             <Dialog.Title>{title}</Dialog.Title>
-                                            {!isCloseButtonOutside ? <CloseButton onClose={onClose} /> : null}
+                                            {!isCloseButtonOutside && <CloseButton onClose={onClose} />}
                                         </div>
                                     </div>
                                     <div className={clsx("relative mt-3 flex-1 px-4 sm:px-6", classNames.content)}>
@@ -69,7 +69,7 @@ export const Drawer = ({
                                 </div>
 
                                 {isCloseButtonOutside && position === "left" ? (
-                                    <CloseButton onClose={onClose} isCloseButtonOutside />
+                                    <CloseButton isCloseButtonOutside onClose={onClose} />
                                 ) : null}
                             </div>
                         </Transition.Child>
@@ -85,10 +85,11 @@ const CloseButton = ({ onClose, isCloseButtonOutside = false }) => {
         <Button
             size="small flex justify-center"
             variant="link"
-            className={clsx("m-1 h-6 w-6  focus:hidden", { "rounded-full bg-gray !text-white": isCloseButtonOutside })}
+            className={clsx("m-1 h-6 w-6 text-gray-darker focus:hidden", {
+                "rounded-full bg-gray !text-white": isCloseButtonOutside,
+            })}
             onClick={onClose}
         >
-            {/* eslint-disable-next-line react/jsx-max-depth */}
             <CloseIcon size="tiny" />
         </Button>
     );
