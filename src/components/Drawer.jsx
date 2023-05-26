@@ -5,7 +5,15 @@ import React, { Fragment } from "react";
 import { CloseIcon } from "../icons/CloseIcon";
 import { Button } from "./Buttons/Button";
 
-export const Drawer = ({ isOpen = false, title, content, onClose, classNames = {}, position = "right" }) => {
+export const Drawer = ({
+    isOpen = false,
+    title,
+    content,
+    onClose,
+    classNames = {},
+    position = "right",
+    isCloseButtonOutside = false,
+}) => {
     return (
         <Transition.Root show={isOpen} as={Fragment}>
             <Dialog
@@ -42,35 +50,47 @@ export const Drawer = ({ isOpen = false, title, content, onClose, classNames = {
                             leaveFrom="translate-x-0"
                             leaveTo={position === "right" ? "translate-x-full" : "-translate-x-full"}
                         >
-                            <div className="w-screen max-w-xl ">
-                                <div className="flex h-full flex-col overflow-y-auto bg-white py-8 shadow-xl">
+                            <div className="flex w-screen max-w-xl md:max-w-screen-md">
+                                {isCloseButtonOutside && position === "right" ? (
+                                    <CloseButton onClose={onClose} isCloseButtonOutside />
+                                ) : null}
+
+                                <div className="flex h-full w-full flex-col overflow-y-auto bg-white py-8 shadow-xl">
                                     <div className="px-4 sm:px-6">
                                         <div className="flex items-start justify-between">
                                             {/* eslint-disable-next-line react/jsx-max-depth */}
                                             <Dialog.Title>{title}</Dialog.Title>
-                                            <div className={clsx("ml-3 flex h-7 items-center")}>
-                                                <Button
-                                                    size="small"
-                                                    variant="link"
-                                                    className="text-gray-darker focus:hidden"
-                                                    onClick={onClose}
-                                                >
-                                                    {/* eslint-disable-next-line react/jsx-max-depth */}
-                                                    <CloseIcon />
-                                                </Button>
-                                            </div>
+                                            {!isCloseButtonOutside ? <CloseButton onClose={onClose} /> : null}
                                         </div>
                                     </div>
                                     <div className={clsx("relative mt-3 flex-1 px-4 sm:px-6", classNames.content)}>
                                         {content}
                                     </div>
                                 </div>
+
+                                {isCloseButtonOutside && position === "left" ? (
+                                    <CloseButton onClose={onClose} isCloseButtonOutside />
+                                ) : null}
                             </div>
                         </Transition.Child>
                     </div>
                 </div>
             </Dialog>
         </Transition.Root>
+    );
+};
+
+const CloseButton = ({ onClose, isCloseButtonOutside = false }) => {
+    return (
+        <Button
+            size="small flex justify-center"
+            variant="link"
+            className={clsx("m-1 h-6 w-6  focus:hidden", { "rounded-full bg-gray !text-white": isCloseButtonOutside })}
+            onClick={onClose}
+        >
+            {/* eslint-disable-next-line react/jsx-max-depth */}
+            <CloseIcon size="tiny" />
+        </Button>
     );
 };
 
@@ -81,4 +101,5 @@ Drawer.propTypes = {
     onClose: PropTypes.func.isRequired,
     classNames: PropTypes.object,
     position: PropTypes.string,
+    isCloseButtonOutside: PropTypes.bool,
 };

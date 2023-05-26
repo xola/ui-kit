@@ -52,4 +52,18 @@ export const Drawers = ({ title = "Hello World", content = "Lorem Ipsum. Click t
     );
 };
 
+export const CloseButtonOutside = ({ title = "Hello World", content = "Lorem Ipsum. Click the X to close" }) => {
+    const [open, setOpen] = useState(false);
+    const onClose = () => setOpen(false);
+
+    return (
+        <div>
+            <Button size="large" onClick={() => setOpen(true)}>
+                Click Me to open the Drawer
+            </Button>
+            <Drawer isCloseButtonOutside title={title} content={content} isOpen={open} onClose={onClose} />
+        </div>
+    );
+};
+
 export default DrawerStories;
