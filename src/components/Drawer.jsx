@@ -57,11 +57,11 @@ export const Drawer = ({
 
                                 <div
                                     className={clsx(
-                                        "flex h-full w-full flex-col overflow-y-auto bg-white px-4 py-8 shadow-xl sm:px-6",
+                                        "pt-50% flex h-full w-full flex-col justify-center overflow-y-auto bg-white px-4 py-8 shadow-xl sm:px-6",
                                         classNames.children,
                                     )}
                                 >
-                                    <div className="flex items-start justify-between">
+                                    <div className="flex items-center justify-between">
                                         {/* eslint-disable-next-line react/jsx-max-depth */}
                                         <Dialog.Title>{title}</Dialog.Title>
                                         {!isCloseButtonOutside && <CloseButton onClose={onClose} />}
