@@ -55,17 +55,18 @@ export const Drawer = ({
                                     <CloseButton isCloseButtonOutside onClose={onClose} />
                                 ) : null}
 
-                                <div className="flex h-full w-full flex-col overflow-y-auto bg-white py-8 shadow-xl">
-                                    <div className="px-4 sm:px-6">
-                                        <div className="flex items-start justify-between">
-                                            {/* eslint-disable-next-line react/jsx-max-depth */}
-                                            <Dialog.Title>{title}</Dialog.Title>
-                                            {!isCloseButtonOutside && <CloseButton onClose={onClose} />}
-                                        </div>
+                                <div
+                                    className={clsx(
+                                        "flex h-full w-full flex-col overflow-y-auto bg-white px-4 py-8 shadow-xl sm:px-6",
+                                        classNames.children,
+                                    )}
+                                >
+                                    <div className="flex items-start justify-between">
+                                        {/* eslint-disable-next-line react/jsx-max-depth */}
+                                        <Dialog.Title>{title}</Dialog.Title>
+                                        {!isCloseButtonOutside && <CloseButton onClose={onClose} />}
                                     </div>
-                                    <div className={clsx("relative mt-3 flex-1 px-4 sm:px-6", classNames.content)}>
-                                        {content}
-                                    </div>
+                                    <div className={clsx("relative mt-3 flex-1", classNames.content)}>{content}</div>
                                 </div>
 
                                 {isCloseButtonOutside && position === "left" ? (
