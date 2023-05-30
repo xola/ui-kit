@@ -38,7 +38,7 @@ export const Drawer = ({
                         className={clsx(
                             "fixed inset-y-0 flex max-w-full",
                             position === "right" ? "right-0" : "left-0",
-                            classNames.dialog,
+                            classNames.dialogContent,
                         )}
                     >
                         <Transition.Child
