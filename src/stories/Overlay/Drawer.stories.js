@@ -61,7 +61,7 @@ export const CloseButtonOutside = ({ title = "Hello World", content = "Lorem Ips
             <Button size="large" onClick={() => setOpen(true)}>
                 Click Me to open the Drawer
             </Button>
-            <Drawer isCloseButtonOutside title = "Hello World" content={content} isOpen={open} onClose={onClose} classNames={{ dialogContent: "w-100", children: "!p-0", content: "mt-0" }}
+            <Drawer isCloseButtonOutside title = "Hello World" content={content} isOpen={open} onClose={onClose} classNames={{ dialogContent: "w-100" }}
  />
         </div>
     );
