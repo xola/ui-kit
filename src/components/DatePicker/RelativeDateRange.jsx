@@ -4,24 +4,24 @@ import React from "react";
 import { Button, Select } from "../..";
 
 const options = {
-    YESTERDAY: "P1D:last",
-    TODAY: "P1D:current",
+    YESTERDAY: "P1D,last",
+    TODAY: "P1D,current",
 
-    LAST_WEEK: "P1W:last",
-    TRAILING_WEEK: "P1W:trailing",
-    THIS_WEEK: "P1W:current",
+    LAST_WEEK: "P1W,last",
+    TRAILING_WEEK: "P1W,trailing",
+    THIS_WEEK: "P1W,current",
 
-    LAST_MONTH: "P1M:last",
-    TRAILING_MONTH: "P1M:trailing",
-    THIS_MONTH: "P1M:current",
+    LAST_MONTH: "P1M,last",
+    TRAILING_MONTH: "P1M,trailing",
+    THIS_MONTH: "P1M,current",
 
-    LAST_QUARTER: "P3M:last",
-    TRAILING_QUARTER: "P3M:trailing",
-    THIS_QUARTER: "P3M:current",
+    LAST_QUARTER: "P3M,last",
+    TRAILING_QUARTER: "P3M,trailing",
+    THIS_QUARTER: "P3M,current",
 
-    LAST_YEAR: "P1Y:last",
-    TRAILING_YEAR: "P1Y:trailing",
-    THIS_YEAR: "P1Y:current",
+    LAST_YEAR: "P1Y,last",
+    TRAILING_YEAR: "P1Y,trailing",
+    THIS_YEAR: "P1Y,current",
 };
 
 export const dateRanges = {
