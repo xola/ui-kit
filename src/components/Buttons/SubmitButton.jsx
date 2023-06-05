@@ -15,7 +15,15 @@ const loadingColors = {
     danger: "!bg-danger-light",
 };
 
-export const SubmitButton = ({ color = "primary", isLoading, isSuccess, className, children, ...rest }) => {
+export const SubmitButton = ({
+    color = "primary",
+    isLoading,
+    isSuccess,
+    reInitialize = false,
+    className,
+    children,
+    ...rest
+}) => {
     const [showSuccess, setShowSuccess] = useState(false);
 
     useEffect(() => {
@@ -31,13 +39,14 @@ export const SubmitButton = ({ color = "primary", isLoading, isSuccess, classNam
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isSuccess, isLoading]);
 
-    const showTransition = isLoading || showSuccess;
+    const showTransition = reInitialize ? isLoading || showSuccess : isLoading || isSuccess;
+    const showCheckIcon = reInitialize ? showSuccess : isSuccess;
 
     return (
         <Button
             color={color}
-            disabled={isLoading}
-            className={clsx(className, "relative", isLoading && loadingColors[color])}
+            disabled={showTransition}
+            className={clsx(className, "relative", showTransition && loadingColors[color])}
             {...rest}
         >
             <span
@@ -55,7 +64,7 @@ export const SubmitButton = ({ color = "primary", isLoading, isSuccess, classNam
                         enterFrom="opacity-0"
                         enterTo="opacity-100"
                     >
-                        {showSuccess && (
+                        {showCheckIcon && (
                             <CheckIcon
                                 size="medium"
                                 color="current"
@@ -64,7 +73,7 @@ export const SubmitButton = ({ color = "primary", isLoading, isSuccess, classNam
                                 })}
                             />
                         )}
-                        {isLoading && !showSuccess && (
+                        {isLoading && !showCheckIcon && (
                             <Spinner size="current" color="current" className="relative -top-0.25 text-white" />
                         )}
                     </Transition>
