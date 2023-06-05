@@ -5,15 +5,7 @@ import React, { Fragment } from "react";
 import { CloseIcon } from "../icons/CloseIcon";
 import { Button } from "./Buttons/Button";
 
-export const Drawer = ({
-    isOpen = false,
-    title,
-    content,
-    onClose,
-    classNames = {},
-    position = "right",
-    isCloseButtonOutside = false,
-}) => {
+export const Drawer = ({ isOpen = false, title, content, onClose, classNames = {}, position = "right" }) => {
     return (
         <Transition.Root show={isOpen} as={Fragment}>
             <Dialog
@@ -51,9 +43,7 @@ export const Drawer = ({
                             leaveTo={position === "right" ? "translate-x-full" : "-translate-x-full"}
                         >
                             <div className="flex w-screen max-w-xl md:max-w-screen-md">
-                                {isCloseButtonOutside && position === "right" ? (
-                                    <CloseButton isCloseButtonOutside onClose={onClose} />
-                                ) : null}
+                                {position === "right" ? <CloseButton onClose={onClose} /> : null}
 
                                 <div
                                     className={clsx(
@@ -64,14 +54,11 @@ export const Drawer = ({
                                     <div className="flex items-start justify-between">
                                         {/* eslint-disable-next-line react/jsx-max-depth */}
                                         <Dialog.Title>{title}</Dialog.Title>
-                                        {!isCloseButtonOutside && <CloseButton onClose={onClose} />}
                                     </div>
                                     <div className={clsx("relative mt-3 flex-1", classNames.content)}>{content}</div>
                                 </div>
 
-                                {isCloseButtonOutside && position === "left" ? (
-                                    <CloseButton isCloseButtonOutside onClose={onClose} />
-                                ) : null}
+                                {position === "left" ? <CloseButton onClose={onClose} /> : null}
                             </div>
                         </Transition.Child>
                     </div>
@@ -81,14 +68,12 @@ export const Drawer = ({
     );
 };
 
-const CloseButton = ({ onClose, isCloseButtonOutside = false }) => {
+const CloseButton = ({ onClose }) => {
     return (
         <Button
             size="small flex justify-center"
             variant="link"
-            className={clsx("m-1 h-6 w-6 text-gray-darker focus:hidden", {
-                "rounded-full bg-gray !text-white": isCloseButtonOutside,
-            })}
+            className={clsx("m-1 h-6 w-6 rounded-full bg-gray !text-white focus:hidden")}
             onClick={onClose}
         >
             <CloseIcon size="tiny" />
@@ -103,5 +88,4 @@ Drawer.propTypes = {
     onClose: PropTypes.func.isRequired,
     classNames: PropTypes.object,
     position: PropTypes.string,
-    isCloseButtonOutside: PropTypes.bool,
 };
