@@ -94,6 +94,7 @@ export const Default = ({ isLoading, ...rest }) => {
                     color="danger"
                     isLoading={showLoading}
                     onClick={handleClick}
+
                 >
                     Button with really long text
                 </SubmitButton>
@@ -117,11 +118,11 @@ export const ReInitializedButton = ({ isLoading, ...rest }) => {
     return (
         <div className="space-y-4">
             <div className="space-x-4">
-                <SubmitButton reInitialize isLoading={showLoading} isSuccess={showSuccess} {...rest} onClick={handleClick}>
+                <SubmitButton reInitialize disabled={false} isLoading={showLoading} isSuccess={showSuccess} {...rest} onClick={handleClick}>
                     Submit
                 </SubmitButton>
 
-                <SubmitButton reInitialize isLoading={showLoading} isSuccess={showSuccess} {...rest} onClick={handleClick}>
+                <SubmitButton reInitialize disabled={false} isLoading={showLoading} isSuccess={showSuccess} {...rest} onClick={handleClick}>
                     Button with really long text
                 </SubmitButton>
             </div>
@@ -130,6 +131,7 @@ export const ReInitializedButton = ({ isLoading, ...rest }) => {
                     {...rest}
                     color="success"
                     reInitialize
+                    disabled={false}
                     isLoading={showLoading}
                     isSuccess={showSuccess}
                     onClick={handleClick}
@@ -141,6 +143,7 @@ export const ReInitializedButton = ({ isLoading, ...rest }) => {
                     {...rest}
                     color="success"
                     reInitialize
+                    disabled={false}
                     isSuccess={showSuccess}
                     isLoading={showLoading}
                     onClick={handleClick}
@@ -151,8 +154,9 @@ export const ReInitializedButton = ({ isLoading, ...rest }) => {
             <div className="space-x-4">
                 <SubmitButton
                     {...rest}
-                    isSuccess={showSuccess}
                     reInitialize
+                    disabled={false}
+                    isSuccess={showSuccess}
                     color="danger"
                     isLoading={showLoading}
                     onClick={handleClick}
@@ -162,8 +166,9 @@ export const ReInitializedButton = ({ isLoading, ...rest }) => {
 
                 <SubmitButton
                     {...rest}
-                    isSuccess={showSuccess}
                     reInitialize
+                    disabled={false}
+                    isSuccess={showSuccess}
                     color="danger"
                     isLoading={showLoading}
                     onClick={handleClick}

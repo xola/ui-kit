@@ -19,6 +19,7 @@ export const SubmitButton = ({
     color = "primary",
     isLoading,
     isSuccess,
+    disabled = false,
     reInitialize = false,
     className,
     children,
@@ -45,7 +46,7 @@ export const SubmitButton = ({
     return (
         <Button
             color={color}
-            disabled={showTransition}
+            disabled={showTransition || disabled}
             className={clsx(className, "relative", showTransition && loadingColors[color])}
             {...rest}
         >
@@ -88,4 +89,6 @@ SubmitButton.propTypes = {
     ...Button.propTypes,
     isLoading: PropTypes.bool,
     isSuccess: PropTypes.bool,
+    // eslint-disable-next-line react/boolean-prop-naming
+    disabled: PropTypes.bool,
 };
