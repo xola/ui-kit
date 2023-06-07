@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import React, { useState, useEffect } from "react";
 import { Spinner } from "../Spinner";
 import { CheckIcon } from "../../icons/CheckIcon";
-import { Button } from "./Button";
+import { Button, colors } from "./Button";
 
 const loadingColors = {
     primary: "!bg-primary-light",
@@ -20,8 +20,8 @@ export const SubmitButton = ({
     isLoading,
     isSuccess,
     disabled = false,
-    reInitialize = false,
     className,
+    variant = "standard",
     children,
     ...rest
 }) => {
@@ -46,6 +46,7 @@ export const SubmitButton = ({
         <Button
             color={color}
             disabled={showTransition || disabled}
+            variant={variant}
             className={clsx(className, "relative", showTransition && loadingColors[color])}
             {...rest}
         >
@@ -69,7 +70,7 @@ export const SubmitButton = ({
                                 size="medium"
                                 color="current"
                                 className={clsx("relative -top-0.25 text-white", {
-                                    "text-black": rest.variant === "outline",
+                                    "text-black": variant === "outline",
                                 })}
                             />
                         )}
@@ -88,6 +89,7 @@ SubmitButton.propTypes = {
     ...Button.propTypes,
     isLoading: PropTypes.bool,
     isSuccess: PropTypes.bool,
+    variant: PropTypes.oneOf(Object.keys(colors)),
     // eslint-disable-next-line react/boolean-prop-naming
     disabled: PropTypes.bool,
 };
