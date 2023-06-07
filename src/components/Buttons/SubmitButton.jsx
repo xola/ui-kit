@@ -40,8 +40,7 @@ export const SubmitButton = ({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isSuccess, isLoading]);
 
-    const showTransition = reInitialize ? isLoading || showSuccess : isLoading || isSuccess;
-    const showCheckIcon = reInitialize ? showSuccess : isSuccess;
+    const showTransition = isLoading || showSuccess;
 
     return (
         <Button
@@ -65,7 +64,7 @@ export const SubmitButton = ({
                         enterFrom="opacity-0"
                         enterTo="opacity-100"
                     >
-                        {showCheckIcon && (
+                        {showSuccess && (
                             <CheckIcon
                                 size="medium"
                                 color="current"
@@ -74,7 +73,7 @@ export const SubmitButton = ({
                                 })}
                             />
                         )}
-                        {isLoading && !showCheckIcon && (
+                        {isLoading && !showSuccess && (
                             <Spinner size="current" color="current" className="relative -top-0.25 text-white" />
                         )}
                     </Transition>
