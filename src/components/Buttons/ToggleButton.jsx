@@ -12,6 +12,14 @@ const colors = {
         caution: "bg-caution-lightish border border-caution hover:bg-caution-light hover:border-caution-dark",
         danger: "bg-danger-lightish border border-danger hover:bg-danger-light hover:border-danger-dark",
     },
+    standard: {
+        primary: "text-white bg-primary border border-primary hover:bg-primary-light hover:border-primary-dark",
+        secondary: "text-white bg-secondary border border-secondary-light hover:bg-secondary-light hover:border-secondary",
+        success: "text-white bg-success border border-success hover:bg-success-light hover:border-success-dark",
+        warning: "text-white bg-warning border border-warning hover:bg-warning-light hover:border-warning-dark",
+        caution: "text-white bg-caution border border-caution hover:bg-caution-light hover:border-caution-dark",
+        danger: "text-white bg-danger border border-danger hover:bg-danger-light hover:border-danger-dark",
+    }
 };
 
 export const ToggleButton = ({ color = "primary", variant = "outline", isActive, className, ...rest }) => {
