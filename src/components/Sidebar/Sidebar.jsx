@@ -97,7 +97,7 @@ export const Sidebar = ({ logo, children, className, footer, notifications, isFi
 
             {leftDrawer && (
                 <Drawer
-                    classNames={{ dialog: "md:left-24 xl:left-50" }}
+                    classNames={{ dialogContent: "md:left-24 xl:left-50" }}
                     position="left"
                     title={leftDrawer.title}
                     content={leftDrawer.content}
@@ -108,7 +108,7 @@ export const Sidebar = ({ logo, children, className, footer, notifications, isFi
 
             {rightDrawer && (
                 <Drawer
-                    classNames={{ dialog: "md:left-24 xl:left-50" }}
+                    classNames={{ dialogContent: "md:left-24 xl:left-50" }}
                     position="left"
                     title={rightDrawer.title}
                     content={rightDrawer.content}
