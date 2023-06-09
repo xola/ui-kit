@@ -174,7 +174,7 @@ export const Search = ({
                     id: menuId,
                     className: clsx(
                         "ui-search-menu",
-                        "absolute top-10 divide-y divide-gray-light w-full max-h-[75vh] border border-blue-light mt-1 rounded overflow-auto z-10 bg-white",
+                        "absolute top-10 divide-y divide-gray-light w-full xl:2/3 max-h-[75vh] border border-blue-light mt-1 rounded overflow-auto z-10 bg-white",
                         { hidden: !open },
                     ),
                 })}
