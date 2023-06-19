@@ -142,3 +142,23 @@ Or:
 ```bash
 $ npm install some-package --legacy-peer-deps
 ```
+
+## Publishing the Package
+
+Install [np](https://github.com/sindresorhus/np#readme) which will help you publish the package
+
+```bash
+npm -g install np
+```
+
+Once you're ready, run this command to publish your package 
+
+```bash
+npm run build
+np <your-new-version> --tag=latest --yolo
+```
+
+Then make sure to push all the tags upstream to `xola/ui-kit` repo:
+```
+git push <upstream-remote> master --tags
+```
