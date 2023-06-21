@@ -2,7 +2,7 @@ import clsx from "clsx";
 import PropTypes from "prop-types";
 import React from "react";
 
-const colors = {
+export const colors = {
     standard: {
         common: "border-transparent text-white", // Common classes for each style
         primary: "bg-primary hover:bg-primary-darker disabled:bg-primary active:bg-primary",
