@@ -174,7 +174,7 @@ export const Search = ({
                     id: menuId,
                     className: clsx(
                         "ui-search-menu",
-                        "absolute top-10 divide-y divide-gray-light w-full xl:w-3/4 2xl:w-2/3 max-h-[75vh] border border-blue-light mt-1 rounded overflow-auto z-10 bg-white",
+                        "absolute top-10 divide-y divide-gray-light w-full xl:w-3/4 2xl:w-2/3 max-h-[75vh] border border-secondary-lighter shadow-xl mt-1 rounded overflow-auto z-10 bg-white",
                         { hidden: !open },
                     ),
                 })}
@@ -184,15 +184,6 @@ export const Search = ({
                           <li key={item} {...getItemProps({ key: index, item, index, className: "ui-search-item" })}>
                               {item === submitValueItem ? (
                                   <>
-                                      <div
-                                          className={clsx(
-                                              "cursor-pointer p-2",
-                                              highlightedIndex === index ? "bg-blue-light text-white" : "",
-                                          )}
-                                      >
-                                          Show all results for <strong>{inputValue}</strong>
-                                      </div>
-
                                       {isLoading ? (
                                           <div className="p-3 text-center">
                                               <Spinner size="small" />
