@@ -42,7 +42,7 @@ export const Drawer = ({ isOpen = false, title, content, onClose, classNames = {
                             leaveFrom="translate-x-0"
                             leaveTo={position === "right" ? "translate-x-full" : "-translate-x-full"}
                         >
-                            <div className="flex w-screen sm:max-w-screen-sm md:max-w-screen-md xl:max-w-screen-lg 2xl:max-w-screen-xl">
+                            <div className="flex w-screen md:max-w-screen-md 2xl:max-w-screen-lg">
                                 {position === "right" ? <CloseButton onClose={onClose} /> : null}
 
                                 <div
