@@ -183,13 +183,11 @@ export const Search = ({
                     ? itemList.map((item, index) => (
                           <li key={item} {...getItemProps({ key: index, item, index, className: "ui-search-item" })}>
                               {item === submitValueItem ? (
-                                  <>
-                                      {isLoading ? (
-                                          <div className="p-3 text-center">
-                                              <Spinner size="small" />
-                                          </div>
-                                      ) : null}
-                                  </>
+                                  isLoading ? (
+                                      <div className="p-3 text-center">
+                                          <Spinner size="small" />
+                                      </div>
+                                  ) : null
                               ) : (
                                   children?.(item, highlightedIndex === index)
                               )}
