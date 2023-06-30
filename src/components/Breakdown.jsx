@@ -37,7 +37,7 @@ const BreakdownItem = ({ children, info, methodIcon, secondary, value, className
 
     return (
         <tr className={clsx("ui-breakdown-item", colors[color], className)} {...rest}>
-            <td colSpan={2} className="text-left leading-none">
+            <td colSpan={2} className="break-all text-left leading-none">
                 <span className="mr-0.5">{methodIcon}</span>
                 <span>{children}</span>
                 <span className="ml-1 text-sm">
