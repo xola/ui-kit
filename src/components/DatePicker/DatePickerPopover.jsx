@@ -29,6 +29,7 @@ export const DatePickerPopover = ({
     const handleChange = (date, options, event) => {
         if (variant === "single") {
             onChange?.(date, options, event);
+            setOriginalValue(date);
             toggleVisibility();
         } else {
             onChange?.(date, originalValue, options, event);
