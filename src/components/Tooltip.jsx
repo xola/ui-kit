@@ -5,11 +5,13 @@ import { followCursor } from "tippy.js"; // Dont remove this even if unused. It 
 import "tippy.js/dist/tippy.css"; // If we customize the style, the change this and import our own style
 
 // TODO: Implement "as='div'"
-export const Tooltip = ({ children, className, content, ...rest }) => {
-    return (
+export const Tooltip = ({ children, className, content, enabled = true, ...rest }) => {
+    return enabled ? (
         <Tippy content={content} {...rest} className="ui-tooltip text-white" plugins={[followCursor]}>
             <span className={className}>{children}</span>
         </Tippy>
+    ) : (
+        <span className={className}>{children}</span>
     );
 };
 
