@@ -64,10 +64,10 @@ export const Button = ({
                 "ui-button",
                 "inline-flex rounded border transition-colors focus:ring disabled:cursor-default disabled:bg-gray-lighter disabled:text-gray-dark",
                 "items-center justify-center font-semibold",
-                // colors[variant].common,
-                // colors[variant][color],
-                // sizes[size],
-                // className,
+                colors[variant].common,
+                colors[variant][color],
+                sizes[size],
+                className,
             )}
             {...rest}
         >
