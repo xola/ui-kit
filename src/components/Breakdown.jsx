@@ -54,12 +54,12 @@ const BreakdownItem = ({
                         {children}
                     </span>
                     <span className="ml-1 text-sm">
-                        {secondary && <span className="empty:hidden">{secondary}</span>}
                         {info && (
                             <span className="mr-2 ml-1 rounded bg-white p-1 uppercase leading-6 text-black empty:hidden">
                                 {info}
                             </span>
                         )}
+                        {secondary && <span className="empty:hidden">{secondary}</span>}
                     </span>
                 </div>
             </td>
