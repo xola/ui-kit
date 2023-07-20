@@ -22,7 +22,7 @@ export const Default = () => {
             <Breakdown currency="USD">
                 <Breakdown.Item value={100}>Line item caption</Breakdown.Item>
                 <Breakdown.Item value={29} secondary="($29.00 x 1)">
-                    Children
+                    Very long really Children
                 </Breakdown.Item>
                 <Breakdown.Item value={29} secondary="($29.00 x 1)">
                     Adults
@@ -42,16 +42,16 @@ export const Default = () => {
                     </Button>
                 </Breakdown.SubtotalItem>
 
-                <Breakdown.Item value={1230} date="12/18/2019" info="*0259" methodIcon={<CardIcon />}>
+                <Breakdown.Item value={1230} secondary="12/18/2019" info="*0259" methodIcon={<CardIcon />}>
                     Payment
                 </Breakdown.Item>
 
-                <Breakdown.Item color="primary" info="*0259" date="07/23/2021" value={-62} methodIcon={<CardIcon />}>
+                <Breakdown.Item color="primary" info="*0259" secondary="07/23/2021" value={-62} methodIcon={<CardIcon />}>
                     Return Payment
                 </Breakdown.Item>
 
-                <Breakdown.Item date="07/23/2021" info={<EmptyComponent />} value={0} methodIcon={<CardIcon />}>
-                    This is a really long message that should wrap somehow
+                <Breakdown.Item secondary="07/23/2021" info={<EmptyComponent />} value={0} methodIcon={<CardIcon />}>
+                    This is a really long message that should wrap somehow more long
                 </Breakdown.Item>
 
                 <Breakdown.Separator />

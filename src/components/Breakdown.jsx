@@ -43,57 +43,25 @@ const BreakdownItem = ({
     color = "default",
     ...rest
 }) => {
-    const containerRef = useRef(null);
-    const textRef = useRef(null);
-    const [rowWidthExceeds20Percent, setRowWidthExceeds20Percent] = useState(false);
-    const dateOrInfoExist = !!date || !!info;
     const currency = useContext(CurrencyContext);
-
-    useEffect(() => {
-        const containerElement = containerRef.current;
-        const containerRect = containerElement.getBoundingClientRect();
-        const containerWidth = containerRect.width;
-
-        const textElement = textRef.current;
-        const textRect = textElement.getBoundingClientRect();
-        const textWidth = textRect.width;
-
-        const percentage = (textWidth / containerWidth) * 100;
-        if (!rowWidthExceeds20Percent) {
-            setRowWidthExceeds20Percent(percentage > 20);
-        }
-    }, [info, date]);
 
     return (
         <tr className={clsx("ui-breakdown-item", colors[color], className)} {...rest}>
-            <td ref={containerRef} colSpan={2} className="text-left leading-none">
-                <span className="mr-0.5">{methodIcon}</span>
-                <span ref={textRef} className={clsx(!rowWidthExceeds20Percent && "whitespace-nowrap")}>
-                    {children}
-                </span>
-                <span className="ml-1 text-sm">
-                    {secondary && <span className="empty:hidden">{secondary}</span>}
-                    {rowWidthExceeds20Percent && dateOrInfoExist ? (
-                        <p className="mt-1.5 mb-1 flex items-center">
-                            {info && (
-                                <span className="mr-2 rounded bg-white p-1 uppercase text-black empty:hidden">
-                                    {info}
-                                </span>
-                            )}
-
-                            {date && <span className="empty:hidden">{date}</span>}
-                        </p>
-                    ) : (
-                        <>
-                            {info && (
-                                <span className="mr-2 rounded bg-white p-1 uppercase text-black empty:hidden">
-                                    {info}
-                                </span>
-                            )}
-                            {date && <span className="empty:hidden">{date}</span>}
-                        </>
-                    )}
-                </span>
+            <td colSpan={2} className="text-left leading-none">
+                <div className="flex flex-wrap items-center leading-3.5">
+                    <span className="break-word">
+                        <span className="mr-0.5">{methodIcon}</span>
+                        {children}
+                    </span>
+                    <span className="ml-1 text-sm">
+                        {secondary && <span className="empty:hidden">{secondary}</span>}
+                        {info && (
+                            <span className="mr-2 ml-1 rounded bg-white p-1 uppercase leading-6 text-black empty:hidden">
+                                {info}
+                            </span>
+                        )}
+                    </span>
+                </div>
             </td>
 
             <td className="w-[1%] whitespace-nowrap pl-4 text-right">
