@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import React, { createContext, useContext, useRef, useState, useEffect } from "react";
+import React, { createContext, useContext } from "react";
 import { Currency } from "./Utilities/Currency";
 
 const colors = {
@@ -32,17 +32,7 @@ Breakdown.propTypes = {
     currency: PropTypes.string.isRequired,
 };
 
-const BreakdownItem = ({
-    children,
-    info,
-    methodIcon,
-    secondary,
-    date,
-    value,
-    className,
-    color = "default",
-    ...rest
-}) => {
+const BreakdownItem = ({ children, info, methodIcon, secondary, value, className, color = "default", ...rest }) => {
     const currency = useContext(CurrencyContext);
 
     return (
