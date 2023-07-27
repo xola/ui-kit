@@ -94,7 +94,6 @@ export const Default = ({ isLoading, ...rest }) => {
                     color="danger"
                     isLoading={showLoading}
                     onClick={handleClick}
-
                 >
                     Button with really long text
                 </SubmitButton>
