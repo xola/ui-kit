@@ -164,6 +164,14 @@ export const IconOnly = () => {
                 <EllipsisIcon />
             </Button>
 
+            <Button variant="outline" color="secondary" size="xsmall">
+                <PlusIcon />
+            </Button>
+
+            <Button variant="outline" color="primary" size="xsmall">
+                <WaitlistIcon />
+            </Button>
+
             <Button variant="outline" color="primary" size="small">
                 <WaitlistIcon />
             </Button>
