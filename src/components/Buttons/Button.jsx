@@ -42,7 +42,7 @@ export const colors = {
 
 const sizes = {
     tiny: "px-2 py-0.5 text-xs leading-xs", // 20px
-    xsmall: "px-0.5 py-2 h-6 leading-sm", // 24px
+    xsmall: "px-1 py-2 h-6 leading-sm", // 24px Used in Puchase quantity change modal
     small: "px-3 py-2 h-7.5 text-sm leading-sm", // 30px
     medium: "px-4.5 py-3 h-10 text-base leading-base", // 40px
     large: "px-6 py-4 h-[50px] text-md leading-md", // 50px
