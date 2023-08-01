@@ -19,7 +19,7 @@ const ButtonStories = {
     },
     argTypes: {
         size: {
-            options: ["tiny", "small", "medium", "large"],
+            options: ["tiny", "xsmall", "small", "medium", "large"],
             control: { type: "select" },
             table: {
                 defaultValue: { summary: "medium" },
