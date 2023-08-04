@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import React, { cloneElement, forwardRef, useState } from "react";
+import React, { cloneElement, forwardRef, useEffect, useState } from "react";
 import { CalendarIcon, DownArrowIcon } from "../..";
 import { formatDate } from "../../helpers/date";
 import { Input } from "../Forms/Input";
@@ -46,6 +46,10 @@ export const DatePickerPopover = ({
         onChange(originalValue);
         toggleVisibility();
     };
+
+    useEffect(() => {
+        setOriginalValue(value);
+    }, [value]);
 
     return (
         <Popover
