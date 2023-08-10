@@ -5,7 +5,22 @@ import React, { Fragment } from "react";
 import { CloseIcon } from "../icons/CloseIcon";
 import { Button } from "./Buttons/Button";
 
-export const Drawer = ({ isOpen = false, title, content, onClose, classNames = {}, position = "right" }) => {
+const sizes = {
+    small: "w-72",
+    medium: "w-82",
+    large: "w-110",
+    xl: "w-screen md:max-w-screen-md 2xl:max-w-screen-lg", // This was the old size
+};
+
+export const Drawer = ({
+    isOpen = false,
+    title,
+    size = "medium",
+    content,
+    onClose,
+    classNames = {},
+    position = "right",
+}) => {
     return (
         <Transition.Root show={isOpen} as={Fragment}>
             <Dialog
@@ -42,7 +57,7 @@ export const Drawer = ({ isOpen = false, title, content, onClose, classNames = {
                             leaveFrom="translate-x-0"
                             leaveTo={position === "right" ? "translate-x-full" : "-translate-x-full"}
                         >
-                            <div className="flex w-screen md:max-w-screen-md 2xl:max-w-screen-lg">
+                            <div className={clsx("flex", sizes[size])}>
                                 {position === "right" ? <CloseButton onClose={onClose} /> : null}
 
                                 <div
