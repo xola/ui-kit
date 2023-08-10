@@ -7,7 +7,7 @@ import { Button } from "./Buttons/Button";
 
 const sizes = {
     small: "w-72",
-    medium: "w-82",
+    medium: "w-85",
     large: "w-110",
     xl: "w-screen md:max-w-screen-md 2xl:max-w-screen-lg", // This was the old size
 };
@@ -57,12 +57,13 @@ export const Drawer = ({
                             leaveFrom="translate-x-0"
                             leaveTo={position === "right" ? "translate-x-full" : "-translate-x-full"}
                         >
-                            <div className={clsx("flex", sizes[size])}>
+                            <div className={clsx("flex")}>
                                 {position === "right" ? <CloseButton onClose={onClose} /> : null}
 
                                 <div
                                     className={clsx(
                                         "flex h-full w-full flex-col overflow-y-auto bg-white px-4 py-8 shadow-xl sm:px-6",
+                                        sizes[size],
                                         classNames.children,
                                     )}
                                 >
