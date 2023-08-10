@@ -67,7 +67,7 @@ export const Drawer = ({
                                         classNames.children,
                                     )}
                                 >
-                                    <div className="flex items-start justify-between">
+                                    <div className="w-full">
                                         {/* eslint-disable-next-line react/jsx-max-depth */}
                                         <Dialog.Title>{title}</Dialog.Title>
                                     </div>
