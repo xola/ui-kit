@@ -168,7 +168,7 @@ export const IconOnly = () => {
                 <WaitlistIcon />
             </Button>
 
-            <Button variant="outline" color="success" size="small">
+            <Button variant="outline" color="success" size="small" className="w-6">
                 <PlusIcon />
             </Button>
 
