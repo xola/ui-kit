@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import React, { createContext, useContext } from "react";
+import { isNumber } from "lodash";
 import { Currency } from "./Utilities/Currency";
 
 const colors = {
@@ -49,9 +50,13 @@ const BreakdownItem = ({ children, info, methodIcon, secondary, value, className
             </td>
 
             <td className="w-[1%] whitespace-nowrap pl-4 text-right">
-                <Currency shouldRemoveTrailingZeroes={false} currency={currency}>
-                    {value}
-                </Currency>
+                {isNumber(value) ? (
+                    <Currency shouldRemoveTrailingZeroes={false} currency={currency}>
+                        {value}
+                    </Currency>
+                ) : (
+                    <span>{value}</span>
+                )}
             </td>
         </tr>
     );
