@@ -44,6 +44,7 @@ export const SubmitButton = ({
 
     return (
         <Button
+            type="submit"
             color={color}
             disabled={showTransition || disabled}
             variant={variant}
