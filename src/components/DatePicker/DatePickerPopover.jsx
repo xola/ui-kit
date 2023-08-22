@@ -42,8 +42,6 @@ export const DatePickerPopover = ({
     };
 
     const handleClickOutside = () => {
-        // Revert back to the original value because the user didn't apply the changes
-        onChange(originalValue);
         toggleVisibility();
     };
 
