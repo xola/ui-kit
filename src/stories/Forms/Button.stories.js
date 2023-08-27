@@ -125,11 +125,11 @@ export const States = () => {
 export const TextWithIcons = () => {
     return (
         <div className="space-x-4">
-            <Button icon={<UserIcon />} size="medium">
+            <Button icon={<PlusIcon size="medium" />} size="medium">
                 Medium
             </Button>
 
-            <Button icon={<UserIcon />} iconPlacement="right" color="success" size="large">
+            <Button icon={<UserIcon size="medium" />} iconPlacement="right" color="success" size="large">
                 Large
             </Button>
         </div>
@@ -173,11 +173,15 @@ export const IconOnly = () => {
             </Button>
 
             <Button variant="outline" color="warning" size="medium">
-                <WarningIcon />
+                <KeyIcon />
             </Button>
 
             <Button variant="outline" color="caution" size="medium">
-                <KeyIcon />
+                <KeyIcon size="medium" />
+            </Button>
+
+            <Button variant="outline" color="danger" size="large">
+                <KeyIcon size="medium" />
             </Button>
         </div>
     );
