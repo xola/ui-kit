@@ -59,7 +59,7 @@ export const Login = ({
             {...rest}
         >
             <div className="md:full flex h-[88%] w-full flex-col items-center justify-center space-y-8">
-                <div className="w-82 rounded-lg py-0 px-9 md:bg-white md:py-10">
+                <div className="w-82 rounded-lg px-9 py-0 md:bg-white md:py-10">
                     <div className="mb-12 space-y-4 md:mb-20">
                         <XolaLogoSimple className="mx-auto h-10 w-auto md:h-12" />
                         {label && <div className="flex items-center justify-center">{label}</div>}
@@ -127,7 +127,7 @@ export const Login = ({
             </div>
 
             <footer>
-                <div className="flex w-full flex-col items-center justify-center overflow-hidden py-1 px-4 sm:px-6 lg:px-8">
+                <div className="flex w-full flex-col items-center justify-center overflow-hidden px-4 py-1 sm:px-6 lg:px-8">
                     <div className="m-5 w-82 rounded-lg px-4 text-center text-xs opacity-80 md:text-sm">
                         <a
                             href="https://www.xola.com/team"

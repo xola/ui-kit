@@ -29,7 +29,7 @@ const SidebarFooter = () => {
                         </div>
 
                         <div className="space-y-2">
-                            <Sidebar.Separator className="my-0 mx-0 mt-4" />
+                            <Sidebar.Separator className="mx-0 my-0 mt-4" />
                             <Sidebar.Button icon={PolicyIcon} label="Privacy Policy" />
 
                             <Sidebar.Button icon={HelpCenterIcon} label="Help Center" />

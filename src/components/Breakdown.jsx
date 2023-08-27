@@ -80,10 +80,10 @@ const BreakdownSubtotalItem = ({ children, info, value, className, color = "blac
 
     return (
         <tr className={clsx("ui-breakdown-subtotal-item", "font-bold", colors[color], className)} {...rest}>
-            <td className="pt-1 pb-4 text-left">{children}</td>
-            <td className="whitespace-nowrap pt-1 pb-4 text-right">{info}</td>
+            <td className="pb-4 pt-1 text-left">{children}</td>
+            <td className="whitespace-nowrap pb-4 pt-1 text-right">{info}</td>
 
-            <td className="w-[1%] whitespace-nowrap pt-1 pb-4 pl-4 text-right">
+            <td className="w-[1%] whitespace-nowrap pb-4 pl-4 pt-1 text-right">
                 <Currency shouldRemoveTrailingZeroes={false} currency={currency}>
                     {value}
                 </Currency>

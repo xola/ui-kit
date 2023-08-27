@@ -20,7 +20,7 @@ export const SidebarAccount = ({
             type="button"
             className={clsx(
                 "ui-sidebar-account",
-                "flex w-full cursor-pointer items-center justify-center rounded py-3 px-4 hover:bg-gray-darker xl:justify-start",
+                "flex w-full cursor-pointer items-center justify-center rounded px-4 py-3 hover:bg-gray-darker xl:justify-start",
                 className,
             )}
             {...rest}

@@ -69,7 +69,7 @@ export const Sidebar = ({ logo, children, className, footer, notifications, isFi
             className={clsx(
                 "ui-sidebar",
                 isFixed ? "fixed" : "relative",
-                "z-20 flex h-full w-16 flex-col overflow-y-auto bg-black py-2 px-1 text-white md:w-24 xl:w-50",
+                "z-20 flex h-full w-16 flex-col overflow-y-auto bg-black px-1 py-2 text-white md:w-24 xl:w-50",
                 className,
             )}
         >
@@ -117,7 +117,7 @@ export const Sidebar = ({ logo, children, className, footer, notifications, isFi
                 />
             )}
 
-            <div className="mt-4 mb-10 text-center">
+            <div className="mb-10 mt-4 text-center">
                 {logo ?? (
                     <XolaLogoSimple
                         className={clsx(
