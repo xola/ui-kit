@@ -25,11 +25,7 @@ HeaderToolbar.propTypes = {
 HeaderToolbar.Breadcrumb = ({ className, children }) => {
     return (
         <Breadcrumb
-            className={clsx(
-                "ui-header-toolbar-breadcrumb",
-                "border-r border-gray-light text-xl md:pr-4 xl:pr-6",
-                className,
-            )}
+            className={clsx("ui-header-toolbar-breadcrumb", "border-r border-gray-light md:pr-4 xl:pr-6", className)}
         >
             {children}
         </Breadcrumb>
