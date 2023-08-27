@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import React, { createContext, useContext } from "react";
+import { isNumber } from "lodash";
 import { Currency } from "./Utilities/Currency";
 
 const colors = {
@@ -37,7 +38,7 @@ const BreakdownItem = ({ children, info, methodIcon, secondary, value, className
 
     return (
         <tr className={clsx("ui-breakdown-item", colors[color], className)} {...rest}>
-            <td colSpan={2} className="text-left leading-none">
+            <td colSpan={2} className="break-all text-left leading-none">
                 <span className="mr-0.5">{methodIcon}</span>
                 <span>{children}</span>
                 <span className="ml-1 text-sm">
@@ -49,9 +50,13 @@ const BreakdownItem = ({ children, info, methodIcon, secondary, value, className
             </td>
 
             <td className="w-[1%] whitespace-nowrap pl-4 text-right">
-                <Currency shouldRemoveTrailingZeroes={false} currency={currency}>
-                    {value}
-                </Currency>
+                {isNumber(value) ? (
+                    <Currency shouldRemoveTrailingZeroes={false} currency={currency}>
+                        {value}
+                    </Currency>
+                ) : (
+                    <span>{value}</span>
+                )}
             </td>
         </tr>
     );
