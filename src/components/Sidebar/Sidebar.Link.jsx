@@ -21,7 +21,7 @@ export const SidebarLink = ({ isActive = false, icon: Icon, children, isSubMenuI
             {...rest}
         >
             {isSubMenuItem ? (
-                <Dot className={clsx("mr-3", { "bg-white": isActive, "bg-gray": !isActive })} />
+                <Dot className={clsx("mr-3", { "!bg-white": isActive, "!bg-gray": !isActive })} />
             ) : (
                 <Icon className="h-5 w-5 xl:mr-3" />
             )}
