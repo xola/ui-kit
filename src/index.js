@@ -143,7 +143,7 @@ export { DownloadIcon } from "./icons/DownloadIcon";
 export { DownArrowIcon } from "./icons/DownArrowIcon";
 export { DropdownIcon } from "./icons/DropdownIcon";
 export { DuplicateIcon } from "./icons/DuplicateIcon";
-export { DumbbellIcon } from "./icons/DumbBellIcon";
+export { DumbbellIcon } from "./icons/DumbbellIcon";
 export { DurationIcon } from "./icons/DurationIcon";
 export { EditIcon } from "./icons/EditIcon";
 export { EditNoteIcon } from "./icons/EditNoteIcon";
