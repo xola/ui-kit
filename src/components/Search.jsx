@@ -124,7 +124,7 @@ export const Search = ({
 
     // Show dropdown only when `isOpen` is set to `true` and there are items in the list.
     const open = (isOpen || !canClose || shouldStayOpen) && itemList.length > 0 && !shouldHideMenu;
-    const noResultFound = open && !isLoading && itemList.length <= 1 && inputValue.length < minChars;
+    const noResultFound = open && !isLoading && itemList.length <= 1 && inputValue.length >= minChars;
 
     // Keyboard shortcuts.
     useHotkeys(isOSX ? "cmd+k" : "ctrl+k", (event) => {
