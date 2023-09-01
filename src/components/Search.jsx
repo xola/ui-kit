@@ -40,10 +40,10 @@ export const Search = ({
     minChars = 0,
     ...rest
 }) => {
-    console.log("🚀 ~ file: Search.jsx:43 ~ minChars:", minChars)
+    console.log("🚀 ~ file: Search.jsx:43 ~ minChars:", minChars);
     const [showShortcutKey, setShowShortcutKey] = useState(true);
     const [inputValue, setInputValue] = useState(defaultValue ?? "");
-    console.log("🚀 ~ file: Search.jsx:46 ~ inputValue:", inputValue)
+    console.log("🚀 ~ file: Search.jsx:46 ~ inputValue:", inputValue);
     const inputReference = useRef();
     const inputId = useId("search-input");
     const menuId = useId("search-menu");
