@@ -37,10 +37,13 @@ export const Search = ({
     shouldStayOpen = false,
     shouldDestroyOnClose = true,
     shouldHideMenu = false,
+    minChars = 0,
     ...rest
 }) => {
+    console.log("🚀 ~ file: Search.jsx:43 ~ minChars:", minChars)
     const [showShortcutKey, setShowShortcutKey] = useState(true);
     const [inputValue, setInputValue] = useState(defaultValue ?? "");
+    console.log("🚀 ~ file: Search.jsx:46 ~ inputValue:", inputValue)
     const inputReference = useRef();
     const inputId = useId("search-input");
     const menuId = useId("search-menu");
@@ -123,7 +126,7 @@ export const Search = ({
 
     // Show dropdown only when `isOpen` is set to `true` and there are items in the list.
     const open = (isOpen || !canClose || shouldStayOpen) && itemList.length > 0 && !shouldHideMenu;
-    const noResultFound = open && !isLoading && itemList.length <= 1;
+    const noResultFound = open && !isLoading && itemList.length <= 1 && inputValue.length >= minChars;
 
     // Keyboard shortcuts.
     useHotkeys(isOSX ? "cmd+k" : "ctrl+k", (event) => {
@@ -190,7 +193,13 @@ export const Search = ({
                                               highlightedIndex === index ? "bg-blue-light text-white" : "",
                                           )}
                                       >
-                                          Show all results for <strong>{inputValue}</strong>
+                                          {inputValue.length >= minChars ? (
+                                              <>
+                                                  Show all results for <strong>{inputValue}</strong>
+                                              </>
+                                          ) : (
+                                              `Enter at least ${minChars} characters to begin search ====`
+                                          )}
                                       </div>
 
                                       {isLoading ? (
