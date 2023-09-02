@@ -198,7 +198,7 @@ export const Search = ({
                                                   Show all results for <strong>{inputValue}</strong>
                                               </>
                                           ) : (
-                                              `Enter at least ${minChars} characters to begin search ====`
+                                              `Enter at least ${minChars} characters to begin search =====`
                                           )}
                                       </div>
 
