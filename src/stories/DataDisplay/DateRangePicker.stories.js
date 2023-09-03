@@ -12,6 +12,11 @@ const DateRangePickerStories = {
                     "Rendering a date *range* picker with various functionality based on [React Day Picker](https://react-day-picker.js.org) library",
             },
         },
+        design: {
+            name: "Figma",
+            type: "figma",
+            url: "https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%E2%9A%99%EF%B8%8F-01---DS-Core?node-id=3063%3A140153",
+        },
     },
     args: {
         shouldShowRelativeRanges: "boolean",
@@ -30,7 +35,7 @@ const DateRangePickerStories = {
     },
 };
 
-const today = dayjs().toDate();
+const today = dayjs("2022-10-10").toDate();
 
 export const Default = () => {
     const [value, setValue] = useState({ from: new Date("2022-02-03"), to: new Date("2022-03-08") });
@@ -56,7 +61,7 @@ export const RelativeDateRanges = () => {
 };
 
 export const DateRangeWithInput = ({ shouldShowRelativeRanges, ranges }) => {
-    const defaultValue = { from: today, to: dayjs().add(7, "days").toDate() };
+    const defaultValue = { from: today, to: dayjs(today).add(7, "days").toDate() };
     const [value, setValue] = useState(defaultValue);
     const [displayValue, setDisplayValue] = useState(defaultValue);
 

@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import React, { createContext, useContext } from "react";
+import { isNumber } from "lodash";
 import { Currency } from "./Utilities/Currency";
 
 const colors = {
@@ -32,18 +33,30 @@ Breakdown.propTypes = {
     currency: PropTypes.string.isRequired,
 };
 
-const BreakdownItem = ({ children, info, value, className, color = "default", ...rest }) => {
+const BreakdownItem = ({ children, info, methodIcon, secondary, value, className, color = "default", ...rest }) => {
     const currency = useContext(CurrencyContext);
 
     return (
         <tr className={clsx("ui-breakdown-item", colors[color], className)} {...rest}>
-            <td className="text-left">{children}</td>
-            <td className="text-right">{info}</td>
+            <td colSpan={2} className="break-all text-left leading-none">
+                <span className="mr-0.5">{methodIcon}</span>
+                <span>{children}</span>
+                <span className="ml-1 text-sm">
+                    {info && (
+                        <span className="mr-2 rounded bg-white p-1 uppercase text-black empty:hidden">{info}</span>
+                    )}
+                    {secondary && <span className="empty:hidden">{secondary}</span>}
+                </span>
+            </td>
 
-            <td className="w-[1%] pl-4 text-right whitespace-nowrap">
-                <Currency shouldRemoveTrailingZeroes={false} currency={currency}>
-                    {value}
-                </Currency>
+            <td className="w-[1%] whitespace-nowrap pl-4 text-right">
+                {isNumber(value) ? (
+                    <Currency shouldRemoveTrailingZeroes={false} currency={currency}>
+                        {value}
+                    </Currency>
+                ) : (
+                    <span>{value}</span>
+                )}
             </td>
         </tr>
     );
@@ -52,6 +65,8 @@ const BreakdownItem = ({ children, info, value, className, color = "default", ..
 BreakdownItem.propTypes = {
     children: PropTypes.node,
     info: PropTypes.node,
+    methodIcon: PropTypes.node,
+    secondary: PropTypes.node,
     value: PropTypes.node,
     className: PropTypes.string,
     color: PropTypes.oneOf(Object.keys(colors)),
@@ -68,7 +83,7 @@ const BreakdownSubtotalItem = ({ children, info, value, className, color = "blac
             <td className="pt-1 pb-4 text-left">{children}</td>
             <td className="whitespace-nowrap pt-1 pb-4 text-right">{info}</td>
 
-            <td className="w-[1%] pt-1 pb-4 pl-4 text-right whitespace-nowrap">
+            <td className="w-[1%] whitespace-nowrap pt-1 pb-4 pl-4 text-right">
                 <Currency shouldRemoveTrailingZeroes={false} currency={currency}>
                     {value}
                 </Currency>

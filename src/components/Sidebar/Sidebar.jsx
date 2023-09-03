@@ -1,9 +1,9 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { AnnounceIcon } from "../../icons/AnnounceIcon";
 import { BellIcon } from "../../icons/BellIcon";
-import { XolaLogoCircle } from "../../images/XolaLogoCircle";
+import { XolaLogoSimple } from "../../images/XolaLogoSimple";
 import { Counter } from "../Counter";
 import { Drawer } from "../Drawer";
 import { SidebarAccount } from "./Sidebar.Account";
@@ -18,9 +18,15 @@ const LeftDrawerCountStyle = {
     background: "linear-gradient(138.65deg, #583DFF 19.59%, #F849C7 62.96%, #FFC03D 97.07%)",
 };
 
-export const Sidebar = ({ children, className, footer, notifications, isFixed = true, onLogoClick }) => {
+export const Sidebar = ({ logo, children, className, footer, notifications, isFixed = true, onLogoClick }) => {
     const [isLeftDrawerOpen, setIsLeftDrawerOpen] = useState(false);
     const [isRightDrawerOpen, setIsRightDrawerOpen] = useState(false);
+
+    useEffect(() => {
+        setIsLeftDrawerOpen(false); // Close the drawer if notifications changes
+        setIsRightDrawerOpen(false);
+    }, [notifications]);
+
     const toggleLeftDrawer = () => {
         if (!isLeftDrawerOpen) {
             // Close the right drawer when you open the left
@@ -91,7 +97,7 @@ export const Sidebar = ({ children, className, footer, notifications, isFixed = 
 
             {leftDrawer && (
                 <Drawer
-                    classNames={{ dialog: "md:left-24 xl:left-50" }}
+                    classNames={{ dialogContent: "md:left-24 xl:left-50" }}
                     position="left"
                     title={leftDrawer.title}
                     content={leftDrawer.content}
@@ -102,7 +108,7 @@ export const Sidebar = ({ children, className, footer, notifications, isFixed = 
 
             {rightDrawer && (
                 <Drawer
-                    classNames={{ dialog: "md:left-24 xl:left-50" }}
+                    classNames={{ dialogContent: "md:left-24 xl:left-50" }}
                     position="left"
                     title={rightDrawer.title}
                     content={rightDrawer.content}
@@ -112,13 +118,15 @@ export const Sidebar = ({ children, className, footer, notifications, isFixed = 
             )}
 
             <div className="mt-4 mb-10 text-center">
-                <XolaLogoCircle
-                    className={clsx(
-                        "inline-block h-12 w-12 xl:h-24 xl:w-24",
-                        onLogoClick && "cursor-pointer transition-opacity hover:opacity-80",
-                    )}
-                    onClick={onLogoClick}
-                />
+                {logo ?? (
+                    <XolaLogoSimple
+                        className={clsx(
+                            "inline-block h-12 w-12 xl:h-30 xl:w-30",
+                            onLogoClick && "cursor-pointer transition-opacity hover:opacity-80",
+                        )}
+                        onClick={onLogoClick}
+                    />
+                )}
             </div>
 
             <div className="flex-grow space-y-2">{children}</div>
@@ -128,6 +136,7 @@ export const Sidebar = ({ children, className, footer, notifications, isFixed = 
 };
 
 Sidebar.propTypes = {
+    logo: PropTypes.node,
     children: PropTypes.node.isRequired,
     className: PropTypes.string,
     footer: PropTypes.element.isRequired,

@@ -1,9 +1,16 @@
 import React from "react";
-import { AnnounceIcon, CheckIcon, ExportIcon, Sidebar, StarIcon, UserIcon, LogoutIcon, HelpCenterIcon, PolicyIcon } from "../..";
+import { AnnounceIcon, CheckIcon, HelpCenterIcon, LogoutIcon, PolicyIcon, Sidebar, StarIcon, UserIcon } from "../..";
 
 const SidebarStories = {
     title: "Navigation/Sidebar",
     component: Sidebar,
+    parameters: {
+        design: {
+            name: "Figma",
+            type: "figma",
+            url: "https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%E2%9A%99%EF%B8%8F-01---DS-Core?node-id=2725%3A91116&viewport=2302%2C256%2C0.11",
+        },
+    },
 };
 
 const SidebarFooter = () => {
@@ -22,8 +29,7 @@ const SidebarFooter = () => {
                         </div>
 
                         <div className="space-y-2">
-
-                            <Sidebar.Separator className="my-0 mt-4 mx-0" />
+                            <Sidebar.Separator className="my-0 mx-0 mt-4" />
                             <Sidebar.Button icon={PolicyIcon} label="Privacy Policy" />
 
                             <Sidebar.Button icon={HelpCenterIcon} label="Help Center" />
@@ -74,6 +80,23 @@ export const Default = () => {
                 >
                     <Sidebar.Link icon={AnnounceIcon}>Marketing</Sidebar.Link>
                 </Sidebar.Menu>
+            </Sidebar>
+        </div>
+    );
+};
+
+export const CustomLogo = () => {
+    const Logo = () => <img src="https://c02.xola.com/images/xola-logo-header.png" className="bg-green" />;
+
+    return (
+        <div className="h-screen">
+            Pass in any component for the "logo" property
+            <Sidebar logo={<Logo />} footer={<SidebarFooter />} onLogoClick={handleLogoClick}>
+                <Sidebar.Link isActive icon={UserIcon}>
+                    Sellers
+                </Sidebar.Link>
+                <Sidebar.Link icon={StarIcon}>Favorites</Sidebar.Link>
+                <Sidebar.Link icon={AnnounceIcon}>Marketing</Sidebar.Link>
             </Sidebar>
         </div>
     );

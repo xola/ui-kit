@@ -27,9 +27,16 @@ export const InlineValuePopover = ({
 
     return (
         <Popover visible={isOpen} onClickOutside={onClickOutside} {...rest}>
-            <span className={clsx("cursor-pointer whitespace-nowrap", error && "!text-danger !border-danger", classNames?.text)} onClick={handleClick}>
-                <span className="border-b border-b-black font-bold text-black">
-                    <ValuePopoverText value={text} error={error}/>
+            <span
+                className={clsx(
+                    "cursor-pointer whitespace-nowrap",
+                    error && "!border-danger !text-danger",
+                    classNames?.text,
+                )}
+                onClick={handleClick}
+            >
+                <span className={clsx("border-b border-b-black font-bold text-black", classNames?.textField)}>
+                    <ValuePopoverText value={text} error={error} />
                 </span>
                 {showArrow && <DownArrowIcon size="medium" />}
             </span>

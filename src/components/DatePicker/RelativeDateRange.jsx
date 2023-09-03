@@ -4,24 +4,24 @@ import React from "react";
 import { Button, Select } from "../..";
 
 const options = {
-    YESTERDAY: "P1D:last",
-    TODAY: "P1D:current",
+    YESTERDAY: "P1D,yesterday",
+    TODAY: "P1D,today",
 
-    LAST_WEEK: "P1W:last",
-    TRAILING_WEEK: "P1W:trailing",
-    THIS_WEEK: "P1W:current",
+    LAST_WEEK: "P1W,last week",
+    TRAILING_WEEK: "P1W,-1 week",
+    THIS_WEEK: "P1W,this week",
 
-    LAST_MONTH: "P1M:last",
-    TRAILING_MONTH: "P1M:trailing",
-    THIS_MONTH: "P1M:current",
+    LAST_MONTH: "P1M,first day of last month",
+    TRAILING_MONTH: "P1M,-1 month",
+    THIS_MONTH: "P1M,first day of this month",
 
-    LAST_QUARTER: "P3M:last",
-    TRAILING_QUARTER: "P3M:trailing",
-    THIS_QUARTER: "P3M:current",
+    LAST_QUARTER: "P3M,first day of last quarter",
+    TRAILING_QUARTER: "P3M,-3 months",
+    THIS_QUARTER: "P3M,first day of this quarter",
 
-    LAST_YEAR: "P1Y:last",
-    TRAILING_YEAR: "P1Y:trailing",
-    THIS_YEAR: "P1Y:current",
+    LAST_YEAR: "P1Y,first day of January last year",
+    TRAILING_YEAR: "P1Y,-1 year",
+    THIS_YEAR: "P1Y,first day of this year",
 };
 
 export const dateRanges = {
@@ -211,6 +211,7 @@ const handlers = {
 export const RelativeDateRange = ({
     ranges = ["day", "week", "month", "quarter", "year"],
     value,
+    // TODO: Prop name (showApply) doesn't match rule (^(is|has|should)[A-Z]([A-Za-z0-9]?)+)
     showApply = true,
     onChange,
     onSubmit,
@@ -223,7 +224,7 @@ export const RelativeDateRange = ({
 
     return (
         <div className="flex space-x-2">
-            <Select size="medium" value={value} onChange={handleChange} className="pr-8 leading-5">
+            <Select size="medium" value={value} className="pr-8 leading-5" onChange={handleChange}>
                 <option value="">Relative Date Range</option>
                 {ranges.map((rangeKey) => {
                     const range = dateRanges[rangeKey];
@@ -248,6 +249,7 @@ RelativeDateRange.propTypes = {
     ranges: PropTypes.arrayOf(PropTypes.oneOf(["day", "week", "month", "quarter", "year"])),
     onChange: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/boolean-prop-naming
     showApply: PropTypes.bool,
     value: PropTypes.string,
 };

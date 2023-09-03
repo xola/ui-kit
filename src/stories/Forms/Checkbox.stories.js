@@ -10,6 +10,11 @@ const CheckboxStories = {
                 component: "Native browser checkbox component with some styling",
             },
         },
+        design: {
+            name: "Figma",
+            type: "figma",
+            url: "https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%E2%9A%99%EF%B8%8F-01---DS-Core?node-id=7683%3A483048&viewport=7074%2C-1137%2C0.4",
+        },
     },
 };
 

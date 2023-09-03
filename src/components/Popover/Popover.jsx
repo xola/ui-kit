@@ -7,6 +7,7 @@ import "tippy.js/dist/border.css";
 import "tippy.js/dist/tippy.css";
 import { getChildrenByType } from "../../helpers/children";
 import styles from "./Popover.module.css";
+import scrollFix from "./PopoverScroll.module.css";
 
 export const Popover = ({ className, children, skidding = 0, distance = 10, ...rest }) => {
     const content = getChildrenByType(children, Popover.Content);
@@ -17,7 +18,13 @@ export const Popover = ({ className, children, skidding = 0, distance = 10, ...r
             interactive
             zIndex={50}
             content={content}
-            className={clsx("ui-popover", styles.main, "!rounded-lg !border-gray-light shadow-xl", className)}
+            className={clsx(
+                "ui-popover",
+                scrollFix,
+                styles.main,
+                "!rounded-lg !border-gray-light shadow-xl",
+                className,
+            )}
             plugins={[followCursor]}
             offset={[skidding ?? 0, distance ?? 10]}
             {...rest}

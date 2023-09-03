@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import React, { cloneElement, forwardRef, useState } from "react";
+import React, { cloneElement, forwardRef, useEffect, useState } from "react";
 import { CalendarIcon, DownArrowIcon } from "../..";
 import { formatDate } from "../../helpers/date";
 import { Input } from "../Forms/Input";
@@ -42,10 +42,12 @@ export const DatePickerPopover = ({
     };
 
     const handleClickOutside = () => {
-        // Revert back to the original value because the user didn't apply the changes
-        onChange(originalValue);
         toggleVisibility();
     };
+
+    useEffect(() => {
+        setOriginalValue(value);
+    }, [value]);
 
     return (
         <Popover
@@ -64,20 +66,23 @@ export const DatePickerPopover = ({
                     readOnly
                     size="medium"
                     value={value ? formatDate(value, dateFormat) : ""}
+                    className={classNames?.input}
                     onClick={toggleVisibility}
                 />
             )}
 
             <Popover.Content className="pr-1">
-                <DatePicker
-                    variant={variant}
-                    getDayContent={getDayContent}
-                    value={value}
-                    components={components}
-                    onChange={handleChange}
-                    onSubmitDateRange={handleSubmitDateRange}
-                    {...rest}
-                />
+                {isVisible && (
+                    <DatePicker
+                        variant={variant}
+                        getDayContent={getDayContent}
+                        value={value}
+                        components={components}
+                        onChange={handleChange}
+                        onSubmitDateRange={handleSubmitDateRange}
+                        {...rest}
+                    />
+                )}
             </Popover.Content>
         </Popover>
     );
@@ -95,7 +100,7 @@ const DefaultInput = forwardRef(({ className, ...rest }, reference) => {
     return (
         <div ref={reference} className="relative flex bg-gray-lighter">
             <div className="pointer-events-none absolute inset-0 flex items-center pl-3">
-                <CalendarIcon className="inline-block" />
+                <CalendarIcon className="z-10 inline-block" />
             </div>
 
             <Input className={clsx("cursor-pointer px-8", className)} placeholder="Select Date" {...rest} />

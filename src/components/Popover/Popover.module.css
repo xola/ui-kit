@@ -4,6 +4,10 @@
     border-style: solid !important;
 }
 
+.main :global(.tippy-content) {
+    @apply p-0 text-black;
+}
+
 .main :global(.tippy-arrow) {
     fill: white;
 }
@@ -24,6 +28,19 @@
     border-right-color: white;
 }
 
-.main :global(.tippy-content) {
-    @apply p-0 text-black;
+/* Black color for the tippy arrow */
+.main[data-placement^="top"][class*="bg-black"] > :global(.tippy-arrow::before) {
+    border-top-color: black;
+}
+
+.main[data-placement^="bottom"][class*="bg-black"] > :global(.tippy-arrow::before) {
+    border-bottom-color: black;
+}
+
+.main[data-placement^="left"][class*="bg-black"] > :global(.tippy-arrow::before) {
+    border-left-color: black;
+}
+
+.main[data-placement^="right"][class*="bg-black"] > :global(.tippy-arrow::before) {
+    border-right-color: black;
 }
