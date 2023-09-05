@@ -9,7 +9,8 @@ const sizes = {
     small: "w-72",
     medium: "w-85",
     large: "w-110",
-    xl: "w-screen md:max-w-screen-md 2xl:max-w-screen-lg", // This was the old size
+    xl: "w-200",
+    "2xl": "w-screen md:max-w-screen-md 2xl:max-w-screen-lg", // This was the old size
 };
 
 export const Drawer = ({
