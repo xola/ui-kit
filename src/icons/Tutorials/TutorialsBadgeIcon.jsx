@@ -34,17 +34,17 @@ export const TutorialsBadgeIcon = (props) => {
                     colorInterpolationFilters="sRGB"
                     filterUnits="userSpaceOnUse"
                 >
-                    <feFlood floodOpacity="0" result="BackgroundImageFix"></feFlood>
+                    <feFlood floodOpacity="0" result="BackgroundImageFix" />
                     <feColorMatrix
                         in="SourceAlpha"
                         result="hardAlpha"
                         values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-                    ></feColorMatrix>
-                    <feOffset dy="8"></feOffset>
-                    <feGaussianBlur stdDeviation="16"></feGaussianBlur>
-                    <feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.12 0"></feColorMatrix>
-                    <feBlend in2="BackgroundImageFix" result="effect1_dropShadow_10041_286941"></feBlend>
-                    <feBlend in="SourceGraphic" in2="effect1_dropShadow_10041_286941" result="shape"></feBlend>
+                    />
+                    <feOffset dy="8" />
+                    <feGaussianBlur stdDeviation="16" />
+                    <feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.12 0" />
+                    <feBlend in2="BackgroundImageFix" result="effect1_dropShadow_10041_286941" />
+                    <feBlend in="SourceGraphic" in2="effect1_dropShadow_10041_286941" result="shape" />
                 </filter>
                 <linearGradient
                     id="paint0_linear_10041_286941"
@@ -54,9 +54,9 @@ export const TutorialsBadgeIcon = (props) => {
                     y2="126.609"
                     gradientUnits="userSpaceOnUse"
                 >
-                    <stop stopColor="#583DFF"></stop>
-                    <stop offset="0.79" stopColor="#F849C7"></stop>
-                    <stop offset="1" stopColor="#FFC03D"></stop>
+                    <stop stopColor="#583DFF" />
+                    <stop offset="0.79" stopColor="#F849C7" />
+                    <stop offset="1" stopColor="#FFC03D" />
                 </linearGradient>
             </defs>
         </svg>

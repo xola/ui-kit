@@ -13,7 +13,7 @@ export const TutorialsButtonIcon = (props) => {
             {...props}
             className={className}
         >
-            <rect width="32" height="30" fill="url(#paint0_linear_3440_197284)" rx="4"></rect>
+            <rect width="32" height="30" fill="url(#paint0_linear_3440_197284)" rx="4" />
             <path
                 stroke="#fff"
                 strokeLinecap="round"
