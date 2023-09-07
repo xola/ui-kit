@@ -151,7 +151,7 @@ export const DatePicker = ({
                         {upcomingDates?.length > 0 ? (
                             <div className="mt-5">
                                 {upcomingDates?.map((date) => {
-                                    const isSameDay = dayjs(date).isSame(dayjs(value), "day");
+                                    const isSameDay = dayjs(date).isSameDay(dayjs(value));
                                     const key = dayjs(date).format();
                                     return (
                                         <div
