@@ -262,6 +262,7 @@ export { YelpIcon } from "./icons/Logos/YelpIcon";
 export { LogoutIcon } from "./icons/LogoutIcon";
 export { HelpCenterIcon } from "./icons/HelpCenterIcon";
 export { PolicyIcon } from "./icons/PolicyIcon";
+export { XIcon } from "./icons/Logos/XIcon";
 
 export { theme } from "./theme";
 
