@@ -262,6 +262,7 @@ export { WarningTriangleIcon } from "./icons/WarningTriangleIcon";
 export { WeightIcon } from "./icons/WeightIcon";
 export { WifiIcon } from "./icons/WifiIcon";
 export { WriteIcon } from "./icons/WriteIcon";
+export { XIcon } from "./icons/Logos/XIcon";
 export { XolaBotIcon } from "./icons/XolaBotIcon";
 export { XrayIcon } from "./icons/XrayIcon";
 export { YelpIcon } from "./icons/Logos/YelpIcon";
