@@ -1,14 +1,15 @@
 import { Dialog, Transition } from "@headlessui/react";
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { CloseIcon } from "../icons/CloseIcon";
 
+// Widths are for desktop designs because mobile is always full width
 const sizes = {
-    small: "max-w-100",
-    medium: "max-w-125",
-    large: "max-w-150",
-    huge: "max-w-200",
+    small: "sm:max-w-100",
+    medium: "sm:max-w-125",
+    large: "sm:max-w-150",
+    huge: "sm:max-w-200",
 };
 
 export const Modal = ({
@@ -25,10 +26,36 @@ export const Modal = ({
         }
     };
 
+    const [clientY, setClientY] = useState();
+    const handleTouchStart = (e) => {
+        e.stopPropagation();
+        setClientY(e.touches?.[0].clientY);
+    };
+
+    const handleTouchMove = (e) => {
+        e.stopPropagation();
+        const currentY = e.touches?.[0].clientY;
+        const diffY = currentY - clientY;
+        if (diffY > 80) {
+            // The swipe was more than 80px, so close the div
+            setTimeout(() => {
+                // Hack because sometimes there are other operations queued up and calling close now won't close it
+                onClose();
+                setClientY(null);
+            }, 100);
+        }
+    };
+
     return (
         <Transition appear show={isOpen} as={Fragment}>
-            <Dialog as="div" className="ui-modal fixed inset-0 z-30 overflow-y-auto" onClose={handleOutsideClick}>
-                <div className="min-h-screen px-4 text-center">
+            <Dialog
+                as="div"
+                className="ui-modal fixed inset-0 z-30"
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onClose={handleOutsideClick}
+            >
+                <div className="sm:min-h-screen sm:p-0 sm:text-center">
                     <Transition.Child
                         as={Fragment}
                         enter="ease-out duration-300"
@@ -41,25 +68,27 @@ export const Modal = ({
                         <Dialog.Overlay className="ui-modal-overlay fixed inset-0 bg-gray-dark bg-opacity-75 transition-opacity" />
                     </Transition.Child>
 
-                    {/* This element is to trick the browser into centering the modal contents. */}
-                    <span className="inline-block h-screen align-middle" aria-hidden="true">
+                    {/* For desktop only this element is to trick the browser into centering the modal contents. */}
+                    <span className="hidden h-screen align-middle sm:inline-block" aria-hidden="true">
                         &#8203;
                     </span>
 
                     <Transition.Child
                         as={Fragment}
-                        enter="ease-out duration-300"
-                        enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                        enter="ease-in-out duration-500 sm:duration-300"
+                        enterFrom="opacity-0 translate-y-30 sm:translate-y-4 sm:scale-95"
                         enterTo="opacity-100 translate-y-0 sm:scale-100"
-                        leave="ease-in duration-200"
+                        leave="ease-in duration-500 sm:duration-200"
                         leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-                        leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                        leaveTo="opacity-0 translate-y-30 sm:translate-y-0 sm:scale-95"
                     >
                         <div
                             className={clsx(
                                 className,
                                 sizes[size],
-                                "inline-block w-full transform overflow-hidden rounded-lg bg-white p-10 text-left align-middle shadow-xl transition-all",
+                                "absolute bottom-0 sm:relative sm:inline-block",
+                                "w-full transform overflow-hidden rounded-tl-2xl rounded-tr-2xl bg-white py-4 px-8",
+                                "text-left shadow-xl transition-all sm:rounded-lg sm:p-10",
                             )}
                         >
                             {onClose ? (
@@ -72,7 +101,11 @@ export const Modal = ({
                                 </button>
                             ) : null}
 
-                            {children}
+                            {/* Show a little bar at the top in mobile only to show you can swipe this down */}
+                            <div className="absolute left-1/2 h-1.5 w-18 -translate-x-1/2 rounded-full bg-black opacity-10 sm:hidden" />
+
+                            {/* The actual content of the modal with padding for mobile only */}
+                            <div className="pt-6 sm:pt-0">{children}</div>
                         </div>
                     </Transition.Child>
                 </div>

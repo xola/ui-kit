@@ -47,6 +47,9 @@ export const Default = ({ size, shouldCloseOnOutsideClick }) => {
 
     return (
         <div>
+            <p className="my-4">
+                This shows the desktop & mobile versions of the modal. The mobile version pops up from the bottom
+            </p>
             <Button onClick={toggle}>Click me to launch a modal</Button>
 
             <Modal size={size} isOpen={isOpen} shouldCloseOnOutsideClick={shouldCloseOnOutsideClick} onClose={toggle}>
