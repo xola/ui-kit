@@ -197,10 +197,10 @@ export const Search = ({
                                       >
                                           {`Enter at least ${minChars} characters to begin search`}
                                       </div>
-                                  ) : (
-                                      children?.(item, highlightedIndex === index)
-                                  )
-                              ) : null}
+                                  ) : null
+                              ) : (
+                                  children?.(item, highlightedIndex === index)
+                              )}
                           </li>
                       ))
                     : null}
