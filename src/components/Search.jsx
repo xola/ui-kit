@@ -188,19 +188,19 @@ export const Search = ({
                                       <div className="p-3 text-center">
                                           <Spinner size="small" />
                                       </div>
-                                  ) : <div
-                                              className={clsx(
-                                                  "cursor-pointer p-2",
-                                                  highlightedIndex === index ? "bg-blue-light text-white" : "",
-                                              )}
-                                          >
-                                              {inputValue.length < minChars ? (
-                                                  `Enter at least ${minChars} characters to begin search`
-                                              ) : null}
-                                          </div>
-                              ) : (
-                                  children?.(item, highlightedIndex === index)
-                              )}
+                                  ) : inputValue.length < minChars ? (
+                                      <div
+                                          className={clsx(
+                                              "cursor-pointer p-2",
+                                              highlightedIndex === index ? "bg-blue-light text-white" : "",
+                                          )}
+                                      >
+                                          {`Enter at least ${minChars} characters to begin search`}
+                                      </div>
+                                  ) : (
+                                      children?.(item, highlightedIndex === index)
+                                  )
+                              ) : null}
                           </li>
                       ))
                     : null}
