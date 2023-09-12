@@ -192,7 +192,6 @@ export { MenuIcon } from "./icons/MenuIcon";
 export { MinusIcon } from "./icons/MinusIcon";
 export { MixedChecklistIcon } from "./icons/MixedChecklistIcon";
 export { MobileIcon } from "./icons/MobileIcon";
-export { MountainIcon } from "./icons/MountainIcon";
 export { MoneyAddIcon } from "./icons/MoneyAddIcon";
 export { MoneyBackIcon } from "./icons/MoneyBackIcon";
 export { MoneyIcon } from "./icons/MoneyIcon";
