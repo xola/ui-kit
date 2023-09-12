@@ -141,6 +141,7 @@ export const DatePicker = ({
 
     // Comparing `from` and `to` dates hides a weird CSS style when you select the same date twice in a date range.
     const useDateRangeStyle = isRangeVariant && value.from?.getTime() !== value.to?.getTime();
+    const selectedDays = isDayjs(value) ? value : dayjs(value).toDate();
 
     return (
         <>
@@ -189,7 +190,7 @@ export const DatePicker = ({
                         modifiers.waitlist ? "has-custom-content" : null,
                     )}
                     todayButton={variant === "single" ? "Today" : undefined}
-                    selectedDays={value}
+                    selectedDays={selectedDays}
                     month={currentMonth}
                     modifiers={{ ...modifiers, ...rangeModifier }}
                     numberOfMonths={isRangeVariant ? 2 : 1}
