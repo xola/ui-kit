@@ -1,6 +1,8 @@
 module.exports = {
     stories: ["../src/**/*.stories.@(js|jsx|mdx)"],
-
+    core: {
+        disableTelemetry: true,
+    },
     addons: [
         "@storybook/addon-postcss",
         "@storybook/addon-links",
