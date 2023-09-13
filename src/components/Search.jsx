@@ -215,7 +215,7 @@ export const Search = ({
                         </span>
 
                         <span className="flex items-center">
-                            <Key char="enter" className="mr-2" /> purchase details
+                            <Key char="enter" className="mr-2" /> submit
                         </span>
 
                         <span className="flex items-center">
