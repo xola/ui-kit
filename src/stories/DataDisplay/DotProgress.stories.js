@@ -12,13 +12,13 @@ const DotProgressStories = {
         },
     },
     args: {
-        current: 2,
+        current: 1,
         total: 6,
     },
     argTypes: {
         current: {
             type: { required: true },
-            description: "The current position. Starts at 1",
+            description: "The current position. Starts at 0",
             control: { type: "number" },
         },
         total: {
