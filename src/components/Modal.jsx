@@ -93,6 +93,16 @@ export const Modal = ({
     );
 };
 
+Modal.propTypes = {
+    size: PropTypes.oneOfType(Object.keys(sizes)),
+    position: PropTypes.oneOfType(Object.keys(positions)),
+    isOpen: PropTypes.bool.isRequired,
+    shouldCloseOnOutsideClick: PropTypes.bool,
+    onClose: PropTypes.func.isRequired,
+    children: PropTypes.node.isRequired,
+    className: PropTypes.string,
+};
+
 const Header = ({ children, description, className, ...rest }) => {
     return (
         <Dialog.Title as="div" className={clsx(className, "ui-modal-header text-center")} {...rest}>
