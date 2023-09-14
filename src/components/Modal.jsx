@@ -5,10 +5,10 @@ import React, { Fragment } from "react";
 import { CloseIcon } from "../icons/CloseIcon";
 
 const sizes = {
-    small: "max-w-100",
-    medium: "max-w-125",
-    large: "max-w-150",
-    huge: "max-w-200",
+    small: "max-w-100", // 400px
+    medium: "max-w-125", // 500px
+    large: "max-w-150", // 600px
+    huge: "max-w-200", // 800px
 };
 
 const positions = {

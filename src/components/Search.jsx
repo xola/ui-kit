@@ -175,7 +175,7 @@ export const Search = ({
                     id: menuId,
                     className: clsx(
                         "ui-search-menu",
-                        "absolute top-10 divide-y divide-gray-light w-full xl:w-2/3 max-h-[75vh] border border-blue-light mt-1 rounded overflow-auto z-10 bg-white",
+                        "absolute top-10 divide-y divide-gray-light w-full xl:w-[590px] max-h-[75vh] border border-secondary-lighter shadow-xl mt-1 rounded overflow-auto z-10 bg-white",
                         { hidden: !open },
                     ),
                 })}
@@ -184,28 +184,20 @@ export const Search = ({
                     ? itemList.map((item, index) => (
                           <li key={item} {...getItemProps({ key: index, item, index, className: "ui-search-item" })}>
                               {item === submitValueItem ? (
-                                  <>
+                                  isLoading ? (
+                                      <div className="p-3 text-center">
+                                          <Spinner size="small" />
+                                      </div>
+                                  ) : inputValue.length < minChars ? (
                                       <div
                                           className={clsx(
                                               "cursor-pointer p-2",
                                               highlightedIndex === index ? "bg-blue-light text-white" : "",
                                           )}
                                       >
-                                          {inputValue.length >= minChars ? (
-                                              <>
-                                                  Show all results for <strong>{inputValue}</strong>
-                                              </>
-                                          ) : (
-                                              `Enter at least ${minChars} characters to begin search`
-                                          )}
+                                          {`Enter at least ${minChars} characters to begin search`}
                                       </div>
-
-                                      {isLoading ? (
-                                          <div className="p-3 text-center">
-                                              <Spinner size="small" />
-                                          </div>
-                                      ) : null}
-                                  </>
+                                  ) : null
                               ) : (
                                   children?.(item, highlightedIndex === index)
                               )}
@@ -219,15 +211,15 @@ export const Search = ({
                     <li className="search-footer pointer-events sticky bottom-0 flex space-x-5 p-2 text-sm text-gray-dark">
                         <span className="flex items-center">
                             <Key char="up" className="mr-0.5" />
-                            <Key char="down" className="mr-2" /> to navigate
+                            <Key char="down" className="mr-2" /> navigate results
                         </span>
 
                         <span className="flex items-center">
-                            <Key char="enter" className="mr-2" /> to submit
+                            <Key char="enter" className="mr-2" /> submit
                         </span>
 
                         <span className="flex items-center">
-                            <Key char="esc" className="mr-2" /> to close
+                            <Key char="esc" className="mr-2" /> close search
                         </span>
                     </li>
                 ) : null}
