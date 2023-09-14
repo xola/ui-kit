@@ -94,8 +94,8 @@ export const Modal = ({
 };
 
 Modal.propTypes = {
-    size: PropTypes.oneOfType(Object.keys(sizes)),
-    position: PropTypes.oneOfType(Object.keys(positions)),
+    size: PropTypes.oneOf(Object.keys(sizes)),
+    position: PropTypes.oneOf(Object.keys(positions)),
     isOpen: PropTypes.bool.isRequired,
     shouldCloseOnOutsideClick: PropTypes.bool,
     onClose: PropTypes.func.isRequired,
