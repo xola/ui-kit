@@ -196,7 +196,6 @@ export { MoneyAddIcon } from "./icons/MoneyAddIcon";
 export { MoneyBackIcon } from "./icons/MoneyBackIcon";
 export { MoneyIcon } from "./icons/MoneyIcon";
 export { MountainIcon } from "./icons/MountainIcon";
-export { MountainIcon } from "./icons/MountainIcon";
 export { MouseIcon } from "./icons/MouseIcon";
 export { PassIcon } from "./icons/PassIcon";
 export { PenIcon } from "./icons/PenIcon";
