@@ -1,5 +1,5 @@
 import React from "react";
-import { Dot } from "../..";
+import { Dot } from "../../";
 
 const DotStories = {
     title: "Data Display/Dot",
