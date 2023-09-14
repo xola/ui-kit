@@ -11,8 +11,17 @@ const sizes = {
     huge: "max-w-200",
 };
 
+const positions = {
+    center: "inline-block",
+    topLeft: " absolute m-4 top-0 left-0",
+    topRight: " absolute m-4 top-0 right-0",
+    bottomLeft: " absolute m-4 bottom-0 left-0",
+    bottomRight: " absolute m-4 bottom-0 right-0",
+};
+
 export const Modal = ({
     size = "medium",
+    position = "center",
     isOpen = false,
     shouldCloseOnOutsideClick = false,
     onClose,
@@ -42,9 +51,11 @@ export const Modal = ({
                     </Transition.Child>
 
                     {/* This element is to trick the browser into centering the modal contents. */}
-                    <span className="inline-block h-screen align-middle" aria-hidden="true">
-                        &#8203;
-                    </span>
+                    {position === "center" && (
+                        <span className="inline-block h-screen align-middle" aria-hidden="true">
+                            &#8203;
+                        </span>
+                    )}
 
                     <Transition.Child
                         as={Fragment}
@@ -59,7 +70,8 @@ export const Modal = ({
                             className={clsx(
                                 className,
                                 sizes[size],
-                                "inline-block w-full transform overflow-hidden rounded-lg bg-white p-10 text-left align-middle shadow-xl transition-all",
+                                positions[position],
+                                "w-full transform overflow-hidden rounded-lg bg-white p-10 text-left align-middle shadow-xl transition-all",
                             )}
                         >
                             {onClose ? (
