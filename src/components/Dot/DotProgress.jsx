@@ -1,7 +1,7 @@
-import { Dot } from "./Dot";
 import { range } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
+import { Dot } from "./Dot";
 
 export const DotProgress = ({ current, total }) => {
     if (total <= 1) {
