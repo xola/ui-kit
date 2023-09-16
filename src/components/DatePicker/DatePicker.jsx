@@ -141,6 +141,7 @@ export const DatePicker = ({
 
     // Comparing `from` and `to` dates hides a weird CSS style when you select the same date twice in a date range.
     const useDateRangeStyle = isRangeVariant && value.from?.getTime() !== value.to?.getTime();
+    const selectedDays = dayjs.isDayjs(value) ? value : dayjs(value).toDate();
 
     return (
         <>
@@ -151,7 +152,7 @@ export const DatePicker = ({
                         {upcomingDates?.length > 0 ? (
                             <div className="mt-5">
                                 {upcomingDates?.map((date) => {
-                                    const isSameDay = dayjs(date).isSame(dayjs(value), "day");
+                                    const isSameDay = dayjs(date).isSameDay(dayjs(value));
                                     const key = dayjs(date).format();
                                     return (
                                         <div
@@ -189,7 +190,7 @@ export const DatePicker = ({
                         modifiers.waitlist ? "has-custom-content" : null,
                     )}
                     todayButton={variant === "single" ? "Today" : undefined}
-                    selectedDays={value}
+                    selectedDays={selectedDays}
                     month={currentMonth}
                     modifiers={{ ...modifiers, ...rangeModifier }}
                     numberOfMonths={isRangeVariant ? 2 : 1}
