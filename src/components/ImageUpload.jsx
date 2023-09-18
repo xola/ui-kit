@@ -6,13 +6,14 @@ import { Button, ImageIcon, Logo, Spinner, TrashIcon } from "..";
 export const ImageUpload = ({
     src,
     size = "large",
-    onChange,
-    onDelete,
-    onError,
     isLoading = false,
     maxSize = 5,
     hasDelete = true,
     requirements = null,
+    csvAcceptFormats = "image/png,image/jpeg",
+    onChange,
+    onDelete,
+    onError,
     ...props
 }) => {
     const inputReference = useRef();
@@ -81,7 +82,7 @@ export const ImageUpload = ({
                     className="hidden"
                     type="file"
                     multiple={false}
-                    accept="image/png,image/jpeg"
+                    accept={csvAcceptFormats}
                     onChange={handleChange}
                     {...props}
                 />
@@ -101,11 +102,12 @@ export const ImageUpload = ({
 ImageUpload.propTypes = {
     src: PropTypes.string,
     size: PropTypes.oneOf(["small", "medium", "large"]),
-    onChange: PropTypes.func.isRequired,
-    onDelete: PropTypes.func.isRequired,
-    onError: PropTypes.func.isRequired,
     isLoading: PropTypes.bool,
     maxSize: PropTypes.number,
     hasDelete: PropTypes.bool,
+    csvAcceptFormats: PropTypes.string,
     requirements: PropTypes.oneOf([PropTypes.string, PropTypes.node]),
+    onChange: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired,
+    onError: PropTypes.func.isRequired,
 };

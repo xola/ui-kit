@@ -51,10 +51,20 @@ const ImageUploadStories = {
             description: "Max file size",
             control: { type: "number" },
         },
+        csvAcceptFormats: {
+            description: "CSV list of accepted file mime-types",
+            control: {
+                type: "text",
+            },
+            table: {
+                type: { summary: null },
+                defaultValue: { summary: "image/png,image/jpeg" },
+            },
+        },
     },
 };
 
-export const Default = ({ src: source, size = "small", maxSize, isLoading }) => {
+export const Default = ({ src: source, size = "small", maxSize, csvAcceptFormats, isLoading }) => {
     const [source_, setSource] = React.useState(source);
 
     React.useEffect(() => {
@@ -82,6 +92,7 @@ export const Default = ({ src: source, size = "small", maxSize, isLoading }) => 
             maxSize={maxSize}
             onChange={onChange}
             onDelete={onDelete}
+            csvAcceptFormats={csvAcceptFormats}
             onError={(error) => console.log(error)}
         />
     );
