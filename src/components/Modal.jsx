@@ -13,10 +13,43 @@ const sizes = {
 
 const positions = {
     center: "inline-block",
-    topLeft: " absolute m-4 top-0 left-0",
-    topRight: " absolute m-4 top-0 right-0",
-    bottomLeft: " absolute m-4 bottom-0 left-0",
-    bottomRight: " absolute m-4 bottom-0 right-0",
+    topLeft: "absolute m-4 top-0 left-0",
+    topRight: "absolute m-4 top-0 right-0",
+    bottomLeft: "absolute m-4 bottom-0 left-0",
+    bottomRight: "absolute m-4 bottom-0 right-0",
+};
+
+const animations = {
+    center: {
+        enterFrom: "translate-y-4 sm:translate-y-0 sm:scale-95",
+        enterTo: "translate-y-0 sm:scale-100",
+        leaveFrom: "translate-y-0 sm:scale-100",
+        leaveTo: "translate-y-4 sm:translate-y-0 sm:scale-95",
+    },
+    topLeft: {
+        enterFrom: "scale-0 origin-top-left",
+        enterTo: "scale-100 origin-top-left",
+        leaveFrom: "scale-100 origin-top-left",
+        leaveTo: "scale-0 origin-top-left",
+    },
+    topRight: {
+        enterFrom: "scale-0 origin-top-right",
+        enterTo: "scale-100 origin-top-right",
+        leaveFrom: "scale-100 origin-top-right",
+        leaveTo: "scale-0 origin-top-right",
+    },
+    bottomLeft: {
+        enterFrom: "scale-0 origin-bottom-left",
+        enterTo: "scale-100 origin-bottom-left",
+        leaveFrom: "scale-100 origin-bottom-left",
+        leaveTo: "scale-0 origin-bottom-left",
+    },
+    bottomRight: {
+        enterFrom: "scale-0 origin-bottom-right",
+        enterTo: "scale-100 origin-bottom-right",
+        leaveFrom: "scale-100 origin-bottom-right",
+        leaveTo: "scale-0 origin-bottom-right",
+    },
 };
 
 export const Modal = ({
@@ -59,12 +92,12 @@ export const Modal = ({
 
                     <Transition.Child
                         as={Fragment}
-                        enter="ease-out duration-300"
-                        enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                        enterTo="opacity-100 translate-y-0 sm:scale-100"
-                        leave="ease-in duration-200"
-                        leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-                        leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                        enter={clsx("ease-out duration-300")}
+                        enterFrom={clsx("opacity-0", animations[position].enterFrom)}
+                        enterTo={clsx("opacity-100", animations[position].enterTo)}
+                        leave={clsx("ease-in duration-300")}
+                        leaveFrom={clsx("opacity-100", animations[position].leaveFrom)}
+                        leaveTo={clsx("opacity-0", animations[position].leaveTo)}
                     >
                         <div
                             className={clsx(
