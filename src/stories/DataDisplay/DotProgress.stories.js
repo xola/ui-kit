@@ -1,5 +1,5 @@
 import React from "react";
-import { DotProgress } from "../../";
+import { DotProgress } from "../..";
 
 const DotProgressStories = {
     title: "Data Display/DotProgress",
