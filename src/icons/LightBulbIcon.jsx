@@ -11,12 +11,37 @@ export const LightBulbIcon = createIcon((props) => {
                 strokeLinecap="round"
                 strokeLinejoin="round"
             />
-            <path d="M13.332 3.33366L14.1274 2.53833" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" />
-            <path d="M2.66643 10.0002L1.87109 10.7956" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" />
-            <path d="M3.3383 2.66692L2.54297 1.87158" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" />
-            <path d="M13.332 10.0002L14.1274 10.7956" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" />
+            <path
+                d="M13.332 3.33366L14.1274 2.53833"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+            <path
+                d="M2.66643 10.0002L1.87109 10.7956"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+            <path
+                d="M3.3383 2.66692L2.54297 1.87158"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+            <path
+                d="M13.332 10.0002L14.1274 10.7956"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
             <path d="M14 6.66711H15.1247" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" />
-            <path d="M0.875 6.66711L1.99967 6.66778" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" />
+            <path
+                d="M0.875 6.66711L1.99967 6.66778"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
             <path d="M6 12.0002H9.91533" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
     );
