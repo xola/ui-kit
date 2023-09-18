@@ -17,4 +17,4 @@ export const ClockManualIcon = createIcon((props) => {
     );
 });
 
-ClockManualIcon.tags = ["clock", "manual", "watch"];
+ClockManualIcon.tags = ["clock", "manual", "watch", "fly", "on the fly"];
