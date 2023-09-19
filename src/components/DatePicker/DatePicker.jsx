@@ -141,7 +141,8 @@ export const DatePicker = ({
 
     // Comparing `from` and `to` dates hides a weird CSS style when you select the same date twice in a date range.
     const useDateRangeStyle = isRangeVariant && value.from?.getTime() !== value.to?.getTime();
-    const selectedDays = ( dayjs.isDayjs(value) || isRangeVariant ) ? value : dayjs(value).toDate();
+    // Return the same value if it is already dayjs object or has range variant otherwise format it to dayJs object
+    const selectedDays = dayjs.isDayjs(value) || isRangeVariant ? value : dayjs(value).toDate();
 
     return (
         <>
