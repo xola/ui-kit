@@ -149,8 +149,8 @@
     @apply bg-transparent text-black;
 }
 
-.date-range-picker .DayPicker-Day--selected:not(.DayPicker-Day--disabled) .date,
-.date-range-picker .DayPicker-Day--selected:not(.DayPicker-Day--disabled) .date:hover {
+.date-range-picker .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) .date,
+.date-range-picker .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) .date:hover {
     @apply bg-blue-lighter text-black;
 }
 
