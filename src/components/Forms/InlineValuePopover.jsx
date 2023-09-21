@@ -35,7 +35,7 @@ export const InlineValuePopover = ({
                 )}
                 onClick={handleClick}
             >
-                <span className="border-b border-b-black font-bold text-black">
+                <span className={clsx("border-b border-b-black font-bold text-black", classNames?.textField)}>
                     <ValuePopoverText value={text} error={error} />
                 </span>
                 {showArrow && <DownArrowIcon size="medium" />}

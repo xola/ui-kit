@@ -1,2 +1,4 @@
 src/theme.js
 package-lock.json
+node_modules
+.github

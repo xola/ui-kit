@@ -143,6 +143,7 @@ export { DownloadIcon } from "./icons/DownloadIcon";
 export { DownArrowIcon } from "./icons/DownArrowIcon";
 export { DropdownIcon } from "./icons/DropdownIcon";
 export { DuplicateIcon } from "./icons/DuplicateIcon";
+export { DumbbellIcon } from "./icons/DumbbellIcon";
 export { DurationIcon } from "./icons/DurationIcon";
 export { EditIcon } from "./icons/EditIcon";
 export { EditNoteIcon } from "./icons/EditNoteIcon";
@@ -188,6 +189,7 @@ export { MenuIcon } from "./icons/MenuIcon";
 export { MegaphoneIcon } from "./icons/MegaphoneIcon";
 export { MixedChecklistIcon } from "./icons/MixedChecklistIcon";
 export { MinusIcon } from "./icons/MinusIcon";
+export { MobileIcon } from "./icons/MobileIcon";
 export { MountainIcon } from "./icons/MountainIcon";
 export { MoneyAddIcon } from "./icons/MoneyAddIcon";
 export { MoneyBackIcon } from "./icons/MoneyBackIcon";
@@ -262,6 +264,7 @@ export { YelpIcon } from "./icons/Logos/YelpIcon";
 export { LogoutIcon } from "./icons/LogoutIcon";
 export { HelpCenterIcon } from "./icons/HelpCenterIcon";
 export { PolicyIcon } from "./icons/PolicyIcon";
+export { XIcon } from "./icons/Logos/XIcon";
 
 export { theme } from "./theme";
 
