@@ -1,4 +1,5 @@
-name: Deploy to npm
+# For more information see: https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages
+name: Node.js Package
 
 on:
   workflow_dispatch:
@@ -11,23 +12,14 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: 16
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build package
-        run: npm run build
-
-      - name: Publish to npm
-        run: npm publish --access public --tag ${{ github.event.inputs.tag }}
+          registry-url: https://registry.npmjs.org/
+      - run: npm ci
+      - run: npm run build
+      - run: npm publish --tag ${{ github.event.inputs.tag }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
