@@ -141,6 +141,8 @@ export const DatePicker = ({
 
     // Comparing `from` and `to` dates hides a weird CSS style when you select the same date twice in a date range.
     const useDateRangeStyle = isRangeVariant && value.from?.getTime() !== value.to?.getTime();
+    // Return the same value if it is already dayjs object or has range variant otherwise format it to dayJs object
+    const selectedDays = dayjs.isDayjs(value) || isRangeVariant ? value : dayjs(value).toDate();
 
     return (
         <>
@@ -181,7 +183,7 @@ export const DatePicker = ({
                 ) : null}
 
                 <DayPicker
-                    showOutsideDays
+                    showOutsideDays={!isRangeVariant}
                     className={clsx(
                         "ui-date-picker rounded-lg pt-3",
                         useDateRangeStyle ? "date-range-picker" : null,
@@ -189,7 +191,7 @@ export const DatePicker = ({
                         modifiers.waitlist ? "has-custom-content" : null,
                     )}
                     todayButton={variant === "single" ? "Today" : undefined}
-                    selectedDays={value}
+                    selectedDays={selectedDays}
                     month={currentMonth}
                     modifiers={{ ...modifiers, ...rangeModifier }}
                     numberOfMonths={isRangeVariant ? 2 : 1}
