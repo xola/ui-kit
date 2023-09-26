@@ -137,7 +137,7 @@ export const Sidebar = ({
                 />
             )}
 
-            <div className={clsx(isStickyHeaderFooter && "overflow-y-auto")}>
+            <div className={clsx("flex-grow space-y-2", isStickyHeaderFooter && "overflow-y-auto")}>
                 <div className="text-center">
                     {logo ?? (
                         <XolaLogoSimple
@@ -150,8 +150,9 @@ export const Sidebar = ({
                     )}
                 </div>
 
-                <div className="flex-grow space-y-2">{children}</div>
+                <div>{children}</div>
             </div>
+
             <div className={clsx(isStickyFooter && "sticky bottom-0 bg-black")}>{footer}</div>
         </div>
     );
