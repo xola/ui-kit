@@ -183,7 +183,6 @@ export const DatePicker = ({
                 ) : null}
 
                 <DayPicker
-                    showOutsideDays={!isRangeVariant}
                     className={clsx(
                         "ui-date-picker rounded-lg pt-3",
                         useDateRangeStyle ? "date-range-picker" : null,
