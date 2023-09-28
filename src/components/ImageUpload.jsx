@@ -41,7 +41,7 @@ export const ImageUpload = ({
         onDelete();
     };
 
-    const hasRequirements = requirements ? requirements?.trim().length > 0 : false;
+    const hasRequirements = typeof requirements === "string" ? requirements?.trim().length > 0 : !!requirements;
     const hasCaption = caption ? caption.trim().length > 0 : false;
 
     return (
@@ -115,8 +115,9 @@ ImageUpload.propTypes = {
     isLoading: PropTypes.bool,
     maxSize: PropTypes.number,
     hasDelete: PropTypes.bool,
-    csvAcceptFormats: PropTypes.string,
+    caption: PropTypes.string,
     requirements: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
+    csvAcceptFormats: PropTypes.string,
     onChange: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
     onError: PropTypes.func.isRequired,
