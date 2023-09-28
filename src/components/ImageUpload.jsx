@@ -43,12 +43,17 @@ export const ImageUpload = ({
     const hasRequirements = requirements?.trim().length > 0;
 
     return (
-        <div className="flex items-center space-x-8 rounded bg-gray-lighter p-4">
+        <div className={clsx("flex items-center rounded bg-gray-lighter p-4", hasDelete ? "space-x-2.5" : "space-x-3")}>
             <div>
                 {src ? (
                     <Logo src={src} size={size} />
                 ) : (
-                    <div className={clsx(Logo.sizes[size], "flex items-center justify-center")}>
+                    <div
+                        className={clsx(
+                            Logo.sizes[size],
+                            "flex items-center justify-center rounded border border-gray-light",
+                        )}
+                    >
                         <ImageIcon size="large" className="text-gray" />
                     </div>
                 )}
