@@ -41,8 +41,8 @@ export const ImageUpload = ({
         onDelete();
     };
 
-    const hasRequirements = requirements?.trim().length > 0;
-    const hasCaption = caption?.trim().length > 0;
+    const hasRequirements = requirements ? requirements?.trim().length > 0 : false;
+    const hasCaption = caption ? caption.trim().length > 0 : false;
 
     return (
         <div className={clsx("flex items-center rounded bg-gray-lighter p-4", hasDelete ? "space-x-2" : "space-x-3")}>
