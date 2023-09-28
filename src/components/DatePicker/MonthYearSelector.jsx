@@ -5,6 +5,10 @@ import { Select } from "../Forms/Select";
 
 const today = dayjs();
 
+const getDiffInMonths = (to, from) => {
+    return 12 * (to.getFullYear() - from.getFullYear()) + (to.getMonth() - from.getMonth());
+};
+
 export const MonthYearSelector = ({ date, onChange, currentMonth }) => {
     const months = [...Array.from({ length: 12 }).keys()].map((m) => today.month(m).format("MMM"));
     // 2012 as baseline + 5 years in future
@@ -12,9 +16,17 @@ export const MonthYearSelector = ({ date, onChange, currentMonth }) => {
         today.year(2012 + y).format("YYYY"),
     );
 
+    /**
+     * For range date pickers, when we show multiple months, this indicates the index for selector component with respected to the first month selected in date-range picker (i.e. month selected on left side)
+     *
+     * @example
+     * If left side month is "August 2023", and we are showing this selector for "September 2023" (`date=2023-09-01T00:00:00Z`). The `selectorIndex` would be 1.
+     **/
+    const selectorIndex = getDiffInMonths(date, currentMonth);
+
     const handleMonthChange = (event) => {
         const { year, month } = event.target.form;
-        onChange(new Date(year.value, month.value));
+        onChange(new Date(year.value, Number(month.value) - selectorIndex));
     };
 
     const handleYearChange = (event) => {
