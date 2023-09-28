@@ -67,9 +67,9 @@ export const ImageUpload = ({
                             >
                                 Delete
                             </Button>
-                            <Button disabled={isLoading} onClick={handleUploadClick}>
+                            <SubmitButton disabled={isLoading} isLoading={isLoading} onClick={handleUploadClick}>
                                 Upload New Picture
-                            </Button>
+                            </SubmitButton>
                         </>
                     ) : (
                         <SubmitButton disabled={isLoading} isLoading={isLoading} onClick={handleUploadClick}>
