@@ -20,6 +20,7 @@ const ImageUploadStories = {
         size: "medium",
         maxSize: 5,
         hasDelete: true,
+        caption: "",
         requirements: "",
     },
     argTypes: {
@@ -41,6 +42,14 @@ const ImageUploadStories = {
             table: {
                 type: { summary: null },
                 defaultValue: { summary: "medium" },
+            },
+        },
+        csvAcceptFormats: {
+            description: "The caption to show on the upload button",
+            control: { type: "text" },
+            table: {
+                type: { summary: null },
+                defaultValue: { summary: "Upload New Photo" },
             },
         },
         isLoading: {
@@ -82,6 +91,7 @@ export const Default = ({
     src: source,
     size = "small",
     maxSize,
+    caption,
     csvAcceptFormats,
     hasDelete,
     requirements,
@@ -112,6 +122,7 @@ export const Default = ({
             size={size}
             isLoading={isLoading}
             maxSize={maxSize}
+            caption={caption}
             hasDelete={hasDelete}
             requirements={requirements}
             onChange={onChange}
