@@ -1,7 +1,7 @@
-import React, { useRef, useState } from "react";
-import PropTypes from "prop-types";
 import clsx from "clsx";
-import { Button, ImageIcon, Logo, Spinner, TrashIcon } from "..";
+import PropTypes from "prop-types";
+import React, { useRef, useState } from "react";
+import { Button, ImageIcon, Logo, SubmitButton, TrashIcon } from "..";
 
 export const ImageUpload = ({
     src,
@@ -40,20 +40,27 @@ export const ImageUpload = ({
         onDelete();
     };
 
+    const hasRequirements = requirements?.trim().length > 0;
+
     return (
-        <div className="flex items-center space-x-8 rounded bg-gray-lighter p-4">
+        <div className={clsx("flex items-center rounded bg-gray-lighter p-4", hasDelete ? "space-x-2" : "space-x-3")}>
             <div>
                 {src ? (
                     <Logo src={src} size={size} />
                 ) : (
-                    <div className={clsx(Logo.sizes[size], "flex items-center justify-center")}>
+                    <div
+                        className={clsx(
+                            Logo.sizes[size],
+                            "flex items-center justify-center rounded border border-gray-light",
+                        )}
+                    >
                         <ImageIcon size="large" className="text-gray" />
                     </div>
                 )}
             </div>
 
             <div className="flex flex-col space-y-2">
-                <div className="space-x-1">
+                <div className="space-x-2">
                     {hasDelete ? (
                         <>
                             <Button
@@ -65,15 +72,14 @@ export const ImageUpload = ({
                             >
                                 Delete
                             </Button>
-                            <Button disabled={isLoading} onClick={handleUploadClick}>
+                            <SubmitButton disabled={isLoading} isLoading={isLoading} onClick={handleUploadClick}>
                                 Upload New Picture
-                            </Button>
-                            {isLoading && <Spinner />}
+                            </SubmitButton>
                         </>
                     ) : (
-                        <Button disabled={isLoading} onClick={handleUploadClick}>
+                        <SubmitButton disabled={isLoading} isLoading={isLoading} onClick={handleUploadClick}>
                             {src ? "Replace Photo" : "Upload New Photo"}
-                        </Button>
+                        </SubmitButton>
                     )}
                 </div>
                 <input
@@ -87,7 +93,9 @@ export const ImageUpload = ({
                     {...props}
                 />
                 <div className="text-xs text-gray-darker">
-                    {requirements ?? (
+                    {hasRequirements ? (
+                        requirements
+                    ) : (
                         <div>
                             Check that the image is in PNG or JPG format
                             {maxSize ? ` and does not exceed ${maxSize}MB` : ""}
@@ -106,7 +114,7 @@ ImageUpload.propTypes = {
     maxSize: PropTypes.number,
     hasDelete: PropTypes.bool,
     csvAcceptFormats: PropTypes.string,
-    requirements: PropTypes.oneOf([PropTypes.null, PropTypes.string, PropTypes.node]),
+    requirements: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
     onChange: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
     onError: PropTypes.func.isRequired,

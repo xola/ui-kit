@@ -19,6 +19,8 @@ const ImageUploadStories = {
     args: {
         size: "medium",
         maxSize: 5,
+        hasDelete: true,
+        requirements: "",
     },
     argTypes: {
         src: {
@@ -51,11 +53,23 @@ const ImageUploadStories = {
             description: "Max file size",
             control: { type: "number" },
         },
+        hasDelete: {
+            control: { type: "boolean" },
+            table: {
+                defaultValue: { summary: true },
+            },
+        },
+        requirements: {
+            description: "The requirements for this image upload",
+            control: { type: "text" },
+            table: {
+                type: { summary: null },
+                defaultValue: { summary: "Check that image is in PNG or JPG format and does not exceed 5MB" },
+            },
+        },
         csvAcceptFormats: {
             description: "CSV list of accepted file mime-types",
-            control: {
-                type: "text",
-            },
+            control: { type: "text" },
             table: {
                 type: { summary: null },
                 defaultValue: { summary: "image/png,image/jpeg" },
@@ -64,7 +78,15 @@ const ImageUploadStories = {
     },
 };
 
-export const Default = ({ src: source, size = "small", maxSize, csvAcceptFormats, isLoading }) => {
+export const Default = ({
+    src: source,
+    size = "small",
+    maxSize,
+    csvAcceptFormats,
+    hasDelete,
+    requirements,
+    isLoading,
+}) => {
     const [source_, setSource] = React.useState(source);
 
     React.useEffect(() => {
@@ -90,6 +112,8 @@ export const Default = ({ src: source, size = "small", maxSize, csvAcceptFormats
             size={size}
             isLoading={isLoading}
             maxSize={maxSize}
+            hasDelete={hasDelete}
+            requirements={requirements}
             onChange={onChange}
             onDelete={onDelete}
             csvAcceptFormats={csvAcceptFormats}
