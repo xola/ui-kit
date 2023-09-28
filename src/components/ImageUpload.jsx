@@ -10,6 +10,7 @@ export const ImageUpload = ({
     maxSize = 5,
     hasDelete = true,
     requirements = null,
+    caption = null,
     csvAcceptFormats = "image/png,image/jpeg",
     onChange,
     onDelete,
@@ -41,6 +42,7 @@ export const ImageUpload = ({
     };
 
     const hasRequirements = requirements?.trim().length > 0;
+    const hasCaption = caption?.trim().length > 0;
 
     return (
         <div className={clsx("flex items-center rounded bg-gray-lighter p-4", hasDelete ? "space-x-2" : "space-x-3")}>
@@ -73,12 +75,12 @@ export const ImageUpload = ({
                                 Delete
                             </Button>
                             <SubmitButton disabled={isLoading} isLoading={isLoading} onClick={handleUploadClick}>
-                                Upload New Picture
+                                {hasCaption ? caption.trim() : "Upload New Photo"}
                             </SubmitButton>
                         </>
                     ) : (
                         <SubmitButton disabled={isLoading} isLoading={isLoading} onClick={handleUploadClick}>
-                            {src ? "Replace Photo" : "Upload New Photo"}
+                            {hasCaption ? caption.trim() : src ? "Replace Photo" : "Upload New Photo"}
                         </SubmitButton>
                     )}
                 </div>
