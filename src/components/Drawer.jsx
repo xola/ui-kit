@@ -42,7 +42,7 @@ export const Drawer = ({ isOpen = false, title, content, onClose, classNames = {
                             leaveFrom="translate-x-0"
                             leaveTo={position === "right" ? "translate-x-full" : "-translate-x-full"}
                         >
-                            <div className="flex w-screen max-w-xl md:max-w-screen-md">
+                            <div className="flex w-screen md:max-w-screen-md 2xl:max-w-screen-lg">
                                 {position === "right" ? <CloseButton onClose={onClose} /> : null}
 
                                 <div
@@ -71,9 +71,12 @@ export const Drawer = ({ isOpen = false, title, content, onClose, classNames = {
 const CloseButton = ({ onClose }) => {
     return (
         <Button
-            size="small flex justify-center"
+            size="small"
             variant="link"
-            className={clsx("m-1 h-6 w-6 rounded-full bg-gray !text-white focus:hidden")}
+            className={clsx(
+                "m-1 inline-flex !h-6 !w-6 items-center justify-center !rounded-full bg-gray !px-1.5",
+                "!text-white focus:hidden",
+            )}
             onClick={onClose}
         >
             <CloseIcon size="tiny" />

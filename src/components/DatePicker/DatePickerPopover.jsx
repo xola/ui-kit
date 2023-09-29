@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import React, { cloneElement, forwardRef, useState } from "react";
+import React, { cloneElement, forwardRef, useEffect, useState } from "react";
 import { CalendarIcon, DownArrowIcon } from "../..";
 import { formatDate } from "../../helpers/date";
 import { Input } from "../Forms/Input";
@@ -11,6 +11,7 @@ export const DatePickerPopover = ({
     value,
     variant = "single",
     dateFormat = "ddd, LL",
+    placeholder = "Select Date",
     onChange,
     children,
     classNames = {},
@@ -43,10 +44,12 @@ export const DatePickerPopover = ({
     };
 
     const handleClickOutside = () => {
-        // Revert back to the original value because the user didn't apply the changes
-        onChange(originalValue);
         toggleVisibility();
     };
+
+    useEffect(() => {
+        setOriginalValue(value);
+    }, [value]);
 
     return (
         <Popover
@@ -65,6 +68,7 @@ export const DatePickerPopover = ({
                     readOnly
                     size="medium"
                     value={value ? formatDate(value, dateFormat) : ""}
+                    placeholder={placeholder}
                     className={classNames?.input}
                     onClick={toggleVisibility}
                 />
@@ -102,7 +106,7 @@ const DefaultInput = forwardRef(({ className, ...rest }, reference) => {
                 <CalendarIcon className="z-10 inline-block" />
             </div>
 
-            <Input className={clsx("cursor-pointer px-8", className)} placeholder="Select Date" {...rest} />
+            <Input className={clsx("cursor-pointer px-8", className)} {...rest} />
 
             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
                 <DownArrowIcon className="inline-block" />
