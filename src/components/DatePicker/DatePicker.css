@@ -127,7 +127,8 @@
 }
 
 /* Change the dates within the date to have the full light blue to show that it's a part of the range */
-.date-range-picker .DayPicker-Day--selected:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside) {
+.date-range-picker
+    .DayPicker-Day--selected:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside) {
     @apply rounded-none bg-blue-lighter text-black;
 }
 
