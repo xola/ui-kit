@@ -1,7 +1,7 @@
 import React from "react";
 import { createIcon } from "../helpers/icon";
 
-export const LightBulbIcon = createIcon((props) => {
+export const FeedbackLightBulbIcon = createIcon((props) => {
     return (
         <svg viewBox="0 0 16 16" width={16} height={16} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
             <path d="M10 10.1278H6" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" />
@@ -47,4 +47,4 @@ export const LightBulbIcon = createIcon((props) => {
     );
 });
 
-LightBulbIcon.tags = ["light", "bulb", "idea"];
+FeedbackLightBulbIcon.tags = ["light", "bulb", "idea"];

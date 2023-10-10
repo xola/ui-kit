@@ -180,7 +180,7 @@ export { InvoiceIcon } from "./icons/InvoiceIcon";
 export { KeyIcon } from "./icons/KeyIcon";
 export { KioskIcon } from "./icons/KioskIcon";
 export { LightIcon } from "./icons/LightIcon";
-export { LightBulbIcon } from "./icons/LightBulbIcon";
+export { FeedbackLightBulbIcon } from "./icons/FeedbackLightBulbIcon";
 export { LightningIcon } from "./icons/LightningIcon";
 export { LinkIcon } from "./icons/LinkIcon";
 export { LockIcon } from "./icons/LockIcon";
