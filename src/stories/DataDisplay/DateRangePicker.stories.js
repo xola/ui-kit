@@ -79,7 +79,7 @@ export const DateRangeWithInput = ({ shouldShowRelativeRanges, ranges }) => {
                 onChange={handleChange}
             >
                 <div className="w-75 cursor-pointer bg-gray-lighter p-3">
-                    {value.from? dayjs(value.from).format("LL") : "Pending"}
+                    {value.from ? dayjs(value.from).format("LL") : "Pending"}
                     &nbsp;to&nbsp;
                     {value.to ? dayjs(value.to).format("LL") : "Pending"}
                 </div>
