@@ -38,7 +38,7 @@ export const DatePicker = ({
     timezoneName = null, // seller timezone (e.g. "America/Los_Angeles") to return correct today date
     ...rest
 }) => {
-    const initialValue = value ? (variant === variants.single ? value : value.from) : {from: null, to: null};
+    const initialValue = value ? (variant === variants.single ? value : value.from) : null;
     const [currentMonth, setCurrentMonth] = useState(initialValue);
     const [rangeName, setRangeName] = useState("");
     const isRangeVariant = variant === variants.range;
@@ -136,6 +136,7 @@ export const DatePicker = ({
             />
         );
     };
+
     const rangeModifier =
         isRangeVariant && value && value.from && value.to ? { start: value.from, end: value.to } : null;
     // Comparing `from` and `to` dates hides a weird CSS style when you select the same date twice in a date range.
