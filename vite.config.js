@@ -13,7 +13,7 @@ export default defineConfig({
             entry: path.resolve(__dirname, "src/index.js"),
             name: "XolaUIKit",
             fileName: (format) => `ui-kit.${format}.js`,
-            formats: ["es"]
+            formats: ["es", "umd"]
         },
 
         rollupOptions: {
