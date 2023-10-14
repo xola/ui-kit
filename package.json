@@ -19,11 +19,11 @@
         "storybook": "node scripts/prepare && start-storybook -p 6006 -s public",
         "build": "node scripts/prepare && vite build",
         "watch": "npm run build -- --watch",
-        "clean": "rm -rf node_modules/.vite",
         "build:storybook": "node scripts/prepare && build-storybook -s public",
+        "clean": "rm -rf node_modules/.vite",
         "lint": "xola-lint --ignore src/stories src",
         "lint:fix": "xola-lint --ignore src/stories src --fix",
-        "lint:report": "xola-lint --ignore src/stories src --reporter=json src > eslint_report.json && echo 'ESLint report saved to eslint_report.json'",
+        "lint:report": "xola-lint --ignore src/stories src --reporter=json src > eslint_report.json",
         "format": "prettier -l --write src",
         "test": "xola-lint && jest",
         "chromatic": "chromatic --exit-zero-on-changes --build-script-name build:storybook"
