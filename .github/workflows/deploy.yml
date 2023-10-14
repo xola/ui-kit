@@ -6,7 +6,7 @@ on:
     inputs:
       tag:
         description: "Tag version"
-        default: latest
+        default: next
         required: true
 
 jobs:
