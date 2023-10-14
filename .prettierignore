@@ -1,2 +1,6 @@
-src/theme.js
+.idea
+git_ignore
+node_modules
+package.json
 package-lock.json
+src/theme.js

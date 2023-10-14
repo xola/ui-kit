@@ -24,7 +24,7 @@
         "lint": "xola-lint --ignore src/stories src",
         "lint:fix": "xola-lint --ignore src/stories src --fix",
         "lint:report": "xola-lint --ignore src/stories src --reporter=json src > eslint_report.json && echo 'ESLint report saved to eslint_report.json'",
-        "format": "prettier --write src",
+        "format": "prettier -l --write src",
         "test": "xola-lint && jest",
         "chromatic": "chromatic --exit-zero-on-changes --build-script-name build:storybook"
     },
@@ -68,7 +68,7 @@
         "jest": "^27.2.0",
         "lodash": "^4.17.21",
         "postcss": "^8.4.5",
-        "prettier": "^2.7.1",
+        "prettier": "2.8",
         "prettier-plugin-tailwindcss": "^0.1.13",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
