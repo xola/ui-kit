@@ -7,16 +7,17 @@
         "build",
         "index.css",
         "tailwind.config.js",
-        "postcss.config.js"
+        "postcss.config.js",
+        "index.d.ts"
     ],
-    "main": "build/ui-kit.umd.js",
-    "module": "build/ui-kit.mjs",
-    "types": "index.d.ts",
+    "main": "build/ui-kit.es.js",
+    "module": "build/ui-kit.es",
+    "types": "build/index.d.ts",
     "scripts": {
         "prepare": "node scripts/prepare && vite build",
         "start": "node scripts/prepare && start-storybook -p 6006 -s public --no-open",
         "dev": "node scripts/prepare && start-storybook -p 6006 -s public --no-manager-cache --no-open",
-        "build": "node scripts/prepare && vite build",
+        "build": "node scripts/prepare && vite build && cp index.d.ts build",
         "build:storybook": "node scripts/prepare && build-storybook -s public",
         "clean": "rm -rf node_modules/.vite",
         "lint:fix": "xola-lint src --fix",
