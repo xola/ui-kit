@@ -1,4 +1,5 @@
 .idea
+.github
 git_ignore
 node_modules
 package.json
