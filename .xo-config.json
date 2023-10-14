@@ -1,0 +1,3 @@
+{
+    "ignorePatterns": ["src/stories", "**/*.test.js*", "**/*.test.ts*", "**/test/**/*.*"]
+}
