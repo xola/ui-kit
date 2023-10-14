@@ -3,7 +3,7 @@ name: Publish to GitHub Pages
 on:
     push:
         branches:
-            - "**" # matches every branch
+            - "master" # matches every branch
 
 jobs:
     publish:
