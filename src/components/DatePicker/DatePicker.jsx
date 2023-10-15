@@ -39,7 +39,7 @@ export const DatePicker = ({
     ...rest
 }) => {
     const initialValue = value ? (variant === variants.single ? value : value.from) : null;
-    const [currentMonth, setCurrentMonth] = useState(initialValue);
+    const [currentMonth, setCurrentMonth] = useState(initialValue ?? dayjs().toDate());
     const [rangeName, setRangeName] = useState("");
     const isRangeVariant = variant === variants.range;
 
@@ -97,7 +97,7 @@ export const DatePicker = ({
         onMonthChange?.(m);
     };
 
-    const captionElement = shouldShowYearPicker
+    const captionElement = (shouldShowYearPicker && currentMonth)
         ? ({ date }) => <MonthYearSelector date={date} currentMonth={currentMonth} onChange={handleMonthChange} />
         : undefined;
 
@@ -191,7 +191,7 @@ export const DatePicker = ({
                         modifiers.waitlist ? "has-custom-content" : null,
                     )}
                     todayButton={variant === "single" ? "Today" : undefined}
-                    selectedDays={[selectedDays.from, selectedDays]}
+                    selectedDays={[selectedDays?.from, selectedDays]}
                     month={currentMonth}
                     modifiers={{ ...modifiers, ...rangeModifier }}
                     numberOfMonths={isRangeVariant ? 2 : 1}
