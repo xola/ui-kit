@@ -97,9 +97,10 @@ export const DatePicker = ({
         onMonthChange?.(m);
     };
 
-    const captionElement = (shouldShowYearPicker && currentMonth)
-        ? ({ date }) => <MonthYearSelector date={date} currentMonth={currentMonth} onChange={handleMonthChange} />
-        : undefined;
+    const captionElement =
+        shouldShowYearPicker && currentMonth
+            ? ({ date }) => <MonthYearSelector date={date} currentMonth={currentMonth} onChange={handleMonthChange} />
+            : undefined;
 
     const isDisabled = (date) => {
         if (isArray(disabledDays)) {
