@@ -1,8 +1,10 @@
 module.exports = {
     stories: ["../src/**/*.stories.@(js|jsx|mdx)"],
+
     core: {
         disableTelemetry: true,
     },
+
     addons: [
         "@storybook/addon-postcss",
         "@storybook/addon-links",
@@ -14,5 +16,14 @@ module.exports = {
                 backgrounds: false,
             },
         },
+        "@storybook/addon-mdx-gfm",
     ],
+
+    framework: {
+        name: "@storybook/react-vite",
+    },
+
+    docs: {
+        autodocs: true,
+    },
 };
