@@ -42,6 +42,7 @@ export const DatePicker = ({
     const [currentMonth, setCurrentMonth] = useState(initialValue ?? dayjs().toDate());
     const [rangeName, setRangeName] = useState("");
     const isRangeVariant = variant === variants.range;
+    const thisValueIsValid = value && value.from && value.to;
 
     // Sync internal month state with outside.
     useEffect(() => {
@@ -55,7 +56,7 @@ export const DatePicker = ({
 
         setRangeName("");
         if (isRangeVariant) {
-            if (value && value.from && value.to) {
+            if (thisValueIsValid) {
                 // This allows us to easily select another date range,
                 // if both dates are selected.
                 onChange({ from: day, to: null }, options, event);
@@ -138,11 +139,9 @@ export const DatePicker = ({
         );
     };
 
-    const rangeModifier =
-        isRangeVariant && value && value.from && value.to ? { start: value.from, end: value.to } : null;
+    const rangeModifier = isRangeVariant && thisValueIsValid ? { start: value.from, end: value.to } : null;
     // Comparing `from` and `to` dates hides a weird CSS style when you select the same date twice in a date range.
-    const useDateRangeStyle =
-        isRangeVariant && value && value.from && value.to && value.from?.getTime() !== value.to?.getTime();
+    const useDateRangeStyle = isRangeVariant && thisValueIsValid && value.from?.getTime() !== value.to?.getTime();
     // Return the same value if it is already dayjs object or has range variant otherwise format it to dayJs object
     const selectedDays = value && (dayjs.isDayjs(value) || isRangeVariant ? value : dayjs(value).toDate());
 
