@@ -98,7 +98,7 @@ export const DatePicker = ({
         onMonthChange?.(m);
     };
 
-    const captionElement =
+    const CaptionElement =
         shouldShowYearPicker && currentMonth
             ? ({ date }) => <MonthYearSelector date={date} currentMonth={currentMonth} onChange={handleMonthChange} />
             : undefined;
@@ -196,7 +196,7 @@ export const DatePicker = ({
                     modifiers={{ ...modifiers, ...rangeModifier }}
                     numberOfMonths={isRangeVariant ? 2 : 1}
                     disabledDays={disabledDays}
-                    captionElement={captionElement}
+                    captionElement={CaptionElement}
                     renderDay={renderDay}
                     navbarElement={NavbarElement}
                     onDayClick={handleDayClick}
