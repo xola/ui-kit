@@ -66,6 +66,7 @@ Item.propTypes = {
     total: PropTypes.number,
     name: PropTypes.string.isRequired,
     isActive: PropTypes.bool,
+    id: PropTypes.string,
     children: PropTypes.node.isRequired,
     className: PropTypes.string,
     onClickItem: PropTypes.func.isRequired,
