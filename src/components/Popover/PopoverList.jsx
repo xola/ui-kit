@@ -38,8 +38,8 @@ PopoverList.propTypes = {
     children: PropTypes.node.isRequired,
 };
 
-const Item = ({ name, isActive = false, position, total, children, className, onClickItem, ...rest }) => {
-    const onClick = (event) => onClickItem(event, name);
+const Item = ({ name, isActive = false, id = null, position, total, children, className, onClickItem, ...rest }) => {
+    const onClick = (event) => onClickItem(event, name, id);
 
     return (
         <div
@@ -66,6 +66,7 @@ Item.propTypes = {
     total: PropTypes.number,
     name: PropTypes.string.isRequired,
     isActive: PropTypes.bool,
+    id: PropTypes.string,
     children: PropTypes.node.isRequired,
     className: PropTypes.string,
     onClickItem: PropTypes.func.isRequired,
