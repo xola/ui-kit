@@ -1,11 +1,12 @@
 {
     "name": "@xola/ui-kit",
-    "version": "2.1.22",
+    "version": "2.1.23",
     "description": "Xola UI Kit",
     "license": "MIT",
     "files": [
         "build",
         "index.css",
+        "index.d.ts",
         "tailwind.config.js",
         "postcss.config.js"
     ],
@@ -18,7 +19,6 @@
         "dev": "npm run storybook -s public --no-manager-cache --no-open",
         "storybook": "npm run prepare && start-storybook -p 6006 -s public --no-open",
         "build": "npm run prepare && vite build",
-        "watch": "npm run build -- --watch",
         "clean": "rm -rf node_modules/.vite",
         "build:storybook": "npm run prepare && build-storybook -s public",
         "lint": "xola-lint src --ignore src/stories",
