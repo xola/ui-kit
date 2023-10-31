@@ -28,6 +28,7 @@
     },
     "dependencies": {
         "@headlessui/react": "^1.4.0",
+        "@microlink/react-json-view": "github:rushi/react-json-view",
         "@tailwindcss/forms": "^0.5.6",
         "@tailwindcss/line-clamp": "^0.3.1",
         "@tippyjs/react": "^4.2.6",
@@ -44,7 +45,6 @@
         "react-dom": "^18.2.0",
         "react-hot-toast": "^2.1.0",
         "react-hotkeys-hook": "^3.4.0",
-        "react-json-view": "^1.21.3",
         "react-select": "^5.7.0",
         "storybook-addon-designs": "^6.3.1",
         "tippy.js": "^6.3.7"
