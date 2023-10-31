@@ -58,7 +58,7 @@ export const Drawer = ({
                             leaveFrom="translate-x-0"
                             leaveTo={position === "right" ? "translate-x-full" : "-translate-x-full"}
                         >
-                            <div className={clsx("flex")}>
+                            <div className="flex">
                                 {position === "right" ? <CloseButton onClose={onClose} /> : null}
 
                                 <div
