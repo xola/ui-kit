@@ -1,2 +1,3 @@
-// eslint-disable-next-line no-undef
-export const isOSX = typeof window === "undefined" ? false : window.navigator.userAgent.includes("Macintosh");
+/* global navigator */
+// eslint-disable-next-line no-undef, no-negated-condition
+export const isOSX = typeof window !== "undefined" ? window.navigator.userAgent.includes("Macintosh") : false;
