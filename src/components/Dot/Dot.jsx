@@ -11,10 +11,16 @@ const colors = {
     caution: "bg-caution",
 };
 
-export const Dot = ({ color = "primary", className, ...rest }) => {
+const sizes = {
+    small: "h-1 w-1",
+    medium: "h-1.5 w-1.5",
+    large: "h-2 w-2",
+};
+
+export const Dot = ({ color = "primary", size = "small", className, ...rest }) => {
     return (
         <span
-            className={clsx("ui-dot", "inline-block h-1 w-1 rounded-full text-white", colors[color], className)}
+            className={clsx("ui-dot", "inline-block rounded-full text-white", colors[color], sizes[size], className)}
             {...rest}
         />
     );

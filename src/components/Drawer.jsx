@@ -5,7 +5,23 @@ import React, { Fragment } from "react";
 import { CloseIcon } from "../icons/CloseIcon";
 import { Button } from "./Buttons/Button";
 
-export const Drawer = ({ isOpen = false, title, content, onClose, classNames = {}, position = "right" }) => {
+const sizes = {
+    small: "w-72",
+    medium: "w-85",
+    large: "w-110",
+    xl: "w-200",
+    "2xl": "w-screen md:max-w-screen-md 2xl:max-w-screen-lg", // This was the old size
+};
+
+export const Drawer = ({
+    isOpen = false,
+    title,
+    size = "medium",
+    content,
+    onClose,
+    classNames = {},
+    position = "right",
+}) => {
     return (
         <Transition.Root show={isOpen} as={Fragment}>
             <Dialog
@@ -42,16 +58,17 @@ export const Drawer = ({ isOpen = false, title, content, onClose, classNames = {
                             leaveFrom="translate-x-0"
                             leaveTo={position === "right" ? "translate-x-full" : "-translate-x-full"}
                         >
-                            <div className="flex w-screen md:max-w-screen-md 2xl:max-w-screen-lg">
+                            <div className="flex">
                                 {position === "right" ? <CloseButton onClose={onClose} /> : null}
 
                                 <div
                                     className={clsx(
                                         "flex h-full w-full flex-col overflow-y-auto bg-white px-4 py-8 shadow-xl sm:px-6",
+                                        sizes[size],
                                         classNames.children,
                                     )}
                                 >
-                                    <div className="flex items-start justify-between">
+                                    <div className="w-full">
                                         {/* eslint-disable-next-line react/jsx-max-depth */}
                                         <Dialog.Title>{title}</Dialog.Title>
                                     </div>
