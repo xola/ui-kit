@@ -40,6 +40,8 @@ export const DatePicker = ({
 }) => {
     const initialValue = variant === variants.single ? value : value.from;
     const [currentMonth, setCurrentMonth] = useState(initialValue);
+    const [startMonth, setStartMonth] = useState(value?.from);
+    const [endMonth, setEndMonth] = useState(value?.to);
     const [rangeName, setRangeName] = useState("");
     const isRangeVariant = variant === variants.range;
 
@@ -97,8 +99,26 @@ export const DatePicker = ({
         onMonthChange?.(m);
     };
 
+    const handleStartMonthChange = (m) => {
+        setStartMonth(m);
+        onMonthChange?.(m);
+    };
+
+    const handleEndMonthChange = (m) => {
+        setEndMonth(m);
+        onMonthChange?.(m);
+    };
+
     const captionElement = shouldShowYearPicker
         ? ({ date }) => <MonthYearSelector date={date} currentMonth={currentMonth} onChange={handleMonthChange} />
+        : undefined;
+
+    const captionStartElement = shouldShowYearPicker
+        ? ({ date }) => <MonthYearSelector date={date} currentMonth={currentMonth} onChange={handleStartMonthChange} />
+        : undefined;
+
+    const captionEndElement = shouldShowYearPicker
+        ? ({ date }) => <MonthYearSelector date={date} currentMonth={currentMonth} onChange={handleEndMonthChange} />
         : undefined;
 
     const isDisabled = (date) => {
@@ -141,8 +161,6 @@ export const DatePicker = ({
 
     // Comparing `from` and `to` dates hides a weird CSS style when you select the same date twice in a date range.
     const useDateRangeStyle = isRangeVariant && value.from?.getTime() !== value.to?.getTime();
-    // Return the same value if it is already dayjs object or has range variant otherwise format it to dayJs object
-    const selectedDays = dayjs.isDayjs(value) || isRangeVariant ? value : dayjs(value).toDate();
 
     return (
         <>
@@ -182,28 +200,79 @@ export const DatePicker = ({
                     </div>
                 ) : null}
 
-                <DayPicker
-                    showOutsideDays={!isRangeVariant}
-                    className={clsx(
-                        "ui-date-picker rounded-lg pt-3",
-                        useDateRangeStyle ? "date-range-picker" : null,
-                        getDayContent ? "has-custom-content" : null,
-                        modifiers.waitlist ? "has-custom-content" : null,
-                    )}
-                    todayButton={variant === "single" ? "Today" : undefined}
-                    selectedDays={selectedDays}
-                    month={currentMonth}
-                    modifiers={{ ...modifiers, ...rangeModifier }}
-                    numberOfMonths={isRangeVariant ? 2 : 1}
-                    disabledDays={disabledDays}
-                    captionElement={captionElement}
-                    renderDay={renderDay}
-                    navbarElement={NavbarElement}
-                    onDayClick={handleDayClick}
-                    onMonthChange={handleMonthChange}
-                    onTodayButtonClick={handleTodayClick}
-                    {...rest}
-                />
+                {isRangeVariant ? (
+                    <div className="flex">
+                        <DayPicker
+                            showOutsideDays
+                            className={clsx(
+                                "ui-date-picker max-w-[430px] rounded-lg pt-3",
+                                useDateRangeStyle ? "date-range-picker" : null,
+                                getDayContent ? "has-custom-content" : null,
+                                modifiers.waitlist ? "has-custom-content" : null,
+                            )}
+                            todayButton={variant === "single" ? "Today" : undefined}
+                            selectedDays={value}
+                            month={startMonth}
+                            modifiers={{ ...modifiers, ...rangeModifier }}
+                            numberOfMonths={1}
+                            disabledDays={disabledDays}
+                            captionElement={captionStartElement}
+                            renderDay={renderDay}
+                            navbarElement={NavbarElement}
+                            onDayClick={handleDayClick}
+                            onMonthChange={handleStartMonthChange}
+                            onTodayButtonClick={handleTodayClick}
+                            {...rest}
+                        />
+                        <DayPicker
+                            showOutsideDays
+                            className={clsx(
+                                "ui-date-picker max-w-[400px] rounded-lg pt-3",
+
+                                useDateRangeStyle ? "date-range-picker" : null,
+                                getDayContent ? "has-custom-content" : null,
+                                modifiers.waitlist ? "has-custom-content" : null,
+                            )}
+                            todayButton={variant === "single" ? "Today" : undefined}
+                            selectedDays={value}
+                            month={endMonth}
+                            modifiers={{ ...modifiers, ...rangeModifier }}
+                            numberOfMonths={1}
+                            disabledDays={disabledDays}
+                            captionElement={captionEndElement}
+                            renderDay={renderDay}
+                            navbarElement={NavbarElement}
+                            onDayClick={handleDayClick}
+                            onMonthChange={handleEndMonthChange}
+                            onTodayButtonClick={handleTodayClick}
+                            {...rest}
+                        />
+                    </div>
+                ) : (
+                    <DayPicker
+                        showOutsideDays
+                        className={clsx(
+                            "ui-date-picker max-w-[400px] rounded-lg pt-3",
+
+                            useDateRangeStyle ? "date-range-picker" : null,
+                            getDayContent ? "has-custom-content" : null,
+                            modifiers.waitlist ? "has-custom-content" : null,
+                        )}
+                        todayButton={variant === "single" ? "Today" : undefined}
+                        selectedDays={value}
+                        month={currentMonth}
+                        modifiers={{ ...modifiers, ...rangeModifier }}
+                        numberOfMonths={1}
+                        disabledDays={disabledDays}
+                        captionElement={captionElement}
+                        renderDay={renderDay}
+                        navbarElement={NavbarElement}
+                        onDayClick={handleDayClick}
+                        onMonthChange={handleMonthChange}
+                        onTodayButtonClick={handleTodayClick}
+                        {...rest}
+                    />
+                )}
             </div>
 
             {components.Footer ? <components.Footer /> : null}
