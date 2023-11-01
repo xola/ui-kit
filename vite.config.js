@@ -31,6 +31,7 @@ export default defineConfig({
                     "react-hot-toast": "react-hot-toast",
                     "react-hotkeys-hook": "react-hotkeys-hook",
                     "react-select": "react-select",
+                    "tailwind-merge": "tailwindMerge",
                     "tippy.js": "tippy.js",
                     clsx: "clsx",
                     dayjs: "dayjs",

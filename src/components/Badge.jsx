@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import React, { cloneElement } from "react";
+import { cn } from "../helpers/classnames";
 
 const colors = {
     primary: "bg-primary-lighter text-primary-dark",
@@ -28,7 +29,7 @@ const iconSizes = {
 export const Badge = ({ color = "primary", size = "small", icon, className, children, ...rest }) => {
     return (
         <span
-            className={clsx(
+            className={cn(
                 "ui-badge",
                 "inline-flex items-center whitespace-nowrap rounded-full",
                 colors[color],

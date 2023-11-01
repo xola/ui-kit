@@ -1,4 +1,3 @@
-import clsx from "clsx";
 import dayjs from "dayjs";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
@@ -7,6 +6,7 @@ import "react-day-picker/lib/style.css";
 import "./DatePicker.css";
 import { isArray, isFunction } from "lodash";
 import { Tooltip } from "../..";
+import { cn } from "../../helpers/classnames";
 import { Day } from "./Day";
 import { MonthYearSelector } from "./MonthYearSelector";
 import { NavbarElement } from "./NavbarElement";
@@ -159,7 +159,7 @@ export const DatePicker = ({
                                         <div
                                             key={key}
                                             value
-                                            className={clsx(
+                                            className={cn(
                                                 "mx-6 mt-3 flex min-w-40 cursor-pointer items-center justify-center",
                                                 "rounded border border-gray py-3 hover:border-blue hover:bg-blue hover:text-white",
                                                 { "border-blue bg-blue text-white": isSameDay },
@@ -183,7 +183,7 @@ export const DatePicker = ({
                 ) : null}
 
                 <DayPicker
-                    className={clsx(
+                    className={cn(
                         "ui-date-picker rounded-lg pt-3",
                         useDateRangeStyle ? "date-range-picker" : null,
                         getDayContent ? "has-custom-content" : null,

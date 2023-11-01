@@ -19,7 +19,7 @@
         "start": "npm run storybook",
         "dev": "npm run storybook",
         "storybook": "storybook dev -p 6006 --no-open",
-        "format": "prettier --write src",
+        "format": "prettier -l --write src",
         "test": "jest",
         "build": "npm run prepare && vite build",
         "build:storybook": "npm run prepare && storybook build"
@@ -42,6 +42,7 @@
         "react-json-view": "^1.21.3",
         "react-select": "^5.7.0",
         "storybook-addon-designs": "^6.3.1",
+        "tailwind-merge": "^2.0.0",
         "tippy.js": "^6.3.1"
     },
     "devDependencies": {
