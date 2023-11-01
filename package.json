@@ -14,12 +14,6 @@
     "main": "build/ui-kit.umd.js",
     "module": "build/ui-kit.mjs",
     "types": "index.d.ts",
-    "exports": {
-        ".": {
-            "import": "./build/ui-kit.js",
-            "require": "./build/ui-kit.umd.mjs"
-        }
-    },
     "scripts": {
         "prepare": "node scripts/prepare",
         "start": "npm run storybook",
