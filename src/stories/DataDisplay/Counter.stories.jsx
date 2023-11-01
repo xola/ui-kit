@@ -19,14 +19,16 @@ const CounterStories = {
     },
 };
 
-export const Counters = () => {
-    return (
-        <div className="space-x-4">
-            <Counter>0</Counter>
-            <Counter>10</Counter>
-            <Counter>999</Counter>
-        </div>
-    );
+export const Counters = {
+    render: (args) => {
+        return (
+            <div className="space-x-4">
+                <Counter>0</Counter>
+                <Counter>10</Counter>
+                <Counter>999</Counter>
+            </div>
+        );
+    },
 };
 
 export default CounterStories;

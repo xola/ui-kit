@@ -8,25 +8,27 @@
         "index.css",
         "index.d.ts",
         "tailwind.config.js",
+        "tailwind.config.mjs",
         "postcss.config.js"
     ],
     "main": "build/ui-kit.umd.js",
     "module": "build/ui-kit.mjs",
     "types": "index.d.ts",
+    "exports": {
+        ".": {
+            "import": "./build/ui-kit.js",
+            "require": "./build/ui-kit.umd.mjs"
+        }
+    },
     "scripts": {
-        "prepare": "node scripts/prepare && vite build",
-        "start": "npm run storybook -s public --no-open",
-        "dev": "npm run storybook -s public --no-manager-cache --no-open",
-        "storybook": "npm run prepare && start-storybook -p 6006 -s public --no-open",
-        "build": "npm run prepare && vite build",
-        "clean": "rm -rf node_modules/.vite",
-        "build:storybook": "npm run prepare && build-storybook -s public",
-        "lint": "xola-lint src --ignore src/stories",
-        "lint:fix": "xola-lint src --fix --ignore src/stories",
-        "lint:report": "xola-lint src --ignore src/stories --reporter=json src > eslint_report.json",
+        "prepare": "node scripts/prepare",
+        "start": "npm run storybook",
+        "dev": "npm run storybook",
+        "storybook": "storybook dev -p 6006 --no-open",
         "format": "prettier --write src",
         "test": "jest",
-        "chromatic": "chromatic --exit-zero-on-changes --build-script-name build:storybook"
+        "build": "npm run prepare && vite build",
+        "build:storybook": "npm run prepare && storybook build"
     },
     "dependencies": {
         "@headlessui/react": "^1.4.0",
@@ -50,18 +52,20 @@
     },
     "devDependencies": {
         "@babel/core": "^7.14.8",
-        "@babel/preset-env": "^7.15.6",
-        "@storybook/addon-actions": "^6.5.10",
-        "@storybook/addon-essentials": "^6.5.10",
-        "@storybook/addon-links": "^6.5.10",
+        "@storybook/addon-actions": "^7.5.2",
+        "@storybook/addon-essentials": "^7.5.2",
+        "@storybook/addon-interactions": "^7.5.2",
+        "@storybook/addon-links": "^7.5.2",
+        "@storybook/addon-onboarding": "^1.0.8",
         "@storybook/addon-postcss": "^2.0.0",
-        "@storybook/addons": "^6.5.10",
-        "@storybook/react": "^6.5.10",
-        "@storybook/theming": "^6.5.10",
+        "@storybook/addons": "^7.5.2",
+        "@storybook/blocks": "^7.5.2",
+        "@storybook/react": "^7.5.2",
+        "@storybook/react-vite": "^7.5.2",
+        "@storybook/testing-library": "^0.2.2",
+        "@storybook/theming": "^7.5.2",
         "@xola/jslint": "^2.1.2",
         "autoprefixer": "^10.4.5",
-        "babel-jest": "^27.2.0",
-        "babel-loader": "^8.2.2",
         "chromatic": "^6.11.4",
         "jest": "^27.2.0",
         "lodash": "^4.17.21",
@@ -70,10 +74,11 @@
         "prettier-plugin-tailwindcss": "^0.1.13",
         "react": "^17.0.2",
         "react-dom": "^17.0.2",
+        "storybook": "^7.5.2",
         "storybook-css-modules-preset": "^1.1.1",
         "tailwindcss": "^3.1.8",
-        "typescript": "^4.9.5",
-        "vite": "^3.0.8"
+        "typescript": "~4.7",
+        "vite": "^3.2.7"
     },
     "peerDependencies": {
         "autoprefixer": "^10.3.1",

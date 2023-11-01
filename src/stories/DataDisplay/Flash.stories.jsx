@@ -57,46 +57,50 @@ const toastMe = (props) => {
     flash.show(props);
 };
 
-export const Default = (props) => {
-    return (
-        <div className="space-y-6">
-            <div>Click below to show a flash</div>
-            <Button onClick={() => toastMe(props)}>{props.text}</Button>
+export const Default = {
+    render: (props) => {
+        return (
+            <div className="space-y-6">
+                <div>Click below to show a flash</div>
+                <Button onClick={() => toastMe(props)}>{props.text}</Button>
 
-            <pre>
-                <code>{`flash.show({ text: "${props.text}", color: "${props.color ?? "primary"}", duration: ${
-                    props.duration
-                } })`}</code>
-            </pre>
+                <pre>
+                    <code>{`flash.show({ text: "${props.text}", color: "${props.color ?? "primary"}", duration: ${
+                        props.duration
+                    } })`}</code>
+                </pre>
 
-            <div>
-                <Button size="small" color="warning" onClick={() => flash.dismiss()}>
-                    Dismiss All
-                </Button>
+                <div>
+                    <Button size="small" color="warning" onClick={() => flash.dismiss()}>
+                        Dismiss All
+                    </Button>
+                </div>
+
+                {/* Make sure Toaster is added to a root component */}
+                <Toaster />
             </div>
-
-            {/* Make sure Toaster is added to a root component */}
-            <Toaster />
-        </div>
-    );
+        );
+    },
 };
 
-export const AllStyles = (props) => {
-    const handleClose = () => {
-        console.log("Closed");
-    };
+export const AllStyles = {
+    render: (props) => {
+        const handleClose = () => {
+            console.log("Closed");
+        };
 
-    return (
-        <div className="w-96 space-y-8">
-            {FlashStories.argTypes.color.options.map((color) => {
-                const classes = flash.getStyles(color, props.size, "relative", true);
-                return flash.container(`[${color}] ${props.text}`, classes, props.canClose ? handleClose : null, {
-                    id: `flash-${color}`,
-                    visible: true,
-                });
-            })}
-        </div>
-    );
+        return (
+            <div className="w-96 space-y-8">
+                {FlashStories.argTypes.color.options.map((color) => {
+                    const classes = flash.getStyles(color, props.size, "relative", true);
+                    return flash.container(`[${color}] ${props.text}`, classes, props.canClose ? handleClose : null, {
+                        id: `flash-${color}`,
+                        visible: true,
+                    });
+                })}
+            </div>
+        );
+    },
 };
 
 export default FlashStories;

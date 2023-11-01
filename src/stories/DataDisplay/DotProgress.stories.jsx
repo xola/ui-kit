@@ -29,12 +29,14 @@ const DotProgressStories = {
     },
 };
 
-export const Default = ({ current, total }) => {
-    return (
-        <div>
-            <DotProgress current={current} total={total} />
-        </div>
-    );
+export const Default = {
+    render: ({ current, total }) => {
+        return (
+            <div>
+                <DotProgress current={current} total={total} />
+            </div>
+        );
+    },
 };
 
 export default DotProgressStories;

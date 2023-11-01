@@ -22,25 +22,29 @@ const DotStories = {
     },
 };
 
-export const Default = ({ color }) => {
-    return (
-        <div className="space-x-4">
-            <Dot color={color} />
-        </div>
-    );
+export const Default = {
+    render: ({ color }) => {
+        return (
+            <div className="space-x-4">
+                <Dot color={color} />
+            </div>
+        );
+    },
 };
 
-export const AllColors = () => {
-    return (
-        <div className="space-x-4">
-            <Dot color="primary" />
-            <Dot color="secondary" />
-            <Dot color="success" />
-            <Dot color="warning" />
-            <Dot color="caution" />
-            <Dot color="danger" />
-        </div>
-    );
+export const AllColors = {
+    render: (args) => {
+        return (
+            <div className="space-x-4">
+                <Dot color="primary" />
+                <Dot color="secondary" />
+                <Dot color="success" />
+                <Dot color="warning" />
+                <Dot color="caution" />
+                <Dot color="danger" />
+            </div>
+        );
+    },
 };
 
 export default DotStories;

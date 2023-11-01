@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { ButtonGroup, ChecklistIcon, EmptyChecklistIcon, MixedChecklistIcon, WaitlistIcon } from "../..";
 
-const ButtonGroupStories = {
-    title: "Forms & Fields/Buttons/ButtonGroup",
+export default {
+    title: "Forms & Fields/ButtonGroup",
     component: ButtonGroup,
     args: {
         size: "medium",
@@ -80,14 +80,6 @@ export const Collapsible = ({ size, value = 0 }) => {
     );
 };
 
-Collapsible.parameters = {
-    docs: {
-        description: {
-            story: "Pass `isCollapsed` to only show the active button's text in the ButtonGroup",
-        },
-    },
-};
-
 export const CollapsibleWithTextFallback = ({ size, value = 0 }) => {
     const [active, setActive] = useState(value);
 
@@ -102,13 +94,3 @@ export const CollapsibleWithTextFallback = ({ size, value = 0 }) => {
         </ButtonGroup>
     );
 };
-
-CollapsibleWithTextFallback.parameters = {
-    docs: {
-        description: {
-            story: "If icon isn't specified the text will be displayed in the collapsed state instead. Use `isHidden` to hide a button.",
-        },
-    },
-};
-
-export default ButtonGroupStories;
