@@ -217,10 +217,10 @@ export const DatePicker = ({
                             getTooltip={getTooltip}
                             getDayContent={getDayContent}
                             value={value}
+                            isDisabled={isDisabled}
                             onDayClick={handleDayClick}
                             onMonthChange={handleStartMonthChange}
                             onTodayButtonClick={handleTodayClick}
-                            isDisabled={isDisabled}
                             {...rest}
                         />
                         <CustomDayPicker
@@ -234,10 +234,10 @@ export const DatePicker = ({
                             getTooltip={getTooltip}
                             getDayContent={getDayContent}
                             value={value}
+                            isDisabled={isDisabled}
                             onDayClick={handleDayClick}
                             onMonthChange={handleEndMonthChange}
                             onTodayButtonClick={handleTodayClick}
-                            isDisabled={isDisabled}
                             {...rest}
                         />
                     </div>
@@ -253,10 +253,10 @@ export const DatePicker = ({
                         getTooltip={getTooltip}
                         getDayContent={getDayContent}
                         value={value}
+                        isDisabled={isDisabled}
                         onDayClick={handleDayClick}
                         onMonthChange={handleMonthChange}
                         onTodayButtonClick={handleTodayClick}
-                        isDisabled={isDisabled}
                         {...rest}
                     />
                 )}
