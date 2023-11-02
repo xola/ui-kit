@@ -15,7 +15,7 @@
     "module": "build/ui-kit.mjs",
     "types": "index.d.ts",
     "scripts": {
-        "prepare": "node scripts/prepare",
+        "prepare": "node scripts/prepare && vite build",
         "start": "npm run storybook",
         "dev": "npm run storybook",
         "storybook": "storybook dev -p 6006 --no-open",
