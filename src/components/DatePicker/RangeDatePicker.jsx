@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import DayPicker from "react-day-picker";
-import { NavbarElement } from "./NavbarElement";
 import clsx from "clsx";
+import { NavbarElement } from "./NavbarElement";
 import { MonthYearSelector } from "./MonthYearSelector";
 
 const RangeDatePicker = ({

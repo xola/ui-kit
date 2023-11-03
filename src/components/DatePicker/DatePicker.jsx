@@ -178,7 +178,7 @@ export const DatePicker = ({
                 />
             </Tooltip>
         ) : (
-            <Day disabled={disabled} selectedDate={value} date={date} getContent={getDayContent} currentMonth={month} />
+            <Day disabled={disabled} selectedDate={value} date={date} getContent={getDayContent} currentMonth={currentMonth} />
         );
     };
 
@@ -301,7 +301,7 @@ export const DatePicker = ({
                             getDayContent ? "has-custom-content" : null,
                             modifiers.waitlist ? "has-custom-content" : null,
                         )}
-                        todayButton={"Today"}
+                        todayButton="Today"
                         month={currentMonth}
                         modifiers={{ ...modifiers, ...rangeModifier }}
                         disabledDays={disabledDays}
@@ -310,11 +310,11 @@ export const DatePicker = ({
                         getDayContent={getDayContent}
                         value={value}
                         isDisabled={isDisabled}
+                        selectedDays={selectedDays}
+                        renderDay={renderDay}
                         onDayClick={handleDayClick}
                         onMonthChange={handleMonthChange}
                         onTodayButtonClick={handleTodayClick}
-                        selectedDays={selectedDays}
-                        renderDay={renderDay}
                         {...rest}
                     />
                 )}
