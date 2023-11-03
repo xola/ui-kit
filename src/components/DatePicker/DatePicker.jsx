@@ -178,7 +178,13 @@ export const DatePicker = ({
                 />
             </Tooltip>
         ) : (
-            <Day disabled={disabled} selectedDate={value} date={date} getContent={getDayContent} currentMonth={currentMonth} />
+            <Day
+                disabled={disabled}
+                selectedDate={value}
+                date={date}
+                getContent={getDayContent}
+                currentMonth={currentMonth}
+            />
         );
     };
 

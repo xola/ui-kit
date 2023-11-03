@@ -13,19 +13,16 @@ const RangeDatePicker = ({
     shouldShowYearPicker,
     renderStartDay,
     renderEndDay,
-    disabledDays,
     startMonth,
     disabledStartDays,
     disabledEndDays,
     endMonth,
     modifiers,
-    isDisabled,
     selectedDays,
     handleDayClick,
     handleStartMonthChange,
     handleEndMonthChange,
     handleTodayClick,
-    renderDay,
     ...rest
 }) => {
     const CaptionStartElement = shouldShowYearPicker
@@ -53,6 +50,7 @@ const RangeDatePicker = ({
                 captionElement={CaptionStartElement}
                 selectedDays={selectedDays}
                 renderDay={renderStartDay}
+                getTooltip={getTooltip}
                 onDayClick={(day, options, event) => handleDayClick(day, options, event, true)}
                 onMonthChange={handleStartMonthChange}
                 onTodayButtonClick={handleTodayClick}
@@ -73,6 +71,7 @@ const RangeDatePicker = ({
                 captionElement={CaptionEndElement}
                 selectedDays={selectedDays}
                 renderDay={renderEndDay}
+                getTooltip={getTooltip}
                 onDayClick={(day, options, event) => handleDayClick(day, options, event, false)}
                 onMonthChange={handleEndMonthChange}
                 onTodayButtonClick={handleTodayClick}
