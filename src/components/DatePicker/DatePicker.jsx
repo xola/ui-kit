@@ -9,8 +9,8 @@ import { isArray, isFunction } from "lodash";
 import { Tooltip } from "../..";
 import { Day } from "./Day";
 import { MonthYearSelector } from "./MonthYearSelector";
-import { NavbarElement } from "./NavbarElement";
 import { RelativeDateRange } from "./RelativeDateRange";
+import RangeDatePicker from "./RangeDatePicker";
 
 const variants = {
     single: "single",
@@ -74,18 +74,6 @@ export const DatePicker = ({
         }
     };
 
-    const isDisabled = (date) => {
-        if (isArray(disabledDays)) {
-            return disabledDays.some((_date) => dayjs(_date).isSame(date, "day"));
-        }
-
-        if (isFunction(disabledDays)) {
-            return disabledDays(date);
-        }
-
-        return disabledDays(date);
-    };
-
     const handleTodayClick = (day, options, event) => {
         if (isRangeVariant) {
             return;
@@ -99,6 +87,47 @@ export const DatePicker = ({
         } else {
             onChange(day, options, event);
         }
+    };
+
+    const isDisabled = (date) => {
+        if (isArray(disabledDays)) {
+            return disabledDays.some((_date) => dayjs(_date).isSame(date, "day"));
+        }
+
+        if (isFunction(disabledDays)) {
+            return disabledDays(date);
+        }
+
+        return disabledDays(date);
+    };
+
+    const isDisabledStartDays = (date) => {
+        if (isFunction(disabledDays)) {
+            return disabledDays(date) || dayjs(date).isAfter(value.to, "day");
+        }
+
+        if (isArray(disabledDays)) {
+            return (
+                disabledDays.some((_date) => dayjs(_date).isSame(date, "day")) || dayjs(date).isAfter(value.to, "day")
+            );
+        }
+
+        return dayjs(date).isAfter(value.to, "day");
+    };
+
+    const isDisabledEndDays = (date) => {
+        if (isFunction(disabledDays)) {
+            return disabledDays(date) || dayjs(date).isBefore(value.from, "day");
+        }
+
+        if (isArray(disabledDays)) {
+            return (
+                disabledDays.some((_date) => dayjs(_date).isSame(date, "day")) ||
+                dayjs(date).isBefore(value.from, "day")
+            );
+        }
+
+        return dayjs(date).isBefore(value.from, "day");
     };
 
     const handleRelativeRangeChanged = (rangeName, range) => {
@@ -122,49 +151,86 @@ export const DatePicker = ({
         onMonthChange?.(m);
     };
 
-    const captionElement = shouldShowYearPicker
+    const CaptionElement = shouldShowYearPicker
         ? ({ date }) => <MonthYearSelector date={date} currentMonth={currentMonth} onChange={handleMonthChange} />
-        : undefined;
-
-    const captionStartElement = shouldShowYearPicker
-        ? ({ date }) => <MonthYearSelector date={date} currentMonth={currentMonth} onChange={handleStartMonthChange} />
-        : undefined;
-
-    const captionEndElement = shouldShowYearPicker
-        ? ({ date }) => <MonthYearSelector date={date} currentMonth={currentMonth} onChange={handleEndMonthChange} />
         : undefined;
 
     const rangeModifier = isRangeVariant ? { start: value.from, end: value.to } : null;
 
-    const disabledStartDays = (date) => {
-        if (isFunction(disabledDays)) {
-            return disabledDays(date) || dayjs(date).isAfter(value.to);
-        }
-
-        if (isArray(disabledDays)) {
-            return disabledDays.some((_date) => dayjs(_date).isSame(date, "day")) || dayjs(date).isAfter(value.to);
-        }
-
-        return dayjs(date).isAfter(value.to, "day");
-    };
-
-    const disabledEndDays = (date) => {
-        if (isFunction(disabledDays)) {
-            return disabledDays(date) || dayjs(date).isBefore(value.from, "day");
-        }
-
-        if (isArray(disabledDays)) {
-            return (
-                disabledDays.some((_date) => dayjs(_date).isSame(date, "day")) ||
-                dayjs(date).isBefore(value.from, "day")
-            );
-        }
-
-        return dayjs(date).isBefore(value.from, "day");
-    };
-
     // Comparing `from` and `to` dates hides a weird CSS style when you select the same date twice in a date range.
     const isDateRangeStyle = isRangeVariant && value.from?.getTime() !== value.to?.getTime();
+
+    // Return the same value if it is already dayjs object or has range variant otherwise format it to dayJs object
+    const selectedDays = value && (dayjs.isDayjs(value) || isRangeVariant ? value : dayjs(value).toDate());
+
+    const renderDay = (date) => {
+        const tooltipContent = getTooltip?.(date);
+        const disabled = isDisabled(date);
+
+        return tooltipContent ? (
+            <Tooltip placement="top" content={tooltipContent}>
+                <Day
+                    disabled={disabled}
+                    selectedDate={value}
+                    date={date}
+                    getContent={getDayContent}
+                    currentMonth={currentMonth}
+                />
+            </Tooltip>
+        ) : (
+            <Day disabled={disabled} selectedDate={value} date={date} getContent={getDayContent} currentMonth={month} />
+        );
+    };
+
+    const renderStartDay = (date) => {
+        const tooltipContent = getTooltip?.(date);
+        const disabled = isDisabledStartDays(date);
+
+        return tooltipContent ? (
+            <Tooltip placement="top" content={tooltipContent}>
+                <Day
+                    disabled={disabled}
+                    selectedDate={value}
+                    date={date}
+                    getContent={getDayContent}
+                    currentMonth={startMonth}
+                />
+            </Tooltip>
+        ) : (
+            <Day
+                disabled={disabled}
+                selectedDate={value}
+                date={date}
+                getContent={getDayContent}
+                currentMonth={startMonth}
+            />
+        );
+    };
+
+    const renderEndDay = (date) => {
+        const tooltipContent = getTooltip?.(date);
+        const disabled = isDisabledEndDays(date);
+
+        return tooltipContent ? (
+            <Tooltip placement="top" content={tooltipContent}>
+                <Day
+                    disabled={disabled}
+                    selectedDate={value}
+                    date={date}
+                    getContent={getDayContent}
+                    currentMonth={endMonth}
+                />
+            </Tooltip>
+        ) : (
+            <Day
+                disabled={disabled}
+                selectedDate={value}
+                date={date}
+                getContent={getDayContent}
+                currentMonth={endMonth}
+            />
+        );
+    };
 
     return (
         <>
@@ -205,51 +271,41 @@ export const DatePicker = ({
                 ) : null}
 
                 {isRangeVariant ? (
-                    <div className="flex gap-4">
-                        <CustomDayPicker
-                            todayButton={variant === "single" ? "Today" : undefined}
-                            isRangeVariant={isRangeVariant}
-                            isDateRangeStyle={isDateRangeStyle}
-                            month={startMonth}
-                            modifiers={{ ...modifiers, ...rangeModifier }}
-                            disabledDays={disabledStartDays}
-                            captionElement={captionStartElement}
-                            getTooltip={getTooltip}
-                            getDayContent={getDayContent}
-                            value={value}
-                            isDisabled={isDisabled}
-                            onDayClick={handleDayClick}
-                            onMonthChange={handleStartMonthChange}
-                            onTodayButtonClick={handleTodayClick}
-                            {...rest}
-                        />
-                        <CustomDayPicker
-                            todayButton={variant === "single" ? "Today" : undefined}
-                            isRangeVariant={isRangeVariant}
-                            isDateRangeStyle={isDateRangeStyle}
-                            month={endMonth}
-                            modifiers={{ ...modifiers, ...rangeModifier }}
-                            disabledDays={disabledEndDays}
-                            captionElement={captionEndElement}
-                            getTooltip={getTooltip}
-                            getDayContent={getDayContent}
-                            value={value}
-                            isDisabled={isDisabled}
-                            onDayClick={handleDayClick}
-                            onMonthChange={handleEndMonthChange}
-                            onTodayButtonClick={handleTodayClick}
-                            {...rest}
-                        />
-                    </div>
-                ) : (
-                    <CustomDayPicker
-                        todayButton={variant === "single" ? "Today" : undefined}
-                        isRangeVariant={isRangeVariant}
+                    <RangeDatePicker
                         isDateRangeStyle={isDateRangeStyle}
+                        shouldShowYearPicker={shouldShowYearPicker}
+                        startMonth={startMonth}
+                        endMonth={endMonth}
+                        modifiers={{ ...modifiers, ...rangeModifier }}
+                        disabledStartDays={isDisabledStartDays}
+                        disabledEndDays={isDisabledEndDays}
+                        disabledDays={disabledDays}
+                        getTooltip={getTooltip}
+                        getDayContent={getDayContent}
+                        value={value}
+                        isDisabled={isDisabled}
+                        handleDayClick={handleDayClick}
+                        handleStartMonthChange={handleStartMonthChange}
+                        handleEndMonthChange={handleEndMonthChange}
+                        handleTodayClick={handleTodayClick}
+                        selectedDays={selectedDays}
+                        renderStartDay={renderStartDay}
+                        renderEndDay={renderEndDay}
+                        {...rest}
+                    />
+                ) : (
+                    <DayPicker
+                        className={clsx(
+                            "ui-date-picker max-w-[400px] rounded-lg pt-3",
+                            isDateRangeStyle ? "date-range-picker" : null,
+                            getDayContent ? "has-custom-content" : null,
+                            modifiers.waitlist ? "has-custom-content" : null,
+                        )}
+                        todayButton={"Today"}
                         month={currentMonth}
                         modifiers={{ ...modifiers, ...rangeModifier }}
                         disabledDays={disabledDays}
-                        captionElement={captionElement}
+                        captionElement={CaptionElement}
                         getTooltip={getTooltip}
                         getDayContent={getDayContent}
                         value={value}
@@ -257,6 +313,8 @@ export const DatePicker = ({
                         onDayClick={handleDayClick}
                         onMonthChange={handleMonthChange}
                         onTodayButtonClick={handleTodayClick}
+                        selectedDays={selectedDays}
+                        renderDay={renderDay}
                         {...rest}
                     />
                 )}
@@ -278,61 +336,6 @@ export const DatePicker = ({
     );
 };
 
-const CustomDayPicker = ({
-    getTooltip,
-    value,
-    getDayContent,
-    isRangeVariant,
-    isDateRangeStyle,
-    month,
-    modifiers,
-    disabledDays = [],
-    isDisabled,
-    ...rest
-}) => {
-    // Return the same value if it is already dayjs object or has range variant otherwise format it to dayJs object
-    const selectedDays = value && (dayjs.isDayjs(value) || isRangeVariant ? value : dayjs(value).toDate());
-
-    const renderDay = (date) => {
-        const tooltipContent = getTooltip?.(date);
-        const disabled = isDisabled(date);
-
-        return tooltipContent ? (
-            <Tooltip placement="top" content={tooltipContent}>
-                <Day
-                    disabled={disabled}
-                    selectedDate={value}
-                    date={date}
-                    getContent={getDayContent}
-                    currentMonth={month}
-                />
-            </Tooltip>
-        ) : (
-            <Day disabled={disabled} selectedDate={value} date={date} getContent={getDayContent} currentMonth={month} />
-        );
-    };
-
-    return (
-        <DayPicker
-            showOutsideDays
-            className={clsx(
-                "ui-date-picker max-w-[400px] rounded-lg pt-3",
-                isDateRangeStyle ? "date-range-picker" : null,
-                getDayContent ? "has-custom-content" : null,
-                modifiers.waitlist ? "has-custom-content" : null,
-            )}
-            numberOfMonths={1}
-            navbarElement={NavbarElement}
-            disabledDays={disabledDays}
-            selectedDays={selectedDays}
-            modifiers={modifiers}
-            month={month}
-            renderDay={renderDay}
-            {...rest}
-        />
-    );
-};
-
 DatePicker.propTypes = {
     variant: PropTypes.oneOf(Object.keys(variants)),
     value: PropTypes.objectOf(Date),
@@ -350,21 +353,4 @@ DatePicker.propTypes = {
     components: PropTypes.shape({ Footer: PropTypes.oneOfType([PropTypes.node, PropTypes.func]) }),
     getTooltip: PropTypes.func,
     timezoneName: PropTypes.string,
-};
-
-CustomDayPicker.propTypes = {
-    getTooltip: PropTypes.func,
-    value: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-    getDayContent: PropTypes.func,
-    isDisabled: PropTypes.func,
-    month: PropTypes.instanceOf(Date),
-    modifiers: PropTypes.object,
-    disabledDays: PropTypes.oneOfType([PropTypes.object, PropTypes.array, PropTypes.func]),
-};
-
-const dayPickerPropertyTypes = DayPicker.propTypes;
-
-CustomDayPicker.propTypes = {
-    ...dayPickerPropertyTypes,
-    ...CustomDayPicker.propTypes,
 };
