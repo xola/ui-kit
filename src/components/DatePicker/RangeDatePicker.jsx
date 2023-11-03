@@ -2,8 +2,12 @@ import React from "react";
 import PropTypes from "prop-types";
 import DayPicker from "react-day-picker";
 import clsx from "clsx";
+import dayjs from "dayjs";
+import { isArray, isFunction } from "lodash";
+import { Tooltip } from "../Tooltip";
 import { NavbarElement } from "./NavbarElement";
 import { MonthYearSelector } from "./MonthYearSelector";
+import { Day } from "./Day";
 
 const RangeDatePicker = ({
     getTooltip,
@@ -11,11 +15,8 @@ const RangeDatePicker = ({
     getDayContent,
     isDateRangeStyle,
     shouldShowYearPicker,
-    renderStartDay,
-    renderEndDay,
     startMonth,
-    disabledStartDays,
-    disabledEndDays,
+    disabledDays,
     endMonth,
     modifiers,
     selectedDays,
@@ -33,6 +34,85 @@ const RangeDatePicker = ({
         ? ({ date }) => <MonthYearSelector date={date} currentMonth={endMonth} onChange={handleEndMonthChange} />
         : undefined;
 
+    const isDisabledStartDays = (date) => {
+        if (isFunction(disabledDays)) {
+            return disabledDays(date) || dayjs(date).isAfter(value.to, "day");
+        }
+
+        if (isArray(disabledDays)) {
+            return (
+                disabledDays.some((_date) => dayjs(_date).isSame(date, "day")) || dayjs(date).isAfter(value.to, "day")
+            );
+        }
+
+        return dayjs(date).isAfter(value.to, "day");
+    };
+
+    const isDisabledEndDays = (date) => {
+        if (isFunction(disabledDays)) {
+            return disabledDays(date) || dayjs(date).isBefore(value.from, "day");
+        }
+
+        if (isArray(disabledDays)) {
+            return (
+                disabledDays.some((_date) => dayjs(_date).isSame(date, "day")) ||
+                dayjs(date).isBefore(value.from, "day")
+            );
+        }
+
+        return dayjs(date).isBefore(value.from, "day");
+    };
+
+    const renderStartDay = (date) => {
+        const tooltipContent = getTooltip?.(date);
+        const disabled = isDisabledStartDays(date);
+
+        return tooltipContent ? (
+            <Tooltip placement="top" content={tooltipContent}>
+                <Day
+                    disabled={disabled}
+                    selectedDate={value}
+                    date={date}
+                    getContent={getDayContent}
+                    currentMonth={startMonth}
+                />
+            </Tooltip>
+        ) : (
+            <Day
+                disabled={disabled}
+                selectedDate={value}
+                date={date}
+                getContent={getDayContent}
+                currentMonth={startMonth}
+            />
+        );
+    };
+
+    const renderEndDay = (date) => {
+        const tooltipContent = getTooltip?.(date);
+        const disabled = isDisabledEndDays(date);
+
+        return tooltipContent ? (
+            <Tooltip placement="top" content={tooltipContent}>
+                <Day
+                    disabled={disabled}
+                    selectedDate={value}
+                    date={date}
+                    getContent={getDayContent}
+                    currentMonth={endMonth}
+                />
+            </Tooltip>
+        ) : (
+            <Day
+                disabled={disabled}
+                selectedDate={value}
+                date={date}
+                getContent={getDayContent}
+                currentMonth={endMonth}
+            />
+        );
+    };
+
     return (
         <div className="flex gap-4">
             <DayPicker
@@ -45,7 +125,7 @@ const RangeDatePicker = ({
                 isDateRangeStyle={isDateRangeStyle}
                 month={startMonth}
                 modifiers={{ ...modifiers, start: value.from }}
-                disabledDays={disabledStartDays}
+                disabledDays={isDisabledStartDays}
                 navbarElement={NavbarElement}
                 captionElement={CaptionStartElement}
                 selectedDays={selectedDays}
@@ -66,7 +146,7 @@ const RangeDatePicker = ({
                 isDateRangeStyle={isDateRangeStyle}
                 month={endMonth}
                 modifiers={{ ...modifiers, end: value.to }}
-                disabledDays={disabledEndDays}
+                disabledDays={isDisabledEndDays}
                 navbarElement={NavbarElement}
                 captionElement={CaptionEndElement}
                 selectedDays={selectedDays}

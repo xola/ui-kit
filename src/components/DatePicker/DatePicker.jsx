@@ -11,6 +11,7 @@ import { Day } from "./Day";
 import { MonthYearSelector } from "./MonthYearSelector";
 import { RelativeDateRange } from "./RelativeDateRange";
 import RangeDatePicker from "./RangeDatePicker";
+import UpcomingDates from "./UpcomingDates";
 
 const variants = {
     single: "single",
@@ -101,35 +102,6 @@ export const DatePicker = ({
         return disabledDays(date);
     };
 
-    const isDisabledStartDays = (date) => {
-        if (isFunction(disabledDays)) {
-            return disabledDays(date) || dayjs(date).isAfter(value.to, "day");
-        }
-
-        if (isArray(disabledDays)) {
-            return (
-                disabledDays.some((_date) => dayjs(_date).isSame(date, "day")) || dayjs(date).isAfter(value.to, "day")
-            );
-        }
-
-        return dayjs(date).isAfter(value.to, "day");
-    };
-
-    const isDisabledEndDays = (date) => {
-        if (isFunction(disabledDays)) {
-            return disabledDays(date) || dayjs(date).isBefore(value.from, "day");
-        }
-
-        if (isArray(disabledDays)) {
-            return (
-                disabledDays.some((_date) => dayjs(_date).isSame(date, "day")) ||
-                dayjs(date).isBefore(value.from, "day")
-            );
-        }
-
-        return dayjs(date).isBefore(value.from, "day");
-    };
-
     const handleRelativeRangeChanged = (rangeName, range) => {
         setCurrentMonth(range.from);
         setStartMonth(range.from);
@@ -188,92 +160,16 @@ export const DatePicker = ({
         );
     };
 
-    const renderStartDay = (date) => {
-        const tooltipContent = getTooltip?.(date);
-        const disabled = isDisabledStartDays(date);
-
-        return tooltipContent ? (
-            <Tooltip placement="top" content={tooltipContent}>
-                <Day
-                    disabled={disabled}
-                    selectedDate={value}
-                    date={date}
-                    getContent={getDayContent}
-                    currentMonth={startMonth}
-                />
-            </Tooltip>
-        ) : (
-            <Day
-                disabled={disabled}
-                selectedDate={value}
-                date={date}
-                getContent={getDayContent}
-                currentMonth={startMonth}
-            />
-        );
-    };
-
-    const renderEndDay = (date) => {
-        const tooltipContent = getTooltip?.(date);
-        const disabled = isDisabledEndDays(date);
-
-        return tooltipContent ? (
-            <Tooltip placement="top" content={tooltipContent}>
-                <Day
-                    disabled={disabled}
-                    selectedDate={value}
-                    date={date}
-                    getContent={getDayContent}
-                    currentMonth={endMonth}
-                />
-            </Tooltip>
-        ) : (
-            <Day
-                disabled={disabled}
-                selectedDate={value}
-                date={date}
-                getContent={getDayContent}
-                currentMonth={endMonth}
-            />
-        );
-    };
-
     return (
         <>
             <div className="flex">
                 {upcomingDates ? (
-                    <div className="rounded-l-lg border-r border-gray pt-8">
-                        <p className="mb-2 px-6 text-lg font-bold">Upcoming</p>
-                        {upcomingDates?.length > 0 ? (
-                            <div className="mt-5">
-                                {upcomingDates?.map((date) => {
-                                    const isSameDay = dayjs(date).isSame(dayjs(value), "day");
-                                    const key = dayjs(date).format();
-                                    return (
-                                        <div
-                                            key={key}
-                                            value
-                                            className={clsx(
-                                                "mx-6 mt-3 flex min-w-40 cursor-pointer items-center justify-center",
-                                                "rounded border border-gray py-3 hover:border-blue hover:bg-blue hover:text-white",
-                                                { "border-blue bg-blue text-white": isSameDay },
-                                            )}
-                                            onClick={(event) => {
-                                                handleDayClick(date, {}, event);
-                                                handleMonthChange(date);
-                                            }}
-                                        >
-                                            {dayjs(date).format("ddd DD MMMM")}
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                        ) : (
-                            <div className="mx-6 mt-7 max-w-40 items-center justify-center rounded bg-yellow-lighter p-3">
-                                There is no future availability for this product.
-                            </div>
-                        )}
-                    </div>
+                    <UpcomingDates
+                        upcomingDates={upcomingDates}
+                        value={value}
+                        handleDayClick={handleDayClick}
+                        handleMonthChange={handleMonthChange}
+                    />
                 ) : null}
 
                 {isRangeVariant ? (
@@ -283,20 +179,15 @@ export const DatePicker = ({
                         startMonth={startMonth}
                         endMonth={endMonth}
                         modifiers={{ ...modifiers, ...rangeModifier }}
-                        disabledStartDays={isDisabledStartDays}
-                        disabledEndDays={isDisabledEndDays}
-                        disabledDays={disabledDays}
                         getTooltip={getTooltip}
+                        disabledDays={disabledDays}
                         getDayContent={getDayContent}
                         value={value}
-                        isDisabled={isDisabled}
                         handleDayClick={handleDayClick}
                         handleStartMonthChange={handleStartMonthChange}
                         handleEndMonthChange={handleEndMonthChange}
                         handleTodayClick={handleTodayClick}
                         selectedDays={selectedDays}
-                        renderStartDay={renderStartDay}
-                        renderEndDay={renderEndDay}
                         {...rest}
                     />
                 ) : (
