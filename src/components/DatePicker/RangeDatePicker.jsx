@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import DayPicker from "react-day-picker";
 import clsx from "clsx";
@@ -26,6 +26,13 @@ const RangeDatePicker = ({
     handleTodayClick,
     ...rest
 }) => {
+    const [initialEndDate] = useState(endMonth);
+    const isTheSameMonth =
+        dayjs(startMonth).isSame(dayjs(initialEndDate), "month") &&
+        dayjs(endMonth).isSame(dayjs(initialEndDate), "month");
+
+    const isStartDateIsTheSameMonth = dayjs(value?.from).isSame(dayjs(value?.to), "month");
+
     const CaptionStartElement = shouldShowYearPicker
         ? ({ date }) => <MonthYearSelector date={date} currentMonth={startMonth} onChange={handleStartMonthChange} />
         : undefined;
@@ -35,6 +42,10 @@ const RangeDatePicker = ({
         : undefined;
 
     const isDisabledStartDays = (date) => {
+        if (isTheSameMonth || isStartDateIsTheSameMonth) {
+            return false;
+        }
+
         if (isFunction(disabledDays)) {
             return disabledDays(date) || dayjs(date).isAfter(value.to, "day");
         }
@@ -49,6 +60,10 @@ const RangeDatePicker = ({
     };
 
     const isDisabledEndDays = (date) => {
+        if (isStartDateIsTheSameMonth) {
+            return true;
+        }
+
         if (isFunction(disabledDays)) {
             return disabledDays(date) || dayjs(date).isBefore(value.from, "day");
         }
@@ -142,12 +157,12 @@ const RangeDatePicker = ({
                     getDayContent ? "has-custom-content" : null,
                     modifiers.waitlist ? "has-custom-content" : null,
                 )}
-                month={endMonth}
-                modifiers={{ ...modifiers, end: value.to }}
+                month={isTheSameMonth ? dayjs(startMonth).add(1, "month").toDate() : endMonth}
+                modifiers={isTheSameMonth ? {} : { ...modifiers, end: value.to }}
                 disabledDays={isDisabledEndDays}
                 navbarElement={NavbarElement}
                 captionElement={CaptionEndElement}
-                selectedDays={selectedDays}
+                selectedDays={isStartDateIsTheSameMonth ? [] : selectedDays}
                 renderDay={renderEndDay}
                 getTooltip={getTooltip}
                 onDayClick={(day, options, event) => handleDayClick(day, options, event, false)}
