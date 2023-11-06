@@ -20,7 +20,7 @@
         "dev": "npm run storybook",
         "storybook": "storybook dev -p 6006 --no-open",
         "format": "prettier -l --write src",
-        "lint": "xola-lint src",
+        "lint": "xola-lint src --ignore src/stories",
         "lint:fix": "xola-lint src --ignore src/stories --fix=true",
         "lint:report": "xola-lint --reporter=json src > eslint_report.json",
         "test": "jest",
