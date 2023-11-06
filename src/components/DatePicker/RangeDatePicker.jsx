@@ -122,7 +122,6 @@ const RangeDatePicker = ({
                     getDayContent ? "has-custom-content" : null,
                     modifiers.waitlist ? "has-custom-content" : null,
                 )}
-                isDateRangeStyle={isDateRangeStyle}
                 month={startMonth}
                 modifiers={{ ...modifiers, start: value.from }}
                 disabledDays={isDisabledStartDays}
@@ -143,7 +142,6 @@ const RangeDatePicker = ({
                     getDayContent ? "has-custom-content" : null,
                     modifiers.waitlist ? "has-custom-content" : null,
                 )}
-                isDateRangeStyle={isDateRangeStyle}
                 month={endMonth}
                 modifiers={{ ...modifiers, end: value.to }}
                 disabledDays={isDisabledEndDays}
