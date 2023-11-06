@@ -11,7 +11,7 @@ import { Day } from "./Day";
 import { MonthYearSelector } from "./MonthYearSelector";
 import { RelativeDateRange } from "./RelativeDateRange";
 import RangeDatePicker from "./RangeDatePicker";
-import UpcomingDates from "./UpcomingDates";
+import { UpcomingDatePicker } from "./UpcomingDatePicker";
 
 const variants = {
     single: "single",
@@ -127,13 +127,8 @@ export const DatePicker = ({
         ? ({ date }) => <MonthYearSelector date={date} currentMonth={currentMonth} onChange={handleMonthChange} />
         : undefined;
 
-    const rangeModifier = isRangeVariant ? { start: value.from, end: value.to } : null;
-
     // Comparing `from` and `to` dates hides a weird CSS style when you select the same date twice in a date range.
     const isDateRangeStyle = isRangeVariant && value.from?.getTime() !== value.to?.getTime();
-
-    // Return the same value if it is already dayjs object or has range variant otherwise format it to dayJs object
-    const selectedDays = value && (dayjs.isDayjs(value) || isRangeVariant ? value : dayjs(value).toDate());
 
     const renderDay = (date) => {
         const tooltipContent = getTooltip?.(date);
@@ -171,17 +166,17 @@ export const DatePicker = ({
         <>
             <div className="flex">
                 {upcomingDates ? (
-                    <UpcomingDates
+                    <UpcomingDatePicker
                         upcomingDates={upcomingDates}
                         value={value}
-                        handleDayClick={handleDayClick}
-                        handleMonthChange={handleMonthChange}
+                        onChange={handleDayClick}
+                        onMonthChange={handleMonthChange}
                     />
                 ) : null}
 
                 {isRangeVariant ? (
                     <RangeDatePicker
-                        isDateRangeStyle={isDateRangeStyle}
+                        isDateRangeStyle={useDateRangeStyle}
                         shouldShowYearPicker={shouldShowYearPicker}
                         startMonth={startMonth}
                         endMonth={endMonth}
@@ -201,7 +196,7 @@ export const DatePicker = ({
                     <DayPicker
                         className={clsx(
                             "ui-date-picker max-w-[400px] rounded-lg pt-3",
-                            isDateRangeStyle ? "date-range-picker" : null,
+                            useDateRangeStyle ? "date-range-picker" : null,
                             getDayContent ? "has-custom-content" : null,
                             modifiers.waitlist ? "has-custom-content" : null,
                         )}
