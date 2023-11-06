@@ -160,6 +160,13 @@ export const DatePicker = ({
         );
     };
 
+    const rangeModifier = isRangeVariant ? { start: value.from, end: value.to } : null;
+
+    // Comparing `from` and `to` dates hides a weird CSS style when you select the same date twice in a date range.
+    const useDateRangeStyle = isRangeVariant && value.from?.getTime() !== value.to?.getTime();
+    // Return the same value if it is already dayjs object or has range variant otherwise format it to dayJs object
+    const selectedDays = value && (dayjs.isDayjs(value) || isRangeVariant ? value : dayjs(value).toDate());
+
     return (
         <>
             <div className="flex">

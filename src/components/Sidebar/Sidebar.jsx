@@ -12,13 +12,24 @@ import { SidebarFooter } from "./Sidebar.Footer";
 import { SidebarHeading } from "./Sidebar.Heading";
 import { SidebarLink, SidebarSeparator } from "./Sidebar.Link";
 import { SidebarMenu } from "./Sidebar.Menu";
+import sidebarScroll from "./SidebarScroll.module.css";
 
 const LeftDrawerCountStyle = {
     // From Figma
     background: "linear-gradient(138.65deg, #583DFF 19.59%, #F849C7 62.96%, #FFC03D 97.07%)",
 };
 
-export const Sidebar = ({ logo, children, className, footer, notifications, isFixed = true, onLogoClick }) => {
+export const Sidebar = ({
+    logo,
+    children,
+    className,
+    footer,
+    notifications,
+    isFixed = true,
+    onLogoClick,
+    isStickyHeader = true,
+    isStickyFooter = true,
+}) => {
     const [isLeftDrawerOpen, setIsLeftDrawerOpen] = useState(false);
     const [isRightDrawerOpen, setIsRightDrawerOpen] = useState(false);
 
@@ -64,17 +75,26 @@ export const Sidebar = ({ logo, children, className, footer, notifications, isFi
         }
     };
 
+    const isStickyHeaderFooter = isStickyHeader && isStickyFooter;
+
     return (
         <div
             className={clsx(
+                sidebarScroll,
                 "ui-sidebar",
                 isFixed ? "fixed" : "relative",
-                "z-20 flex h-full w-16 flex-col overflow-y-auto bg-black py-2 px-1 text-white md:w-24 xl:w-50",
+                !isStickyHeaderFooter && "overflow-y-auto",
+                "z-20 flex h-full w-16 flex-col bg-black py-2 px-1 text-white md:w-24 xl:w-50",
                 className,
             )}
         >
             {leftDrawer || rightDrawer ? (
-                <div className="flex w-full p-2 sm:justify-center sm:space-x-2 xl:justify-between">
+                <div
+                    className={clsx(
+                        "flex w-full p-2 sm:justify-center sm:space-x-2 xl:justify-between",
+                        isStickyHeader && "sticky top-0 z-50 bg-black",
+                    )}
+                >
                     {leftDrawer && (
                         <div className={clsx("cursor-pointer sm:text-center", leftDrawer.hide && "hidden")}>
                             <Counter style={LeftDrawerCountStyle} onClick={toggleLeftDrawer}>
@@ -99,6 +119,7 @@ export const Sidebar = ({ logo, children, className, footer, notifications, isFi
                 <Drawer
                     classNames={{ dialogContent: "md:left-24 xl:left-50" }}
                     position="left"
+                    size="xl"
                     title={leftDrawer.title}
                     content={leftDrawer.content}
                     isOpen={isLeftDrawerOpen}
@@ -110,6 +131,7 @@ export const Sidebar = ({ logo, children, className, footer, notifications, isFi
                 <Drawer
                     classNames={{ dialogContent: "md:left-24 xl:left-50" }}
                     position="left"
+                    size="xl"
                     title={rightDrawer.title}
                     content={rightDrawer.content}
                     isOpen={isRightDrawerOpen}
@@ -117,20 +139,23 @@ export const Sidebar = ({ logo, children, className, footer, notifications, isFi
                 />
             )}
 
-            <div className="mt-4 mb-10 text-center">
-                {logo ?? (
-                    <XolaLogoSimple
-                        className={clsx(
-                            "inline-block h-12 w-12 xl:h-30 xl:w-30",
-                            onLogoClick && "cursor-pointer transition-opacity hover:opacity-80",
-                        )}
-                        onClick={onLogoClick}
-                    />
-                )}
+            <div className={clsx("flex-grow space-y-2", isStickyHeaderFooter && "overflow-y-auto")}>
+                <div className="text-center">
+                    {logo ?? (
+                        <XolaLogoSimple
+                            className={clsx(
+                                "inline-block h-12 w-12 xl:h-30 xl:w-30",
+                                onLogoClick && "cursor-pointer transition-opacity hover:opacity-80",
+                            )}
+                            onClick={onLogoClick}
+                        />
+                    )}
+                </div>
+
+                <div>{children}</div>
             </div>
 
-            <div className="flex-grow space-y-2">{children}</div>
-            {footer}
+            <div className={clsx(isStickyFooter && "sticky bottom-0 bg-black")}>{footer}</div>
         </div>
     );
 };
@@ -141,6 +166,8 @@ Sidebar.propTypes = {
     className: PropTypes.string,
     footer: PropTypes.element.isRequired,
     isFixed: PropTypes.bool,
+    isStickyHeader: PropTypes.bool,
+    isStickyFooter: PropTypes.bool,
     onLogoClick: PropTypes.func.isRequired,
     notifications: PropTypes.shape({
         announcements: PropTypes.shape({
