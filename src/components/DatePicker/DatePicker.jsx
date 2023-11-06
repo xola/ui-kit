@@ -12,6 +12,7 @@ import { MonthYearSelector } from "./MonthYearSelector";
 import { RelativeDateRange } from "./RelativeDateRange";
 import RangeDatePicker from "./RangeDatePicker";
 import { UpcomingDatePicker } from "./UpcomingDatePicker";
+import { NavbarElement } from "./NavbarElement";
 
 const variants = {
     single: "single",
@@ -195,22 +196,19 @@ export const DatePicker = ({
                 ) : (
                     <DayPicker
                         className={clsx(
-                            "ui-date-picker max-w-[400px] rounded-lg pt-3",
+                            "ui-date-picker rounded-lg pt-3",
                             useDateRangeStyle ? "date-range-picker" : null,
                             getDayContent ? "has-custom-content" : null,
                             modifiers.waitlist ? "has-custom-content" : null,
                         )}
                         todayButton="Today"
+                        selectedDays={selectedDays}
                         month={currentMonth}
                         modifiers={{ ...modifiers, ...rangeModifier }}
                         disabledDays={disabledDays}
                         captionElement={CaptionElement}
-                        getTooltip={getTooltip}
-                        getDayContent={getDayContent}
-                        value={value}
-                        isDisabled={isDisabled}
-                        selectedDays={selectedDays}
                         renderDay={renderDay}
+                        navbarElement={NavbarElement}
                         onDayClick={handleDayClick}
                         onMonthChange={handleMonthChange}
                         onTodayButtonClick={handleTodayClick}
