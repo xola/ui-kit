@@ -6,6 +6,7 @@ const ModalStories = {
     component: Modal,
     args: {
         size: "medium",
+        position: "center",
         shouldCloseOnOutsideClick: true,
         isOpen: false,
     },
@@ -25,6 +26,14 @@ const ModalStories = {
                 defaultValue: { summary: "medium" },
             },
         },
+        position: {
+            type: { required: false },
+            options: ["topLeft", "topRight", "center", "bottomLeft", "bottomRight"],
+            control: { type: "select" },
+            table: {
+                defaultValue: { summary: "center" },
+            },
+        },
         shouldCloseOnOutsideClick: {
             type: { required: false },
             description: "Close the modal if user clicks outside it",
@@ -38,7 +47,7 @@ const ModalStories = {
     },
 };
 
-export const Default = ({ size, shouldCloseOnOutsideClick }) => {
+export const Default = ({ size, position, shouldCloseOnOutsideClick }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const toggle = () => {
@@ -49,7 +58,13 @@ export const Default = ({ size, shouldCloseOnOutsideClick }) => {
         <div>
             <Button onClick={toggle}>Click me to launch a modal</Button>
 
-            <Modal size={size} isOpen={isOpen} shouldCloseOnOutsideClick={shouldCloseOnOutsideClick} onClose={toggle}>
+            <Modal
+                size={size}
+                position={position}
+                isOpen={isOpen}
+                shouldCloseOnOutsideClick={shouldCloseOnOutsideClick}
+                onClose={toggle}
+            >
                 <Modal.Header description="Enter the code bellow to apply the code">Apply Code</Modal.Header>
 
                 <Modal.Body>
@@ -70,7 +85,7 @@ export const Default = ({ size, shouldCloseOnOutsideClick }) => {
     );
 };
 
-export const CustomWidth = ({ size, shouldCloseOnOutsideClick }) => {
+export const CustomWidth = ({ size, position, shouldCloseOnOutsideClick }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const toggle = () => {
@@ -84,6 +99,7 @@ export const CustomWidth = ({ size, shouldCloseOnOutsideClick }) => {
             <Modal
                 className="!max-w-200"
                 size={size}
+                position={position}
                 isOpen={isOpen}
                 shouldCloseOnOutsideClick={shouldCloseOnOutsideClick}
                 onClose={toggle}
