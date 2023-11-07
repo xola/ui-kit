@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { useCombobox } from "downshift";
 import debounce from "lodash/debounce";
 import PropTypes from "prop-types";
-import React, { useEffect, useRef, useState, useId } from "react";
+import React, { useEffect, useId, useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { isOSX } from "../helpers/browser";
 import { useIsClient } from "../hooks/useIsClient";
@@ -45,6 +45,7 @@ export const Search = ({
     const inputId = useId("search-input");
     const menuId = useId("search-menu");
     const isClient = useIsClient();
+    console.log("IDs are", { inputId, menuId });
 
     // Flag for controlling the delay before actually closing the menu.
     const [canClose, setCanClose] = useState(true);
