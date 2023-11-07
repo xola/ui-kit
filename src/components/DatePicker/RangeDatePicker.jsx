@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import DayPicker from "react-day-picker";
 import clsx from "clsx";
@@ -26,15 +26,16 @@ const RangeDatePicker = ({
     handleTodayClick,
     ...rest
 }) => {
+    const [localStartMonth, setLocalStartMonth] = useState(startMonth)
     const [initialEndDate] = useState(endMonth);
     const isTheSameMonth =
-        dayjs(startMonth).isSame(dayjs(initialEndDate), "month") &&
+        dayjs(localStartMonth).isSame(dayjs(initialEndDate), "month") &&
         dayjs(endMonth).isSame(dayjs(initialEndDate), "month");
 
     const isStartDateIsTheSameMonth = dayjs(value?.from).isSame(dayjs(value?.to), "month");
 
     const CaptionStartElement = shouldShowYearPicker
-        ? ({ date }) => <MonthYearSelector date={date} currentMonth={startMonth} onChange={handleStartMonthChange} />
+        ? ({ date }) => <MonthYearSelector date={date} currentMonth={localStartMonth} onChange={handleStartMonthChange} />
         : undefined;
 
     const CaptionEndElement = shouldShowYearPicker
@@ -42,10 +43,6 @@ const RangeDatePicker = ({
         : undefined;
 
     const isDisabledStartDays = (date) => {
-        if (isTheSameMonth || isStartDateIsTheSameMonth) {
-            return false;
-        }
-
         if (isFunction(disabledDays)) {
             return disabledDays(date) || dayjs(date).isAfter(value.to, "day");
         }
@@ -89,7 +86,7 @@ const RangeDatePicker = ({
                     selectedDate={value}
                     date={date}
                     getContent={getDayContent}
-                    currentMonth={startMonth}
+                    currentMonth={localStartMonth}
                 />
             </Tooltip>
         ) : (
@@ -98,7 +95,7 @@ const RangeDatePicker = ({
                 selectedDate={value}
                 date={date}
                 getContent={getDayContent}
-                currentMonth={startMonth}
+                currentMonth={localStartMonth}
             />
         );
     };
@@ -128,6 +125,12 @@ const RangeDatePicker = ({
         );
     };
 
+    useEffect(() => {
+        if (dayjs(value?.from).isSame(dayjs(value?.to), "month") && !dayjs(value?.from).isSame(dayjs(startMonth), "month")) {
+            setLocalStartMonth(dayjs(value.from).startOf("month").toDate());
+        }
+    }, [value, startMonth]);
+
     return (
         <div className="flex gap-4">
             <DayPicker
@@ -137,7 +140,7 @@ const RangeDatePicker = ({
                     getDayContent ? "has-custom-content" : null,
                     modifiers.waitlist ? "has-custom-content" : null,
                 )}
-                month={startMonth}
+                month={localStartMonth}
                 modifiers={{ ...modifiers, start: value.from }}
                 disabledDays={isDisabledStartDays}
                 navbarElement={NavbarElement}
@@ -157,12 +160,12 @@ const RangeDatePicker = ({
                     getDayContent ? "has-custom-content" : null,
                     modifiers.waitlist ? "has-custom-content" : null,
                 )}
-                month={isTheSameMonth ? dayjs(startMonth).add(1, "month").toDate() : endMonth}
-                modifiers={isTheSameMonth ? {} : { ...modifiers, end: value.to }}
+                month={isTheSameMonth ? dayjs(localStartMonth).add(1, "month").toDate() : endMonth}
+                modifiers={isTheSameMonth || isStartDateIsTheSameMonth ? {} : { ...modifiers, end: value.to }}
                 disabledDays={isDisabledEndDays}
                 navbarElement={NavbarElement}
                 captionElement={CaptionEndElement}
-                selectedDays={isStartDateIsTheSameMonth ? [] : selectedDays}
+                selectedDays={isStartDateIsTheSameMonth || isTheSameMonth ? [] : selectedDays}
                 renderDay={renderEndDay}
                 getTooltip={getTooltip}
                 onDayClick={(day, options, event) => handleDayClick(day, options, event, false)}
