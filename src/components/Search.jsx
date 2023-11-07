@@ -45,7 +45,6 @@ export const Search = ({
     const inputId = useId("search-input");
     const menuId = useId("search-menu");
     const isClient = useIsClient();
-    console.log("IDs are", { inputId, menuId });
 
     // Flag for controlling the delay before actually closing the menu.
     const [canClose, setCanClose] = useState(true);
