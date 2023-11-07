@@ -137,7 +137,7 @@ const RangeDatePicker = ({
             return;
         }
 
-        setLocalStartMonth(dayjs(startMonth).startOf("month").toDate());
+        setLocalStartMonth(dayjs(value.from).startOf("month").toDate());
     }, [value, startMonth]);
 
     return (
@@ -170,11 +170,11 @@ const RangeDatePicker = ({
                     modifiers.waitlist ? "has-custom-content" : null,
                 )}
                 month={isTheSameMonth ? dayjs(localStartMonth).add(1, "month").toDate() : endMonth}
-                modifiers={isTheSameMonth || isStartDateIsTheSameMonth ? {} : { ...modifiers, end: value.to }}
+                modifiers={isStartDateIsTheSameMonth ? {} : { ...modifiers, end: value.to }}
                 disabledDays={isDisabledEndDays}
                 navbarElement={NavbarElement}
                 captionElement={CaptionEndElement}
-                selectedDays={isStartDateIsTheSameMonth || isTheSameMonth ? [] : selectedDays}
+                selectedDays={isStartDateIsTheSameMonth ? [] : selectedDays}
                 renderDay={renderEndDay}
                 getTooltip={getTooltip}
                 onDayClick={(day, options, event) => handleDayClick(day, options, event, false)}
