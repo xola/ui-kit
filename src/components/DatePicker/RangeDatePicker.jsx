@@ -26,7 +26,7 @@ const RangeDatePicker = ({
     handleTodayClick,
     ...rest
 }) => {
-    const [localStartMonth, setLocalStartMonth] = useState(startMonth)
+    const [localStartMonth, setLocalStartMonth] = useState(startMonth);
     const [initialEndDate] = useState(endMonth);
     const isTheSameMonth =
         dayjs(localStartMonth).isSame(dayjs(initialEndDate), "month") &&
@@ -35,7 +35,9 @@ const RangeDatePicker = ({
     const isStartDateIsTheSameMonth = dayjs(value?.from).isSame(dayjs(value?.to), "month");
 
     const CaptionStartElement = shouldShowYearPicker
-        ? ({ date }) => <MonthYearSelector date={date} currentMonth={localStartMonth} onChange={handleStartMonthChange} />
+        ? ({ date }) => (
+              <MonthYearSelector date={date} currentMonth={localStartMonth} onChange={handleStartMonthChange} />
+          )
         : undefined;
 
     const CaptionEndElement = shouldShowYearPicker
@@ -126,9 +128,15 @@ const RangeDatePicker = ({
     };
 
     useEffect(() => {
-        if (dayjs(value?.from).isSame(dayjs(value?.to), "month") && !dayjs(value?.from).isSame(dayjs(startMonth), "month")) {
+        if (
+            dayjs(value?.from).isSame(dayjs(value?.to), "month") &&
+            !dayjs(value?.from).isSame(dayjs(startMonth), "month")
+        ) {
             setLocalStartMonth(dayjs(value.from).startOf("month").toDate());
+            return;
         }
+
+        setLocalStartMonth(dayjs(startMonth).startOf("month").toDate());
     }, [value, startMonth]);
 
     return (
