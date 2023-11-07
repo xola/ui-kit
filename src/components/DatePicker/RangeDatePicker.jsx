@@ -130,7 +130,8 @@ const RangeDatePicker = ({
     useEffect(() => {
         if (
             dayjs(value?.from).isSame(dayjs(value?.to), "month") &&
-            !dayjs(value?.from).isSame(dayjs(startMonth), "month")
+            !dayjs(value?.from).isSame(dayjs(localStartMonth), "month") &&
+            !dayjs(value?.to).isSame(dayjs(localStartMonth), "month")
         ) {
             setLocalStartMonth(dayjs(value.from).startOf("month").toDate());
             return;
