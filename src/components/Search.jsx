@@ -2,10 +2,9 @@ import clsx from "clsx";
 import { useCombobox } from "downshift";
 import debounce from "lodash/debounce";
 import PropTypes from "prop-types";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useId } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { isOSX } from "../helpers/browser";
-import { useId } from "../hooks/useId";
 import { useIsClient } from "../hooks/useIsClient";
 import { SearchIcon } from "../icons/SearchIcon";
 import { Key } from "./Key";
@@ -145,6 +144,7 @@ export const Search = ({
                 </div>
 
                 <input
+                    suppressHydrationWarning
                     {...getInputProps({
                         id: inputId,
                         type: "text",
