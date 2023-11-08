@@ -34,9 +34,7 @@ const RangeDatePicker = ({
     const isStartDateIsTheSameMonth = dayjs(value?.from).isSame(dayjs(value?.to), "month");
 
     const CaptionStartElement = shouldShowYearPicker
-        ? ({ date }) => (
-              <MonthYearSelector date={date} currentMonth={startMonth} onChange={handleStartMonthChange} />
-          )
+        ? ({ date }) => <MonthYearSelector date={date} currentMonth={startMonth} onChange={handleStartMonthChange} />
         : undefined;
 
     const CaptionEndElement = shouldShowYearPicker
@@ -127,13 +125,10 @@ const RangeDatePicker = ({
     };
 
     useEffect(() => {
-        if (
-            dayjs(value?.from).isSame(dayjs(value?.to), "month") 
-        ) {
+        if (dayjs(value?.from).isSame(dayjs(value?.to), "month")) {
             handleStartMonthChange(dayjs(value.from).toDate());
-            return;
         }
-    }, [value]);
+    }, [value, handleStartMonthChange]);
 
     return (
         <div className="flex gap-4">
