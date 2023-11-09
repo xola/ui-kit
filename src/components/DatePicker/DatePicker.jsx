@@ -134,9 +134,6 @@ export const DatePicker = ({
         ? ({ date }) => <MonthYearSelector date={date} currentMonth={currentMonth} onChange={handleMonthChange} />
         : undefined;
 
-    // Comparing `from` and `to` dates hides a weird CSS style when you select the same date twice in a date range.
-    const isDateRangeStyle = isRangeVariant && value.from?.getTime() !== value.to?.getTime();
-
     const renderDay = (date) => {
         const tooltipContent = getTooltip?.(date);
         const disabled = isDisabled(date);
@@ -225,7 +222,7 @@ export const DatePicker = ({
 
             {components.Footer ? <components.Footer /> : null}
 
-            {isDateRangeStyle && shouldShowRelativeRanges && (
+            {useDateRangeStyle && shouldShowRelativeRanges && (
                 <div className="ml-auto w-6/12 pl-5 pr-10 pb-5">
                     <RelativeDateRange
                         value={rangeName}
