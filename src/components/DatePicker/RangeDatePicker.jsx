@@ -26,11 +26,6 @@ const RangeDatePicker = ({
     handleTodayClick,
     ...rest
 }) => {
-    const [initialEndDate] = useState(endMonth);
-    const isTheSameMonth =
-        dayjs(startMonth).isSame(dayjs(initialEndDate), "month") &&
-        dayjs(endMonth).isSame(dayjs(initialEndDate), "month");
-
     const isStartDateIsTheSameMonth = dayjs(value?.from).isSame(dayjs(value?.to), "month");
 
     const CaptionStartElement = shouldShowYearPicker
@@ -124,12 +119,6 @@ const RangeDatePicker = ({
         );
     };
 
-    useEffect(() => {
-        if (dayjs(value?.from).isSame(dayjs(value?.to), "month")) {
-            handleStartMonthChange(dayjs(value.from).toDate());
-        }
-    }, [value, handleStartMonthChange]);
-
     return (
         <div className="flex gap-4">
             <DayPicker
@@ -159,7 +148,7 @@ const RangeDatePicker = ({
                     getDayContent ? "has-custom-content" : null,
                     modifiers.waitlist ? "has-custom-content" : null,
                 )}
-                month={isTheSameMonth ? dayjs(startMonth).add(1, "month").toDate() : endMonth}
+                month={endMonth}
                 modifiers={isStartDateIsTheSameMonth ? {} : { ...modifiers, end: value.to }}
                 disabledDays={isDisabledEndDays}
                 navbarElement={NavbarElement}

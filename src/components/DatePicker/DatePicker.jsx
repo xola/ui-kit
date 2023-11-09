@@ -43,7 +43,9 @@ export const DatePicker = ({
     const initialValue = variant === variants.single ? value : value.from;
     const [currentMonth, setCurrentMonth] = useState(initialValue);
     const [startMonth, setStartMonth] = useState(value?.from);
-    const [endMonth, setEndMonth] = useState(value?.to);
+    const [endMonth, setEndMonth] = useState(
+        dayjs(value?.to).isSame(dayjs(value?.from), "month") ? dayjs(value.from).add(1, "month").toDate() : value?.to,
+    );
     const [rangeName, setRangeName] = useState("");
     const isRangeVariant = variant === variants.range;
 
@@ -51,30 +53,6 @@ export const DatePicker = ({
     useEffect(() => {
         onMonthChange?.(currentMonth);
     }, [currentMonth, onMonthChange]);
-
-    const handleDayClick = (day, options, event) => {
-        if (options.disabled) {
-            return;
-        }
-
-        setRangeName("");
-        if (isRangeVariant) {
-            if (value.from && value.to) {
-                // This allows us to easily select another date range,
-                // if both dates are selected.
-                onChange({ from: day, to: null }, options, event);
-            } else if ((value.from || value.to).getTime() === day.getTime()) {
-                const from = dayjs(day).startOf("day").toDate();
-                const to = dayjs(day).endOf("day").toDate();
-
-                onChange({ from, to }, options, event);
-            } else {
-                onChange(DateUtils.addDayToRange(day, value), options, event);
-            }
-        } else {
-            onChange(day, options, event);
-        }
-    };
 
     const handleTodayClick = (day, options, event) => {
         if (isRangeVariant) {
@@ -122,6 +100,34 @@ export const DatePicker = ({
     const handleEndMonthChange = (m) => {
         setEndMonth(m);
         onMonthChange?.(m);
+    };
+
+    const handleDayClick = (day, options, event) => {
+        if (options.disabled) {
+            return;
+        }
+
+        if (dayjs(value?.from).isSame(day, "month")) {
+            handleStartMonthChange(day);
+        }
+
+        setRangeName("");
+        if (isRangeVariant) {
+            if (value.from && value.to) {
+                // This allows us to easily select another date range,
+                // if both dates are selected.
+                onChange({ from: day, to: null }, options, event);
+            } else if ((value.from || value.to).getTime() === day.getTime()) {
+                const from = dayjs(day).startOf("day").toDate();
+                const to = dayjs(day).endOf("day").toDate();
+
+                onChange({ from, to }, options, event);
+            } else {
+                onChange(DateUtils.addDayToRange(day, value), options, event);
+            }
+        } else {
+            onChange(day, options, event);
+        }
     };
 
     const CaptionElement = shouldShowYearPicker
