@@ -1,5 +1,6 @@
 import React from "react";
-// import ReactJson from "react-json-view";
+import JsonView from "react18-json-view";
+import "react18-json-view/src/style.css";
 import twConfig from "../../../tailwind.config";
 
 const ConfigStories = {
@@ -13,15 +14,12 @@ export const UIKitRawConfig = () => {
             <div className="mb-4">
                 This is the prettified version of <span className="font-mono">tailwind.config.js</span> file
             </div>
-            {/*<ReactJson*/}
-            {/*    src={theme}*/}
-            {/*    name={false}*/}
-            {/*    quotesOnKeys={false}*/}
-            {/*    collapsed={2}*/}
-            {/*    enableClipboard={false}*/}
-            {/*    displayDataTypes={false}*/}
-            {/*    style={{ fontSize: "12px", fontFamily: theme.extend.fontFamily.mono }}*/}
-            {/*/>*/}
+            <JsonView
+                src={theme}
+                collapsed={2}
+                enableClipboard={false}
+                style={{ fontSize: "12px", fontFamily: theme.extend.fontFamily.mono }}
+            />
         </div>
     );
 };

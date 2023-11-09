@@ -45,6 +45,7 @@
         "react-hot-toast": "^2.1.0",
         "react-hotkeys-hook": "^3.4.0",
         "react-select": "^5.7.0",
+        "react18-json-view": "^0.2.6",
         "storybook-addon-designs": "^6.3.1",
         "tailwind-merge": "^2.0.0",
         "tippy.js": "^6.3.7"
