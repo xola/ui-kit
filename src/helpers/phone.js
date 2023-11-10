@@ -4,9 +4,13 @@ const PNF = phoneLib.PhoneNumberFormat;
 const phoneUtil = phoneLib.PhoneNumberUtil.getInstance();
 
 export const getRegionCode = (number, countryCode = "US") => {
-    const phoneObject = phoneUtil.parseAndKeepRawInput(number, countryCode);
+    try {
+        const phoneObject = phoneUtil.parseAndKeepRawInput(number, countryCode);
 
-    return phoneUtil.getRegionCodeForNumber(phoneObject);
+        return phoneUtil.getRegionCodeForNumber(phoneObject);
+    } catch (error) {
+        return undefined;
+    }
 };
 
 /**
