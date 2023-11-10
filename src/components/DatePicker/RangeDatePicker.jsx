@@ -56,17 +56,17 @@ const RangeDatePicker = ({
         }
 
         if (isFunction(disabledDays)) {
-            return disabledDays(date) || dayjs(date).isBefore(value.from, "day");
+            return disabledDays(date) || dayjs(date).isBefore(value?.from, "day");
         }
 
         if (isArray(disabledDays)) {
             return (
                 disabledDays.some((_date) => dayjs(_date).isSame(date, "day")) ||
-                dayjs(date).isBefore(value.from, "day")
+                dayjs(date).isBefore(value?.from, "day")
             );
         }
 
-        return dayjs(date).isBefore(value.from, "day");
+        return dayjs(date).isBefore(value?.from, "day");
     };
 
     const renderStartDay = (date) => {
@@ -129,7 +129,7 @@ const RangeDatePicker = ({
                     modifiers.waitlist ? "has-custom-content" : null,
                 )}
                 month={startMonth}
-                modifiers={{ ...modifiers, start: value.from }}
+                modifiers={{ ...modifiers, start: value?.from }}
                 disabledDays={isDisabledStartDays}
                 navbarElement={NavbarElement}
                 captionElement={CaptionStartElement}
@@ -149,7 +149,7 @@ const RangeDatePicker = ({
                     modifiers.waitlist ? "has-custom-content" : null,
                 )}
                 month={endMonth}
-                modifiers={isStartDateIsTheSameMonth ? {} : { ...modifiers, end: value.to }}
+                modifiers={isStartDateIsTheSameMonth ? {} : { ...modifiers, end: value?.to }}
                 disabledDays={isDisabledEndDays}
                 navbarElement={NavbarElement}
                 captionElement={CaptionEndElement}
