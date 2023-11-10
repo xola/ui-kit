@@ -8,7 +8,7 @@ export const getRegionCode = (number, countryCode = "US") => {
         const phoneObject = phoneUtil.parseAndKeepRawInput(number, countryCode);
 
         return phoneUtil.getRegionCodeForNumber(phoneObject);
-    } catch (error) {
+    } catch {
         return undefined;
     }
 };
