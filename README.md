@@ -61,6 +61,7 @@ $ npm start
 ```
 
 ## Advanced
+
 ### Integrate your app with a locally installed UI Kit
 
 In order for this to work you will have to set up an NPM workspace. That means, `ui-kit` and `your-project` has to be in the same directory.
@@ -151,7 +152,7 @@ Install [np](https://github.com/sindresorhus/np#readme) which will help you publ
 npm -g install np
 ```
 
-Once you're ready, run this command to publish your package 
+Once you're ready, run this command to publish your package
 
 ```bash
 npm run build
@@ -159,6 +160,7 @@ np <your-new-version> --tag=latest --yolo
 ```
 
 Then make sure to push all the tags upstream to `xola/ui-kit` repo:
+
 ```
 git push <upstream-remote> master --tags
 ```

@@ -7,8 +7,8 @@ const devDependencies = Object.keys(pkg.devDependencies);
 
 export default defineConfig({
     build: {
-        outDir: "build",
         copyPublicDir: false,
+        outDir: "build",
 
         lib: {
             entry: path.resolve(__dirname, "src/index.js"),

@@ -1,5 +1,8 @@
 src/theme.js
+build
+dist
 package-lock.json
 node_modules
 .github
 storybook-static
+git_ignore
