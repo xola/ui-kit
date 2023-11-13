@@ -16,20 +16,10 @@ const PhoneStories = {
         number: {
             description: "A phone number",
             type: { required: true },
-            control: { type: "text" },
-            table: {
-                type: { summary: null },
-            },
         },
         countryCode: {
             description:
                 "The country of the code seller to display the number in the seller country's format. This is available in `seller.countryCode`",
-            type: { required: false },
-            control: { type: "text" },
-            table: {
-                type: { summary: null },
-                defaultValue: { summary: "US" },
-            },
         },
     },
 };

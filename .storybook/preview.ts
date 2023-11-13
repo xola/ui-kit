@@ -16,7 +16,7 @@ const preview: Preview = {
             toc: true,
             theme: xola,
         },
-        actions: { argTypesRegex: "^on[A-Z].*" },
+        actions: { argTypesRegex: "^on.*" },
         controls: {
             matchers: {
                 text: /^className$/i,

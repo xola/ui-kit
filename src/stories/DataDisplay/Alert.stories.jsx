@@ -21,6 +21,10 @@ export default {
     },
     argTypes: {
         color: inlineRadioOptions(Object.keys(alertColors)),
+        onClose: {
+            // The `onClose` is the property. The `handleOnClose` is the value that shows up below
+            action: "handleOnClose",
+        },
     },
     args: {
         color: "primary",
@@ -31,9 +35,16 @@ export default {
     },
 };
 
-export const Default = {};
+export const Default = {
+    args: {
+        onClose: undefined,
+    },
+};
 
 export const Colors = {
+    args: {
+        onClose: undefined,
+    },
     render: (args) => {
         return (
             <div className="space-y-4">
@@ -60,8 +71,4 @@ export const Colors = {
     },
 };
 
-export const Dismissible = {
-    args: {
-        onClose: () => alert("You clicked on the close button."),
-    },
-};
+export const Dismissible = {};

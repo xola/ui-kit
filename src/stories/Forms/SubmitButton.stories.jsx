@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SubmitButton } from "../..";
-import { sizeParams } from "../helpers";
+import ButtonStories from "./Button.stories";
 
 const SubmitButtonStories = {
     title: "Forms & Fields/Submit Button",
@@ -8,22 +8,17 @@ const SubmitButtonStories = {
     tags: ["autodocs"],
     args: {
         isLoading: false,
+        isSuccess: false,
         size: "medium",
         color: "primary",
+        variant: "standard",
     },
     argTypes: {
+        ...ButtonStories.argTypes,
         isLoading: {
             control: { type: "boolean" },
             table: {
                 defaultValue: { summary: false },
-            },
-        },
-        size: sizeParams,
-        color: {
-            options: ["primary", "secondary", "success", "warning", "danger"],
-            control: { type: "select" },
-            table: {
-                defaultValue: { summary: "primary" },
             },
         },
     },
@@ -32,6 +27,7 @@ const SubmitButtonStories = {
 export const Default = ({ isLoading, ...rest }) => {
     const [showLoading, setShowLoading] = useState(isLoading);
     const [showSuccess, setShowSuccess] = useState(false);
+    useEffect(() => setShowLoading(isLoading), [isLoading]);
 
     const handleClick = () => {
         setShowLoading(!showLoading);

@@ -1,7 +1,7 @@
 import React from "react";
 import { Toaster } from "react-hot-toast";
 import { Button, flash } from "../..";
-import { inlineRadioOptions, selectOptions, sizeParams } from "../helpers";
+import { selectOptions, sizeParams } from "../helpers";
 import { flashColors } from "../../helpers/flash";
 
 const FlashStories = {

@@ -43,19 +43,20 @@ const DateRangePickerStories = {
 const today = dayjs("2022-10-10").toDate();
 
 export const Default = {
-    render: ({ variant = "range" }) => {
+    render: (args) => {
         const [value, setValue] = useState({ from: new Date("2022-02-03"), to: new Date("2022-03-08") });
-        return <DatePicker variant="range" value={value} onChange={setValue} />;
+        return <DatePicker {...args} variant="range" value={value} onChange={setValue} />;
     },
 };
 
 export const RelativeDateRanges = {
-    render: () => {
+    render: (args) => {
         const [value, setValue] = useState({ from: new Date("2022-03-03"), to: new Date("2022-04-08") });
 
         return (
             <div className="flex w-3/4 flex-col">
                 <DatePicker
+                    {...args}
                     shouldShowYearPicker
                     shouldShowRelativeRanges
                     value={value}
@@ -69,7 +70,7 @@ export const RelativeDateRanges = {
 };
 
 export const DateRangeWithInput = {
-    render: ({ shouldShowRelativeRanges, ranges }) => {
+    render: ({ shouldShowRelativeRanges, ranges, ...rest }) => {
         const defaultValue = { from: today, to: dayjs(today).add(7, "days").toDate() };
         const [value, setValue] = useState(defaultValue);
         const [displayValue, setDisplayValue] = useState(defaultValue);
@@ -82,6 +83,7 @@ export const DateRangeWithInput = {
         return (
             <div>
                 <DatePickerPopover
+                    {...rest}
                     variant="range"
                     value={value}
                     popoverProps={{ placement: "bottom-start" }}

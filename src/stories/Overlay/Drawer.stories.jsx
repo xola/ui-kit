@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Drawer } from "../..";
 import { inlineRadioOptions } from "../helpers";
 import { drawerSizes } from "../../components/Drawer";
+import { userEvent, within } from "@storybook/testing-library";
 
 const DrawerStories = {
     title: "Overlay/Drawers",
@@ -44,19 +45,34 @@ const DrawerStories = {
     },
 };
 
-export const Default = ({ isOpen, size, title, position, content }) => {
-    const [open, setOpen] = useState(isOpen);
-    useEffect(() => setOpen(isOpen), [isOpen]);
-    const onClose = () => setOpen(false);
+export const Default = {
+    // This will click the button when the canvas loads
+    // Docs: https://storybook.js.org/docs/react/writing-stories/play-function
+    play: async ({ canvasElement }) => {
+        const canvas = within(canvasElement);
+        await userEvent.click(canvas.getByRole("button"));
+    },
+    render: ({ isOpen, size, title, position, content }) => {
+        const [open, setOpen] = useState(isOpen);
+        useEffect(() => setOpen(isOpen), [isOpen]);
+        const onClose = () => setOpen(false);
 
-    return (
-        <div>
-            <Button size="large" onClick={() => setOpen(true)}>
-                Click Me to open the Drawer
-            </Button>
-            <Drawer title={title} content={content} size={size} isOpen={open} position={position} onClose={onClose} />
-        </div>
-    );
+        return (
+            <div>
+                <Button size="large" onClick={() => setOpen(true)}>
+                    Click Me
+                </Button>
+                <Drawer
+                    title={title}
+                    content={content}
+                    size={size}
+                    isOpen={open}
+                    position={position}
+                    onClose={onClose}
+                />
+            </div>
+        );
+    },
 };
 
 export default DrawerStories;

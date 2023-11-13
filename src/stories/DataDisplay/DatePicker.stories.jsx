@@ -48,7 +48,7 @@ const getDaysArrayByMonth = (month) => {
 export const Default = {
     render: (args) => {
         const [value, setValue] = useState(defaultDate);
-        return <DatePicker value={value} onChange={setValue} />;
+        return <DatePicker {...args} value={value} onChange={setValue} />;
     },
 };
 
@@ -71,7 +71,9 @@ export const DisabledDays = {
             },
         ];
 
-        return <DatePicker month={defaultMonth} disabledDays={disabledDays} value={value} onChange={setValue} />;
+        return (
+            <DatePicker {...args} month={defaultMonth} disabledDays={disabledDays} value={value} onChange={setValue} />
+        );
     },
 };
 
@@ -87,6 +89,7 @@ export const WithFooter = {
 
         return (
             <DatePicker
+                {...args}
                 month={defaultMonth}
                 value={value}
                 components={{
@@ -117,6 +120,7 @@ export const RestrictNavigation = {
 
         return (
             <DatePicker
+                {...args}
                 value={value}
                 month={defaultMonth}
                 fromMonth={defaultMonth}
@@ -152,6 +156,7 @@ export const ModifyCellStyle = {
 
         return (
             <DatePicker
+                {...args}
                 value={value}
                 month={defaultMonth}
                 modifiers={modifiers}
@@ -174,7 +179,13 @@ export const SelectYearMonth = {
         return (
             <div className="space-y-2">
                 <div>Date: April 21 2023</div>
-                <DatePicker shouldShowYearPicker value={value} month={new Date(2023, 3, 21)} onChange={setValue} />
+                <DatePicker
+                    {...args}
+                    shouldShowYearPicker
+                    value={value}
+                    month={new Date(2023, 3, 21)}
+                    onChange={setValue}
+                />
             </div>
         );
     },
@@ -202,7 +213,7 @@ customContent[22] = "Sold Out";
 export const WithCustomContent = {
     render: (args) => {
         const [value, setValue] = useState(new Date());
-        return <DatePicker value={value} getDayContent={(date) => customContent[date]} onChange={setValue} />;
+        return <DatePicker {...args} value={value} getDayContent={(date) => customContent[date]} onChange={setValue} />;
     },
 };
 
@@ -235,6 +246,7 @@ export const PickerWithInput = {
                 </div>
 
                 <DatePickerPopover
+                    {...args}
                     shouldShowYearPicker
                     value={date}
                     disabledDays={disabledDays}
@@ -254,7 +266,7 @@ export const PickerCustomInput = {
     render: (args) => {
         return (
             <div className="h-75">
-                <DatePickerPopover value={new Date()} dateFormat="DD MMM" onChange={handleOnChange}>
+                <DatePickerPopover {...args} value={new Date()} dateFormat="DD MMM" onChange={handleOnChange}>
                     <div className="cursor-pointer bg-gray-lighter p-3">Hello, click me to open up a date picker</div>
                 </DatePickerPopover>
             </div>
@@ -268,6 +280,7 @@ export const InputWithCustomContent = {
         return (
             <div className="h-75">
                 <DatePickerPopover
+                    {...args}
                     value={value}
                     getDayContent={(date) => customContent[date]}
                     onChange={(date) => setValue(date)}
@@ -293,7 +306,9 @@ export const DatePickerWithTooltip = {
             }
         };
 
-        return <DatePicker getTooltip={getTooltip} value={value} onChange={setValue} onMonthChange={setMonth} />;
+        return (
+            <DatePicker {...args} getTooltip={getTooltip} value={value} onChange={setValue} onMonthChange={setMonth} />
+        );
     },
 };
 
@@ -320,7 +335,7 @@ export const EventHandlers = {
                     Current Month <code className="mr-1 bg-gray-lighter p-1 text-sm">handleMonthChange</code>
                     <span className="inline-block pb-3 font-semibold">{dayjs(month).format("MMMM YYYY")}</span>
                 </div>
-                <DatePicker value={value} onMonthChange={handleMonthChange} onChange={handleChange} />
+                <DatePicker {...args} value={value} onMonthChange={handleMonthChange} onChange={handleChange} />
             </>
         );
     },
@@ -360,6 +375,7 @@ export const WithUpcomingDates = {
 
         return (
             <DatePicker
+                {...args}
                 value={value}
                 upcomingDates={upcomingDates}
                 modifiersStyles={modifiersStyles}
