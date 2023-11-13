@@ -11,10 +11,6 @@ const DotProgressStories = {
             },
         },
     },
-    args: {
-        current: 1,
-        total: 6,
-    },
     argTypes: {
         current: {
             type: { required: true },
@@ -30,13 +26,7 @@ const DotProgressStories = {
 };
 
 export const Default = {
-    render: ({ current, total }) => {
-        return (
-            <div>
-                <DotProgress current={current} total={total} />
-            </div>
-        );
-    },
+    args: { current: 2, total: 6 },
 };
 
 export default DotProgressStories;

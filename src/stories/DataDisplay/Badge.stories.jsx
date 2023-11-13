@@ -45,7 +45,7 @@ export const Default = {
 };
 
 export const WithIcons = {
-    render: (args) => {
+    render: () => {
         return (
             <div className="grid grid-cols-5 gap-4">
                 <Badge color="primary" icon={<StackIcon />}>
@@ -75,7 +75,7 @@ export const WithIcons = {
 };
 
 export const Colors = {
-    render: (args) => {
+    render: () => {
         return (
             <div className="space-x-4">
                 <Badge color="primary">Primary</Badge>
@@ -92,7 +92,7 @@ export const Colors = {
 };
 
 export const AllSizes = {
-    render: (args) => {
+    render: () => {
         return (
             <div className="space-x-4">
                 <Badge size="small">Small</Badge>

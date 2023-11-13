@@ -1,4 +1,3 @@
-import React from "react";
 import { Skeleton } from "../..";
 
 const SkeletonStories = {
@@ -6,16 +5,16 @@ const SkeletonStories = {
     component: Skeleton,
 };
 
-export const Default = () => {
-    return <Skeleton>Loading...</Skeleton>;
+export const Default = {
+    args: { children: "Loading..." },
 };
 
-export const WithoutAnimation = () => {
-    return (
-        <Skeleton classes={{ container: "w-1/2" }} shouldAnimate={false}>
-            Not Available
-        </Skeleton>
-    );
+export const WithoutAnimation = {
+    args: {
+        classes: { container: "w-1/2" },
+        children: "Not Available",
+        shouldAnimate: true,
+    },
 };
 
 export default SkeletonStories;

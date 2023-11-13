@@ -24,19 +24,15 @@ const KeyStories = {
 };
 
 export const Default = {
-    render: ({ char }) => {
-        return <Key char={char} />;
-    },
+    args: { char: "K" },
 };
 
 export const MacCommandKey = {
-    render: (args) => {
-        return <Key char="cmd" />;
-    },
+    args: { char: "cmd" },
 };
 
 export const SpecialKeys = {
-    render: (args) => {
+    render: () => {
         return (
             <div className="space-x-3">
                 <Key char="shift" />

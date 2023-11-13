@@ -11,9 +11,6 @@ const DotStories = {
             },
         },
     },
-    args: {
-        color: "primary",
-    },
     argTypes: {
         color: {
             options: ["primary", "secondary", "success", "warning", "danger", "caution"],
@@ -23,17 +20,11 @@ const DotStories = {
 };
 
 export const Default = {
-    render: ({ color }) => {
-        return (
-            <div className="space-x-4">
-                <Dot color={color} />
-            </div>
-        );
-    },
+    args: { color: "primary" },
 };
 
 export const AllColors = {
-    render: (args) => {
+    render: () => {
         return (
             <div className="space-x-4">
                 <Dot color="primary" />

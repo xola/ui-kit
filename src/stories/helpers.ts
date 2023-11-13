@@ -26,6 +26,14 @@ export const select = (values: string[], ...rest: any) => {
     return arrayValues("select", values, ...rest);
 };
 
+export const tableDefault = (summary: string) => {
+    return {
+        table: { defaultValue: { summary } },
+    };
+};
+
+export const sizeParams = inlineRadio(["small", "medium", "large"], tableDefault("medium"));
+
 // argTypes
 // {
 //     [key: string]: {

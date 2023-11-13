@@ -84,7 +84,7 @@ export const Default = {
 };
 
 export const AllStyles = {
-    render: (props) => {
+    render: ({ size, text, canClose }) => {
         const handleClose = () => {
             console.log("Closed");
         };
@@ -92,8 +92,8 @@ export const AllStyles = {
         return (
             <div className="w-96 space-y-8">
                 {FlashStories.argTypes.color.options.map((color) => {
-                    const classes = flash.getStyles(color, props.size, "relative", true);
-                    return flash.container(`[${color}] ${props.text}`, classes, props.canClose ? handleClose : null, {
+                    const classes = flash.getStyles(color, size, "relative", true);
+                    return flash.container(`[${color}] ${text}`, classes, canClose ? handleClose : null, {
                         id: `flash-${color}`,
                         visible: true,
                     });

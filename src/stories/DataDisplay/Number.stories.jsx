@@ -11,11 +11,6 @@ const NumberStories = {
             },
         },
     },
-    args: {
-        amount: 109_482.84,
-        locale: "en-US",
-        removeTrailingZeroes: true,
-    },
     argTypes: {
         amount: {
             description: "A number",
@@ -38,34 +33,49 @@ const NumberStories = {
     },
 };
 
-export const Default = ({ locale, amount }) => {
-    return (
-        <div>
-            <div className="mb-2">
-                Using the native{" "}
-                <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat">
-                    Intl.NumberFormat
-                </a>{" "}
-                API
+export const Default = {
+    args: {
+        amount: 109_482.84,
+        locale: "en-US",
+        removeTrailingZeroes: true,
+    },
+    render: ({ amount, locale }) => {
+        return (
+            <div>
+                <div className="mb-2">
+                    Using the native
+                    <a
+                        className="mx-1"
+                        href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat"
+                    >
+                        Intl.NumberFormat
+                    </a>
+                    API
+                </div>
+                <Number locale={locale}>{amount}</Number>
             </div>
-            <Number locale={locale}>{amount}</Number>
-        </div>
-    );
+        );
+    },
 };
 
-export const CompactValues = ({ locale }) => {
-    const amounts = [123, 1234, 123_456, 123_456_789, 123_456_789_123];
+export const CompactValues = {
+    args: {
+        locale: "en-US",
+    },
+    render: ({ locale }) => {
+        const amounts = [123, 1234, 123_456, 123_456_789, 123_456_789_123];
 
-    return amounts.map((amount) => (
-        <div className="my-2 font-mono tracking-tighter">
-            {numberFormat(amount, null, locale, 0)}:{" "}
-            <span className="font-semibold">
-                <Number isCompact locale={locale}>
-                    {amount}
-                </Number>
-            </span>
-        </div>
-    ));
+        return amounts.map((amount) => (
+            <div className="my-2 font-mono tracking-tighter">
+                {numberFormat(amount, null, locale, 0)}:{" "}
+                <span className="font-semibold">
+                    <Number isCompact locale={locale}>
+                        {amount}
+                    </Number>
+                </span>
+            </div>
+        ));
+    },
 };
 
 export default NumberStories;

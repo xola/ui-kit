@@ -18,18 +18,22 @@ const CheckboxStories = {
     },
 };
 
-export const Default = () => {
-    const [checked, setChecked] = useState(false);
-    return <Checkbox label="Checkbox" checked={checked} onChange={(event_) => setChecked(event_.target.checked)} />;
+export const Default = {
+    render: () => {
+        const [checked, setChecked] = useState(false);
+        return <Checkbox label="Checkbox" checked={checked} onChange={(event_) => setChecked(event_.target.checked)} />;
+    },
 };
 
-export const Disabled = () => {
-    return (
-        <div className="space-y-3">
-            <Checkbox checked disabled label="Checkbox" />
-            <Checkbox disabled label="Checkbox" />
-        </div>
-    );
+export const Disabled = {
+    render: () => {
+        return (
+            <div className="space-y-3">
+                <Checkbox checked disabled label="Checkbox" />
+                <Checkbox disabled label="Checkbox" />
+            </div>
+        );
+    },
 };
 
 export default CheckboxStories;

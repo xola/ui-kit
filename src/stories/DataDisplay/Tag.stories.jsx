@@ -1,14 +1,9 @@
-import React from "react";
 import { Tag } from "../..";
 
 const TagStories = {
     title: "Data Display/Tag",
     component: Tag,
-    args: {
-        color: "primary",
-        size: "medium",
-        text: "Listing: Kayaking in the Ganges",
-    },
+    args: {},
     parameters: {
         design: {
             name: "Figma",
@@ -36,28 +31,30 @@ const onTagCloseClick = () => {
     console.log("Closed");
 };
 
-export const Default = ({ color, size, text }) => {
-    return (
-        <Tag color={color} size={size} onClose={onTagCloseClick}>
-            {text}
-        </Tag>
-    );
+export const Default = {
+    args: {
+        color: "primary",
+        size: "medium",
+        children: "Listing: Kayaking in the Ganges",
+        onClose: () => console.log("Closed"),
+    },
 };
 
-export const BookingTag = () => {
-    return (
-        <Tag color="secondary" size="small" onClose={onTagCloseClick}>
-            Testing Tag
-        </Tag>
-    );
+export const BookingTag = {
+    args: {
+        color: "secondary",
+        size: "small",
+        children: "Listing: Kayaking in the Ganges",
+        onClose: () => console.log("Closed"),
+    },
 };
 
-export const SystemTag = () => {
-    return (
-        <Tag color="secondary" size="small">
-            You cannot remove this tag
-        </Tag>
-    );
+export const SystemTag = {
+    args: {
+        color: "secondary",
+        size: "small",
+        children: "You cannot remove this tag",
+    },
 };
 
 export default TagStories;
