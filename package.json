@@ -22,7 +22,7 @@
         "format": "prettier -l --write src",
         "lint": "xola-lint src --ignore src/stories",
         "lint:fix": "xola-lint src --ignore src/stories --fix=true",
-        "lint:report": "xola-lint --reporter=json src > eslint_report.json",
+        "lint:report": "xola-lint --ignore src/stories --reporter=json src > eslint_report.json",
         "test": "jest",
         "build": "npm run prepare && vite build",
         "build:storybook": "npm run prepare && storybook build"
