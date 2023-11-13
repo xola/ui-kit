@@ -5,6 +5,7 @@ import { disableType } from "../helpers";
 export default {
     title: "Data Display/Alerts & Banners",
     component: Alert,
+    tags: ["autodocs"],
     parameters: {
         docs: {
             description: {
@@ -18,27 +19,13 @@ export default {
         },
     },
     args: {
-        text: "Space, the final frontier. These are the voyages of the starship Enterprise. Its five year mission: to explore strange new worlds, to seek out new life and new civilizations, to boldly go where no man has gone before!",
+        children:
+            "Space, the final frontier. These are the voyages of the starship Enterprise. Its five year mission: to explore strange new worlds, to seek out new life and new civilizations, to boldly go where no man has gone before!",
         color: "primary",
-    },
-    argTypes: {
-        color: {
-            options: ["primary", "success", "warning", "danger"],
-            control: { type: "select" },
-            table: {
-                type: { summary: null },
-                defaultValue: { summary: "primary" },
-            },
-        },
     },
 };
 
-export const Default = {
-    args: {
-        color: "primary",
-        children: "ALERT",
-    },
-};
+export const Default = {};
 
 export const Colors = {
     argTypes: { color: disableType, children: disableType },

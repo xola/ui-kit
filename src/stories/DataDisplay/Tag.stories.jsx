@@ -1,10 +1,11 @@
 import { Tag } from "../..";
-import { sizeParams } from "../helpers";
+import { select, sizeParams } from "../helpers";
+import { colors } from "../../components/Tag";
 
 const TagStories = {
     title: "Data Display/Tag",
     component: Tag,
-    args: {},
+    tags: ["autodocs"],
     parameters: {
         design: {
             name: "Figma",
@@ -17,16 +18,9 @@ const TagStories = {
             type: { required: true },
             control: { type: "text" },
         },
-        color: {
-            options: ["primary", "secondary"],
-            control: { type: "select" },
-        },
+        color: select(Object.keys(colors)),
         size: sizeParams,
     },
-};
-
-const onTagCloseClick = () => {
-    console.log("Closed");
 };
 
 export const Default = {

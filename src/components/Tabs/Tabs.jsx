@@ -9,7 +9,7 @@ const variants = {
     simple: "bg-gray-lighter",
 };
 
-export const Tabs = ({ className, variant = "default", value, onChange, children, ...rest }) => {
+export const Tabs = ({ variant = "default", value, onChange, className, children, ...rest }) => {
     const childrenArray = Children.toArray(children);
     const tabs = childrenArray.filter((child) => child.type === Tabs.Tab);
     const panels = childrenArray.filter((child) => child.type === Tabs.Panel);

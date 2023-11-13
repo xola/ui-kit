@@ -21,37 +21,12 @@ const ImageUploadStories = {
         size: "medium",
         maxSize: 5,
         hasDelete: true,
-        caption: "",
-        requirements: "",
     },
     argTypes: {
-        src: {
-            type: { required: true },
-            description: "The URL to the image",
-            control: {
-                type: "text",
-            },
-            table: {
-                type: { summary: null },
-                defaultValue: { summary: "none" },
-            },
-        },
         size: sizeParams,
-        isLoading: {
-            control: { type: "boolean" },
-            table: {
-                defaultValue: { summary: false },
-            },
-        },
         maxSize: {
-            description: "Max file size",
+            description: "Max file size in megabytes",
             control: { type: "number" },
-        },
-        hasDelete: {
-            control: { type: "boolean" },
-            table: {
-                defaultValue: { summary: true },
-            },
         },
         requirements: {
             description: "The requirements for this image upload",

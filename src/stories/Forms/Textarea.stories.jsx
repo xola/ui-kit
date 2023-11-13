@@ -4,6 +4,7 @@ import { FormGroup, Label, Textarea } from "../..";
 const TextareaStories = {
     primary: true,
     title: "Forms & Fields/Textarea",
+    tags: ["autodocs"],
     parameters: {
         design: {
             name: "Figma",

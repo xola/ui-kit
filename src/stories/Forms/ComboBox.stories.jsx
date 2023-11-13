@@ -5,6 +5,7 @@ import { ComboBox, Currency, FormGroup, Label } from "../..";
 const ComboBoxStories = {
     primary: true,
     title: "Forms & Fields/ComboBox",
+    tags: ["autodocs"],
     args: {
         isCreatable: "boolean",
         isMulti: "boolean",

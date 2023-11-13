@@ -1,12 +1,15 @@
 import dayjs from "dayjs";
 import React, { useState } from "react";
 import { DatePicker, DatePickerPopover } from "../..";
+import DatePickerStories from "./DatePicker.stories";
 
 const DateRangePickerStories = {
     title: "Data Display/Date & Time/Date Range Picker",
     component: DatePicker,
+    tags: ["autodocs"],
     parameters: {
         docs: {
+            toc: true,
             description: {
                 component:
                     "Rendering a date *range* picker with various functionality based on [React Day Picker](https://react-day-picker.js.org) library",
@@ -19,6 +22,8 @@ const DateRangePickerStories = {
         },
     },
     args: {
+        ...DatePickerStories.args,
+        variant: "range",
         shouldShowRelativeRanges: "boolean",
         ranges: ["day", "week", "month", "quarter", "year"],
     },
@@ -38,15 +43,14 @@ const DateRangePickerStories = {
 const today = dayjs("2022-10-10").toDate();
 
 export const Default = {
-    render: (args) => {
+    render: ({ variant = "range" }) => {
         const [value, setValue] = useState({ from: new Date("2022-02-03"), to: new Date("2022-03-08") });
-
         return <DatePicker variant="range" value={value} onChange={setValue} />;
     },
 };
 
 export const RelativeDateRanges = {
-    render: (args) => {
+    render: () => {
         const [value, setValue] = useState({ from: new Date("2022-03-03"), to: new Date("2022-04-08") });
 
         return (

@@ -2,6 +2,7 @@ import { Skeleton } from "../..";
 
 const SkeletonStories = {
     title: "Data Display/Skeleton",
+    tags: ["autodocs"],
     component: Skeleton,
 };
 

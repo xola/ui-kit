@@ -4,13 +4,7 @@ import { Number, numberFormat } from "../..";
 const NumberStories = {
     title: "Data Display/Number",
     component: Number,
-    parameters: {
-        docs: {
-            description: {
-                component: "Number formatter",
-            },
-        },
-    },
+    tags: ["autodocs"],
     argTypes: {
         amount: {
             description: "A number",

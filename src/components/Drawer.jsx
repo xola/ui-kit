@@ -5,7 +5,7 @@ import React, { Fragment } from "react";
 import { CloseIcon } from "../icons/CloseIcon";
 import { Button } from "./Buttons/Button";
 
-const sizes = {
+export const sizes = {
     small: "w-72",
     medium: "w-85",
     large: "w-110",

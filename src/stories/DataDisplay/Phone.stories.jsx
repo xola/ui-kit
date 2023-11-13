@@ -4,6 +4,7 @@ import { Phone } from "../..";
 const PhoneStories = {
     title: "Data Display/Phone",
     component: Phone,
+    tags: ["autodocs"],
     parameters: {
         docs: {
             description: {

@@ -4,6 +4,7 @@ import { Button, FormGroup, InlineValuePopover, Input, Select } from "../..";
 
 const InlineValuePopoverStories = {
     title: "Forms & Fields/Inline Value Popover",
+    tags: ["autodocs"],
     component: InlineValuePopover,
     parameters: {
         design: {

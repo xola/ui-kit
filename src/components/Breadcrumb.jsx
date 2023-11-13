@@ -2,7 +2,10 @@ import clsx from "clsx";
 import PropTypes from "prop-types";
 import React, { Children } from "react";
 
-export const Breadcrumb = ({ className, classNames = {}, separator = "/", children, ...rest }) => {
+/**
+ * Breadcrumbs are generally used by Xola in the header
+ */
+export const Breadcrumb = ({ separator = "/", className, classNames = {}, children, ...rest }) => {
     const count = Children.count(children) - 1;
 
     return (

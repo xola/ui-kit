@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { Tabs } from "../..";
+import { inlineRadio } from "../helpers";
 
 const TabsStories = {
     title: "Navigation/Tabs",
     component: Tabs,
+    tags: ["autodocs"],
     parameters: {
         docs: {
             description: {
@@ -21,21 +23,7 @@ const TabsStories = {
         isHidden: false,
     },
     argTypes: {
-        className: {
-            description: "Classnames that should be applied to the tab *container*",
-            control: { type: "text" },
-            table: {
-                type: { summary: "e.g. bg-blue-light" },
-            },
-        },
-        variant: {
-            options: ["default", "simple"],
-            control: { type: "select" },
-        },
-        isHidden: {
-            description: "Show or hide a tab. This is specific to Tabs.Tab only",
-            control: { type: "boolean" },
-        },
+        variant: inlineRadio(["default", "simple"]),
     },
 };
 

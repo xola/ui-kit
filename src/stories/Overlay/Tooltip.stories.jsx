@@ -7,6 +7,7 @@ const documentationUrl = "https://atomiks.github.io/tippyjs/v6/all-props/";
 const TooltipStories = {
     title: "Overlay/Tooltip",
     component: Tooltip,
+    tags: ["autodocs"],
     args: {
         content: "Hey there!",
         trigger: "mouseenter",

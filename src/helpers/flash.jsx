@@ -4,7 +4,7 @@ import React, { Fragment } from "react";
 import toast from "react-hot-toast";
 import { CloseIcon } from "../icons/CloseIcon";
 
-const colors = {
+export const colors = {
     primary: "bg-primary",
     secondary: "bg-secondary",
     success: "bg-success",

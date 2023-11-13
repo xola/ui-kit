@@ -4,6 +4,7 @@ import { Badge, Login } from "../..";
 const LoginStories = {
     title: "Screens/Login",
     component: Login,
+    tags: ["autodocs"],
     parameters: {
         docs: {
             description: {

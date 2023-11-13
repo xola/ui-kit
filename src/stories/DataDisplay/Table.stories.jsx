@@ -4,6 +4,7 @@ import { Table } from "../..";
 const TableStories = {
     title: "Data Display/Table",
     component: Table,
+    tags: ["autodocs"],
     parameters: {
         docs: {
             description: {

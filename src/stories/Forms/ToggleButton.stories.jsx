@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { CheckIcon, ToggleButton } from "../..";
 
 export default {
-    title: "Forms & Fields/Buttons/ToggleButton",
+    title: "Forms & Fields/ToggleButton",
     component: ToggleButton,
     args: {
         color: "success",

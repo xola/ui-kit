@@ -4,6 +4,7 @@ import { Checkbox } from "../..";
 const CheckboxStories = {
     primary: true,
     title: "Forms & Fields/Checkbox",
+    tags: ["autodocs"],
     parameters: {
         docs: {
             description: {

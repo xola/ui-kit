@@ -3,7 +3,7 @@ import clsx from "clsx";
 import PropTypes from "prop-types";
 import CircleNotch from "../icons/CircleNotch";
 
-const colors = {
+export const colors = {
     primary: "text-primary",
     secondary: "text-secondary",
     warning: "text-warning",
@@ -13,7 +13,7 @@ const colors = {
     current: null, // TODO: Consider setting this as the default value.
 };
 
-const sizes = {
+export const sizes = {
     tiny: "w-4 h-4",
     small: "w-7 h-7",
     medium: "w-10 h-10",

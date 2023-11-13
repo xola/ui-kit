@@ -4,7 +4,14 @@ import { Search } from "../..";
 
 const SearchStories = {
     title: "Other/Search",
+    tags: ["autodocs"],
     parameters: {
+        docs: {
+            description: {
+                component:
+                    "A generic search component. Props need manual documentation. Till then see the JSDocs in Search.jsx",
+            },
+        },
         design: {
             name: "Figma",
             type: "figma",
@@ -22,7 +29,7 @@ const fetchUsers = async (search) => {
     return response.data.filter((user) => JSON.stringify(user).toLowerCase().includes(search.toLowerCase()));
 };
 
-export const Default = () => {
+export const Default = (props) => {
     const [loading, setLoading] = useState(false);
     const [items, setItems] = useState([]);
 

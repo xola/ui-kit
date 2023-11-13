@@ -3,8 +3,9 @@ import { SubmitButton } from "../..";
 import { sizeParams } from "../helpers";
 
 const SubmitButtonStories = {
-    title: "Forms & Fields/Buttons/Submit Button",
+    title: "Forms & Fields/Submit Button",
     component: SubmitButton,
+    tags: ["autodocs"],
     args: {
         isLoading: false,
         size: "medium",

@@ -4,6 +4,7 @@ import { FormGroup, Label, RangeSlider } from "../..";
 const RangeSliderStories = {
     primary: true,
     title: "Forms & Fields/RangeSlider",
+    tags: ["autodocs"],
 };
 
 export const Default = () => {

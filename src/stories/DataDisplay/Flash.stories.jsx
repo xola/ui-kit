@@ -1,7 +1,8 @@
 import React from "react";
 import { Toaster } from "react-hot-toast";
 import { Button, flash } from "../..";
-import { sizeParams } from "../helpers";
+import { inlineRadio, select, sizeParams } from "../helpers";
+import { colors } from "../../helpers/flash";
 
 const FlashStories = {
     title: "Data Display/Flash",
@@ -12,6 +13,7 @@ const FlashStories = {
             },
         },
     },
+    tags: ["autodocs"],
     args: {
         text: "Your booking was successfully created",
         size: "medium",
@@ -26,13 +28,7 @@ const FlashStories = {
             control: { type: "text" },
         },
         size: sizeParams,
-        color: {
-            options: ["primary", "secondary", "success", "warning", "danger", "caution"],
-            control: { type: "inline-radio" },
-            table: {
-                defaultValue: { summary: "primary" },
-            },
-        },
+        color: select(Object.keys(colors)),
         duration: {
             type: { required: false },
             description: "Time in `ms`",
@@ -54,19 +50,18 @@ const toastMe = (props) => {
 
 export const Default = {
     render: (props) => {
+        const { duration, color = "primary", text } = props;
         return (
             <div className="space-y-6">
                 <div>Click below to show a flash</div>
-                <Button onClick={() => toastMe(props)}>{props.text}</Button>
+                <Button onClick={() => toastMe(props)}>{text}</Button>
 
                 <pre>
-                    <code>{`flash.show({ text: "${props.text}", color: "${props.color ?? "primary"}", duration: ${
-                        props.duration
-                    } })`}</code>
+                    <code>{`flash.show({ text: "${text}", color: "${color}", duration: ${duration} })`}</code>
                 </pre>
 
                 <div>
-                    <Button size="small" color="warning" onClick={() => flash.dismiss()}>
+                    <Button size="small" variant="outline" color="secondary" onClick={() => flash.dismiss()}>
                         Dismiss All
                     </Button>
                 </div>

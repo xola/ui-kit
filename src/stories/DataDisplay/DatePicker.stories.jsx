@@ -6,12 +6,13 @@ import { formatDate } from "../../helpers/date";
 const DatePickerStories = {
     title: "Data Display/Date & Time/Date Picker",
     component: DatePicker,
+    tags: ["autodocs"],
+    args: {
+        variant: "single",
+    },
     parameters: {
         docs: {
-            description: {
-                component:
-                    "Rendering a date picker with various functionality based on [React Day Picker](https://react-day-picker.js.org) library",
-            },
+            toc: true,
         },
         design: {
             name: "Figma",

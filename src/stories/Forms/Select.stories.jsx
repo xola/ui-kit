@@ -3,6 +3,7 @@ import { FormGroup, Label, Select } from "../..";
 
 const SelectStories = {
     primary: true,
+    tags: ["autodocs"],
     title: "Forms & Fields/Select",
 };
 

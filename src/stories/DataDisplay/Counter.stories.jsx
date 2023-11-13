@@ -20,7 +20,7 @@ const CounterStories = {
 };
 
 export const Counters = {
-    render: (args) => {
+    render: () => {
         return (
             <div className="space-x-4">
                 <Counter>0</Counter>

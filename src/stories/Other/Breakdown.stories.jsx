@@ -13,59 +13,66 @@ const BreakdownStories = {
     },
 };
 
-export const Default = () => {
-    // Just for a basic showcase of when info is null
-    const EmptyComponent = () => null;
+export const Default = {
+    render: (props) => {
+        // Just for a basic showcase of when info is null
+        const EmptyComponent = () => null;
 
-    return (
-        <div className="w-80 bg-gray-lighter p-4">
-            <Breakdown currency="USD">
-                <Breakdown.Item value={100}>Line item caption</Breakdown.Item>
-                <Breakdown.Item value={29} secondary="($29.00 x 1)">
-                    Children
-                </Breakdown.Item>
-                <Breakdown.Item value={29} secondary="($29.00 x 1)">
-                    Adults
-                </Breakdown.Item>
-                <Breakdown.Item value={29} methodIcon={<EmptyComponent />} info={<EmptyComponent />}>
-                    Null Info
-                </Breakdown.Item>
-                <Breakdown.Item value={4} secondary="($2.00 x 2)">
-                    VAT
-                </Breakdown.Item>
+        return (
+            <div className="w-80 bg-gray-lighter p-4">
+                <Breakdown currency="USD" {...props}>
+                    <Breakdown.Item value={100}>Line item caption</Breakdown.Item>
+                    <Breakdown.Item value={29} secondary="($29.00 x 1)">
+                        Children
+                    </Breakdown.Item>
+                    <Breakdown.Item value={29} secondary="($29.00 x 1)">
+                        Adults
+                    </Breakdown.Item>
+                    <Breakdown.Item value={29} methodIcon={<EmptyComponent />} info={<EmptyComponent />}>
+                        Null Info
+                    </Breakdown.Item>
+                    <Breakdown.Item value={4} secondary="($2.00 x 2)">
+                        VAT
+                    </Breakdown.Item>
 
-                <Breakdown.Separator />
+                    <Breakdown.Separator />
 
-                <Breakdown.SubtotalItem info="Total" value={162}>
-                    <Button color="secondary" variant="outline" size="small">
-                        Modify
-                    </Button>
-                </Breakdown.SubtotalItem>
+                    <Breakdown.SubtotalItem info="Total" value={162}>
+                        <Button color="secondary" variant="outline" size="small">
+                            Modify
+                        </Button>
+                    </Breakdown.SubtotalItem>
 
-                <Breakdown.Item value={1230} secondary="12/18/2019" info="*0259" methodIcon={<CardIcon />}>
-                    Payment
-                </Breakdown.Item>
+                    <Breakdown.Item value={1230} secondary="12/18/2019" info="*0259" methodIcon={<CardIcon />}>
+                        Payment
+                    </Breakdown.Item>
 
-                <Breakdown.Item color="primary" secondary="07/23/2021" value={-62} methodIcon={<CardIcon />}>
-                    Return Payment
-                </Breakdown.Item>
+                    <Breakdown.Item color="primary" secondary="07/23/2021" value={-62} methodIcon={<CardIcon />}>
+                        Return Payment
+                    </Breakdown.Item>
 
-                <Breakdown.Item secondary="07/23/2021" info={<EmptyComponent />} value={0} methodIcon={<CardIcon />}>
-                    This is a really long message that should wrap somehow
-                </Breakdown.Item>
+                    <Breakdown.Item
+                        secondary="07/23/2021"
+                        info={<EmptyComponent />}
+                        value={0}
+                        methodIcon={<CardIcon />}
+                    >
+                        This is a really long message that should wrap somehow
+                    </Breakdown.Item>
 
-                <Breakdown.Separator />
+                    <Breakdown.Separator />
 
-                <Breakdown.SubtotalItem info="Paid" value={62}>
-                    <Button color="secondary" variant="outline" size="small">
-                        Apply Code
-                    </Button>
-                </Breakdown.SubtotalItem>
+                    <Breakdown.SubtotalItem info="Paid" value={62}>
+                        <Button color="secondary" variant="outline" size="small">
+                            Apply Code
+                        </Button>
+                    </Breakdown.SubtotalItem>
 
-                <Breakdown.SubtotalItem info="Balance" color="danger" value={62} />
-            </Breakdown>
-        </div>
-    );
+                    <Breakdown.SubtotalItem info="Balance" color="danger" value={62} />
+                </Breakdown>
+            </div>
+        );
+    },
 };
 
 export default BreakdownStories;

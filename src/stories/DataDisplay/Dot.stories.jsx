@@ -4,6 +4,7 @@ import { Dot } from "../..";
 const DotStories = {
     title: "Data Display/Dot",
     component: Dot,
+    tags: ["autodocs"],
     parameters: {
         docs: {
             description: {

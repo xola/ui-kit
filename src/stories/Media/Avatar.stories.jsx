@@ -15,6 +15,7 @@ const avatarColors = [
 const AvatarStories = {
     title: "Media/Avatar",
     component: Avatar,
+    tags: ["autodocs"],
     parameters: {
         docs: {
             description: {

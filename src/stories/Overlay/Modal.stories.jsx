@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { Button, Input, Modal } from "../..";
-import { inlineRadio, sizeParams, tableDefault } from "../helpers";
+import { inlineRadio, tableDefault } from "../helpers";
 import { sizes } from "../../components/Modal";
 
 const ModalStories = {
     title: "Overlay/Modal",
     component: Modal,
+    tags: ["autodocs"],
     args: {
         size: "medium",
         position: "center",

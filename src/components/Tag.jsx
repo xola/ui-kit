@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import { CloseIcon } from "../icons/CloseIcon";
 
-const colors = {
+export const colors = {
     primary: "bg-primary-lighter text-black border border-primary",
     secondary: "bg-secondary-light text-gray-darker border border-secondary",
     success: "bg-success-lighter text-black border border-success",
@@ -12,7 +12,7 @@ const colors = {
     caution: "bg-caution-lighter text-black border border-caution",
 };
 
-const sizes = {
+export const sizes = {
     small: "px-1 py-0.75 text-sm leading-3.5",
     medium: "px-2 py-1 text-base leading-3.5",
     large: "px-2 py-1.5 text-base leading-4",

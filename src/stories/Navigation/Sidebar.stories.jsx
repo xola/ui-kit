@@ -4,6 +4,7 @@ import { AnnounceIcon, CheckIcon, HelpCenterIcon, LogoutIcon, PolicyIcon, Sideba
 const SidebarStories = {
     title: "Navigation/Sidebar",
     component: Sidebar,
+    tags: ["autodocs"],
     parameters: {
         design: {
             name: "Figma",
@@ -50,102 +51,108 @@ const handleLogoClick = () => {
     window.location.reload();
 };
 
-export const Default = () => {
-    return (
-        <div className="h-screen">
-            <Sidebar footer={<SidebarFooter />} onLogoClick={handleLogoClick}>
-                <Sidebar.Link isActive icon={UserIcon}>
-                    Sellers
-                </Sidebar.Link>
+export const Default = {
+    render: (args) => {
+        return (
+            <div className="h-screen">
+                <Sidebar footer={<SidebarFooter />} onLogoClick={handleLogoClick}>
+                    <Sidebar.Link isActive icon={UserIcon}>
+                        Sellers
+                    </Sidebar.Link>
 
-                <Sidebar.Link icon={StarIcon}>Favorites</Sidebar.Link>
+                    <Sidebar.Link icon={StarIcon}>Favorites</Sidebar.Link>
 
-                <Sidebar.Menu
-                    content={
-                        <div className="space-y-5 py-6">
-                            <Sidebar.Heading icon={AnnounceIcon} label="Marketing" />
-                            <div>
-                                <Sidebar.Link isActive isSubMenuItem>
-                                    Abandoned Booking Recovery
-                                </Sidebar.Link>
-                                <Sidebar.Link isSubMenuItem>Conversion Tracking</Sidebar.Link>
-                                <Sidebar.Link isSubMenuItem>Coupons</Sidebar.Link>
-                                <Sidebar.Link isSubMenuItem>Partners</Sidebar.Link>
-                                <Sidebar.Link isSubMenuItem>XolaBot</Sidebar.Link>
-                                <Sidebar.Separator />
-                                <Sidebar.Link isSubMenuItem>Global Settings</Sidebar.Link>
+                    <Sidebar.Menu
+                        content={
+                            <div className="space-y-5 py-6">
+                                <Sidebar.Heading icon={AnnounceIcon} label="Marketing" />
+                                <div>
+                                    <Sidebar.Link isActive isSubMenuItem>
+                                        Abandoned Booking Recovery
+                                    </Sidebar.Link>
+                                    <Sidebar.Link isSubMenuItem>Conversion Tracking</Sidebar.Link>
+                                    <Sidebar.Link isSubMenuItem>Coupons</Sidebar.Link>
+                                    <Sidebar.Link isSubMenuItem>Partners</Sidebar.Link>
+                                    <Sidebar.Link isSubMenuItem>XolaBot</Sidebar.Link>
+                                    <Sidebar.Separator />
+                                    <Sidebar.Link isSubMenuItem>Global Settings</Sidebar.Link>
+                                </div>
                             </div>
-                        </div>
-                    }
-                >
-                    <Sidebar.Link icon={AnnounceIcon}>Marketing</Sidebar.Link>
-                </Sidebar.Menu>
-            </Sidebar>
-        </div>
-    );
+                        }
+                    >
+                        <Sidebar.Link icon={AnnounceIcon}>Marketing</Sidebar.Link>
+                    </Sidebar.Menu>
+                </Sidebar>
+            </div>
+        );
+    },
 };
 
-export const CustomLogo = () => {
-    const Logo = () => <img src="https://c02.xola.com/images/xola-logo-header.png" className="bg-green" />;
+export const CustomLogo = {
+    render: (args) => {
+        const Logo = () => <img src="https://c02.xola.com/images/xola-logo-header.png" className="bg-green" />;
 
-    return (
-        <div className="h-screen">
-            Pass in any component for the "logo" property
-            <Sidebar logo={<Logo />} footer={<SidebarFooter />} onLogoClick={handleLogoClick}>
-                <Sidebar.Link isActive icon={UserIcon}>
-                    Sellers
-                </Sidebar.Link>
-                <Sidebar.Link icon={StarIcon}>Favorites</Sidebar.Link>
-                <Sidebar.Link icon={AnnounceIcon}>Marketing</Sidebar.Link>
-            </Sidebar>
-        </div>
-    );
+        return (
+            <div className="h-screen">
+                Pass in any component for the "logo" property
+                <Sidebar logo={<Logo />} footer={<SidebarFooter />} onLogoClick={handleLogoClick}>
+                    <Sidebar.Link isActive icon={UserIcon}>
+                        Sellers
+                    </Sidebar.Link>
+                    <Sidebar.Link icon={StarIcon}>Favorites</Sidebar.Link>
+                    <Sidebar.Link icon={AnnounceIcon}>Marketing</Sidebar.Link>
+                </Sidebar>
+            </div>
+        );
+    },
 };
 
-export const SidebarWithNotifications = () => {
-    const notifications = {
-        announcements: {
-            count: 1,
-            content: <div>Some content</div>,
-            title: "Announcements",
-            onClose: () => console.log("Announcements closed"),
-        },
-        notices: {
-            count: 32,
-            content: <div>Some content</div>,
-            title: "Notifications & Pending items",
-        },
-    };
-    return (
-        <div className="h-screen">
-            <Sidebar footer={<SidebarFooter />} notifications={notifications} onLogoClick={handleLogoClick}>
-                <Sidebar.Link isActive icon={UserIcon}>
-                    Sellers
-                </Sidebar.Link>
+export const SidebarWithNotifications = {
+    render: (args) => {
+        const notifications = {
+            announcements: {
+                count: 1,
+                content: <div>Some content</div>,
+                title: "Announcements",
+                onClose: () => console.log("Announcements closed"),
+            },
+            notices: {
+                count: 32,
+                content: <div>Some content</div>,
+                title: "Notifications & Pending items",
+            },
+        };
+        return (
+            <div className="h-screen">
+                <Sidebar footer={<SidebarFooter />} notifications={notifications} onLogoClick={handleLogoClick}>
+                    <Sidebar.Link isActive icon={UserIcon}>
+                        Sellers
+                    </Sidebar.Link>
 
-                <Sidebar.Link icon={StarIcon}>Favorites</Sidebar.Link>
+                    <Sidebar.Link icon={StarIcon}>Favorites</Sidebar.Link>
 
-                <Sidebar.Menu
-                    content={
-                        <div className="space-y-5 py-6">
-                            <Sidebar.Heading icon={AnnounceIcon} label="Marketing" />
-                            <div>
-                                <Sidebar.Link isActive isSubMenuItem>
-                                    Abandoned Booking Recovery
-                                </Sidebar.Link>
-                                <Sidebar.Link isSubMenuItem>Conversion Tracking</Sidebar.Link>
-                                <Sidebar.Link isSubMenuItem>Coupons</Sidebar.Link>
-                                <Sidebar.Link isSubMenuItem>Partners</Sidebar.Link>
-                                <Sidebar.Link isSubMenuItem>XolaBot</Sidebar.Link>
+                    <Sidebar.Menu
+                        content={
+                            <div className="space-y-5 py-6">
+                                <Sidebar.Heading icon={AnnounceIcon} label="Marketing" />
+                                <div>
+                                    <Sidebar.Link isActive isSubMenuItem>
+                                        Abandoned Booking Recovery
+                                    </Sidebar.Link>
+                                    <Sidebar.Link isSubMenuItem>Conversion Tracking</Sidebar.Link>
+                                    <Sidebar.Link isSubMenuItem>Coupons</Sidebar.Link>
+                                    <Sidebar.Link isSubMenuItem>Partners</Sidebar.Link>
+                                    <Sidebar.Link isSubMenuItem>XolaBot</Sidebar.Link>
+                                </div>
                             </div>
-                        </div>
-                    }
-                >
-                    <Sidebar.Link icon={AnnounceIcon}>Marketing</Sidebar.Link>
-                </Sidebar.Menu>
-            </Sidebar>
-        </div>
-    );
+                        }
+                    >
+                        <Sidebar.Link icon={AnnounceIcon}>Marketing</Sidebar.Link>
+                    </Sidebar.Menu>
+                </Sidebar>
+            </div>
+        );
+    },
 };
 
 export default SidebarStories;

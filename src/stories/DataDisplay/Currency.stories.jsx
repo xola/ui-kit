@@ -11,53 +11,27 @@ const CurrencyStories = {
             },
         },
     },
+    tags: ["autodocs"],
     args: {
-        amount: 109_482.84,
+        children: 109_482.84,
         locale: "en-US",
         removeTrailingZeroes: true,
     },
     argTypes: {
-        amount: {
-            description: "A number",
-            type: { required: true },
-            control: { type: "number" },
-            table: {
-                type: { summary: "For demo only" },
-            },
-        },
-        locale: {
-            description: "A locale string",
-            type: { required: true },
-            control: { type: "select" },
-            options: ["en-IN", "en-US", "fr-FR", "ja-JP", "de-DE", "ar-AE"],
-            table: {
-                type: { summary: null },
-                defaultValue: { summary: "Auto-detected based on browser settings" },
-            },
-        },
         currency: {
-            description: "Three characater currency code",
+            description: "Three character currency code",
             type: { required: true },
             control: { type: "select" },
             options: ["USD", "GBP", "EUR", "JPY", "INR", "AED"],
-            table: {
-                type: { summary: null },
-                defaultValue: { summary: null },
-            },
         },
         removeTrailingZeroes: {
             description: "Strip trailing `.00`",
-            control: { type: "boolean" },
-            table: {
-                type: { summary: null },
-                defaultValue: { summary: true },
-            },
         },
     },
 };
 
 export const Default = {
-    render: ({ currency, locale, removeTrailingZeroes, amount }) => {
+    render: ({ currency, locale, removeTrailingZeroes, amount, children }) => {
         return (
             <div>
                 <div className="mb-2">
@@ -68,7 +42,7 @@ export const Default = {
                     API
                 </div>
                 <Currency currency={currency} locale={locale} removeTrailingZeroes={removeTrailingZeroes}>
-                    {amount}
+                    {children}
                 </Currency>
             </div>
         );

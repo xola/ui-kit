@@ -23,6 +23,7 @@ const defaultArgTypes = {
 export default {
     title: "Forms & Fields/Button",
     component: Button,
+    tags: ["autodocs"],
     argTypes: defaultArgTypes,
     args: {
         color: "primary",

@@ -14,6 +14,8 @@ import { Spinner } from "./Spinner";
 const callDebounced = debounce((function_, value) => function_(value), 500);
 
 /**
+ * A generic search component. Props need manual documentation. Till then see the JSDocs in Search.jsx
+ *
  * @param {string?}     props.className             Class name to apply to the input.
  * @param {any[]?}      props.items                 Items to display in the dropdown menu.
  * @param {string?}     props.defaultValue          Search input default value.

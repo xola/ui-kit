@@ -6,7 +6,9 @@ import { sizeParams } from "../helpers";
 const SwitchStories = {
     primary: true,
     title: "Forms & Fields/Switch",
+    tags: ["autodocs"],
     parameters: {
+        controls: { expanded: false },
         docs: {
             description: {
                 component: "This is a toggle for situations where you require a better looking boolean form component",
@@ -26,7 +28,7 @@ const SwitchStories = {
     },
 };
 
-export const Default = ({ size }) => {
+export const Default = ({ size = "a" }) => {
     const [checked, setChecked] = useState(false);
     return <Switch isChecked={checked} size={size} onChange={setChecked} />;
 };

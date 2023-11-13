@@ -4,6 +4,7 @@ import { Key } from "../..";
 const KeyStories = {
     title: "Data Display/Key",
     component: Key,
+    tags: ["autodocs"],
     parameters: {
         docs: {
             description: {

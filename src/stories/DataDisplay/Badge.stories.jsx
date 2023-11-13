@@ -1,10 +1,10 @@
 import React from "react";
 import { Badge, BellIcon, BoxIcon, CakeIcon, CashIcon, EditIcon, StackIcon } from "../..";
-import { sizeParams } from "../helpers";
 
 const BadgeStories = {
     title: "Data Display/Badges",
     component: Badge,
+    tags: ["autodocs"],
     args: {
         text: "Default",
         color: "primary",
@@ -16,17 +16,6 @@ const BadgeStories = {
             type: "figma",
             url: "https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%E2%9A%99%EF%B8%8F-01---DS-Core?node-id=384%3A60",
         },
-    },
-    argTypes: {
-        text: {
-            type: { required: true },
-            control: { type: "text" },
-        },
-        color: {
-            options: ["primary", "secondary", "success", "warning", "caution", "danger", "problem", "critical"],
-            control: { type: "select" },
-        },
-        size: sizeParams,
     },
 };
 

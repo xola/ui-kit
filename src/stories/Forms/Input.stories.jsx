@@ -4,6 +4,7 @@ import { FormGroup, Input, Label } from "../..";
 const InputStories = {
     primary: true,
     title: "Forms & Fields/Input",
+    tags: ["autodocs"],
     parameters: {
         design: {
             name: "Figma",

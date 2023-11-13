@@ -1,31 +1,19 @@
 import React from "react";
 import { Spinner } from "../..";
+import { inlineRadio, select } from "../helpers";
+import { colors, sizes } from "../../components/Spinner";
 
 const SpinnerStories = {
     title: "Other/Spinner",
     component: Spinner,
+    tags: ["autodocs"],
     args: {
         color: "secondary",
         size: "small",
     },
     argTypes: {
-        color: {
-            type: { required: true },
-            options: ["primary", "secondary", "success", "warning", "danger", "caution", "current"],
-            control: { type: "select" },
-            table: {
-                type: { summary: null },
-                defaultValue: { summary: "secondary" },
-            },
-        },
-        size: {
-            options: ["small", "medium", "large", "current"],
-            control: { type: "select" },
-            table: {
-                type: { summary: null },
-                defaultValue: { summary: "small" },
-            },
-        },
+        color: select(Object.keys(colors)),
+        size: inlineRadio(Object.keys(sizes)),
     },
 };
 
@@ -36,9 +24,9 @@ export const Default = (props) => {
 export const Sizes = () => {
     return (
         <div className="space-x-8">
-            <Spinner size="small" />
-            <Spinner size="medium" />
-            <Spinner size="large" />
+            {Object.keys(sizes).map((size) => (
+                <Spinner size={size} />
+            ))}
         </div>
     );
 };

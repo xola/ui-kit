@@ -5,6 +5,7 @@ const PopoverStories = {
     id: "PopoverList",
     title: "Overlay/Popover List",
     component: PopoverList,
+    tags: ["autodocs"],
     args: {
         placement: "bottom",
         trigger: "mouseenter",

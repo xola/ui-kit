@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import React, { cloneElement } from "react";
 import { cn } from "../helpers/classnames";
 
-const colors = {
+export const colors = {
     primary: "bg-primary-lighter text-primary-dark",
     secondary: "bg-secondary-lighter text-black",
     success: "bg-success-lightish text-success-darker",

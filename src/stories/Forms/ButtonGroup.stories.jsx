@@ -6,6 +6,7 @@ import { size } from "lodash";
 export default {
     title: "Forms & Fields/ButtonGroup",
     component: ButtonGroup,
+    tags: ["autodocs"],
     parameters: {
         design: {
             name: "Figma",

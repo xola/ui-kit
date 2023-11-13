@@ -18,7 +18,8 @@ const variants = {
 };
 
 /**
- * Figma Design link: https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%F0%9F%9B%A0-Xola-DS-Desktop-Master-%F0%9F%9B%A0?node-id=2689%3A101580
+ * Rendering a date picker with various functionality based on [React Day Picker](https://react-day-picker.js.org) library using
+ * [Figma Design](https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%F0%9F%9B%A0-Xola-DS-Desktop-Master-%F0%9F%9B%A0?node-id=2689%3A101580).
  */
 export const DatePicker = ({
     variant = variants.single,
