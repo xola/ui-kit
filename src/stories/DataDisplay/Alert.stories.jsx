@@ -1,6 +1,5 @@
 import React from "react";
 import { Alert } from "../..";
-import { disableType } from "../helpers";
 
 export default {
     title: "Data Display/Alerts & Banners",
@@ -28,7 +27,6 @@ export default {
 export const Default = {};
 
 export const Colors = {
-    argTypes: { color: disableType, children: disableType },
     render: (args) => {
         return (
             <div className="space-y-4">

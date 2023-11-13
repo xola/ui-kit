@@ -8,7 +8,6 @@ const SwitchStories = {
     title: "Forms & Fields/Switch",
     tags: ["autodocs"],
     parameters: {
-        controls: { expanded: false },
         docs: {
             description: {
                 component: "This is a toggle for situations where you require a better looking boolean form component",

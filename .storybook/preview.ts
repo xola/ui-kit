@@ -18,7 +18,6 @@ const preview: Preview = {
         },
         actions: { argTypesRegex: "^on[A-Z].*" },
         controls: {
-            expanded: true,
             matchers: {
                 text: /^className$/i,
                 bool: /isLoading|disabled|^should|^is/i,
