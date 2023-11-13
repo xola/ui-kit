@@ -1,13 +1,14 @@
 import path from "path";
 import { defineConfig } from "vite";
 import pkg from "./package.json";
+import copy from "rollup-plugin-copy";
 
 const dependencies = Object.keys(pkg.dependencies);
 const devDependencies = Object.keys(pkg.devDependencies);
 
 export default defineConfig({
     build: {
-        copyPublicDir: false,
+        emptyOutDir: true,
         outDir: "build",
 
         lib: {
@@ -40,6 +41,15 @@ export default defineConfig({
                     lodash: "lodash",
                     react: "React",
                 },
+                plugins: [
+                    copy({
+                        hook: "writeBundle",
+                        targets: [
+                            { src: "tailwind.config.js", dest: "build" },
+                            { src: "postcss.config.js", dest: "build" },
+                        ],
+                    }),
+                ],
             },
         },
     },
