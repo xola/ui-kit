@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import { CloseIcon } from "../icons/CloseIcon";
 
-const colors = {
+export const alertColors = {
     primary: "bg-primary-lighter text-black",
     secondary: "bg-secondary-lighter text-black",
     success: "bg-success-lighter text-black",
@@ -17,7 +17,7 @@ export const Alert = ({ className, color = "primary", onClose, children, ...rest
         <div
             className={clsx(
                 "ui-alert flex items-start rounded px-3 py-3 text-base leading-4",
-                colors[color],
+                alertColors[color],
                 className,
             )}
             {...rest}
@@ -35,7 +35,7 @@ export const Alert = ({ className, color = "primary", onClose, children, ...rest
 
 Alert.propTypes = {
     className: PropTypes.string,
-    color: PropTypes.oneOf(Object.keys(colors)),
+    color: PropTypes.oneOf(Object.keys(alertColors)),
     onClose: PropTypes.func,
     children: PropTypes.node.isRequired,
 };

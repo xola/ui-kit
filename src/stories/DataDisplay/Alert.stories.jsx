@@ -1,5 +1,7 @@
 import React from "react";
 import { Alert } from "../..";
+import { inlineRadioOptions } from "../helpers";
+import { alertColors } from "../../components/Alert";
 
 export default {
     title: "Data Display/Alerts & Banners",
@@ -17,10 +19,15 @@ export default {
             url: "https://www.figma.com/file/EFmxLREOeGUse5zksD3iT4/%E2%9A%99%EF%B8%8F-02---DS-Application-UI?node-id=198%3A110085&viewport=-5176%2C179%2C0.57",
         },
     },
+    argTypes: {
+        color: inlineRadioOptions(Object.keys(alertColors)),
+    },
     args: {
-        children:
-            "Space, the final frontier. These are the voyages of the starship Enterprise. Its five year mission: to explore strange new worlds, to seek out new life and new civilizations, to boldly go where no man has gone before!",
         color: "primary",
+        children:
+            "Space, the final frontier. These are the voyages of the starship Enterprise. " +
+            "Its five-year mission: to explore strange new worlds, to seek out new life and new civilizations, " +
+            "to boldly go where no man has gone before!",
     },
 };
 
@@ -54,18 +61,7 @@ export const Colors = {
 };
 
 export const Dismissible = {
-    render: (args) => {
-        const handleClose = () => {
-            // eslint-disable-next-line no-alert
-            alert("You clicked on the close button.");
-        };
-
-        return (
-            <Alert color="primary" onClose={handleClose}>
-                Space, the final frontier. These are the voyages of the starship Enterprise. Its five year mission: to
-                explore strange new worlds, to seek out new life and new civilizations, to boldly go where no man has
-                gone before!
-            </Alert>
-        );
+    args: {
+        onClose: () => alert("You clicked on the close button."),
     },
 };
