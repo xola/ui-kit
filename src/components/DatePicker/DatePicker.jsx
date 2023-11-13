@@ -107,17 +107,17 @@ export const DatePicker = ({
             return;
         }
 
-        if (dayjs(value.from).isSame(day, "month")) {
+        if (dayjs(value?.from).isSame(day, "month")) {
             handleStartMonthChange(day);
         }
 
         setRangeName("");
         if (isRangeVariant) {
-            if (value.from && value.to) {
+            if (value?.from && value.to) {
                 // This allows us to easily select another date range,
                 // if both dates are selected.
                 onChange({ from: day, to: null }, options, event);
-            } else if ((value.from || value.to).getTime() === day.getTime()) {
+            } else if ((value?.from || value.to).getTime() === day.getTime()) {
                 const from = dayjs(day).startOf("day").toDate();
                 const to = dayjs(day).endOf("day").toDate();
 
@@ -159,10 +159,10 @@ export const DatePicker = ({
         );
     };
 
-    const rangeModifier = isRangeVariant ? { start: value.from, end: value.to } : null;
+    const rangeModifier = isRangeVariant ? { start: value?.from, end: value.to } : null;
 
     // Comparing `from` and `to` dates hides a weird CSS style when you select the same date twice in a date range.
-    const useDateRangeStyle = isRangeVariant && value.from?.getTime() !== value.to?.getTime();
+    const useDateRangeStyle = isRangeVariant && value?.from?.getTime() !== value.to?.getTime();
     // Return the same value if it is already dayjs object or has range variant otherwise format it to dayJs object
     const selectedDays = value && (dayjs.isDayjs(value) || isRangeVariant ? value : dayjs(value).toDate());
 
