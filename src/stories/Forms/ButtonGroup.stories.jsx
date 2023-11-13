@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { ButtonGroup, ChecklistIcon, EmptyChecklistIcon, MixedChecklistIcon, WaitlistIcon } from "../..";
-import { inlineRadio, sizeParams, tableDefault } from "../helpers";
+import { inlineRadioOptions, sizeParams, tableDefault } from "../helpers";
 import { size } from "lodash";
 
 export default {
@@ -15,7 +15,7 @@ export default {
         },
     },
     argTypes: {
-        iconPlacement: inlineRadio(["left", "right"], tableDefault("left")),
+        iconPlacement: inlineRadioOptions(["left", "right"], tableDefault("left")),
         size: sizeParams,
         value: {
             description: "An integer from 0 onwards to indicate which button is active. Defaults to `null`",

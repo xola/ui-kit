@@ -10,20 +10,20 @@ export const disableFields = (fields: string[]) => {
     return Object.assign({}, ...argTypes);
 };
 
-export const arrayValues = (name: string, values: string[], ...rest: any) => {
+const arrayOptions = (name: string, values: string[], ...rest: any) => {
     return { control: name, options: values, ...rest[0] };
 };
 
-export const inlineRadio = (values: string[], ...rest: any) => {
-    return arrayValues("inline-radio", values, ...rest);
+export const inlineRadioOptions = (values: string[], ...rest: any) => {
+    return arrayOptions("inline-radio", values, ...rest);
 };
 
-export const radio = (values: string[], ...rest: any) => {
-    return arrayValues("radio", values, ...rest);
+export const radioOptions = (values: string[], ...rest: any) => {
+    return arrayOptions("radio", values, ...rest);
 };
 
-export const select = (values: string[], ...rest: any) => {
-    return arrayValues("select", values, ...rest);
+export const selectOptions = (values: string[], ...rest: any) => {
+    return arrayOptions("select", values, ...rest);
 };
 
 export const tableDefault = (summary: string) => {
@@ -32,7 +32,7 @@ export const tableDefault = (summary: string) => {
     };
 };
 
-export const sizeParams = inlineRadio(["small", "medium", "large"], tableDefault("medium"));
+export const sizeParams = inlineRadioOptions(["small", "medium", "large"], tableDefault("medium"));
 
 // argTypes
 // {

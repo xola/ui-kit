@@ -1,6 +1,6 @@
 import React from "react";
 import { Spinner } from "../..";
-import { inlineRadio, select } from "../helpers";
+import { inlineRadioOptions, selectOptions } from "../helpers";
 import { spinnerColors, spinnerSizes } from "../../components/Spinner";
 
 const SpinnerStories = {
@@ -12,8 +12,8 @@ const SpinnerStories = {
         size: "small",
     },
     argTypes: {
-        color: select(Object.keys(spinnerColors)),
-        size: inlineRadio(Object.keys(spinnerSizes)),
+        color: selectOptions(Object.keys(spinnerColors)),
+        size: inlineRadioOptions(Object.keys(spinnerSizes)),
     },
 };
 

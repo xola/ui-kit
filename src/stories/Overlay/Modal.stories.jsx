@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, Input, Modal } from "../..";
-import { inlineRadio, tableDefault } from "../helpers";
+import { inlineRadioOptions, tableDefault } from "../helpers";
 import { modalSizes } from "../../components/Modal";
 
 const ModalStories = {
@@ -21,7 +21,7 @@ const ModalStories = {
         },
     },
     argTypes: {
-        size: inlineRadio(Object.keys(modalSizes), tableDefault("medium")),
+        size: inlineRadioOptions(Object.keys(modalSizes), tableDefault("medium")),
         position: {
             type: { required: false },
             options: ["topLeft", "topRight", "center", "bottomLeft", "bottomRight"],

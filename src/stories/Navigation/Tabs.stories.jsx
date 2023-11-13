@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Tabs } from "../..";
-import { inlineRadio } from "../helpers";
+import { inlineRadioOptions } from "../helpers";
 
 const TabsStories = {
     title: "Navigation/Tabs",
@@ -23,7 +23,7 @@ const TabsStories = {
         isHidden: false,
     },
     argTypes: {
-        variant: inlineRadio(["default", "simple"]),
+        variant: inlineRadioOptions(["default", "simple"]),
     },
 };
 

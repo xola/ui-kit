@@ -1,12 +1,12 @@
 import React from "react";
 import { Button, EllipsisIcon, KeyIcon, PlusIcon, UserIcon, WaitlistIcon, WarningIcon } from "../..";
 import { buttonColors, buttonSizes } from "../../components/Buttons/Button";
-import { disableFields, inlineRadio, tableDefault } from "../helpers";
+import { disableFields, inlineRadioOptions, tableDefault } from "../helpers";
 
 const defaultArgTypes = {
-    color: inlineRadio(Object.keys(buttonColors.standard).slice(1)),
-    size: inlineRadio(Object.keys(buttonSizes)),
-    variant: inlineRadio(Object.keys(buttonColors)),
+    color: inlineRadioOptions(Object.keys(buttonColors.standard).slice(1)),
+    size: inlineRadioOptions(Object.keys(buttonSizes)),
+    variant: inlineRadioOptions(Object.keys(buttonColors)),
     className: {
         control: "text",
         description: "Tailwind class names to override styling",
@@ -14,7 +14,7 @@ const defaultArgTypes = {
     disabled: {
         control: "boolean",
     },
-    iconPlacement: inlineRadio(["left", "right"], tableDefault("left")),
+    iconPlacement: inlineRadioOptions(["left", "right"], tableDefault("left")),
     ...disableFields(["as", "icon"]),
 };
 
