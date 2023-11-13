@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, EllipsisIcon, KeyIcon, PlusIcon, UserIcon, WaitlistIcon, WarningIcon } from "../..";
 import { buttonColors, buttonSizes } from "../../components/Buttons/Button";
-import { disableFields, inlineRadioOptions, tableDefault } from "../helpers";
+import { disableFields, inlineRadioOptions } from "../helpers";
 
 const defaultArgTypes = {
     color: inlineRadioOptions(Object.keys(buttonColors.standard).slice(1)),
@@ -14,7 +14,7 @@ const defaultArgTypes = {
     disabled: {
         control: "boolean",
     },
-    iconPlacement: inlineRadioOptions(["left", "right"], tableDefault("left")),
+    iconPlacement: inlineRadioOptions(["left", "option"], { if: { arg: "icon", truthy: true } }),
     ...disableFields(["as", "icon"]),
 };
 

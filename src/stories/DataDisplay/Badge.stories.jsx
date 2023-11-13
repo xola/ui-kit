@@ -1,14 +1,18 @@
 import React from "react";
 import { Badge, BellIcon, BoxIcon, CakeIcon, CashIcon, EditIcon, StackIcon } from "../..";
+import { disableFields } from "../helpers";
 
 const BadgeStories = {
     title: "Data Display/Badges",
     component: Badge,
     tags: ["autodocs"],
     args: {
-        text: "Default",
         color: "primary",
         size: "small",
+        children: "Open",
+    },
+    argTypes: {
+        ...disableFields(["icon"]),
     },
     parameters: {
         design: {
@@ -19,17 +23,7 @@ const BadgeStories = {
     },
 };
 
-export const Default = {
-    render: ({ className, color, size, text }) => {
-        return (
-            <div className="space-x-4">
-                <Badge className={className} color={color} size={size}>
-                    {text}
-                </Badge>
-            </div>
-        );
-    },
-};
+export const Default = {};
 
 export const WithIcons = {
     render: () => {

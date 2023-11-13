@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Drawer } from "../..";
 import { inlineRadioOptions } from "../helpers";
 import { drawerSizes } from "../../components/Drawer";
@@ -22,6 +22,7 @@ const DrawerStories = {
         isOpen: false,
         size: "medium",
         title: "Hello World",
+        position: "right",
         content: "Lorem Ipsum. Click the X to close",
     },
     argTypes: {
@@ -35,6 +36,7 @@ const DrawerStories = {
             control: { type: "text" },
         },
         size: inlineRadioOptions(Object.keys(drawerSizes).slice(0, -1)),
+        position: inlineRadioOptions(["left", "right"]),
         onClose: {
             description: "Function to callback to close the Drawer",
             control: { type: "function" },
@@ -42,8 +44,9 @@ const DrawerStories = {
     },
 };
 
-export const Default = ({ isOpen, size, title, content }) => {
+export const Default = ({ isOpen, size, title, position, content }) => {
     const [open, setOpen] = useState(isOpen);
+    useEffect(() => setOpen(isOpen), [isOpen]);
     const onClose = () => setOpen(false);
 
     return (
@@ -51,7 +54,7 @@ export const Default = ({ isOpen, size, title, content }) => {
             <Button size="large" onClick={() => setOpen(true)}>
                 Click Me to open the Drawer
             </Button>
-            <Drawer title={title} content={content} size={size} isOpen={open} onClose={onClose} />
+            <Drawer title={title} content={content} size={size} isOpen={open} position={position} onClose={onClose} />
         </div>
     );
 };

@@ -1,7 +1,7 @@
 import React from "react";
 import Tippy from "@tippyjs/react";
 import PropTypes from "prop-types";
-import { followCursor } from "tippy.js"; // Dont remove this even if unused. It is required for one prop
+import { followCursor } from "tippy.js"; // Don't remove this even if unused. It is required for one prop
 import "tippy.js/dist/tippy.css"; // If we customize the style, the change this and import our own style
 
 // TODO: Implement "as='div'"

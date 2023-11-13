@@ -14,29 +14,23 @@ const TagStories = {
         },
     },
     argTypes: {
-        text: {
-            type: { required: true },
-            control: { type: "text" },
-        },
         color: selectOptions(Object.keys(tagColors)),
         size: sizeParams,
     },
-};
-
-export const Default = {
     args: {
         color: "primary",
         size: "medium",
         children: "Listing: Kayaking in the Ganges",
-        onClose: () => console.log("Closed"),
     },
 };
+
+export const Default = {};
 
 export const BookingTag = {
     args: {
         color: "secondary",
         size: "small",
-        children: "Listing: Kayaking in the Ganges",
+        children: "My tag",
         onClose: () => console.log("Closed"),
     },
 };
@@ -46,6 +40,7 @@ export const SystemTag = {
         color: "secondary",
         size: "small",
         children: "You cannot remove this tag",
+        onClose: undefined,
     },
 };
 

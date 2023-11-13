@@ -85,7 +85,7 @@ export const Default = (config) => {
     );
 };
 
-export const WithHTMLContent = () => {
+export const WithHTMLContent = (config) => {
     return (
         <>
             <p className="mb-3">
@@ -93,7 +93,7 @@ export const WithHTMLContent = () => {
                 <code className="bg-gray-lighter px-1">content</code> prop to show HTML content.
             </p>
             <Tooltip
-                placement="right"
+                {...config}
                 content={
                     <span className="grid grid-cols-2 gap-1">
                         <span>

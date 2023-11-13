@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { ButtonGroup, ChecklistIcon, EmptyChecklistIcon, MixedChecklistIcon, WaitlistIcon } from "../..";
 import { inlineRadioOptions, sizeParams, tableDefault } from "../helpers";
-import { size } from "lodash";
 
 export default {
     title: "Forms & Fields/ButtonGroup",
@@ -14,8 +13,15 @@ export default {
             url: "https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%E2%9A%99%EF%B8%8F-01---DS-Core?node-id=7456%3A467977",
         },
     },
+    args: {
+        size: "medium",
+        value: 1,
+    },
     argTypes: {
         iconPlacement: inlineRadioOptions(["left", "right"], tableDefault("left")),
+        isCollapsed: {
+            if: { arg: "icon", truthy: true },
+        },
         size: sizeParams,
         value: {
             description: "An integer from 0 onwards to indicate which button is active. Defaults to `null`",
@@ -26,16 +32,11 @@ export default {
 };
 
 export const Default = {
-    args: {
-        size: "medium",
-        iconPlacement: "left",
-        value: 1,
-    },
-    render: ({ size, value }) => {
+    render: ({ size, value, ...rest }) => {
         const [active, setActive] = useState(value);
 
         return (
-            <ButtonGroup size={size} value={active} onChange={(index) => setActive(index)}>
+            <ButtonGroup {...rest} size={size} value={active} onChange={(index) => setActive(index)}>
                 <ButtonGroup.Button>First</ButtonGroup.Button>
                 <ButtonGroup.Button>Second</ButtonGroup.Button>
                 <ButtonGroup.Button>Third</ButtonGroup.Button>
@@ -72,10 +73,6 @@ export const WithIcons = {
 };
 
 export const Collapsible = {
-    args: {
-        size: "medium",
-        value: 0,
-    },
     render: ({ size, value }) => {
         const [active, setActive] = useState(value);
 
@@ -91,10 +88,6 @@ export const Collapsible = {
 };
 
 export const CollapsibleWithTextFallback = {
-    args: {
-        size: "medium",
-        value: 0,
-    },
     render: ({ size, value }) => {
         const [active, setActive] = useState(value);
 

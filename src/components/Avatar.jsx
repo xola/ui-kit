@@ -10,7 +10,7 @@ export const avatarSizes = {
     large: "h-15 w-15 text-xl",
 };
 
-export const Avatar = ({ className, name, color = "bg-primary-lighter", size = "large", ...rest }) => {
+export const Avatar = ({ name, color = "bg-primary-lighter", size = "large", className, ...rest }) => {
     const classes = clsx(
         "ui-avatar",
         "inline-flex items-center justify-center rounded-full text-black leading-none",

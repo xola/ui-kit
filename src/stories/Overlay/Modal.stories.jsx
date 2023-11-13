@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Input, Modal } from "../..";
 import { inlineRadioOptions, tableDefault } from "../helpers";
 import { modalSizes } from "../../components/Modal";
@@ -43,12 +43,10 @@ const ModalStories = {
     },
 };
 
-export const Default = ({ size, position, shouldCloseOnOutsideClick }) => {
-    const [isOpen, setIsOpen] = useState(false);
-
-    const toggle = () => {
-        setIsOpen(!isOpen);
-    };
+export const Default = ({ isOpen, size, position, shouldCloseOnOutsideClick }) => {
+    const [open, setOpen] = useState(false);
+    useEffect(() => setOpen(isOpen), [isOpen]);
+    const toggle = () => setOpen(!open);
 
     return (
         <div>
@@ -57,7 +55,7 @@ export const Default = ({ size, position, shouldCloseOnOutsideClick }) => {
             <Modal
                 size={size}
                 position={position}
-                isOpen={isOpen}
+                isOpen={open}
                 shouldCloseOnOutsideClick={shouldCloseOnOutsideClick}
                 onClose={toggle}
             >
@@ -81,12 +79,10 @@ export const Default = ({ size, position, shouldCloseOnOutsideClick }) => {
     );
 };
 
-export const CustomWidth = ({ size, position, shouldCloseOnOutsideClick }) => {
-    const [isOpen, setIsOpen] = useState(false);
-
-    const toggle = () => {
-        setIsOpen(!isOpen);
-    };
+export const CustomWidth = ({ isOpen, size, position, shouldCloseOnOutsideClick }) => {
+    const [open, setOpen] = useState(false);
+    useEffect(() => setOpen(isOpen), [isOpen]);
+    const toggle = () => setOpen(!open);
 
     return (
         <div>
@@ -96,7 +92,7 @@ export const CustomWidth = ({ size, position, shouldCloseOnOutsideClick }) => {
                 className="!max-w-200"
                 size={size}
                 position={position}
-                isOpen={isOpen}
+                isOpen={open}
                 shouldCloseOnOutsideClick={shouldCloseOnOutsideClick}
                 onClose={toggle}
             >

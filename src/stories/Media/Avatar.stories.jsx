@@ -31,7 +31,8 @@ const AvatarStories = {
     },
     args: {
         size: "large",
-        color: "bg-primary-lighter",
+        color: avatarColors[0],
+        name: "John Doe",
     },
     argTypes: {
         name: {
@@ -45,36 +46,43 @@ const AvatarStories = {
     },
 };
 
-export const Default = ({ className, name = "John Doe", size, color }) => {
-    return <Avatar className={className} name={name} size={size} color={color} />;
+export const Default = {};
+
+export const OneNameLikeCher = {
+    args: { name: "Cher" },
 };
 
-export const OneNameLikeCher = ({ className, name = "Cher", size, color }) => {
-    return <Avatar className={className} name={name} size={size} color={color} />;
+export const ThreeNames = {
+    args: { name: "James Scott Zimmerman" },
 };
 
-export const ThreeNames = ({ className, name = "James Scott Zimmerman", size, color }) => {
-    return <Avatar className={className} name={name} size={size} color={color} />;
+export const SpecialChars = {
+    args: { name: "Rushi (Xola)" },
 };
 
-export const SpecialChars = ({ className, name = "Rushi (Xola)", size, color }) => {
-    return <Avatar className={className} name={name} size={size} color={color} />;
-};
-
-export const AllColorsAndSizes = ({ className, name = "Barthélémy Chalvet" }) => {
-    return (
-        <div className="grid grid-cols-6 gap-2">
-            {["large", "medium", "small"].map((size) => (
-                <Fragment key={size}>
-                    {avatarColors.map((color) => (
-                        <div key={color} className="text-center">
-                            <Avatar className={className} name={name} size={size} color={color} />
-                        </div>
-                    ))}
-                </Fragment>
-            ))}
-        </div>
-    );
+export const AllColorsAndSizes = {
+    args: {
+        name: "Barthélémy Chalvet",
+    },
+    render: ({ name, className }) => {
+        return (
+            <div className="m-5 grid grid-cols-3 gap-6 xl:grid-cols-5">
+                {Object.keys(avatarSizes).map((size) => (
+                    <Fragment key={size}>
+                        {avatarColors.map((color) => (
+                            <Avatar
+                                key={`${size}-${color}`}
+                                name={name}
+                                size={size}
+                                color={color}
+                                className={className}
+                            />
+                        ))}
+                    </Fragment>
+                ))}
+            </div>
+        );
+    },
 };
 
 export default AvatarStories;

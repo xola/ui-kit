@@ -12,7 +12,7 @@ export const alertColors = {
     caution: "bg-caution-lighter text-black",
 };
 
-export const Alert = ({ className, color = "primary", onClose, children, ...rest }) => {
+export const Alert = ({ color = "primary", onClose, className, children, ...rest }) => {
     return (
         <div
             className={clsx(
