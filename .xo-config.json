@@ -1,0 +1,25 @@
+{
+  "ignorePatterns": [
+    "**/*.test.js*",
+    "**/*.test.ts*",
+    "**/test/**/*.*"
+  ],
+  "rules": {
+    "unicorn/prevent-abbreviations": [
+      "error",
+      {
+        "replacements": {
+          "param": false,
+          "params": false,
+          "props": false,
+          "e": false,
+          "ref": false,
+          "def": false,
+          "pkg": false,
+          "args": false
+        }
+      }
+    ]
+  }
+}
+
