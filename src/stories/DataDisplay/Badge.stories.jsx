@@ -1,5 +1,6 @@
 import React from "react";
 import { Badge, BellIcon, BoxIcon, CakeIcon, CashIcon, EditIcon, StackIcon } from "../..";
+import { sizeParams } from "../helpers";
 
 const BadgeStories = {
     title: "Data Display/Badges",
@@ -25,10 +26,7 @@ const BadgeStories = {
             options: ["primary", "secondary", "success", "warning", "caution", "danger", "problem", "critical"],
             control: { type: "select" },
         },
-        size: {
-            options: ["small", "medium", "large"],
-            control: { type: "inline-radio" },
-        },
+        size: sizeParams,
     },
 };
 

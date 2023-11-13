@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { SubmitButton } from "../..";
+import { sizeParams } from "../helpers";
 
 const SubmitButtonStories = {
     title: "Forms & Fields/Buttons/Submit Button",
@@ -16,13 +17,7 @@ const SubmitButtonStories = {
                 defaultValue: { summary: false },
             },
         },
-        size: {
-            options: ["small", "medium", "large"],
-            control: { type: "radio" },
-            table: {
-                defaultValue: { summary: "medium" },
-            },
-        },
+        size: sizeParams,
         color: {
             options: ["primary", "secondary", "success", "warning", "danger"],
             control: { type: "select" },

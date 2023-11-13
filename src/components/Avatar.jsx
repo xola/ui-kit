@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import { getInitials } from "../helpers/avatar";
 
-const sizes = {
+export const sizes = {
     tiny: "h-7 w-7 text-base",
     small: "h-10 w-10 text-base",
     medium: "h-12 w-12 text-md",

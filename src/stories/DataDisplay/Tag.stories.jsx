@@ -1,4 +1,5 @@
 import { Tag } from "../..";
+import { sizeParams } from "../helpers";
 
 const TagStories = {
     title: "Data Display/Tag",
@@ -20,10 +21,7 @@ const TagStories = {
             options: ["primary", "secondary"],
             control: { type: "select" },
         },
-        size: {
-            options: ["small", "medium", "large"],
-            control: { type: "radio" },
-        },
+        size: sizeParams,
     },
 };
 

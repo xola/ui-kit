@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import { Switch } from "../..";
+import { sizeParams } from "../helpers";
 
 const SwitchStories = {
     primary: true,
@@ -21,15 +22,7 @@ const SwitchStories = {
         size: "medium",
     },
     argTypes: {
-        size: {
-            description: "Switch Size",
-            table: {
-                type: { summary: null },
-                defaultValue: { summary: "medium" },
-            },
-            options: ["small", "medium", "large"],
-            control: { type: "radio" },
-        },
+        size: sizeParams,
     },
 };
 

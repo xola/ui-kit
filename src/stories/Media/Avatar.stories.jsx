@@ -1,5 +1,7 @@
 import React, { Fragment } from "react";
 import { Avatar } from "../..";
+import { sizes } from "../../components/Avatar";
+import { inlineRadio, select, tableDefault } from "../helpers";
 
 const avatarColors = [
     "bg-primary-lighter",
@@ -32,31 +34,13 @@ const AvatarStories = {
     },
     argTypes: {
         name: {
-            description: "A user's full name",
             type: { required: true },
             control: { type: "text" },
-            table: {
-                type: { summary: "example: John Doe" },
-            },
+            description: "A user's full name",
+            ...tableDefault("example: John Doe"),
         },
-        size: {
-            description: "Avatar Size",
-            table: {
-                type: { summary: "one of the options" },
-                defaultValue: { summary: "large" },
-            },
-            options: ["small", "medium", "large"],
-            control: { type: "radio" },
-        },
-        color: {
-            description: "Colors",
-            table: {
-                type: { summary: "one of the options" },
-                defaultValue: { summary: "bg-primary-lighter" },
-            },
-            options: avatarColors,
-            control: { type: "select" },
-        },
+        size: inlineRadio(Object.keys(sizes), tableDefault("large")),
+        color: select(avatarColors, tableDefault("bg-primary-lighter")),
     },
 };
 

@@ -1,6 +1,7 @@
 import React from "react";
 import { Toaster } from "react-hot-toast";
 import { Button, flash } from "../..";
+import { sizeParams } from "../helpers";
 
 const FlashStories = {
     title: "Data Display/Flash",
@@ -24,13 +25,7 @@ const FlashStories = {
             description: "The text in the component. For **demo** only",
             control: { type: "text" },
         },
-        size: {
-            options: ["small", "medium", "large"],
-            control: { type: "inline-radio" },
-            table: {
-                defaultValue: { summary: "medium" },
-            },
-        },
+        size: sizeParams,
         color: {
             options: ["primary", "secondary", "success", "warning", "danger", "caution"],
             control: { type: "inline-radio" },

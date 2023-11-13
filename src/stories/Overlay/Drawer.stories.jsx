@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Button, Drawer } from "../..";
+import { sizeParams } from "../helpers";
 
 const DrawerStories = {
     title: "Overlay/Drawers",
@@ -31,11 +32,7 @@ const DrawerStories = {
             description: "The body of the Drawer",
             control: { type: "text" },
         },
-        size: {
-            description: "The width of the drawer when it opens",
-            options: ["small", "medium", "large"],
-            control: { type: "select" },
-        },
+        size: sizeParams,
         onClose: {
             description: "Function to callback to close the Drawer",
             control: { type: "function" },

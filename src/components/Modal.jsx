@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import React, { Fragment } from "react";
 import { CloseIcon } from "../icons/CloseIcon";
 
-const sizes = {
+export const sizes = {
     small: "max-w-100", // 400px
     medium: "max-w-125", // 500px
     large: "max-w-150", // 600px

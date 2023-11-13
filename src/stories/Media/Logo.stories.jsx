@@ -1,5 +1,6 @@
 import React from "react";
 import { Logo } from "../..";
+import { sizeParams } from "../helpers";
 
 const LogoStories = {
     title: "Media/Logo",
@@ -27,15 +28,7 @@ const LogoStories = {
                 defaultValue: { summary: "none" },
             },
         },
-        size: {
-            description: "The size of the image",
-            options: ["small", "medium", "large"],
-            control: { type: "radio" },
-            table: {
-                type: { summary: null },
-                defaultValue: { summary: "medium" },
-            },
-        },
+        size: sizeParams,
     },
 };
 
