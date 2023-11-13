@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import { CloseIcon } from "../icons/CloseIcon";
 
-export const colors = {
+export const tagColors = {
     primary: "bg-primary-lighter text-black border border-primary",
     secondary: "bg-secondary-light text-gray-darker border border-secondary",
     success: "bg-success-lighter text-black border border-success",
@@ -12,7 +12,7 @@ export const colors = {
     caution: "bg-caution-lighter text-black border border-caution",
 };
 
-export const sizes = {
+export const tagSizes = {
     small: "px-1 py-0.75 text-sm leading-3.5",
     medium: "px-2 py-1 text-base leading-3.5",
     large: "px-2 py-1.5 text-base leading-4",
@@ -27,7 +27,7 @@ export const Tag = ({ color = "primary", size = "small", onClose, className, chi
     };
 
     return (
-        <span className={clsx("ui-tag", "inline-flex rounded", colors[color], sizes[size], className)} {...rest}>
+        <span className={clsx("ui-tag", "inline-flex rounded", tagColors[color], tagSizes[size], className)} {...rest}>
             {children}
 
             {onClose ? (
@@ -45,8 +45,8 @@ export const Tag = ({ color = "primary", size = "small", onClose, className, chi
 };
 
 Tag.propTypes = {
-    color: PropTypes.oneOf(Object.keys(colors)),
-    size: PropTypes.oneOf(Object.keys(sizes)),
+    color: PropTypes.oneOf(Object.keys(tagColors)),
+    size: PropTypes.oneOf(Object.keys(tagSizes)),
     onClose: PropTypes.func,
     className: PropTypes.string,
     children: PropTypes.node.isRequired,

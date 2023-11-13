@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import React, { Fragment } from "react";
 import { CloseIcon } from "../icons/CloseIcon";
 
-export const sizes = {
+export const modalSizes = {
     small: "max-w-100", // 400px
     medium: "max-w-125", // 500px
     large: "max-w-150", // 600px
@@ -102,7 +102,7 @@ export const Modal = ({
                         <div
                             className={clsx(
                                 className,
-                                sizes[size],
+                                modalSizes[size],
                                 positions[position],
                                 "w-full transform overflow-hidden rounded-lg bg-white p-10 text-left align-middle shadow-xl transition-all",
                             )}
@@ -127,7 +127,7 @@ export const Modal = ({
 };
 
 Modal.propTypes = {
-    size: PropTypes.oneOf(Object.keys(sizes)),
+    size: PropTypes.oneOf(Object.keys(modalSizes)),
     position: PropTypes.oneOf(Object.keys(positions)),
     isOpen: PropTypes.bool.isRequired,
     shouldCloseOnOutsideClick: PropTypes.bool,

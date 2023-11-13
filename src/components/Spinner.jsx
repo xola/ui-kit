@@ -3,7 +3,7 @@ import clsx from "clsx";
 import PropTypes from "prop-types";
 import CircleNotch from "../icons/CircleNotch";
 
-export const colors = {
+export const spinnerColors = {
     primary: "text-primary",
     secondary: "text-secondary",
     warning: "text-warning",
@@ -13,7 +13,7 @@ export const colors = {
     current: null, // TODO: Consider setting this as the default value.
 };
 
-export const sizes = {
+export const spinnerSizes = {
     tiny: "w-4 h-4",
     small: "w-7 h-7",
     medium: "w-10 h-10",
@@ -24,7 +24,13 @@ export const sizes = {
 export const Spinner = ({ className, size = "small", color = "secondary", ...rest }) => {
     return (
         <CircleNotch
-            className={clsx("ui-spinner", className, sizes[size], colors[color], "inline-block animate-spin")}
+            className={clsx(
+                "ui-spinner",
+                className,
+                spinnerSizes[size],
+                spinnerColors[color],
+                "inline-block animate-spin",
+            )}
             {...rest}
         />
     );

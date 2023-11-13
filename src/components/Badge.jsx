@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import React, { cloneElement } from "react";
 import { cn } from "../helpers/classnames";
 
-export const colors = {
+export const badgeColors = {
     primary: "bg-primary-lighter text-primary-dark",
     secondary: "bg-secondary-lighter text-black",
     success: "bg-success-lightish text-success-darker",
@@ -14,7 +14,7 @@ export const colors = {
     critical: "bg-danger text-white",
 };
 
-const sizes = {
+const badgeSizes = {
     small: "px-2 py-0.75 h-5 text-sm leading-sm", // 20px
     medium: "px-3 py-1.5 h-7.5 text-base leading-base", // 30px
     large: "px-3.5 py-0.75 h-10 text-lg leading-lg", // 40px
@@ -32,8 +32,8 @@ export const Badge = ({ color = "primary", size = "small", icon, className, chil
             className={cn(
                 "ui-badge",
                 "inline-flex items-center whitespace-nowrap rounded-full",
-                colors[color],
-                sizes[size],
+                badgeColors[color],
+                badgeSizes[size],
                 className,
             )}
             {...rest}
@@ -46,8 +46,8 @@ export const Badge = ({ color = "primary", size = "small", icon, className, chil
 
 Badge.propTypes = {
     className: PropTypes.string,
-    color: PropTypes.oneOf(Object.keys(colors)),
-    size: PropTypes.oneOf(Object.keys(sizes)),
+    color: PropTypes.oneOf(Object.keys(badgeColors)),
+    size: PropTypes.oneOf(Object.keys(badgeSizes)),
     icon: PropTypes.element,
     children: PropTypes.node.isRequired,
 };

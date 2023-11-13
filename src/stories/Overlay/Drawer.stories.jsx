@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Drawer } from "../..";
 import { inlineRadio } from "../helpers";
-import { sizes } from "../../components/Drawer";
+import { drawerSizes } from "../../components/Drawer";
 
 const DrawerStories = {
     title: "Overlay/Drawers",
@@ -34,7 +34,7 @@ const DrawerStories = {
             description: "The body of the Drawer",
             control: { type: "text" },
         },
-        size: inlineRadio(Object.keys(sizes).slice(0, -1)),
+        size: inlineRadio(Object.keys(drawerSizes).slice(0, -1)),
         onClose: {
             description: "Function to callback to close the Drawer",
             control: { type: "function" },

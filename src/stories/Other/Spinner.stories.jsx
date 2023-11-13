@@ -1,7 +1,7 @@
 import React from "react";
 import { Spinner } from "../..";
 import { inlineRadio, select } from "../helpers";
-import { colors, sizes } from "../../components/Spinner";
+import { spinnerColors, spinnerSizes } from "../../components/Spinner";
 
 const SpinnerStories = {
     title: "Other/Spinner",
@@ -12,8 +12,8 @@ const SpinnerStories = {
         size: "small",
     },
     argTypes: {
-        color: select(Object.keys(colors)),
-        size: inlineRadio(Object.keys(sizes)),
+        color: select(Object.keys(spinnerColors)),
+        size: inlineRadio(Object.keys(spinnerSizes)),
     },
 };
 
@@ -24,7 +24,7 @@ export const Default = (props) => {
 export const Sizes = () => {
     return (
         <div className="space-x-8">
-            {Object.keys(sizes).map((size) => (
+            {Object.keys(spinnerSizes).map((size) => (
                 <Spinner size={size} />
             ))}
         </div>

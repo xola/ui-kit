@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Spinner } from "../Spinner";
 import { CheckIcon } from "../../icons/CheckIcon";
 import { cn } from "../../helpers/classnames";
-import { Button, colors } from "./Button";
+import { Button, buttonColors } from "./Button";
 
 const loadingColors = {
     primary: "!bg-primary-light",
@@ -89,7 +89,7 @@ SubmitButton.propTypes = {
     ...Button.propTypes,
     isLoading: PropTypes.bool,
     isSuccess: PropTypes.bool,
-    variant: PropTypes.oneOf(Object.keys(colors)),
+    variant: PropTypes.oneOf(Object.keys(buttonColors)),
     // eslint-disable-next-line react/boolean-prop-naming
     disabled: PropTypes.bool,
 };

@@ -4,7 +4,7 @@ import React, { Fragment } from "react";
 import toast from "react-hot-toast";
 import { CloseIcon } from "../icons/CloseIcon";
 
-export const colors = {
+export const flashColors = {
     primary: "bg-primary",
     secondary: "bg-secondary",
     success: "bg-success",
@@ -13,7 +13,7 @@ export const colors = {
     caution: "bg-caution",
 };
 
-const sizes = {
+const flashSizes = {
     small: "px-3 py-2 text-sm leading-3.5 shadow max-w-50",
     medium: "px-4 py-3.5 text-base leading-4 shadow max-w-100",
     large: "px-4.5 py-4 text-md leading-4.5 shadow max-w-xl",
@@ -67,7 +67,7 @@ export const flash = {
     },
 
     getStyles(color, size, className) {
-        return clsx("flex text-white rounded pointer-events-auto", colors[color], sizes[size], className);
+        return clsx("flex text-white rounded pointer-events-auto", flashColors[color], flashSizes[size], className);
     },
 
     container(text, className, onClose, toastObject) {

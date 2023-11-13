@@ -1,6 +1,6 @@
 import { Tag } from "../..";
 import { select, sizeParams } from "../helpers";
-import { colors } from "../../components/Tag";
+import { tagColors } from "../../components/Tag";
 
 const TagStories = {
     title: "Data Display/Tag",
@@ -18,7 +18,7 @@ const TagStories = {
             type: { required: true },
             control: { type: "text" },
         },
-        color: select(Object.keys(colors)),
+        color: select(Object.keys(tagColors)),
         size: sizeParams,
     },
 };

@@ -2,7 +2,7 @@ import React from "react";
 import { Toaster } from "react-hot-toast";
 import { Button, flash } from "../..";
 import { inlineRadio, select, sizeParams } from "../helpers";
-import { colors } from "../../helpers/flash";
+import { flashColors } from "../../helpers/flash";
 
 const FlashStories = {
     title: "Data Display/Flash",
@@ -28,7 +28,7 @@ const FlashStories = {
             control: { type: "text" },
         },
         size: sizeParams,
-        color: select(Object.keys(colors)),
+        color: select(Object.keys(flashColors)),
         duration: {
             type: { required: false },
             description: "Time in `ms`",

@@ -5,7 +5,7 @@ import React, { Fragment } from "react";
 import { CloseIcon } from "../icons/CloseIcon";
 import { Button } from "./Buttons/Button";
 
-export const sizes = {
+export const drawerSizes = {
     small: "w-72",
     medium: "w-85",
     large: "w-110",
@@ -64,7 +64,7 @@ export const Drawer = ({
                                 <div
                                     className={clsx(
                                         "flex h-full w-full flex-col overflow-y-auto bg-white px-4 py-8 shadow-xl sm:px-6",
-                                        sizes[size],
+                                        drawerSizes[size],
                                         classNames.children,
                                     )}
                                 >

@@ -1,14 +1,14 @@
 import React from "react";
 import { Button, UserIcon, EllipsisIcon, WaitlistIcon, KeyIcon, WarningIcon, PlusIcon } from "../..";
-import { colors, sizes } from "../../components/Buttons/Button";
+import { buttonColors, buttonSizes } from "../../components/Buttons/Button";
 import { disableFields, disableType, inlineRadio, radio } from "../helpers";
 
 const defaultArgTypes = {
-    color: inlineRadio(Object.keys(colors.standard).slice(1)),
-    size: radio(Object.keys(sizes)),
+    color: inlineRadio(Object.keys(buttonColors.standard).slice(1)),
+    size: radio(Object.keys(buttonSizes)),
     variant: {
         control: "radio",
-        options: Object.keys(colors),
+        options: Object.keys(buttonColors),
     },
     className: {
         control: "text",

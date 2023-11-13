@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { Avatar } from "../..";
-import { sizes } from "../../components/Avatar";
+import { avatarSizes } from "../../components/Avatar";
 import { inlineRadio, select, tableDefault } from "../helpers";
 
 const avatarColors = [
@@ -40,7 +40,7 @@ const AvatarStories = {
             description: "A user's full name",
             ...tableDefault("example: John Doe"),
         },
-        size: inlineRadio(Object.keys(sizes), tableDefault("large")),
+        size: inlineRadio(Object.keys(avatarSizes), tableDefault("large")),
         color: select(avatarColors, tableDefault("bg-primary-lighter")),
     },
 };
