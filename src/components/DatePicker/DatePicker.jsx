@@ -101,6 +101,7 @@ export const DatePicker = ({
 
     const handleEndMonthChange = (m) => {
         setEndMonth(m);
+        onMonthChange?.(m);
     };
 
     const handleDayClick = (day, options, event) => {
