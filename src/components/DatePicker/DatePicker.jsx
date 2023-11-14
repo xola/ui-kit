@@ -100,7 +100,6 @@ export const DatePicker = ({
     };
 
     const handleEndMonthChange = (m) => {
-        console.log("===m===", m);
         setEndMonth(m);
     };
 
@@ -110,7 +109,6 @@ export const DatePicker = ({
         }
 
         if (dayjs(value?.from).isSame(day, "month")) {
-            console.log("value", value);
             handleStartMonthChange(day);
         }
 
