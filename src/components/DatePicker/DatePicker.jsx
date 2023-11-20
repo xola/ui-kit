@@ -44,7 +44,9 @@ export const DatePicker = ({
     const [currentMonth, setCurrentMonth] = useState(initialValue ?? dayjs().toDate());
     const [startMonth, setStartMonth] = useState(value?.from);
     const [endMonth, setEndMonth] = useState(
-        dayjs(value?.to).isSame(dayjs(value?.from), "month") ? dayjs(value?.from).add(1, "month").toDate() : value?.to,
+        dayjs(value?.to).isSame(dayjs(value?.from), "month")
+            ? dayjs(value?.from).add(1, "month").toDate()
+            : value?.to ?? dayjs(value?.from).add(1, "month").toDate(),
     );
     const [rangeName, setRangeName] = useState("");
     const isRangeVariant = variant === variants.range;
