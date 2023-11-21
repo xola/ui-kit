@@ -20,6 +20,7 @@ export const DatePickerPopover = ({
     getDayContent,
     ...rest
 }) => {
+    const [initialValue] = useState(value);
     const [originalValue, setOriginalValue] = useState(value);
     const [isVisible, setIsVisible] = useState(false);
 
@@ -41,8 +42,10 @@ export const DatePickerPopover = ({
         onChange?.(value);
         setIsVisible(false);
     };
-
     const handleClickOutside = () => {
+        if (!value?.to) {
+            onChange(initialValue);
+        }
         toggleVisibility();
     };
 
