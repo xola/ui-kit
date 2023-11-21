@@ -44,7 +44,7 @@ export const DatePickerPopover = ({
     };
 
     const handleClickOutside = () => {
-        if (!value?.to) {
+        if (!value?.to && variant === "range") {
             onChange(initialValue);
         }
 
