@@ -42,10 +42,12 @@ export const DatePickerPopover = ({
         onChange?.(value);
         setIsVisible(false);
     };
+
     const handleClickOutside = () => {
         if (!value?.to) {
             onChange(initialValue);
         }
+
         toggleVisibility();
     };
 
