@@ -42,10 +42,16 @@ export const DatePicker = ({
 }) => {
     const initialValue = value ? (variant === variants.single ? value : value.from) : null;
     const [currentMonth, setCurrentMonth] = useState(initialValue ?? dayjs().toDate());
-    const [startMonth, setStartMonth] = useState(value?.from);
+    const [startMonth, setStartMonth] = useState(() => {
+        if (!value || !value.from) {
+            return new Date();
+        }
+
+        return value.from;
+    });
     const [endMonth, setEndMonth] = useState(() => {
         if (!value || !value.to || !value.from) {
-            return new Date();
+            return dayjs(new Date()).add(1, "month").toDate();
         }
 
         return dayjs(value.to).isSame(dayjs(value.from), "month")
