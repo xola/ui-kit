@@ -6,6 +6,7 @@
     "files": [
         "build",
         "index.css",
+        "index.d.ts",
         "tailwind.config.js",
         "postcss.config.js",
         "index.d.ts"

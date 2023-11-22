@@ -2,7 +2,7 @@ import clsx from "clsx";
 import PropTypes from "prop-types";
 import React from "react";
 import { isEmpty, isString } from "lodash";
-import { Dot } from "../Dot";
+import { Dot } from "../Dot/Dot";
 
 const sizes = {
     small: "px-3 py-1.5 text-sm leading-sm", // 30px
@@ -24,8 +24,8 @@ export const BaseInput = ({ as: Tag, size = "medium", isError, className, isRequ
                     "border hover:border-black hover:bg-gray-lighter focus:text-black active:text-black disabled:bg-gray-lighter",
                     sizes[size],
                     isError
-                        ? "border-danger focus:border-danger focus:ring-0 focus:ring-danger"
-                        : "border-gray-light focus:border-primary focus:ring-0 focus:ring-primary",
+                        ? "!focus:border-danger !border-danger focus:ring-0 focus:ring-danger"
+                        : "!border-gray-light focus:border-primary focus:ring-0 focus:ring-primary",
                     className,
                 )}
                 value={value}
