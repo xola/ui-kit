@@ -40,27 +40,16 @@ export const DatePicker = ({
     timezoneName = null, // seller timezone (e.g. "America/Los_Angeles") to return correct today date
     ...rest
 }) => {
-    const initialValue = value ? (variant === variants.single ? value : value.from) : null;
-    const [currentMonth, setCurrentMonth] = useState(initialValue ?? dayjs().toDate());
-    const [startMonth, setStartMonth] = useState(() => {
-        if (!value || !value.from) {
-            return new Date();
-        }
-
-        return value.from;
-    });
-    const [endMonth, setEndMonth] = useState(() => {
-        if (!value || !value.to || !value.from) {
-            return dayjs(new Date()).add(1, "month").toDate();
-        }
-
-        return dayjs(value.to).isSame(dayjs(value.from), "month")
-            ? dayjs(value.from).add(1, "month").toDate()
-            : value.to;
-    });
+    const initialValue = variant === variants.single ? value : value?.from;
+    const [currentMonth, setCurrentMonth] = useState(initialValue);
+    const [startMonth, setStartMonth] = useState(value?.from);
+    const [endMonth, setEndMonth] = useState(
+        dayjs(value?.to).isSame(dayjs(value?.from), "month")
+            ? dayjs(value?.from).add(1, "month").toDate()
+            : value?.to ?? dayjs(value?.from).add(1, "month").toDate(),
+    );
     const [rangeName, setRangeName] = useState("");
     const isRangeVariant = variant === variants.range;
-    const isValidValue = value && value.from && value.to;
 
     // Sync internal month state with outside.
     useEffect(() => {
@@ -126,11 +115,11 @@ export const DatePicker = ({
 
         setRangeName("");
         if (isRangeVariant) {
-            if (isValidValue) {
+            if (value?.from && value.to) {
                 // This allows us to easily select another date range,
                 // if both dates are selected.
                 onChange({ from: day, to: null }, options, event);
-            } else if (value && (value.from || value.to) && (value.from || value.to).getTime() === day.getTime()) {
+            } else if ((value?.from || value.to).getTime() === day.getTime()) {
                 const from = dayjs(day).startOf("day").toDate();
                 const to = dayjs(day).endOf("day").toDate();
 
@@ -143,10 +132,9 @@ export const DatePicker = ({
         }
     };
 
-    const CaptionElement =
-        shouldShowYearPicker && currentMonth
-            ? ({ date }) => <MonthYearSelector date={date} currentMonth={currentMonth} onChange={handleMonthChange} />
-            : undefined;
+    const CaptionElement = shouldShowYearPicker
+        ? ({ date }) => <MonthYearSelector date={date} currentMonth={currentMonth} onChange={handleMonthChange} />
+        : undefined;
 
     const renderDay = (date) => {
         const tooltipContent = getTooltip?.(date);
@@ -173,9 +161,10 @@ export const DatePicker = ({
         );
     };
 
-    const rangeModifier = isRangeVariant && isValidValue ? { start: value.from, end: value.to } : null;
+    const rangeModifier = isRangeVariant ? { start: value?.from, end: value.to } : null;
+
     // Comparing `from` and `to` dates hides a weird CSS style when you select the same date twice in a date range.
-    const useDateRangeStyle = isRangeVariant && isValidValue && value.from?.getTime() !== value.to?.getTime();
+    const useDateRangeStyle = isRangeVariant && value?.from?.getTime() !== value.to?.getTime();
     // Return the same value if it is already dayjs object or has range variant otherwise format it to dayJs object
     const selectedDays = value && (dayjs.isDayjs(value) || isRangeVariant ? value : dayjs(value).toDate());
 
@@ -236,7 +225,7 @@ export const DatePicker = ({
             {components.Footer ? <components.Footer /> : null}
 
             {useDateRangeStyle && shouldShowRelativeRanges && (
-                <div className="ml-auto w-6/12 pb-5 pl-5 pr-10">
+                <div className="ml-auto w-6/12 pl-5 pr-10 pb-5">
                     <RelativeDateRange
                         value={rangeName}
                         ranges={ranges}

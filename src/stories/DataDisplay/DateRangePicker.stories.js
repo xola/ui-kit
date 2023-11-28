@@ -63,9 +63,11 @@ export const RelativeDateRanges = () => {
 export const DateRangeWithInput = ({ shouldShowRelativeRanges, ranges }) => {
     const defaultValue = { from: today, to: dayjs(today).add(7, "days").toDate() };
     const [value, setValue] = useState(defaultValue);
+    const [displayValue, setDisplayValue] = useState(defaultValue);
 
-    const handleChange = (newValue) => {
+    const handleChange = (newValue, displayValue) => {
         setValue(newValue);
+        setDisplayValue(displayValue ?? newValue);
     };
 
     return (
@@ -79,9 +81,9 @@ export const DateRangeWithInput = ({ shouldShowRelativeRanges, ranges }) => {
                 onChange={handleChange}
             >
                 <div className="w-75 cursor-pointer bg-gray-lighter p-3">
-                    {value.from ? dayjs(value.from).format("LL") : "Pending"}
+                    {dayjs(displayValue.from).format("LL")}
                     &nbsp;to&nbsp;
-                    {value.to ? dayjs(value.to).format("LL") : "Pending"}
+                    {displayValue.to ? dayjs(displayValue.to).format("LL") : "Pending"}
                 </div>
             </DatePickerPopover>
         </div>
