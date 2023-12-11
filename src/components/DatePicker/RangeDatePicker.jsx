@@ -28,13 +28,17 @@ const RangeDatePicker = ({
 }) => {
     const isStartDateIsTheSameMonth = dayjs(value?.from).isSame(dayjs(value?.to), "month");
 
-    const CaptionStartElement = shouldShowYearPicker
-        ? ({ date }) => <MonthYearSelector date={date} currentMonth={startMonth} onChange={handleStartMonthChange} />
-        : undefined;
+    const CaptionStartElement =
+        shouldShowYearPicker && startMonth
+            ? ({ date }) => (
+                  <MonthYearSelector date={date} currentMonth={startMonth} onChange={handleStartMonthChange} />
+              )
+            : undefined;
 
-    const CaptionEndElement = shouldShowYearPicker
-        ? ({ date }) => <MonthYearSelector date={date} currentMonth={endMonth} onChange={handleEndMonthChange} />
-        : undefined;
+    const CaptionEndElement =
+        shouldShowYearPicker && endMonth
+            ? ({ date }) => <MonthYearSelector date={date} currentMonth={endMonth} onChange={handleEndMonthChange} />
+            : undefined;
 
     const isDisabledStartDays = (date) => {
         if (isFunction(disabledDays)) {
@@ -133,7 +137,7 @@ const RangeDatePicker = ({
                 disabledDays={isDisabledStartDays}
                 navbarElement={NavbarElement}
                 captionElement={CaptionStartElement}
-                selectedDays={selectedDays}
+                selectedDays={[selectedDays?.from, selectedDays]}
                 renderDay={renderStartDay}
                 getTooltip={getTooltip}
                 onDayClick={(day, options, event) => handleDayClick(day, options, event, true)}
