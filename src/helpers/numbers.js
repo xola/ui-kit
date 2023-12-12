@@ -19,13 +19,24 @@ export const numberFormat = (
 ) => {
     const style = currency ? "currency" : "decimal";
 
+    const isCanadianLocale = ["en-CA", "fr-CA"].includes(locale);
+    const isCanadianCurrency = currency === "CAD";
+
     const params = { style, minimumFractionDigits: maximumFractionDigits, maximumFractionDigits };
     if (currency) {
         params.currency = currency;
-        params.currencyDisplay = isNarrowSymbolForm ? "narrowSymbol" : "symbol";
+        params.currencyDisplay =
+            isCanadianLocale && isCanadianCurrency ? "code" : isNarrowSymbolForm ? "narrowSymbol" : "symbol";
     }
 
-    return isCompact ? compactNumber(amount, locale) : new Intl.NumberFormat(locale, params).format(amount);
+    let formattedAmount = isCompact
+        ? compactNumber(amount, locale)
+        : new Intl.NumberFormat(locale, params).format(amount);
+    if (isCanadianLocale && isCanadianCurrency) {
+        formattedAmount = formattedAmount.replace("CAD", "CA$");
+    }
+
+    return formattedAmount;
 };
 
 export const roundNumber = (currency, amount) => {
