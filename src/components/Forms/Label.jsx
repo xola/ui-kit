@@ -2,14 +2,14 @@ import clsx from "clsx";
 import React from "react";
 import PropTypes from "prop-types";
 
-export const Label = ({ isDisabled = false, className, ...rest }) => {
+export const Label = ({ isDisabled = false, isError = false, className, ...rest }) => {
     return (
         <label
             className={clsx(
                 "ui-label",
                 className,
                 "mb-1 block text-sm font-bold",
-                isDisabled ? "text-gray" : "text-black",
+                isError ? "text-danger" : isDisabled ? "text-gray" : "text-black",
             )}
             {...rest}
         />
@@ -18,5 +18,6 @@ export const Label = ({ isDisabled = false, className, ...rest }) => {
 
 Label.propTypes = {
     isDisabled: PropTypes.bool,
+    isError: PropTypes.bool,
     className: PropTypes.string,
 };
