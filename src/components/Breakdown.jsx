@@ -53,9 +53,7 @@ const BreakdownItem = ({ children, info, methodIcon, secondary, value, className
 
             <td className="w-[1%] whitespace-nowrap pl-4 text-right">
                 {isNumber(value) ? (
-                    <Currency shouldRemoveTrailingZeroes={false} currency={currency}>
-                        {" "}
-                        locale={locale}
+                    <Currency shouldRemoveTrailingZeroes={false} currency={currency} locale={locale}>
                         {value}
                     </Currency>
                 ) : (
