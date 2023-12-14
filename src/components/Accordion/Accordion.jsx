@@ -1,8 +1,8 @@
 import { Disclosure } from "@headlessui/react";
-import { SlideDown } from "../Animation/SlideDown";
-import { ChevronRightIcon } from "../../icons/ChevronRightIcon";
 import clsx from "clsx";
 import React, { Children } from "react";
+import { SlideDown } from "../Animation/SlideDown";
+import { ChevronRightIcon } from "../../icons/ChevronRightIcon";
 
 export const Accordion = ({ children }) => {
     const childrenArray = Children.toArray(children);
@@ -16,12 +16,10 @@ export const Accordion = ({ children }) => {
                                 <ChevronRightIcon className={clsx(open && "rotate-90")} />
                             </div>
 
-                            {childrenArray.filter((child) => (child)?.type === Header)}
+                            {childrenArray.filter((child) => child?.type === Header)}
                         </Disclosure.Button>
 
-                        <SlideDown isOpen={open}>
-                            {childrenArray.filter((child) => (child)?.type === Body)}
-                        </SlideDown>
+                        <SlideDown isOpen={open}>{childrenArray.filter((child) => child?.type === Body)}</SlideDown>
                     </>
                 )}
             </Disclosure>
