@@ -20,7 +20,6 @@ export const numberFormat = (
     const style = currency ? "currency" : "decimal";
 
     const params = { style, minimumFractionDigits: maximumFractionDigits, maximumFractionDigits };
-
     if (currency) {
         params.currency = currency;
         params.currencyDisplay = isNarrowSymbolForm ? "narrowSymbol" : "symbol";

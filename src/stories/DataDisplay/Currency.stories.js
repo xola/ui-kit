@@ -29,7 +29,7 @@ const CurrencyStories = {
             description: "A locale string",
             type: { required: true },
             control: { type: "select" },
-            options: ["en-IN", "en-US", "fr-FR", "ja-JP", "de-DE", "ar-AE", "en-CA", "fr-CA"],
+            options: ["en-IN", "en-US", "fr-FR", "ja-JP", "de-DE", "ar-AE"],
             table: {
                 type: { summary: null },
                 defaultValue: { summary: "Auto-detected based on browser settings" },
