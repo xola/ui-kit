@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import React, { createContext, useContext, useMemo } from "react";
+import React, { createContext, useContext } from "react";
 import { isNumber } from "lodash";
 import { Currency } from "./Utilities/Currency";
 
@@ -17,10 +17,9 @@ const colors = {
 
 const CurrencyContext = createContext();
 
-export const Breakdown = ({ children, className, currency, locale, ...rest }) => {
-    const value = useMemo(() => ({ currency, locale }), [currency, locale]);
+export const Breakdown = ({ children, className, currency, ...rest }) => {
     return (
-        <CurrencyContext.Provider value={value}>
+        <CurrencyContext.Provider value={currency}>
             <table className={clsx("ui-breakdown", "w-full", className)} {...rest}>
                 <tbody>{children}</tbody>
             </table>
@@ -32,11 +31,10 @@ Breakdown.propTypes = {
     children: PropTypes.node,
     className: PropTypes.string,
     currency: PropTypes.string.isRequired,
-    locale: PropTypes.string,
 };
 
 const BreakdownItem = ({ children, info, methodIcon, secondary, value, className, color = "default", ...rest }) => {
-    const { currency, locale } = useContext(CurrencyContext);
+    const currency = useContext(CurrencyContext);
 
     return (
         <tr className={clsx("ui-breakdown-item", colors[color], className)} {...rest}>
@@ -53,7 +51,7 @@ const BreakdownItem = ({ children, info, methodIcon, secondary, value, className
 
             <td className="w-[1%] whitespace-nowrap pl-4 text-right">
                 {isNumber(value) ? (
-                    <Currency shouldRemoveTrailingZeroes={false} currency={currency} locale={locale}>
+                    <Currency shouldRemoveTrailingZeroes={false} currency={currency}>
                         {value}
                     </Currency>
                 ) : (
@@ -78,7 +76,7 @@ Breakdown.Item = BreakdownItem;
 Breakdown.Item.displayName = "Breakdown.Item";
 
 const BreakdownSubtotalItem = ({ children, info, value, className, color = "black", ...rest }) => {
-    const { currency, locale } = useContext(CurrencyContext);
+    const currency = useContext(CurrencyContext);
 
     return (
         <tr className={clsx("ui-breakdown-subtotal-item", "font-bold", colors[color], className)} {...rest}>
@@ -86,7 +84,7 @@ const BreakdownSubtotalItem = ({ children, info, value, className, color = "blac
             <td className="whitespace-nowrap pt-1 pb-4 text-right">{info}</td>
 
             <td className="w-[1%] whitespace-nowrap pt-1 pb-4 pl-4 text-right">
-                <Currency shouldRemoveTrailingZeroes={false} currency={currency} locale={locale}>
+                <Currency shouldRemoveTrailingZeroes={false} currency={currency}>
                     {value}
                 </Currency>
             </td>
