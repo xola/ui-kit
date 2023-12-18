@@ -29,14 +29,20 @@ export const Sidebar = ({
     onLogoClick,
     isStickyHeader = true,
     isStickyFooter = true,
+    shouldCloseOnRouteChange = true,
 }) => {
     const [isLeftDrawerOpen, setIsLeftDrawerOpen] = useState(false);
     const [isRightDrawerOpen, setIsRightDrawerOpen] = useState(false);
 
+    // eslint-disable-next-line no-undef
+    const location = typeof window === "undefined" ? undefined : window.location;
+
     useEffect(() => {
-        setIsLeftDrawerOpen(false); // Close the drawer if notifications changes
-        setIsRightDrawerOpen(false);
-    }, [notifications]);
+        if (shouldCloseOnRouteChange && location?.search?.includes("redirect=true")) {
+            setIsLeftDrawerOpen(false);
+            setIsRightDrawerOpen(false);
+        }
+    }, [location.search, shouldCloseOnRouteChange]);
 
     const toggleLeftDrawer = () => {
         if (!isLeftDrawerOpen) {
@@ -168,6 +174,7 @@ Sidebar.propTypes = {
     isFixed: PropTypes.bool,
     isStickyHeader: PropTypes.bool,
     isStickyFooter: PropTypes.bool,
+    shouldCloseOnRouteChange: PropTypes.bool,
     onLogoClick: PropTypes.func.isRequired,
     notifications: PropTypes.shape({
         announcements: PropTypes.shape({
