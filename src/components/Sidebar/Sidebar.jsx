@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import React, { useState, useEffect } from "react";
+import { isNil } from "lodash";
 import { AnnounceIcon } from "../../icons/AnnounceIcon";
 import { BellIcon } from "../../icons/BellIcon";
 import { XolaLogoSimple } from "../../images/XolaLogoSimple";
@@ -29,20 +30,26 @@ export const Sidebar = ({
     onLogoClick,
     isStickyHeader = true,
     isStickyFooter = true,
-    shouldCloseOnRouteChange = true,
+    shouldCloseOnChanges = true,
+    isRightDrawerVisible = null,
+    setIsRightDrawerVisible,
 }) => {
     const [isLeftDrawerOpen, setIsLeftDrawerOpen] = useState(false);
     const [isRightDrawerOpen, setIsRightDrawerOpen] = useState(false);
 
-    // eslint-disable-next-line no-undef
-    const location = typeof window === "undefined" ? undefined : window.location;
-
     useEffect(() => {
-        if (shouldCloseOnRouteChange && location?.search?.includes("redirect=true")) {
-            setIsLeftDrawerOpen(false);
+        if (shouldCloseOnChanges) {
+            setIsLeftDrawerOpen(false); // Close the drawer if notifications changes
             setIsRightDrawerOpen(false);
         }
-    }, [location.search, shouldCloseOnRouteChange]);
+    }, [notifications, shouldCloseOnChanges]);
+
+    useEffect(() => {
+        if (!shouldCloseOnChanges && !isNil(isRightDrawerVisible)) {
+            setIsRightDrawerOpen(isRightDrawerVisible);
+            setIsRightDrawerVisible(null);
+        }
+    }, [isRightDrawerVisible, shouldCloseOnChanges, setIsRightDrawerVisible]);
 
     const toggleLeftDrawer = () => {
         if (!isLeftDrawerOpen) {
@@ -174,8 +181,10 @@ Sidebar.propTypes = {
     isFixed: PropTypes.bool,
     isStickyHeader: PropTypes.bool,
     isStickyFooter: PropTypes.bool,
-    shouldCloseOnRouteChange: PropTypes.bool,
     onLogoClick: PropTypes.func.isRequired,
+    shouldCloseOnChanges: PropTypes.bool,
+    isRightDrawerVisible: PropTypes.bool,
+    setIsRightDrawerVisible: PropTypes.func,
     notifications: PropTypes.shape({
         announcements: PropTypes.shape({
             count: PropTypes.number,
