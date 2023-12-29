@@ -36,7 +36,8 @@ Breakdown.propTypes = {
 };
 
 const BreakdownItem = ({ children, info, methodIcon, secondary, value, className, color = "default", ...rest }) => {
-    const { currency, locale } = useContext(CurrencyContext);
+    /** When BreakdownItem is directly used without outer <Breakdown /> component, the context would be `undefined` */
+    const { currency, locale } = useContext(CurrencyContext) ?? {};
 
     return (
         <tr className={clsx("ui-breakdown-item", colors[color], className)} {...rest}>
