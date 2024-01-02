@@ -79,7 +79,7 @@ Breakdown.Item = BreakdownItem;
 Breakdown.Item.displayName = "Breakdown.Item";
 
 const BreakdownSubtotalItem = ({ children, info, value, className, color = "black", ...rest }) => {
-    const { currency, locale } = useContext(CurrencyContext);
+    const { currency, locale } = useContext(CurrencyContext) ?? {};
 
     return (
         <tr className={clsx("ui-breakdown-subtotal-item", "font-bold", colors[color], className)} {...rest}>
