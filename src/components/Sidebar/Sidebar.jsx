@@ -60,18 +60,14 @@ export const Sidebar = ({
     const hideRightDrawer = rightDrawer?.count <= 0 || !rightDrawer;
 
     const handleOnClose = (direction, closeDrawer) => {
-        if (direction === "left") {
-            if (closeDrawer) {
+        if (closeDrawer) {
+            if (direction === "left") {
                 setIsLeftDrawerOpen(false);
-            }
-
-            leftDrawer.onClose?.();
-        } else {
-            if (closeDrawer) {
+                leftDrawer.onClose?.();
+            } else {
                 setIsRightDrawerOpen(false);
+                rightDrawer.onClose?.();
             }
-
-            rightDrawer.onClose?.();
         }
     };
 
