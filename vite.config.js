@@ -1,18 +1,23 @@
-import path from "path";
 import { defineConfig } from "vite";
 import pkg from "./package.json";
 import copy from "rollup-plugin-copy";
+import postcss from "./postcss.config.js";
+
+const __dirname = import.meta.url.replace("vite.config.js", "").replace("file://", "");
 
 const dependencies = Object.keys(pkg.dependencies);
 const devDependencies = Object.keys(pkg.devDependencies);
 
 export default defineConfig({
+    css: {
+        postcss,
+    },
     build: {
         emptyOutDir: true,
         outDir: "build",
 
         lib: {
-            entry: path.resolve(__dirname, "src/index.js"),
+            entry: __dirname + "src/index.js",
             name: "XolaUIKit",
         },
 

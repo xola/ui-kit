@@ -1,5 +1,8 @@
-const defaultTheme = require("tailwindcss/defaultTheme");
-const path = require("path");
+import defaultTheme from "tailwindcss/defaultTheme.js";
+import forms from "@tailwindcss/forms";
+import lineClamp from "@tailwindcss/line-clamp";
+
+const __dirname = import.meta.url.replace("tailwind.config.js", "").replace("file://", "");
 
 const colors = {
     transparent: "transparent",
@@ -121,13 +124,13 @@ const spacing = {
     140: "560px",
     200: "800px",
 };
-module.exports = {
+export default {
     content: [
         "./src/**/*.js",
         "./src/**/*.jsx",
         "./src/**/*.ts",
         "./src/**/*.tsx",
-        path.join(__dirname, "build/ui-kit.umd.js"),
+        __dirname + "build/ui-kit.umd.js",
     ],
 
     theme: {
@@ -221,5 +224,5 @@ module.exports = {
         },
     },
 
-    plugins: [require("@tailwindcss/forms"), require("@tailwindcss/line-clamp")],
+    plugins: [forms, lineClamp],
 };

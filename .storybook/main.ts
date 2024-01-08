@@ -8,9 +8,9 @@ const config: StorybookConfig = {
     addons: [
         "@storybook/addon-links",
         "@storybook/addon-essentials",
-        "@storybook/addon-designs",
         "storybook-addon-pseudo-states",
         "@storybook/addon-interactions",
+        "@storybook/addon-mdx-gfm",
     ],
     framework: {
         name: "@storybook/react-vite",
