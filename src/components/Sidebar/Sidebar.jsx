@@ -44,6 +44,10 @@ export const Sidebar = ({
             setIsRightDrawerOpen(false);
         }
 
+        if (isLeftDrawerOpen) {
+            leftDrawer.onClose?.();
+        }
+
         setIsLeftDrawerOpen(!isLeftDrawerOpen);
     };
 
@@ -51,6 +55,10 @@ export const Sidebar = ({
         if (!isRightDrawerOpen) {
             // Close the left drawer when you open the right
             setIsLeftDrawerOpen(false);
+        }
+
+        if (isRightDrawerOpen) {
+            rightDrawer.onClose?.();
         }
 
         setIsRightDrawerOpen(!isRightDrawerOpen);
