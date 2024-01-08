@@ -13,7 +13,7 @@ const CurrencyStories = {
     },
     tags: ["autodocs"],
     args: {
-        children: 109_482.84,
+        amount: 109_482.84,
         locale: "en-US",
         removeTrailingZeroes: true,
     },
@@ -26,6 +26,12 @@ const CurrencyStories = {
         },
         removeTrailingZeroes: {
             description: "Strip trailing `.00`",
+        },
+        locale: {
+            description: "A locale string",
+            type: { required: true },
+            control: { type: "select" },
+            options: ["en-IN", "en-US", "fr-FR", "ja-JP", "de-DE", "ar-AE", "en-CA", "fr-CA"],
         },
     },
 };
