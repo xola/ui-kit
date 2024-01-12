@@ -129,9 +129,9 @@ Sidebar.propTypes = {
     isStickyHeader: PropTypes.bool,
     isStickyFooter: PropTypes.bool,
     onLogoClick: PropTypes.func.isRequired,
-    isLeftDrawerOpen: PropTypes.bool.isRequired,
-    isRightDrawerOpen: PropTypes.bool.isRequired,
-    handleDrawerStateChange: PropTypes.func.isRequired,
+    isLeftDrawerOpen: PropTypes.bool,
+    isRightDrawerOpen: PropTypes.bool,
+    handleDrawerStateChange: PropTypes.func,
     notifications: PropTypes.shape({
         announcements: PropTypes.shape({
             count: PropTypes.number,
