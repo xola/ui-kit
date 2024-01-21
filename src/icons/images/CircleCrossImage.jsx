@@ -1,8 +1,8 @@
 import clsx from "clsx";
 import React from "react";
-import { createIcon } from "../icons/helpers/icon";
+import { createIcon } from "../helpers/icon";
 
-export const CirclePlusImage = createIcon(({ className, ...rest }) => {
+export const CircleCrossImage = createIcon(({ className, ...rest }) => {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -15,7 +15,12 @@ export const CirclePlusImage = createIcon(({ className, ...rest }) => {
         >
             <path stroke="#BDC0C6" strokeDasharray="4 4" d="M0.5 12.5L95.5 12.5" />
             <circle cx="48" cy="12" r="11.5" fill="#fff" stroke="currentColor" />
-            <path stroke="#1352C6" strokeLinecap="round" strokeLinejoin="round" d="M48.5 7.5v10M53.5 12.5h-10" />
+            <path
+                stroke="#FF5A5A"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M44.863 8.965l7.071 7.07M51.934 8.964l-7.07 7.071"
+            />
         </svg>
     );
 });
