@@ -1,5 +1,5 @@
 import React from "react";
-import { createIcon } from "../helpers/icon";
+import { createIcon } from "./helpers/icon";
 
 // This icon is not used and not exported, but just keeping it around for backup incase someone changes their minds
 export const FilterIconOld = createIcon((props) => {

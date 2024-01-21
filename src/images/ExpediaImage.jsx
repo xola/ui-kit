@@ -1,5 +1,5 @@
 import React from "react";
-import { createIcon } from "../helpers/icon";
+import { createIcon } from "../icons/helpers/icon";
 
 export const ExpediaImage = createIcon((props) => {
     return (

@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import React from "react";
-import { createIcon } from "../helpers/icon";
+import { createIcon } from "../icons/helpers/icon";
 
 export const CircleCrossImage = createIcon(({ className, ...rest }) => {
     return (

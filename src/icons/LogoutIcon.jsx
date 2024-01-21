@@ -1,5 +1,5 @@
 import React from "react";
-import { createIcon } from "../helpers/icon";
+import { createIcon } from "./helpers/icon";
 
 export const LogoutIcon = createIcon((props) => {
     return (
