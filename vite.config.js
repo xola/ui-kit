@@ -52,6 +52,7 @@ export default defineConfig({
                         targets: [
                             { src: "tailwind.config.mjs", dest: "build" },
                             { src: "postcss.config.js", dest: "build" },
+                            { src: "postcss.config.mjs", dest: "build" },
                         ],
                     }),
                 ],
