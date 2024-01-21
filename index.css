@@ -8,7 +8,7 @@
 @layer base {
     html {
         /* Never change this default! */
-        @apply text-black text-base;
+        @apply text-base text-black;
     }
 
     a {

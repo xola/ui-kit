@@ -5,7 +5,7 @@ export const SidebarButton = ({ icon: Icon, label, ...rest }) => {
     return (
         <button
             type="button"
-            className="ui-sidebar-button flex w-full cursor-pointer items-center rounded py-2 px-4 hover:bg-gray-darker"
+            className="ui-sidebar-button hover:bg-gray-darker flex w-full cursor-pointer items-center rounded py-2 px-4"
             {...rest}
         >
             <div className="p-1.5">

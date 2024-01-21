@@ -6,8 +6,8 @@ export const Table = ({ className, ...rest }) => (
     <div className="ui-table flex flex-col">
         <div className="-my-2 overflow-x-auto">
             <div className="inline-block min-w-full py-2 align-middle">
-                <div className="overflow-hidden border-b border-gray-lighter sm:rounded-lg">
-                    <table className={clsx(className, "min-w-full divide-y border border-gray-lighter")} {...rest} />
+                <div className="border-gray-lighter overflow-hidden border-b sm:rounded-lg">
+                    <table className={clsx(className, "border-gray-lighter min-w-full divide-y border")} {...rest} />
                 </div>
             </div>
         </div>
@@ -64,7 +64,7 @@ Table.Row.propTypes = {
 Table.Cell = ({ className, ...rest }) => {
     return (
         <td
-            className={clsx("ui-table-cell", "whitespace-nowrap px-4 py-2 text-base text-gray-darker", className)}
+            className={clsx("ui-table-cell", "text-gray-darker whitespace-nowrap px-4 py-2 text-base", className)}
             {...rest}
         />
     );

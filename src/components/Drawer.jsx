@@ -5,7 +5,7 @@ import React, { Fragment } from "react";
 import { CloseIcon } from "../icons/CloseIcon";
 import { Button } from "./Buttons/Button";
 
-const sizes = {
+export const drawerSizes = {
     small: "w-72",
     medium: "w-85",
     large: "w-110",
@@ -40,7 +40,7 @@ export const Drawer = ({
                         leaveFrom="opacity-100"
                         leaveTo="opacity-0"
                     >
-                        <Dialog.Overlay className="absolute inset-0 bg-gray bg-opacity-75 transition-opacity" />
+                        <Dialog.Overlay className="bg-gray absolute inset-0 bg-opacity-75 transition-opacity" />
                     </Transition.Child>
                     <div
                         className={clsx(
@@ -64,7 +64,7 @@ export const Drawer = ({
                                 <div
                                     className={clsx(
                                         "flex h-full w-full flex-col overflow-y-auto bg-white px-4 py-8 shadow-xl sm:px-6",
-                                        sizes[size],
+                                        drawerSizes[size],
                                         classNames.children,
                                     )}
                                 >
@@ -91,7 +91,7 @@ const CloseButton = ({ onClose }) => {
             size="small"
             variant="link"
             className={clsx(
-                "m-1 inline-flex !h-6 !w-6 items-center justify-center !rounded-full bg-gray !px-1.5",
+                "bg-gray m-1 inline-flex !h-6 !w-6 items-center justify-center !rounded-full !px-1.5",
                 "!text-white focus:hidden",
             )}
             onClick={onClose}

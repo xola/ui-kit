@@ -12,7 +12,7 @@ export const SidebarLink = ({ isActive = false, icon: Icon, children, isSubMenuI
                 "ui-sidebar-link",
                 "flex w-full items-center rounded leading-none transition-colors xl:justify-start",
                 {
-                    "bg-primary text-white hover:bg-primary-dark": isActive,
+                    "bg-primary hover:bg-primary-dark text-white": isActive,
                     "text-gray hover:bg-gray-darker": !isActive,
                     "justify-start px-6 py-2": isSubMenuItem,
                     "justify-center py-3 xl:px-6": !isSubMenuItem,
@@ -41,7 +41,7 @@ SidebarLink.propTypes = {
 };
 
 export const SidebarSeparator = ({ className }) => {
-    return <hr className={clsx("mx-3 my-4 border-gray-lighter/20", className)} />;
+    return <hr className={clsx("border-gray-lighter/20 mx-3 my-4", className)} />;
 };
 
 SidebarSeparator.displayName = "Sidebar.Separator";

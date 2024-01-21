@@ -8,7 +8,7 @@ export const Skeleton = ({ style, height = 300, shouldAnimate = true, children, 
         <div
             className={clsx(
                 "ui-skeleton",
-                "relative flex items-center justify-center overflow-hidden rounded border border-gray-lighter bg-gray-lighter",
+                "border-gray-lighter bg-gray-lighter relative flex items-center justify-center overflow-hidden rounded border",
                 classNames.container,
             )}
             style={{ height, ...style }}

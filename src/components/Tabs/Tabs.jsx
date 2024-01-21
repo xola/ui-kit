@@ -9,7 +9,7 @@ const variants = {
     simple: "bg-gray-lighter",
 };
 
-export const Tabs = ({ className, variant = "default", value, onChange, children, ...rest }) => {
+export const Tabs = ({ variant = "default", value, onChange, className, children, ...rest }) => {
     const childrenArray = Children.toArray(children);
     const tabs = childrenArray.filter((child) => child.type === Tabs.Tab);
     const panels = childrenArray.filter((child) => child.type === Tabs.Panel);
@@ -17,7 +17,7 @@ export const Tabs = ({ className, variant = "default", value, onChange, children
     return (
         <>
             <nav className={clsx("ui-tabs", "flex overflow-x-auto", variants[variant], className)} {...rest}>
-                {variant === "default" ? <div className="min-w-10 flex-shrink-0 border-b border-gray-light" /> : null}
+                {variant === "default" ? <div className="min-w-10 border-gray-light flex-shrink-0 border-b" /> : null}
 
                 {tabs.map((child, index) => {
                     return cloneElement(child, {
@@ -27,7 +27,7 @@ export const Tabs = ({ className, variant = "default", value, onChange, children
                     });
                 })}
 
-                {variant === "default" ? <div className="min-w-10 flex-grow border-b border-gray-light" /> : null}
+                {variant === "default" ? <div className="min-w-10 border-gray-light flex-grow border-b" /> : null}
             </nav>
 
             {panels[value]}

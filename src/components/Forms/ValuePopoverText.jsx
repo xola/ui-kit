@@ -7,7 +7,7 @@ export const ValuePopoverText = ({ value, error }) => {
             {error ? (
                 <Tooltip content={error}>
                     <span>
-                        <WarningDiamondIcon className="mr-1 text-danger" />
+                        <WarningDiamondIcon className="text-danger mr-1" />
                     </span>
                 </Tooltip>
             ) : null}

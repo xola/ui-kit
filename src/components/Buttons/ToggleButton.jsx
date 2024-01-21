@@ -1,6 +1,6 @@
-import clsx from "clsx";
 import PropTypes from "prop-types";
 import React from "react";
+import { cn } from "../../helpers/classnames";
 import { Button } from "./Button";
 
 const colors = {
@@ -19,7 +19,7 @@ export const ToggleButton = ({ color = "primary", variant = "outline", isActive,
         <Button
             color={color}
             variant={variant}
-            className={clsx(
+            className={cn(
                 "text-black",
                 className,
                 isActive ? colors[variant][color] : `bg-white hover:bg-${color}-lighter hover:border-${color}`,

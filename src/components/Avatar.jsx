@@ -3,18 +3,18 @@ import PropTypes from "prop-types";
 import React from "react";
 import { getInitials } from "../helpers/avatar";
 
-const sizes = {
+export const avatarSizes = {
     tiny: "h-7 w-7 text-base",
     small: "h-10 w-10 text-base",
     medium: "h-12 w-12 text-md",
     large: "h-15 w-15 text-xl",
 };
 
-export const Avatar = ({ className, name, color = "bg-primary-lighter", size = "large", ...rest }) => {
+export const Avatar = ({ name, color = "bg-primary-lighter", size = "large", className, ...rest }) => {
     const classes = clsx(
         "ui-avatar",
         "inline-flex items-center justify-center rounded-full text-black leading-none",
-        sizes[size],
+        avatarSizes[size],
         color,
         className,
     );
@@ -30,5 +30,5 @@ Avatar.propTypes = {
     className: PropTypes.string,
     color: PropTypes.string,
     name: PropTypes.string,
-    size: PropTypes.oneOf(Object.keys(sizes)),
+    size: PropTypes.oneOf(Object.keys(avatarSizes)),
 };

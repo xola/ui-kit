@@ -1,4 +1,3 @@
-import clsx from "clsx";
 import dayjs from "dayjs";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
@@ -7,6 +6,7 @@ import "react-day-picker/lib/style.css";
 import "./DatePicker.css";
 import { isArray, isFunction } from "lodash";
 import { Tooltip } from "../..";
+import { cn } from "../../helpers/classnames";
 import { Day } from "./Day";
 import { MonthYearSelector } from "./MonthYearSelector";
 import { RelativeDateRange } from "./RelativeDateRange";
@@ -20,7 +20,8 @@ const variants = {
 };
 
 /**
- * Figma Design link: https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%F0%9F%9B%A0-Xola-DS-Desktop-Master-%F0%9F%9B%A0?node-id=2689%3A101580
+ * Rendering a date picker with various functionality based on [React Day Picker](https://react-day-picker.js.org) library using
+ * [Figma Design](https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%F0%9F%9B%A0-Xola-DS-Desktop-Master-%F0%9F%9B%A0?node-id=2689%3A101580).
  */
 export const DatePicker = ({
     variant = variants.single,
@@ -212,7 +213,7 @@ export const DatePicker = ({
                     />
                 ) : (
                     <DayPicker
-                        className={clsx(
+                        className={cn(
                             "ui-date-picker rounded-lg pt-3",
                             useDateRangeStyle ? "date-range-picker" : null,
                             getDayContent ? "has-custom-content" : null,

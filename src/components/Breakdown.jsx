@@ -109,7 +109,7 @@ Breakdown.SubtotalItem.displayName = "Breakdown.SubtotalItem";
 const BreakdownSeparator = ({ className, ...rest }) => {
     return (
         <tr className={clsx("ui-breakdown-separator", className)} {...rest}>
-            <td colSpan={3} className="border-b border-gray-light pb-1" />
+            <td colSpan={3} className="border-gray-light border-b pb-1" />
         </tr>
     );
 };

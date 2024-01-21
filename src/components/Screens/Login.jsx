@@ -114,7 +114,7 @@ export const Login = ({
                             <div className="mt-5 text-center text-sm">
                                 <a
                                     href={passwordResetUrl}
-                                    className="font-semibold text-gray-darker underline hover:text-black"
+                                    className="text-gray-darker font-semibold underline hover:text-black"
                                     target="_blank"
                                     rel="noreferrer"
                                 >
@@ -128,7 +128,7 @@ export const Login = ({
 
             <footer>
                 <div className="flex w-full flex-col items-center justify-center overflow-hidden py-1 px-4 sm:px-6 lg:px-8">
-                    <div className="m-5 w-85 rounded-lg px-4 text-center text-xs opacity-80 md:text-sm">
+                    <div className="w-85 m-5 rounded-lg px-4 text-center text-xs opacity-80 md:text-sm">
                         <a
                             href="https://www.xola.com/team"
                             target="_blank"
@@ -139,7 +139,7 @@ export const Login = ({
                             <br />
                             Built in Houston, Belgrade, Ukraine &amp; Bengaluru
                         </a>
-                        <div className="text-center text-gray md:text-gray-dark">
+                        <div className="text-gray md:text-gray-dark text-center">
                             &copy; {new Date().getFullYear()} Xola, Inc.
                         </div>
                     </div>

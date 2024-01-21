@@ -1,8 +1,8 @@
-import clsx from "clsx";
 import PropTypes from "prop-types";
 import React from "react";
+import { cn } from "../../helpers/classnames";
 
-export const colors = {
+export const buttonColors = {
     standard: {
         common: "border-transparent text-white", // Common classes for each style
         primary: "bg-primary hover:bg-primary-darker disabled:bg-primary active:bg-primary",
@@ -40,7 +40,7 @@ export const colors = {
     },
 };
 
-const sizes = {
+export const buttonSizes = {
     tiny: "px-2 py-0.5 text-xs leading-xs", // 20px
     small: "px-3 py-2 h-7.5 text-sm leading-sm", // 30px
     medium: "px-4.5 py-3 h-10 text-base leading-base", // 40px
@@ -60,13 +60,13 @@ export const Button = ({
 }) => {
     return (
         <Tag
-            className={clsx(
+            className={cn(
                 "ui-button",
-                "inline-flex rounded border transition-colors focus:ring disabled:cursor-default disabled:bg-gray-lighter disabled:text-gray-dark",
+                "disabled:bg-gray-lighter disabled:text-gray-dark inline-flex rounded border transition-colors focus:ring disabled:cursor-default",
                 "items-center justify-center font-semibold",
-                colors[variant].common,
-                colors[variant][color],
-                sizes[size],
+                buttonColors[variant].common,
+                buttonColors[variant][color],
+                buttonSizes[size],
                 className,
             )}
             {...rest}
@@ -80,9 +80,9 @@ export const Button = ({
 
 Button.propTypes = {
     // as: PropTypes.string,
-    color: PropTypes.oneOf(Object.keys(colors.outline)),
-    variant: PropTypes.oneOf(Object.keys(colors)),
-    size: PropTypes.oneOf(Object.keys(sizes)),
+    color: PropTypes.oneOf(Object.keys(buttonColors.outline)),
+    variant: PropTypes.oneOf(Object.keys(buttonColors)),
+    size: PropTypes.oneOf(Object.keys(buttonSizes)),
     className: PropTypes.string,
     children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
     icon(props, ...rest) {
