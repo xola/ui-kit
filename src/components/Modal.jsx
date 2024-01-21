@@ -80,7 +80,7 @@ export const Modal = ({
                         leaveFrom="opacity-100"
                         leaveTo="opacity-0"
                     >
-                        <Dialog.Overlay className="ui-modal-overlay fixed inset-0 bg-gray-dark bg-opacity-75 transition-opacity" />
+                        <Dialog.Overlay className="ui-modal-overlay bg-gray-dark fixed inset-0 bg-opacity-75 transition-opacity" />
                     </Transition.Child>
 
                     {/* This element is to trick the browser into centering the modal contents. */}
@@ -110,7 +110,7 @@ export const Modal = ({
                             {onClose ? (
                                 <button
                                     type="button"
-                                    className="absolute top-0 right-0 m-4 hidden p-2 text-gray hover:text-gray-darker sm:block"
+                                    className="text-gray hover:text-gray-darker absolute top-0 right-0 m-4 hidden p-2 sm:block"
                                     onClick={onClose}
                                 >
                                     <CloseIcon />
@@ -142,7 +142,7 @@ const Header = ({ children, description, className, ...rest }) => {
             <h3 className="text-2xl font-semibold leading-6 text-black">{children}</h3>
 
             {description ? (
-                <p className="mt-2 text-base font-normal leading-normal text-gray-darker">{description}</p>
+                <p className="text-gray-darker mt-2 text-base font-normal leading-normal">{description}</p>
             ) : null}
         </Dialog.Title>
     );

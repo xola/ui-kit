@@ -20,12 +20,12 @@ export const BaseInput = ({ as: Tag, size = "medium", isError, className, isRequ
         <div className="relative flex w-full items-center">
             <Tag
                 className={clsx(
-                    "w-full rounded text-gray-darker placeholder-gray-dark hover:placeholder-gray-darker disabled:text-gray",
-                    "border border-transparent hover:border-black hover:bg-gray-lighter focus:text-black active:text-black disabled:bg-gray-lighter",
+                    "text-gray-darker placeholder-gray-dark hover:placeholder-gray-darker disabled:text-gray w-full rounded",
+                    "hover:bg-gray-lighter disabled:bg-gray-lighter border border-transparent hover:border-black focus:text-black active:text-black",
                     sizes[size],
                     isError
-                        ? "!focus:border-danger !border-danger focus:ring-0 focus:ring-danger"
-                        : "!border-gray-light focus:border-primary focus:ring-0 focus:ring-primary",
+                        ? "!focus:border-danger !border-danger focus:ring-danger focus:ring-0"
+                        : "!border-gray-light focus:border-primary focus:ring-primary focus:ring-0",
                     className,
                 )}
                 value={value}

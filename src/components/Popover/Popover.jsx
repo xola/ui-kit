@@ -22,7 +22,7 @@ export const Popover = ({ className, children, skidding = 0, distance = 10, ...r
                 "ui-popover",
                 scrollFix,
                 styles.main,
-                "!rounded-lg !border-gray-light shadow-xl",
+                "!border-gray-light !rounded-lg shadow-xl",
                 className,
             )}
             plugins={[followCursor]}

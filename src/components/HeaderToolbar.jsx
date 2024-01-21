@@ -8,7 +8,7 @@ export const HeaderToolbar = ({ classNames, children }) => {
         <div
             className={clsx(
                 "ui-header-toolbar",
-                "flex w-full items-center space-x-2 border-b border-gray-light px-5 py-3 pr-3 xl:space-x-6 xl:px-10 xl:py-5",
+                "border-gray-light flex w-full items-center space-x-2 border-b px-5 py-3 pr-3 xl:space-x-6 xl:px-10 xl:py-5",
                 classNames,
             )}
         >
@@ -27,7 +27,7 @@ HeaderToolbar.Breadcrumb = ({ className, children }) => {
         <Breadcrumb
             className={clsx(
                 "ui-header-toolbar-breadcrumb",
-                "border-r border-gray-light text-xl md:pr-4 xl:pr-6",
+                "border-gray-light border-r text-xl md:pr-4 xl:pr-6",
                 className,
             )}
         >

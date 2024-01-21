@@ -34,7 +34,7 @@ export const Tag = ({ color = "primary", size = "small", onClose, className, chi
                 <CloseIcon
                     size="small"
                     className={clsx(
-                        "ui-tag-close ml-2 cursor-pointer leading-4 hover:text-gray-darker",
+                        "ui-tag-close hover:text-gray-darker ml-2 cursor-pointer leading-4",
                         size === "large" ? "mt-0.5" : "mt-0.25",
                     )}
                     onClick={handleClose}

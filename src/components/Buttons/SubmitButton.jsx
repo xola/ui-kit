@@ -69,13 +69,13 @@ export const SubmitButton = ({
                             <CheckIcon
                                 size="medium"
                                 color="current"
-                                className={cn("relative -top-0.25 text-white", {
+                                className={cn("-top-0.25 relative text-white", {
                                     "text-black": variant === "outline",
                                 })}
                             />
                         )}
                         {isLoading && !showSuccess && (
-                            <Spinner size="current" color="current" className="relative -top-0.25 text-white" />
+                            <Spinner size="current" color="current" className="-top-0.25 relative text-white" />
                         )}
                     </Transition>
                 )}

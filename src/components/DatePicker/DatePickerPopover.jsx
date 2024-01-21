@@ -105,7 +105,7 @@ DatePickerPopover.propTypes = {
 
 const DefaultInput = forwardRef(({ className, ...rest }, reference) => {
     return (
-        <div ref={reference} className="relative flex bg-gray-lighter">
+        <div ref={reference} className="bg-gray-lighter relative flex">
             <div className="pointer-events-none absolute inset-0 flex items-center pl-3">
                 <CalendarIcon className="z-10 inline-block" />
             </div>

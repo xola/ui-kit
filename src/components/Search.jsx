@@ -143,7 +143,7 @@ export const Search = ({
         <div className="ui-search relative w-full">
             <div {...getComboboxProps({ className: "w-full relative rounded-md" })}>
                 <div className="pointer-events-none absolute inset-y-0 -top-0.5 left-0 hidden items-center md:flex">
-                    <SearchIcon className="h-4 w-4 text-gray-darker" />
+                    <SearchIcon className="text-gray-darker h-4 w-4" />
                 </div>
 
                 <input
@@ -210,7 +210,7 @@ export const Search = ({
                 {isVisible && noResultFound ? <li className="cursor-not-allowed p-2">No results found</li> : null}
 
                 {isVisible && itemList.length < 5 ? (
-                    <li className="search-footer pointer-events sticky bottom-0 flex space-x-5 p-2 text-sm text-gray-dark">
+                    <li className="search-footer pointer-events text-gray-dark sticky bottom-0 flex space-x-5 p-2 text-sm">
                         <span className="flex items-center">
                             <Key char="up" className="mr-0.5" />
                             <Key char="down" className="mr-2" /> navigate results

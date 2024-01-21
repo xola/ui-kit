@@ -18,7 +18,7 @@ export const Breadcrumb = ({ separator = "/", className, classNames = {}, childr
                         <span className={clsx(classNames.item, isLast ? "text-black" : "text-gray-dark")}>{child}</span>
 
                         {isLast ? null : (
-                            <span className={clsx(classNames.separator, "mx-2 text-gray-dark")}>{separator}</span>
+                            <span className={clsx(classNames.separator, "text-gray-dark mx-2")}>{separator}</span>
                         )}
                     </>
                 );

@@ -14,7 +14,7 @@ export const PopoverList = ({ placement = "bottom", className, children, ...rest
 
     const content = (
         <Popover.Content
-            className={clsx(scrollFix, "ui-popover-list-content divide-y divide-solid divide-gray-lighter p-0 ")}
+            className={clsx(scrollFix, "ui-popover-list-content divide-gray-lighter divide-y divide-solid p-0 ")}
         >
             {items}
         </Popover.Content>
@@ -46,7 +46,7 @@ const Item = ({ name, isActive = false, id = null, position, total, children, cl
             name={name}
             className={clsx(
                 "ui-popover-list-item",
-                "flex cursor-pointer space-x-2.5 p-4 align-text-top font-semibold leading-4 tracking-tightest hover:bg-gray-lighter",
+                "tracking-tightest hover:bg-gray-lighter flex cursor-pointer space-x-2.5 p-4 align-text-top font-semibold leading-4",
                 isActive ? "bg-gray-lighter" : null,
                 position === 1 ? "rounded-t-lg" : null, // Round the top left & right corners if it's the first one
                 position === total ? "rounded-b-lg" : null, // Round bottom left & right if it's the last one

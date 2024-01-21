@@ -45,7 +45,7 @@ export const ImageUpload = ({
     const hasCaption = caption ? caption.trim().length > 0 : false;
 
     return (
-        <div className={clsx("flex items-center rounded bg-gray-lighter p-4", hasDelete ? "space-x-2" : "space-x-3")}>
+        <div className={clsx("bg-gray-lighter flex items-center rounded p-4", hasDelete ? "space-x-2" : "space-x-3")}>
             <div>
                 {src ? (
                     <Logo src={src} size={size} />
@@ -53,7 +53,7 @@ export const ImageUpload = ({
                     <div
                         className={clsx(
                             Logo.sizes[size],
-                            "flex items-center justify-center rounded border border-gray-light",
+                            "border-gray-light flex items-center justify-center rounded border",
                         )}
                     >
                         <ImageIcon size="large" className="text-gray" />
@@ -94,7 +94,7 @@ export const ImageUpload = ({
                     onChange={handleChange}
                     {...props}
                 />
-                <div className="text-xs text-gray-darker">
+                <div className="text-gray-darker text-xs">
                     {hasRequirements ? (
                         requirements
                     ) : (

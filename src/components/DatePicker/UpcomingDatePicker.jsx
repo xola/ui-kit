@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 
 export const UpcomingDatePicker = ({ value, upcomingDates, onChange, onMonthChange }) => {
     return (
-        <div className="rounded-l-lg border-r border-gray pt-8">
+        <div className="border-gray rounded-l-lg border-r pt-8">
             <p className="mb-2 px-6 text-lg font-bold">Upcoming</p>
             {upcomingDates?.length > 0 ? (
                 <div className="mt-5">
@@ -16,8 +16,8 @@ export const UpcomingDatePicker = ({ value, upcomingDates, onChange, onMonthChan
                             <div
                                 key={key}
                                 className={clsx(
-                                    "mx-6 mt-3 flex min-w-40 cursor-pointer items-center justify-center",
-                                    "rounded border border-gray py-3 hover:border-blue hover:bg-blue hover:text-white",
+                                    "min-w-40 mx-6 mt-3 flex cursor-pointer items-center justify-center",
+                                    "border-gray hover:border-blue hover:bg-blue rounded border py-3 hover:text-white",
                                     { "border-blue bg-blue text-white": isSameDay },
                                 )}
                                 onClick={(event) => {
@@ -31,7 +31,7 @@ export const UpcomingDatePicker = ({ value, upcomingDates, onChange, onMonthChan
                     })}
                 </div>
             ) : (
-                <div className="mx-6 mt-7 max-w-40 items-center justify-center rounded bg-yellow-lighter p-3">
+                <div className="max-w-40 bg-yellow-lighter mx-6 mt-7 items-center justify-center rounded p-3">
                     There is no future availability for this product.
                 </div>
             )}
