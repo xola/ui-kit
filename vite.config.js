@@ -50,7 +50,7 @@ export default defineConfig({
                     copy({
                         hook: "writeBundle",
                         targets: [
-                            { src: "tailwind.config.js", dest: "build" },
+                            { src: "tailwind.config.mjs", dest: "build" },
                             { src: "postcss.config.js", dest: "build" },
                         ],
                     }),
