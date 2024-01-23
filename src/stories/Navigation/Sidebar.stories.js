@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { AnnounceIcon, CheckIcon, HelpCenterIcon, LogoutIcon, PolicyIcon, Sidebar, StarIcon, UserIcon } from "../..";
 
 const SidebarStories = {
@@ -103,6 +103,9 @@ export const CustomLogo = () => {
 };
 
 export const SidebarWithNotifications = () => {
+    const [isLeftDrawerOpen, setIsLeftDrawerOpen] = useState(false);
+    const [isRightDrawerOpen, setIsRightDrawerOpen] = useState(false);
+
     const notifications = {
         announcements: {
             count: 1,
@@ -114,11 +117,41 @@ export const SidebarWithNotifications = () => {
             count: 32,
             content: <div>Some content</div>,
             title: "Notifications & Pending items",
+            onClose: () => console.log("Notifications closed"),
         },
+    };
+
+    const handleDrawerStateChange = (drawer?: "left" | "right") => {
+        if (drawer === "left") {
+            if (isRightDrawerOpen) {
+                setIsRightDrawerOpen(false);
+                notifications.notices.onClose();
+            } else if (isLeftDrawerOpen) {
+                notifications.announcements.onClose();
+            }
+
+            setIsLeftDrawerOpen(!isLeftDrawerOpen);
+        } else if (drawer === "right") {
+            if (isLeftDrawerOpen) {
+                setIsLeftDrawerOpen(false);
+                notifications.announcements.onClose();
+            } else if (isRightDrawerOpen) {
+                notifications.notices.onClose();
+            }
+
+            setIsRightDrawerOpen(!isRightDrawerOpen);
+        }
     };
     return (
         <div className="h-screen">
-            <Sidebar footer={<SidebarFooter />} notifications={notifications} onLogoClick={handleLogoClick}>
+            <Sidebar
+                footer={<SidebarFooter />}
+                notifications={notifications}
+                isLeftDrawerOpen={isLeftDrawerOpen}
+                isRightDrawerOpen={isRightDrawerOpen}
+                handleDrawerStateChange={handleDrawerStateChange}
+                onLogoClick={handleLogoClick}
+            >
                 <Sidebar.Link isActive icon={UserIcon}>
                     Sellers
                 </Sidebar.Link>
