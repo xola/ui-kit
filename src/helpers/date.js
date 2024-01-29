@@ -11,6 +11,8 @@ export const formatDate = (date, format = "YYYY-MM-DD", timezoneName) => {
     const dateObj = dayjs.isDayjs(date) ? date : dayjs(date);
     const normalizedDate = timezoneName ? dateObj.tz(timezoneName) : dateObj;
 
+    console.log(dateObj, normalizedDate)
+
     return normalizedDate.format(format);
 };
 
