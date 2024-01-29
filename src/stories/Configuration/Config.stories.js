@@ -15,7 +15,7 @@ export const UIKitRawConfig = () => {
             </div>
             <ReactJson
                 src={theme}
-                name="./tailwind.config.js"
+                name={false}
                 quotesOnKeys={false}
                 collapsed={2}
                 enableClipboard={false}

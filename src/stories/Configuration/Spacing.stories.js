@@ -3,6 +3,13 @@ import twConfig from "../../../tailwind.config";
 
 const SpacingStories = {
     title: "Configuration/Spacing",
+    parameters: {
+        design: {
+            name: "Figma",
+            type: "figma",
+            url: "https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%E2%9A%99%EF%B8%8F-01---DS-Core?node-id=4308%3A146977",
+        },
+    },
 };
 
 const { spacing } = twConfig.theme;

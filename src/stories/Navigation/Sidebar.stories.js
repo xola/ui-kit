@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { AnnounceIcon, CheckIcon, HelpCenterIcon, LogoutIcon, PolicyIcon, Sidebar, StarIcon, UserIcon } from "../..";
 
 const SidebarStories = {
     title: "Navigation/Sidebar",
     component: Sidebar,
+    parameters: {
+        design: {
+            name: "Figma",
+            type: "figma",
+            url: "https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%E2%9A%99%EF%B8%8F-01---DS-Core?node-id=2725%3A91116&viewport=2302%2C256%2C0.11",
+        },
+    },
 };
 
 const SidebarFooter = () => {
@@ -96,6 +103,9 @@ export const CustomLogo = () => {
 };
 
 export const SidebarWithNotifications = () => {
+    const [isLeftDrawerOpen, setIsLeftDrawerOpen] = useState(false);
+    const [isRightDrawerOpen, setIsRightDrawerOpen] = useState(false);
+
     const notifications = {
         announcements: {
             count: 1,
@@ -107,11 +117,41 @@ export const SidebarWithNotifications = () => {
             count: 32,
             content: <div>Some content</div>,
             title: "Notifications & Pending items",
+            onClose: () => console.log("Notifications closed"),
         },
+    };
+
+    const handleDrawerStateChange = (drawer?: "left" | "right") => {
+        if (drawer === "left") {
+            if (isRightDrawerOpen) {
+                setIsRightDrawerOpen(false);
+                notifications.notices.onClose();
+            } else if (isLeftDrawerOpen) {
+                notifications.announcements.onClose();
+            }
+
+            setIsLeftDrawerOpen(!isLeftDrawerOpen);
+        } else if (drawer === "right") {
+            if (isLeftDrawerOpen) {
+                setIsLeftDrawerOpen(false);
+                notifications.announcements.onClose();
+            } else if (isRightDrawerOpen) {
+                notifications.notices.onClose();
+            }
+
+            setIsRightDrawerOpen(!isRightDrawerOpen);
+        }
     };
     return (
         <div className="h-screen">
-            <Sidebar footer={<SidebarFooter />} notifications={notifications} onLogoClick={handleLogoClick}>
+            <Sidebar
+                footer={<SidebarFooter />}
+                notifications={notifications}
+                isLeftDrawerOpen={isLeftDrawerOpen}
+                isRightDrawerOpen={isRightDrawerOpen}
+                handleDrawerStateChange={handleDrawerStateChange}
+                onLogoClick={handleLogoClick}
+            >
                 <Sidebar.Link isActive icon={UserIcon}>
                     Sellers
                 </Sidebar.Link>

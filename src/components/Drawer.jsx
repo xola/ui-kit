@@ -5,7 +5,23 @@ import React, { Fragment } from "react";
 import { CloseIcon } from "../icons/CloseIcon";
 import { Button } from "./Buttons/Button";
 
-export const Drawer = ({ isOpen = false, title, content, onClose, classNames = {}, position = "right" }) => {
+const sizes = {
+    small: "w-72",
+    medium: "w-85",
+    large: "w-110",
+    xl: "w-200",
+    "2xl": "w-screen md:max-w-screen-md 2xl:max-w-screen-lg", // This was the old size
+};
+
+export const Drawer = ({
+    isOpen = false,
+    title,
+    size = "medium",
+    content,
+    onClose,
+    classNames = {},
+    position = "right",
+}) => {
     return (
         <Transition.Root show={isOpen} as={Fragment}>
             <Dialog
@@ -30,7 +46,7 @@ export const Drawer = ({ isOpen = false, title, content, onClose, classNames = {
                         className={clsx(
                             "fixed inset-y-0 flex max-w-full",
                             position === "right" ? "right-0" : "left-0",
-                            classNames.dialog,
+                            classNames.dialogContent,
                         )}
                     >
                         <Transition.Child
@@ -42,35 +58,46 @@ export const Drawer = ({ isOpen = false, title, content, onClose, classNames = {
                             leaveFrom="translate-x-0"
                             leaveTo={position === "right" ? "translate-x-full" : "-translate-x-full"}
                         >
-                            <div className="w-screen max-w-xl ">
-                                <div className="flex h-full flex-col overflow-y-auto bg-white py-8 shadow-xl">
-                                    <div className="px-4 sm:px-6">
-                                        <div className="flex items-start justify-between">
-                                            {/* eslint-disable-next-line react/jsx-max-depth */}
-                                            <Dialog.Title>{title}</Dialog.Title>
-                                            <div className={clsx("ml-3 flex h-7 items-center")}>
-                                                <Button
-                                                    size="small"
-                                                    variant="link"
-                                                    className="text-gray-darker focus:hidden"
-                                                    onClick={onClose}
-                                                >
-                                                    {/* eslint-disable-next-line react/jsx-max-depth */}
-                                                    <CloseIcon />
-                                                </Button>
-                                            </div>
-                                        </div>
+                            <div className="flex">
+                                {position === "right" ? <CloseButton onClose={onClose} /> : null}
+
+                                <div
+                                    className={clsx(
+                                        "flex h-full w-full flex-col overflow-y-auto bg-white px-4 py-8 shadow-xl sm:px-6",
+                                        sizes[size],
+                                        classNames.children,
+                                    )}
+                                >
+                                    <div className="w-full">
+                                        {/* eslint-disable-next-line react/jsx-max-depth */}
+                                        <Dialog.Title>{title}</Dialog.Title>
                                     </div>
-                                    <div className={clsx("relative mt-3 flex-1 px-4 sm:px-6", classNames.content)}>
-                                        {content}
-                                    </div>
+                                    <div className={clsx("relative mt-3 flex-1", classNames.content)}>{content}</div>
                                 </div>
+
+                                {position === "left" ? <CloseButton onClose={onClose} /> : null}
                             </div>
                         </Transition.Child>
                     </div>
                 </div>
             </Dialog>
         </Transition.Root>
+    );
+};
+
+const CloseButton = ({ onClose }) => {
+    return (
+        <Button
+            size="small"
+            variant="link"
+            className={clsx(
+                "m-1 inline-flex !h-6 !w-6 items-center justify-center !rounded-full bg-gray !px-1.5",
+                "!text-white focus:hidden",
+            )}
+            onClick={onClose}
+        >
+            <CloseIcon size="tiny" />
+        </Button>
     );
 };
 

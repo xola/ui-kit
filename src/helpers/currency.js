@@ -8,11 +8,12 @@ export const isZeroDecimal = (currency) => {
     return zeroDecimalCurrencies.has(currency);
 };
 
-export const getSymbol = (currency, locale = userLocale, amount = 0) => {
+export const getSymbol = (currency, locale = userLocale, amount = 0, isNarrowSymbolForm = false) => {
     const string = new Intl.NumberFormat(locale, {
         style: "currency",
         currency,
         maximumFractionDigits: 0,
+        currencyDisplay: isNarrowSymbolForm ? "narrowSymbol" : "symbol",
     }).format(amount);
 
     return string.replace(/\d/g, "").trim();

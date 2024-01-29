@@ -1,11 +1,12 @@
 {
     "name": "@xola/ui-kit",
-    "version": "2.0.0-94",
+    "version": "2.1.41",
     "description": "Xola UI Kit",
     "license": "MIT",
     "files": [
         "build",
         "index.css",
+        "index.d.ts",
         "tailwind.config.js",
         "postcss.config.js"
     ],
@@ -14,26 +15,25 @@
     "types": "index.d.ts",
     "scripts": {
         "prepare": "node scripts/prepare && vite build",
-        "start": "node scripts/prepare && start-storybook -p 6006 -s public",
-        "dev": "node scripts/prepare && start-storybook -p 6006 -s public --no-manager-cache",
-        "storybook": "node scripts/prepare && start-storybook -p 6006 -s public",
-        "build": "node scripts/prepare && vite build",
-        "watch": "npm run build -- --watch",
+        "start": "npm run storybook -s public --no-open",
+        "dev": "npm run storybook -s public --no-manager-cache --no-open",
+        "storybook": "npm run prepare && start-storybook -p 6006 -s public --no-open",
+        "build": "npm run prepare && vite build",
         "clean": "rm -rf node_modules/.vite",
-        "build:storybook": "node scripts/prepare && build-storybook -s public",
-        "lint": "xola-lint --ignore src/stories src",
-        "lint:fix": "xola-lint --ignore src/stories src --fix",
-        "lint:report": "xola-lint --ignore src/stories src --reporter=json src > eslint_report.json && echo 'ESLint report saved to eslint_report.json'",
+        "build:storybook": "npm run prepare && build-storybook -s public",
+        "lint": "xola-lint src --ignore src/stories",
+        "lint:fix": "xola-lint src --fix --ignore src/stories",
+        "lint:report": "xola-lint src --ignore src/stories --reporter=json src > eslint_report.json",
         "format": "prettier --write src",
-        "test": "xola-lint && jest",
+        "test": "jest",
         "chromatic": "chromatic --exit-zero-on-changes --build-script-name build:storybook"
     },
     "dependencies": {
         "@fullstory/babel-plugin-annotate-react": "^2.2.1",
         "@headlessui/react": "^1.4.0",
-        "@tailwindcss/forms": "^0.4.0",
+        "@tailwindcss/forms": "^0.5.6",
         "@tailwindcss/line-clamp": "^0.3.1",
-        "@tippyjs/react": "^4.2.5",
+        "@tippyjs/react": "^4.2.6",
         "clsx": "^1.1.1",
         "dayjs": "^1.10.7",
         "downshift": "^6.1.5",
@@ -45,9 +45,9 @@
         "react-hot-toast": "^2.1.0",
         "react-hotkeys-hook": "^3.4.0",
         "react-json-view": "^1.21.3",
-        "react-select": "^5.1.0",
-        "tippy.js": "^6.3.1",
-        "typescript": "4.7"
+        "react-select": "^5.7.0",
+        "storybook-addon-designs": "^6.3.1",
+        "tippy.js": "^6.3.1"
     },
     "devDependencies": {
         "@babel/core": "^7.14.8",
@@ -73,6 +73,7 @@
         "react-dom": "^17.0.2",
         "storybook-css-modules-preset": "^1.1.1",
         "tailwindcss": "^3.1.8",
+        "typescript": "^4.9.5",
         "vite": "^3.0.8"
     },
     "peerDependencies": {

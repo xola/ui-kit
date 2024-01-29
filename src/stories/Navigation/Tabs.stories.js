@@ -10,9 +10,15 @@ const TabsStories = {
                 component: "Tabbed interface to show different sections on select of a tab",
             },
         },
+        design: {
+            name: "Figma",
+            type: "figma",
+            url: "https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%E2%9A%99%EF%B8%8F-01---DS-Core?node-id=3355%3A127055",
+        },
     },
     args: {
         variant: "default",
+        isHidden: false,
     },
     argTypes: {
         className: {
@@ -26,10 +32,14 @@ const TabsStories = {
             options: ["default", "simple"],
             control: { type: "select" },
         },
+        isHidden: {
+            description: "Show or hide a tab. This is specific to Tabs.Tab only",
+            control: { type: "boolean" },
+        },
     },
 };
 
-export const Default = ({ className, variant }) => {
+export const Default = ({ className, variant, isHidden }) => {
     const [activeTab, setActiveTab] = useState(0);
 
     return (
@@ -37,7 +47,7 @@ export const Default = ({ className, variant }) => {
             <Tabs.Tab>Seller Details</Tabs.Tab>
             <Tabs.Panel>Seller Details Content</Tabs.Panel>
 
-            <Tabs.Tab>More Stats</Tabs.Tab>
+            <Tabs.Tab isHidden={isHidden}>More Stats</Tabs.Tab>
             <Tabs.Panel>More Stats Content</Tabs.Panel>
 
             <Tabs.Tab>Invoices</Tabs.Tab>

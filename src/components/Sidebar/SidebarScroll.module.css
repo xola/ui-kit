@@ -1,0 +1,3 @@
+::-webkit-scrollbar-thumb {
+    @apply !bg-gray-darker;
+}

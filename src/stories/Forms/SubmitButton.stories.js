@@ -35,14 +35,24 @@ const SubmitButtonStories = {
 
 export const Default = ({ isLoading, ...rest }) => {
     const [showLoading, setShowLoading] = useState(isLoading);
+    const [showSuccess, setShowSuccess] = useState(false);
+
+    const handleClick = () => {
+        setShowLoading(!showLoading);
+        setTimeout(() => {
+            setShowSuccess(true);
+            setShowLoading(false);
+        }, 2000);
+    };
+
     return (
         <div className="space-y-4">
             <div className="space-x-4">
-                <SubmitButton isLoading={showLoading} {...rest} onClick={() => setShowLoading(!showLoading)}>
+                <SubmitButton isLoading={showLoading} isSuccess={showSuccess} {...rest} onClick={handleClick}>
                     Submit
                 </SubmitButton>
 
-                <SubmitButton isLoading={showLoading} {...rest} onClick={() => setShowLoading(!showLoading)}>
+                <SubmitButton isLoading={showLoading} isSuccess={showSuccess} {...rest} onClick={handleClick}>
                     Button with really long text
                 </SubmitButton>
             </div>
@@ -51,7 +61,8 @@ export const Default = ({ isLoading, ...rest }) => {
                     {...rest}
                     color="success"
                     isLoading={showLoading}
-                    onClick={() => setShowLoading(!showLoading)}
+                    isSuccess={showSuccess}
+                    onClick={handleClick}
                 >
                     Submit
                 </SubmitButton>
@@ -59,8 +70,9 @@ export const Default = ({ isLoading, ...rest }) => {
                 <SubmitButton
                     {...rest}
                     color="success"
+                    isSuccess={showSuccess}
                     isLoading={showLoading}
-                    onClick={() => setShowLoading(!showLoading)}
+                    onClick={handleClick}
                 >
                     Button with really long text
                 </SubmitButton>
@@ -68,18 +80,20 @@ export const Default = ({ isLoading, ...rest }) => {
             <div className="space-x-4">
                 <SubmitButton
                     {...rest}
+                    isSuccess={showSuccess}
                     color="danger"
                     isLoading={showLoading}
-                    onClick={() => setShowLoading(!showLoading)}
+                    onClick={handleClick}
                 >
                     Submit
                 </SubmitButton>
 
                 <SubmitButton
                     {...rest}
+                    isSuccess={showSuccess}
                     color="danger"
                     isLoading={showLoading}
-                    onClick={() => setShowLoading(!showLoading)}
+                    onClick={handleClick}
                 >
                     Button with really long text
                 </SubmitButton>

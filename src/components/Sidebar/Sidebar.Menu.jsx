@@ -4,13 +4,16 @@ import PropTypes from "prop-types";
 import React from "react";
 import styles from "./Sidebar.Menu.module.css";
 
+// eslint-disable-next-line no-undef
+const appendTo = typeof window === "undefined" ? undefined : window.document.body;
+
 export const SidebarMenu = ({ children, content, ...rest }) => {
     return (
         <Tippy
             interactive
             trigger="mouseenter" // Required otherwise menu will be truncated by the sidebar.
-            /* global document */
-            appendTo={document.body}
+            hideOnClick="toggle"
+            appendTo={appendTo}
             placement="right"
             offset={[0, 4]}
             arrow={false}
