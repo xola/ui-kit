@@ -18,6 +18,7 @@ export const DatePickerPopover = ({
     components = {},
     popoverProps,
     getDayContent,
+    timezone = false,
     ...rest
 }) => {
     const [initialValue] = useState(value);
@@ -71,7 +72,7 @@ export const DatePickerPopover = ({
                 <DefaultInput
                     readOnly
                     size="medium"
-                    value={value ? formatDate(value, dateFormat) : ""}
+                    value={value ? formatDate(value, dateFormat, timezone) : ""}
                     placeholder={placeholder}
                     className={classNames?.input}
                     onClick={toggleVisibility}
@@ -101,6 +102,7 @@ DatePickerPopover.propTypes = {
     classNames: PropTypes.object,
     popoverProps: PropTypes.object,
     children: PropTypes.node,
+    timezone: PropTypes.bool,
 };
 
 const DefaultInput = forwardRef(({ className, ...rest }, reference) => {
