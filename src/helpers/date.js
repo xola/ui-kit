@@ -7,9 +7,9 @@ dayjs.extend(customParseFormat);
 dayjs.extend(LocalizedFormat);
 dayjs.extend(quarterOfYear);
 
-export const formatDate = (date, format = "YYYY-MM-DD", timezone = false) => {
+export const formatDate = (date, format = "YYYY-MM-DD", timezoneName) => {
     const dateObj = dayjs.isDayjs(date) ? date : dayjs(date);
-    const normalizedDate = timezone ? dateObj.tz() : dateObj;
+    const normalizedDate = timezoneName ? dateObj.tz(timezoneName) : dateObj;
 
     return normalizedDate.format(format);
 };
