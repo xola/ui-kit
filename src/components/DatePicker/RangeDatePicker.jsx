@@ -46,47 +46,24 @@ const RangeDatePicker = ({
     const isDateDisabledFromOutside = (date) => {
         if (isFunction(disabledDays)) {
             return disabledDays(date);
-        }
-        else if (isArray(disabledDays)) {
+        } else if (isArray(disabledDays)) {
             return (
                 disabledDays.some((_date) => dayjs(_date).isSame(date, "day"))
             );
-        } else {
-            return false;
-        
-        }
-
+        } 
+        return false;
     }
 
     const isDisabledStartDays = (date) => {
         const isDateAfterEndDate = dayjs(date).isAfter(value?.to, "day");
     
-        if (isSingleDayDateRange) {
-            return false;
-        }
-
-        return isDateDisabledFromOutside(date) || isDateAfterEndDate;
+        return isDateDisabledFromOutside(date) || (isDateAfterEndDate && !isSingleDayDateRange);
     };
 
     const isDisabledEndDays = (date) => {
         const isDateBeforeStartDate = dayjs(date).isBefore(value?.from, "day");
 
-        if (isStartDateIsTheSameMonth && !isSingleDayDateRange) {
-            return true;
-        }
-
-        if (isFunction(disabledDays)) {
-            return disabledDays(date) || isDateBeforeStartDate;
-        }
-
-        if (isArray(disabledDays)) {
-            return (
-                disabledDays.some((_date) => dayjs(_date).isSame(date, "day")) ||
-                isDateBeforeStartDate
-            );
-        }
-
-        return isDateDisabledFromOutside(date) || isDateBeforeStartDate;
+        return isStartDateIsTheSameMonth || isDateDisabledFromOutside(date) || (isDateBeforeStartDate && !isSingleDayDateRange);
     };
 
     const renderStartDay = (date) => {
