@@ -60,21 +60,12 @@ const RangeDatePicker = ({
 
     const isDisabledStartDays = (date) => {
         const isDateAfterEndDate = dayjs(date).isAfter(value?.to, "day");
+    
         if (isSingleDayDateRange) {
             return false;
         }
 
-        if (isFunction(disabledDays)) {
-            return disabledDays(date) || isDateAfterEndDate;
-        }
-
-        if (isArray(disabledDays)) {
-            return (
-                disabledDays.some((_date) => dayjs(_date).isSame(date, "day")) || isDateAfterEndDate
-            );
-        }
-
-        return isDateAfterEndDate;
+        return isDateDisabledFromOutside(date) || isDateAfterEndDate;
     };
 
     const isDisabledEndDays = (date) => {
@@ -95,7 +86,7 @@ const RangeDatePicker = ({
             );
         }
 
-        return isDateBeforeStartDate;
+        return isDateDisabledFromOutside(date) || isDateBeforeStartDate;
     };
 
     const renderStartDay = (date) => {
