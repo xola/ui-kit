@@ -29,10 +29,10 @@ const RangeDatePicker = ({
     const isStartDateIsTheSameMonth = dayjs(value?.from).isSame(dayjs(value?.to), "month");
     const isSingleDayDateRange = dayjs(value?.from).isSame(dayjs(value.to), "day");
 
-    const createCaptionElement = (currentMonth, handleChange) => 
-    shouldShowYearPicker && currentMonth
-        ? ({ date }) => <MonthYearSelector date={date} currentMonth={currentMonth} onChange={handleChange} />
-        : undefined;
+    const createCaptionElement = (currentMonth, handleChange) =>
+        shouldShowYearPicker && currentMonth
+            ? ({ date }) => <MonthYearSelector date={date} currentMonth={currentMonth} onChange={handleChange} />
+            : undefined;
 
     const CaptionStartElement = createCaptionElement(startMonth, handleStartMonthChange);
     const CaptionEndElement = createCaptionElement(endMonth, handleEndMonthChange);
@@ -68,10 +68,10 @@ const RangeDatePicker = ({
     const renderDay = (date, isDisabledDays, currentMonth) => {
         const tooltipContent = getTooltip?.(date);
         const disabled = isDisabledDays(date);
-    
+
         const DayWrapper = tooltipContent ? Tooltip : React.Fragment;
         const dayWrapperProps = tooltipContent ? { placement: "top", content: tooltipContent } : {};
-    
+
         return (
             <DayWrapper {...dayWrapperProps}>
                 <Day
@@ -84,11 +84,11 @@ const RangeDatePicker = ({
             </DayWrapper>
         );
     };
-    
+
     const renderStartDay = (date) => {
         return renderDay(date, isDisabledStartDays, startMonth);
     };
-    
+
     const renderEndDay = (date) => {
         return renderDay(date, isDisabledEndDays, endMonth);
     };
