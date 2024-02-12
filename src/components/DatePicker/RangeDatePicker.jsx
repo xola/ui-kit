@@ -26,7 +26,10 @@ const RangeDatePicker = ({
     handleTodayClick,
     ...rest
 }) => {
+    console.log(value?.from, value?.to);
     const isStartDateIsTheSameMonth = dayjs(value?.from).isSame(dayjs(value?.to), "month");
+    const isSingleDayDateRange = dayjs(value?.from).isSame(dayjs(value.to), "day");
+
 
     const CaptionStartElement =
         shouldShowYearPicker && startMonth
@@ -40,37 +43,59 @@ const RangeDatePicker = ({
             ? ({ date }) => <MonthYearSelector date={date} currentMonth={endMonth} onChange={handleEndMonthChange} />
             : undefined;
 
-    const isDisabledStartDays = (date) => {
+    const isDateDisabledFromOutside = (date) => {
         if (isFunction(disabledDays)) {
-            return disabledDays(date) || dayjs(date).isAfter(value.to, "day");
+            return disabledDays(date);
+        }
+        else if (isArray(disabledDays)) {
+            return (
+                disabledDays.some((_date) => dayjs(_date).isSame(date, "day"))
+            );
+        } else {
+            return false;
+        
+        }
+
+    }
+
+    const isDisabledStartDays = (date) => {
+        const isDateAfterEndDate = dayjs(date).isAfter(value?.to, "day");
+        if (isSingleDayDateRange) {
+            return false;
+        }
+
+        if (isFunction(disabledDays)) {
+            return disabledDays(date) || isDateAfterEndDate;
         }
 
         if (isArray(disabledDays)) {
             return (
-                disabledDays.some((_date) => dayjs(_date).isSame(date, "day")) || dayjs(date).isAfter(value.to, "day")
+                disabledDays.some((_date) => dayjs(_date).isSame(date, "day")) || isDateAfterEndDate
             );
         }
 
-        return dayjs(date).isAfter(value.to, "day");
+        return isDateAfterEndDate;
     };
 
     const isDisabledEndDays = (date) => {
-        if (isStartDateIsTheSameMonth) {
+        const isDateBeforeStartDate = dayjs(date).isBefore(value?.from, "day");
+
+        if (isStartDateIsTheSameMonth && !isSingleDayDateRange) {
             return true;
         }
 
         if (isFunction(disabledDays)) {
-            return disabledDays(date) || dayjs(date).isBefore(value?.from, "day");
+            return disabledDays(date) || isDateBeforeStartDate;
         }
 
         if (isArray(disabledDays)) {
             return (
                 disabledDays.some((_date) => dayjs(_date).isSame(date, "day")) ||
-                dayjs(date).isBefore(value?.from, "day")
+                isDateBeforeStartDate
             );
         }
 
-        return dayjs(date).isBefore(value?.from, "day");
+        return isDateBeforeStartDate;
     };
 
     const renderStartDay = (date) => {
