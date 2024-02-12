@@ -29,17 +29,13 @@ const RangeDatePicker = ({
     const isStartDateIsTheSameMonth = dayjs(value?.from).isSame(dayjs(value?.to), "month");
     const isSingleDayDateRange = dayjs(value?.from).isSame(dayjs(value.to), "day");
 
-    const CaptionStartElement =
-        shouldShowYearPicker && startMonth
-            ? ({ date }) => (
-                  <MonthYearSelector date={date} currentMonth={startMonth} onChange={handleStartMonthChange} />
-              )
-            : undefined;
+    const createCaptionElement = (currentMonth, handleChange) => 
+    shouldShowYearPicker && currentMonth
+        ? ({ date }) => <MonthYearSelector date={date} currentMonth={currentMonth} onChange={handleChange} />
+        : undefined;
 
-    const CaptionEndElement =
-        shouldShowYearPicker && endMonth
-            ? ({ date }) => <MonthYearSelector date={date} currentMonth={endMonth} onChange={handleEndMonthChange} />
-            : undefined;
+    const CaptionStartElement = createCaptionElement(startMonth, handleStartMonthChange);
+    const CaptionEndElement = createCaptionElement(endMonth, handleEndMonthChange);
 
     const isDateDisabledFromOutside = (date) => {
         if (isFunction(disabledDays)) {
@@ -69,44 +65,32 @@ const RangeDatePicker = ({
         );
     };
 
-    const renderStartDay = (date) => {
+    const renderDay = (date, isDisabledDays, currentMonth) => {
         const tooltipContent = getTooltip?.(date);
-        const disabled = isDisabledStartDays(date);
-
-        const Wrapper = tooltipContent ? Tooltip : React.Fragment;
-        const wrapperProps = tooltipContent ? { placement: "top", content: tooltipContent } : {};
-
-        return  (
-            <Wrapper {...wrapperProps}>
+        const disabled = isDisabledDays(date);
+    
+        const DayWrapper = tooltipContent ? Tooltip : React.Fragment;
+        const dayWrapperProps = tooltipContent ? { placement: "top", content: tooltipContent } : {};
+    
+        return (
+            <DayWrapper {...dayWrapperProps}>
                 <Day
                     disabled={disabled}
                     selectedDate={value}
                     date={date}
                     getContent={getDayContent}
-                    currentMonth={startMonth}
+                    currentMonth={currentMonth}
                 />
-            </Wrapper>
+            </DayWrapper>
         );
     };
-
+    
+    const renderStartDay = (date) => {
+        return renderDay(date, isDisabledStartDays, startMonth);
+    };
+    
     const renderEndDay = (date) => {
-        const tooltipContent = getTooltip?.(date);
-        const disabled = isDisabledEndDays(date);
-
-        const Wrapper = tooltipContent ? Tooltip : React.Fragment;
-        const wrapperProps = tooltipContent ? { placement: "top", content: tooltipContent } : {};
-
-        return (
-            <Wrapper {...wrapperProps}>
-                <Day
-                    disabled={disabled}
-                    selectedDate={value}
-                    date={date}
-                    getContent={getDayContent}
-                    currentMonth={endMonth}
-                />
-            </Wrapper>
-        );
+        return renderDay(date, isDisabledEndDays, endMonth);
     };
 
     return (
