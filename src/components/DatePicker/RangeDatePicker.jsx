@@ -58,11 +58,7 @@ const RangeDatePicker = ({
     const isDisabledEndDays = (date) => {
         const isDateBeforeStartDate = dayjs(date).isBefore(value?.from, "day");
 
-        return (
-            isStartDateIsTheSameMonth ||
-            isDateDisabledFromOutside(date) ||
-            (isDateBeforeStartDate && !isSingleDayDateRange)
-        );
+        return isDateDisabledFromOutside(date) || (isDateBeforeStartDate && !isSingleDayDateRange);
     };
 
     const renderDay = (date, isDisabledDays, currentMonth) => {
