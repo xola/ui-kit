@@ -1,6 +1,6 @@
 {
     "name": "@xola/icons",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "Xola's icon set",
     "main": "./index.js",
     "scripts": {
