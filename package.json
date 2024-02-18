@@ -3,13 +3,11 @@
     "version": "2.1.42",
     "description": "Xola UI Kit",
     "license": "MIT",
-    "files": [
-        "build",
-        "index.css",
-        "index.d.ts",
-        "tailwind.config.js",
-        "postcss.config.js"
-    ],
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/xola/ui-kit.git"
+    },
+    "files": ["build", "index.css", "index.d.ts", "tailwind.config.js", "postcss.config.js"],
     "main": "build/ui-kit.umd.js",
     "module": "build/ui-kit.mjs",
     "types": "index.d.ts",

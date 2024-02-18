@@ -1,9 +1,7 @@
 import { map, omitBy } from "lodash";
 import React from "react";
-import * as all from "../..";
-import { XolaLogoCircle } from "../../icons/images/XolaLogoCircle";
-import { XolaLogo } from "../../icons/images/XolaLogo";
-import { XolaLogoSimple } from "../../icons/images/XolaLogoSimple";
+import * as all from "../../icons/";
+import { XolaLogo, XolaLogoCircle, XolaLogoSimple } from "../../icons/";
 
 const imageNames = omitBy(all, (Image, name) => !name.endsWith("Image"));
 const images = map(imageNames, (Image, name) => ({ Image, name }));
@@ -65,11 +63,11 @@ const ImageList = ({ color }) => {
                 return (
                     <React.Fragment key={name}>
                         {isNew && <div className="mt-3 w-full flex-grow text-lg font-bold">{firstLetter}</div>}
-                        <div className="space-y-2 rounded border border-gray-lighter p-2 text-center">
+                        <div className="border-gray-lighter space-y-2 rounded border p-2 text-center">
                             <div className="flex justify-center">
                                 <Image className={color} />
                             </div>
-                            <div className="w-40 text-gray-dark">{name}</div>
+                            <div className="text-gray-dark w-40">{name}</div>
                         </div>
                     </React.Fragment>
                 );
@@ -84,18 +82,18 @@ export const Default = ({ color }) => {
 
 export const XolaLogos = () => {
     return (
-        <div className="space-y-8 divide-y divide-gray-light">
+        <div className="divide-gray-light space-y-8 divide-y">
             <h3>Available Xola logos</h3>
             <div className="pt-8">
-                <div className="mb-4 font-mono text-md">&lt;XolaLogoCircle /&gt;</div>
+                <div className="text-md mb-4 font-mono">&lt;XolaLogoCircle /&gt;</div>
                 <XolaLogoCircle />
             </div>
             <div className="pt-8">
-                <div className="mb-4 font-mono text-md">&lt;XolaLogo /&gt;</div>
+                <div className="text-md mb-4 font-mono">&lt;XolaLogo /&gt;</div>
                 <XolaLogo />
             </div>
             <div className="pt-8">
-                <div className="mb-4 font-mono text-md">&lt;XolaLogoSimple /&gt;</div>
+                <div className="text-md mb-4 font-mono">&lt;XolaLogoSimple /&gt;</div>
                 <XolaLogoSimple size="large" />
             </div>
         </div>

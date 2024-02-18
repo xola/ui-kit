@@ -7,7 +7,7 @@ import { useHotkeys } from "react-hotkeys-hook";
 import { isOSX } from "../helpers/browser";
 import { useId } from "../hooks/useId";
 import { useIsClient } from "../hooks/useIsClient";
-import { SearchIcon } from "../icons/SearchIcon";
+import { SearchIcon } from "../icons/";
 import { Key } from "./Key";
 import { Spinner } from "./Spinner";
 

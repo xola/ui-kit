@@ -1,15 +1,15 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import React from "react";
-import { ChevronLeftIcon } from "../../icons/ChevronLeftIcon";
-import { ChevronRightIcon } from "../../icons/ChevronRightIcon";
+import { ChevronLeftIcon } from "../../icons/";
+import { ChevronRightIcon } from "../../icons/";
 
 /**
  * Render the custom left & right arrows to change the current month.
  */
 export const NavbarElement = ({ onPreviousClick, onNextClick, className, showNextButton, showPreviousButton }) => {
     return (
-        <div className={clsx("absolute top-1.5 right-1 z-50", className)}>
+        <div className={clsx("absolute right-1 top-1.5 z-50", className)}>
             <ChevronButton isVisible={showPreviousButton} onClick={onPreviousClick}>
                 <ChevronLeftIcon />
             </ChevronButton>
