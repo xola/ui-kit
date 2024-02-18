@@ -1,41 +1,60 @@
-name: Run ES Lint
+name: Lint
 
 on:
-    push:
-    pull_request_target:
-        types: [assigned, opened, synchronize, reopened]
+  push:
+  # Runs against the workflow and code from the merge commit
+  #  pull_request:
+  #    types: [ opened, synchronize, reopened ]
+  # Runs against the workflow and code from the base of the pull request
+  pull_request_target:
+    types: [opened, synchronize, reopened]
 
 env:
-    DISABLE_PROGRESS: true
+  DISABLE_PROGRESS: true
 
 concurrency:
-    group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
-    cancel-in-progress: true
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
 
 jobs:
-    RunLint:
-        runs-on: ubuntu-latest
+  Lint:
+    name: ⚡ ES Lint
+    runs-on: ubuntu-latest
 
-        steps:
-            - uses: actions/checkout@v2
-              with:
-                  token: "${{ secrets.ES_LINT_TOKEN }}"
-                  ref: ${{github.event.pull_request.head.sha}}
-                  repository: ${{github.event.pull_request.head.repo.full_name}}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          token: "${{ secrets.ES_LINT_TOKEN }}"
+          ref: ${{github.event.pull_request.head.sha}}
+          repository: ${{github.event.pull_request.head.repo.full_name}}
 
-            - name: Node.JS 16
-              uses: actions/setup-node@v2
-              with:
-                  node-version: 16
-                  cache: "npm"
-                  cache-dependency-path: "package-lock.json"
+      - name: Node.JS 16
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: "npm"
+          cache-dependency-path: "package-lock.json"
 
-            - name: Install Node Dependencies
-              run: npm ci
-              env:
-                  CI: TRUE
+      - name: Install Node Dependencies
+        run: npm ci
 
-            - name: Lint Report
-              # This is to show the failures in Github actions
-              run: npm run lint
-              continue-on-error: true
+      - name: Save Code Linting Report to JSON
+        # This is to show failures in GitHub pull request using the action below
+        run: npm run lint:report
+        continue-on-error: true
+
+      - name: Annotate Code Linting Results
+        uses: ataylorme/eslint-annotate-action@2.2.0
+        with:
+          check-name: "View Lint Report"
+          markdown-report-on-step-summary: true
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          report-json: "eslint_report.json"
+
+#      # OPTIONAL: save a copy of the usage report for download or use in another job
+#      # Save a copy of the usage report for download or use in another job
+#      - name: Upload ESLint report
+#        uses: actions/upload-artifact@v3
+#        with:
+#          name: eslint_report.json
+#          path: eslint_report.json
