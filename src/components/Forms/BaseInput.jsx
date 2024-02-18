@@ -25,7 +25,7 @@ export const BaseInput = ({ as: Tag, size = "medium", isError, className, isRequ
                     sizes[size],
                     isError
                         ? "!focus:border-danger !border-danger focus:ring-0 focus:ring-danger"
-                        : "!border-gray-light focus:border-primary focus:ring-0 focus:ring-primary",
+                        : "border-gray-light focus:border-primary focus:ring-0 focus:ring-primary",
                     className,
                 )}
                 value={value}
