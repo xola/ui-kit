@@ -18,7 +18,13 @@ jobs:
               with:
                   node-version: 16
                   registry-url: https://registry.npmjs.org/
-            - run: cd src/icons && npm ci
-            - run: cd src/icons && npm publish --tag ${{ github.event.inputs.tag }}
+            - run: cd src/icons && pwd && npm ci
+            - name: Get publishable version from tags
+              id: get-version
+              run: |
+                  tag="${{ github.event.inputs.tag }}"
+                  version="${tag/-icons/}"
+                  echo "::set-output name=version::${tag/-icons/}"
+            - run: cd src/icons && ls -l && npm publish ${{ steps.get-version.outputs.version }}
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
