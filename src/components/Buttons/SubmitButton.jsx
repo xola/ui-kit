@@ -3,7 +3,7 @@ import clsx from "clsx";
 import PropTypes from "prop-types";
 import React, { useState, useEffect } from "react";
 import { Spinner } from "../Spinner";
-import { CheckIcon } from "../../icons/";
+import { CheckIcon } from "../../icons";
 import { Button, colors } from "./Button";
 
 const loadingColors = {

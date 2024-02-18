@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import React from "react";
-import { ChevronRightIcon } from "../../icons/";
+import { ChevronRightIcon } from "../../icons";
 import { Avatar } from "../Avatar";
 
 export const SidebarAccount = ({

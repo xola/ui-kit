@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React, { useState } from "react";
-import { XolaLogoSimple } from "../../icons/";
+import { XolaLogoSimple } from "../../icons";
 import { Alert } from "../Alert";
 import { Button } from "../Buttons/Button";
 import { Checkbox } from "../Forms/Checkbox";
