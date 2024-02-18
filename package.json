@@ -7,7 +7,13 @@
         "type": "git",
         "url": "git://github.com/xola/ui-kit.git"
     },
-    "files": ["build", "index.css", "index.d.ts", "tailwind.config.js", "postcss.config.js"],
+    "files": [
+        "build",
+        "index.css",
+        "index.d.ts",
+        "tailwind.config.js",
+        "postcss.config.js"
+    ],
     "main": "build/ui-kit.umd.js",
     "module": "build/ui-kit.mjs",
     "types": "index.d.ts",
@@ -56,7 +62,7 @@
         "@storybook/addons": "^6.5.10",
         "@storybook/react": "^6.5.10",
         "@storybook/theming": "^6.5.10",
-        "@xola/jslint": "^2.1.2",
+        "@xola/jslint": "^2.3.0",
         "autoprefixer": "^10.4.5",
         "babel-jest": "^27.2.0",
         "babel-loader": "^8.2.2",
