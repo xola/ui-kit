@@ -4,9 +4,9 @@
     "description": "Xola's icon set",
     "main": "./index.js",
     "scripts": {
-        "format": "prettier --write -l .",
-        "lint": "xola-lint .",
-        "lint:fix": "xola-lint . --fix"
+        "format": "prettier --write -l src",
+        "lint": "xola-lint src",
+        "lint:fix": "xola-lint --fix src"
     },
     "repository": {
         "type": "git",
