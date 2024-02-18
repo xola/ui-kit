@@ -1,5 +1,5 @@
 # For more information see: https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages
-name: Publish @xola/ui-kit
+name: Publish @xola/icons
 
 on:
     workflow_dispatch:
@@ -18,8 +18,7 @@ jobs:
               with:
                   node-version: 16
                   registry-url: https://registry.npmjs.org/
-            - run: npm ci
-            - run: npm run build
-            - run: npm publish --tag ${{ github.event.inputs.tag }}
+            - run: cd src/icons && npm ci
+            - run: cd src/icons && npm publish --tag ${{ github.event.inputs.tag }}
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
