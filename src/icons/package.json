@@ -13,7 +13,7 @@
         "url": "git://github.com/xola/ui-kit.git"
     },
     "dependencies": {
-        "@xola/jslint": "^9.9.10",
+        "@xola/jslint": "^2.3.0",
         "clsx": "^1.1.1",
         "lodash": "^4.17.21",
         "prettier": "^2.7.1",
