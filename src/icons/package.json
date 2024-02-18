@@ -8,6 +8,7 @@
         "lint": "xola-lint src",
         "lint:fix": "xola-lint --fix src"
     },
+    "homepage": "https://github.com/xola/ui-kit/tree/master/src/icons/",
     "repository": {
         "type": "git",
         "url": "git://github.com/xola/ui-kit.git"
