@@ -1,6 +1,6 @@
 ## Xola UI Kit
 
-Xola's React component library with Tailwind CSS for the next generation of Xola apps. See a preview at https://ui.xola.io
+Xola's React component library with Tailwind CSS for the next generation of Xola apps.
 
 This repository is published as two pieces:
 

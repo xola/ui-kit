@@ -62,8 +62,11 @@ export { BaseChartOptions } from "./components/Charts/BaseChartOptions";
 export { HistogramOptions } from "./components/Charts/HistogramOptions";
 export { PieOptions } from "./components/Charts/PieOptions";
 
-// Add all icon exports into below file, and it will be published as a new package @xola/icons
-// This is temporary only for backward compatibility. Later all icons will be removed from @xola/ui-kit
+//
+// IMPORTANT: Add all icon exports into icons/index.js, and it will be published as a new package @xola/icons
+// This is temporary only for backward compatibility. Later all icons will be removed from @xola/ui-kit and only
+// @xola/icons will be used
+//
 export * from "./icons/index.js";
 
 export { theme } from "./theme";
