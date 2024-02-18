@@ -25,6 +25,6 @@ jobs:
                   tag="${{ github.event.inputs.tag }}"
                   version="${tag/-icons/}"
                   echo "::set-output name=version::${tag/-icons/}"
-            - run: cd src/icons && ls -l && npm publish ${{ steps.get-version.outputs.version }}
+            - run: cd src/icons && pwd && npm publish --tag ${{ steps.get-version.outputs.version }}
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
