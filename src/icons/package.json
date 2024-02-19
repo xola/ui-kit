@@ -1,0 +1,42 @@
+{
+    "name": "@xola/icons",
+    "version": "1.0.6",
+    "description": "Xola's icon set",
+    "main": "./index.js",
+    "scripts": {
+        "format": "prettier --write -l src",
+        "lint": "xola-lint src",
+        "lint:fix": "xola-lint --fix src"
+    },
+    "homepage": "https://github.com/xola/ui-kit/tree/master/src/icons/",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/xola/ui-kit.git"
+    },
+    "dependencies": {
+        "clsx": "^1.1.1",
+        "lodash": "^4.17.21",
+        "prettier": "^2.7.1",
+        "prettier-plugin-tailwindcss": "^0.1.13",
+        "prop-types": "^15.7.2"
+    },
+    "devDependencies": {
+        "react": "^17.0.2",
+        "react-dom": "^17.0.2"
+    },
+    "author": "Rushi Vishavadia <rushi@xola.com>",
+    "engines": {
+        "node": ">=16"
+    },
+    "prettier": {
+        "semi": true,
+        "printWidth": 120,
+        "trailingComma": "all",
+        "singleQuote": false,
+        "bracketSpacing": true,
+        "useTabs": false,
+        "arrowParens": "always",
+        "bracketSameLine": false,
+        "tabWidth": 4
+    }
+}

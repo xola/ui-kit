@@ -3,6 +3,10 @@
     "version": "2.1.42",
     "description": "Xola UI Kit",
     "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/xola/ui-kit.git"
+    },
     "files": [
         "build",
         "index.css",
