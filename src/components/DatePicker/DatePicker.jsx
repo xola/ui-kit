@@ -9,10 +9,10 @@ import { isArray, isFunction } from "lodash";
 import { Tooltip } from "../..";
 import { Day } from "./Day";
 import { MonthYearSelector } from "./MonthYearSelector";
-import { RelativeDateRange } from "./RelativeDateRange";
-import RangeDatePicker from "./RangeDatePicker";
-import { UpcomingDatePicker } from "./UpcomingDatePicker";
 import { NavbarElement } from "./NavbarElement";
+import RangeDatePicker from "./RangeDatePicker";
+import { RelativeDateRange } from "./RelativeDateRange";
+import { UpcomingDatePicker } from "./UpcomingDatePicker";
 
 const variants = {
     single: "single",

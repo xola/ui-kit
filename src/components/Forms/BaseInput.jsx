@@ -1,7 +1,7 @@
 import clsx from "clsx";
+import { isEmpty, isString } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
-import { isEmpty, isString } from "lodash";
 import { Dot } from "../Dot/Dot";
 
 const sizes = {

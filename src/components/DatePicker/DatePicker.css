@@ -29,7 +29,7 @@
   * This does not include the today button
   */
 .DayPicker-Month {
-    @apply my-0 mx-0 p-0 pt-0.5 ring-0 focus:outline-none focus:ring-0;
+    @apply mx-0 my-0 p-0 pt-0.5 ring-0 focus:outline-none focus:ring-0;
     min-width: 400px; /* Odd width given from Figma */
     border-collapse: inherit;
     border-spacing: 0 8px; /* 8px between each week (row) */
@@ -52,7 +52,7 @@
 /* The "Today" button.
     A lot of specific vaules which I normally wouldn't use. But this is a third party lib where I cannot change the markup */
 .DayPicker-TodayButton {
-    @apply absolute top-0 right-24 h-10 px-3.5 py-2.5 leading-4;
+    @apply absolute right-24 top-0 h-10 px-3.5 py-2.5 leading-4;
     @apply rounded border border-solid border-gray bg-white text-base font-semibold tracking-tightest text-black hover:border-blue hover:bg-blue-lighter;
 }
 

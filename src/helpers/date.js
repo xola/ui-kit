@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
-import LocalizedFormat from "dayjs/plugin/localizedFormat";
 import customParseFormat from "dayjs/plugin/customParseFormat";
+import LocalizedFormat from "dayjs/plugin/localizedFormat";
 import quarterOfYear from "dayjs/plugin/quarterOfYear";
 
 dayjs.extend(customParseFormat);
