@@ -28,3 +28,4 @@ jobs:
               run: cd src/icons && pwd && npm publish --tag ${{ github.event.inputs.tag }}
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+                  registry-url: https://registry.npmjs.org/
