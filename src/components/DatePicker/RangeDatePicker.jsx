@@ -23,7 +23,6 @@ const RangeDatePicker = ({
     handleDayClick,
     handleStartMonthChange,
     handleEndMonthChange,
-    handleTodayClick,
     ...rest
 }) => {
     const isStartDateIsTheSameMonth = dayjs(value?.from).isSame(dayjs(value?.to), "month");
@@ -204,7 +203,6 @@ RangeDatePicker.propTypes = {
     handleDayClick: PropTypes.func,
     handleStartMonthChange: PropTypes.func,
     handleEndMonthChange: PropTypes.func,
-    handleTodayClick: PropTypes.func,
 };
 
 export default RangeDatePicker;
