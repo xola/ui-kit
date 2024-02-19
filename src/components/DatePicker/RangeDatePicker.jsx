@@ -1,13 +1,13 @@
-import React from "react";
-import PropTypes from "prop-types";
-import DayPicker from "react-day-picker";
 import clsx from "clsx";
 import dayjs from "dayjs";
 import { isArray, isFunction } from "lodash";
+import PropTypes from "prop-types";
+import React from "react";
+import DayPicker from "react-day-picker";
 import { Tooltip } from "../Tooltip";
-import { NavbarElement } from "./NavbarElement";
-import { MonthYearSelector } from "./MonthYearSelector";
 import { Day } from "./Day";
+import { MonthYearSelector } from "./MonthYearSelector";
+import { NavbarElement } from "./NavbarElement";
 
 const RangeDatePicker = ({
     getTooltip,
@@ -27,6 +27,7 @@ const RangeDatePicker = ({
     ...rest
 }) => {
     const isStartDateIsTheSameMonth = dayjs(value?.from).isSame(dayjs(value?.to), "month");
+    const isStartEndMonthSame = dayjs(startMonth).isSame(dayjs(endMonth), "month");
 
     const CaptionStartElement =
         shouldShowYearPicker && startMonth
@@ -142,29 +143,49 @@ const RangeDatePicker = ({
                 getTooltip={getTooltip}
                 onDayClick={(day, options, event) => handleDayClick(day, options, event, true)}
                 onMonthChange={handleStartMonthChange}
-                onTodayButtonClick={handleTodayClick}
                 {...rest}
             />
-            <DayPicker
-                className={clsx(
-                    "ui-date-picker max-w-[400px] rounded-lg pt-3",
-                    isDateRangeStyle ? "date-range-picker" : null,
-                    getDayContent ? "has-custom-content" : null,
-                    modifiers.waitlist ? "has-custom-content" : null,
-                )}
-                month={endMonth}
-                modifiers={isStartDateIsTheSameMonth ? {} : { ...modifiers, end: value?.to }}
-                disabledDays={isDisabledEndDays}
-                navbarElement={NavbarElement}
-                captionElement={CaptionEndElement}
-                selectedDays={isStartDateIsTheSameMonth ? [] : selectedDays}
-                renderDay={renderEndDay}
-                getTooltip={getTooltip}
-                onDayClick={(day, options, event) => handleDayClick(day, options, event, false)}
-                onMonthChange={handleEndMonthChange}
-                onTodayButtonClick={handleTodayClick}
-                {...rest}
-            />
+            {isStartEndMonthSame ? (
+                <DayPicker
+                    className={clsx(
+                        "ui-date-picker max-w-[400px] rounded-lg pt-3",
+                        isDateRangeStyle ? "date-range-picker" : null,
+                        getDayContent ? "has-custom-content" : null,
+                        modifiers.waitlist ? "has-custom-content" : null,
+                    )}
+                    month={startMonth}
+                    modifiers={{ ...modifiers, start: value?.from }}
+                    disabledDays={isDisabledStartDays}
+                    navbarElement={NavbarElement}
+                    captionElement={CaptionStartElement}
+                    selectedDays={[selectedDays?.from, selectedDays]}
+                    renderDay={renderStartDay}
+                    getTooltip={getTooltip}
+                    onDayClick={(day, options, event) => handleDayClick(day, options, event, true)}
+                    onMonthChange={handleEndMonthChange}
+                    {...rest}
+                />
+            ) : (
+                <DayPicker
+                    className={clsx(
+                        "ui-date-picker max-w-[400px] rounded-lg pt-3",
+                        isDateRangeStyle ? "date-range-picker" : null,
+                        getDayContent ? "has-custom-content" : null,
+                        modifiers.waitlist ? "has-custom-content" : null,
+                    )}
+                    month={endMonth}
+                    modifiers={{ ...modifiers, end: value?.to }}
+                    disabledDays={isDisabledEndDays}
+                    navbarElement={NavbarElement}
+                    captionElement={CaptionEndElement}
+                    selectedDays={selectedDays}
+                    renderDay={renderEndDay}
+                    getTooltip={getTooltip}
+                    onDayClick={(day, options, event) => handleDayClick(day, options, event, false)}
+                    onMonthChange={handleEndMonthChange}
+                    {...rest}
+                />
+            )}
         </div>
     );
 };
