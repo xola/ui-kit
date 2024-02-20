@@ -52,7 +52,7 @@ const RangeDatePicker = ({
     const isDisabledStartDays = (date) => {
         const isDateAfterEndDate = dayjs(date).isAfter(value?.to, "day");
 
-        return isDateDisabledFromOutside(date) || (isDateAfterEndDate && !isSingleDayDateRange);
+        return isDateDisabledFromOutside(date);
     };
 
     const isDisabledEndDays = (date) => {
