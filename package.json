@@ -50,6 +50,7 @@
         "react-json-view": "^1.21.3",
         "react-select": "^5.7.0",
         "storybook-addon-designs": "^6.3.1",
+        "tailwind-merge": "^2.2.1",
         "tippy.js": "^6.3.1"
     },
     "devDependencies": {
