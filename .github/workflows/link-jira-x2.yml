@@ -1,0 +1,45 @@
+name: Link X2 Ticket to PR
+  # URL: https://github.com/marketplace/actions/add-jira-info-to-pull-request#how-to-get-the-jira-token-and-jira-username
+  # The following formats will work:
+  # PRJ-1234-some-short-description
+  # feature/PRJ-1234_some-short-description
+  # some-short-description_PRJ-1234
+  # feature/some-short-description_PRJ-1234
+# feature/PRJ-1234_some-short-description
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  automation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate a token
+        id: generate_token
+        uses: tibdex/github-app-token@v1
+        with:
+          app_id: ${{ secrets.XOLA_GITHUB_APP_ID }}
+          private_key: ${{ secrets.XOLA_GITHUB_APP_PRIVATE_KEY }}
+
+      - name: Add Jira info
+        uses: contractify/add-jira-info@v1
+        with:
+          github-token: ${{ steps.generate_token.outputs.token }}
+          jira-base-url: https://xola01.atlassian.net/
+          jira-username: rushi@xola.com
+          jira-token: ${{ secrets.RUSHI_JIRA_API_KEY }}
+          jira-project-key: X2
+          add-label-with-issue-type: true
+          issue-type-label-color: FBCA04
+          issue-type-label-description: 'Jira Issue Type'
+          add-jira-key-to-title: true
+          add-jira-key-to-body: true
