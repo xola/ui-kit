@@ -33,6 +33,7 @@
         "chromatic": "chromatic --exit-zero-on-changes --build-script-name build:storybook"
     },
     "dependencies": {
+        "@fullstory/babel-plugin-annotate-react": "^2.2.1",
         "@headlessui/react": "^1.4.0",
         "@tailwindcss/forms": "^0.5.6",
         "@tailwindcss/line-clamp": "^0.3.1",
