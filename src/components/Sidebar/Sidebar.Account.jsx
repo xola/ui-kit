@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import React from "react";
-import { ChevronRightIcon } from "../../icons/ChevronRightIcon";
+import { ChevronRightIcon } from "../../icons";
 import { Avatar } from "../Avatar";
 
 export const SidebarAccount = ({
@@ -20,7 +20,7 @@ export const SidebarAccount = ({
             type="button"
             className={clsx(
                 "ui-sidebar-account",
-                "flex w-full cursor-pointer items-center justify-center rounded py-3 px-4 hover:bg-gray-darker xl:justify-start",
+                "flex w-full cursor-pointer items-center justify-center rounded px-4 py-3 hover:bg-gray-darker xl:justify-start",
                 className,
             )}
             {...rest}

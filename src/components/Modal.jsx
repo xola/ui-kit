@@ -2,7 +2,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import React, { Fragment } from "react";
-import { CloseIcon } from "../icons/CloseIcon";
+import { CloseIcon } from "../icons";
 
 const sizes = {
     small: "max-w-100", // 400px
@@ -110,7 +110,7 @@ export const Modal = ({
                             {onClose ? (
                                 <button
                                     type="button"
-                                    className="absolute top-0 right-0 m-4 hidden p-2 text-gray hover:text-gray-darker sm:block"
+                                    className="absolute right-0 top-0 m-4 hidden p-2 text-gray hover:text-gray-darker sm:block"
                                     onClick={onClose}
                                 >
                                     <CloseIcon />
