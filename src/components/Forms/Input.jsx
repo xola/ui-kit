@@ -9,7 +9,12 @@ export const Input = forwardRef(({ className, type = "text", value, ...rest }, r
     );
 });
 
+Input.propTypes = {
+    ...BaseInput.propTypes,
+    type: PropTypes.string,
+};
+
 Input.defaultProps = {
     ...BaseInput.defaultProps,
-    type: PropTypes.string,
+    type: "text",
 };

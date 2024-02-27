@@ -39,11 +39,20 @@ export const BaseInput = forwardRef(
     },
 );
 
-BaseInput.defaultProps = {
+BaseInput.propTypes = {
     as: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]),
     size: PropTypes.oneOf(Object.keys(sizes)),
     className: PropTypes.string,
     isError: PropTypes.bool,
     isRequired: PropTypes.bool,
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+};
+
+BaseInput.defaultProps = {
+    as: "input",
+    size: "medium",
+    className: "",
+    isError: false,
+    isRequired: false,
+    value: "",
 };
