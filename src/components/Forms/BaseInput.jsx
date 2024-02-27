@@ -18,7 +18,7 @@ export const BaseInput = forwardRef(({ as: Tag, size = "medium", isError, classN
 
     return (
         <div className="relative flex w-full items-center">
-            <input
+            <Tag
                 ref={ref}
                 className={clsx(
                     "w-full rounded text-gray-darker placeholder-gray-dark hover:placeholder-gray-darker disabled:text-gray",
