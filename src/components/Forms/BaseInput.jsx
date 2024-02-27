@@ -39,7 +39,7 @@ export const BaseInput = forwardRef(
     },
 );
 
-BaseInput.propTypes = {
+BaseInput.defaultProps = {
     as: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]),
     size: PropTypes.oneOf(Object.keys(sizes)),
     className: PropTypes.string,
