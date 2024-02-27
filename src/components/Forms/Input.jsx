@@ -5,14 +5,7 @@ import { BaseInput } from "./BaseInput";
 
 export const Input = forwardRef(({ className, type = "text", value, ...rest }, ref) => {
     return (
-        <BaseInput
-            ref={ref}
-            as="input"
-            className={clsx("ui-input", className)}
-            type={type}
-            value={value}
-            {...rest}
-        />
+        <BaseInput ref={ref} as="input" className={clsx("ui-input", className)} type={type} value={value} {...rest} />
     );
 });
 

@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import React, { forwardRef, useEffect } from "react";
+import React, { forwardRef } from "react";
 import { isEmpty, isString } from "lodash";
 import { Dot } from "../Dot/Dot";
 
