@@ -17,27 +17,26 @@ export const BaseInput = forwardRef(
         // Since the input can only be a string or a number, added the toString method for a numeric value, because lodash's IsEmpty method returns true for any number.
         const isEmptyValue = isString(value) ? isEmpty(stringValue) : isEmpty(value?.toString());
 
-        return (
-            <div className="relative flex w-full items-center">
-                <Tag
-                    ref={ref}
-                    className={clsx(
-                        "w-full rounded text-gray-darker placeholder-gray-dark hover:placeholder-gray-darker disabled:text-gray",
-                        "border border-transparent hover:border-black hover:bg-gray-lighter focus:text-black active:text-black disabled:bg-gray-lighter",
-                        sizes[size],
-                        isError
-                            ? "!focus:border-danger !border-danger focus:ring-0 focus:ring-danger"
-                            : "!border-gray-light focus:border-primary focus:ring-0 focus:ring-primary",
-                        className,
-                    )}
-                    value={value}
-                    {...rest}
-                />
-                {isRequired && isEmptyValue && <Dot className="absolute right-3" color="danger" />}
-            </div>
-        );
-    },
-);
+    return (
+        <div className="relative flex w-full items-center">
+            <Tag
+                ref={ref}
+                className={clsx(
+                    "w-full rounded text-gray-darker placeholder-gray-dark hover:placeholder-gray-darker disabled:text-gray",
+                    "border border-transparent hover:border-black hover:bg-gray-lighter focus:text-black active:text-black disabled:bg-gray-lighter",
+                    sizes[size],
+                    isError
+                        ? "!focus:border-danger !border-danger focus:ring-0 focus:ring-danger"
+                        : "border-gray-light focus:border-primary focus:ring-0 focus:ring-primary",
+                    className,
+                )}
+                value={value}
+                {...rest}
+            />
+            {isRequired && isEmptyValue && <Dot className="absolute right-3" color="danger" />}
+        </div>
+    );
+};
 
 BaseInput.propTypes = {
     as: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]),

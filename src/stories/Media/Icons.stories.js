@@ -1,7 +1,7 @@
 import { map, omitBy } from "lodash";
 import React, { useState } from "react";
 import { Toaster } from "react-hot-toast";
-import * as all from "../..";
+import * as all from "../../icons/";
 import { flash, Input } from "../..";
 
 const iconNames = omitBy(all, (Icon, name) => !name.endsWith("Icon"));
