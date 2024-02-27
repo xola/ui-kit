@@ -7,11 +7,19 @@ export const Input = ({ className, type = "text", value, ...rest }) => {
     const inputRef = useRef();
 
     useEffect(() => {
-      console.log(inputRef.current); // Should log the input DOM node
+        console.log(inputRef.current); // Should log the input DOM node
     }, [inputRef]);
-  
 
-    return <BaseInput ref={inputRef} as="input" className={clsx("ui-input", className)} type={type} value={value} {...rest} />;
+    return (
+        <BaseInput
+            ref={inputRef}
+            as="input"
+            className={clsx("ui-input", className)}
+            type={type}
+            value={value}
+            {...rest}
+        />
+    );
 };
 
 Input.propTypes = {
