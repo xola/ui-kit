@@ -1,18 +1,12 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import React, { forwardRef, useEffect, useRef } from "react";
+import React, { forwardRef } from "react";
 import { BaseInput } from "./BaseInput";
 
-export const Input = ({ className, type = "text", value, ...rest }) => {
-    const inputRef = useRef();
-
-    useEffect(() => {
-        console.log(inputRef.current); // Should log the input DOM node
-    }, [inputRef]);
-
+export const Input = forwardRef(({ className, type = "text", value, ...rest }, ref) => {
     return (
         <BaseInput
-            ref={inputRef}
+            ref={ref}
             as="input"
             className={clsx("ui-input", className)}
             type={type}
@@ -20,7 +14,7 @@ export const Input = ({ className, type = "text", value, ...rest }) => {
             {...rest}
         />
     );
-};
+});
 
 Input.propTypes = {
     ...BaseInput.propTypes,
