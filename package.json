@@ -1,8 +1,12 @@
 {
     "name": "@xola/ui-kit",
-    "version": "2.1.41",
+    "version": "2.2.1",
     "description": "Xola UI Kit",
     "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/xola/ui-kit.git"
+    },
     "files": [
         "build",
         "index.css",
@@ -34,7 +38,7 @@
         "@tailwindcss/line-clamp": "^0.3.1",
         "@tippyjs/react": "^4.2.6",
         "clsx": "^1.1.1",
-        "dayjs": "^1.10.7",
+        "dayjs": "^1.11.10",
         "downshift": "^6.1.5",
         "get-user-locale": "^1.4.0",
         "google-libphonenumber": "^3.2.22",

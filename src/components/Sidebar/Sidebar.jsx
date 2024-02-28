@@ -1,9 +1,7 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import React from "react";
-import { AnnounceIcon } from "../../icons/AnnounceIcon";
-import { BellIcon } from "../../icons/BellIcon";
-import { XolaLogoSimple } from "../../images/XolaLogoSimple";
+import { AnnounceIcon, BellIcon, XolaLogoSimple } from "../../icons";
 import { Counter } from "../Counter";
 import { Drawer } from "../Drawer";
 import { SidebarAccount } from "./Sidebar.Account";
@@ -44,7 +42,7 @@ export const Sidebar = ({
                 "ui-sidebar",
                 isFixed ? "fixed" : "relative",
                 !isStickyHeaderFooter && "overflow-y-auto",
-                "z-20 flex h-full w-16 flex-col bg-black py-2 px-1 text-white md:w-24 xl:w-50",
+                "z-20 flex h-full w-16 flex-col bg-black px-1 py-2 text-white md:w-24 xl:w-50",
                 className,
             )}
         >
