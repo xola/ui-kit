@@ -11,7 +11,7 @@ const sizes = {
 };
 
 export const BaseInput = forwardRef(
-    ({ as: Tag, size = "medium", isError, className, isRequired, value, ...rest }, ref) => {
+    ({ as: Tag, size = "medium", isError, className, isRequired, value = "", ...rest }, ref) => {
         // added regexp to return only non-whitespace characters for strings and remove currency sign for currency input
         const stringValue = isString(value) && value.replace(/[^.\S]+/g, "").replace(/[\p{Sc}]/u, "");
         // Since the input can only be a string or a number, added the toString method for a numeric value, because lodash's IsEmpty method returns true for any number.
@@ -45,6 +45,7 @@ BaseInput.propTypes = {
     className: PropTypes.string,
     isError: PropTypes.bool,
     isRequired: PropTypes.bool,
+    // eslint-disable-next-line react/require-default-props
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
@@ -54,5 +55,4 @@ BaseInput.defaultProps = {
     className: "",
     isError: false,
     isRequired: false,
-    value: "",
 };
