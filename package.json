@@ -1,6 +1,6 @@
 {
     "name": "@xola/ui-kit",
-    "version": "2.2.0",
+    "version": "2.2.5",
     "description": "Xola UI Kit",
     "license": "MIT",
     "repository": {
@@ -28,7 +28,7 @@
         "lint": "xola-lint src --ignore src/stories",
         "lint:fix": "xola-lint src --fix --ignore src/stories",
         "lint:report": "xola-lint src --ignore src/stories --reporter=json src > eslint_report.json",
-        "format": "prettier --write src",
+        "format": "prettier -l --write src",
         "test": "jest",
         "chromatic": "chromatic --exit-zero-on-changes --build-script-name build:storybook"
     },
@@ -38,7 +38,7 @@
         "@tailwindcss/line-clamp": "^0.3.1",
         "@tippyjs/react": "^4.2.6",
         "clsx": "^1.1.1",
-        "dayjs": "^1.10.7",
+        "dayjs": "^1.11.10",
         "downshift": "^6.1.5",
         "get-user-locale": "^1.4.0",
         "google-libphonenumber": "^3.2.22",

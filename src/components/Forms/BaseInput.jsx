@@ -57,7 +57,16 @@ BaseInput.propTypes = {
     className: PropTypes.string,
     isError: PropTypes.bool,
     isRequired: PropTypes.bool,
+    // eslint-disable-next-line react/require-default-props
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     prefix: PropTypes.string,
     suffix: PropTypes.string,
+};
+
+BaseInput.defaultProps = {
+    as: "input",
+    size: "medium",
+    className: "",
+    isError: false,
+    isRequired: false,
 };
