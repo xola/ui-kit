@@ -1,7 +1,8 @@
-import dayjs from "dayjs";
+import { now } from "../../helpers/date";
 import PropTypes from "prop-types";
 import React from "react";
 import { Button, Select } from "../..";
+import { getJSDate } from "../../helpers/date";
 
 const options = {
     YESTERDAY: "P1D,yesterday",
@@ -114,97 +115,101 @@ export const dateRanges = {
 
 const handlers = {
     [options.YESTERDAY]: () => {
-        const yesterday = dayjs().subtract(1, "day");
+        const yesterday = now().subtract(1, "day");
         return {
-            from: yesterday.startOf("day").toDate(),
-            to: yesterday.endOf("day").toDate(),
+            from: getJSDate(yesterday.startOf("day")),
+            to: getJSDate(yesterday.endOf("day"), false),
         };
     },
 
-    [options.TODAY]: () => ({
-        from: dayjs().startOf("day").toDate(),
-        to: dayjs().endOf("day").toDate(),
-    }),
+    [options.TODAY]: () => {
+        return {
+            from: getJSDate(now().startOf("day")),
+            to: getJSDate(now().endOf("day"), false),
+        };
+    },
 
     [options.LAST_WEEK]: () => {
-        const lastWeek = dayjs().subtract(7, "day");
+        const lastWeek = now().subtract(7, "day");
         return {
-            from: lastWeek.startOf("week").toDate(),
-            to: lastWeek.endOf("week").toDate(),
+            from: getJSDate(lastWeek.startOf("week")),
+            to: getJSDate(lastWeek.endOf("week"), false),
         };
     },
 
     [options.TRAILING_WEEK]: () => {
         return {
-            from: dayjs().subtract(7, "day").startOf("dat").toDate(),
-            to: dayjs().subtract(1, "day").endOf("day").toDate(),
+            from: getJSDate(now().subtract(7, "day").startOf("day")),
+            to: getJSDate(now().subtract(1, "day").endOf("day"), false),
         };
     },
 
-    [options.THIS_WEEK]: () => ({
-        from: dayjs().startOf("week").toDate(),
-        to: dayjs().endOf("week").toDate(),
-    }),
+    [options.THIS_WEEK]: () => {
+        return {
+            from: getJSDate(now().startOf("week")),
+            to: getJSDate(now().endOf("week"), false),
+        };
+    },
 
     [options.LAST_MONTH]: () => {
-        const lastMonth = dayjs().subtract(1, "month");
+        const lastMonth = now().subtract(1, "month");
         return {
-            from: lastMonth.startOf("month").toDate(),
-            to: lastMonth.endOf("month").toDate(),
+            from: getJSDate(lastMonth.startOf("month")),
+            to: getJSDate(lastMonth.endOf("month"), false),
         };
     },
 
     [options.TRAILING_MONTH]: () => {
         return {
-            from: dayjs().subtract(1, "month").startOf("day").toDate(),
-            to: dayjs().subtract(1, "day").endOf("day").toDate(),
+            from: getJSDate(now().subtract(1, "month").startOf("day")),
+            to: getJSDate(now().subtract(1, "day").endOf("day"), false),
         };
     },
 
     [options.THIS_MONTH]: () => ({
-        from: dayjs().startOf("month").toDate(),
-        to: dayjs().endOf("month").toDate(),
+        from: getJSDate(now().startOf("month")),
+        to: getJSDate(now().endOf("month"), false),
     }),
 
     [options.LAST_QUARTER]: () => {
         return {
-            from: dayjs().startOf("month").subtract(3, "month").toDate(),
-            to: dayjs().startOf("month").subtract(1, "day").toDate(),
+            from: getJSDate(now().startOf("month").subtract(3, "month")),
+            to: getJSDate(now().startOf("month").subtract(1, "day"), false),
         };
     },
 
     [options.TRAILING_QUARTER]: () => {
         return {
-            from: dayjs().subtract(3, "month").startOf("day").toDate(),
-            to: dayjs().subtract(1, "day").endOf("day").toDate(),
+            from: getJSDate(now().subtract(3, "month").startOf("day")),
+            to: getJSDate(now().subtract(1, "day").endOf("day"), false),
         };
     },
 
     [options.THIS_QUARTER]: () => {
         return {
-            from: dayjs().startOf("Q").toDate(),
-            to: dayjs().endOf("Q").toDate(),
+            from: getJSDate(now().startOf("Q")),
+            to: getJSDate(now().endOf("Q"), false),
         };
     },
 
     [options.LAST_YEAR]: () => {
-        const lastYear = dayjs().subtract(1, "year");
+        const lastYear = now().subtract(1, "year");
         return {
-            from: lastYear.startOf("year").toDate(),
-            to: lastYear.endOf("year").toDate(),
+            from: getJSDate(lastYear.startOf("year")),
+            to: getJSDate(lastYear.endOf("year"), false),
         };
     },
 
     [options.TRAILING_YEAR]: () => {
         return {
-            from: dayjs().subtract(1, "year").startOf("day").toDate(),
-            to: dayjs().subtract(1, "day").endOf("day").toDate(),
+            from: getJSDate(now().subtract(1, "year").startOf("day")),
+            to: getJSDate(now().subtract(1, "day").endOf("day"), false),
         };
     },
 
     [options.THIS_YEAR]: () => ({
-        from: dayjs().startOf("year").toDate(),
-        to: dayjs().endOf("year").toDate(),
+        from: getJSDate(now().startOf("year")),
+        to: getJSDate(now().endOf("year"), false),
     }),
 };
 

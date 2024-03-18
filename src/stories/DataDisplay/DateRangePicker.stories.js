@@ -40,7 +40,7 @@ const today = dayjs("2022-10-10").toDate();
 export const Default = () => {
     const [value, setValue] = useState({ from: new Date("2022-02-03"), to: new Date("2022-03-08") });
 
-    return <DatePicker variant="range" value={value} onChange={setValue} />;
+    return <DatePicker variant="range" value={value} onChange={setValue} timezoneName="America/Los_Angeles"/>;
 };
 
 export const RelativeDateRanges = () => {
@@ -55,6 +55,7 @@ export const RelativeDateRanges = () => {
                 variant="range"
                 onChange={setValue}
                 onSubmitDateRange={console.log}
+                timezoneName={"Pacific/Pago_Pago"}
             />
         </div>
     );

@@ -8,11 +8,13 @@ import "./DatePicker.css";
 import { isArray, isFunction } from "lodash";
 import { Tooltip } from "../..";
 import { Day } from "./Day";
+import { now } from "../../helpers/date";
 import { MonthYearSelector } from "./MonthYearSelector";
 import { RelativeDateRange } from "./RelativeDateRange";
 import RangeDatePicker from "./RangeDatePicker";
 import { UpcomingDatePicker } from "./UpcomingDatePicker";
 import { NavbarElement } from "./NavbarElement";
+import { getJSDate } from "../../helpers/date";
 
 const variants = {
     single: "single",
@@ -41,7 +43,7 @@ export const DatePicker = ({
     ...rest
 }) => {
     const initialValue = value ? (variant === variants.single ? value : value.from) : null;
-    const [currentMonth, setCurrentMonth] = useState(initialValue ?? dayjs().toDate());
+    const [currentMonth, setCurrentMonth] = useState(initialValue ?? now().toDate());
     const [startMonth, setStartMonth] = useState(() => {
         if (!value || !value.from) {
             return new Date();
@@ -51,12 +53,10 @@ export const DatePicker = ({
     });
     const [endMonth, setEndMonth] = useState(() => {
         if (!value || !value.to || !value.from) {
-            return dayjs(new Date()).add(1, "month").toDate();
+            return now(new Date()).add(1, "month").toDate();
         }
 
-        return dayjs(value.to).isSame(dayjs(value.from), "month")
-            ? dayjs(value.from).add(1, "month").toDate()
-            : value.to;
+        return now(value.to).isSame(now(value.from), "month") ? now(value.from).add(1, "month").toDate() : value.to;
     });
     const [rangeName, setRangeName] = useState("");
     const isRangeVariant = variant === variants.range;
@@ -67,24 +67,30 @@ export const DatePicker = ({
         onMonthChange?.(currentMonth);
     }, [currentMonth, onMonthChange]);
 
+    // useEffect(() => {
+    //     if (timezoneName) {
+    //         dayjs.tz.setDefault(timezoneName);
+    //     }
+    // }, [timezoneName]);
+
     const handleTodayClick = (day, options, event) => {
         if (isRangeVariant) {
             return;
         }
 
-        const today = timezoneName ? dayjs().tz(timezoneName).toDate() : new Date();
+        const today = timezoneName ? getJSDate(now()) : new Date();
 
         if (options.disabled || isDisabled(today)) {
             setCurrentMonth(today);
             onMonthChange?.(today);
         } else {
-            onChange(day, options, event);
+            onChange(getJSDate(now()), options, event);
         }
     };
 
     const isDisabled = (date) => {
         if (isArray(disabledDays)) {
-            return disabledDays.some((_date) => dayjs(_date).isSame(date, "day"));
+            return disabledDays.some((_date) => now(_date).isSame(date, "day"));
         }
 
         if (isFunction(disabledDays)) {
@@ -120,7 +126,7 @@ export const DatePicker = ({
             return;
         }
 
-        if (dayjs(value?.from).isSame(day, "month")) {
+        if (now(value?.from).isSame(day, "month")) {
             handleStartMonthChange(day);
         }
 
@@ -129,17 +135,17 @@ export const DatePicker = ({
             if (isValidValue) {
                 // This allows us to easily select another date range,
                 // if both dates are selected.
-                onChange({ from: day, to: null }, options, event);
+                onChange({ from: getJSDate(now(day).startOf("day")), to: null }, options, event);
             } else if (value && (value.from || value.to) && (value.from || value.to).getTime() === day.getTime()) {
-                const from = dayjs(day).startOf("day").toDate();
-                const to = dayjs(day).endOf("day").toDate();
+                const from = getJSDate(now(day).startOf("day"));
+                const to = getJSDate(now(day).endOf("day"), false);
 
                 onChange({ from, to }, options, event);
             } else {
-                onChange(DateUtils.addDayToRange(day, value), options, event);
+                onChange(DateUtils.addDayToRange(getJSDate(now(day).endOf("day"), false), value), options, event);
             }
         } else {
-            onChange(day, options, event);
+            onChange(getJSDate(now(day)), options, event);
         }
     };
 
@@ -178,7 +184,7 @@ export const DatePicker = ({
     // Comparing `from` and `to` dates hides a weird CSS style when you select the same date twice in a date range.
     const useDateRangeStyle = isRangeVariant && isValidValue && value.from?.getTime() !== value.to?.getTime();
     // Return the same value if it is already dayjs object or has range variant otherwise format it to dayJs object
-    const selectedDays = value && (dayjs.isDayjs(value) || isRangeVariant ? value : dayjs(value).toDate());
+    const selectedDays = value && (dayjs.isDayjs(value) || isRangeVariant ? value : now(value).toDate());
 
     return (
         <>
