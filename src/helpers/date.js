@@ -1,9 +1,9 @@
-import dayjs, {isDayjs} from "dayjs";
+import dayjs, { isDayjs } from "dayjs";
 import LocalizedFormat from "dayjs/plugin/localizedFormat";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import quarterOfYear from "dayjs/plugin/quarterOfYear";
 import utc from "dayjs/plugin/utc";
-import timezone from 'dayjs/plugin/timezone';
+import timezone from "dayjs/plugin/timezone";
 
 dayjs.extend(customParseFormat);
 dayjs.extend(LocalizedFormat);
@@ -41,7 +41,7 @@ export const now = (date, unit) => {
     }
 
     if (typeof date === "number") {
-        const timestamp = date <= 2147483647 ? date * 1000 : date;
+        const timestamp = date <= 2_147_483_647 ? date * 1000 : date;
         return dayjs.tz(timestamp);
     }
 
@@ -54,19 +54,23 @@ export const now = (date, unit) => {
         return date;
     }
 
-    return dayjs.tz(dateToStr(date));
+    if (date instanceof Date && !Number.isNaN(date.getTime())) {
+        return dayjs.tz(dateToString(date));
+    }
+
+    return dayjs.tz();
 };
 
 const padNumber = (value) => value.toString().padStart(2, "0");
 
-export const dateToStr = (date) => {
-    const dateStr = `${date.getFullYear()}-${padNumber(date.getMonth() + 1)}-${padNumber(date.getDate())}`;
-    const timeStr = `${padNumber(date.getHours())}:${padNumber(date.getMinutes())}:${padNumber(date.getSeconds())}`;
-    return `${dateStr} ${timeStr}`;
+export const dateToString = (date) => {
+    const dateString = `${date.getFullYear()}-${padNumber(date.getMonth() + 1)}-${padNumber(date.getDate())}`;
+    const timeString = `${padNumber(date.getHours())}:${padNumber(date.getMinutes())}:${padNumber(date.getSeconds())}`;
+    return `${dateString} ${timeString}`;
 };
 
 export const getJSDate = (daysDate, isStartDate = true) => {
     const time = isStartDate ? DayTimeStart : DayTimeEnd;
-    
+
     return new Date(formatDateWithTimezone(daysDate) + time);
 };

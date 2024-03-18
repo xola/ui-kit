@@ -1,8 +1,7 @@
-import { now } from "../../helpers/date";
 import PropTypes from "prop-types";
 import React from "react";
+import { now, getJSDate } from "../../helpers/date";
 import { Button, Select } from "../..";
-import { getJSDate } from "../../helpers/date";
 
 const options = {
     YESTERDAY: "P1D,yesterday",

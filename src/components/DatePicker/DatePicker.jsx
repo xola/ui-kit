@@ -7,14 +7,13 @@ import "react-day-picker/lib/style.css";
 import "./DatePicker.css";
 import { isArray, isFunction } from "lodash";
 import { Tooltip } from "../..";
+import { now, getJSDate } from "../../helpers/date";
 import { Day } from "./Day";
-import { now } from "../../helpers/date";
 import { MonthYearSelector } from "./MonthYearSelector";
 import { RelativeDateRange } from "./RelativeDateRange";
 import RangeDatePicker from "./RangeDatePicker";
 import { UpcomingDatePicker } from "./UpcomingDatePicker";
 import { NavbarElement } from "./NavbarElement";
-import { getJSDate } from "../../helpers/date";
 
 const variants = {
     single: "single",
