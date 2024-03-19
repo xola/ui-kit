@@ -17,6 +17,20 @@ export const BaseInput = forwardRef(
 
             let result = value;
 
+            /**
+             * Why are we removing prefix and suffix?
+             *
+             * When BaseInput field is used as a component for `NumberFormat` input, the value would also include prefix and suffix.
+             *
+             * For Example, in UnitField (Weight) we have a suffix as " kg".
+             * So, if a user enters 72, the `value` prop supplied to this component would be "72 kg".
+             * and if the field is empty, the `value` would be " kg".
+             *
+             * Now, if we have `isRequired` set as true, and we need to show the required indicator when the field is empty.
+             * We need a way to know if the `value` supplied to this component is really a value or just prefix or suffix text.
+             * So, we are removing the prefix/suffix from value before comparing.
+             */
+
             // if input contains prefix or suffix, we need to remove them
             if (prefix) result = result.replace(new RegExp(`^${prefix}`), "");
 
@@ -69,4 +83,6 @@ BaseInput.defaultProps = {
     className: "",
     isError: false,
     isRequired: false,
+    prefix: "",
+    suffix: "",
 };
