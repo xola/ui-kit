@@ -15,6 +15,10 @@ const DayTimeStart = "T00:00:00";
 const DayTimeEnd = "T23:59:59";
 
 export const formatDate = (date, format = "YYYY-MM-DD") => {
+    return dayjs(date).format(format);
+};
+
+export const formatDateWithTimezone = (date, format = "YYYY-MM-DD") => {
     return dayjs.tz(date).format(format);
 };
 
@@ -64,5 +68,5 @@ export const dateToStr = (date) => {
 export const getJSDate = (daysDate, isStartDate = true) => {
     const time = isStartDate ? DayTimeStart : DayTimeEnd;
     
-    return new Date(formatDate(daysDate) + time);
+    return new Date(formatDateWithTimezone(daysDate) + time);
 };
