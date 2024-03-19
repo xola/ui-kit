@@ -236,14 +236,16 @@ export const DatePicker = ({
 
             {components.Footer ? <components.Footer /> : null}
 
-            {useDateRangeStyle && shouldShowRelativeRanges && (
-                <div className="ml-auto w-6/12 pb-5 pl-5 pr-10">
-                    <RelativeDateRange
-                        value={rangeName}
-                        ranges={ranges}
-                        onChange={handleRelativeRangeChanged}
-                        onSubmit={onSubmitDateRange}
-                    />
+            {shouldShowRelativeRanges && (
+                <div className="max-w-200 ">
+                    <div className="ml-auto w-5/12">
+                        <RelativeDateRange
+                            value={rangeName}
+                            ranges={ranges}
+                            onChange={handleRelativeRangeChanged}
+                            onSubmit={onSubmitDateRange}
+                        />
+                    </div>
                 </div>
             )}
         </>
