@@ -55,7 +55,24 @@ export const RelativeDateRanges = () => {
                 variant="range"
                 onChange={setValue}
                 onSubmitDateRange={console.log}
-                timezoneName={"Pacific/Pago_Pago"}
+            />
+        </div>
+    );
+};
+
+export const RelativeDateRangesWithTimeZone = () => {
+    const [value, setValue] = useState({ from: new Date("2022-03-03"), to: new Date("2022-04-08") });
+
+    return (
+        <div className="flex w-3/4 flex-col">
+            <DatePicker
+                shouldShowYearPicker
+                shouldShowRelativeRanges
+                value={value}
+                variant="range"
+                onChange={setValue}
+                timezoneName={"America/Los_Angeles"}
+                onSubmitDateRange={console.log}
             />
         </div>
     );

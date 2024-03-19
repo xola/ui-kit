@@ -67,24 +67,26 @@ export const DatePicker = ({
         onMonthChange?.(currentMonth);
     }, [currentMonth, onMonthChange]);
 
-    // useEffect(() => {
-    //     if (timezoneName) {
-    //         dayjs.tz.setDefault(timezoneName);
-    //     }
-    // }, [timezoneName]);
+    useEffect(() => {
+        if (timezoneName) {
+            dayjs.tz.setDefault(timezoneName);
+        } else {
+            dayjs.tz.setDefault();
+        }
+    }, [timezoneName]);
 
     const handleTodayClick = (day, options, event) => {
         if (isRangeVariant) {
             return;
         }
 
-        const today = timezoneName ? getJSDate(now()) : new Date();
+        const today = timezoneName ? dayjs().tz(timezoneName).toDate() : new Date();
 
         if (options.disabled || isDisabled(today)) {
             setCurrentMonth(today);
             onMonthChange?.(today);
         } else {
-            onChange(getJSDate(now()), options, event);
+            onChange(day, options, event);
         }
     };
 
