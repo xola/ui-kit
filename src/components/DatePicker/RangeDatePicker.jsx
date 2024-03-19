@@ -27,7 +27,7 @@ const RangeDatePicker = ({
     ...rest
 }) => {
     const isStartDateIsTheSameMonth = dayjs(value?.from).isSame(dayjs(value?.to), "month");
-    const isSingleDayDateRange = dayjs(value?.from).isSame(dayjs(value.to), "day");
+    const isSingleDayDateRange = dayjs(value?.from).isSame(dayjs(value?.to), "day");
 
     const createCaptionElement = (currentMonth, handleChange) =>
         shouldShowYearPicker && currentMonth
