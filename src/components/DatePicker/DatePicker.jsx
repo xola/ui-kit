@@ -7,7 +7,7 @@ import "react-day-picker/lib/style.css";
 import "./DatePicker.css";
 import { isArray, isFunction } from "lodash";
 import { Tooltip } from "../..";
-import { now, getJSDate } from "../../helpers/date";
+import { now, isSame, toDate, isValidTimeZoneName } from "../../helpers/date";
 import { Day } from "./Day";
 import { MonthYearSelector } from "./MonthYearSelector";
 import { RelativeDateRange } from "./RelativeDateRange";
@@ -52,10 +52,10 @@ export const DatePicker = ({
     });
     const [endMonth, setEndMonth] = useState(() => {
         if (!value || !value.to || !value.from) {
-            return now(new Date()).add(1, "month").toDate();
+            return now().add(1, "month").toDate();
         }
 
-        return now(value.to).isSame(now(value.from), "month") ? now(value.from).add(1, "month").toDate() : value.to;
+        return isSame(now(value.to), now(value.from), "month") ? now(value.from).add(1, "month").toDate() : value.to;
     });
     const [rangeName, setRangeName] = useState("");
     const isRangeVariant = variant === variants.range;
@@ -67,7 +67,7 @@ export const DatePicker = ({
     }, [currentMonth, onMonthChange]);
 
     useEffect(() => {
-        if (timezoneName) {
+        if (timezoneName && isValidTimeZoneName(timezoneName)) {
             dayjs.tz.setDefault(timezoneName);
         } else {
             dayjs.tz.setDefault();
@@ -79,19 +79,19 @@ export const DatePicker = ({
             return;
         }
 
-        const today = timezoneName ? dayjs().tz(timezoneName).toDate() : new Date();
+        const today = timezoneName ? toDate(now(day)) : new Date();
 
         if (options.disabled || isDisabled(today)) {
             setCurrentMonth(today);
             onMonthChange?.(today);
         } else {
-            onChange(day, options, event);
+            onChange(today, options, event);
         }
     };
 
     const isDisabled = (date) => {
         if (isArray(disabledDays)) {
-            return disabledDays.some((_date) => now(_date).isSame(date, "day"));
+            return disabledDays.some((_date) => isSame(now(_date), date, "day"));
         }
 
         if (isFunction(disabledDays)) {
@@ -127,7 +127,7 @@ export const DatePicker = ({
             return;
         }
 
-        if (now(value?.from).isSame(day, "month")) {
+        if (isSame(now(value?.from), day, "month")) {
             handleStartMonthChange(day);
         }
 
@@ -136,17 +136,17 @@ export const DatePicker = ({
             if (isValidValue) {
                 // This allows us to easily select another date range,
                 // if both dates are selected.
-                onChange({ from: getJSDate(now(day).startOf("day")), to: null }, options, event);
+                onChange({ from: toDate(now(day).startOf("day")), to: null }, options, event);
             } else if (value && (value.from || value.to) && (value.from || value.to).getTime() === day.getTime()) {
-                const from = getJSDate(now(day).startOf("day"));
-                const to = getJSDate(now(day).endOf("day"), false);
+                const from = toDate(now(day).startOf("day"));
+                const to = toDate(now(day).endOf("day"), false);
 
                 onChange({ from, to }, options, event);
             } else {
-                onChange(DateUtils.addDayToRange(getJSDate(now(day).endOf("day"), false), value), options, event);
+                onChange(DateUtils.addDayToRange(toDate(now(day).endOf("day"), false), value), options, event);
             }
         } else {
-            onChange(getJSDate(now(day)), options, event);
+            onChange(toDate(now(day)), options, event);
         }
     };
 

@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React from "react";
-import { now, getJSDate } from "../../helpers/date";
+import { now, toDate } from "../../helpers/date";
 import { Button, Select } from "../..";
 
 const options = {
@@ -116,99 +116,99 @@ const handlers = {
     [options.YESTERDAY]: () => {
         const yesterday = now().subtract(1, "day");
         return {
-            from: getJSDate(yesterday.startOf("day")),
-            to: getJSDate(yesterday.endOf("day"), false),
+            from: toDate(yesterday.startOf("day")),
+            to: toDate(yesterday.endOf("day"), false),
         };
     },
 
     [options.TODAY]: () => {
         return {
-            from: getJSDate(now().startOf("day")),
-            to: getJSDate(now().endOf("day"), false),
+            from: toDate(now().startOf("day")),
+            to: toDate(now().endOf("day"), false),
         };
     },
 
     [options.LAST_WEEK]: () => {
         const lastWeek = now().subtract(7, "day");
         return {
-            from: getJSDate(lastWeek.startOf("week")),
-            to: getJSDate(lastWeek.endOf("week"), false),
+            from: toDate(lastWeek.startOf("week")),
+            to: toDate(lastWeek.endOf("week"), false),
         };
     },
 
     [options.TRAILING_WEEK]: () => {
         return {
-            from: getJSDate(now().subtract(7, "day").startOf("day")),
-            to: getJSDate(now().subtract(1, "day").endOf("day"), false),
+            from: toDate(now().subtract(7, "day").startOf("day")),
+            to: toDate(now().subtract(1, "day").endOf("day"), false),
         };
     },
 
     [options.THIS_WEEK]: () => {
         return {
-            from: getJSDate(now().startOf("week")),
-            to: getJSDate(now().endOf("week"), false),
+            from: toDate(now().startOf("week")),
+            to: toDate(now().endOf("week"), false),
         };
     },
 
     [options.LAST_MONTH]: () => {
         const lastMonth = now().subtract(1, "month");
         return {
-            from: getJSDate(lastMonth.startOf("month")),
-            to: getJSDate(lastMonth.endOf("month"), false),
+            from: toDate(lastMonth.startOf("month")),
+            to: toDate(lastMonth.endOf("month"), false),
         };
     },
 
     [options.TRAILING_MONTH]: () => {
         return {
-            from: getJSDate(now().subtract(1, "month").startOf("day")),
-            to: getJSDate(now().subtract(1, "day").endOf("day"), false),
+            from: toDate(now().subtract(1, "month").startOf("day")),
+            to: toDate(now().subtract(1, "day").endOf("day"), false),
         };
     },
 
     [options.THIS_MONTH]: () => ({
-        from: getJSDate(now().startOf("month")),
-        to: getJSDate(now().endOf("month"), false),
+        from: toDate(now().startOf("month")),
+        to: toDate(now().endOf("month"), false),
     }),
 
     [options.LAST_QUARTER]: () => {
         return {
-            from: getJSDate(now().startOf("month").subtract(3, "month")),
-            to: getJSDate(now().startOf("month").subtract(1, "day"), false),
+            from: toDate(now().startOf("month").subtract(3, "month")),
+            to: toDate(now().startOf("month").subtract(1, "day"), false),
         };
     },
 
     [options.TRAILING_QUARTER]: () => {
         return {
-            from: getJSDate(now().subtract(3, "month").startOf("day")),
-            to: getJSDate(now().subtract(1, "day").endOf("day"), false),
+            from: toDate(now().subtract(3, "month").startOf("day")),
+            to: toDate(now().subtract(1, "day").endOf("day"), false),
         };
     },
 
     [options.THIS_QUARTER]: () => {
         return {
-            from: getJSDate(now().startOf("Q")),
-            to: getJSDate(now().endOf("Q"), false),
+            from: toDate(now().startOf("Q")),
+            to: toDate(now().endOf("Q"), false),
         };
     },
 
     [options.LAST_YEAR]: () => {
         const lastYear = now().subtract(1, "year");
         return {
-            from: getJSDate(lastYear.startOf("year")),
-            to: getJSDate(lastYear.endOf("year"), false),
+            from: toDate(lastYear.startOf("year")),
+            to: toDate(lastYear.endOf("year"), false),
         };
     },
 
     [options.TRAILING_YEAR]: () => {
         return {
-            from: getJSDate(now().subtract(1, "year").startOf("day")),
-            to: getJSDate(now().subtract(1, "day").endOf("day"), false),
+            from: toDate(now().subtract(1, "year").startOf("day")),
+            to: toDate(now().subtract(1, "day").endOf("day"), false),
         };
     },
 
     [options.THIS_YEAR]: () => ({
-        from: getJSDate(now().startOf("year")),
-        to: getJSDate(now().endOf("year"), false),
+        from: toDate(now().startOf("year")),
+        to: toDate(now().endOf("year"), false),
     }),
 };
 

@@ -5,6 +5,7 @@ import clsx from "clsx";
 import dayjs from "dayjs";
 import { isArray, isFunction } from "lodash";
 import { Tooltip } from "../Tooltip";
+import { now } from "../../helpers/date";
 import { NavbarElement } from "./NavbarElement";
 import { MonthYearSelector } from "./MonthYearSelector";
 import { Day } from "./Day";
@@ -26,8 +27,8 @@ const RangeDatePicker = ({
     handleTodayClick,
     ...rest
 }) => {
-    const isStartDateIsTheSameMonth = dayjs(value?.from).isSame(dayjs(value?.to), "month");
-    const isSingleDayDateRange = dayjs(value?.from).isSame(dayjs(value?.to), "day");
+    const isStartDateIsTheSameMonth = now(value?.from).isSame(now(value?.to), "month");
+    const isSingleDayDateRange = now(value?.from).isSame(now(value?.to), "day");
 
     const createCaptionElement = (currentMonth, handleChange) =>
         shouldShowYearPicker && currentMonth

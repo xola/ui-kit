@@ -11,14 +11,26 @@ dayjs.extend(quarterOfYear);
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-const DayTimeStart = "T00:00:00";
-const DayTimeEnd = "T23:59:59";
+export const DateFormat = {
+    DATE_ISO: "YYYY-MM-DD",
+};
 
-export const formatDate = (date, format = "YYYY-MM-DD") => {
+export const isValidTimeZoneName = (timezoneName) => {
+    try {
+        dayjs.tz(new Date(), timezoneName);
+    } catch {
+        console.log(`${timezoneName} is not a valid timezone. Using default timezone now`);
+        return false;
+    }
+
+    return true;
+};
+
+export const formatDate = (date, format = DateFormat.DATE_ISO) => {
     return dayjs(date).format(format);
 };
 
-export const formatDateWithTimezone = (date, format = "YYYY-MM-DD") => {
+export const formatDateWithTimezone = (date, format = DateFormat.DATE_ISO) => {
     return dayjs.tz(date).format(format);
 };
 
@@ -33,11 +45,7 @@ export const dateFromObjectId = (id) => {
 
 export const now = (date, unit) => {
     if (!date) {
-        if (unit) {
-            return dayjs.tz().startOf(unit);
-        }
-
-        return dayjs.tz();
+        return unit ? dayjs.tz().startOf(unit) : dayjs.tz();
     }
 
     if (typeof date === "number") {
@@ -69,8 +77,19 @@ export const dateToString = (date) => {
     return `${dateString} ${timeString}`;
 };
 
-export const getJSDate = (daysDate, isStartDate = true) => {
-    const time = isStartDate ? DayTimeStart : DayTimeEnd;
+const DayTimeStart = "T00:00:00";
+const DayTimeEnd = "T23:59:59";
 
-    return new Date(formatDateWithTimezone(daysDate) + time);
+export const toDate = (dayjsDate, isStartDate = true) => {
+    const suffix = isStartDate ? DayTimeStart : DayTimeEnd;
+
+    return new Date(formatDateWithTimezone(dayjsDate) + suffix);
+};
+
+export const isSame = (date1, date2, unit = "day") => {
+    if (isDayjs(date1) && isDayjs(date2)) {
+        return date1.isSame(date2, unit);
+    }
+
+    return false;
 };
