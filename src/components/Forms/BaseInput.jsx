@@ -37,7 +37,11 @@ export const BaseInput = forwardRef(
             if (suffix) result = result.replace(new RegExp(`${suffix}$`), "");
 
             // added regexp to return only non-whitespace characters for strings and remove currency sign for currency input
-            return result.replace(/[^.\S]+/g, "").replace(/[\p{Sc}]/u, "");
+            return result.
+            	// Remove one or more whitespace characters that are not followed by a period
+            	replace(/[^.\S]+/g, "").
+            	// Remove any currency symbold
+            	replace(/[\p{Sc}]/u, "");
         }, [value, prefix, suffix]);
 
         // Since the input can only be a string or a number, added the toString method for a numeric value, because lodash's IsEmpty method returns true for any number.
