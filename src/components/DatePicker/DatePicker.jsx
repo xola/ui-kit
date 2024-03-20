@@ -97,7 +97,7 @@ export const DatePicker = ({
     const handleRelativeRangeChanged = (rangeName, range) => {
         setCurrentMonth(range.from);
         setStartMonth(range.from);
-        onChange(range, modifiers, null);
+        onChange({ ...range, rangeName }, modifiers, null);
     };
 
     const handleMonthChange = (m) => {
@@ -237,7 +237,7 @@ export const DatePicker = ({
             {components.Footer ? <components.Footer /> : null}
 
             {useDateRangeStyle && shouldShowRelativeRanges && (
-                <div className="ml-auto w-6/12 pl-5 pr-10 pb-5">
+                <div className="ml-auto w-6/12 pb-5 pl-5 pr-10">
                     <RelativeDateRange
                         value={rangeName}
                         ranges={ranges}
