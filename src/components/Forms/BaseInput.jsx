@@ -36,7 +36,7 @@ export const BaseInput = forwardRef(
 
             if (suffix) result = result.replace(new RegExp(`${suffix}$`), "");
 
-            // added regexp to return only non-whitespace characters for strings and remove currency sign for currency input
+            // Remove whitespace characters currency sign for currency input
             return result.
             	// Remove one or more whitespace characters that are not followed by a period
             	replace(/[^.\S]+/g, "").
