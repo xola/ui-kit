@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import React, { forwardRef } from "react";
+import React, { forwardRef, useMemo } from "react";
 import { isEmpty, isString } from "lodash";
 import { Dot } from "../Dot/Dot";
 
@@ -11,9 +11,39 @@ const sizes = {
 };
 
 export const BaseInput = forwardRef(
-    ({ as: Tag, size = "medium", isError, className, isRequired, value, ...rest }, ref) => {
-        // added regexp to return only non-whitespace characters for strings and remove currency sign for currency input
-        const stringValue = isString(value) && value.replace(/[^.\S]+/g, "").replace(/[\p{Sc}]/u, "");
+    ({ as: Tag, size = "medium", isError, className, isRequired, value, prefix, suffix, ...rest }, ref) => {
+        const stringValue = useMemo(() => {
+            if (!isString(value)) return undefined;
+
+            let result = value;
+
+            /**
+             * Why are we removing prefix and suffix?
+             *
+             * When BaseInput field is used as a component for `NumberFormat` input, the value would also include prefix and suffix.
+             *
+             * For Example, in UnitField (Weight) we have a suffix as " kg".
+             * So, if a user enters 72, the `value` prop supplied to this component would be "72 kg".
+             * and if the field is empty, the `value` would be " kg".
+             *
+             * Now, if we have `isRequired` set as true, and we need to show the required indicator when the field is empty.
+             * We need a way to know if the `value` supplied to this component is really a value or just prefix or suffix text.
+             * So, we are removing the prefix/suffix from value before comparing.
+             */
+
+            // if input contains prefix or suffix, we need to remove them
+            if (prefix) result = result.replace(new RegExp(`^${prefix}`), "");
+
+            if (suffix) result = result.replace(new RegExp(`${suffix}$`), "");
+
+            // Remove whitespace characters currency sign for currency input
+            return result.
+            	// Remove one or more whitespace characters that are not followed by a period
+            	replace(/[^.\S]+/g, "").
+            	// Remove any currency symbold
+            	replace(/[\p{Sc}]/u, "");
+        }, [value, prefix, suffix]);
+
         // Since the input can only be a string or a number, added the toString method for a numeric value, because lodash's IsEmpty method returns true for any number.
         const isEmptyValue = isString(value) ? isEmpty(stringValue) : isEmpty(value?.toString());
 
@@ -47,6 +77,8 @@ BaseInput.propTypes = {
     isRequired: PropTypes.bool,
     // eslint-disable-next-line react/require-default-props
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    prefix: PropTypes.string,
+    suffix: PropTypes.string,
 };
 
 BaseInput.defaultProps = {
@@ -55,4 +87,6 @@ BaseInput.defaultProps = {
     className: "",
     isError: false,
     isRequired: false,
+    prefix: "",
+    suffix: "",
 };
