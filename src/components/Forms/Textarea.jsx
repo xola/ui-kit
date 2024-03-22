@@ -4,7 +4,7 @@ import React, { forwardRef } from "react";
 import { BaseInput } from "./BaseInput";
 import TextareaAutosize from 'react-textarea-autosize';
 
-export const Textarea = forwardRef(({ className, value, rows = 2, ...rest }, ref) => {
+export const Textarea = forwardRef(({ className, value, autoSize, rows = 2, ...rest }, ref) => {
     return (
         <BaseInput
             ref={ref}
