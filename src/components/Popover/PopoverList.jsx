@@ -2,6 +2,7 @@ import clsx from "clsx";
 import PropTypes from "prop-types";
 import React, { Children } from "react";
 import { Popover } from "./Popover";
+import scrollFix from "./PopoverScroll.module.css";
 
 export const PopoverList = ({ placement = "bottom", className, children, ...rest }) => {
     const childrenArray = Children.toArray(children);
@@ -12,7 +13,9 @@ export const PopoverList = ({ placement = "bottom", className, children, ...rest
     });
 
     const content = (
-        <Popover.Content className="ui-popover-list-content divide-y divide-solid divide-gray-lighter p-0">
+        <Popover.Content
+            className={clsx(scrollFix, "ui-popover-list-content divide-y divide-solid divide-gray-lighter p-0 ")}
+        >
             {items}
         </Popover.Content>
     );
@@ -35,8 +38,8 @@ PopoverList.propTypes = {
     children: PropTypes.node.isRequired,
 };
 
-const Item = ({ name, isActive = false, position, total, children, className, onClickItem, ...rest }) => {
-    const onClick = (event) => onClickItem(event, name);
+const Item = ({ name, isActive = false, id = null, position, total, children, className, onClickItem, ...rest }) => {
+    const onClick = (event) => onClickItem(event, name, id);
 
     return (
         <div
@@ -63,6 +66,7 @@ Item.propTypes = {
     total: PropTypes.number,
     name: PropTypes.string.isRequired,
     isActive: PropTypes.bool,
+    id: PropTypes.string,
     children: PropTypes.node.isRequired,
     className: PropTypes.string,
     onClickItem: PropTypes.func.isRequired,

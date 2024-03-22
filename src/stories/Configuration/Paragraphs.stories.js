@@ -2,6 +2,12 @@ import React from "react";
 
 const ParagraphsStories = {
     title: "Configuration/Paragraph",
+    parameters: {
+        design: {
+            type: "figma",
+            url: "https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%E2%9A%99%EF%B8%8F-01---DS-Core?node-id=2855%3A99446",
+        },
+    },
 };
 
 export const Paragraph = () => {

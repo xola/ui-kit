@@ -32,8 +32,8 @@ const FlashStories = {
             },
         },
         color: {
-            options: ["primary", "secondary", "success", "warning", "danger"],
-            control: { type: "select" },
+            options: ["primary", "secondary", "success", "warning", "danger", "caution"],
+            control: { type: "inline-radio" },
             table: {
                 defaultValue: { summary: "primary" },
             },
@@ -53,18 +53,21 @@ const FlashStories = {
 };
 
 const toastMe = (props) => {
-    props.onClose = (event_, toast) => {
-        flash.dismiss(toast.id);
-    };
-
+    props.onClose = (event_, toast) => flash.dismiss(toast.id);
     flash.show(props);
 };
 
 export const Default = (props) => {
     return (
-        <div className="space-y-3">
+        <div className="space-y-6">
             <div>Click below to show a flash</div>
             <Button onClick={() => toastMe(props)}>{props.text}</Button>
+
+            <pre>
+                <code>{`flash.show({ text: "${props.text}", color: "${props.color ?? "primary"}", duration: ${
+                    props.duration
+                } })`}</code>
+            </pre>
 
             <div>
                 <Button size="small" color="warning" onClick={() => flash.dismiss()}>
@@ -78,9 +81,22 @@ export const Default = (props) => {
     );
 };
 
-export const ViewContainer = (props) => {
-    const classes = flash.getStyles(props.color, props.size, "relative", true);
-    return flash.container(props.text, classes, props.canClose ? () => {} : null, { id: "foo", visible: true });
+export const AllStyles = (props) => {
+    const handleClose = () => {
+        console.log("Closed");
+    };
+
+    return (
+        <div className="w-96 space-y-8">
+            {FlashStories.argTypes.color.options.map((color) => {
+                const classes = flash.getStyles(color, props.size, "relative", true);
+                return flash.container(`[${color}] ${props.text}`, classes, props.canClose ? handleClose : null, {
+                    id: `flash-${color}`,
+                    visible: true,
+                });
+            })}
+        </div>
+    );
 };
 
 export default FlashStories;

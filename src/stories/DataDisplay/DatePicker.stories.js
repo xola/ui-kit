@@ -1,7 +1,6 @@
 import dayjs from "dayjs";
-import { random } from "lodash";
 import React, { useState } from "react";
-import { DatePicker, DatePickerPopover, theme, Button, Switch } from "../..";
+import { Button, DatePicker, DatePickerPopover, Switch, theme } from "../..";
 import { formatDate } from "../../helpers/date";
 
 const DatePickerStories = {
@@ -14,11 +13,19 @@ const DatePickerStories = {
                     "Rendering a date picker with various functionality based on [React Day Picker](https://react-day-picker.js.org) library",
             },
         },
+        design: {
+            name: "Figma",
+            type: "figma",
+            url: "https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%E2%9A%99%EF%B8%8F-01---DS-Core?node-id=2746%3A97005",
+        },
     },
 };
 
-const today = dayjs().set("date", 1).toDate();
 const { colors } = theme;
+
+// We use a fixed date instead of today to avoid flaky tests
+const defaultDate = new Date("2022-10-10");
+const defaultMonth = dayjs(defaultDate).set("date", 1).toDate();
 
 const handleOnChange = (date) => {
     console.log("Got date", date);
@@ -38,21 +45,21 @@ const getDaysArrayByMonth = (month) => {
 };
 
 export const Default = () => {
-    const [value, setValue] = useState(new Date());
+    const [value, setValue] = useState(defaultDate);
     return <DatePicker value={value} onChange={setValue} />;
 };
 
 export const DisabledDays = () => {
-    const [value, setValue] = useState(new Date());
+    const [value, setValue] = useState(defaultDate);
 
     const disabledDays = [
         // Disable two specific dates
-        new Date(today.setDate(14)),
-        new Date(today.setDate(2)),
+        new Date(defaultMonth.setDate(14)),
+        new Date(defaultMonth.setDate(2)),
         {
             // All days between these two dates
-            after: new Date(today.setDate(18)),
-            before: new Date(today.setDate(23)),
+            after: new Date(defaultMonth.setDate(18)),
+            before: new Date(defaultMonth.setDate(23)),
         },
         {
             // Disabled all Sundays
@@ -60,7 +67,7 @@ export const DisabledDays = () => {
         },
     ];
 
-    return <DatePicker month={today} disabledDays={disabledDays} value={value} onChange={setValue} />;
+    return <DatePicker month={defaultMonth} disabledDays={disabledDays} value={value} onChange={setValue} />;
 };
 
 addDescription(
@@ -69,13 +76,12 @@ addDescription(
 );
 
 export const WithFooter = () => {
-    const [value, setValue] = useState(new Date());
-
+    const [value, setValue] = useState(defaultDate);
     const [isChecked, setIsChecked] = useState(false);
 
     return (
         <DatePicker
-            month={today}
+            month={defaultMonth}
             value={value}
             components={{
                 Footer: () => (
@@ -99,13 +105,13 @@ addDescription(
 );
 
 export const RestrictNavigation = () => {
-    const [value, setValue] = useState(new Date());
+    const [value, setValue] = useState(defaultDate);
 
     return (
         <DatePicker
             value={value}
-            month={today}
-            fromMonth={today}
+            month={defaultMonth}
+            fromMonth={defaultMonth}
             toMonth={dayjs().add(2, "month").toDate()}
             onChange={setValue}
         />
@@ -118,11 +124,11 @@ addDescription(
 );
 
 export const ModifyCellStyle = () => {
-    const [value, setValue] = useState(new Date());
+    const [value, setValue] = useState(defaultDate);
 
     const modifiers = {
         thursdays: { daysOfWeek: [4] },
-        waitlist: [new Date(today.setDate(18)), dayjs().set("day", 4).toDate()],
+        waitlist: [new Date(defaultMonth.setDate(18)), dayjs().set("day", 4).toDate()],
     };
 
     const modifiersStyles = {
@@ -137,7 +143,7 @@ export const ModifyCellStyle = () => {
     return (
         <DatePicker
             value={value}
-            month={today}
+            month={defaultMonth}
             modifiers={modifiers}
             modifiersStyles={modifiersStyles}
             fromMonth={new Date()}
@@ -172,13 +178,13 @@ addDescription(
 
 const customContent = [null];
 for (let day = 1; day <= dayjs().daysInMonth(); day++) {
-    customContent.push(`$${random(1, 200)}`);
+    customContent.push(`$${day * 3.5}`);
 }
 
-customContent[random(1, dayjs().daysInMonth())] = "Please Call/Email";
-customContent[random(1, dayjs().daysInMonth())] = "Sold Out";
-customContent[random(1, dayjs().daysInMonth())] = "Sold Out";
-customContent[random(1, dayjs().daysInMonth())] = "205 spots";
+customContent[10] = "Please Call/Email";
+customContent[15] = "Sold Out";
+customContent[23] = "205 spots";
+customContent[22] = "Sold Out";
 
 export const WithCustomContent = () => {
     const [value, setValue] = useState(new Date());
@@ -205,7 +211,7 @@ export const PickerWithInput = () => {
     };
 
     return (
-        <div className="h-[300px] w-75">
+        <div className="h-75 w-75">
             <div>
                 <Button className="mb-4" onClick={handleClearDateClick}>
                     Clear Date
@@ -224,7 +230,7 @@ addDescription(
 
 export const PickerCustomInput = () => {
     return (
-        <div className="h-[300px]">
+        <div className="h-75">
             <DatePickerPopover value={new Date()} dateFormat="DD MMM" onChange={handleOnChange}>
                 <div className="cursor-pointer bg-gray-lighter p-3">Hello, click me to open up a date picker</div>
             </DatePickerPopover>
@@ -235,7 +241,7 @@ export const PickerCustomInput = () => {
 export const InputWithCustomContent = () => {
     const [value, setValue] = useState(new Date());
     return (
-        <div className="h-[300px]">
+        <div className="h-75">
             <DatePickerPopover
                 value={value}
                 getDayContent={(date) => customContent[date]}
@@ -296,7 +302,7 @@ addDescription(
 );
 
 export const WithUpcomingDates = () => {
-    const [value, setValue] = useState(new Date());
+    const [value, setValue] = useState(defaultMonth);
 
     const handleChange = (value) => {
         setValue(value);
@@ -304,7 +310,7 @@ export const WithUpcomingDates = () => {
 
     const modifiers = {
         thursdays: { daysOfWeek: [4] },
-        waitlist: [new Date(today.setDate(18)), dayjs().set("day", 4).toDate()],
+        waitlist: [new Date(defaultMonth.setDate(18)), dayjs().set("day", 4).toDate()],
     };
 
     const modifiersStyles = {

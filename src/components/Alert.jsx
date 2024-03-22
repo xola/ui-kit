@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import React from "react";
-import { CloseIcon } from "../icons/CloseIcon";
+import { CloseIcon } from "../icons";
 
 const colors = {
     primary: "bg-primary-lighter text-black",
@@ -22,7 +22,7 @@ export const Alert = ({ className, color = "primary", onClose, children, ...rest
             )}
             {...rest}
         >
-            <span className="ui-alert-content w-full">{children}</span>
+            <span className="ui-alert-content w-full leading-p1">{children}</span>
 
             {onClose ? (
                 <button type="button" className="ui-alert-close ml-3 cursor-pointer hover:text-gray-dark">

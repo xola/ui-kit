@@ -18,6 +18,13 @@ const TooltipStories = {
         offset: [0, 10],
         zIndex: 9999,
     },
+    parameters: {
+        design: {
+            name: "Figma",
+            type: "figma",
+            url: "https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%E2%9A%99%EF%B8%8F-01---DS-Core?node-id=7683%3A478826&viewport=7035%2C-4414%2C0.57",
+        },
+    },
     argTypes: {
         content: getArgument("My tooltip text", "text", null, "The text of the tooltip"),
         trigger: getArgument(
@@ -106,9 +113,9 @@ export const WithHTMLContent = () => {
 export const OnAnIcon = (config) => {
     return (
         <Tooltip {...config}>
-            <Button.Icon color="outline" size="medium">
+            <Button color="secondary" variant="outline" size="medium">
                 <UserIcon size="medium" />
-            </Button.Icon>
+            </Button>
         </Tooltip>
     );
 };

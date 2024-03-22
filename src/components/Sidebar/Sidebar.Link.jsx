@@ -1,8 +1,8 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import React from "react";
-import { ChevronRightIcon } from "../../icons/ChevronRightIcon";
-import { Dot } from "../..";
+import { ChevronRightIcon } from "../../icons";
+import { Dot } from "../Dot/Dot";
 
 export const SidebarLink = ({ isActive = false, icon: Icon, children, isSubMenuItem, ...rest }) => {
     return (
@@ -38,4 +38,14 @@ SidebarLink.propTypes = {
     icon: PropTypes.func,
     children: PropTypes.node.isRequired,
     isSubMenuItem: PropTypes.bool,
+};
+
+export const SidebarSeparator = ({ className }) => {
+    return <hr className={clsx("mx-3 my-4 border-gray-lighter/20", className)} />;
+};
+
+SidebarSeparator.displayName = "Sidebar.Separator";
+
+SidebarSeparator.propTypes = {
+    className: PropTypes.string,
 };

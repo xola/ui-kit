@@ -1,9 +1,16 @@
 import React from "react";
-import { Textarea, Label, FormGroup } from "../..";
+import { FormGroup, Label, Textarea } from "../..";
 
 const TextareaStories = {
     primary: true,
     title: "Forms & Fields/Textarea",
+    parameters: {
+        design: {
+            name: "Figma",
+            type: "figma",
+            url: "https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%E2%9A%99%EF%B8%8F-01---DS-Core?node-id=7683%3A479202&viewport=8855%2C-1452%2C0.44",
+        },
+    },
 };
 
 export const Default = () => {

@@ -10,6 +10,11 @@ const LoginStories = {
                 component: "A default login screen specifically for Xola",
             },
         },
+        design: {
+            name: "Figma",
+            type: "figma",
+            url: "https://www.figma.com/file/loaaBJLNhy9ipQe3HW5wIn/14---Login?node-id=2%3A12437",
+        },
     },
     args: {
         backgroundType: "default",
@@ -52,8 +57,8 @@ export const X2 = () => {
 
 export const Admin = () => {
     const label = (
-        <Badge color="secondary" className="!rounded">
-            Admin
+        <Badge color="danger" size="medium" className="!rounded">
+            THIS IS THE ADMIN PANEL!!111
         </Badge>
     );
     return <Login backgroundType="admin" label={label} onSubmit={onSubmit} />;
@@ -62,6 +67,11 @@ export const Admin = () => {
 export const Scaffold = () => {
     const label = <Badge className="!rounded">Scaffold</Badge>;
     return <Login backgroundType="scaffold" label={label} onSubmit={onSubmit} />;
+};
+
+export const Custom = () => {
+    const label = <Badge className="!rounded">Custom Background for Internal Tools</Badge>;
+    return <Login backgroundImage="http://source.unsplash.com/noOXRT9gfQ8/w=4096" label={label} onSubmit={onSubmit} />;
 };
 
 export default LoginStories;

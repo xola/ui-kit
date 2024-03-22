@@ -5,72 +5,78 @@
 @tailwind components;
 @tailwind utilities;
 
-html {
-    /* Never change this default! */
-    font-size: 14px;
-}
+@layer base {
+    html {
+        /* Never change this default! */
+        @apply text-black text-base;
+    }
 
-a {
-    @apply text-primary hover:underline;
-}
+    a {
+        @apply text-primary hover:underline;
+    }
 
-button:focus {
-    @apply outline-none;
-}
+    button:focus {
+        @apply outline-none;
+    }
 
-h1 {
-    @apply text-2xl; /* 24px */
-    @apply font-bold;
-    @apply leading-p1 tracking-tightest;
-}
+    h1 {
+        @apply text-2xl; /* 24px */
+        @apply font-bold;
+        @apply leading-p1 tracking-tightest;
+    }
 
-h2 {
-    @apply text-xl; /* 21px */
-    @apply font-bold;
-    @apply leading-p1 tracking-tightest;
-}
+    h2 {
+        @apply text-xl; /* 21px */
+        @apply font-bold;
+        @apply leading-p1 tracking-tightest;
+    }
 
-h3 {
-    @apply text-lg; /* 18px */
-    @apply font-bold;
-    @apply tracking-tightest;
-}
+    h3 {
+        @apply text-lg; /* 18px */
+        @apply font-bold;
+        @apply tracking-tightest;
+    }
 
-h4 {
-    @apply text-md; /* 16 px */
-    @apply leading-p2 tracking-tightest;
-}
+    h4 {
+        @apply text-md; /* 16 px */
+        @apply leading-p2 tracking-tightest;
+    }
 
-h5 {
-    @apply text-base; /* 14 px */
-    @apply leading-p2 tracking-tightest;
-}
+    h5 {
+        @apply text-base; /* 14 px */
+        @apply leading-p2 tracking-tightest;
+    }
 
-h6 {
-    @apply text-sm; /* 14 px */
-    @apply leading-p3 tracking-tightest;
-}
+    h6 {
+        @apply text-sm; /* 14 px */
+        @apply leading-p3 tracking-tightest;
+    }
 
-.p1 {
-    @apply text-md; /* 16px */
-    @apply leading-p1 tracking-tightest;
-}
+    .p1 {
+        @apply text-md; /* 16px */
+        @apply leading-p1 tracking-tightest;
+    }
 
-.p2 {
-    @apply text-base; /* 14px */
-    @apply leading-p2 tracking-tightest;
-}
+    .p2 {
+        @apply text-base; /* 14px */
+        @apply leading-p2 tracking-tightest;
+    }
 
-.p3 {
-    @apply text-sm; /* 12px */
-    @apply leading-p3 tracking-tightest;
-}
+    .p3 {
+        @apply text-sm; /* 12px */
+        @apply leading-p3 tracking-tightest;
+    }
 
-.ui-badge .icon {
-    position: relative;
-    top: -1px;
-}
+    .ui-badge .icon {
+        position: relative;
+        top: -1px;
+    }
 
-.font-bold {
-    @apply antialiased;
+    sup {
+        top: -7px;
+    }
+
+    .font-bold {
+        @apply antialiased;
+    }
 }

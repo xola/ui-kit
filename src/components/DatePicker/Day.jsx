@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 import PropTypes from "prop-types";
 import React from "react";
 
-export const Day = ({ selectedDate, date, getContent, currentMonth }) => {
+export const Day = ({ selectedDate, date, getContent, currentMonth, disabled = false }) => {
     const isSameMonth = dayjs(currentMonth).isSame(date, "month");
     if (getContent && isSameMonth) {
         return <DayContent selectedDate={selectedDate} date={date} getContent={getContent} />;
@@ -16,7 +16,7 @@ export const Day = ({ selectedDate, date, getContent, currentMonth }) => {
             className={clsx(
                 "ui-date-picker-day",
                 "flex items-center justify-center",
-                isSameDay && isSameMonth ? "selected text-white" : null,
+                isSameDay && isSameMonth && !disabled ? "selected text-white" : null,
                 isSameMonth ? "date" : null,
             )}
         >
@@ -46,7 +46,7 @@ const DayContent = ({ selectedDate, date, getContent }) => {
             <div className={clsx("ui-day-content-value", { "selected text-white": isSameDay })}>{day}</div>
 
             {/* The custom content below it */}
-            {contentValue ? <div className="ui-day-content-custom">{contentValue}</div> : null}
+            {contentValue ? <div className="ui-day-content-custom mt-1">{contentValue}</div> : null}
         </div>
     );
 };

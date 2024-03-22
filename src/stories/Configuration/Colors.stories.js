@@ -4,6 +4,13 @@ import twConfig from "../../../tailwind.config";
 
 const ColorsStories = {
     title: "Configuration/Colors",
+    parameters: {
+        design: {
+            name: "Figma",
+            type: "figma",
+            url: "https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%E2%9A%99%EF%B8%8F-01---DS-Core?node-id=2855%3A99352&viewport=3792%2C737%2C0.13",
+        },
+    },
 };
 
 const { colors } = twConfig.theme;
@@ -28,9 +35,9 @@ const ProcessColor = ({ name, prefix, colors, className = "" }) => {
             {keys.map((key) => {
                 const value = colors[key];
                 return typeof value === "string" ? (
-                    <Color prefix={prefix} name={name} color={key} hex={value} className={className} />
+                    <Color key={key} prefix={prefix} name={name} color={key} hex={value} className={className} />
                 ) : (
-                    <div className="my-6 border-t border-gray-lighter pt-4">
+                    <div key={key} className="my-6 border-t border-gray-lighter pt-4">
                         <div className="font-bold uppercase">{key ?? ""}</div>
                         <div className="grid w-[700px] grid-cols-3 gap-x-2 gap-y-4 xl:gap-4 2xl:w-full 2xl:grid-cols-6">
                             <ProcessColor prefix={prefix} name={key} colors={value} className="my-2" />

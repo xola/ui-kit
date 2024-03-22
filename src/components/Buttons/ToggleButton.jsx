@@ -5,12 +5,12 @@ import { Button } from "./Button";
 
 const colors = {
     outline: {
-        primary: "bg-primary-lighter border border-primary-light hover:focus:bg-primary-lighter",
-        secondary: "bg-secondary-lighter border border-secondary-light hover:focus:bg-secondary-lighter",
-        success: "bg-success-lighter border border-success-light hover:focus:bg-success-lighter",
-        warning: "bg-warning-lighter border border-warning-light hover:focus:bg-warning-lighter",
-        caution: "bg-caution-lighter border border-caution-light hover:focus:bg-caution-lighter",
-        danger: "bg-danger-lighter border border-danger-light hover:focus:bg-danger-lighter",
+        primary: "bg-primary-lighter border border-primary hover:bg-primary-light hover:border-primary-dark",
+        secondary: "bg-secondary-light border border-secondary-light hover:bg-secondary-light hover:border-secondary",
+        success: "bg-success-lightish border border-success hover:bg-success-light hover:border-success-dark",
+        warning: "bg-warning-lightish border border-warning hover:bg-warning-light hover:border-warning-dark",
+        caution: "bg-caution-lightish border border-caution hover:bg-caution-light hover:border-caution-dark",
+        danger: "bg-danger-lightish border border-danger hover:bg-danger-light hover:border-danger-dark",
     },
 };
 
@@ -19,7 +19,11 @@ export const ToggleButton = ({ color = "primary", variant = "outline", isActive,
         <Button
             color={color}
             variant={variant}
-            className={clsx("text-black", className, isActive ? colors[variant][color] : "border !border-gray-light")}
+            className={clsx(
+                "text-black",
+                className,
+                isActive ? colors[variant][color] : `bg-white hover:bg-${color}-lighter hover:border-${color}`,
+            )}
             {...rest}
         />
     );

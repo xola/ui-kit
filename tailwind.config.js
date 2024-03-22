@@ -58,6 +58,7 @@ const colors = {
 
     orange: {
         lighter: "#FFF1E7",
+        lightish: "#FFF1E7",
         light: "#FFB493",
         DEFAULT: "#FF9668",
         dark: "#EC743F",
@@ -102,14 +103,23 @@ const spacing = {
     48: "192px",
     50: "200px",
     52: "208px",
+    54: "216px",
     56: "224px",
     60: "240px",
     64: "256px",
+    65: "260px", // CODE REVIEW: Should switch to w-64 260px or use Barth's spacing here?
     72: "288px",
     75: "300px",
     80: "320px",
-    82: "350px",
+    85: "340px",
     96: "384px",
+    100: "400px",
+    105: "420px",
+    110: "440px",
+    125: "500px",
+    150: "600px",
+    140: "560px",
+    200: "800px",
 };
 module.exports = {
     content: [

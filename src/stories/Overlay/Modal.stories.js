@@ -1,13 +1,21 @@
 import React, { useState } from "react";
-import { Button, Modal, Input } from "../..";
+import { Button, Input, Modal } from "../..";
 
 const ModalStories = {
     title: "Overlay/Modal",
     component: Modal,
     args: {
         size: "medium",
+        position: "center",
         shouldCloseOnOutsideClick: true,
         isOpen: false,
+    },
+    parameters: {
+        design: {
+            name: "Figma",
+            type: "figma",
+            url: "https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%E2%9A%99%EF%B8%8F-01---DS-Core?node-id=7751%3A525089&viewport=6332%2C-1512%2C0.29",
+        },
     },
     argTypes: {
         size: {
@@ -16,6 +24,14 @@ const ModalStories = {
             control: { type: "select" },
             table: {
                 defaultValue: { summary: "medium" },
+            },
+        },
+        position: {
+            type: { required: false },
+            options: ["topLeft", "topRight", "center", "bottomLeft", "bottomRight"],
+            control: { type: "select" },
+            table: {
+                defaultValue: { summary: "center" },
             },
         },
         shouldCloseOnOutsideClick: {
@@ -31,7 +47,7 @@ const ModalStories = {
     },
 };
 
-export const Default = ({ size, shouldCloseOnOutsideClick }) => {
+export const Default = ({ size, position, shouldCloseOnOutsideClick }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const toggle = () => {
@@ -42,7 +58,13 @@ export const Default = ({ size, shouldCloseOnOutsideClick }) => {
         <div>
             <Button onClick={toggle}>Click me to launch a modal</Button>
 
-            <Modal size={size} isOpen={isOpen} shouldCloseOnOutsideClick={shouldCloseOnOutsideClick} onClose={toggle}>
+            <Modal
+                size={size}
+                position={position}
+                isOpen={isOpen}
+                shouldCloseOnOutsideClick={shouldCloseOnOutsideClick}
+                onClose={toggle}
+            >
                 <Modal.Header description="Enter the code bellow to apply the code">Apply Code</Modal.Header>
 
                 <Modal.Body>
@@ -63,7 +85,7 @@ export const Default = ({ size, shouldCloseOnOutsideClick }) => {
     );
 };
 
-export const CustomWidth = ({ size, shouldCloseOnOutsideClick }) => {
+export const CustomWidth = ({ size, position, shouldCloseOnOutsideClick }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const toggle = () => {
@@ -75,8 +97,9 @@ export const CustomWidth = ({ size, shouldCloseOnOutsideClick }) => {
             <Button onClick={toggle}>Click me to launch a modal</Button>
 
             <Modal
-                className="!max-w-[800px]"
+                className="!max-w-200"
                 size={size}
+                position={position}
                 isOpen={isOpen}
                 shouldCloseOnOutsideClick={shouldCloseOnOutsideClick}
                 onClose={toggle}

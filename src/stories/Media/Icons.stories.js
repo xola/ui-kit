@@ -1,7 +1,7 @@
 import { map, omitBy } from "lodash";
 import React, { useState } from "react";
 import { Toaster } from "react-hot-toast";
-import * as all from "../..";
+import * as all from "../../icons/";
 import { flash, Input } from "../..";
 
 const iconNames = omitBy(all, (Icon, name) => !name.endsWith("Icon"));
@@ -22,6 +22,13 @@ const IconsStories = {
     title: "Media/Icons",
     args: {
         color: "text-black",
+    },
+    parameters: {
+        design: {
+            name: "Figma",
+            type: "figma",
+            url: "https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%E2%9A%99%EF%B8%8F-01---DS-Core?node-id=384%3A0&viewport=4979%2C1071%2C0.31",
+        },
     },
     argTypes: {
         color: {
@@ -59,12 +66,11 @@ const IconList = ({ size, color }) => {
     });
 
     const handleClick = (name) => {
-        const iconName = `<${name} />`;
-        navigator.clipboard.writeText(iconName);
+        navigator.clipboard.writeText(name);
         flash.show({
             text: (
                 <>
-                    Copied <span className="font-mono">{iconName}</span> to your clipboard
+                    Copied <span className="font-mono">{name}</span> to your clipboard
                 </>
             ),
             color: "success",

@@ -1,11 +1,18 @@
 ## Xola UI Kit
 
-React component library for the next generation of Xola apps.
+Xola's React component library with Tailwind CSS for the next generation of Xola apps.
+
+This repository is published as two pieces:
+
+1. [@xola/ui-kit](https://www.npmjs.com/package/@xola/ui-kit)
+2. [@xola/icons](https://www.npmjs.com/package/@xola/icons)
+
+It's storybook is publicly published at [ui.xola.io](https://ui.xola.io). The icons can be previewed there as well.
 
 ### Requirements
 
 -   Node.js v16
--   NPM v7
+-   NPM v7 or higher
 
 ### Usage
 
@@ -141,4 +148,24 @@ Or:
 
 ```bash
 $ npm install some-package --legacy-peer-deps
+```
+
+## Publishing the Package
+
+Install [np](https://github.com/sindresorhus/np#readme) which will help you publish the package
+
+```bash
+npm -g install np
+```
+
+Once you're ready, run this command to publish your package
+
+```bash
+npm run build
+np <your-new-version> --tag=latest --yolo
+```
+
+Then make sure to push all the tags upstream to `xola/ui-kit` repo:
+```
+git push <upstream-remote> master --tags
 ```

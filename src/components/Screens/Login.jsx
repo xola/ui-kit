@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React, { useState } from "react";
-import XolaLogo from "../../images/XolaLogo";
+import { XolaLogoSimple } from "../../icons";
 import { Alert } from "../Alert";
 import { Button } from "../Buttons/Button";
 import { Checkbox } from "../Forms/Checkbox";
@@ -23,6 +23,7 @@ export const Login = ({
     onSubmit,
     passwordResetUrl,
     label,
+    backgroundImage = null,
     backgroundType = "default",
     ...rest
 }) => {
@@ -43,9 +44,9 @@ export const Login = ({
         onSubmit(values);
     };
 
-    const backgroundImage = backgrounds[backgroundType] ?? backgrounds.default;
+    const backgroundImageUrl = backgroundImage ?? backgrounds[backgroundType] ?? backgrounds.default;
     const style = {
-        backgroundImage: `url("${backgroundImage}")`,
+        backgroundImage: `url("${backgroundImageUrl}")`,
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
         backgroundSize: "cover",
@@ -57,10 +58,10 @@ export const Login = ({
             style={style}
             {...rest}
         >
-            <div className="md:full flex h-[90%] w-full flex-col items-center justify-center space-y-8">
-                <div className="w-82 rounded-lg py-0 px-9 md:bg-white md:py-10">
-                    <div className="mb-12 space-y-2 md:mb-20">
-                        <XolaLogo className="mx-auto h-10 w-auto md:h-12" />
+            <div className="md:full flex h-[88%] w-full flex-col items-center justify-center space-y-8">
+                <div className="w-85 rounded-lg px-9 py-0 md:bg-white md:py-10">
+                    <div className="mb-12 space-y-4 md:mb-20">
+                        <XolaLogoSimple className="mx-auto h-10 w-auto md:h-12" />
                         {label && <div className="flex items-center justify-center">{label}</div>}
                     </div>
 
@@ -126,17 +127,21 @@ export const Login = ({
             </div>
 
             <footer>
-                <div className="flex w-full flex-col items-center justify-center overflow-hidden py-1 px-4 sm:px-6 lg:px-8">
-                    <div className="m-5 w-82 rounded-lg px-4 text-center text-xs opacity-80 md:text-sm">
+                <div className="flex w-full flex-col items-center justify-center overflow-hidden px-4 py-1 sm:px-6 lg:px-8">
+                    <div className="m-5 w-85 rounded-lg px-4 text-center text-xs opacity-80 md:text-sm">
                         <a
                             href="https://www.xola.com/team"
                             target="_blank"
-                            className="md:text-gray-dark"
+                            className="text-gray md:text-gray-dark"
                             rel="noreferrer"
                         >
-                            Handcrafted in Houston, Belgrade &amp; Bengaluru
-                            <div className="text-center">&copy; {new Date().getFullYear()} Xola, Inc.</div>
+                            Designed in San Francisco & Rouen, France
+                            <br />
+                            Built in Houston, Belgrade, Ukraine &amp; Bengaluru
                         </a>
+                        <div className="text-center text-gray md:text-gray-dark">
+                            &copy; {new Date().getFullYear()} Xola, Inc.
+                        </div>
                     </div>
                 </div>
             </footer>
