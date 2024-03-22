@@ -63,4 +63,13 @@ export const CustomWidth = () => {
     );
 };
 
+export const AutoSize = () => {
+    return (
+        <FormGroup>
+            <Label>Text</Label>
+            <Textarea autoSize={true}/>
+        </FormGroup>
+    );
+};
+
 export default TextareaStories;
