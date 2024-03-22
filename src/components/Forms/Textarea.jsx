@@ -1,14 +1,14 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import React, { forwardRef } from "react";
+import TextareaAutosize from "react-textarea-autosize";
 import { BaseInput } from "./BaseInput";
-import TextareaAutosize from 'react-textarea-autosize';
 
-export const Textarea = forwardRef(({ className, value, autoSize, rows = 2, ...rest }, ref) => {
+export const Textarea = forwardRef(({ className, value, shouldAutoSize = false, rows = 2, ...rest }, ref) => {
     return (
         <BaseInput
             ref={ref}
-            as={autoSize ? TextareaAutosize : "textarea"}
+            as={shouldAutoSize ? TextareaAutosize : "textarea"}
             value={value}
             className={clsx("ui-textarea", className)}
             rows={rows}
@@ -20,9 +20,10 @@ export const Textarea = forwardRef(({ className, value, autoSize, rows = 2, ...r
 Textarea.propTypes = {
     ...BaseInput.propTypes,
     rows: PropTypes.number,
-    autoSize: PropTypes.bool, 
+    shouldAutoSize: PropTypes.bool,
 };
 
 Textarea.defaultProps = {
     rows: 2,
+    shouldAutoSize: false,
 };
