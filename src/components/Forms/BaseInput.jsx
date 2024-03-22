@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import React, { forwardRef, useMemo } from "react";
+import React, { forwardRef } from "react";
 import { isEmpty, isString } from "lodash";
 import { Dot } from "../Dot/Dot";
 
@@ -12,7 +12,7 @@ const sizes = {
 
 export const BaseInput = forwardRef(
     ({ as: Tag, size = "medium", isError, className, isRequired, value, prefix, suffix, ...rest }, ref) => {
-        const stringValue = useMemo(() => {
+        const stringValue = () => {
             if (!isString(value)) return undefined;
 
             let result = value;
@@ -37,15 +37,17 @@ export const BaseInput = forwardRef(
             if (suffix) result = result.replace(new RegExp(`${suffix}$`), "");
 
             // Remove whitespace characters currency sign for currency input
-            return result.
-            	// Remove one or more whitespace characters that are not followed by a period
-            	replace(/[^.\S]+/g, "").
-            	// Remove any currency symbold
-            	replace(/[\p{Sc}]/u, "");
-        }, [value, prefix, suffix]);
+            return (
+                result
+                    // Remove one or more whitespace characters that are not followed by a period
+                    .replace(/[^.\S]+/g, "")
+                    // Remove any currency symbold
+                    .replace(/[\p{Sc}]/u, "")
+            );
+        };
 
         // Since the input can only be a string or a number, added the toString method for a numeric value, because lodash's IsEmpty method returns true for any number.
-        const isEmptyValue = isString(value) ? isEmpty(stringValue) : isEmpty(value?.toString());
+        const isEmptyValue = isString(value) ? isEmpty(stringValue()) : isEmpty(value?.toString());
 
         return (
             <div className="relative flex w-full items-center">
@@ -77,8 +79,8 @@ BaseInput.propTypes = {
     isRequired: PropTypes.bool,
     // eslint-disable-next-line react/require-default-props
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    prefix: PropTypes.string,
-    suffix: PropTypes.string,
+    prefix: PropTypes.string, // eslint-disable-next-line react/require-default-props
+    suffix: PropTypes.string, // eslint-disable-next-line react/require-default-props
 };
 
 BaseInput.defaultProps = {
@@ -87,6 +89,4 @@ BaseInput.defaultProps = {
     className: "",
     isError: false,
     isRequired: false,
-    prefix: "",
-    suffix: "",
 };
