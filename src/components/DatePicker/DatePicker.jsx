@@ -127,7 +127,7 @@ export const DatePicker = ({
             return;
         }
 
-        if (isSame(now(value?.from), day, "month")) {
+        if (isSame(now(value?.from), now(day), "month")) {
             handleStartMonthChange(day);
         }
 
