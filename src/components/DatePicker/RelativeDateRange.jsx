@@ -172,7 +172,7 @@ const handlers = {
 
     [options.LAST_QUARTER]: () => {
         return {
-            from: toDate(now().startOf("quarter").subtract(3, "month")).startOf("month"),
+            from: toDate(now().startOf("quarter").subtract(3, "month").startOf("month")),
             to: toDate(now().endOf("quarter").subtract(3, "month").endOf("month"), false),
         };
     },
