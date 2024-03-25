@@ -104,6 +104,7 @@ export const DatePicker = ({
     const handleRelativeRangeChanged = (rangeName, range) => {
         setCurrentMonth(range.from);
         setStartMonth(range.from);
+        setEndMonth(range.to);
         onChange({ ...range, rangeName }, modifiers, null);
     };
 
@@ -150,11 +151,13 @@ export const DatePicker = ({
         }
     };
 
+    // TODO: Should be outside this component because this returns JSX
     const CaptionElement =
         shouldShowYearPicker && currentMonth
             ? ({ date }) => <MonthYearSelector date={date} currentMonth={currentMonth} onChange={handleMonthChange} />
             : undefined;
 
+    // TODO: Should be outside this component because this returns JSX
     const renderDay = (date) => {
         const tooltipContent = getTooltip?.(date);
         const disabled = isDisabled(date);
