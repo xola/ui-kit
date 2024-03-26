@@ -58,7 +58,7 @@ export const now = (date, timezone) => {
     }
 
     if (date instanceof Date && !Number.isNaN(date.getTime())) {
-        return timezone ? dayjs(dateToString(date)).tz(timezone) : dayjs(dateToString(date));
+        return timezone ? dayjs.tz(dateToString(date), timezone) : dayjs(dateToString(date));
     }
 
     return timezone ? dayjs().tz(timezone) : dayjs();
