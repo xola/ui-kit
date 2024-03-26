@@ -11,8 +11,8 @@ export const Textarea = forwardRef(({ className, value, shouldAutoSize = false, 
             ref={ref}
             as={TextareaAutosize}
             value={value}
-            className={clsx("ui-textarea", className)}
             minRows={rows}
+            className={clsx("ui-textarea", className)}
             {...rest}
         />
     ) : (
@@ -20,8 +20,8 @@ export const Textarea = forwardRef(({ className, value, shouldAutoSize = false, 
             ref={ref}
             as="textarea"
             value={value}
-            className={clsx("ui-textarea", className)}
             rows={rows}
+            className={clsx("ui-textarea", className)}
             {...rest}
         />
     );
