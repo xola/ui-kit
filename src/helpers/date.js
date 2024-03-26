@@ -19,7 +19,6 @@ export const isValidTimeZoneName = (timezoneName) => {
     try {
         dayjs.tz(new Date(), timezoneName);
     } catch {
-        console.log(`${timezoneName} is not a valid timezone. Using default timezone now`);
         return false;
     }
 
@@ -28,10 +27,6 @@ export const isValidTimeZoneName = (timezoneName) => {
 
 export const formatDate = (date, format = DateFormat.DATE_ISO) => {
     return dayjs(date).format(format);
-};
-
-export const formatDateWithTimezone = (date, format = DateFormat.DATE_ISO) => {
-    return dayjs.tz(date).format(format);
 };
 
 export const formatTime = (time, format = "h:mm a") => {
@@ -43,18 +38,18 @@ export const dateFromObjectId = (id) => {
     return dayjs(new Date(Number.parseInt(id.slice(0, 8), 16) * 1000));
 };
 
-export const now = (date, unit) => {
+export const now = (date, timezone) => {
     if (!date) {
-        return unit ? dayjs.tz().startOf(unit) : dayjs.tz();
+        return timezone ? dayjs().tz(timezone).startOf("day") : dayjs();
     }
 
     if (typeof date === "number") {
         const timestamp = date <= 2_147_483_647 ? date * 1000 : date;
-        return dayjs.tz(timestamp);
+        return timezone ? dayjs(timestamp).tz(timezone) : dayjs(timestamp);
     }
 
     if (typeof date === "string") {
-        return dayjs.tz(date);
+        return timezone ? dayjs(date).tz(timezone) : dayjs();
     }
 
     if (isDayjs(date)) {
@@ -63,10 +58,10 @@ export const now = (date, unit) => {
     }
 
     if (date instanceof Date && !Number.isNaN(date.getTime())) {
-        return dayjs.tz(dateToString(date));
+        return timezone ? dayjs(dateToString(date)).tz(timezone) : dayjs(dateToString(date));
     }
 
-    return dayjs.tz();
+    return timezone ? dayjs().tz(timezone) : dayjs();
 };
 
 const padNumber = (value) => value.toString().padStart(2, "0");
@@ -80,10 +75,14 @@ export const dateToString = (date) => {
 const DayTimeStart = "T00:00:00";
 const DayTimeEnd = "T23:59:59";
 
-export const toDate = (dayjsDate, isStartDate = true) => {
+export const toDate = (date, isStartDate = true) => {
     const suffix = isStartDate ? DayTimeStart : DayTimeEnd;
 
-    return new Date(formatDateWithTimezone(dayjsDate) + suffix);
+    if (isDayjs(date)) {
+        return new Date(date.format(DateFormat.DATE_ISO) + suffix);
+    }
+
+    return new Date(formatDate(date) + suffix);
 };
 
 export const isSame = (date1, date2, unit = "day") => {

@@ -113,102 +113,102 @@ export const dateRanges = {
 };
 
 const handlers = {
-    [options.YESTERDAY]: () => {
-        const yesterday = now().subtract(1, "day");
+    [options.YESTERDAY]: (timezone) => {
+        const yesterday = now(null, timezone).subtract(1, "day");
         return {
             from: toDate(yesterday.startOf("day")),
             to: toDate(yesterday.endOf("day"), false),
         };
     },
 
-    [options.TODAY]: () => {
+    [options.TODAY]: (timezone) => {
         return {
-            from: toDate(now().startOf("day")),
-            to: toDate(now().endOf("day"), false),
+            from: toDate(now(null, timezone).startOf("day")),
+            to: toDate(now(null, timezone).endOf("day"), false),
         };
     },
 
-    [options.LAST_WEEK]: () => {
-        const lastWeek = now().subtract(7, "day");
+    [options.LAST_WEEK]: (timezone) => {
+        const lastWeek = now(null, timezone).subtract(7, "day");
         return {
             from: toDate(lastWeek.startOf("week")),
             to: toDate(lastWeek.endOf("week"), false),
         };
     },
 
-    [options.TRAILING_WEEK]: () => {
+    [options.TRAILING_WEEK]: (timezone) => {
         return {
-            from: toDate(now().subtract(7, "day").startOf("day")),
-            to: toDate(now().subtract(1, "day").endOf("day"), false),
+            from: toDate(now(null, timezone).subtract(7, "day").startOf("day")),
+            to: toDate(now(null, timezone).subtract(1, "day").endOf("day"), false),
         };
     },
 
-    [options.THIS_WEEK]: () => {
+    [options.THIS_WEEK]: (timezone) => {
         return {
-            from: toDate(now().startOf("week")),
-            to: toDate(now().endOf("week"), false),
+            from: toDate(now(null, timezone).startOf("week")),
+            to: toDate(now(null, timezone).endOf("week"), false),
         };
     },
 
-    [options.LAST_MONTH]: () => {
-        const lastMonth = now().subtract(1, "month");
+    [options.LAST_MONTH]: (timezone) => {
+        const lastMonth = now(null, timezone).subtract(1, "month");
         return {
             from: toDate(lastMonth.startOf("month")),
             to: toDate(lastMonth.endOf("month"), false),
         };
     },
 
-    [options.TRAILING_MONTH]: () => {
+    [options.TRAILING_MONTH]: (timezone) => {
         return {
-            from: toDate(now().subtract(1, "month").startOf("day")),
-            to: toDate(now().subtract(1, "day").endOf("day"), false),
+            from: toDate(now(null, timezone).subtract(1, "month").startOf("day")),
+            to: toDate(now(null, timezone).subtract(1, "day").endOf("day"), false),
         };
     },
 
-    [options.THIS_MONTH]: () => ({
-        from: toDate(now().startOf("month")),
-        to: toDate(now().endOf("month"), false),
+    [options.THIS_MONTH]: (timezone) => ({
+        from: toDate(now(null, timezone).startOf("month")),
+        to: toDate(now(null, timezone).endOf("month"), false),
     }),
 
-    [options.LAST_QUARTER]: () => {
+    [options.LAST_QUARTER]: (timezone) => {
         return {
-            from: toDate(now().startOf("quarter").subtract(3, "month").startOf("month")),
-            to: toDate(now().endOf("quarter").subtract(3, "month").endOf("month"), false),
+            from: toDate(now(null, timezone).startOf("quarter").subtract(3, "month").startOf("month")),
+            to: toDate(now(null, timezone).endOf("quarter").subtract(3, "month").endOf("month"), false),
         };
     },
 
-    [options.TRAILING_QUARTER]: () => {
+    [options.TRAILING_QUARTER]: (timezone) => {
         return {
-            from: toDate(now().subtract(3, "month").startOf("day")),
-            to: toDate(now().subtract(1, "day").endOf("day"), false),
+            from: toDate(now(null, timezone).subtract(3, "month").startOf("day")),
+            to: toDate(now(null, timezone).subtract(1, "day").endOf("day"), false),
         };
     },
 
-    [options.THIS_QUARTER]: () => {
+    [options.THIS_QUARTER]: (timezone) => {
         return {
-            from: toDate(now().startOf("Q")),
-            to: toDate(now().endOf("Q"), false),
+            from: toDate(now(null, timezone).startOf("Q")),
+            to: toDate(now(null, timezone).endOf("Q"), false),
         };
     },
 
-    [options.LAST_YEAR]: () => {
-        const lastYear = now().subtract(1, "year");
+    [options.LAST_YEAR]: (timezone) => {
+        const lastYear = now(null, timezone).subtract(1, "year");
         return {
             from: toDate(lastYear.startOf("year")),
             to: toDate(lastYear.endOf("year"), false),
         };
     },
 
-    [options.TRAILING_YEAR]: () => {
+    [options.TRAILING_YEAR]: (timezone) => {
         return {
-            from: toDate(now().subtract(1, "year").startOf("day")),
-            to: toDate(now().subtract(1, "day").endOf("day"), false),
+            from: toDate(now(null, timezone).subtract(1, "year").startOf("day")),
+            to: toDate(now(null, timezone).subtract(1, "day").endOf("day"), false),
         };
     },
 
-    [options.THIS_YEAR]: () => ({
-        from: toDate(now().startOf("year")),
-        to: toDate(now().endOf("year"), false),
+    [options.THIS_YEAR]: (timezone) => ({
+        from: toDate(now(null, timezone).startOf("year")),
+        to: toDate(now(null, timezone).endOf("year"), false),
     }),
 };
 
@@ -219,10 +219,11 @@ export const RelativeDateRange = ({
     showApply = true,
     onChange,
     onSubmit,
+    timezoneName,
 }) => {
     const handleChange = (e) => {
         const rangeName = e.target.value;
-        const range = handlers[rangeName]();
+        const range = handlers[rangeName](timezoneName);
         onChange(rangeName, range);
     };
 
@@ -256,4 +257,5 @@ RelativeDateRange.propTypes = {
     // eslint-disable-next-line react/boolean-prop-naming
     showApply: PropTypes.bool,
     value: PropTypes.string,
+    timezoneName: PropTypes.string,
 };
