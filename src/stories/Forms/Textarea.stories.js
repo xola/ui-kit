@@ -74,7 +74,7 @@ export const AutoSize = () => {
     return (
         <FormGroup>
             <Label>Text</Label>
-            <Textarea shouldAutoSize={true}/>
+            <Textarea shouldAutoSize={true} rows={6}/>
         </FormGroup>
     );
 };

@@ -5,10 +5,20 @@ import TextareaAutosize from "react-textarea-autosize";
 import { BaseInput } from "./BaseInput";
 
 export const Textarea = forwardRef(({ className, value, shouldAutoSize = false, rows = 2, ...rest }, ref) => {
-    return (
+    return shouldAutoSize ? (
+        // TextareaAutosize has a few special props like minRows and maxRows instead of rows field so using rows field to feed the minRows prop. See full list here https://github.com/Andarist/react-textarea-autosize?tab=readme-ov-file#props
         <BaseInput
             ref={ref}
-            as={shouldAutoSize ? TextareaAutosize : "textarea"}
+            as={TextareaAutosize}
+            value={value}
+            className={clsx("ui-textarea", className)}
+            minRows={rows}
+            {...rest}
+        />
+    ) : (
+        <BaseInput
+            ref={ref}
+            as="textarea"
             value={value}
             className={clsx("ui-textarea", className)}
             rows={rows}
