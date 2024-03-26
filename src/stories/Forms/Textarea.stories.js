@@ -79,4 +79,12 @@ export const AutoSize = () => {
     );
 };
 
+AutoSize.parameters = {
+    docs: {
+        description: {
+            story: "Automatically resize the textarea as the data increases.",
+        },
+    },
+};
+
 export default TextareaStories;
