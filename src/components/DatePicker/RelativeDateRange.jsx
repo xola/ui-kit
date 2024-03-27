@@ -1,6 +1,6 @@
-import dayjs from "dayjs";
 import PropTypes from "prop-types";
 import React from "react";
+import { now, toDate } from "../../helpers/date";
 import { Button, Select } from "../..";
 
 const options = {
@@ -113,98 +113,102 @@ export const dateRanges = {
 };
 
 const handlers = {
-    [options.YESTERDAY]: () => {
-        const yesterday = dayjs().subtract(1, "day");
+    [options.YESTERDAY]: (timezone) => {
+        const yesterday = now(null, timezone).subtract(1, "day");
         return {
-            from: yesterday.startOf("day").toDate(),
-            to: yesterday.endOf("day").toDate(),
+            from: toDate(yesterday.startOf("day")),
+            to: toDate(yesterday.endOf("day"), false),
         };
     },
 
-    [options.TODAY]: () => ({
-        from: dayjs().startOf("day").toDate(),
-        to: dayjs().endOf("day").toDate(),
+    [options.TODAY]: (timezone) => {
+        return {
+            from: toDate(now(null, timezone).startOf("day")),
+            to: toDate(now(null, timezone).endOf("day"), false),
+        };
+    },
+
+    [options.LAST_WEEK]: (timezone) => {
+        const lastWeek = now(null, timezone).subtract(7, "day");
+        return {
+            from: toDate(lastWeek.startOf("week")),
+            to: toDate(lastWeek.endOf("week"), false),
+        };
+    },
+
+    [options.TRAILING_WEEK]: (timezone) => {
+        return {
+            from: toDate(now(null, timezone).subtract(7, "day").startOf("day")),
+            to: toDate(now(null, timezone).subtract(1, "day").endOf("day"), false),
+        };
+    },
+
+    [options.THIS_WEEK]: (timezone) => {
+        return {
+            from: toDate(now(null, timezone).startOf("week")),
+            to: toDate(now(null, timezone).endOf("week"), false),
+        };
+    },
+
+    [options.LAST_MONTH]: (timezone) => {
+        const lastMonth = now(null, timezone).subtract(1, "month");
+        return {
+            from: toDate(lastMonth.startOf("month")),
+            to: toDate(lastMonth.endOf("month"), false),
+        };
+    },
+
+    [options.TRAILING_MONTH]: (timezone) => {
+        return {
+            from: toDate(now(null, timezone).subtract(1, "month").startOf("day")),
+            to: toDate(now(null, timezone).subtract(1, "day").endOf("day"), false),
+        };
+    },
+
+    [options.THIS_MONTH]: (timezone) => ({
+        from: toDate(now(null, timezone).startOf("month")),
+        to: toDate(now(null, timezone).endOf("month"), false),
     }),
 
-    [options.LAST_WEEK]: () => {
-        const lastWeek = dayjs().subtract(7, "day");
+    [options.LAST_QUARTER]: (timezone) => {
         return {
-            from: lastWeek.startOf("week").toDate(),
-            to: lastWeek.endOf("week").toDate(),
+            from: toDate(now(null, timezone).startOf("quarter").subtract(3, "month").startOf("month")),
+            to: toDate(now(null, timezone).endOf("quarter").subtract(3, "month").endOf("month"), false),
         };
     },
 
-    [options.TRAILING_WEEK]: () => {
+    [options.TRAILING_QUARTER]: (timezone) => {
         return {
-            from: dayjs().subtract(7, "day").startOf("dat").toDate(),
-            to: dayjs().subtract(1, "day").endOf("day").toDate(),
+            from: toDate(now(null, timezone).subtract(3, "month").startOf("day")),
+            to: toDate(now(null, timezone).subtract(1, "day").endOf("day"), false),
         };
     },
 
-    [options.THIS_WEEK]: () => ({
-        from: dayjs().startOf("week").toDate(),
-        to: dayjs().endOf("week").toDate(),
-    }),
-
-    [options.LAST_MONTH]: () => {
-        const lastMonth = dayjs().subtract(1, "month");
+    [options.THIS_QUARTER]: (timezone) => {
         return {
-            from: lastMonth.startOf("month").toDate(),
-            to: lastMonth.endOf("month").toDate(),
+            from: toDate(now(null, timezone).startOf("Q")),
+            to: toDate(now(null, timezone).endOf("Q"), false),
         };
     },
 
-    [options.TRAILING_MONTH]: () => {
+    [options.LAST_YEAR]: (timezone) => {
+        const lastYear = now(null, timezone).subtract(1, "year");
         return {
-            from: dayjs().subtract(1, "month").startOf("day").toDate(),
-            to: dayjs().subtract(1, "day").endOf("day").toDate(),
+            from: toDate(lastYear.startOf("year")),
+            to: toDate(lastYear.endOf("year"), false),
         };
     },
 
-    [options.THIS_MONTH]: () => ({
-        from: dayjs().startOf("month").toDate(),
-        to: dayjs().endOf("month").toDate(),
-    }),
-
-    [options.LAST_QUARTER]: () => {
+    [options.TRAILING_YEAR]: (timezone) => {
         return {
-            from: dayjs().startOf("month").subtract(3, "month").toDate(),
-            to: dayjs().startOf("month").subtract(1, "day").toDate(),
+            from: toDate(now(null, timezone).subtract(1, "year").startOf("day")),
+            to: toDate(now(null, timezone).subtract(1, "day").endOf("day"), false),
         };
     },
 
-    [options.TRAILING_QUARTER]: () => {
-        return {
-            from: dayjs().subtract(3, "month").startOf("day").toDate(),
-            to: dayjs().subtract(1, "day").endOf("day").toDate(),
-        };
-    },
-
-    [options.THIS_QUARTER]: () => {
-        return {
-            from: dayjs().startOf("Q").toDate(),
-            to: dayjs().endOf("Q").toDate(),
-        };
-    },
-
-    [options.LAST_YEAR]: () => {
-        const lastYear = dayjs().subtract(1, "year");
-        return {
-            from: lastYear.startOf("year").toDate(),
-            to: lastYear.endOf("year").toDate(),
-        };
-    },
-
-    [options.TRAILING_YEAR]: () => {
-        return {
-            from: dayjs().subtract(1, "year").startOf("day").toDate(),
-            to: dayjs().subtract(1, "day").endOf("day").toDate(),
-        };
-    },
-
-    [options.THIS_YEAR]: () => ({
-        from: dayjs().startOf("year").toDate(),
-        to: dayjs().endOf("year").toDate(),
+    [options.THIS_YEAR]: (timezone) => ({
+        from: toDate(now(null, timezone).startOf("year")),
+        to: toDate(now(null, timezone).endOf("year"), false),
     }),
 };
 
@@ -215,10 +219,11 @@ export const RelativeDateRange = ({
     showApply = true,
     onChange,
     onSubmit,
+    timezoneName,
 }) => {
     const handleChange = (e) => {
         const rangeName = e.target.value;
-        const range = handlers[rangeName]();
+        const range = handlers[rangeName](timezoneName);
         onChange(rangeName, range);
     };
 
@@ -252,4 +257,5 @@ RelativeDateRange.propTypes = {
     // eslint-disable-next-line react/boolean-prop-naming
     showApply: PropTypes.bool,
     value: PropTypes.string,
+    timezoneName: PropTypes.string,
 };
