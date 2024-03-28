@@ -167,8 +167,8 @@
     @apply !bg-blue !text-white;
 }
 
-/* Make the start date have a 50% light blue background towards the RIGHT side */
-.date-range-picker .DayPicker-Day--start:not(.DayPicker-Day--outside) {
+/* Make the start date have a 50% light blue background towards the RIGHT side when start and end is not same */
+.date-range-picker .DayPicker-Day--start:not(.DayPicker-Day--outside):not(.DayPicker-Day--end) {
     @apply rounded-none;
     background: linear-gradient(90deg, #ffffff 40%, #d1e1ff 25%);
 }
@@ -177,10 +177,15 @@
     @apply rounded-full;
 }
 
-/* Make the end date have a 50% light blue background towards the LEFT side */
-.date-range-picker .DayPicker-Day--end:not(.DayPicker-Day--outside) {
+/* Make the end date have a 50% light blue background towards the LEFT side when start and end is not same */
+.date-range-picker .DayPicker-Day--end:not(.DayPicker-Day--outside):not(.DayPicker-Day--start) {
     @apply rounded-none;
     background: linear-gradient(90deg, #d1e1ff 40%, #ffffff 25%); /* D1E1FF Blue lighter */
+}
+
+/* This is when start & end are the same. We shown an outline to indicate it is different */
+.date-range-picker .DayPicker-Day--start.DayPicker-Day--end:not(.DayPicker-Day--disabled) .ui-date-picker-day {
+    @apply outline outline-offset-1 outline-blue-lighter;
 }
 
 .date-range-picker .DayPicker-Day--end div {
@@ -188,7 +193,7 @@
 }
 
 /**
- * These are stylings for the Date Picker, but only when they have custom content like prices or seller messaging
+ * These are styles for the Date Picker, but only when they have custom content like prices or seller messaging
  */
 .has-custom-content .DayPicker-Month {
     border-spacing: 1px 16px;
