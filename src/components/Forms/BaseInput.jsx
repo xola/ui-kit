@@ -79,8 +79,8 @@ BaseInput.propTypes = {
     isRequired: PropTypes.bool,
     // eslint-disable-next-line react/require-default-props
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    prefix: PropTypes.string, // eslint-disable-next-line react/require-default-props
-    suffix: PropTypes.string, // eslint-disable-next-line react/require-default-props
+    prefix: PropTypes.string, // eslint-disable-line react/require-default-props
+    suffix: PropTypes.string, // eslint-disable-line react/require-default-props
 };
 
 BaseInput.defaultProps = {
