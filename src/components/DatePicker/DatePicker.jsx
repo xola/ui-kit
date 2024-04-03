@@ -2,7 +2,7 @@ import clsx from "clsx";
 import dayjs from "dayjs";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
-import DayPicker, { DateUtils } from "react-day-picker";
+import { DateUtils } from "react-day-picker";
 import "react-day-picker/lib/style.css";
 import "./DatePicker.css";
 import { isArray, isFunction } from "lodash";
@@ -14,6 +14,7 @@ import { RelativeDateRange } from "./RelativeDateRange";
 import RangeDatePicker from "./RangeDatePicker";
 import { UpcomingDatePicker } from "./UpcomingDatePicker";
 import { NavbarElement } from "./NavbarElement";
+import { LocalizedDayPicker } from "./LocalizedDayPicker";
 
 const variants = {
     single: "single",
@@ -227,7 +228,7 @@ export const DatePicker = ({
                         {...rest}
                     />
                 ) : (
-                    <DayPicker
+                    <LocalizedDayPicker
                         className={clsx(
                             "ui-date-picker rounded-lg pt-3",
                             useDateRangeStyle ? "date-range-picker" : null,
