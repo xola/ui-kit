@@ -21,10 +21,10 @@ const positions = {
 
 const animations = {
     center: {
-        enterFrom: "sm:translate-y-0 sm:scale-95",
-        enterTo: "sm:scale-100",
-        leaveFrom: "sm:scale-100",
-        leaveTo: "sm:translate-y-0 sm:scale-95",
+        enterFrom: "translate-y-4 sm:translate-y-0 sm:scale-95",
+        enterTo: "translate-y-0 sm:scale-100",
+        leaveFrom: "translate-y-0 sm:scale-100",
+        leaveTo: "translate-y-4 sm:translate-y-0 sm:scale-95",
     },
     topLeft: {
         enterFrom: "scale-0 origin-top-left",
