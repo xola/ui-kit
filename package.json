@@ -1,6 +1,6 @@
 {
     "name": "@xola/ui-kit",
-    "version": "2.2.3",
+    "version": "2.3.2",
     "description": "Xola UI Kit",
     "license": "MIT",
     "repository": {
@@ -28,7 +28,7 @@
         "lint": "xola-lint src --ignore src/stories",
         "lint:fix": "xola-lint src --fix --ignore src/stories",
         "lint:report": "xola-lint src --ignore src/stories --reporter=json src > eslint_report.json",
-        "format": "prettier --write src",
+        "format": "prettier -l --write src",
         "test": "jest",
         "chromatic": "chromatic --exit-zero-on-changes --build-script-name build:storybook"
     },
@@ -48,6 +48,7 @@
         "react-hot-toast": "^2.1.0",
         "react-hotkeys-hook": "^3.4.0",
         "react-json-view": "^1.21.3",
+        "react-textarea-autosize": "^8.5.3",
         "react-select": "^5.7.0",
         "storybook-addon-designs": "^6.3.1",
         "tippy.js": "^6.3.1"

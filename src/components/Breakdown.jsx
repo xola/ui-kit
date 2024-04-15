@@ -1,7 +1,7 @@
-import clsx from "clsx";
 import PropTypes from "prop-types";
 import React, { createContext, useContext, useMemo } from "react";
 import { isNumber } from "lodash";
+import clsx from "clsx";
 import { Currency } from "./Utilities/Currency";
 
 const colors = {
@@ -35,17 +35,27 @@ Breakdown.propTypes = {
     locale: PropTypes.string,
 };
 
-const BreakdownItem = ({ children, info, methodIcon, secondary, value, className, color = "default", ...rest }) => {
-    /** When BreakdownItem is directly used without outer <Breakdown /> component, the context would be `undefined` */
+const BreakdownItem = ({
+    info,
+    methodIcon,
+    secondary,
+    value,
+    color = "default",
+    className,
+    classNames = { key: "", children: "", info: "", value: "" },
+    children,
+    ...rest
+}) => {
+    // When BreakdownItem is directly used without outer <Breakdown /> component, the context would be `undefined`
     const { currency, locale } = useContext(CurrencyContext) ?? {};
 
     return (
         <tr className={clsx("ui-breakdown-item", colors[color], className)} {...rest}>
-            <td colSpan={2} className="text-left leading-none">
+            <td colSpan={2} className={clsx("break-all text-left leading-none", classNames.key)}>
                 <div className="flex flex-wrap items-center leading-3.5">
                     <span className="break-word">
                         <span className="mr-0.5">{methodIcon}</span>
-                        {children}
+                        <span className={clsx("break-normal", classNames.children)}>{children}</span>
                     </span>
                     <span className="ml-1 text-sm">
                         {info && (
@@ -58,7 +68,7 @@ const BreakdownItem = ({ children, info, methodIcon, secondary, value, className
                 </div>
             </td>
 
-            <td className="w-[1%] whitespace-nowrap pl-4 text-right">
+            <td className={clsx("w-[1%] whitespace-nowrap pl-4 text-right", classNames.value)}>
                 {isNumber(value) ? (
                     <Currency shouldRemoveTrailingZeroes={false} currency={currency} locale={locale}>
                         {value}
@@ -78,21 +88,30 @@ BreakdownItem.propTypes = {
     secondary: PropTypes.node,
     value: PropTypes.node,
     className: PropTypes.string,
+    classNames: PropTypes.object,
     color: PropTypes.oneOf(Object.keys(colors)),
 };
 
 Breakdown.Item = BreakdownItem;
 Breakdown.Item.displayName = "Breakdown.Item";
 
-const BreakdownSubtotalItem = ({ children, info, value, className, color = "black", ...rest }) => {
+const BreakdownSubtotalItem = ({
+    info,
+    value,
+    color = "black",
+    className,
+    classNames = { children: "", info: "", value: "" },
+    children,
+    ...rest
+}) => {
     const { currency, locale } = useContext(CurrencyContext) ?? {};
 
     return (
         <tr className={clsx("ui-breakdown-subtotal-item", "font-bold", colors[color], className)} {...rest}>
-            <td className="pt-1 pb-4 text-left">{children}</td>
-            <td className="whitespace-nowrap pt-1 pb-4 text-right">{info}</td>
+            <td className={clsx("pt-1 pb-4 text-left", classNames.children)}>{children}</td>
+            <td className={clsx("whitespace-nowrap pt-1 pb-4 text-right", classNames.info)}>{info}</td>
 
-            <td className="w-[1%] whitespace-nowrap pt-1 pb-4 pl-4 text-right">
+            <td className={clsx("w-[1%] whitespace-nowrap pt-1 pb-4 pl-4 text-right", classNames.value)}>
                 <Currency shouldRemoveTrailingZeroes={false} currency={currency} locale={locale}>
                     {value}
                 </Currency>
@@ -106,6 +125,7 @@ BreakdownSubtotalItem.propTypes = {
     info: PropTypes.node,
     value: PropTypes.node,
     className: PropTypes.string,
+    classNames: PropTypes.object,
     color: PropTypes.oneOf(Object.keys(colors)),
 };
 
