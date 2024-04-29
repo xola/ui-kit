@@ -111,7 +111,6 @@ export const DatePicker = ({
 
     const handleMonthChange = (m) => {
         setCurrentMonth(m);
-        onMonthChange?.(m);
     };
 
     const handleStartMonthChange = (m) => {
