@@ -63,11 +63,6 @@ export const DatePicker = ({
     const isRangeVariant = variant === variants.range;
     const isValidValue = value && value.from && value.to;
 
-    // Sync internal month state with outside.
-    useEffect(() => {
-        onMonthChange?.(currentMonth);
-    }, [currentMonth, onMonthChange]);
-
     useEffect(() => {
         if (timezoneName && !isValidTimeZoneName(timezoneName)) {
             console.log(`${timezoneName} is not a valid timezone. Using default timezone now`);
@@ -111,6 +106,7 @@ export const DatePicker = ({
 
     const handleMonthChange = (m) => {
         setCurrentMonth(m);
+        onMonthChange?.(m);
     };
 
     const handleStartMonthChange = (m) => {
