@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import dayjs from "dayjs";
 import PropTypes from "prop-types";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import DayPicker, { DateUtils } from "react-day-picker";
 import "react-day-picker/lib/style.css";
 import "./DatePicker.css";
@@ -62,6 +62,11 @@ export const DatePicker = ({
     const [rangeName, setRangeName] = useState("");
     const isRangeVariant = variant === variants.range;
     const isValidValue = value && value.from && value.to;
+
+    // Sync internal month state with outside.
+    useCallback(() => {
+        onMonthChange?.(currentMonth);
+    }, [currentMonth, onMonthChange]);
 
     useEffect(() => {
         if (timezoneName && !isValidTimeZoneName(timezoneName)) {
