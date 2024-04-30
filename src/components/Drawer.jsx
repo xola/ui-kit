@@ -14,9 +14,9 @@ const sizes = {
 };
 
 export const Drawer = forwardRef(
-    ({ isOpen = false, title, size = "medium", content, onClose, classNames = {}, position = "right" }) => {
+    ({ isOpen = false, title, size = "medium", content, onClose, classNames = {}, position = "right" }, ref) => {
         return (
-            <Transition.Root show={isOpen} as={Fragment}>
+            <Transition.Root show={isOpen} as={Fragment} ref={ref}>
                 <Dialog
                     as="div"
                     className={clsx("ui-drawer fixed inset-0 z-10 overflow-hidden", classNames.dialog)}
