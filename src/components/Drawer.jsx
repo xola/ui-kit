@@ -40,7 +40,7 @@ export const Drawer = ({
                         leaveFrom="opacity-100"
                         leaveTo="opacity-0"
                     >
-                        <Dialog.Overlay className="absolute inset-0 bg-gray bg-opacity-75 transition-opacity" />
+                        <Dialog.Overlay className="absolute inset-0 bg-black bg-opacity-80 transition-opacity" />
                     </Transition.Child>
                     <div
                         className={clsx(
@@ -91,8 +91,8 @@ const CloseButton = ({ onClose }) => {
             size="small"
             variant="link"
             className={clsx(
-                "m-1 inline-flex !h-6 !w-6 items-center justify-center !rounded-full bg-gray !px-1.5",
-                "!text-white focus:hidden",
+                "m-1 inline-flex !h-6 !w-6 items-center justify-center !rounded-full bg-white !px-1.5",
+                "!text-black focus:hidden",
             )}
             onClick={onClose}
         >
