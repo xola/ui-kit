@@ -16,7 +16,7 @@ const sizes = {
 export const Drawer = forwardRef(
     ({ isOpen = false, title, size = "medium", content, onClose, classNames = {}, position = "right" }, ref) => {
         return (
-            <Transition.Root show={isOpen} as={Fragment} ref={ref}>
+            <Transition.Root ref={ref} show={isOpen} as={Fragment}>
                 <Dialog
                     as="div"
                     className={clsx("ui-drawer fixed inset-0 z-10 overflow-hidden", classNames.dialog)}
@@ -98,10 +98,16 @@ const CloseButton = ({ onClose }) => {
 };
 
 Drawer.propTypes = {
-    isOpen: PropTypes.bool,
+    isOpen: PropTypes.bool.isRequired,
     title: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
-    content: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
+    content: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
     onClose: PropTypes.func.isRequired,
     classNames: PropTypes.object,
     position: PropTypes.string,
+};
+
+Drawer.defaultProps = {
+    title: "",
+    classNames: "",
+    position: "right",
 };
