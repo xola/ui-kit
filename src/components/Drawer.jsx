@@ -33,7 +33,12 @@ export const Drawer = forwardRef(
                             leaveFrom="opacity-100"
                             leaveTo="opacity-0"
                         >
-                            <Dialog.Overlay className="absolute inset-0 bg-black bg-opacity-80 transition-opacity" />
+                            <Dialog.Overlay
+                                className={clsx(
+                                    "absolute inset-0 bg-black bg-opacity-80 transition-opacity",
+                                    classNames.dialogOverlay,
+                                )}
+                            />
                         </Transition.Child>
                         <div
                             className={clsx(
@@ -108,6 +113,6 @@ Drawer.propTypes = {
 
 Drawer.defaultProps = {
     title: "",
-    classNames: "",
+    classNames: {},
     position: "right",
 };
