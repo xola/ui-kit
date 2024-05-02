@@ -64,6 +64,7 @@ export const DatePicker = ({
     const isValidValue = value && value.from && value.to;
 
     // Sync internal month state with outside.
+    // Todo: This might not be required, as we have onMonthChange callback in handleMonthChange and other callbacks too. This causes the onMonthChange to be called more than once.
     useEffect(() => {
         onMonthChange?.(currentMonth);
     }, [currentMonth, onMonthChange]);
