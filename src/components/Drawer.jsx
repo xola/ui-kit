@@ -36,7 +36,7 @@ export const Drawer = forwardRef(
                             <Dialog.Overlay
                                 className={clsx(
                                     "absolute inset-0 bg-black bg-opacity-80 transition-opacity",
-                                    classNames.dialogOverlay,
+                                    classNames.overlay,
                                 )}
                             />
                         </Transition.Child>
