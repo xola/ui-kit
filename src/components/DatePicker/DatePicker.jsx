@@ -162,6 +162,8 @@ export const DatePicker = ({
         return shouldShowYearPicker && currentMonth
             ? ({ date }) => <MonthYearSelector date={date} currentMonth={currentMonth} onChange={handleMonthChange} />
             : undefined;
+        // Adding `handleMonthChange` causes a lot of re-renders, and closes drop-down.
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [shouldShowYearPicker, currentMonth]);
 
     // TODO: Should be outside this component because this returns JSX
