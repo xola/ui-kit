@@ -1,19 +1,19 @@
 import clsx from "clsx";
 import dayjs from "dayjs";
 import PropTypes from "prop-types";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import DayPicker, { DateUtils } from "react-day-picker";
 import "react-day-picker/lib/style.css";
 import "./DatePicker.css";
 import { isArray, isFunction } from "lodash";
 import { Tooltip } from "../..";
-import { now, isSame, toDate, isValidTimeZoneName } from "../../helpers/date";
+import { isSame, isValidTimeZoneName, now, toDate } from "../../helpers/date";
 import { Day } from "./Day";
 import { MonthYearSelector } from "./MonthYearSelector";
-import { RelativeDateRange } from "./RelativeDateRange";
-import RangeDatePicker from "./RangeDatePicker";
-import { UpcomingDatePicker } from "./UpcomingDatePicker";
 import { NavbarElement } from "./NavbarElement";
+import RangeDatePicker from "./RangeDatePicker";
+import { RelativeDateRange } from "./RelativeDateRange";
+import { UpcomingDatePicker } from "./UpcomingDatePicker";
 
 const variants = {
     single: "single",
@@ -158,10 +158,13 @@ export const DatePicker = ({
     };
 
     // TODO: Should be outside this component because this returns JSX
-    const CaptionElement =
-        shouldShowYearPicker && currentMonth
+    const CaptionElement = useMemo(() => {
+        return shouldShowYearPicker && currentMonth
             ? ({ date }) => <MonthYearSelector date={date} currentMonth={currentMonth} onChange={handleMonthChange} />
             : undefined;
+        // Adding `handleMonthChange` causes a lot of re-renders, and closes drop-down.
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [shouldShowYearPicker, currentMonth]);
 
     // TODO: Should be outside this component because this returns JSX
     const renderDay = (date) => {
