@@ -1,7 +1,7 @@
 import { Dialog, Transition } from "@headlessui/react";
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import React, { Fragment, forwardRef } from "react";
+import React, { forwardRef, Fragment } from "react";
 import { CloseIcon } from "../icons";
 import { Button } from "./Buttons/Button";
 

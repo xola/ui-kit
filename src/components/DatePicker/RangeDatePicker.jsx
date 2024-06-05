@@ -1,13 +1,13 @@
-import React from "react";
-import PropTypes from "prop-types";
-import DayPicker from "react-day-picker";
 import clsx from "clsx";
 import { isArray, isFunction } from "lodash";
-import { Tooltip } from "../Tooltip";
+import PropTypes from "prop-types";
+import React from "react";
+import DayPicker from "react-day-picker";
 import { now } from "../../helpers/date";
-import { NavbarElement } from "./NavbarElement";
-import { MonthYearSelector } from "./MonthYearSelector";
+import { Tooltip } from "../Tooltip";
 import { Day } from "./Day";
+import { MonthYearSelector } from "./MonthYearSelector";
+import { NavbarElement } from "./NavbarElement";
 
 const RangeDatePicker = ({
     getTooltip,
