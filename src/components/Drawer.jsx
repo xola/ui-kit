@@ -92,8 +92,7 @@ const CloseButton = ({ onClose }) => {
             size="small"
             variant="link"
             className={clsx(
-                "m-2.5 inline-flex !h-10 !w-10 items-center justify-center !rounded-full bg-white !px-1.5",
-                "!text-black focus:hidden",
+                "!text-black m-2.5 inline-flex !h-10 !w-10 items-center justify-center !rounded-full bg-white !px-1.5",
             )}
             onClick={onClose}
         >
