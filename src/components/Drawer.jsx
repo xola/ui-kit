@@ -1,7 +1,7 @@
 import { Dialog, Transition } from "@headlessui/react";
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import React, { Fragment, forwardRef } from "react";
+import React, { forwardRef, Fragment } from "react";
 import { CloseIcon } from "../icons";
 import { Button } from "./Buttons/Button";
 
@@ -92,8 +92,7 @@ const CloseButton = ({ onClose }) => {
             size="small"
             variant="link"
             className={clsx(
-                "m-2.5 inline-flex !h-10 !w-10 items-center justify-center !rounded-full bg-white !px-1.5",
-                "!text-black focus:hidden",
+                "m-2.5 inline-flex !h-10 !w-10 items-center justify-center !rounded-full bg-white !px-1.5 !text-black",
             )}
             onClick={onClose}
         >
