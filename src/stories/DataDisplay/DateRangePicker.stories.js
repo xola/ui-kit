@@ -38,7 +38,7 @@ const DateRangePickerStories = {
 const today = dayjs.tz("2022-10-10").toDate();
 const handleSubmitDateRange = (e) => {
     console.log("handleSubmitDateRange", { event: e });
-}
+};
 
 export const Default = () => {
     const [value, setValue] = useState({ from: new Date("2022-02-03"), to: new Date("2022-03-08") });
