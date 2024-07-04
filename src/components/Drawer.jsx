@@ -17,6 +17,9 @@ const sizes = {
 
 export const Drawer = forwardRef(
     ({ isOpen = false, title, size = "medium", content, onClose, classNames = {}, position = "right" }, ref) => {
+        const viewportHeight = useViewportHeight();
+        const isIOS = isIosBrowser();
+
         return (
             <Transition.Root ref={ref} show={isOpen} as={Fragment}>
                 <Dialog
@@ -25,7 +28,12 @@ export const Drawer = forwardRef(
                     open={isOpen}
                     onClose={onClose}
                 >
-                    <div className="flex h-screen w-full">
+                    <div
+                        className={clsx(
+                            "flex",
+                            isIOS ? `h-[${viewportHeight}px] max-h-[${viewportHeight}px] w-full` : "h-screen w-full",
+                        )}
+                    >
                         <Transition.Child
                             as={Fragment}
                             enter="ease-in-out duration-500"
