@@ -1,5 +1,5 @@
-import React from "react";
 import clsx from "clsx";
+import React from "react";
 import { ComboBox, Currency, FormGroup, Label } from "../..";
 
 const ComboBoxStories = {

@@ -1,13 +1,13 @@
-import React from "react";
-import PropTypes from "prop-types";
-import DayPicker from "react-day-picker";
 import clsx from "clsx";
-import dayjs from "dayjs";
 import { isArray, isFunction } from "lodash";
+import PropTypes from "prop-types";
+import React from "react";
+import DayPicker from "react-day-picker";
+import { now } from "../../helpers/date";
 import { Tooltip } from "../Tooltip";
-import { NavbarElement } from "./NavbarElement";
-import { MonthYearSelector } from "./MonthYearSelector";
 import { Day } from "./Day";
+import { MonthYearSelector } from "./MonthYearSelector";
+import { NavbarElement } from "./NavbarElement";
 
 const RangeDatePicker = ({
     getTooltip,
@@ -24,10 +24,11 @@ const RangeDatePicker = ({
     handleStartMonthChange,
     handleEndMonthChange,
     handleTodayClick,
+    timezoneName,
     ...rest
 }) => {
-    const isStartDateIsTheSameMonth = dayjs(value?.from).isSame(dayjs(value?.to), "month");
-    const isSingleDayDateRange = dayjs(value?.from).isSame(dayjs(value.to), "day");
+    const isStartDateIsTheSameMonth = now(value?.from, timezoneName).isSame(now(value?.to, timezoneName), "month");
+    const isSingleDayDateRange = now(value?.from, timezoneName).isSame(now(value?.to, timezoneName), "day");
 
     const createCaptionElement = (currentMonth, handleChange) =>
         shouldShowYearPicker && currentMonth
@@ -43,7 +44,7 @@ const RangeDatePicker = ({
         }
 
         if (isArray(disabledDays)) {
-            return disabledDays.some((_date) => dayjs(_date).isSame(date, "day"));
+            return disabledDays.some((_date) => now(_date, timezoneName).isSame(date, "day"));
         }
 
         return false;
@@ -54,7 +55,7 @@ const RangeDatePicker = ({
     };
 
     const isDisabledEndDays = (date) => {
-        const isDateBeforeStartDate = dayjs(date).isBefore(value?.from, "day");
+        const isDateBeforeStartDate = now(date, timezoneName).isBefore(value?.from, "day");
 
         return isDateDisabledFromOutside(date) || (isDateBeforeStartDate && !isSingleDayDateRange);
     };
@@ -148,6 +149,7 @@ RangeDatePicker.propTypes = {
     handleStartMonthChange: PropTypes.func,
     handleEndMonthChange: PropTypes.func,
     handleTodayClick: PropTypes.func,
+    timezoneName: PropTypes.string,
 };
 
 export default RangeDatePicker;
