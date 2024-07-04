@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import React, { Fragment } from "react";
 import { CloseIcon } from "../icons";
 import { Button } from "./Buttons/Button";
+import { isIosBrowser } from "../helpers/browser";
 
 const sizes = {
     small: "w-72",
@@ -30,7 +31,7 @@ export const Drawer = ({
                 open={isOpen}
                 onClose={onClose}
             >
-                <div className="flex h-screen w-full">
+                <div className={clsx("flex w-full", isIosBrowser ? "" : "h-screen")}>
                     <Transition.Child
                         as={Fragment}
                         enter="ease-in-out duration-500"
