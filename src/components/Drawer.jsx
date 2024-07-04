@@ -5,6 +5,7 @@ import React, { Fragment } from "react";
 import { CloseIcon } from "../icons";
 import { Button } from "./Buttons/Button";
 import { isIosBrowser } from "../helpers/browser";
+import { useViewportHeight } from "../hooks/useViewportHeight";
 
 const sizes = {
     small: "w-72",
@@ -23,6 +24,7 @@ export const Drawer = ({
     classNames = {},
     position = "right",
 }) => {
+    const viewportHeight = useViewportHeight();
     return (
         <Transition.Root show={isOpen} as={Fragment}>
             <Dialog
@@ -31,7 +33,7 @@ export const Drawer = ({
                 open={isOpen}
                 onClose={onClose}
             >
-                <div className={clsx("flex w-full", isIosBrowser ? "" : "h-screen")}>
+                <div className={clsx("flex w-full", isIosBrowser ? `h-[${viewportHeight}px] max-h-[${viewportHeight}px]` : "h-screen")}>
                     <Transition.Child
                         as={Fragment}
                         enter="ease-in-out duration-500"
