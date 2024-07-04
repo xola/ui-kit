@@ -1,24 +1,27 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 export const useViewportHeight = () => {
-  const [viewportHeight, setViewportHeight] = useState(0);
+    const [viewportHeight, setViewportHeight] = useState(0);
 
-  useEffect(() => {
-    const detectViewportHeight = () => {
-      // Use window.innerHeight for a more accurate viewport height
-      setViewportHeight(window.innerHeight);
-    };
+    useEffect(() => {
+        const detectViewportHeight = () => {
+            // Use window.innerHeight for a more accurate viewport height
+            // eslint-disable-next-line no-undef
+            setViewportHeight(window.innerHeight);
+        };
 
-    // Detect height on mount
-    detectViewportHeight();
+        // Detect height on mount
+        detectViewportHeight();
 
-    // Optional: Re-detect on orientation change for mobile devices
-    window.addEventListener('orientationchange', detectViewportHeight);
+        // Optional: Re-detect on orientation change for mobile devices
+        // eslint-disable-next-line no-undef
+        window.addEventListener("orientationchange", detectViewportHeight);
 
-    return () => {
-      window.removeEventListener('orientationchange', detectViewportHeight);
-    };
-  }, []);
+        return () => {
+            // eslint-disable-next-line no-undef
+            window.removeEventListener("orientationchange", detectViewportHeight);
+        };
+    }, []);
 
-  return viewportHeight;
+    return viewportHeight;
 };

@@ -3,9 +3,9 @@ import clsx from "clsx";
 import PropTypes from "prop-types";
 import React, { Fragment } from "react";
 import { CloseIcon } from "../icons";
-import { Button } from "./Buttons/Button";
 import { isIosBrowser } from "../helpers/browser";
 import { useViewportHeight } from "../hooks/useViewportHeight";
+import { Button } from "./Buttons/Button";
 
 const sizes = {
     small: "w-72",
@@ -33,7 +33,12 @@ export const Drawer = ({
                 open={isOpen}
                 onClose={onClose}
             >
-                <div className={clsx("flex w-full", isIosBrowser ? `h-[${viewportHeight}px] max-h-[${viewportHeight}px]` : "h-screen")}>
+                <div
+                    className={clsx(
+                        "flex w-full",
+                        isIosBrowser ? `h-[${viewportHeight}px] max-h-[${viewportHeight}px]` : "h-screen",
+                    )}
+                >
                     <Transition.Child
                         as={Fragment}
                         enter="ease-in-out duration-500"

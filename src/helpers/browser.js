@@ -2,15 +2,17 @@
 export const isOSX = typeof window === "undefined" ? false : window.navigator.userAgent.includes("Macintosh");
 
 export const isIosBrowser = () => {
-    if (typeof window === 'undefined' || !window.navigator) return false;
-  
+    // eslint-disable-next-line no-undef
+    if (typeof window === "undefined" || !window.navigator) return false;
+
+    // eslint-disable-next-line no-undef
     const ua = window.navigator.userAgent;
-    const iOS = !!ua.match(/iPad/i) || !!ua.match(/iPhone/i);
-    const webkit = !!ua.match(/WebKit/i);
-  
+    const indexOS = !!/ipad/i.test(ua) || !!/iphone/i.test(ua);
+    const webkit = !!/webkit/i.test(ua);
+
     // Additional check for iPad with iOS 13+
-    const iPad = !!ua.match(/Macintosh/i) && navigator.maxTouchPoints > 1;
-  
-    return (iOS && webkit) || iPad;
-  };
-  
+    // eslint-disable-next-line no-undef
+    const indexPad = !!/macintosh/i.test(ua) && navigator.maxTouchPoints > 1;
+
+    return (indexOS && webkit) || indexPad;
+};
