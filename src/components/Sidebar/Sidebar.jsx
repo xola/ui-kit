@@ -1,9 +1,7 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import React, { useState, useEffect } from "react";
-import { AnnounceIcon } from "../../icons/AnnounceIcon";
-import { BellIcon } from "../../icons/BellIcon";
-import { XolaLogoSimple } from "../../images/XolaLogoSimple";
+import React from "react";
+import { AnnounceIcon, BellIcon, XolaLogoSimple } from "../../icons";
 import { Counter } from "../Counter";
 import { Drawer } from "../Drawer";
 import { SidebarAccount } from "./Sidebar.Account";
@@ -29,52 +27,12 @@ export const Sidebar = ({
     onLogoClick,
     isStickyHeader = true,
     isStickyFooter = true,
+    isLeftDrawerOpen,
+    isRightDrawerOpen,
+    handleDrawerStateChange,
 }) => {
-    const [isLeftDrawerOpen, setIsLeftDrawerOpen] = useState(false);
-    const [isRightDrawerOpen, setIsRightDrawerOpen] = useState(false);
-
-    useEffect(() => {
-        setIsLeftDrawerOpen(false); // Close the drawer if notifications changes
-        setIsRightDrawerOpen(false);
-    }, [notifications]);
-
-    const toggleLeftDrawer = () => {
-        if (!isLeftDrawerOpen) {
-            // Close the right drawer when you open the left
-            setIsRightDrawerOpen(false);
-        }
-
-        setIsLeftDrawerOpen(!isLeftDrawerOpen);
-    };
-
-    const toggleRightDrawer = () => {
-        if (!isRightDrawerOpen) {
-            // Close the left drawer when you open the right
-            setIsLeftDrawerOpen(false);
-        }
-
-        setIsRightDrawerOpen(!isRightDrawerOpen);
-    };
-
     const { announcements: leftDrawer, notices: rightDrawer } = notifications ?? {};
     const hideRightDrawer = rightDrawer?.count <= 0 || !rightDrawer;
-
-    const handleOnClose = (direction, closeDrawer) => {
-        if (direction === "left") {
-            if (closeDrawer) {
-                setIsLeftDrawerOpen(false);
-            }
-
-            leftDrawer.onClose?.();
-        } else {
-            if (closeDrawer) {
-                setIsRightDrawerOpen(false);
-            }
-
-            rightDrawer.onClose?.();
-        }
-    };
-
     const isStickyHeaderFooter = isStickyHeader && isStickyFooter;
 
     return (
@@ -84,7 +42,7 @@ export const Sidebar = ({
                 "ui-sidebar",
                 isFixed ? "fixed" : "relative",
                 !isStickyHeaderFooter && "overflow-y-auto",
-                "z-20 flex h-full w-16 flex-col bg-black py-2 px-1 text-white md:w-24 xl:w-50",
+                "z-20 flex h-full w-16 flex-col bg-black px-1 py-2 text-white md:w-24 xl:w-50",
                 className,
             )}
         >
@@ -97,7 +55,7 @@ export const Sidebar = ({
                 >
                     {leftDrawer && (
                         <div className={clsx("cursor-pointer sm:text-center", leftDrawer.hide && "hidden")}>
-                            <Counter style={LeftDrawerCountStyle} onClick={toggleLeftDrawer}>
+                            <Counter style={LeftDrawerCountStyle} onClick={() => handleDrawerStateChange("left")}>
                                 <AnnounceIcon className="mr-1 sm:hidden xl:block" />
                                 {leftDrawer.count}
                             </Counter>
@@ -106,7 +64,7 @@ export const Sidebar = ({
 
                     {rightDrawer && (
                         <div className={clsx("ml-auto cursor-pointer sm:text-center", hideRightDrawer && "hidden")}>
-                            <Counter className="text-sm" onClick={toggleRightDrawer}>
+                            <Counter className="text-sm" onClick={() => handleDrawerStateChange("right")}>
                                 <BellIcon className="sm:hidden xl:block" />
                                 {rightDrawer.count}
                             </Counter>
@@ -123,7 +81,7 @@ export const Sidebar = ({
                     title={leftDrawer.title}
                     content={leftDrawer.content}
                     isOpen={isLeftDrawerOpen}
-                    onClose={(e) => handleOnClose("left", !!e)}
+                    onClose={(e) => !!e && handleDrawerStateChange("left")}
                 />
             )}
 
@@ -135,7 +93,7 @@ export const Sidebar = ({
                     title={rightDrawer.title}
                     content={rightDrawer.content}
                     isOpen={isRightDrawerOpen}
-                    onClose={(e) => handleOnClose("right", !!e)}
+                    onClose={(e) => !!e && handleDrawerStateChange("right")}
                 />
             )}
 
@@ -169,6 +127,9 @@ Sidebar.propTypes = {
     isStickyHeader: PropTypes.bool,
     isStickyFooter: PropTypes.bool,
     onLogoClick: PropTypes.func.isRequired,
+    isLeftDrawerOpen: PropTypes.bool,
+    isRightDrawerOpen: PropTypes.bool,
+    handleDrawerStateChange: PropTypes.func,
     notifications: PropTypes.shape({
         announcements: PropTypes.shape({
             count: PropTypes.number,

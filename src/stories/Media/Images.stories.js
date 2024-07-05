@@ -1,7 +1,7 @@
 import { map, omitBy } from "lodash";
 import React from "react";
-import * as all from "../..";
-import { XolaLogoCircle, XolaLogo, XolaLogoSimple } from "../..";
+import * as all from "../../icons/";
+import { XolaLogo, XolaLogoCircle, XolaLogoSimple } from "../../icons/";
 
 const imageNames = omitBy(all, (Image, name) => !name.endsWith("Image"));
 const images = map(imageNames, (Image, name) => ({ Image, name }));

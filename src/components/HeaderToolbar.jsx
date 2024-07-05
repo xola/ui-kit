@@ -1,6 +1,6 @@
 import clsx from "clsx";
-import React from "react";
 import PropTypes from "prop-types";
+import React from "react";
 import { Breadcrumb, Search } from "..";
 
 export const HeaderToolbar = ({ classNames, children }) => {

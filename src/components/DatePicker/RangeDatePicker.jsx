@@ -1,13 +1,13 @@
-import React from "react";
-import PropTypes from "prop-types";
-import DayPicker from "react-day-picker";
 import clsx from "clsx";
-import dayjs from "dayjs";
 import { isArray, isFunction } from "lodash";
+import PropTypes from "prop-types";
+import React from "react";
+import DayPicker from "react-day-picker";
+import { now } from "../../helpers/date";
 import { Tooltip } from "../Tooltip";
-import { NavbarElement } from "./NavbarElement";
-import { MonthYearSelector } from "./MonthYearSelector";
 import { Day } from "./Day";
+import { MonthYearSelector } from "./MonthYearSelector";
+import { NavbarElement } from "./NavbarElement";
 
 const RangeDatePicker = ({
     getTooltip,
@@ -24,103 +24,68 @@ const RangeDatePicker = ({
     handleStartMonthChange,
     handleEndMonthChange,
     handleTodayClick,
+    timezoneName,
     ...rest
 }) => {
-    const isStartDateIsTheSameMonth = dayjs(value?.from).isSame(dayjs(value?.to), "month");
+    const isStartDateIsTheSameMonth = now(value?.from, timezoneName).isSame(now(value?.to, timezoneName), "month");
+    const isSingleDayDateRange = now(value?.from, timezoneName).isSame(now(value?.to, timezoneName), "day");
 
-    const CaptionStartElement =
-        shouldShowYearPicker && startMonth
-            ? ({ date }) => (
-                  <MonthYearSelector date={date} currentMonth={startMonth} onChange={handleStartMonthChange} />
-              )
+    const createCaptionElement = (currentMonth, handleChange) =>
+        shouldShowYearPicker && currentMonth
+            ? ({ date }) => <MonthYearSelector date={date} currentMonth={currentMonth} onChange={handleChange} />
             : undefined;
 
-    const CaptionEndElement =
-        shouldShowYearPicker && endMonth
-            ? ({ date }) => <MonthYearSelector date={date} currentMonth={endMonth} onChange={handleEndMonthChange} />
-            : undefined;
+    const CaptionStartElement = createCaptionElement(startMonth, handleStartMonthChange);
+    const CaptionEndElement = createCaptionElement(endMonth, handleEndMonthChange);
 
-    const isDisabledStartDays = (date) => {
+    const isDateDisabledFromOutside = (date) => {
         if (isFunction(disabledDays)) {
-            return disabledDays(date) || dayjs(date).isAfter(value.to, "day");
+            return disabledDays(date);
         }
 
         if (isArray(disabledDays)) {
-            return (
-                disabledDays.some((_date) => dayjs(_date).isSame(date, "day")) || dayjs(date).isAfter(value.to, "day")
-            );
+            return disabledDays.some((_date) => now(_date, timezoneName).isSame(date, "day"));
         }
 
-        return dayjs(date).isAfter(value.to, "day");
+        return false;
+    };
+
+    const isDisabledStartDays = (date) => {
+        return isDateDisabledFromOutside(date);
     };
 
     const isDisabledEndDays = (date) => {
-        if (isStartDateIsTheSameMonth) {
-            return true;
-        }
+        const isDateBeforeStartDate = now(date, timezoneName).isBefore(value?.from, "day");
 
-        if (isFunction(disabledDays)) {
-            return disabledDays(date) || dayjs(date).isBefore(value?.from, "day");
-        }
+        return isDateDisabledFromOutside(date) || (isDateBeforeStartDate && !isSingleDayDateRange);
+    };
 
-        if (isArray(disabledDays)) {
-            return (
-                disabledDays.some((_date) => dayjs(_date).isSame(date, "day")) ||
-                dayjs(date).isBefore(value?.from, "day")
-            );
-        }
+    const renderDay = (date, isDisabledDays, currentMonth) => {
+        const tooltipContent = getTooltip?.(date);
+        const disabled = isDisabledDays(date);
 
-        return dayjs(date).isBefore(value?.from, "day");
+        const DayWrapper = tooltipContent ? Tooltip : React.Fragment;
+        const dayWrapperProps = tooltipContent ? { placement: "top", content: tooltipContent } : {};
+
+        return (
+            <DayWrapper {...dayWrapperProps}>
+                <Day
+                    disabled={disabled}
+                    selectedDate={value}
+                    date={date}
+                    getContent={getDayContent}
+                    currentMonth={currentMonth}
+                />
+            </DayWrapper>
+        );
     };
 
     const renderStartDay = (date) => {
-        const tooltipContent = getTooltip?.(date);
-        const disabled = isDisabledStartDays(date);
-
-        return tooltipContent ? (
-            <Tooltip placement="top" content={tooltipContent}>
-                <Day
-                    disabled={disabled}
-                    selectedDate={value}
-                    date={date}
-                    getContent={getDayContent}
-                    currentMonth={startMonth}
-                />
-            </Tooltip>
-        ) : (
-            <Day
-                disabled={disabled}
-                selectedDate={value}
-                date={date}
-                getContent={getDayContent}
-                currentMonth={startMonth}
-            />
-        );
+        return renderDay(date, isDisabledStartDays, startMonth);
     };
 
     const renderEndDay = (date) => {
-        const tooltipContent = getTooltip?.(date);
-        const disabled = isDisabledEndDays(date);
-
-        return tooltipContent ? (
-            <Tooltip placement="top" content={tooltipContent}>
-                <Day
-                    disabled={disabled}
-                    selectedDate={value}
-                    date={date}
-                    getContent={getDayContent}
-                    currentMonth={endMonth}
-                />
-            </Tooltip>
-        ) : (
-            <Day
-                disabled={disabled}
-                selectedDate={value}
-                date={date}
-                getContent={getDayContent}
-                currentMonth={endMonth}
-            />
-        );
+        return renderDay(date, isDisabledEndDays, endMonth);
     };
 
     return (
@@ -184,6 +149,7 @@ RangeDatePicker.propTypes = {
     handleStartMonthChange: PropTypes.func,
     handleEndMonthChange: PropTypes.func,
     handleTodayClick: PropTypes.func,
+    timezoneName: PropTypes.string,
 };
 
 export default RangeDatePicker;
