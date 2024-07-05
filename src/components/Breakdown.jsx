@@ -1,7 +1,7 @@
+import clsx from "clsx";
+import { isNumber } from "lodash";
 import PropTypes from "prop-types";
 import React, { createContext, useContext, useMemo } from "react";
-import { isNumber } from "lodash";
-import clsx from "clsx";
 import { Currency } from "./Utilities/Currency";
 
 const colors = {
