@@ -54,7 +54,7 @@ export { almostZero, numberFormat, roundNumber } from "./helpers/numbers";
 export { getSymbol, isZeroDecimal } from "./helpers/currency";
 export { formatDate, formatTime, dateFromObjectId } from "./helpers/date";
 export { formatPhoneNumber } from "./helpers/phone";
-export { isOSX } from "./helpers/browser";
+export { isOSX, isIosBrowser } from "./helpers/browser";
 export { flash } from "./helpers/flash";
 
 // Chart options
