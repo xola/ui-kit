@@ -2,11 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { isArray, isFunction } from "lodash";
-import { Tooltip } from "../Tooltip";
 import { now } from "../../helpers/date";
-import { NavbarElement } from "./NavbarElement";
-import { MonthYearSelector } from "./MonthYearSelector";
+import { Tooltip } from "../Tooltip";
 import { Day } from "./Day";
+import { MonthYearSelector } from "./MonthYearSelector";
+import { NavbarElement } from "./NavbarElement";
 import { LocalizedDayPicker } from "./LocalizedDayPicker";
 
 const RangeDatePicker = ({

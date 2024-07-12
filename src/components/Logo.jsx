@@ -1,6 +1,6 @@
-import React from "react";
 import clsx from "clsx";
 import PropTypes from "prop-types";
+import React from "react";
 
 const sizes = {
     small: "w-10 h-10",

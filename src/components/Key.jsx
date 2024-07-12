@@ -1,6 +1,6 @@
 import clsx from "clsx";
-import React from "react";
 import PropTypes from "prop-types";
+import React from "react";
 import { isOSX } from "../helpers/browser";
 
 export const Key = ({ char, className, ...rest }) => {
