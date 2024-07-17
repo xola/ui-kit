@@ -51,7 +51,7 @@ export { Number } from "./components/Utilities/Number";
 
 // Helpers
 export { almostZero, numberFormat, roundNumber } from "./helpers/numbers";
-export { getSymbol, isZeroDecimal } from "./helpers/currency";
+export { getSymbol, getValueWithCurrency, isZeroDecimal } from "./helpers/currency";
 export { formatDate, formatTime, dateFromObjectId } from "./helpers/date";
 export { formatPhoneNumber } from "./helpers/phone";
 export { isOSX, isIosBrowser } from "./helpers/browser";
