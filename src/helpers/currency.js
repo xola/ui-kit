@@ -1,5 +1,6 @@
 import getUserLocale from "get-user-locale";
 import { almostZero, numberFormat } from "../helpers/numbers";
+
 const userLocale = getUserLocale();
 
 const zeroDecimalCurrencies = new Set(["JPY", "CLP", "KRW", "LAK", "PYG", "VND", "VUV"]);
