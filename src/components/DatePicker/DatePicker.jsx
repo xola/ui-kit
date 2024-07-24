@@ -146,11 +146,23 @@ export const DatePicker = ({
 
                 onChange({ from, to }, options, event);
             } else {
-                onChange(
-                    DateUtils.addDayToRange(toDate(now(day, timezoneName).endOf("day"), false), value),
-                    options,
-                    event,
-                );
+                if (DateUtils.isDayBefore(value.from, toDate(now(day, timezoneName)))) {
+                    onChange(
+                        DateUtils.addDayToRange(toDate(now(day, timezoneName).endOf("day"), false), value),
+                        options,
+                        event,
+                    );
+                } else {
+                    // this works if the user first clicked on the date that will go to "to", and the second click to "from"
+                    onChange(
+                        {
+                            from: toDate(now(day, timezoneName).startOf("day")),
+                            to: toDate(now(value.from).endOf("day")),
+                        },
+                        options,
+                        event,
+                    );
+                }
             }
         } else {
             onChange(toDate(now(day, timezoneName)), options, event);
