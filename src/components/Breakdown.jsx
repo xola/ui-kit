@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { isNumber } from "lodash";
+import { isNumber, isString } from "lodash";
 import PropTypes from "prop-types";
 import React, { createContext, useContext, useMemo } from "react";
 import { Currency } from "./Utilities/Currency";
@@ -48,7 +48,7 @@ const BreakdownItem = ({
 }) => {
     // When BreakdownItem is directly used without outer <Breakdown /> component, the context would be `undefined`
     const { currency, locale } = useContext(CurrencyContext) ?? {};
-    const hasSpaces = children?.split(" ").length > 1;
+    const hasSpaces = isString(children) && children.split(" ").length > 1;
 
     return (
         <tr className={clsx("ui-breakdown-item", colors[color], className)} {...rest}>
