@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { isNumber, isString } from "lodash";
+import { isNumber } from "lodash";
 import PropTypes from "prop-types";
 import React, { createContext, useContext, useMemo } from "react";
 import { Currency } from "./Utilities/Currency";
@@ -48,15 +48,12 @@ const BreakdownItem = ({
 }) => {
     // When BreakdownItem is directly used without outer <Breakdown /> component, the context would be `undefined`
     const { currency, locale } = useContext(CurrencyContext) ?? {};
-    const hasSpaces = isString(children) && children.split(" ").length > 1;
 
     return (
         <tr className={clsx("ui-breakdown-item", colors[color], className)} {...rest}>
             <td colSpan={2} className={clsx("break-all text-left leading-none", classNames.key)}>
                 <span className="mr-0.5">{methodIcon}</span>
-                <span className={clsx(hasSpaces ? "break-normal" : "break-all", classNames.children)}>
-                    {children ?? ""}
-                </span>
+                <span className={clsx("break-normal md:break-all", classNames.children)}>{children ?? ""}</span>
                 <span className={clsx("ml-1 text-sm", classNames.info)}>
                     {info && (
                         <span className="mr-2 rounded bg-white p-1 uppercase text-black empty:hidden">{info}</span>

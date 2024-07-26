@@ -59,7 +59,7 @@ export const Default = () => {
                 </Breakdown.Item>
 
                 <Breakdown.Item secondary="07/23/2021" info={<EmptyComponent />} value={0} methodIcon={<CardIcon />}>
-                    LongMessageThatShouldOnlyBreakAtAWhitespaceLoremIpsum
+                    SmallMessage LongMessageThatShouldOnlyBreakAtAWhitespaceLoremIpsum
                 </Breakdown.Item>
 
                 <Breakdown.Separator />
