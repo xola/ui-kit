@@ -157,7 +157,7 @@ export const DatePicker = ({
                 onChange(
                     {
                         from: toDate(now(day, timezoneName).startOf("day")),
-                        to: toDate(now(value.from).endOf("day")),
+                        to: toDate(now(value.from).endOf("day"), false),
                     },
                     options,
                     event,
