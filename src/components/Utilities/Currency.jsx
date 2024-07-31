@@ -1,9 +1,8 @@
 import getUserLocale from "get-user-locale";
 import PropTypes from "prop-types";
-import React, { useContext } from "react";
+import React from "react";
 import { getSymbol, isZeroDecimal } from "../../helpers/currency";
 import { almostZero, numberFormat, roundNumber } from "../../helpers/numbers";
-import { Context } from "../Provider";
 
 const userLocale = getUserLocale();
 
@@ -16,8 +15,6 @@ export const Currency = ({
     isNarrowSymbolForm,
     children,
 }) => {
-    const {locale} = useContext(Context);
-
     let amount = children;
     if (almostZero(amount)) {
         amount = 0;
