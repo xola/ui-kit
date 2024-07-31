@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import dayjs from "dayjs";
 import PropTypes from "prop-types";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState, useContext } from "react";
 import { DateUtils } from "react-day-picker";
 import "react-day-picker/lib/style.css";
 import "./DatePicker.css";
@@ -15,6 +15,7 @@ import { RelativeDateRange } from "./RelativeDateRange";
 import { UpcomingDatePicker } from "./UpcomingDatePicker";
 import { NavbarElement } from "./NavbarElement";
 import { LocalizedDayPicker } from "./LocalizedDayPicker";
+import { Context } from "../Provider";
 
 const variants = {
     single: "single",
@@ -39,9 +40,11 @@ export const DatePicker = ({
     components = {},
     getTooltip,
     upcomingDates,
+    locale,
     timezoneName = null, // seller timezone (e.g. "America/Los_Angeles") to return correct today date
     ...rest
 }) => {
+    const { locale:contextLocale } = useContext(Context);
     const initialValue = value ? (variant === variants.single ? value : value.from) : null;
     const [currentMonth, setCurrentMonth] = useState(initialValue ?? now(null, timezoneName).toDate());
     const [startMonth, setStartMonth] = useState(() => {
@@ -161,7 +164,7 @@ export const DatePicker = ({
     // TODO: Should be outside this component because this returns JSX
     const CaptionElement = useMemo(() => {
         return shouldShowYearPicker && currentMonth
-            ? ({ date }) => <MonthYearSelector date={date} currentMonth={currentMonth} onChange={handleMonthChange} />
+            ? ({ date }) => <MonthYearSelector date={date} currentMonth={currentMonth} locale={locale ?? contextLocale} onChange={handleMonthChange} />
             : undefined;
         // Adding `handleMonthChange` causes a lot of re-renders, and closes drop-down.
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -228,6 +231,7 @@ export const DatePicker = ({
                         handleEndMonthChange={handleEndMonthChange}
                         handleTodayClick={handleTodayClick}
                         selectedDays={selectedDays}
+                        locale={locale ?? contextLocale}
                         timezoneName={timezoneName}
                         {...rest}
                     />
@@ -290,5 +294,6 @@ DatePicker.propTypes = {
     shouldShowRelativeRanges: PropTypes.bool,
     components: PropTypes.shape({ Footer: PropTypes.oneOfType([PropTypes.node, PropTypes.func]) }),
     getTooltip: PropTypes.func,
+    locale: PropTypes.string,
     timezoneName: PropTypes.string,
 };

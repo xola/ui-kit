@@ -24,6 +24,7 @@ const RangeDatePicker = ({
     handleStartMonthChange,
     handleEndMonthChange,
     handleTodayClick,
+    locale,
     timezoneName,
     ...rest
 }) => {
@@ -32,7 +33,7 @@ const RangeDatePicker = ({
 
     const createCaptionElement = (currentMonth, handleChange) =>
         shouldShowYearPicker && currentMonth
-            ? ({ date }) => <MonthYearSelector date={date} currentMonth={currentMonth} onChange={handleChange} />
+            ? ({ date }) => <MonthYearSelector date={date} currentMonth={currentMonth} locale={locale} onChange={handleChange} />
             : undefined;
 
     const CaptionStartElement = createCaptionElement(startMonth, handleStartMonthChange);

@@ -15,6 +15,9 @@ const locales = {
     es: import("dayjs/locale/es"),
     es_ES: import("dayjs/locale/es"),
     es_MX: import("dayjs/locale/es-mx"),
+
+    fr: import("dayjs/locale/fr"),
+    de: import("dayjs/locale/de"),
 };
 
 export const getLocalizationProps = async (localeCode: LocaleCode): Promise<Partial<LocalizationProps>> => {

@@ -1,9 +1,8 @@
-import React, { useContext } from "react";
-import { Context } from "../Provider";
-import DayPicker, { DayPickerProps } from "react-day-picker";
-import { forwardRef, useEffect, useState } from "react";
-import { getLocalizationProps, LocaleCode, LocalizationProps } from "./DatePicker.helpers";
 import clsx from "clsx";
+import React, { forwardRef, useContext, useEffect, useState } from "react";
+import DayPicker, { DayPickerProps } from "react-day-picker";
+import { Context } from "../Provider";
+import { getLocalizationProps, LocaleCode, LocalizationProps } from "./DatePicker.helpers";
 
 export const LocalizedDayPicker = forwardRef<any, DayPickerProps>(({ className, ...rest }, ref) => {
     const { locale } = useContext(Context);
@@ -18,5 +17,5 @@ export const LocalizedDayPicker = forwardRef<any, DayPickerProps>(({ className, 
         getLocalizationProps(locale as LocaleCode).then(setLocalizationProps);
     }, [locale]);
 
-    return <DayPicker ref={ref} className={clsx("no-translate", className)} {...localizationProps} {...rest} />;
+    return <DayPicker ref={ref} className={clsx(className)} {...localizationProps} {...rest} />;
 });
