@@ -1,6 +1,6 @@
+import React from "react";
 import dayjs from "dayjs";
 import PropTypes from "prop-types";
-import React from "react";
 import { Select } from "../Forms/Select";
 
 const today = dayjs();
@@ -9,11 +9,11 @@ const getDiffInMonths = (to, from) => {
     return 12 * (to.getFullYear() - from.getFullYear()) + (to.getMonth() - from.getMonth());
 };
 
-export const MonthYearSelector = ({ date, onChange, currentMonth }) => {
-    const months = [...Array.from({ length: 12 }).keys()].map((m) => today.month(m).format("MMM"));
+export const MonthYearSelector = ({ date, locale, onChange, currentMonth }) => {
+    const months = [...Array.from({ length: 12 }).keys()].map((m) => today.locale(locale).month(m).format("MMM"));
     // 2012 as baseline + 5 years in future
     const years = [...Array.from({ length: today.year() - 2012 + 5 + 1 }).keys()].map((y) =>
-        today.year(2012 + y).format("YYYY"),
+        today.locale(locale).year(2012 + y).format("YYYY"),
     );
 
     /**

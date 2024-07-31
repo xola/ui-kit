@@ -1,8 +1,9 @@
 import getUserLocale from "get-user-locale";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useContext } from "react";
 import { getSymbol, isZeroDecimal } from "../../helpers/currency";
 import { almostZero, numberFormat, roundNumber } from "../../helpers/numbers";
+import { Context } from "../Provider";
 
 const userLocale = getUserLocale();
 
@@ -15,7 +16,10 @@ export const Currency = ({
     isNarrowSymbolForm,
     children,
 }) => {
+    const {locale} = useContext(Context);
+
     let amount = children;
+
     if (almostZero(amount)) {
         amount = 0;
     }
@@ -25,7 +29,7 @@ export const Currency = ({
     if (compact) {
         return (
             <span className="ui-currency">
-                {getSymbol(currency, locale, isNarrowSymbolForm)}
+                {getSymbol(currency, locale , isNarrowSymbolForm)}
                 {formattedAmount}
             </span>
         );
