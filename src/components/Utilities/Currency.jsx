@@ -19,7 +19,6 @@ export const Currency = ({
     const {locale} = useContext(Context);
 
     let amount = children;
-
     if (almostZero(amount)) {
         amount = 0;
     }
@@ -29,7 +28,7 @@ export const Currency = ({
     if (compact) {
         return (
             <span className="ui-currency">
-                {getSymbol(currency, locale , isNarrowSymbolForm)}
+                {getSymbol(currency, locale, isNarrowSymbolForm)}
                 {formattedAmount}
             </span>
         );
