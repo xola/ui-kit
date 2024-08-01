@@ -152,8 +152,12 @@ export const DatePicker = ({
                     options,
                     event,
                 );
-            } else if (DateUtils.isDayAfter(value.from, toDate(now(day, timezoneName)))) {
+            } else if (
+                DateUtils.isDayAfter(value.from, toDate(now(day, timezoneName))) ||
+                DateUtils.isSameDay(value.from, toDate(now(day, timezoneName)))
+            ) {
                 // this works if the user first clicked on the date that will go to "to", and the second click to "from"
+                // also this works when the user has selected one date
                 onChange(
                     {
                         from: toDate(now(day, timezoneName).startOf("day")),
