@@ -11,6 +11,10 @@ export const Context = createContext({
 
         return fallbackIdCounter++;
     },
+
+    localize: true,
+
+    locale: "en_US",
 });
 
 /**
@@ -18,14 +22,14 @@ export const Context = createContext({
  * Must be used from now on in order to generate correct component IDs.
  * Also a good place to implement any global state required for the UI Kit in the future.
  */
-export const Provider = ({ children }) => {
+export const Provider = ({ children, localize = true, locale = "en_US" }) => {
     const idCounterRef = useRef(1);
 
     const generateId = useCallback(() => {
         return idCounterRef.current++;
     }, [idCounterRef]);
 
-    const value = useMemo(() => ({ generateId }), [generateId]);
+    const value = useMemo(() => ({ generateId, localize, locale }), [generateId, localize, locale]);
 
     return <Context.Provider value={value}>{children}</Context.Provider>;
 };

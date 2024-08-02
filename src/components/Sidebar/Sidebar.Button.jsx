@@ -1,11 +1,15 @@
 import PropTypes from "prop-types";
 import React from "react";
+import clsx from "clsx";
 
-export const SidebarButton = ({ icon: Icon, label, ...rest }) => {
+export const SidebarButton = ({ icon: Icon, label, className, ...rest }) => {
     return (
         <button
             type="button"
-            className="ui-sidebar-button flex w-full cursor-pointer items-center rounded py-2 px-4 hover:bg-gray-darker"
+            className={clsx(
+                "ui-sidebar-button flex w-full cursor-pointer items-center rounded py-2 px-4 hover:bg-gray-darker",
+                className,
+            )}
             {...rest}
         >
             <div className="p-1.5">
