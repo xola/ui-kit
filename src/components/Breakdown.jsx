@@ -1,7 +1,7 @@
+import clsx from "clsx";
+import { isNumber } from "lodash";
 import PropTypes from "prop-types";
 import React, { createContext, useContext, useMemo } from "react";
-import { isNumber } from "lodash";
-import clsx from "clsx";
 import { Currency } from "./Utilities/Currency";
 
 const colors = {
@@ -53,7 +53,7 @@ const BreakdownItem = ({
         <tr className={clsx("ui-breakdown-item", colors[color], className)} {...rest}>
             <td colSpan={2} className={clsx("break-all text-left leading-none", classNames.key)}>
                 <span className="mr-0.5">{methodIcon}</span>
-                <span className={clsx("break-normal", classNames.children)}>{children}</span>
+                <span className={clsx("break-normal md:break-all", classNames.children)}>{children ?? ""}</span>
                 <span className={clsx("ml-1 text-sm", classNames.info)}>
                     {info && (
                         <span className="mr-2 rounded bg-white p-1 uppercase text-black empty:hidden">{info}</span>

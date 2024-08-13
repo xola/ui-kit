@@ -1,8 +1,10 @@
 import { Dialog, Transition } from "@headlessui/react";
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import React, { Fragment, forwardRef } from "react";
+import React, { forwardRef, Fragment } from "react";
 import { CloseIcon } from "../icons";
+import { isIosBrowser } from "../helpers/browser";
+import { useViewportHeight } from "../hooks/useViewportHeight";
 import { Button } from "./Buttons/Button";
 
 const sizes = {
@@ -15,6 +17,9 @@ const sizes = {
 
 export const Drawer = forwardRef(
     ({ isOpen = false, title, size = "medium", content, onClose, classNames = {}, position = "right" }, ref) => {
+        const viewportHeight = useViewportHeight();
+        const isIOS = isIosBrowser();
+
         return (
             <Transition.Root ref={ref} show={isOpen} as={Fragment}>
                 <Dialog
@@ -23,7 +28,12 @@ export const Drawer = forwardRef(
                     open={isOpen}
                     onClose={onClose}
                 >
-                    <div className="flex h-screen w-full">
+                    <div
+                        className={clsx(
+                            "flex",
+                            isIOS ? `h-[${viewportHeight}px] max-h-[${viewportHeight}px] w-full` : "h-screen w-full",
+                        )}
+                    >
                         <Transition.Child
                             as={Fragment}
                             enter="ease-in-out duration-500"
@@ -92,8 +102,7 @@ const CloseButton = ({ onClose }) => {
             size="small"
             variant="link"
             className={clsx(
-                "m-2.5 inline-flex !h-10 !w-10 items-center justify-center !rounded-full bg-white !px-1.5",
-                "!text-black focus:hidden",
+                "m-2.5 inline-flex !h-10 !w-10 items-center justify-center !rounded-full bg-white !px-1.5 !text-black",
             )}
             onClick={onClose}
         >

@@ -256,6 +256,7 @@ export {
     UnlinkIcon,
     useId,
     useIsClient,
+    useViewportHeight,
     UserAddIcon,
     UserChangedIcon,
     UserIcon,
