@@ -4,7 +4,7 @@ export type LocaleCode = keyof typeof locales;
 
 export type LocalizationProps = Pick<
     DayPickerProps,
-    "locale" | "months" | "weekdaysLong" | "weekdaysShort" | "firstDayOfWeek"
+    "locale" | "months" | "monthsShort" | "weekdaysLong" | "weekdaysShort" | "firstDayOfWeek"
 >;
 
 const locales = {
@@ -29,6 +29,7 @@ export const getLocalizationProps = async (localeCode: LocaleCode): Promise<Part
             weekdaysLong: locale.weekdays,
             weekdaysShort: locale.weekdaysShort,
             months: locale.months,
+            monthsShort: locale.monthsShort,
             firstDayOfWeek: locale.weekStart,
         };
     } catch (error) {

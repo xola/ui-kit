@@ -12,7 +12,7 @@ export const LocalizedDayPicker = forwardRef<any, DayPickerProps>(({ className, 
         setLocalizationProps({});
 
         /** We don't want any localization-related props for "English" */
-        if (locale === "en") return;
+        if (locale === "en" || locale === "en_US") return;
 
         getLocalizationProps(locale as LocaleCode).then(setLocalizationProps);
     }, [locale]);
