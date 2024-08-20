@@ -45,6 +45,7 @@ export const DatePicker = ({
     ...rest
 }) => {
     const { locale:contextLocale } = useContext(Context);
+    console.log("Date Picker - ui - kit ", contextLocale);
     const initialValue = value ? (variant === variants.single ? value : value.from) : null;
     const [currentMonth, setCurrentMonth] = useState(initialValue ?? now(null, timezoneName).toDate());
     const [startMonth, setStartMonth] = useState(() => {
