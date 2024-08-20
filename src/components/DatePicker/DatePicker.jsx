@@ -167,6 +167,12 @@ export const DatePicker = ({
                     options,
                     event,
                 );
+            } else {
+                onChange(
+                    DateUtils.addDayToRange(toDate(now(day, timezoneName).endOf("day"), false), value),
+                    options,
+                    event,
+                );
             }
         } else {
             onChange(toDate(now(day, timezoneName)), options, event);
