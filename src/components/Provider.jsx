@@ -24,7 +24,7 @@ export const Context = createContext({
  */
 export const Provider = ({ children, localize = true, locale = "en_US" }) => {
     const idCounterRef = useRef(1);
-    console.log("Logging from ui-kit Provider -", locale);
+    console.log("Locale in UI-KIT Provider -", locale);
     const generateId = useCallback(() => {
         return idCounterRef.current++;
     }, [idCounterRef]);
