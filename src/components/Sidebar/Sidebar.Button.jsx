@@ -1,6 +1,6 @@
+import clsx from "clsx";
 import PropTypes from "prop-types";
 import React from "react";
-import clsx from "clsx";
 
 export const SidebarButton = ({ icon: Icon, label, className, ...rest }) => {
     return (

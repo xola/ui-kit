@@ -1,23 +1,33 @@
+import * as de from "dayjs/locale/de";
+import * as en from "dayjs/locale/en";
+import * as enGB from "dayjs/locale/en-gb";
+import * as es from "dayjs/locale/es";
+import * as esMX from "dayjs/locale/es-MX";
+import * as fr from "dayjs/locale/fr";
 import type { DayPickerProps } from "react-day-picker";
 
 export type LocaleCode = keyof typeof locales;
 
+interface ExtendedDayPickerProps extends DayPickerProps {
+    monthsShort?: string;
+}
+
 export type LocalizationProps = Pick<
-    DayPickerProps,
+    ExtendedDayPickerProps,
     "locale" | "months" | "monthsShort" | "weekdaysLong" | "weekdaysShort" | "firstDayOfWeek"
 >;
 
 const locales = {
-    en: import("dayjs/locale/en"),
-    en_US: import("dayjs/locale/en"),
-    en_GB: import("dayjs/locale/en-gb"),
+    en: en,
+    en_US: en,
+    en_GB: enGB,
 
-    es: import("dayjs/locale/es"),
-    es_ES: import("dayjs/locale/es"),
-    es_MX: import("dayjs/locale/es-mx"),
+    es: es,
+    es_ES: es,
+    es_MX: esMX,
 
-    fr: import("dayjs/locale/fr"),
-    de: import("dayjs/locale/de"),
+    fr: fr,
+    de: de,
 };
 
 export const getLocalizationProps = async (localeCode: LocaleCode): Promise<Partial<LocalizationProps>> => {

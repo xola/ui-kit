@@ -1,21 +1,21 @@
 import clsx from "clsx";
 import dayjs from "dayjs";
 import PropTypes from "prop-types";
-import React, { useEffect, useMemo, useState, useContext } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { DateUtils } from "react-day-picker";
 import "react-day-picker/lib/style.css";
 import "./DatePicker.css";
 import { isArray, isFunction } from "lodash";
 import { Tooltip } from "../..";
 import { isSame, isValidTimeZoneName, now, toDate } from "../../helpers/date";
+import { Context } from "../Provider";
 import { Day } from "./Day";
+import { LocalizedDayPicker } from "./LocalizedDayPicker";
 import { MonthYearSelector } from "./MonthYearSelector";
+import { NavbarElement } from "./NavbarElement";
 import RangeDatePicker from "./RangeDatePicker";
 import { RelativeDateRange } from "./RelativeDateRange";
 import { UpcomingDatePicker } from "./UpcomingDatePicker";
-import { NavbarElement } from "./NavbarElement";
-import { LocalizedDayPicker } from "./LocalizedDayPicker";
-import { Context } from "../Provider";
 
 const variants = {
     single: "single",
@@ -44,8 +44,8 @@ export const DatePicker = ({
     timezoneName = null, // seller timezone (e.g. "America/Los_Angeles") to return correct today date
     ...rest
 }) => {
-    const { locale:contextLocale } = useContext(Context);
-    console.log("Date Picker - ui - kit ", contextLocale);
+    const { locale: contextLocale } = useContext(Context);
+    console.log("Date Picker - ui - kit", contextLocale);
     const initialValue = value ? (variant === variants.single ? value : value.from) : null;
     const [currentMonth, setCurrentMonth] = useState(initialValue ?? now(null, timezoneName).toDate());
     const [startMonth, setStartMonth] = useState(() => {
@@ -180,7 +180,14 @@ export const DatePicker = ({
     // TODO: Should be outside this component because this returns JSX
     const CaptionElement = useMemo(() => {
         return shouldShowYearPicker && currentMonth
-            ? ({ date }) => <MonthYearSelector date={date} currentMonth={currentMonth} locale={locale ?? contextLocale} onChange={handleMonthChange} />
+            ? ({ date }) => (
+                  <MonthYearSelector
+                      date={date}
+                      currentMonth={currentMonth}
+                      locale={locale ?? contextLocale}
+                      onChange={handleMonthChange}
+                  />
+              )
             : undefined;
         // Adding `handleMonthChange` causes a lot of re-renders, and closes drop-down.
         // eslint-disable-next-line react-hooks/exhaustive-deps

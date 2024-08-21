@@ -2,9 +2,9 @@ import { Dialog, Transition } from "@headlessui/react";
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import React, { forwardRef, Fragment } from "react";
-import { CloseIcon } from "../icons";
 import { isIosBrowser } from "../helpers/browser";
 import { useViewportHeight } from "../hooks/useViewportHeight";
+import { CloseIcon } from "../icons";
 import { Button } from "./Buttons/Button";
 
 const sizes = {
