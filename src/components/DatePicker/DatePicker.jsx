@@ -168,7 +168,7 @@ export const DatePicker = ({
                     event,
                 );
             } else {
-                // Fallback when value.from is not there
+                // Fallback when value.from is null
                 onChange(
                     DateUtils.addDayToRange(toDate(now(day, timezoneName).endOf("day"), false), value),
                     options,
