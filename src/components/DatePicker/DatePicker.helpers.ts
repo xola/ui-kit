@@ -2,7 +2,7 @@ import * as de from "dayjs/locale/de";
 import * as en from "dayjs/locale/en";
 import * as enGB from "dayjs/locale/en-gb";
 import * as es from "dayjs/locale/es";
-import * as esMX from "dayjs/locale/es-MX";
+import * as esMX from "dayjs/locale/es-mx";
 import * as fr from "dayjs/locale/fr";
 import type { DayPickerProps } from "react-day-picker";
 
