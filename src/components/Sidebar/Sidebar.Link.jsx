@@ -4,7 +4,7 @@ import React from "react";
 import { ChevronRightIcon } from "../../icons";
 import { Dot } from "../Dot/Dot";
 
-export const SidebarLink = ({ isActive = false, icon: Icon, children, isSubMenuItem, align, ...rest }) => {
+export const SidebarLink = ({ isActive = false, icon: Icon, children, isSubMenuItem, align, classNames, ...rest }) => {
     return (
         <button
             type="button"
@@ -30,6 +30,7 @@ export const SidebarLink = ({ isActive = false, icon: Icon, children, isSubMenuI
                     "hidden px-1 xl:inline",
                     { "!inline text-left": isSubMenuItem },
                     { "text-left": align === "left" },
+                    classNames?.text 
                 )}
             >
                 {children}
