@@ -102,7 +102,7 @@ const handlers = {
     },
 
     [options.NEXT_DAY]: (timezone) => {
-        const nextDay = now(null, timezone).add(1, "day"); // Added
+        const nextDay = now(null, timezone).add(1, "day");
         return {
             from: toDate(nextDay.startOf("day")),
             to: toDate(nextDay.endOf("day"), false),
@@ -132,7 +132,7 @@ const handlers = {
     },
 
     [options.NEXT_WEEK]: (timezone) => {
-        const nextWeek = now(null, timezone).add(7, "day");
+        const nextWeek = now(null, timezone).add(1, "week");
         return {
             from: toDate(nextWeek.startOf("week")),
             to: toDate(nextWeek.endOf("week"), false),
@@ -189,7 +189,7 @@ const handlers = {
     },
 
     [options.NEXT_QUARTER]: (timezone) => {
-        const nextQuarter = now(null, timezone).add(3, "month");
+        const nextQuarter = now(null, timezone).add(1, "quarter");
         return {
             from: toDate(nextQuarter.startOf("quarter")),
             to: toDate(nextQuarter.endOf("quarter"), false),
