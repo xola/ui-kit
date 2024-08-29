@@ -217,7 +217,7 @@ export const DatePicker = ({
     return (
         <>
             <div className="flex">
-                {upcomingDates ? (
+                {upcomingDates?.length <= 3 ? (
                     <UpcomingDatePicker
                         upcomingDates={upcomingDates}
                         value={value}

@@ -318,14 +318,7 @@ export const WithUpcomingDates = () => {
             backgroundColor: colors.white,
         },
     };
-    const upcomingDates = [
-        new Date(2022, 6, 20),
-        new Date(2022, 4, 4),
-        new Date(2022, 5, 5),
-        new Date(2022, 2, 2),
-        new Date(2022, 7, 7),
-        new Date(2022, 6, 6),
-    ];
+    const upcomingDates = [new Date(2022, 6, 20), new Date(2022, 4, 4), new Date(2022, 5, 5)];
 
     return (
         <DatePicker
