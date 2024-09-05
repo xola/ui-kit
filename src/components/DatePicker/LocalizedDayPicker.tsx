@@ -17,7 +17,5 @@ export const LocalizedDayPicker = forwardRef<any, DayPickerProps>(({ className, 
         getLocalizationProps(locale as LocaleCode).then(setLocalizationProps);
     }, [locale]);
 
-    console.log("Loca-day-picker", localizationProps);
-
     return <DayPicker ref={ref} className={clsx(className)} {...localizationProps} {...rest} />;
 });

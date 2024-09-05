@@ -30,7 +30,7 @@ export const SidebarLink = ({ isActive = false, icon: Icon, children, isSubMenuI
                     "hidden px-1 xl:inline",
                     { "!inline text-left": isSubMenuItem },
                     { "text-left": align === "left" },
-                    classNames?.text 
+                    classNames?.text,
                 )}
             >
                 {children}
