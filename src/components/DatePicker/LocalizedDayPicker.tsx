@@ -7,6 +7,7 @@ import { getLocalizationProps, LocaleCode, LocalizationProps } from "./DatePicke
 export const LocalizedDayPicker = forwardRef<any, DayPickerProps>(({ className, ...rest }, ref) => {
     const { locale } = useContext(Context);
     const [localizationProps, setLocalizationProps] = useState<Partial<LocalizationProps>>({});
+    console.log("Locale ", locale);
 
     useEffect(() => {
         setLocalizationProps({});
