@@ -47,6 +47,7 @@ jobs:
         uses: ataylorme/eslint-annotate-action@2.2.0
         with:
           check-name: "View Lint Report"
+          repo-token: "${{ secrets.XOLA_CODE_REVIEW_TOKEN }}"
           markdown-report-on-step-summary: true
           report-json: "eslint_report.json"
 
