@@ -30,7 +30,7 @@ jobs:
         uses: tspascoal/get-user-teams-membership@v2
         id: teamAffiliation
         with:
-          GITHUB_TOKEN: ${{ secrets.TEMP_ORG_READ_TOKEN }}
+          GITHUB_TOKEN: "${{ secrets.TEMP_ORG_READ_TOKEN }}"
           username: ${{ github.actor }}
           organization: xola
       
