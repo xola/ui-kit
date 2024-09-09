@@ -35,11 +35,9 @@ jobs:
           organization: xola
           team: 'Engineering_,X2 Consultants_'
       
-      - name: Stop workflow if user is no member
-        if: ${{ steps.checkUserMember.outputs.isTeamMember == 'false' }}
+      - if: ${{ steps.checkUserMember.outputs.isTeamMember == 'false' }}
         run: |
           echo "Hey ${{ github.actor }} you are not in a whitelisted team"
-          echo "Your Teams: ${{steps.checkUserMember.outputs.teams}} <"
           exit 1
 
       - uses: actions/checkout@v3
