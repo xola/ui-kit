@@ -33,7 +33,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.TEMP_ORG_READ_TOKEN }}
           username: ${{ github.actor }}
           organization: xola
-          team: 'Engineering,X2 Consultants'
+          team: 'Engineering_,X2 Consultants_'
       
       - name: Stop workflow if user is no member
         if: ${{ steps.checkUserMember.outputs.isTeamMember == 'false' }}
