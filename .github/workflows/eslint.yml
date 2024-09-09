@@ -24,6 +24,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Check if user belongs to the organization
+        id: check-org
+        run: |
+          ORG_NAME="xola"
+          USER=$(jq -r .pull_request.user.login $GITHUB_EVENT_PATH)
+          USER_ORG=$(curl -s -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/users/$USER/orgs | jq -r ".[].login")
+          if [[ "$USER_ORG" == "$ORG_NAME" ]]; then
+            echo "User is a member of $ORG_NAME"
+            echo ::set-output name=org-member::true
+          else
+            echo "User is not a member of $ORG_NAME"
+            echo ::set-output name=org-member::false
+            exit 1
+          fi
+
+      - name: Run workflow if user is in organization
+        if: steps.check-org.outputs.org-member == 'true'
+        run: |
+          echo "User is in organization!"
+
       - uses: actions/checkout@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
