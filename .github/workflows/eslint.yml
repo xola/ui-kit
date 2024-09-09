@@ -18,7 +18,7 @@ concurrency:
 
 jobs:
   Lint:
-    name: ⚡ ES Lint
+    name: 🚨 ES Lint
     runs-on: ubuntu-latest
 
     steps:
