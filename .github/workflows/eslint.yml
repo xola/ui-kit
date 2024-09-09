@@ -16,9 +16,7 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
-permissions:
-  pull-requests: write
-  checks: write
+permissions: write-all
   
 jobs:
   Lint:
