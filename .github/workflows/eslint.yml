@@ -36,7 +36,7 @@ jobs:
           cache-dependency-path: "package-lock.json"
 
       - name: Install Node Dependencies
-        run: npm ci
+        run: npm ci --no-fund --quiet --no-audit
 
       - name: Save Code Linting Report to JSON
         # This is to show failures in GitHub pull request using the action below
