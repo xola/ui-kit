@@ -39,7 +39,7 @@ jobs:
         if: ${{ steps.checkUserMember.outputs.isTeamMember == 'false' }}
         run: |
           echo "Hey ${{ github.actor }} you are not in a whitelisted team"
-          echo "${{steps.teamAffiliation.outputs.teams}}"
+          echo "Your Teams: ${{steps.checkUserMember.outputs.teams}} <"
           exit 1
 
       - uses: actions/checkout@v3
