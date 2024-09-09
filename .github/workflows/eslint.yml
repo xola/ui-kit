@@ -21,7 +21,7 @@ permissions:
   
 jobs:
   Lint:
-    name: 🧠 ES Lint
+    name: ⚡ ES Lint
     runs-on: ubuntu-latest
 
     steps:
@@ -33,7 +33,7 @@ jobs:
           username: ${{ github.actor }}
           organization: xola
           team: 'Engineering,X2 Consultants'
-      
+    
       - if: ${{ steps.checkUserMember.outputs.isTeamMember == 'false' }}
         run: |
           echo "Hey ${{ github.actor }} you are not in a whitelisted team"
@@ -53,7 +53,7 @@ jobs:
           cache-dependency-path: "package-lock.json"
 
       - name: Install Node Dependencies
-        run: npm ci --no-fund --quiet --no-audit
+        run: npm ci --no-fund --no-audit
 
       - name: Save Code Linting Report to JSON
         # This is to show failures in GitHub pull request using the action below
