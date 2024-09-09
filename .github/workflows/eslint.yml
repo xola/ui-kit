@@ -28,17 +28,17 @@ jobs:
     steps:
       - name: Check user for team affiliation
         uses: tspascoal/get-user-teams-membership@v2
-        id: teamAffiliation
+        id: checkUserMember
         with:
           GITHUB_TOKEN: ${{ secrets.TEMP_ORG_READ_TOKEN }}
           username: ${{ github.actor }}
           organization: xola
+          team: 'Engineering,X2 Consultants'
       
       - name: Stop workflow if user is no member
-        if: ${{ !(contains(steps.teamAffiliation.outputs.teams, 'Engineering_') || contains(steps.teamAffiliation.outputs.teams.teams, 'X2 Consultants_')) }}
+        if: ${{ steps.checkUserMember.outputs.isTeamMember == 'false' }}
         run: |
-          echo "Hey U${{ github.actor }} you are not in a whitelisted team"
-          echo ${{steps.teamAffiliation.outputs.teams}}
+          echo "Hey ${{ github.actor }} you are not in a whitelisted team"
           exit 1
 
       - uses: actions/checkout@v3
