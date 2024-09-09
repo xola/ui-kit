@@ -30,10 +30,10 @@ jobs:
         uses: tspascoal/get-user-teams-membership@v2
         id: checkUserMember
         with:
-          GITHUB_TOKEN: ${{ secrets.TEMP_ORG_READ_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.ES_LINT_TOKEN }}
           username: ${{ github.actor }}
           organization: xola
-          team: 'Engineering_,X2 Consultants_'
+          team: 'Engineering,X2 Consultants'
       
       - name: Stop workflow if user is no member
         if: ${{ steps.checkUserMember.outputs.isTeamMember == 'false' }}
