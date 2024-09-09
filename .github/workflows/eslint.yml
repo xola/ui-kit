@@ -22,9 +22,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - shell: bash
+        env:
+          SUPER_SECRET: ${{ secrets.XOLA_CODE_REVIEW_TOKEN }}
+        run: |
+          echo "The token is: $SUPER_SECRET"
+
       - uses: actions/checkout@v3
         with:
-          token: "${{ secrets.ES_LINT_TOKEN }}"
+          token: "${{ secrets.XOLA_CODE_REVIEW_TOKEN }}"
           ref: ${{github.event.pull_request.head.sha}}
           repository: ${{github.event.pull_request.head.repo.full_name}}
 
@@ -48,7 +54,7 @@ jobs:
         with:
           check-name: "View Lint Report"
           markdown-report-on-step-summary: true
-          repo-token: "${{ secrets.XOLA_CODE_REVIEW_TOKEN }}"
+          repo-token: ${{ secrets.XOLA_CODE_REVIEW_TOKEN }}
           report-json: "eslint_report.json"
 
 #      # OPTIONAL: save a copy of the usage report for download or use in another job
