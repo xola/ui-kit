@@ -35,9 +35,9 @@ jobs:
           organization: xola
       
       - name: Stop workflow if user is no member
-        if: ${{ !(contains(steps.teamAffiliation.outputs.teams, 'Engineering') || contains(steps.teamAffiliation.outputs.teams.teams, 'X2 Consultants')) }}
+        if: ${{ !(contains(steps.teamAffiliation.outputs.teams, 'Engineering_') || contains(steps.teamAffiliation.outputs.teams.teams, 'X2 Consultants_')) }}
         run: |
-          echo "User is not in Engineering or X2 Consultants team"
+          echo "Hey U${{ github.actor }} you are not in a whitelisted team"
           echo ${{steps.teamAffiliation.outputs.teams}}
           exit 1
 
