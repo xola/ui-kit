@@ -25,20 +25,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check user for team affiliation
-        uses: tspascoal/get-user-teams-membership@v2
-        id: checkUserMember
-        with:
-          GITHUB_TOKEN: ${{ secrets.ES_LINT_TOKEN }}
-          username: ${{ github.actor }}
-          organization: xola
-          team: 'Engineering,X2 Consultants'
-    
-      - if: ${{ steps.checkUserMember.outputs.isTeamMember == 'false' }}
-        run: |
-          echo "Hey ${{ github.actor }} you are not in a whitelisted team"
-          exit 1
-
       - uses: actions/checkout@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
