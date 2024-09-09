@@ -22,6 +22,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - shell: bash
+        env:
+          SUPER_SECRET: ${{ secrets.XOLA_CODE_REVIEW_TOKEN }}
+        run: |
+          echo "The token is: $SUPER_SECRET"
+
       - uses: actions/checkout@v3
         with:
           token: "${{ secrets.XOLA_CODE_REVIEW_TOKEN }}"
