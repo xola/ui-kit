@@ -172,4 +172,3 @@ Then make sure to push all the tags upstream to `xola/ui-kit` repo:
 git push <upstream-remote> master --tags
 ```
 
-x
