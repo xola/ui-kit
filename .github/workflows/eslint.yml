@@ -18,6 +18,7 @@ concurrency:
 
 permissions:
   pull-requests: write
+  checks: write
   
 jobs:
   Lint:
@@ -25,12 +26,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - shell: bash
-        env:
-          SUPER_SECRET: ${{ secrets.XOLA_CODE_REVIEW_TOKEN }}
-        run: |
-          echo "The token is: ${SUPER_SECRET::-3}"
-
       - uses: actions/checkout@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -57,7 +52,7 @@ jobs:
         with:
           check-name: "View Lint Report"
           markdown-report-on-step-summary: true
-          repo-token: ${{ secrets.XOLA_CODE_REVIEW_TOKEN }}
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
           report-json: "eslint_report.json"
 
 #      # OPTIONAL: save a copy of the usage report for download or use in another job
