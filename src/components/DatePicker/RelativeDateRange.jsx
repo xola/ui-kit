@@ -86,7 +86,13 @@ export const dateRanges = {
 };
 
 // List of future date options
-const futureDates = [options.NEXT_DAY, options.NEXT_WEEK, options.NEXT_MONTH, options.NEXT_QUARTER, options.NEXT_YEAR];
+const futureDates = new Set([
+    options.NEXT_DAY,
+    options.NEXT_WEEK,
+    options.NEXT_MONTH,
+    options.NEXT_QUARTER,
+    options.NEXT_YEAR,
+]);
 
 const handlers = {
     [options.YESTERDAY]: (timezone) => {
@@ -246,8 +252,8 @@ export const RelativeDateRange = ({
 
     const filterFutureDates = (options) => {
         if (!isFutureDatesAllowed) {
-            // Filter out options if they are in the futureDates array
-            return options.filter((option) => !futureDates.includes(option.value));
+            // Filter out options if they are in the futureDates Set
+            return options.filter((option) => !futureDates.has(option.value));
         }
 
         return options;
@@ -284,5 +290,5 @@ RelativeDateRange.propTypes = {
     showApply: PropTypes.bool,
     value: PropTypes.string,
     timezoneName: PropTypes.string,
-    isFutureDatesAllowed: PropTypes.bool, // New prop type
+    isFutureDatesAllowed: PropTypes.bool,
 };
