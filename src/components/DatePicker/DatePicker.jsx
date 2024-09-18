@@ -299,9 +299,9 @@ export const DatePicker = ({
                             value={rangeName}
                             ranges={ranges}
                             timezoneName={timezoneName}
+                            isFutureDatesAllowed={isFutureDatesAllowed}
                             onChange={handleRelativeRangeChanged}
                             onSubmit={onSubmitDateRange}
-                            isFutureDatesAllowed={isFutureDatesAllowed}
                         />
                     </div>
                 </div>

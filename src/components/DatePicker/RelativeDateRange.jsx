@@ -85,6 +85,9 @@ export const dateRanges = {
     },
 };
 
+// List of future date options
+const futureDates = [options.NEXT_DAY, options.NEXT_WEEK, options.NEXT_MONTH, options.NEXT_QUARTER, options.NEXT_YEAR];
+
 const handlers = {
     [options.YESTERDAY]: (timezone) => {
         const yesterday = now(null, timezone).subtract(1, "day");
@@ -233,7 +236,7 @@ export const RelativeDateRange = ({
     onChange,
     onSubmit,
     timezoneName,
-    isFutureDatesAllowed = false, // New prop
+    isFutureDatesAllowed = false // This prop used to be able to select Future Dates in RelativeDateRange,
 }) => {
     const handleChange = (e) => {
         const rangeName = e.target.value;
@@ -243,8 +246,8 @@ export const RelativeDateRange = ({
 
     const filterFutureDates = (options) => {
         if (!isFutureDatesAllowed) {
-            // Filter out future date options
-            return options.filter((option) => !option.value.includes("next"));
+            // Filter out options if they are in the futureDates array
+            return options.filter((option) => !futureDates.includes(option.value));
         }
         return options;
     };
