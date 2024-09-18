@@ -233,11 +233,20 @@ export const RelativeDateRange = ({
     onChange,
     onSubmit,
     timezoneName,
+    isFutureDatesAllowed = false, // New prop
 }) => {
     const handleChange = (e) => {
         const rangeName = e.target.value;
         const range = handlers[rangeName](timezoneName);
         onChange(rangeName, range);
+    };
+
+    const filterFutureDates = (options) => {
+        if (!isFutureDatesAllowed) {
+            // Filter out future date options
+            return options.filter((option) => !option.value.includes("next"));
+        }
+        return options;
     };
 
     return (
@@ -249,7 +258,7 @@ export const RelativeDateRange = ({
 
                     return (
                         <optgroup key={rangeKey} label={range.label}>
-                            {range.options.map((option) => (
+                            {filterFutureDates(range.options).map((option) => (
                                 <option key={option.value} value={option.value}>
                                     {option.label}
                                 </option>
@@ -271,4 +280,5 @@ RelativeDateRange.propTypes = {
     showApply: PropTypes.bool,
     value: PropTypes.string,
     timezoneName: PropTypes.string,
+    isFutureDatesAllowed: PropTypes.bool, // New prop type
 };
