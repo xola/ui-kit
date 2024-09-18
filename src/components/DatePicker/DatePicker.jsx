@@ -37,6 +37,7 @@ export const DatePicker = ({
     modifiers = {},
     ranges,
     shouldShowRelativeRanges = false,
+    isFutureDatesAllowed = false,
     components = {},
     getTooltip,
     upcomingDates,
@@ -300,6 +301,7 @@ export const DatePicker = ({
                             timezoneName={timezoneName}
                             onChange={handleRelativeRangeChanged}
                             onSubmit={onSubmitDateRange}
+                            isFutureDatesAllowed={isFutureDatesAllowed}
                         />
                     </div>
                 </div>
