@@ -9,7 +9,7 @@ import type { DayPickerProps } from "react-day-picker";
 export type LocaleCode = keyof typeof locales;
 
 interface ExtendedDayPickerProps extends DayPickerProps {
-    monthsShort?: string;
+    monthsShort?: string[];
 }
 
 export type LocalizationProps = Pick<
@@ -19,12 +19,12 @@ export type LocalizationProps = Pick<
 
 const locales = {
     en: en,
-    en_US: en,
-    en_GB: enGB,
+    "en-US": en,
+    "en-GB": enGB,
 
     es: es,
-    es_ES: es,
-    es_MX: esMX,
+    "es-ES": es,
+    "es-MX": esMX,
 
     fr: fr,
     de: de,
