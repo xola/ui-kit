@@ -236,7 +236,7 @@ export const RelativeDateRange = ({
     onChange,
     onSubmit,
     timezoneName,
-    isFutureDatesAllowed = false // This prop used to be able to select Future Dates in RelativeDateRange,
+    isFutureDatesAllowed = false, // This prop used to be able to select Future Dates in RelativeDateRange,
 }) => {
     const handleChange = (e) => {
         const rangeName = e.target.value;
@@ -249,6 +249,7 @@ export const RelativeDateRange = ({
             // Filter out options if they are in the futureDates array
             return options.filter((option) => !futureDates.includes(option.value));
         }
+
         return options;
     };
 
