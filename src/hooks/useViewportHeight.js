@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export const useViewportHeight = () => {
     const [viewportHeight, setViewportHeight] = useState(0);
