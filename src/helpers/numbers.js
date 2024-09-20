@@ -1,5 +1,5 @@
 import getUserLocale from "get-user-locale";
-import { round } from "lodash";
+import { round } from "lodash-es";
 import { isZeroDecimal } from "./currency";
 
 const userLocale = getUserLocale();

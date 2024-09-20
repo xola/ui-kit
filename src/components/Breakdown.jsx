@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { isNumber } from "lodash";
+import { isNumber } from "lodash-es";
 import PropTypes from "prop-types";
 import React, { createContext, useContext, useMemo } from "react";
 import { Currency } from "./Utilities/Currency";

@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { isArray, isFunction } from "lodash";
+import { isArray, isFunction } from "lodash-es";
 import PropTypes from "prop-types";
 import React from "react";
 import { now } from "../../helpers/date";

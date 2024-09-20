@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import React, { forwardRef, useContext, useEffect, useState } from "react";
 import DayPicker, { DayPickerProps } from "react-day-picker";
-import { kebabCase } from "lodash";
+import { kebabCase } from "lodash-es";
 import { Context } from "../Provider";
 import { getLocalizationProps, LocaleCode, LocalizationProps } from "./DatePicker.helpers";
 
@@ -16,6 +16,7 @@ export const LocalizedDayPicker = forwardRef<any, DayPickerProps>(({ className, 
         /** We don't want any localization-related props for "English" */
         if (!localeCode || localeCode === "en" || localeCode === "en-us") return;
 
+        /* eslint-disable-next-line promise/prefer-await-to-then */
         getLocalizationProps(locale as LocaleCode).then(setLocalizationProps);
     }, [locale]);
 

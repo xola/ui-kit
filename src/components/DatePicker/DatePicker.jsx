@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { DateUtils } from "react-day-picker";
 import "react-day-picker/lib/style.css";
-import { isArray, isFunction } from "lodash";
+import { isArray, isFunction } from "lodash-es";
 import { Tooltip } from "../..";
 import { isSame, isValidTimeZoneName, now, toDate } from "../../helpers/date";
 import { Context } from "../Provider";

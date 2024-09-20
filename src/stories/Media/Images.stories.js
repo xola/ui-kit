@@ -1,4 +1,4 @@
-import { map, omitBy } from "lodash";
+import { map, omitBy } from "lodash-es";
 import React from "react";
 import * as all from "../../icons/";
 import { XolaLogo, XolaLogoCircle, XolaLogoSimple } from "../../icons/";

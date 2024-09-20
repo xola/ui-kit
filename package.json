@@ -25,9 +25,9 @@
         "build": "npm run prepare && vite build && cp index.d.ts build",
         "build:storybook": "npm run build && ./scripts/storybook build",
         "clean": "rm -rf node_modules/.vite",
-        "lint": "xola-lint src --ignore src/stories",
-        "lint:fix": "xola-lint src --fix --ignore src/stories",
-        "lint:report": "xola-lint src --ignore src/stories --reporter=json src > eslint_report.json",
+        "lint": "xola-lint src",
+        "lint:fix": "xola-lint src --fix",
+        "lint:report": "xola-lint src --reporter=json src > eslint_report.json",
         "format": "prettier -l --write src",
         "test": "vitest run",
         "chromatic": "chromatic --exit-zero-on-changes --build-script-name build:storybook"

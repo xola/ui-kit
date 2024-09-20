@@ -1,4 +1,4 @@
-import { map, omitBy } from "lodash";
+import { map, omitBy } from "lodash-es";
 import React, { useState } from "react";
 import { Toaster } from "react-hot-toast";
 import { flash, Input } from "../..";

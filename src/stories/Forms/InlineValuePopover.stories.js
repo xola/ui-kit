@@ -1,4 +1,4 @@
-import { random } from "lodash";
+import { random } from "lodash-es";
 import React, { useState } from "react";
 import { Button, FormGroup, InlineValuePopover, Input, Select } from "../..";
 

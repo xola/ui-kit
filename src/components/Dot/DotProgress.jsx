@@ -1,4 +1,4 @@
-import { range } from "lodash";
+import { range } from "lodash-es";
 import PropTypes from "prop-types";
 import React from "react";
 import { Dot } from "./Dot";
