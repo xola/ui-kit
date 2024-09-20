@@ -1,8 +1,12 @@
 {
     "name": "@xola/ui-kit",
-    "version": "3.0.4",
+    "version": "3.0.5",
     "description": "Xola UI Kit",
     "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/xola/ui-kit.git"
+    },
     "files": [
         "build",
         "index.css",
@@ -19,10 +23,11 @@
         "start": "node scripts/prepare && start-storybook -p 6006 -s public --no-open",
         "dev": "node scripts/prepare && start-storybook -p 6006 -s public --no-manager-cache --no-open",
         "build": "node scripts/prepare && vite build && cp index.d.ts build",
-        "build:storybook": "node scripts/prepare && build-storybook -s public",
+        "build:storybook": "npm run prepare && build-storybook -s public",
         "clean": "rm -rf node_modules/.vite",
-        "lint:fix": "xola-lint src --fix",
-        "lint:report": "xola-lint src --reporter=json src > eslint_report.json",
+        "lint": "xola-lint src --ignore src/stories",
+        "lint:fix": "xola-lint src --fix --ignore src/stories",
+        "lint:report": "xola-lint src --ignore src/stories --reporter=json src > eslint_report.json",
         "format": "prettier -l --write src",
         "test": "jest",
         "chromatic": "chromatic --exit-zero-on-changes --build-script-name build:storybook"
@@ -46,6 +51,7 @@
         "react-hot-toast": "^2.1.0",
         "react-hotkeys-hook": "^3.4.0",
         "react-select": "^5.7.0",
+        "react-textarea-autosize": "^8.5.3",
         "react18-json-view": "^0.2.6",
         "storybook-addon-designs": "^6.3.1",
         "tailwind-merge": "^2.0.0",

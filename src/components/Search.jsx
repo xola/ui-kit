@@ -6,7 +6,7 @@ import React, { useEffect, useId, useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { isOSX } from "../helpers/browser";
 import { useIsClient } from "../hooks/useIsClient";
-import { SearchIcon } from "../icons/SearchIcon";
+import { SearchIcon } from "../icons";
 import { Key } from "./Key";
 import { Spinner } from "./Spinner";
 
@@ -175,7 +175,7 @@ export const Search = ({
                     id: menuId,
                     className: clsx(
                         "ui-search-menu",
-                        "absolute top-10 divide-y divide-gray-light w-full xl:w-[590px] max-h-[75vh] border border-secondary-lighter shadow-xl mt-1 rounded overflow-auto z-10 bg-white",
+                        "absolute top-10 divide-y divide-gray-light w-full xl:w-[590px] max-h-[75vh] border border-secondary-lighter shadow-xl mt-1 rounded overflow-auto z-20 bg-white",
                         { hidden: !open },
                     ),
                 })}

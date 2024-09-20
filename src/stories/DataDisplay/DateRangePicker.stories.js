@@ -35,7 +35,10 @@ const DateRangePickerStories = {
     },
 };
 
-const today = dayjs("2022-10-10").toDate();
+const today = dayjs.tz("2022-10-10").toDate();
+const handleSubmitDateRange = (e) => {
+    console.log("handleSubmitDateRange", { event: e });
+};
 
 export const Default = () => {
     const [value, setValue] = useState({ from: new Date("2022-02-03"), to: new Date("2022-03-08") });
@@ -54,7 +57,25 @@ export const RelativeDateRanges = () => {
                 value={value}
                 variant="range"
                 onChange={setValue}
-                onSubmitDateRange={console.log}
+                onSubmitDateRange={handleSubmitDateRange}
+            />
+        </div>
+    );
+};
+
+export const RelativeDateRangesWithTimeZone = () => {
+    const [value, setValue] = useState({ from: new Date("2022-03-03"), to: new Date("2022-04-08") });
+
+    return (
+        <div className="flex w-3/4 flex-col">
+            <DatePicker
+                shouldShowYearPicker
+                shouldShowRelativeRanges
+                value={value}
+                variant="range"
+                onChange={setValue}
+                timezoneName={"America/Los_Angeles"}
+                onSubmitDateRange={handleSubmitDateRange}
             />
         </div>
     );
@@ -63,11 +84,9 @@ export const RelativeDateRanges = () => {
 export const DateRangeWithInput = ({ shouldShowRelativeRanges, ranges }) => {
     const defaultValue = { from: today, to: dayjs(today).add(7, "days").toDate() };
     const [value, setValue] = useState(defaultValue);
-    const [displayValue, setDisplayValue] = useState(defaultValue);
 
-    const handleChange = (newValue, displayValue) => {
+    const handleChange = (newValue) => {
         setValue(newValue);
-        setDisplayValue(displayValue ?? newValue);
     };
 
     return (
@@ -81,9 +100,9 @@ export const DateRangeWithInput = ({ shouldShowRelativeRanges, ranges }) => {
                 onChange={handleChange}
             >
                 <div className="w-75 cursor-pointer bg-gray-lighter p-3">
-                    {dayjs(displayValue.from).format("LL")}
+                    {value.from ? dayjs(value.from).format("LL") : "Pending"}
                     &nbsp;to&nbsp;
-                    {displayValue.to ? dayjs(displayValue.to).format("LL") : "Pending"}
+                    {value.to ? dayjs(value.to).format("LL") : "Pending"}
                 </div>
             </DatePickerPopover>
         </div>

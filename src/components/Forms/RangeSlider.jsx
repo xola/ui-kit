@@ -1,7 +1,7 @@
 import clsx from "clsx";
-import React from "react";
-import PropTypes from "prop-types";
 import Nouislider from "nouislider-react";
+import PropTypes from "prop-types";
+import React from "react";
 import "nouislider/distribute/nouislider.css";
 import "./RangeSlider.css";
 

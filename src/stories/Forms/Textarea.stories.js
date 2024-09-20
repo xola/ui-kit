@@ -70,4 +70,21 @@ export const CustomWidth = () => {
     );
 };
 
+export const AutoSize = () => {
+    return (
+        <FormGroup>
+            <Label>Text</Label>
+            <Textarea shouldAutoSize={true} rows={6} />
+        </FormGroup>
+    );
+};
+
+AutoSize.parameters = {
+    docs: {
+        description: {
+            story: "Automatically resize the textarea as the data increases.",
+        },
+    },
+};
+
 export default TextareaStories;

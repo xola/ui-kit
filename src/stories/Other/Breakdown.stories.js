@@ -54,6 +54,14 @@ export const Default = () => {
                     This is a really long message that should wrap somehow
                 </Breakdown.Item>
 
+                <Breakdown.Item secondary="07/23/2021" info={<EmptyComponent />} value={0} methodIcon={<CardIcon />}>
+                    LongMessageThat ShouldOnlyBreakAt AWhitespaceLoremIpsum
+                </Breakdown.Item>
+
+                <Breakdown.Item secondary="07/23/2021" info={<EmptyComponent />} value={0} methodIcon={<CardIcon />}>
+                    SmallMessage LongMessageThatShouldOnlyBreakAtAWhitespaceLoremIpsum
+                </Breakdown.Item>
+
                 <Breakdown.Separator />
 
                 <Breakdown.SubtotalItem info="Paid" value={62}>

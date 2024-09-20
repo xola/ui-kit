@@ -20,6 +20,7 @@ export const DatePickerPopover = ({
     getDayContent,
     ...rest
 }) => {
+    const [initialValue] = useState(value);
     const [originalValue, setOriginalValue] = useState(value);
     const [isVisible, setIsVisible] = useState(false);
 
@@ -43,6 +44,10 @@ export const DatePickerPopover = ({
     };
 
     const handleClickOutside = () => {
+        if (!value?.to && variant === "range") {
+            onChange(initialValue);
+        }
+
         toggleVisibility();
     };
 
@@ -105,7 +110,7 @@ const DefaultInput = forwardRef(({ className, ...rest }, reference) => {
                 <CalendarIcon className="z-10 inline-block" />
             </div>
 
-            <Input className={clsx("cursor-pointer px-8", className)} {...rest} />
+            <Input className={clsx("no-translate cursor-pointer px-8", className)} {...rest} />
 
             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
                 <DownArrowIcon className="inline-block" />

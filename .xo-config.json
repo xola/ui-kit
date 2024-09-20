@@ -1,3 +1,16 @@
 {
-    "ignorePatterns": ["src/stories", "**/*.test.js*", "**/*.test.ts*", "**/test/**/*.*"]
+  "ignorePatterns": [
+    "src/stories",
+    "**/*.test.js*",
+    "**/*.test.ts*",
+    "**/test/**/*.*"
+  ],
+  "rules": {
+    "complexity": [
+      "warn",
+      {
+        "max": 25
+      }
+    ]
+  }
 }
