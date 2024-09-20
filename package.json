@@ -69,7 +69,7 @@
         "@storybook/theming": "^6.5.10",
         "@types/react": "^18.3.8",
         "@types/react-dom": "^18.3.0",
-        "@xola/jslint": "^3.0.0",
+        "@xola/jslint": "^3.0.1",
         "autoprefixer": "^10.4.5",
         "babel-loader": "^8.2.2",
         "chromatic": "^6.11.4",

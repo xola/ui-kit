@@ -137,7 +137,7 @@ export const Search = ({
     const isVisible = open || !shouldDestroyOnClose;
 
     return (
-        <div className="ui-search relative w-full" suppressHydrationWarning>
+        <div suppressHydrationWarning className="ui-search relative w-full">
             <div {...getComboboxProps({ className: "w-full relative rounded-md" })}>
                 <div className="pointer-events-none absolute inset-y-0 -top-0.5 left-0 hidden items-center md:flex">
                     <SearchIcon className="h-4 w-4 text-gray-darker" />
