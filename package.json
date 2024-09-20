@@ -13,8 +13,7 @@
         "index.d.ts",
         "tailwind.config.js",
         "postcss.config.js",
-        "ui-kit.es.js",
-        "index.d.ts"
+        "ui-kit.es.js"
     ],
     "main": "build/ui-kit.es.js",
     "module": "build/ui-kit.es.js",
@@ -36,6 +35,7 @@
     "dependencies": {
         "@headlessui/react": "^1.7.19",
         "@tailwindcss/forms": "^0.5.6",
+        "@tailwindcss/line-clamp": "^0.4.4",
         "@tippyjs/react": "^4.2.6",
         "clsx": "^1.2.1",
         "dayjs": "^1.11.13",
