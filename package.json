@@ -19,7 +19,7 @@
     "module": "build/ui-kit.es.js",
     "types": "build/index.d.ts",
     "scripts": {
-        "prepare": "node scripts/prepare",
+        "prepare": "node scripts/prepare && vite build",
         "start": "./scripts/storybook",
         "dev": "./scripts/storybook start --no-manager-cache",
         "build": "npm run prepare && vite build && cp index.d.ts build",
