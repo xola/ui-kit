@@ -33,7 +33,7 @@
         "chromatic": "chromatic --exit-zero-on-changes --build-script-name build:storybook"
     },
     "dependencies": {
-        "@headlessui/react": "^1.4.0",
+        "@headlessui/react": "^1.7.19",
         "@tailwindcss/forms": "^0.5.6",
         "@tailwindcss/line-clamp": "^0.4.4",
         "@tippyjs/react": "^4.2.6",
