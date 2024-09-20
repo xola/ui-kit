@@ -13,10 +13,11 @@
         "index.d.ts",
         "tailwind.config.js",
         "postcss.config.js",
+        "ui-kit.es.js",
         "index.d.ts"
     ],
     "main": "build/ui-kit.es.js",
-    "module": "build/ui-kit.es",
+    "module": "build/ui-kit.es.js",
     "types": "build/index.d.ts",
     "scripts": {
         "prepare": "node scripts/prepare",
