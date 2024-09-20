@@ -21,4 +21,7 @@ export default defineConfig({
             external: [...dependencies, ...devDependencies]
         },
     },
+    test: {
+        globals: true,
+    },
 });
