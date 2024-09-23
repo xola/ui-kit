@@ -2,9 +2,17 @@ import clsx from "clsx";
 import dayjs from "dayjs";
 import PropTypes from "prop-types";
 import React from "react";
+import { Dot } from "../Dot/Dot";
 
-export const Day = ({ selectedDate, date, getContent, currentMonth, disabled = false }) => {
+export const Day = ({ selectedDate, date, getContent, currentMonth, isLoading = false, disabled = false }) => {
     const isSameMonth = dayjs(currentMonth).isSame(date, "month");
+
+    if (isLoading) {
+        <div class="mr-2 flex animate-pulse items-center justify-center">
+            <Dot color="secondary" size="extra-large" />
+        </div>;
+    }
+
     if (getContent && isSameMonth) {
         return <DayContent selectedDate={selectedDate} date={date} getContent={getContent} />;
     }

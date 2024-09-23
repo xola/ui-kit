@@ -30,6 +30,7 @@ export const DatePicker = ({
     value,
     getDayContent,
     disabledDays = [],
+    loadingDays = [],
     shouldShowYearPicker = false,
     onChange,
     onMonthChange,
@@ -105,6 +106,18 @@ export const DatePicker = ({
         }
 
         return disabledDays(date);
+    };
+
+    const isLoading = (date) => {
+        if (isArray(loadingDays)) {
+            return disabledDays.some((_date) => isSame(now(_date, timezoneName), date, "day"));
+        }
+
+        if (isFunction(loadingDays)) {
+            return loadingDays(date);
+        }
+
+        return loadingDays(date);
     };
 
     const handleRelativeRangeChanged = (rangeName, range) => {
@@ -204,11 +217,13 @@ export const DatePicker = ({
     const renderDay = (date) => {
         const tooltipContent = getTooltip?.(date);
         const disabled = isDisabled(date);
+        const loading = isLoading(date);
 
         return tooltipContent ? (
             <Tooltip placement="top" content={tooltipContent}>
                 <Day
                     disabled={disabled}
+                    isLoading={loading}
                     selectedDate={value}
                     date={date}
                     getContent={getDayContent}
@@ -218,6 +233,7 @@ export const DatePicker = ({
         ) : (
             <Day
                 disabled={disabled}
+                isLoading={loading}
                 selectedDate={value}
                 date={date}
                 getContent={getDayContent}
