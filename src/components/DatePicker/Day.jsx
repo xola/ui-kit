@@ -7,16 +7,24 @@ import { Dot } from "../Dot/Dot";
 export const Day = ({ selectedDate, date, getContent, currentMonth, isLoading = true, disabled = false }) => {
     const isSameMonth = dayjs(currentMonth).isSame(date, "month");
 
+    if (getContent && isSameMonth) {
+        if (isLoading) {
+            return (
+                <div class="mr-2 flex animate-pulse items-center justify-center">
+                    <Dot className="ui-day-content pointer-events-none !cursor-not-allowed" color="secondary" />
+                </div>
+            );
+        }
+
+        return <DayContent selectedDate={selectedDate} date={date} getContent={getContent} />;
+    }
+
     if (isLoading) {
         return (
             <div class="mr-2 flex animate-pulse items-center justify-center">
                 <Dot color="secondary" size="extra-large" />
             </div>
         );
-    }
-
-    if (getContent && isSameMonth) {
-        return <DayContent selectedDate={selectedDate} date={date} getContent={getContent} />;
     }
 
     const isSameDay = selectedDate && dayjs(selectedDate).isSame(date, "day");
