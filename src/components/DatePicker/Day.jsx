@@ -10,7 +10,7 @@ export const Day = ({ selectedDate, date, getContent, currentMonth, isLoading = 
     if (getContent && isSameMonth) {
         if (isLoading) {
             return (
-                <div class="mr-2 flex animate-pulse items-center justify-center">
+                <div className="mr-2 flex animate-pulse items-center justify-center">
                     <Dot className="ui-day-content pointer-events-none !cursor-not-allowed" color="secondary" />
                 </div>
             );
@@ -21,7 +21,7 @@ export const Day = ({ selectedDate, date, getContent, currentMonth, isLoading = 
 
     if (isLoading) {
         return (
-            <div class="mr-2 flex animate-pulse items-center justify-center">
+            <div className="mr-2 flex animate-pulse items-center justify-center">
                 <Dot color="secondary" size="extra-large" />
             </div>
         );
