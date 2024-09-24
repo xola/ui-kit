@@ -110,7 +110,7 @@ export const DatePicker = ({
 
     const isLoading = (date) => {
         if (isArray(loadingDays)) {
-            return disabledDays.some((_date) => isSame(now(_date, timezoneName), date, "day"));
+            return loadingDays.some((_date) => isSame(now(_date, timezoneName), date, "day"));
         }
 
         if (isFunction(loadingDays)) {
