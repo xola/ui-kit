@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import { Dot } from "../Dot/Dot";
 
-export const Day = ({ selectedDate, date, getContent, currentMonth, isLoading = true, disabled = false }) => {
+export const Day = ({ selectedDate, date, getContent, currentMonth, isLoading = false, disabled = false }) => {
     const isSameMonth = dayjs(currentMonth).isSame(date, "month");
 
     if (getContent && isSameMonth) {
