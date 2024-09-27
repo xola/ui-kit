@@ -85,6 +85,14 @@ export const dateRanges = {
     },
 };
 
+const filterFutureDates = (options, isFutureDatesAllowed, futureDates) => {
+    if (!isFutureDatesAllowed) {
+        return options.filter((option) => !futureDates.has(option.value));
+    }
+
+    return options;
+};
+
 // List of future date options
 const futureDates = new Set([
     options.NEXT_DAY,
@@ -250,15 +258,6 @@ export const RelativeDateRange = ({
         onChange(rangeName, range);
     };
 
-    const filterFutureDates = (options) => {
-        if (!isFutureDatesAllowed) {
-            // Filter out options if they are in the futureDates Set
-            return options.filter((option) => !futureDates.has(option.value));
-        }
-
-        return options;
-    };
-
     return (
         <div className="flex space-x-2">
             <Select size="medium" value={value} className="pr-8 leading-5" onChange={handleChange}>
@@ -268,7 +267,7 @@ export const RelativeDateRange = ({
 
                     return (
                         <optgroup key={rangeKey} label={range.label}>
-                            {filterFutureDates(range.options).map((option) => (
+                            {filterFutureDates(range.options, isFutureDatesAllowed, futureDates).map((option) => (
                                 <option key={option.value} value={option.value}>
                                     {option.label}
                                 </option>
