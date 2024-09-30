@@ -22,7 +22,7 @@ export const Day = ({ selectedDate, date, getContent, currentMonth, isLoading = 
     if (isLoading) {
         return (
             <div className="mr-2 flex animate-pulse items-center justify-center">
-                <Dot color="secondary" size="extra-large" />
+                <Dot className="pointer-events-none !cursor-not-allowed" color="secondary" size="xlarge" />
             </div>
         );
     }
