@@ -14,24 +14,28 @@ const options = {
     TRAILING_WEEK: "P1W,-1 week",
     THIS_WEEK: "P1W,this week",
     NEXT_WEEK: "P1W,next week",
+    LEADING_WEEK: "P1W,+1 week",
 
     // Month
     LAST_MONTH: "P1M,first day of last month",
     TRAILING_MONTH: "P1M,-1 month",
     THIS_MONTH: "P1M,first day of this month",
     NEXT_MONTH: "P1M,next month",
+    LEADING_MONTH: "P1M,+1 month",
 
     // Quarter
     LAST_QUARTER: "P3M,first day of last quarter",
     TRAILING_QUARTER: "P3M,-3 months",
     THIS_QUARTER: "P3M,first day of this quarter",
     NEXT_QUARTER: "P3M,next quarter",
+    LEADING_QUARTER: "P3M,+3 months",
 
     // Year
     LAST_YEAR: "P1Y,first day of January last year",
     TRAILING_YEAR: "P1Y,-1 year",
     THIS_YEAR: "P1Y,first day of this year",
     NEXT_YEAR: "P1Y,next year",
+    LEADING_YEAR: "P1Y,+1 year",
 };
 
 export const dateRanges = {
@@ -40,7 +44,7 @@ export const dateRanges = {
         options: [
             { value: options.YESTERDAY, label: "Yesterday" },
             { value: options.TODAY, label: "Today" },
-            { value: options.NEXT_DAY, label: "Next Day" },
+            { value: options.NEXT_DAY, label: "Tomorrow" },
         ],
     },
 
@@ -51,6 +55,7 @@ export const dateRanges = {
             { value: options.TRAILING_WEEK, label: "Trailing Week" },
             { value: options.THIS_WEEK, label: "This Week" },
             { value: options.NEXT_WEEK, label: "Next Week" },
+            { value: options.LEADING_WEEK, label: "Leading Week" },
         ],
     },
 
@@ -61,6 +66,7 @@ export const dateRanges = {
             { value: options.TRAILING_MONTH, label: "Trailing Month" },
             { value: options.THIS_MONTH, label: "This Month" },
             { value: options.NEXT_MONTH, label: "Next Month" },
+            { value: options.LEADING_MONTH, label: "Leading Month" },
         ],
     },
 
@@ -71,6 +77,7 @@ export const dateRanges = {
             { value: options.TRAILING_QUARTER, label: "Trailing Quarter" },
             { value: options.THIS_QUARTER, label: "This Quarter" },
             { value: options.NEXT_QUARTER, label: "Next Quarter" },
+            { value: options.LEADING_QUARTER, label: "Leading Quarter" },
         ],
     },
 
@@ -81,6 +88,7 @@ export const dateRanges = {
             { value: options.TRAILING_YEAR, label: "Trailing Year" },
             { value: options.THIS_YEAR, label: "This Year" },
             { value: options.NEXT_YEAR, label: "Next Year" },
+            { value: options.LEADING_YEAR, label: "Leading Year" },
         ],
     },
 };
@@ -100,6 +108,10 @@ const futureDates = new Set([
     options.NEXT_MONTH,
     options.NEXT_QUARTER,
     options.NEXT_YEAR,
+    options.LEADING_WEEK,
+    options.LEADING_MONTH,
+    options.LEADING_QUARTER,
+    options.LEADING_YEAR,
 ]);
 
 const handlers = {
@@ -156,6 +168,13 @@ const handlers = {
         };
     },
 
+    [options.LEADING_WEEK]: (timezone) => {
+        return {
+            from: toDate(now(null, timezone).add(7, "day").startOf("day")),
+            to: toDate(now(null, timezone).add(14, "day").endOf("day"), false),
+        };
+    },
+
     [options.LAST_MONTH]: (timezone) => {
         const lastMonth = now(null, timezone).subtract(1, "month");
         return {
@@ -181,6 +200,13 @@ const handlers = {
         return {
             from: toDate(nextMonth.startOf("month")),
             to: toDate(nextMonth.endOf("month"), false),
+        };
+    },
+
+    [options.LEADING_MONTH]: (timezone) => {
+        return {
+            from: toDate(now(null, timezone).add(1, "month").startOf("month")),
+            to: toDate(now(null, timezone).add(2, "month").endOf("month"), false),
         };
     },
 
@@ -213,6 +239,13 @@ const handlers = {
         };
     },
 
+    [options.LEADING_QUARTER]: (timezone) => {
+        return {
+            from: toDate(now(null, timezone).add(3, "month").startOf("quarter")),
+            to: toDate(now(null, timezone).add(6, "month").endOf("quarter"), false),
+        };
+    },
+
     [options.LAST_YEAR]: (timezone) => {
         const lastYear = now(null, timezone).subtract(1, "year");
         return {
@@ -238,6 +271,13 @@ const handlers = {
         return {
             from: toDate(nextYear.startOf("year")),
             to: toDate(nextYear.endOf("year"), false),
+        };
+    },
+
+    [options.LEADING_YEAR]: (timezone) => {
+        return {
+            from: toDate(now(null, timezone).add(1, "year").startOf("year")),
+            to: toDate(now(null, timezone).add(2, "year").endOf("year"), false),
         };
     },
 };
