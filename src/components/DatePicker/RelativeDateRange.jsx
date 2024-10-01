@@ -169,9 +169,10 @@ const handlers = {
     },
 
     [options.LEADING_WEEK]: (timezone) => {
+        const today = now(null, timezone);
         return {
-            from: toDate(now(null, timezone).add(7, "day").startOf("day")),
-            to: toDate(now(null, timezone).add(14, "day").endOf("day"), false),
+            from: toDate(today.startOf("day")),
+            to: toDate(today.add(1, "week").subtract(1, "day").endOf("day"), false),
         };
     },
 
@@ -204,9 +205,10 @@ const handlers = {
     },
 
     [options.LEADING_MONTH]: (timezone) => {
+        const today = now(null, timezone);
         return {
-            from: toDate(now(null, timezone).add(1, "month").startOf("month")),
-            to: toDate(now(null, timezone).add(2, "month").endOf("month"), false),
+            from: toDate(today.startOf("day")),
+            to: toDate(today.add(1, "month").subtract(1, "day").endOf("day"), false),
         };
     },
 
@@ -240,9 +242,10 @@ const handlers = {
     },
 
     [options.LEADING_QUARTER]: (timezone) => {
+        const today = now(null, timezone);
         return {
-            from: toDate(now(null, timezone).add(3, "month").startOf("quarter")),
-            to: toDate(now(null, timezone).add(6, "month").endOf("quarter"), false),
+            from: toDate(today.startOf("day")),
+            to: toDate(today.add(3, "month").subtract(1, "day").endOf("day"), false), // Сегодня + 3 месяца
         };
     },
 
@@ -275,9 +278,10 @@ const handlers = {
     },
 
     [options.LEADING_YEAR]: (timezone) => {
+        const today = now(null, timezone);
         return {
-            from: toDate(now(null, timezone).add(1, "year").startOf("year")),
-            to: toDate(now(null, timezone).add(2, "year").endOf("year"), false),
+            from: toDate(today.startOf("day")),
+            to: toDate(today.add(1, "year").subtract(1, "day").endOf("day"), false), // Сегодня + 1 год
         };
     },
 };
