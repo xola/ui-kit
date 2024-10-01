@@ -15,6 +15,7 @@ const sizes = {
     small: "h-1 w-1",
     medium: "h-1.5 w-1.5",
     large: "h-2 w-2",
+    xlarge: "h-8 w-8",
 };
 
 export const Dot = ({ color = "primary", size = "medium", className, ...rest }) => {
