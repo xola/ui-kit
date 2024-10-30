@@ -128,7 +128,6 @@ export const dateRanges = {
     },
 };
 
-
 const filterFutureDates = (rangeOptions, isFutureDatesAllowed, futureDates) => {
     if (!isFutureDatesAllowed) {
         return rangeOptions.filter((option) => !futureDates.has(option.value));
