@@ -77,56 +77,57 @@ export const dateRanges = {
     day: {
         label: "Day",
         rangeOptions: [
-            { value: rangeOptions.YESTERDAY, label: "Yesterday" },
-            { value: rangeOptions.TODAY, label: "Today" },
-            { value: rangeOptions.NEXT_DAY, label: "Tomorrow" },
+            { value: rangeOptions.YESTERDAY, label: rangeLabels[rangeOptions.YESTERDAY] },
+            { value: rangeOptions.TODAY, label: rangeLabels[rangeOptions.TODAY] },
+            { value: rangeOptions.NEXT_DAY, label: rangeLabels[rangeOptions.NEXT_DAY] },
         ],
     },
 
     week: {
         label: "Week",
         rangeOptions: [
-            { value: rangeOptions.LAST_WEEK, label: "Last Week" },
-            { value: rangeOptions.TRAILING_WEEK, label: "Trailing Week" },
-            { value: rangeOptions.THIS_WEEK, label: "This Week" },
-            { value: rangeOptions.NEXT_WEEK, label: "Next Week" },
-            { value: rangeOptions.LEADING_WEEK, label: "Leading Week" },
+            { value: rangeOptions.LAST_WEEK, label: rangeLabels[rangeOptions.LAST_WEEK] },
+            { value: rangeOptions.TRAILING_WEEK, label: rangeLabels[rangeOptions.TRAILING_WEEK] },
+            { value: rangeOptions.THIS_WEEK, label: rangeLabels[rangeOptions.THIS_WEEK] },
+            { value: rangeOptions.NEXT_WEEK, label: rangeLabels[rangeOptions.NEXT_WEEK] },
+            { value: rangeOptions.LEADING_WEEK, label: rangeLabels[rangeOptions.LEADING_WEEK] },
         ],
     },
 
     month: {
         label: "Month",
         rangeOptions: [
-            { value: rangeOptions.LAST_MONTH, label: "Last Month" },
-            { value: rangeOptions.TRAILING_MONTH, label: "Trailing Month" },
-            { value: rangeOptions.THIS_MONTH, label: "This Month" },
-            { value: rangeOptions.NEXT_MONTH, label: "Next Month" },
-            { value: rangeOptions.LEADING_MONTH, label: "Leading Month" },
+            { value: rangeOptions.LAST_MONTH, label: rangeLabels[rangeOptions.LAST_MONTH] },
+            { value: rangeOptions.TRAILING_MONTH, label: rangeLabels[rangeOptions.TRAILING_MONTH] },
+            { value: rangeOptions.THIS_MONTH, label: rangeLabels[rangeOptions.THIS_MONTH] },
+            { value: rangeOptions.NEXT_MONTH, label: rangeLabels[rangeOptions.NEXT_MONTH] },
+            { value: rangeOptions.LEADING_MONTH, label: rangeLabels[rangeOptions.LEADING_MONTH] },
         ],
     },
 
     quarter: {
         label: "Quarter",
         rangeOptions: [
-            { value: rangeOptions.LAST_QUARTER, label: "Last Quarter" },
-            { value: rangeOptions.TRAILING_QUARTER, label: "Trailing Quarter" },
-            { value: rangeOptions.THIS_QUARTER, label: "This Quarter" },
-            { value: rangeOptions.NEXT_QUARTER, label: "Next Quarter" },
-            { value: rangeOptions.LEADING_QUARTER, label: "Leading Quarter" },
+            { value: rangeOptions.LAST_QUARTER, label: rangeLabels[rangeOptions.LAST_QUARTER] },
+            { value: rangeOptions.TRAILING_QUARTER, label: rangeLabels[rangeOptions.TRAILING_QUARTER] },
+            { value: rangeOptions.THIS_QUARTER, label: rangeLabels[rangeOptions.THIS_QUARTER] },
+            { value: rangeOptions.NEXT_QUARTER, label: rangeLabels[rangeOptions.NEXT_QUARTER] },
+            { value: rangeOptions.LEADING_QUARTER, label: rangeLabels[rangeOptions.LEADING_QUARTER] },
         ],
     },
 
     year: {
         label: "Year",
         rangeOptions: [
-            { value: rangeOptions.LAST_YEAR, label: "Last Year" },
-            { value: rangeOptions.TRAILING_YEAR, label: "Trailing Year" },
-            { value: rangeOptions.THIS_YEAR, label: "This Year" },
-            { value: rangeOptions.NEXT_YEAR, label: "Next Year" },
-            { value: rangeOptions.LEADING_YEAR, label: "Leading Year" },
+            { value: rangeOptions.LAST_YEAR, label: rangeLabels[rangeOptions.LAST_YEAR] },
+            { value: rangeOptions.TRAILING_YEAR, label: rangeLabels[rangeOptions.TRAILING_YEAR] },
+            { value: rangeOptions.THIS_YEAR, label: rangeLabels[rangeOptions.THIS_YEAR] },
+            { value: rangeOptions.NEXT_YEAR, label: rangeLabels[rangeOptions.NEXT_YEAR] },
+            { value: rangeOptions.LEADING_YEAR, label: rangeLabels[rangeOptions.LEADING_YEAR] },
         ],
     },
 };
+
 
 const filterFutureDates = (rangeOptions, isFutureDatesAllowed, futureDates) => {
     if (!isFutureDatesAllowed) {
