@@ -41,7 +41,7 @@
         "dayjs": "^1.11.13",
         "downshift": "^6.1.12",
         "get-user-locale": "^1.5.1",
-        "google-libphonenumber": "^3.2.38",
+        "google-libphonenumber": "^3.2.39",
         "lodash-es": "^4.17.21",
         "nouislider-react": "^3.4.1",
         "prop-types": "^15.8.1",
