@@ -19,10 +19,10 @@ export const VerifiedTickIcon = createIcon((props) => {
                     y2="86.5"
                     gradientUnits="userSpaceOnUse"
                 >
-                    <stop stopColor="#0281DF"/>
-                    <stop offset="0.25" stopColor="#249EEE"/>
-                    <stop offset="0.5" stopColor="#3CB2F9"/>
-                    <stop offset="1" stopColor="#61CAFF"/>
+                    <stop stopColor="#0281DF" />
+                    <stop offset="0.25" stopColor="#249EEE" />
+                    <stop offset="0.5" stopColor="#3CB2F9" />
+                    <stop offset="1" stopColor="#61CAFF" />
                 </linearGradient>
             </defs>
         </svg>
