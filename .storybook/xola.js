@@ -13,7 +13,7 @@ export default create({
     appBorderRadius: 4,
 
     // Typography
-    fontBase: "Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
+    fontBase: "InterVariable, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
     fontCode: "'Roboto Mono', monospace",
 
     // Text colors
