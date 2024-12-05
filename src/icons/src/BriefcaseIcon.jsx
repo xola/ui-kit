@@ -3,7 +3,7 @@ import { createIcon } from "./helpers/icon";
 
 export const BriefcaseIcon = createIcon((props) => {
     return (
-        <svg viewBox="0 0 14 14" width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+        <svg viewBox="0 0 14 14" width={14} height={14} fill="none" {...props}>
             <path
                 d="M11.01 3.719H2.99c-.806 0-1.459.653-1.459 1.458v5.833c0 .806.653 1.459 1.459 1.459h8.02c.806 0 1.459-.653 1.459-1.459V5.177c0-.805-.653-1.458-1.459-1.458z"
                 stroke="currentColor"

@@ -3,7 +3,7 @@ import { createIcon } from "./helpers/icon";
 
 export const BookIcon = createIcon((props) => {
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="none" viewBox="0 0 19 19" {...props}>
+        <svg width="19" height="19" fill="none" viewBox="0 0 19 19" {...props}>
             <g clipPath="url(#clip0_3383_154006)">
                 <path
                     stroke="currentColor"

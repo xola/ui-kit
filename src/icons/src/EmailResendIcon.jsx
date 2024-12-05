@@ -3,7 +3,7 @@ import { createIcon } from "./helpers/icon";
 
 export const EmailResendIcon = createIcon((props) => {
     return (
-        <svg viewBox="0 0 18 18" width={18} height={18} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+        <svg viewBox="0 0 18 18" width={18} height={18} fill="none" {...props}>
             <path
                 d="M15.441 4.094v5.292M16.2 13.928h-4.543M14.685 12.414l1.515 1.514-1.514 1.514M8.628 12.414H4.085A1.514 1.514 0 012.571 10.9V4.094"
                 stroke="currentColor"

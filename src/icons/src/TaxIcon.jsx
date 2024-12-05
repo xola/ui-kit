@@ -3,7 +3,7 @@ import { createIcon } from "./helpers/icon";
 
 export const TaxIcon = createIcon((props) => {
     return (
-        <svg viewBox="0 0 18 18" width={18} height={18} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+        <svg viewBox="0 0 18 18" width={18} height={18} fill="none" {...props}>
             <path
                 d="M5.786 15.52h-2.5c-.2 0-.413-.034-.542-.187a.751.751 0 01-.173-.477V3.686a.744.744 0 01.41-.665l.737-.37a.744.744 0 01.665-.002l1.17.579L6.7 2.652a.744.744 0 01.666-.002l1.16.578 1.16-.578a.744.744 0 01.666.002l1.147.576 1.17-.58a.744.744 0 01.665.003l.737.37a.745.745 0 01.41.665v1.897"
                 stroke="currentColor"

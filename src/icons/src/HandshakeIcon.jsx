@@ -3,7 +3,7 @@ import { createIcon } from "./helpers/icon";
 
 export const HandshakeIcon = createIcon((props) => {
     return (
-        <svg viewBox="0 0 14 14" width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+        <svg viewBox="0 0 14 14" width={14} height={14} fill="none" {...props}>
             <path
                 d="M.5 9.994h1.066a1.066 1.066 0 001.066-1.066V4.665a1.065 1.065 0 00-1.066-1.066H.506M13.284 3.6h-1.06a1.066 1.066 0 00-1.066 1.065v4.263a1.065 1.065 0 001.066 1.066h1.06"
                 stroke="currentColor"

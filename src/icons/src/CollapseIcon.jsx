@@ -4,7 +4,7 @@ import { createIcon } from "./helpers/icon";
 export const CollapseIcon = createIcon((props) => {
     return (
         // Checked with Barth this is an excepion to the design system and should stay at 10px
-        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="8" fill="none" viewBox="0 0 10 8" {...props}>
+        <svg width="10" height="8" fill="none" viewBox="0 0 10 8" {...props}>
             <path
                 stroke="currentColor"
                 strokeLinecap="round"

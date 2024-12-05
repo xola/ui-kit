@@ -9,7 +9,7 @@ export const TutorialsButtonIcon = (props) => {
             width="32"
             height="30"
             fill="none"
-            xmlns="http://www.w3.org/2000/svg"
+
             {...props}
             className={className}
         >

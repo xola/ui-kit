@@ -3,7 +3,7 @@ import { createIcon } from "./helpers/icon";
 
 export const UserChangedIcon = createIcon((props) => {
     return (
-        <svg viewBox="0 0 14 14" width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+        <svg viewBox="0 0 14 14" width={14} height={14} fill="none" {...props}>
             <path
                 d="M6.956 7a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM2.25 11.412a2.647 2.647 0 012.647-2.647h1.52M11.417 9.217h.832v-.832M9.556 11.018h-.831v.832"
                 stroke="currentColor"

@@ -3,7 +3,7 @@ import { createIcon } from "./helpers/icon";
 
 export const DuplicateIcon = createIcon((props) => {
     return (
-        <svg viewBox="0 0 14 14" width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+        <svg viewBox="0 0 14 14" width={14} height={14} fill="none" {...props}>
             <path
                 d="M3.111 9.222h-.309A.803.803 0 012 8.42V2.802C2 2.36 2.36 2 2.802 2H8.42c.444 0 .803.36.803.802v.31"
                 stroke="currentColor"

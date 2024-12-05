@@ -3,7 +3,7 @@ import { createIcon } from "./helpers/icon";
 
 export const HouseIcon = createIcon((props) => {
     return (
-        <svg viewBox="0 0 14 14" width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+        <svg viewBox="0 0 14 14" width={14} height={14} fill="none" {...props}>
             <path
                 d="M1.949 5.634L7 1.5l5.051 4.134c.284.231.448.579.448.945v4.699c0 .675-.547 1.222-1.222 1.222H2.722A1.222 1.222 0 011.5 11.278V6.58c0-.367.164-.715.449-.946v0z"
                 stroke="currentColor"

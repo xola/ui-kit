@@ -3,7 +3,7 @@ import { createIcon } from "./helpers/icon";
 
 export const AddSquareIcon = createIcon((props) => {
     return (
-        <svg viewBox="0 0 14 14" width={15} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+        <svg viewBox="0 0 14 14" width={15} height={14} fill="none" {...props}>
             <path
                 d="M13.065 2.356a.455.455 0 00-.456-.456H4.391c-.255 0-.456.2-.456.456v8.214c0 .25.2.451.456.451h8.213-.004a.458.458 0 00.456-.456l.01-8.209zM8.515 3.212v6.125M11.578 6.275H5.453"
                 stroke="currentColor"

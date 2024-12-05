@@ -3,7 +3,7 @@ import { createIcon } from "../helpers/icon";
 
 export const PlayMarketBadge = createIcon(() => {
     return (
-        <svg width="101" height="30" viewBox="0 0 101 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg width="101" height="30" viewBox="0 0 101 30" fill="none">
             <rect x="0.231567" y="0.0713501" width="100.768" height="29.8573" rx="4" fill="white" />
             <rect
                 x="0.731567"

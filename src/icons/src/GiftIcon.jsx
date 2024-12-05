@@ -3,7 +3,7 @@ import { createIcon } from "./helpers/icon";
 
 export const GiftIcon = createIcon((props) => {
     return (
-        <svg viewBox="0 0 14 14" width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+        <svg viewBox="0 0 14 14" width={14} height={14} fill="none" {...props}>
             <path
                 clipRule="evenodd"
                 d="M11.444 4.778H2.556A.556.556 0 002 5.333v1.111c0 .307.249.556.556.556h8.888A.556.556 0 0012 6.444v-1.11a.556.556 0 00-.556-.556z"

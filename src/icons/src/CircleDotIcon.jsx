@@ -3,7 +3,7 @@ import { createIcon } from "./helpers/icon";
 
 export const CircleDotIcon = createIcon((props) => {
     return (
-        <svg viewBox="0 0 14 14" width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+        <svg viewBox="0 0 14 14" width={14} height={14} fill="none" {...props}>
             <path
                 d="M6.9 13c3.258 0 5.9-2.686 5.9-6s-2.642-6-5.9-6C3.642 1 1 3.686 1 7s2.642 6 5.9 6z"
                 stroke="currentColor"

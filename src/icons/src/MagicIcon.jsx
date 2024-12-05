@@ -3,7 +3,7 @@ import { createIcon } from "./helpers/icon";
 
 export const MagicIcon = createIcon((props) => {
     return (
-        <svg width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" {...props}>
+        <svg width={14} height={14} fill="none" viewBox="0 0 14 14" {...props}>
             <path
                 d="M11.445 3.111V2M10.89 2.555H12"
                 stroke="currentColor"

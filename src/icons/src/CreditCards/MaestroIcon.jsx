@@ -3,7 +3,7 @@ import { createIcon } from "../helpers/icon";
 
 export const MaestroIcon = createIcon((props) => {
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" width="34" height="24" fill="none" viewBox="0 0 34 24" {...props}>
+        <svg width="34" height="24" fill="none" viewBox="0 0 34 24" {...props}>
             <rect width="33" height="23" x="0.5" y="0.5" fill="#fff" stroke="#D9D9D9" rx="3.5" />
             <path
                 fill="#ED0006"

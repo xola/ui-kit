@@ -3,7 +3,7 @@ import { createIcon } from "./helpers/icon";
 
 export const ChipIcon = createIcon((props) => {
     return (
-        <svg viewBox="0 0 14 14" width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+        <svg viewBox="0 0 14 14" width={14} height={14} fill="none" {...props}>
             <path
                 d="M4.429 2.714V1M7 2.714V1M9.571 2.714V1M4.429 13v-1.714M7 13v-1.714M9.571 13v-1.714M11.286 4.428H13M11.286 7H13M11.286 9.572H13M1 4.428h1.714M1 7h1.714M1 9.572h1.714M9.571 2.714H4.428c-.947 0-1.714.768-1.714 1.715v5.143c0 .946.767 1.714 1.714 1.714h5.143c.947 0 1.714-.768 1.714-1.714V4.429c0-.947-.767-1.715-1.714-1.715z"
                 stroke="currentColor"

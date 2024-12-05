@@ -3,7 +3,7 @@ import { createIcon } from "./helpers/icon";
 
 export const ShoppingBagIcon = createIcon((props) => {
     return (
-        <svg viewBox="0 0 18 18" width={18} height={18} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+        <svg viewBox="0 0 18 18" width={18} height={18} fill="none" {...props}>
             <path
                 d="M13.249 5.5h-8.49a.7.7 0 00-.699.653l-.557 8.354A1.4 1.4 0 004.9 16h8.207a1.4 1.4 0 001.397-1.493l-.557-8.354a.7.7 0 00-.698-.653v0z"
                 stroke="currentColor"

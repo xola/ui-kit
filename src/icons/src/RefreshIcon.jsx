@@ -3,7 +3,7 @@ import { createIcon } from "./helpers/icon";
 
 export const RefreshIcon = createIcon((props) => {
     return (
-        <svg viewBox="0 0 16 16" width={16} height={16} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+        <svg viewBox="0 0 16 16" width={16} height={16} fill="none" {...props}>
             <path
                 d="M4.289 4.083a4.813 4.813 0 018.523 3.061v1.314M11.5 10.446a4.813 4.813 0 01-8.313-3.302v-.875"
                 stroke="currentColor"

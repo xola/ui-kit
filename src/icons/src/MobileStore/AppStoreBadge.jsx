@@ -3,7 +3,7 @@ import { createIcon } from "../helpers/icon";
 
 export const AppStoreBadge = createIcon(() => {
     return (
-        <svg width="90" height="30" viewBox="0 0 90 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg width="90" height="30" viewBox="0 0 90 30" fill="none">
             <rect x="0.428101" y="0.0713501" width="89.5719" height="29.8573" rx="4" fill="white" />
             <rect
                 x="0.928101"

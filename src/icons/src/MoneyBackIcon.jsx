@@ -3,7 +3,7 @@ import { createIcon } from "./helpers/icon";
 
 export const MoneyBackIcon = createIcon((props) => {
     return (
-        <svg viewBox="0 0 15 15" width={15} height={15} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+        <svg viewBox="0 0 15 15" width={15} height={15} fill="none" {...props}>
             <path
                 d="M6.674 9.972A.972.972 0 107.647 9a.972.972 0 11.972-.972M7.647 6.083v.973M7.647 10.944v.973"
                 stroke="currentColor"

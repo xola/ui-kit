@@ -3,7 +3,7 @@ import { createIcon } from "./helpers/icon";
 
 export const PinIcon = createIcon((props) => {
     return (
-        <svg viewBox="0 0 14 14" width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+        <svg viewBox="0 0 14 14" width={14} height={14} fill="none" {...props}>
             <path
                 d="M7.089 7.656a1.967 1.967 0 110-3.933 1.967 1.967 0 010 3.933z"
                 stroke="currentColor"

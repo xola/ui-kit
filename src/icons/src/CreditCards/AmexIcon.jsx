@@ -3,7 +3,7 @@ import { createIcon } from "../helpers/icon";
 
 export const AmexIcon = createIcon((props) => {
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" width="34" height="24" fill="none" viewBox="0 0 34 24" {...props}>
+        <svg width="34" height="24" fill="none" viewBox="0 0 34 24" {...props}>
             <rect width="34" height="24" fill="#1F72CD" rx="4" />
             <path
                 fill="#fff"

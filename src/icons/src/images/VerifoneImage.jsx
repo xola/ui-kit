@@ -5,7 +5,7 @@ import { createIcon } from "../helpers/icon";
 export const VerifoneImage = createIcon(({ className, ...rest }) => {
     return (
         <svg
-            xmlns="http://www.w3.org/2000/svg"
+
             xmlnsXlink="http://www.w3.org/1999/xlink"
             width="27"
             height="26"

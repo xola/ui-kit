@@ -3,7 +3,7 @@ import { createIcon } from "./helpers/icon";
 
 export const CloseIcon = createIcon((props) => {
     return (
-        <svg width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" {...props}>
+        <svg width={14} height={14} fill="none" viewBox="0 0 14 14" {...props}>
             <g clipPath="url(#prefix__clip0_5_1805)" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M11.148 3.147l-8.295 8.295M11.147 11.442L2.853 3.147" />
             </g>

@@ -3,7 +3,7 @@ import { createIcon } from "./helpers/icon";
 
 export const BugIcon = createIcon((props) => {
     return (
-        <svg viewBox="0 0 14 10" width={14} height={10} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+        <svg viewBox="0 0 14 10" width={14} height={10} fill="none" {...props}>
             <path
                 d="M6.79883 9.5C8.8699 9.5 10.5488 7.70914 10.5488 5.5C10.5488 3.29086 8.8699 1.5 6.79883 1.5C4.72776 1.5 3.04883 3.29086 3.04883 5.5C3.04883 7.70914 4.72776 9.5 6.79883 9.5Z"
                 stroke="currentColor"

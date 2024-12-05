@@ -2,7 +2,7 @@ import React from "react";
 
 export const TutorialsBadgeIcon = (props) => {
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" width="200" height="97" fill="none" viewBox="0 0 200 97" {...props}>
+        <svg width="200" height="97" fill="none" viewBox="0 0 200 97" {...props}>
             <g filter="url(#filter0_d_10041_286941)">
                 <rect width="136" height="48" x="32" y="24" fill="url(#paint0_linear_10041_286941)" rx="24" />
                 <path
