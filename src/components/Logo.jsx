@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import cn from "../helpers/classnames";
 import PropTypes from "prop-types";
 import React from "react";
 
@@ -9,7 +9,7 @@ const sizes = {
 };
 
 export const Logo = ({ className, size = "small", ...rest }) => {
-    return <img className={clsx("ui-logo", className, "inline-block rounded object-cover", sizes[size])} {...rest} />;
+    return <img className={cn("ui-logo", className, "inline-block rounded object-cover", sizes[size])} {...rest} />;
 };
 
 Logo.sizes = sizes;

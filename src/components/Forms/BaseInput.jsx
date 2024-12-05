@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import cn from "../../helpers/classnames";
 import { isEmpty, isString } from "lodash-es";
 import PropTypes from "prop-types";
 import React, { forwardRef } from "react";
@@ -53,7 +53,7 @@ export const BaseInput = forwardRef(
             <div className="relative flex w-full items-center">
                 <Tag
                     ref={ref}
-                    className={clsx(
+                    className={cn(
                         "w-full rounded text-gray-darker placeholder-gray-dark hover:placeholder-gray-darker disabled:text-gray",
                         "border border-transparent hover:border-black hover:bg-gray-lighter focus:text-black active:text-black disabled:bg-gray-lighter",
                         sizes[size],

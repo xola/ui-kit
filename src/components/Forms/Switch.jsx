@@ -1,5 +1,5 @@
 import { Switch as HeadlessSwitch } from "@headlessui/react";
-import clsx from "clsx";
+import cn from "../../helpers/classnames";
 import PropTypes from "prop-types";
 import React from "react";
 
@@ -27,7 +27,7 @@ export const Switch = ({ isChecked = false, size = "medium", ...rest }) => {
     return (
         <HeadlessSwitch
             checked={isChecked}
-            className={clsx(
+            className={cn(
                 "ui-switch",
                 isChecked ? "bg-primary disabled:bg-gray-light" : "bg-gray disabled:bg-gray-light",
                 "relative inline-flex flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none",
@@ -36,7 +36,7 @@ export const Switch = ({ isChecked = false, size = "medium", ...rest }) => {
             {...rest}
         >
             <span
-                className={clsx(
+                className={cn(
                     isChecked ? sizes[size].translate : "translate-x-0",
                     "ui-switch-inner pointer-events-none inline-block transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out",
                     sizes[size].inner,
@@ -53,7 +53,7 @@ Switch.propTypes = {
 
 Switch.Group = ({ className, children }) => {
     return (
-        <HeadlessSwitch.Group as="div" className={clsx("ui-switch-group", "inline-flex items-center", className)}>
+        <HeadlessSwitch.Group as="div" className={cn("ui-switch-group", "inline-flex items-center", className)}>
             {children}
         </HeadlessSwitch.Group>
     );
@@ -70,7 +70,7 @@ Switch.Label = ({ direction = "left", className, children }) => {
     return (
         <HeadlessSwitch.Label
             as="span"
-            className={clsx("ui-switch-label", "cursor-pointer", direction === "left" ? "mr-2" : "ml-2", className)}
+            className={cn("ui-switch-label", "cursor-pointer", direction === "left" ? "mr-2" : "ml-2", className)}
         >
             {children}
         </HeadlessSwitch.Label>

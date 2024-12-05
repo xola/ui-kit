@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import cn from "../helpers/classnames";
 import PropTypes from "prop-types";
 import React from "react";
 import styles from "./Skeleton.module.css";
@@ -6,7 +6,7 @@ import styles from "./Skeleton.module.css";
 export const Skeleton = ({ style, height = 300, shouldAnimate = true, children, classNames = {}, ...rest }) => {
     return (
         <div
-            className={clsx(
+            className={cn(
                 "ui-skeleton",
                 "relative flex items-center justify-center overflow-hidden rounded border border-gray-lighter bg-gray-lighter",
                 classNames.container,
@@ -15,9 +15,9 @@ export const Skeleton = ({ style, height = 300, shouldAnimate = true, children, 
             {...rest}
         >
             {shouldAnimate ? (
-                <div className={clsx(styles.shimmer, "absolute h-full w-full", classNames.shimmer)} />
+                <div className={cn(styles.shimmer, "absolute h-full w-full", classNames.shimmer)} />
             ) : null}
-            <div className={clsx("text-gray", classNames.text)}>{children}</div>
+            <div className={cn("text-gray", classNames.text)}>{children}</div>
         </div>
     );
 };

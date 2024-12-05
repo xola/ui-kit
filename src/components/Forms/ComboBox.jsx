@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import cn from "../../helpers/classnames";
 import PropTypes from "prop-types";
 import React from "react";
 import Select from "react-select";
@@ -10,14 +10,14 @@ export const ComboBox = ({ isCreatable = false, className, isError, ...rest }) =
     const SelectType = isCreatable ? CreatableSelect : Select;
     return (
         <SelectType
-            className={clsx("ui-combo-box", isError && "border-danger", className)}
+            className={cn("ui-combo-box", isError && "border-danger", className)}
             classNamePrefix="ui-combo-box"
             components={
                 isCreatable
                     ? {
-                          IndicatorsContainer: () => null,
-                          Menu: () => null,
-                      }
+                        IndicatorsContainer: () => null,
+                        Menu: () => null,
+                    }
                     : null
             }
             {...rest}

@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import cn from "../../helpers/classnames";
 import PropTypes from "prop-types";
 import React from "react";
 import { AnnounceIcon, BellIcon, XolaLogoSimple } from "../../icons";
@@ -37,7 +37,7 @@ export const Sidebar = ({
 
     return (
         <div
-            className={clsx(
+            className={cn(
                 sidebarScroll,
                 "ui-sidebar",
                 isFixed ? "fixed" : "relative",
@@ -48,13 +48,13 @@ export const Sidebar = ({
         >
             {leftDrawer || rightDrawer ? (
                 <div
-                    className={clsx(
+                    className={cn(
                         "flex w-full p-2 sm:justify-center sm:space-x-2 xl:justify-between",
                         isStickyHeader && "sticky top-0 z-50 bg-black",
                     )}
                 >
                     {leftDrawer && (
-                        <div className={clsx("cursor-pointer sm:text-center", leftDrawer.hide && "hidden")}>
+                        <div className={cn("cursor-pointer sm:text-center", leftDrawer.hide && "hidden")}>
                             <Counter style={LeftDrawerCountStyle} onClick={() => handleDrawerStateChange("left")}>
                                 <AnnounceIcon className="mr-1 sm:hidden xl:block" />
                                 {leftDrawer.count}
@@ -63,7 +63,7 @@ export const Sidebar = ({
                     )}
 
                     {rightDrawer && (
-                        <div className={clsx("ml-auto cursor-pointer sm:text-center", hideRightDrawer && "hidden")}>
+                        <div className={cn("ml-auto cursor-pointer sm:text-center", hideRightDrawer && "hidden")}>
                             <Counter className="text-sm" onClick={() => handleDrawerStateChange("right")}>
                                 <BellIcon className="sm:hidden xl:block" />
                                 {rightDrawer.count}
@@ -97,11 +97,11 @@ export const Sidebar = ({
                 />
             )}
 
-            <div className={clsx("flex-grow space-y-2", isStickyHeaderFooter && "overflow-y-auto")}>
+            <div className={cn("flex-grow space-y-2", isStickyHeaderFooter && "overflow-y-auto")}>
                 <div className="text-center">
                     {logo ?? (
                         <XolaLogoSimple
-                            className={clsx(
+                            className={cn(
                                 "inline-block h-12 w-12 xl:h-30 xl:w-30",
                                 onLogoClick && "cursor-pointer transition-opacity hover:opacity-80",
                             )}
@@ -113,7 +113,7 @@ export const Sidebar = ({
                 <div>{children}</div>
             </div>
 
-            <div className={clsx(isStickyFooter && "sticky bottom-0 bg-black")}>{footer}</div>
+            <div className={cn(isStickyFooter && "sticky bottom-0 bg-black")}>{footer}</div>
         </div>
     );
 };

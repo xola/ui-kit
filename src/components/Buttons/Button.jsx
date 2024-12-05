@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import cn from "../../helpers/classnames";
 import PropTypes from "prop-types";
 import React from "react";
 
@@ -60,7 +60,7 @@ export const Button = ({
 }) => {
     return (
         <Tag
-            className={clsx(
+            className={cn(
                 "ui-button",
                 "inline-flex rounded border transition-colors focus:ring disabled:cursor-default disabled:bg-gray-lighter disabled:text-gray-dark",
                 "items-center justify-center font-semibold",

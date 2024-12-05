@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import cn from "../helpers/classnames";
 import { useCombobox } from "downshift";
 import { debounce } from "lodash-es";
 import PropTypes from "prop-types";
@@ -148,7 +148,7 @@ export const Search = ({
                     {...getInputProps({
                         id: inputId,
                         type: "text",
-                        className: clsx(
+                        className: cn(
                             "ui-search-input",
                             "block w-full border-none pl-0 md:pl-7 text-base md:text-md text-gray-darker leading-p2 focus:ring-0",
                             className,
@@ -173,7 +173,7 @@ export const Search = ({
             <ul
                 {...getMenuProps({
                     id: menuId,
-                    className: clsx(
+                    className: cn(
                         "ui-search-menu",
                         "absolute top-10 divide-y divide-gray-light w-full xl:w-[590px] max-h-[75vh] border border-secondary-lighter shadow-xl mt-1 rounded overflow-auto z-20 bg-white",
                         { hidden: !open },
@@ -182,27 +182,27 @@ export const Search = ({
             >
                 {isVisible
                     ? itemList.map((item, index) => (
-                          <li key={item} {...getItemProps({ key: index, item, index, className: "ui-search-item" })}>
-                              {item === submitValueItem ? (
-                                  isLoading ? (
-                                      <div className="p-3 text-center">
-                                          <Spinner size="small" />
-                                      </div>
-                                  ) : inputValue.length < minChars ? (
-                                      <div
-                                          className={clsx(
-                                              "cursor-pointer p-2",
-                                              highlightedIndex === index ? "bg-blue-light text-white" : "",
-                                          )}
-                                      >
-                                          {`Enter at least ${minChars} characters to begin search`}
-                                      </div>
-                                  ) : null
-                              ) : (
-                                  children?.(item, highlightedIndex === index)
-                              )}
-                          </li>
-                      ))
+                        <li key={item} {...getItemProps({ key: index, item, index, className: "ui-search-item" })}>
+                            {item === submitValueItem ? (
+                                isLoading ? (
+                                    <div className="p-3 text-center">
+                                        <Spinner size="small" />
+                                    </div>
+                                ) : inputValue.length < minChars ? (
+                                    <div
+                                        className={cn(
+                                            "cursor-pointer p-2",
+                                            highlightedIndex === index ? "bg-blue-light text-white" : "",
+                                        )}
+                                    >
+                                        {`Enter at least ${minChars} characters to begin search`}
+                                    </div>
+                                ) : null
+                            ) : (
+                                children?.(item, highlightedIndex === index)
+                            )}
+                        </li>
+                    ))
                     : null}
 
                 {isVisible && noResultFound ? <li className="cursor-not-allowed p-2">No results found</li> : null}

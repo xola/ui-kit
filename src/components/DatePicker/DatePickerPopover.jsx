@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import cn from "../../helpers/classnames";
 import PropTypes from "prop-types";
 import React, { cloneElement, forwardRef, useEffect, useState } from "react";
 import { CalendarIcon, DownArrowIcon } from "../..";
@@ -61,7 +61,7 @@ export const DatePickerPopover = ({
             maxWidth={900}
             distance={18}
             placement="bottom"
-            className={clsx("ui-date-picker-input", classNames.popover)}
+            className={cn("ui-date-picker-input", classNames.popover)}
             onClickOutside={handleClickOutside}
             {...popoverProps}
         >
@@ -110,7 +110,7 @@ const DefaultInput = forwardRef(({ className, ...rest }, reference) => {
                 <CalendarIcon className="z-10 inline-block" />
             </div>
 
-            <Input className={clsx("no-translate cursor-pointer px-8", className)} {...rest} />
+            <Input className={cn("no-translate cursor-pointer px-8", className)} {...rest} />
 
             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
                 <DownArrowIcon className="inline-block" />

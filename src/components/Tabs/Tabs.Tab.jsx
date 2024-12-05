@@ -1,16 +1,16 @@
-import clsx from "clsx";
+import cn from "../../helpers/classnames";
 import PropTypes from "prop-types";
 import React from "react";
 
 const variants = {
     default: (isActive) =>
-        clsx(
+        cn(
             "border-b border-gray-light",
             isActive ? "text-primary border-l border-r border-b-transparent" : "hover:text-gray-darker",
         ),
 
     simple: (isActive) =>
-        clsx(
+        cn(
             "flex-1 text-lg transition-colors",
             isActive ? "bg-white text-black" : "text-gray-dark hover:text-black hover:bg-gray-light",
         ),
@@ -30,7 +30,7 @@ export const Tab = ({
 
     return (
         <Tag
-            className={clsx(
+            className={cn(
                 "ui-tabs-tab",
                 className,
                 "cursor-pointer whitespace-nowrap py-4 px-8 text-center font-semibold focus-visible:ring",

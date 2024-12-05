@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import cn from "../../helpers/classnames";
 import PropTypes from "prop-types";
 import React from "react";
 import { ChevronRightIcon } from "../../icons";
@@ -18,7 +18,7 @@ export const SidebarAccount = ({
     return (
         <button
             type="button"
-            className={clsx(
+            className={cn(
                 "ui-sidebar-account",
                 "flex w-full cursor-pointer items-center justify-center rounded px-4 py-3 hover:bg-gray-darker xl:justify-start",
                 className,
@@ -28,12 +28,12 @@ export const SidebarAccount = ({
             <div className="flex-shrink-0">{accountImage}</div>
 
             {/* Adding `min-w-0` on the flex item prevents the overflow for wider text. */}
-            <div className={clsx("ml-2 min-w-0 text-left", isResponsive && "hidden xl:inline")}>
+            <div className={cn("ml-2 min-w-0 text-left", isResponsive && "hidden xl:inline")}>
                 <div className="truncate text-base">{name}</div>
                 {description ? <div className="truncate text-sm text-gray-dark">{description}</div> : null}
             </div>
 
-            <span className={clsx("ml-auto", isResponsive && "hidden xl:inline")}>{icon}</span>
+            <span className={cn("ml-auto", isResponsive && "hidden xl:inline")}>{icon}</span>
         </button>
     );
 };

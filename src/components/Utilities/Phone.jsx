@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import cn from "../../helpers/classnames";
 import PropTypes from "prop-types";
 import React from "react";
 import { formatPhoneNumber, getRegionCode } from "../../helpers/phone";
@@ -10,7 +10,7 @@ export const Phone = ({ countryCode = "US", className, children }) => {
 
     return (
         <span
-            className={clsx("ui-phone", className)}
+            className={cn("ui-phone", className)}
             data-region-code={regionCode || "N/A"}
             data-country-code={countryCode}
             title={number}

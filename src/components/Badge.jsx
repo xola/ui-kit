@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import cn from "../helpers/classnames";
 import PropTypes from "prop-types";
 import React, { cloneElement } from "react";
 
@@ -28,7 +28,7 @@ const iconSizes = {
 export const Badge = ({ color = "primary", size = "small", icon, className, children, ...rest }) => {
     return (
         <span
-            className={clsx(
+            className={cn(
                 "ui-badge",
                 "inline-flex items-center whitespace-nowrap rounded-full",
                 colors[color],
@@ -37,7 +37,7 @@ export const Badge = ({ color = "primary", size = "small", icon, className, chil
             )}
             {...rest}
         >
-            {icon ? cloneElement(icon, { className: clsx("mr-1", iconSizes[size]) }) : null}
+            {icon ? cloneElement(icon, { className: cn("mr-1", iconSizes[size]) }) : null}
             {children}
         </span>
     );

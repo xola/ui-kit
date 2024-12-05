@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import cn from "../helpers/classnames";
 import PropTypes from "prop-types";
 import React from "react";
 import { CircleNotch } from "../icons";
@@ -24,7 +24,7 @@ const sizes = {
 export const Spinner = ({ className, size = "small", color = "secondary", ...rest }) => {
     return (
         <CircleNotch
-            className={clsx("ui-spinner", className, sizes[size], colors[color], "inline-block animate-spin")}
+            className={cn("ui-spinner", className, sizes[size], colors[color], "inline-block animate-spin")}
             {...rest}
         />
     );

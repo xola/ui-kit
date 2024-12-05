@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import cn from "../../helpers/classnames";
 import { isArray, isFunction } from "lodash-es";
 import PropTypes from "prop-types";
 import React from "react";
@@ -34,8 +34,8 @@ const RangeDatePicker = ({
     const createCaptionElement = (currentMonth, handleChange) =>
         shouldShowYearPicker && currentMonth
             ? ({ date }) => (
-                  <MonthYearSelector date={date} currentMonth={currentMonth} locale={locale} onChange={handleChange} />
-              )
+                <MonthYearSelector date={date} currentMonth={currentMonth} locale={locale} onChange={handleChange} />
+            )
             : undefined;
 
     const CaptionStartElement = createCaptionElement(startMonth, handleStartMonthChange);
@@ -94,7 +94,7 @@ const RangeDatePicker = ({
     return (
         <div className="flex gap-4">
             <LocalizedDayPicker
-                className={clsx(
+                className={cn(
                     "ui-date-picker max-w-[400px] rounded-lg pt-3",
                     isDateRangeStyle ? "date-range-picker" : null,
                     getDayContent ? "has-custom-content" : null,
@@ -114,7 +114,7 @@ const RangeDatePicker = ({
                 {...rest}
             />
             <LocalizedDayPicker
-                className={clsx(
+                className={cn(
                     "ui-date-picker max-w-[400px] rounded-lg pt-3",
                     isDateRangeStyle ? "date-range-picker" : null,
                     getDayContent ? "has-custom-content" : null,

@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import cn from "../../helpers/classnames";
 import PropTypes from "prop-types";
 import React from "react";
 
@@ -6,7 +6,7 @@ export const SidebarButton = ({ icon: Icon, label, className, ...rest }) => {
     return (
         <button
             type="button"
-            className={clsx(
+            className={cn(
                 "ui-sidebar-button flex w-full cursor-pointer items-center rounded py-2 px-4 hover:bg-gray-darker",
                 className,
             )}

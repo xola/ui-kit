@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import cn from "../helpers/classnames";
 import PropTypes from "prop-types";
 import React from "react";
 import { isOSX } from "../helpers/browser";
@@ -8,7 +8,7 @@ export const Key = ({ char, className, ...rest }) => {
 
     return (
         <div
-            className={clsx(
+            className={cn(
                 "ui-key",
                 "no-translate inline-flex h-5 items-center justify-center rounded bg-gray-lighter py-1 px-2 text-xs font-semibold text-gray",
                 key.length === 1 && "w-5",

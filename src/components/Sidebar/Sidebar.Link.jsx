@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import cn from "../../helpers/classnames";
 import PropTypes from "prop-types";
 import React from "react";
 import { ChevronRightIcon } from "../../icons";
@@ -8,7 +8,7 @@ export const SidebarLink = ({ isActive = false, icon: Icon, children, isSubMenuI
     return (
         <button
             type="button"
-            className={clsx(
+            className={cn(
                 "ui-sidebar-link",
                 "flex w-full items-center rounded leading-none transition-colors xl:justify-start",
                 {
@@ -21,12 +21,12 @@ export const SidebarLink = ({ isActive = false, icon: Icon, children, isSubMenuI
             {...rest}
         >
             {isSubMenuItem ? (
-                <Dot className={clsx("mr-3 shrink-0", { "bg-white": isActive, "bg-gray": !isActive })} />
+                <Dot className={cn("mr-3 shrink-0", { "bg-white": isActive, "bg-gray": !isActive })} />
             ) : (
                 <Icon className="h-5 w-5 shrink-0 xl:mr-3" />
             )}
             <span
-                className={clsx(
+                className={cn(
                     "hidden px-1 xl:inline",
                     { "!inline text-left": isSubMenuItem },
                     { "text-left": align === "left" },
@@ -51,7 +51,7 @@ SidebarLink.propTypes = {
 };
 
 export const SidebarSeparator = ({ className }) => {
-    return <hr className={clsx("mx-3 my-4 border-gray-lighter/20", className)} />;
+    return <hr className={cn("mx-3 my-4 border-gray-lighter/20", className)} />;
 };
 
 SidebarSeparator.displayName = "Sidebar.Separator";

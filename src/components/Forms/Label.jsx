@@ -1,11 +1,11 @@
-import clsx from "clsx";
+import cn from "../../helpers/classnames";
 import PropTypes from "prop-types";
 import React from "react";
 
 export const Label = ({ isDisabled = false, isError = false, className, ...rest }) => {
     return (
         <label
-            className={clsx(
+            className={cn(
                 "ui-label",
                 className,
                 "mb-1 block text-sm font-bold",

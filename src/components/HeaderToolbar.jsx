@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import cn from "../helpers/classnames";
 import PropTypes from "prop-types";
 import React from "react";
 import { Breadcrumb, Search } from "..";
@@ -6,7 +6,7 @@ import { Breadcrumb, Search } from "..";
 export const HeaderToolbar = ({ classNames, children }) => {
     return (
         <div
-            className={clsx(
+            className={cn(
                 "ui-header-toolbar",
                 "flex w-full items-center space-x-2 border-b border-gray-light px-5 py-3 pr-3 xl:space-x-6 xl:px-10 xl:py-5",
                 classNames,
@@ -25,7 +25,7 @@ HeaderToolbar.propTypes = {
 HeaderToolbar.Breadcrumb = ({ className, children }) => {
     return (
         <Breadcrumb
-            className={clsx(
+            className={cn(
                 "ui-header-toolbar-breadcrumb",
                 "border-r border-gray-light text-xl md:pr-4 xl:pr-6",
                 className,

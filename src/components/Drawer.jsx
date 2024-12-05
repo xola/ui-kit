@@ -1,5 +1,5 @@
 import { Dialog, Transition } from "@headlessui/react";
-import clsx from "clsx";
+import cn from "../helpers/classnames";
 import PropTypes from "prop-types";
 import React, { forwardRef, Fragment } from "react";
 import { isIosBrowser } from "../helpers/browser";
@@ -24,12 +24,12 @@ export const Drawer = forwardRef(
             <Transition.Root ref={ref} show={isOpen} as={Fragment}>
                 <Dialog
                     as="div"
-                    className={clsx("ui-drawer fixed inset-0 z-10 overflow-hidden", classNames.dialog)}
+                    className={cn("ui-drawer fixed inset-0 z-10 overflow-hidden", classNames.dialog)}
                     open={isOpen}
                     onClose={onClose}
                 >
                     <div
-                        className={clsx(
+                        className={cn(
                             "flex",
                             isIOS ? `h-[${viewportHeight}px] max-h-[${viewportHeight}px] w-full` : "h-screen w-full",
                         )}
@@ -44,14 +44,14 @@ export const Drawer = forwardRef(
                             leaveTo="opacity-0"
                         >
                             <Dialog.Overlay
-                                className={clsx(
+                                className={cn(
                                     "absolute inset-0 bg-black bg-opacity-80 transition-opacity",
                                     classNames.overlay,
                                 )}
                             />
                         </Transition.Child>
                         <div
-                            className={clsx(
+                            className={cn(
                                 "fixed inset-y-0 flex max-w-full",
                                 position === "right" ? "right-0" : "left-0",
                                 classNames.dialogContent,
@@ -70,7 +70,7 @@ export const Drawer = forwardRef(
                                     {position === "right" ? <CloseButton onClose={onClose} /> : null}
 
                                     <div
-                                        className={clsx(
+                                        className={cn(
                                             "flex h-full w-full flex-col overflow-y-auto bg-white px-4 py-8 shadow-xl sm:px-6",
                                             sizes[size],
                                             classNames.children,
@@ -80,7 +80,7 @@ export const Drawer = forwardRef(
                                             {/* eslint-disable-next-line react/jsx-max-depth */}
                                             <Dialog.Title>{title}</Dialog.Title>
                                         </div>
-                                        <div className={clsx("relative mt-3 flex-1", classNames.content)}>
+                                        <div className={cn("relative mt-3 flex-1", classNames.content)}>
                                             {content}
                                         </div>
                                     </div>
@@ -101,7 +101,7 @@ const CloseButton = ({ onClose }) => {
         <Button
             size="small"
             variant="link"
-            className={clsx(
+            className={cn(
                 "m-2.5 inline-flex !h-10 !w-10 items-center justify-center !rounded-full bg-white !px-1.5 !text-black",
             )}
             onClick={onClose}

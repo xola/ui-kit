@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import cn from "../helpers/classnames";
 import PropTypes from "prop-types";
 import React from "react";
 import { CloseIcon } from "../icons";
@@ -15,7 +15,7 @@ const colors = {
 export const Alert = ({ className, color = "primary", onClose, children, ...rest }) => {
     return (
         <div
-            className={clsx(
+            className={cn(
                 "ui-alert flex items-start rounded px-3 py-3 text-base leading-4",
                 colors[color],
                 className,

@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import cn from "../../helpers/classnames";
 import PropTypes from "prop-types";
 import React from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "../../icons";
@@ -8,7 +8,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from "../../icons";
  */
 export const NavbarElement = ({ onPreviousClick, onNextClick, className, showNextButton, showPreviousButton }) => {
     return (
-        <div className={clsx("absolute right-1 top-1.5 z-50", className)}>
+        <div className={cn("absolute right-1 top-1.5 z-50", className)}>
             <ChevronButton isVisible={showPreviousButton} onClick={onPreviousClick}>
                 <ChevronLeftIcon />
             </ChevronButton>
@@ -34,7 +34,7 @@ const ChevronButton = ({ isVisible = true, onClick, children }) => {
     return (
         <button
             type="button"
-            className={clsx(
+            className={cn(
                 isVisible ? "inline-block" : "invisible",
                 "inline-flex h-7 w-7 items-center justify-center rounded-full border border-transparent leading-none text-black hover:border-black",
             )}

@@ -1,9 +1,9 @@
-import clsx from "clsx";
+import cn from "../../helpers/classnames";
 import PropTypes from "prop-types";
 import React from "react";
 
 export const Panel = ({ className, ...rest }) => {
-    return <div className={clsx("ui-tabs-panel", className)} {...rest} />;
+    return <div className={cn("ui-tabs-panel", className)} {...rest} />;
 };
 
 Panel.propTypes = {

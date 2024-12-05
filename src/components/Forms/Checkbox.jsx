@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import cn from "../../helpers/classnames";
 import PropTypes from "prop-types";
 import React, { useId } from "react";
 import styles from "./Checkbox.module.css";
@@ -7,10 +7,10 @@ export const Checkbox = ({ label, className, classNames = {}, ...rest }) => {
     const id = useId("checkbox");
 
     return (
-        <div className={clsx("ui-checkbox", className, "flex items-center")}>
+        <div className={cn("ui-checkbox", className, "flex items-center")}>
             <input
                 type="checkbox"
-                className={clsx(
+                className={cn(
                     "ui-checkbox-input",
                     classNames.checkbox,
                     styles.checkbox,
@@ -23,7 +23,7 @@ export const Checkbox = ({ label, className, classNames = {}, ...rest }) => {
             {label ? (
                 <label
                     htmlFor={id}
-                    className={clsx("ui-checkbox-label", classNames.label, "ml-2 leading-none text-gray-darker")}
+                    className={cn("ui-checkbox-label", classNames.label, "ml-2 leading-none text-gray-darker")}
                 >
                     {label}
                 </label>

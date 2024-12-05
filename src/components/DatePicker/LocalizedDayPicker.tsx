@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import cn from "../../helpers/classnames";
 import React, { forwardRef, useContext, useEffect, useState } from "react";
 import DayPicker, { DayPickerProps } from "react-day-picker";
 import { kebabCase } from "lodash-es";
@@ -23,5 +23,5 @@ export const LocalizedDayPicker = forwardRef<any, DayPickerProps>(({ className, 
     /**
      * Note: DayPicker expects locale in en-US, es, en-GB format
      */
-    return <DayPicker ref={ref} className={clsx(className)} {...localizationProps} {...rest} />;
+    return <DayPicker ref={ref} className={cn(className)} {...localizationProps} {...rest} />;
 });

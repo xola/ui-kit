@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import cn from "../../helpers/classnames";
 import React, { useRef } from "react";
 import { DownArrowIcon } from "../..";
 import { Popover } from "../Popover/Popover";
@@ -36,21 +36,21 @@ export const InlineValuePopover = ({
     return (
         <Popover visible={isOpen} onClickOutside={onClickOutside} {...rest}>
             <span
-                className={clsx(
+                className={cn(
                     "cursor-pointer whitespace-nowrap",
                     error && "!border-danger !text-danger",
                     classNames?.text,
                 )}
                 onClick={handleClick}
             >
-                <span className={clsx("border-b border-b-black font-bold text-black", classNames?.textField)}>
+                <span className={cn("border-b border-b-black font-bold text-black", classNames?.textField)}>
                     <ValuePopoverText value={text} error={error} />
                 </span>
                 {showArrow && <DownArrowIcon size="medium" />}
             </span>
 
             <Popover.Content>
-                <div ref={ref} className={clsx("p-2", classNames?.children)}>
+                <div ref={ref} className={cn("p-2", classNames?.children)}>
                     {children}
                 </div>
             </Popover.Content>

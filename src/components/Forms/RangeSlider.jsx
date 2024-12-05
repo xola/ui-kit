@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import cn from "../../helpers/classnames";
 import Nouislider from "nouislider-react";
 import PropTypes from "prop-types";
 import React from "react";
@@ -42,7 +42,7 @@ export const RangeSlider = ({
 
     return (
         <Nouislider
-            className={clsx("ui-range-slider", className)}
+            className={cn("ui-range-slider", className)}
             connect={shouldConnectHandles}
             disabled={isDisabled}
             start={values}

@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import cn from "../../helpers/classnames";
 import PropTypes from "prop-types";
 import React, { forwardRef } from "react";
 import TextareaAutosize from "react-textarea-autosize";
@@ -12,7 +12,7 @@ export const Textarea = forwardRef(({ className, value, shouldAutoSize = false, 
             as={TextareaAutosize}
             value={value}
             minRows={rows}
-            className={clsx("ui-textarea", className)}
+            className={cn("ui-textarea", className)}
             {...rest}
         />
     ) : (
@@ -21,7 +21,7 @@ export const Textarea = forwardRef(({ className, value, shouldAutoSize = false, 
             as="textarea"
             value={value}
             rows={rows}
-            className={clsx("ui-textarea", className)}
+            className={cn("ui-textarea", className)}
             {...rest}
         />
     );

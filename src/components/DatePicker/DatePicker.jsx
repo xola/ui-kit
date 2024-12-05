@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import cn from "../../helpers/classnames";
 import dayjs from "dayjs";
 import PropTypes from "prop-types";
 import React, { useContext, useEffect, useMemo, useState } from "react";
@@ -188,13 +188,13 @@ export const DatePicker = ({
     const CaptionElement = useMemo(() => {
         return shouldShowYearPicker && currentMonth
             ? ({ date }) => (
-                  <MonthYearSelector
-                      date={date}
-                      currentMonth={currentMonth}
-                      locale={locale ?? contextLocale}
-                      onChange={handleMonthChange}
-                  />
-              )
+                <MonthYearSelector
+                    date={date}
+                    currentMonth={currentMonth}
+                    locale={locale ?? contextLocale}
+                    onChange={handleMonthChange}
+                />
+            )
             : undefined;
         // Adding `handleMonthChange` causes a lot of re-renders, and closes drop-down.
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -267,7 +267,7 @@ export const DatePicker = ({
                     />
                 ) : (
                     <LocalizedDayPicker
-                        className={clsx(
+                        className={cn(
                             "ui-date-picker rounded-lg pt-3",
                             useDateRangeStyle ? "date-range-picker" : null,
                             getDayContent ? "has-custom-content" : null,

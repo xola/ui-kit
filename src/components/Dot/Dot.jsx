@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import cn from "../../helpers/classnames";
 import PropTypes from "prop-types";
 import React from "react";
 
@@ -20,7 +20,7 @@ const sizes = {
 export const Dot = ({ color = "primary", size = "medium", className, ...rest }) => {
     return (
         <span
-            className={clsx("ui-dot", "inline-block rounded-full text-white", colors[color], sizes[size], className)}
+            className={cn("ui-dot", "inline-block rounded-full text-white", colors[color], sizes[size], className)}
             {...rest}
         />
     );
