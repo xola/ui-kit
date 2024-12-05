@@ -1,4 +1,4 @@
-import { twMerge } from 'tailwind-merge/dist/es5/bundle-cjs.js';
+import { twMerge } from 'tailwind-merge';
 import clsx from "clsx";
 
 /**
