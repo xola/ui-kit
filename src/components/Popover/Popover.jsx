@@ -1,11 +1,11 @@
 import Tippy from "@tippyjs/react";
-import cn from "../../helpers/classnames";
 import PropTypes from "prop-types";
 import React, { Children, useState } from "react";
 import { followCursor } from "tippy.js";
 import "tippy.js/dist/border.css";
 import "tippy.js/dist/tippy.css";
 import { getChildrenByType } from "../../helpers/children";
+import cn from "../../helpers/classnames";
 import styles from "./Popover.module.css";
 import scrollFix from "./PopoverScroll.module.css";
 
@@ -21,13 +21,7 @@ export const Popover = ({ isLazy = true, skidding = 0, distance = 10, className,
             interactive
             zIndex={50}
             content={content}
-            className={cn(
-                "ui-popover",
-                scrollFix,
-                styles.main,
-                "!rounded-lg !border-gray-light shadow-xl",
-                className,
-            )}
+            className={cn("ui-popover", scrollFix, styles.main, "!rounded-lg !border-gray-light shadow-xl", className)}
             plugins={[followCursor]}
             offset={[skidding ?? 0, distance ?? 10]}
             {...rest}

@@ -1,6 +1,6 @@
-import cn from "../../helpers/classnames";
 import PropTypes from "prop-types";
 import React, { Children } from "react";
+import cn from "../../helpers/classnames";
 import { Popover } from "./Popover";
 import scrollFix from "./PopoverScroll.module.css";
 
@@ -21,12 +21,7 @@ export const PopoverList = ({ placement = "bottom", className, children, ...rest
     );
 
     return (
-        <Popover
-            content={content}
-            placement={placement}
-            className={cn("ui-popover-list", "w-40", className)}
-            {...rest}
-        >
+        <Popover content={content} placement={placement} className={cn("ui-popover-list", "w-40", className)} {...rest}>
             {innerContent}
         </Popover>
     );

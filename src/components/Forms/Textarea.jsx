@@ -1,7 +1,7 @@
-import cn from "../../helpers/classnames";
 import PropTypes from "prop-types";
 import React, { forwardRef } from "react";
 import TextareaAutosize from "react-textarea-autosize";
+import cn from "../../helpers/classnames";
 import { BaseInput } from "./BaseInput";
 
 export const Textarea = forwardRef(({ className, value, shouldAutoSize = false, rows = 2, ...rest }, ref) => {

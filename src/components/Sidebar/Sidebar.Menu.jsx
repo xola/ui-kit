@@ -1,7 +1,7 @@
 import Tippy from "@tippyjs/react";
-import cn from "../../helpers/classnames";
 import PropTypes from "prop-types";
 import React from "react";
+import cn from "../../helpers/classnames";
 import styles from "./Sidebar.Menu.module.css";
 
 // eslint-disable-next-line no-undef

@@ -15,11 +15,7 @@ const colors = {
 export const Alert = ({ className, color = "primary", onClose, children, ...rest }) => {
     return (
         <div
-            className={cn(
-                "ui-alert flex items-start rounded px-3 py-3 text-base leading-4",
-                colors[color],
-                className,
-            )}
+            className={cn("ui-alert flex items-start rounded px-3 py-3 text-base leading-4", colors[color], className)}
             {...rest}
         >
             <span className="ui-alert-content w-full leading-p1">{children}</span>

@@ -1,7 +1,7 @@
 import { Transition } from "@headlessui/react";
-import cn from "../../helpers/classnames";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
+import cn from "../../helpers/classnames";
 import { CheckIcon } from "../../icons";
 import { Spinner } from "../Spinner";
 import { Button, colors } from "./Button";

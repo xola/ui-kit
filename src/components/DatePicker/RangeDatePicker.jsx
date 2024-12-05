@@ -1,7 +1,7 @@
-import cn from "../../helpers/classnames";
 import { isArray, isFunction } from "lodash-es";
 import PropTypes from "prop-types";
 import React from "react";
+import cn from "../../helpers/classnames";
 import { now } from "../../helpers/date";
 import { Tooltip } from "../Tooltip";
 import { Day } from "./Day";
@@ -34,8 +34,8 @@ const RangeDatePicker = ({
     const createCaptionElement = (currentMonth, handleChange) =>
         shouldShowYearPicker && currentMonth
             ? ({ date }) => (
-                <MonthYearSelector date={date} currentMonth={currentMonth} locale={locale} onChange={handleChange} />
-            )
+                  <MonthYearSelector date={date} currentMonth={currentMonth} locale={locale} onChange={handleChange} />
+              )
             : undefined;
 
     const CaptionStartElement = createCaptionElement(startMonth, handleStartMonthChange);

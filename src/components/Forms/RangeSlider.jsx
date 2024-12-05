@@ -1,8 +1,8 @@
-import cn from "../../helpers/classnames";
 import Nouislider from "nouislider-react";
+import "nouislider/distribute/nouislider.css";
 import PropTypes from "prop-types";
 import React from "react";
-import "nouislider/distribute/nouislider.css";
+import cn from "../../helpers/classnames";
 import "./RangeSlider.css";
 
 /**

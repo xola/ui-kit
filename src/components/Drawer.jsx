@@ -1,7 +1,7 @@
 import { Dialog, Transition } from "@headlessui/react";
-import cn from "../helpers/classnames";
 import PropTypes from "prop-types";
 import React, { forwardRef, Fragment } from "react";
+import cn from "../helpers/classnames";
 import { isIosBrowser } from "../helpers/browser";
 import { useViewportHeight } from "../hooks/useViewportHeight";
 import { CloseIcon } from "../icons";
@@ -80,9 +80,7 @@ export const Drawer = forwardRef(
                                             {/* eslint-disable-next-line react/jsx-max-depth */}
                                             <Dialog.Title>{title}</Dialog.Title>
                                         </div>
-                                        <div className={cn("relative mt-3 flex-1", classNames.content)}>
-                                            {content}
-                                        </div>
+                                        <div className={cn("relative mt-3 flex-1", classNames.content)}>{content}</div>
                                     </div>
 
                                     {position === "left" ? <CloseButton onClose={onClose} /> : null}

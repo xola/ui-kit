@@ -1,6 +1,6 @@
-import cn from "../helpers/classnames";
 import PropTypes from "prop-types";
 import React, { Children, cloneElement } from "react";
+import cn from "../helpers/classnames";
 
 export const Table = ({ className, ...rest }) => (
     <div className="ui-table flex flex-col">

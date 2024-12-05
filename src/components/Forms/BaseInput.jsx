@@ -1,7 +1,7 @@
-import cn from "../../helpers/classnames";
 import { isEmpty, isString } from "lodash-es";
 import PropTypes from "prop-types";
 import React, { forwardRef } from "react";
+import cn from "../../helpers/classnames";
 import { Dot } from "../Dot/Dot";
 
 const sizes = {

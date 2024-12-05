@@ -1,6 +1,6 @@
-import cn from "../helpers/classnames";
 import PropTypes from "prop-types";
 import React, { Children } from "react";
+import cn from "../helpers/classnames";
 
 export const Breadcrumb = ({ className, classNames = {}, separator = "/", children, ...rest }) => {
     const count = Children.count(children) - 1;

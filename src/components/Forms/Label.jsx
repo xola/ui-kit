@@ -1,6 +1,6 @@
-import cn from "../../helpers/classnames";
 import PropTypes from "prop-types";
 import React from "react";
+import cn from "../../helpers/classnames";
 
 export const Label = ({ isDisabled = false, isError = false, className, ...rest }) => {
     return (

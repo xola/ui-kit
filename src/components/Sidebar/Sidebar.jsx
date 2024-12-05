@@ -1,6 +1,6 @@
-import cn from "../../helpers/classnames";
 import PropTypes from "prop-types";
 import React from "react";
+import cn from "../../helpers/classnames";
 import { AnnounceIcon, BellIcon, XolaLogoSimple } from "../../icons";
 import { Counter } from "../Counter";
 import { Drawer } from "../Drawer";

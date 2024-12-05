@@ -1,9 +1,9 @@
-import cn from "../helpers/classnames";
 import { useCombobox } from "downshift";
 import { debounce } from "lodash-es";
 import PropTypes from "prop-types";
 import React, { useEffect, useId, useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
+import cn from "../helpers/classnames";
 import { isOSX } from "../helpers/browser";
 import { useIsClient } from "../hooks/useIsClient";
 import { SearchIcon } from "../icons";
@@ -182,27 +182,27 @@ export const Search = ({
             >
                 {isVisible
                     ? itemList.map((item, index) => (
-                        <li key={item} {...getItemProps({ key: index, item, index, className: "ui-search-item" })}>
-                            {item === submitValueItem ? (
-                                isLoading ? (
-                                    <div className="p-3 text-center">
-                                        <Spinner size="small" />
-                                    </div>
-                                ) : inputValue.length < minChars ? (
-                                    <div
-                                        className={cn(
-                                            "cursor-pointer p-2",
-                                            highlightedIndex === index ? "bg-blue-light text-white" : "",
-                                        )}
-                                    >
-                                        {`Enter at least ${minChars} characters to begin search`}
-                                    </div>
-                                ) : null
-                            ) : (
-                                children?.(item, highlightedIndex === index)
-                            )}
-                        </li>
-                    ))
+                          <li key={item} {...getItemProps({ key: index, item, index, className: "ui-search-item" })}>
+                              {item === submitValueItem ? (
+                                  isLoading ? (
+                                      <div className="p-3 text-center">
+                                          <Spinner size="small" />
+                                      </div>
+                                  ) : inputValue.length < minChars ? (
+                                      <div
+                                          className={cn(
+                                              "cursor-pointer p-2",
+                                              highlightedIndex === index ? "bg-blue-light text-white" : "",
+                                          )}
+                                      >
+                                          {`Enter at least ${minChars} characters to begin search`}
+                                      </div>
+                                  ) : null
+                              ) : (
+                                  children?.(item, highlightedIndex === index)
+                              )}
+                          </li>
+                      ))
                     : null}
 
                 {isVisible && noResultFound ? <li className="cursor-not-allowed p-2">No results found</li> : null}

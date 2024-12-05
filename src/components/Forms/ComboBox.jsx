@@ -1,8 +1,8 @@
-import cn from "../../helpers/classnames";
 import PropTypes from "prop-types";
 import React from "react";
 import Select from "react-select";
 import CreatableSelect from "react-select/creatable";
+import cn from "../../helpers/classnames";
 import "./ComboBox.css";
 
 // TODO: Common parameters should be defined in stories like `options` and `defaultValue`
@@ -15,9 +15,9 @@ export const ComboBox = ({ isCreatable = false, className, isError, ...rest }) =
             components={
                 isCreatable
                     ? {
-                        IndicatorsContainer: () => null,
-                        Menu: () => null,
-                    }
+                          IndicatorsContainer: () => null,
+                          Menu: () => null,
+                      }
                     : null
             }
             {...rest}

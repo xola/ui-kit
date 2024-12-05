@@ -1,6 +1,6 @@
-import cn from "../../helpers/classnames";
 import PropTypes from "prop-types";
 import React, { useId } from "react";
+import cn from "../../helpers/classnames";
 import styles from "./Checkbox.module.css";
 
 export const Checkbox = ({ label, className, classNames = {}, ...rest }) => {

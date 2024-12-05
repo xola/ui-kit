@@ -1,6 +1,6 @@
-import cn from "../../helpers/classnames";
 import PropTypes from "prop-types";
 import React, { Children, cloneElement } from "react";
+import cn from "../../helpers/classnames";
 
 const sizes = {
     small: "px-2 py-1.5 text-sm",

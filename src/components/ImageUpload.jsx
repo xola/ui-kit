@@ -1,6 +1,6 @@
-import cn from "../helpers/classnames";
 import PropTypes from "prop-types";
 import React, { useRef, useState } from "react";
+import cn from "../helpers/classnames";
 import { Button, ImageIcon, Logo, SubmitButton, TrashIcon } from "..";
 
 export const ImageUpload = ({

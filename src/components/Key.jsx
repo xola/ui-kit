@@ -1,6 +1,6 @@
-import cn from "../helpers/classnames";
 import PropTypes from "prop-types";
 import React from "react";
+import cn from "../helpers/classnames";
 import { isOSX } from "../helpers/browser";
 
 export const Key = ({ char, className, ...rest }) => {

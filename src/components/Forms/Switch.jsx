@@ -1,7 +1,7 @@
 import { Switch as HeadlessSwitch } from "@headlessui/react";
-import cn from "../../helpers/classnames";
 import PropTypes from "prop-types";
 import React from "react";
+import cn from "../../helpers/classnames";
 
 const sizes = {
     large: {
