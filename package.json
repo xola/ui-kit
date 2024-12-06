@@ -5,15 +5,23 @@
     "license": "MIT",
     "repository": {
         "type": "git",
-        "url": "git://github.com/xola/ui-kit.git"
+        "url": "git+https://github.com/xola/ui-kit.git"
     },
     "files": [
-        "dist",
-        ""
+        "dist"
     ],
-    "main": "dist/ui-kit.es.js",
-    "module": "dist/ui-kit.es.js",
-    "types": "dist/index.d.ts",
+    "type": "commonjs",
+    "main": "dist/index.js",
+    "module": "dist/index.mjs",
+    "exports": {
+        ".": {
+            "require": "./dist/index.js",
+            "import": {
+                "types": "./dist/index.d.mts",
+                "default": "./dist/index.mjs"
+            }
+        }
+    },
     "scripts": {
         "start": "./scripts/storybook",
         "dev": "./scripts/storybook start --no-manager-cache",

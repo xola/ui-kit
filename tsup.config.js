@@ -2,15 +2,18 @@ import { defineConfig } from "tsup";
 import fs from "fs";
 
 export default defineConfig({
-    entry: ['src/index.js'],
+    target: "node18",
+    entry: ["src/index.js"],
+    format: ["cjs", "esm"],
     splitting: true,
     sourcemap: true,
     clean: true,
     minify: false,
     onSuccess() {
-        console.log("\nBuild completed. Copying additional files...");
+        console.log("\n🏁 Build completed. Copying additional files...");
         fs.copyFileSync("index.d.ts", "dist/index.d.ts");
-        fs.copyFileSync("tailwind.config.js", "dist/tailwind.config.js");
-        fs.copyFileSync("postcss.config.js", "dist/postcss.config.js");
+        fs.copyFileSync("index.d.ts", "dist/index.d.mts");
+        fs.copyFileSync("tailwind.config.js", "dist/tailwind.config.cjs");
+        fs.copyFileSync("postcss.config.js", "dist/postcss.config.cjs");
     },
 })
