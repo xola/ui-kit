@@ -128,7 +128,6 @@ module.exports = {
         "./src/**/*.ts",
         "./src/**/*.tsx",
         path.join(__dirname, "dist/index.js"),
-        path.join(__dirname, "dist/../index.js"),
     ],
 
     theme: {

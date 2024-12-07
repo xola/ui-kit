@@ -9,11 +9,13 @@ export default defineConfig({
     sourcemap: true,
     clean: true,
     minify: false,
+    loader: {
+        '.css': 'local-css',
+    },
     onSuccess() {
         console.log("\n🏁 Build completed. Copying additional files...");
         fs.copyFileSync("index.d.ts", "dist/index.d.ts");
         fs.copyFileSync("index.d.ts", "dist/index.d.mts");
-        fs.copyFileSync("tailwind.config.js", "dist/tailwind.config.cjs");
-        fs.copyFileSync("postcss.config.js", "dist/postcss.config.cjs");
+        fs.copyFileSync("index.css", "dist/ui-kit.css");
     },
 })
