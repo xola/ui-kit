@@ -1,7 +1,7 @@
 import getUserLocale from "get-user-locale";
 import PropTypes from "prop-types";
 import React from "react";
-import { numberFormat } from "../../helpers/numbers";
+import { numberFormat } from "../../utils/numbers";
 
 const userLocale = getUserLocale();
 

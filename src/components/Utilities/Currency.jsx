@@ -1,8 +1,8 @@
 import getUserLocale from "get-user-locale";
 import PropTypes from "prop-types";
 import React from "react";
-import { getSymbol, isZeroDecimal } from "../../helpers/currency";
-import { almostZero, numberFormat, roundNumber } from "../../helpers/numbers";
+import { getSymbol, isZeroDecimal } from "../../utils/currency";
+import { almostZero, numberFormat, roundNumber } from "../../utils/numbers";
 
 const userLocale = getUserLocale();
 

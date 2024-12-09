@@ -18,7 +18,17 @@ export default defineConfig({
 
         rollupOptions: {
             // Make sure none of the dependencies are bundled.
-            external: [...dependencies, ...devDependencies]
+            external: [...dependencies, ...devDependencies],
+            // Leave commented out - testing multiple outputs
+            // input: {
+            //     server: "src/utils/index.js",
+            //     all: "src/index.js",
+            // },
+            // output: {
+            //     name: "browser",
+            //     entryFileNames: `ui-kit.[name].js`,
+            //     formats: ["es"]
+            // }
         },
     },
     test: {

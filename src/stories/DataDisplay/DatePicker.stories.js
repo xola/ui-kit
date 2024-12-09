@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import React, { useState } from "react";
 import { Button, DatePicker, DatePickerPopover, Switch, theme } from "../..";
-import { formatDate } from "../../helpers/date";
+import { formatDate } from "../../utils/date";
 
 const DatePickerStories = {
     title: "Data Display/Date & Time/Date Picker",

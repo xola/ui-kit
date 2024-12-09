@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 import cn from "../../helpers/classnames";
-import { formatPhoneNumber, getRegionCode } from "../../helpers/phone";
+import { formatPhoneNumber, getRegionCode } from "../../utils/phone";
 
 export const Phone = ({ countryCode = "US", className, children }) => {
     const number = children;
