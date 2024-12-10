@@ -43,6 +43,7 @@ export { RelativeDateRange } from "./components/DatePicker/RelativeDateRange";
 export { DatePickerPopover } from "./components/DatePicker/DatePickerPopover";
 export { InlineValuePopover } from "./components/Forms/InlineValuePopover";
 export { ImageUpload } from "./components/ImageUpload";
+export { Accordion } from "./components/Accordion/Accordion";
 
 // Utilities
 export { Currency } from "./components/Utilities/Currency";
