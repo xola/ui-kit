@@ -3,7 +3,7 @@ import { createIcon } from "./helpers/icon";
 
 export const ThumbsDownIcon = createIcon((props) => {
     return (
-        <svg viewBox="0 0 18 18" width={18} height={18} fill="none" {...props}>
+        <svg viewBox="0 0 18 18" width={18} height={18} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
             <path
                 d="M12.79 3.857h1.416c.437 0 .792.355.792.792v5.541a.792.792 0 01-.792.792H12.79a.792.792 0 01-.792-.792V4.65c0-.438.355-.793.792-.793v0z"
                 stroke="currentColor"

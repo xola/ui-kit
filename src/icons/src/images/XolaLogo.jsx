@@ -2,7 +2,7 @@ import React from "react";
 
 export const XolaLogo = (props) => {
     return (
-        <svg width="150" height="48" fill="none" viewBox="0 0 150 48" {...props}>
+        <svg xmlns="http://www.w3.org/2000/svg" width="150" height="48" fill="none" viewBox="0 0 150 48" {...props}>
             <path
                 fill="#1B5EA8"
                 d="M31.745 24.769c0-12.2 10.193-22.088 22.768-22.088 12.575 0 22.768 9.889 22.768 22.088 0 12.2-10.193 22.088-22.768 22.088-12.575 0-22.768-9.888-22.768-22.088z"

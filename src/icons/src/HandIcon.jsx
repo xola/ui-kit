@@ -3,7 +3,7 @@ import { createIcon } from "./helpers/icon";
 
 export const HandIcon = createIcon((props) => {
     return (
-        <svg viewBox="0 0 14 14" width={14} height={14} fill="none" {...props}>
+        <svg viewBox="0 0 14 14" width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
             <path
                 d="M5.825 3.297V2.273a.766.766 0 111.53-.01v1.023"
                 stroke="currentColor"

@@ -5,7 +5,7 @@ export const TutorialsSquareIcon = (props) => {
     const className = clsx("relative -top-0.25 inline-block", props.className);
     return (
         <svg
-
+            xmlns="http://www.w3.org/2000/svg"
             width="136"
             height="30"
             fill="none"

@@ -2,7 +2,7 @@ import React from "react";
 
 export const XolaLogoCircle = (props) => {
     return (
-        <svg width="192" height="192" fill="none" viewBox="0 0 192 192" {...props}>
+        <svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" fill="none" viewBox="0 0 192 192" {...props}>
             <path
                 fill="#1B5EA8"
                 d="M6.89 97.275c0-49.741 39.906-90.062 89.14-90.062 49.233 0 89.143 40.321 89.143 90.062 0 49.745-39.91 90.066-89.144 90.066-49.233 0-89.138-40.321-89.138-90.067z"

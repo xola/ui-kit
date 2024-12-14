@@ -3,7 +3,7 @@ import { createIcon } from "./helpers/icon";
 
 export const CompassIcon = createIcon((props) => {
     return (
-        <svg viewBox="0 0 14 14" width={14} height={14} fill="none" {...props}>
+        <svg viewBox="0 0 14 14" width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
             <path
                 d="M6.9 12.8A5.9 5.9 0 106.9 1a5.9 5.9 0 000 11.8z"
                 stroke="currentColor"

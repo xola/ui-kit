@@ -3,7 +3,7 @@ import { createIcon } from "./helpers/icon";
 
 export const FlexFeeIcon = createIcon((props) => {
     return (
-        <svg viewBox="0 0 18 18" width={18} height={18} fill="none" {...props}>
+        <svg viewBox="0 0 18 18" width={18} height={18} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
             <circle cx={10.6} cy={9} r={2.4} fill="currentColor" />
             <path
                 fillRule="evenodd"

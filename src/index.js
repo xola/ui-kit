@@ -24,6 +24,7 @@ export { Spinner } from "./components/Spinner";
 export { Breadcrumb } from "./components/Breadcrumb";
 export { Breakdown } from "./components/Breakdown";
 export { FormGroup } from "./components/Forms/FormGroup";
+export { ValuePopoverText } from "./components/Forms/ValuePopoverText";
 export { Input } from "./components/Forms/Input";
 export { Textarea } from "./components/Forms/Textarea";
 export { Select } from "./components/Forms/Select";
@@ -50,17 +51,22 @@ export { Phone } from "./components/Utilities/Phone";
 export { Number } from "./components/Utilities/Number";
 
 // Helpers
-export { almostZero, numberFormat, roundNumber } from "./utils/numbers";
+export { getInitials } from "./utils/avatar.js";
+export { almostZero, compactNumber, numberFormat, roundNumber } from "./utils/numbers";
 export { getSymbol, isZeroDecimal } from "./utils/currency";
 export { formatDate, formatTime, dateFromObjectId } from "./utils/date";
 export { formatPhoneNumber } from "./utils/phone";
 export { isOSX, isIosBrowser } from "./helpers/browser";
 export { flash } from "./helpers/flash";
+export { getChildByType, getChildrenByType } from "./helpers/children";
 
 // Chart options
 export { BaseChartOptions } from "./components/Charts/BaseChartOptions";
 export { HistogramOptions } from "./components/Charts/HistogramOptions";
 export { PieOptions } from "./components/Charts/PieOptions";
+
+export { useIsClient } from "./hooks/useIsClient";
+export { useViewportHeight } from "./hooks/useViewportHeight";
 
 //
 // IMPORTANT: Add all icon exports into icons/index.js, and it will be published as a new package @xola/icons

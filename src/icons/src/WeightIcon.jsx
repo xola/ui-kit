@@ -3,7 +3,7 @@ import { createIcon } from "./helpers/icon";
 
 export const WeightIcon = createIcon((props) => {
     return (
-        <svg viewBox="0 0 14 14" width={14} height={14} fill="none" {...props}>
+        <svg viewBox="0 0 14 14" width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
             <path
                 d="M1.5 4.556v4.888A3.056 3.056 0 004.556 12.5h4.888A3.056 3.056 0 0012.5 9.444V4.556A3.056 3.056 0 009.444 1.5H4.556A3.056 3.056 0 001.5 4.556z"
                 stroke="currentColor"

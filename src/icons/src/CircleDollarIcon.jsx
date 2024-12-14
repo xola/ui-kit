@@ -3,7 +3,7 @@ import { createIcon } from "./helpers/icon";
 
 export const CircleDollarIcon = createIcon((props) => {
     return (
-        <svg viewBox="0 0 14 14" width={14} height={14} fill="none" {...props}>
+        <svg viewBox="0 0 14 14" width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
             <path
                 d="M7.001 3.067v.983M11.172 2.828a5.9 5.9 0 11-8.343 8.344 5.9 5.9 0 018.343-8.344M7.001 10.934V9.95"
                 stroke="currentColor"

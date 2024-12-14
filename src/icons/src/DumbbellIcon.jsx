@@ -3,7 +3,7 @@ import { createIcon } from "./helpers/icon";
 
 export const DumbbellIcon = createIcon((props) => {
     return (
-        <svg viewBox="0 0 14 14" width={14} height={14} fill="none" {...props}>
+        <svg viewBox="0 0 14 14" width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
             <path
                 stroke="currentColor"
                 strokeLinecap="round"

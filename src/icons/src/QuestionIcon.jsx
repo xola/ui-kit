@@ -3,7 +3,7 @@ import { createIcon } from "./helpers/icon";
 
 export const QuestionIcon = createIcon((props) => {
     return (
-        <svg viewBox="0 0 14 14" width={14} height={14} fill="none" {...props}>
+        <svg viewBox="0 0 14 14" width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
             <path
                 d="M5.777 5.778A1.222 1.222 0 117 7M7 7.917V7"
                 stroke="currentColor"
