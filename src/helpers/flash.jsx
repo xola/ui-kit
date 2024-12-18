@@ -1,5 +1,5 @@
 import { Transition } from "@headlessui/react";
-import clsx from "clsx";
+import cn from "./classnames";
 import React, { Fragment } from "react";
 import toast from "react-hot-toast";
 import { CloseIcon } from "../icons";
@@ -67,7 +67,7 @@ export const flash = {
     },
 
     getStyles(color, size, className) {
-        return clsx("flex text-white rounded pointer-events-auto", colors[color], sizes[size], className);
+        return cn("flex text-white rounded pointer-events-auto", colors[color], sizes[size], className);
     },
 
     container(text, className, onClose, toastObject) {
