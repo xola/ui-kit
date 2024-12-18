@@ -91,7 +91,9 @@ const spacing = {
     14: "56px",
     15: "60px",
     16: "64px",
+    18: "72px",
     20: "80px",
+    22: "88px",
     24: "96px",
     25: "100px",
     28: "112px",
@@ -121,6 +123,7 @@ const spacing = {
     140: "560px",
     200: "800px",
 };
+
 module.exports = {
     content: [
         "./src/**/*.js",
