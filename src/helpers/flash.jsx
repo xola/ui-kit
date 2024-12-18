@@ -36,34 +36,34 @@ export const flash = {
         }
 
         const classNames = flash.getStyles(color, size, className, canClose);
-        toast.custom(flash.container.bind(this, text, classNames, canClose ? onClose : null), finalProps);
+        return toast.custom(flash.container.bind(this, text, classNames, canClose ? onClose : null), finalProps);
     },
 
     //
     // Shortcut methods for flash.show
     //
     primary(text, props) {
-        this.show({ color: "primary", text, ...props });
+        return this.show({ color: "primary", text, ...props });
     },
 
     secondary(text, props) {
-        this.show({ color: "secondary", text, ...props });
+        return this.show({ color: "secondary", text, ...props });
     },
 
     success(text, props) {
-        this.show({ color: "success", text, ...props });
+        return this.show({ color: "success", text, ...props });
     },
 
     warning(text, props) {
-        this.show({ color: "warning", text, ...props });
+        return this.show({ color: "warning", text, ...props });
     },
 
     caution(text, props) {
-        this.show({ color: "caution", text, ...props });
+        return this.show({ color: "caution", text, ...props });
     },
 
     danger(text, props) {
-        this.show({ color: "danger", text, ...props });
+        return this.show({ color: "danger", text, ...props });
     },
 
     getStyles(color, size, className) {
@@ -101,6 +101,6 @@ export const flash = {
     },
 
     dismiss(id) {
-        toast.dismiss(id);
+        return toast.dismiss(id);
     },
 };
