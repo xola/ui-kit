@@ -179,6 +179,10 @@ module.exports = {
                 mono: ["Roboto Mono", ...defaultTheme.fontFamily.mono],
             },
 
+            screens: {
+                "3xl": "1836px",
+            },
+
             // P1 - Big 16px 130%
             // P2 - Med 14px 130%
             // P3 - Small 12px 110%
