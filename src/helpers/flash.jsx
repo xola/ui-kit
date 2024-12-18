@@ -100,6 +100,10 @@ export const flash = {
         );
     },
 
+    remove(id) {
+        return toast.remove(id);
+    },
+
     dismiss(id) {
         return toast.dismiss(id);
     },
