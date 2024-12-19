@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import cn from "../helpers/classnames";
 import React from "react";
 import { createIcon } from "../helpers/icon";
 
@@ -10,7 +10,7 @@ export const CirclePlusImage = createIcon(({ className, ...rest }) => {
             height="24"
             fill="none"
             viewBox="0 0 96 24"
-            className={clsx("h-6 w-24", className)}
+            className={cn("h-6 w-24", className)}
             {...rest}
         >
             <path stroke="#BDC0C6" strokeDasharray="4 4" d="M0.5 12.5L95.5 12.5" />
