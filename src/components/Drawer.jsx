@@ -21,7 +21,7 @@ export const Drawer = forwardRef(
         const isIOS = isIosBrowser();
 
         return (
-            <Transition.Root appear ref={ref} show={isOpen} as={Fragment}>
+            <Transition.Root ref={ref} show={isOpen} as={Fragment}>
                 <Dialog
                     as="div"
                     className={cn("ui-drawer fixed inset-0 z-10 overflow-hidden", classNames.dialog)}
@@ -59,7 +59,6 @@ export const Drawer = forwardRef(
                         >
                             <Transition.Child
                                 as={Fragment}
-                                appear
                                 enter="ease-out duration-500"
                                 enterFrom={position === "right" ? "translate-x-full" : "-translate-x-full"}
                                 enterTo="translate-x-0"
