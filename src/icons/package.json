@@ -2,8 +2,14 @@
     "name": "@xola/icons",
     "version": "1.1.4",
     "description": "Xola's icon set",
-    "main": "./index.js",
+    "files": [
+        "build",
+        "icons.es.js"
+    ],
+    "main": "build/icons.es.js",
+    "module": "build/icons.es.js",
     "scripts": {
+        "build": "vite build",
         "format": "prettier --write -l src",
         "lint": "xola-lint src",
         "lint:fix": "xola-lint --fix src"
