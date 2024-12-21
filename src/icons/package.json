@@ -13,7 +13,6 @@
     "main": "build/icons.es.js",
     "module": "build/icons.es.js",
     "scripts": {
-        "preinstall": "vite build",
         "prepare": "vite build",
         "build": "vite build",
         "format": "prettier --write -l src",
