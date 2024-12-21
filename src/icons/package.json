@@ -6,8 +6,14 @@
         "type": "git",
         "url": "git://github.com/xola/ui-kit.git"
     },
-    "main": "./index.js",
+    "files": [
+        "build",
+        "build/icons.es.js"
+    ],
+    "main": "build/icons.es.js",
+    "module": "build/icons.es.js",
     "scripts": {
+        "preinstall": "vite build",
         "prepare": "vite build",
         "build": "vite build",
         "format": "prettier --write -l src",
