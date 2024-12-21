@@ -2,6 +2,8 @@ import path from "path";
 import { defineConfig } from "vite";
 import pkg from "./package.json";
 
+const dependencies = Object.keys(pkg.dependencies);
+
 export default defineConfig({
     build: {
         outDir: "build",
@@ -12,5 +14,10 @@ export default defineConfig({
             fileName: (format) => `icons.${format}.js`,
             formats: ["es"]
         },
+
+        rollupOptions: {
+            // Make sure none of the dependencies are bundled.
+            external: dependencies,
+        }
     }
 });

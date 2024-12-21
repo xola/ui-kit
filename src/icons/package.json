@@ -2,6 +2,10 @@
     "name": "@xola/icons",
     "version": "1.1.4",
     "description": "Xola's icon set",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/xola/ui-kit.git"
+    },
     "files": [
         "build",
         "icons.es.js"
@@ -15,11 +19,6 @@
         "lint": "xola-lint src",
         "lint:fix": "xola-lint --fix src"
     },
-    "homepage": "https://github.com/xola/ui-kit/tree/master/src/icons/",
-    "repository": {
-        "type": "git",
-        "url": "git://github.com/xola/ui-kit.git"
-    },
     "dependencies": {
         "clsx": "^1.1.1",
         "lodash": "^4.17.21",
@@ -29,9 +28,8 @@
         "react-dom": "18.2",
         "tailwind-merge": "^2.5.5"
     },
-    "author": "Rushi Vishavadia <rushi@xola.com>",
     "engines": {
-        "node": ">=16"
+        "node": ">=18"
     },
     "prettier": {
         "semi": true,
@@ -43,5 +41,8 @@
         "arrowParens": "always",
         "bracketSameLine": false,
         "tabWidth": 4
+    },
+    "devDependencies": {
+        "vite": "5.4"
     }
 }
