@@ -16,6 +16,7 @@
     "type": "commonjs",
     "main": "dist/index.js",
     "module": "dist/index.mjs",
+    "types": "dist/index.d.ts",
     "scripts": {
         "start": "./scripts/storybook",
         "dev": "./scripts/storybook start --no-manager-cache",
