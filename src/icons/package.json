@@ -9,6 +9,7 @@
     "main": "build/icons.es.js",
     "module": "build/icons.es.js",
     "scripts": {
+        "prepare": "vite build",
         "build": "vite build",
         "format": "prettier --write -l src",
         "lint": "xola-lint src",
