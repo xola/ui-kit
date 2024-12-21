@@ -91,7 +91,9 @@ const spacing = {
     14: "56px",
     15: "60px",
     16: "64px",
+    18: "72px",
     20: "80px",
+    22: "88px",
     24: "96px",
     25: "100px",
     28: "112px",
@@ -121,6 +123,7 @@ const spacing = {
     140: "560px",
     200: "800px",
 };
+
 module.exports = {
     content: [
         "./src/**/*.js",
@@ -128,6 +131,7 @@ module.exports = {
         "./src/**/*.ts",
         "./src/**/*.tsx",
         path.join(__dirname, "dist/index.js"),
+        path.join(__dirname, "dist/../index.js"),
     ],
 
     theme: {
@@ -176,6 +180,10 @@ module.exports = {
                 mono: ["Roboto Mono", ...defaultTheme.fontFamily.mono],
             },
 
+            screens: {
+                "3xl": "1836px",
+            },
+
             // P1 - Big 16px 130%
             // P2 - Med 14px 130%
             // P3 - Small 12px 110%
@@ -221,5 +229,5 @@ module.exports = {
         },
     },
 
-    plugins: [require("@tailwindcss/forms"), require("@tailwindcss/line-clamp")],
+    plugins: [require("@tailwindcss/forms")],
 };
