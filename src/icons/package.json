@@ -8,13 +8,13 @@
     },
     "files": [
         "build",
-        "icons.es.js"
+        "build/icons.es.js"
     ],
     "main": "build/icons.es.js",
     "module": "build/icons.es.js",
     "scripts": {
-        "prepare": "vite build",
-        "build": "vite build",
+        "prepare": "vite build && echo '🚨'",
+        "build": "npm run prepare",
         "format": "prettier --write -l src",
         "lint": "xola-lint src",
         "lint:fix": "xola-lint --fix src"
