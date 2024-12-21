@@ -12,12 +12,12 @@ export default defineConfig({
             entry: path.resolve(__dirname, "./index.js"),
             name: "XolaIcons",
             fileName: (format) => `icons.${format}.js`,
-            formats: ["es"]
+            formats: ["es"],
         },
 
         rollupOptions: {
             // Make sure none of the dependencies are bundled.
             external: dependencies,
-        }
-    }
+        },
+    },
 });
