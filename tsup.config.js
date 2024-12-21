@@ -2,7 +2,7 @@ import { defineConfig } from "tsup";
 import fs from "fs";
 
 export default defineConfig({
-    target: "node18",
+    target: "node20",
     entry: ["src/index.js"],
     format: ["cjs", "esm"],
     splitting: true,
@@ -10,7 +10,7 @@ export default defineConfig({
     clean: true,
     minify: false,
     loader: {
-        '.css': 'local-css',
+        ".css": "local-css",
     },
     onSuccess() {
         console.log("\n🏁 Build completed. Copying additional files...");
@@ -18,4 +18,4 @@ export default defineConfig({
         fs.copyFileSync("index.d.ts", "dist/index.d.mts");
         fs.copyFileSync("index.css", "dist/ui-kit.css");
     },
-})
+});
