@@ -8,6 +8,8 @@
     },
     "main": "./index.js",
     "scripts": {
+        "prepare": "vite build",
+        "build": "vite build",
         "format": "prettier --write -l src",
         "lint": "xola-lint src",
         "lint:fix": "xola-lint --fix src"
