@@ -1,32 +1,39 @@
 {
     "name": "@xola/icons",
-    "version": "1.1.0",
+    "version": "1.1.4",
     "description": "Xola's icon set",
-    "main": "./index.js",
-    "scripts": {
-        "format": "prettier --write -l src",
-        "lint": "xola-lint src",
-        "lint:fix": "xola-lint --fix src"
-    },
-    "homepage": "https://github.com/xola/ui-kit/tree/master/src/icons/",
     "repository": {
         "type": "git",
         "url": "git://github.com/xola/ui-kit.git"
     },
+    "files": [
+        "build",
+        "build/icons.es.js"
+    ],
+    "main": "build/icons.es.js",
+    "module": "build/icons.es.js",
+    "scripts": {
+        "preinstall": "vite build",
+        "prepare": "vite build",
+        "build": "vite build",
+        "format": "prettier --write -l src",
+        "lint": "xola-lint src",
+        "lint:fix": "xola-lint --fix src"
+    },
     "dependencies": {
+        "autoprefixer": "^10.4.20",
         "clsx": "^1.1.1",
         "lodash": "^4.17.21",
+        "postcss": "^8.4.49",
         "prettier": "^2.7.1",
         "prettier-plugin-tailwindcss": "^0.1.13",
-        "prop-types": "^15.7.2"
+        "react": "18.2",
+        "react-dom": "18.2",
+        "tailwind-merge": "^2.5.5",
+        "tailwindcss": "3.4"
     },
-    "devDependencies": {
-        "react": "^17.0.2",
-        "react-dom": "^17.0.2"
-    },
-    "author": "Rushi Vishavadia <rushi@xola.com>",
     "engines": {
-        "node": ">=16"
+        "node": ">=18"
     },
     "prettier": {
         "semi": true,
@@ -38,5 +45,8 @@
         "arrowParens": "always",
         "bracketSameLine": false,
         "tabWidth": 4
+    },
+    "devDependencies": {
+        "vite": "5.4"
     }
 }

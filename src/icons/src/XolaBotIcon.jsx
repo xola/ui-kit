@@ -3,7 +3,7 @@ import { createIcon } from "./helpers/icon";
 
 export const XolaBotIcon = createIcon((props) => {
     return (
-        <svg viewBox="0 0 18 18" width={18} height={18} fill="none" {...props}>
+        <svg viewBox="0 0 18 18" width={18} height={18} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
             <path d="M9 16.882a5.5 5.5 0 100-11 5.5 5.5 0 000 11z" stroke="currentColor" />
             <mask
                 id="prefix__a"

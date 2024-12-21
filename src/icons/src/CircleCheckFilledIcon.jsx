@@ -3,7 +3,7 @@ import { createIcon } from "./helpers/icon";
 
 export const CircleCheckFilledIcon = createIcon((props) => {
     return (
-        <svg width="19" height="19" viewBox="0 0 19 19" fill="none" {...props}>
+        <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
             <path
                 d="M9.49929 17.0859C13.6888 17.0859 17.085 13.6897 17.085 9.5002C17.085 5.31073 13.6888 1.91449 9.49929 1.91449C5.30981 1.91449 1.91357 5.31073 1.91357 9.5002C1.91357 13.6897 5.30981 17.0859 9.49929 17.0859Z"
                 fill="currentColor"

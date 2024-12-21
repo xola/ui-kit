@@ -3,7 +3,7 @@ import { createIcon } from "./helpers/icon";
 
 export const MouseIcon = createIcon((props) => {
     return (
-        <svg viewBox="0 0 18 18" width={18} height={18} fill="none" {...props}>
+        <svg viewBox="0 0 18 18" width={18} height={18} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
             <path
                 d="M9 8.5a1 1 0 01-1-1v-2a1 1 0 012 0v2a1 1 0 01-1 1z"
                 stroke="currentColor"

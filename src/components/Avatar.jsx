@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 import cn from "../helpers/classnames";
-import { getInitials } from "../helpers/avatar";
+import { getInitials } from "../utils/avatar";
 
 const sizes = {
     tiny: "h-7 w-7 text-base",

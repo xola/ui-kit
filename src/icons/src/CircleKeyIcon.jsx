@@ -3,7 +3,7 @@ import { createIcon } from "./helpers/icon";
 
 export const CircleKeyIcon = createIcon((props) => {
     return (
-        <svg viewBox="0 0 14 14" width={14} height={14} fill="none" {...props}>
+        <svg viewBox="0 0 14 14" width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
             <path
                 d="M10.278 8.22V7M8.312 8.22V7M5.96 6.073a1.311 1.311 0 11-1.853 1.855A1.311 1.311 0 015.96 6.073"
                 stroke="currentColor"

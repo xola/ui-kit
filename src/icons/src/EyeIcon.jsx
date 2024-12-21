@@ -3,7 +3,7 @@ import { createIcon } from "./helpers/icon";
 
 export const EyeIcon = createIcon((props) => {
     return (
-        <svg viewBox="0 0 14 14" width={14} height={14} fill="none" {...props}>
+        <svg viewBox="0 0 14 14" width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
             <path
                 d="M8.393 5.6a1.97 1.97 0 010 2.782 1.97 1.97 0 01-2.783 0 1.967 1.967 0 112.783-2.783z"
                 stroke="currentColor"

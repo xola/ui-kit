@@ -1,9 +1,7 @@
 name: "Chromatic"
 
 on:
-    push:
-    pull_request:
-        types: [assigned, opened, synchronize, reopened]
+    workflow_dispatch:
 
 jobs:
     chromatic-deployment:

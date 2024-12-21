@@ -3,7 +3,7 @@ import { createIcon } from "./helpers/icon";
 
 export const ViewNotesIcon = createIcon((props) => {
     return (
-        <svg viewBox="0 0 14 14" width={14} height={14} fill="none" {...props}>
+        <svg viewBox="0 0 14 14" width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
             <path
                 d="M3.9 4.499h4.797M3.9 6.898h2.998M11.096 6.205V2.7a1.2 1.2 0 00-1.2-1.2H2.7a1.2 1.2 0 00-1.2 1.2v7.796a1.2 1.2 0 001.2 1.2h1.936"
                 stroke="currentColor"

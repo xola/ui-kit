@@ -3,7 +3,7 @@ import { createIcon } from "./helpers/icon";
 
 export const CakeIcon = createIcon((props) => {
     return (
-        <svg viewBox="0 0 14 14" width={14} height={14} fill="none" {...props}>
+        <svg viewBox="0 0 14 14" width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
             <path
                 d="M2.119 7.82v4.032l-.007-.006c0 .683.552 1.235 1.235 1.24h7.302a1.245 1.245 0 001.235-1.247V7.807"
                 stroke="currentColor"

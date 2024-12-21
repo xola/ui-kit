@@ -1,8 +1,8 @@
 import { Dialog, Transition } from "@headlessui/react";
 import PropTypes from "prop-types";
 import React, { forwardRef, Fragment } from "react";
-import cn from "../helpers/classnames";
 import { isIosBrowser } from "../helpers/browser";
+import cn from "../helpers/classnames";
 import { useViewportHeight } from "../hooks/useViewportHeight";
 import { CloseIcon } from "../icons";
 import { Button } from "./Buttons/Button";
@@ -25,7 +25,6 @@ export const Drawer = forwardRef(
                 <Dialog
                     as="div"
                     className={cn("ui-drawer fixed inset-0 z-10 overflow-hidden", classNames.dialog)}
-                    open={isOpen}
                     onClose={onClose}
                 >
                     <div
@@ -36,22 +35,23 @@ export const Drawer = forwardRef(
                     >
                         <Transition.Child
                             as={Fragment}
-                            enter="ease-in-out duration-500"
+                            enter="ease-out duration-500"
                             enterFrom="opacity-0"
                             enterTo="opacity-100"
-                            leave="ease-in-out duration-500"
+                            leave="ease-in duration-200"
                             leaveFrom="opacity-100"
                             leaveTo="opacity-0"
                         >
                             <Dialog.Overlay
                                 className={cn(
-                                    "absolute inset-0 bg-black bg-opacity-80 transition-opacity",
+                                    "ui-drawer-overlay fixed inset-0 bg-black bg-opacity-80 transition-opacity",
                                     classNames.overlay,
                                 )}
                             />
                         </Transition.Child>
                         <div
                             className={cn(
+                                "ui-drawer-container",
                                 "fixed inset-y-0 flex max-w-full",
                                 position === "right" ? "right-0" : "left-0",
                                 classNames.dialogContent,
@@ -59,11 +59,11 @@ export const Drawer = forwardRef(
                         >
                             <Transition.Child
                                 as={Fragment}
-                                enter="transform transition ease-in-out duration-500 sm:duration-700"
+                                enter="ease-out duration-500"
                                 enterFrom={position === "right" ? "translate-x-full" : "-translate-x-full"}
                                 enterTo="translate-x-0"
-                                leave="transform transition ease-out-in duration-500 sm:duration-700"
-                                leaveFrom="translate-x-0"
+                                leave="transform transition ease-out-in duration-500"
+                                leaveFrom={position === "right" ? "-translate-x-full" : "translate-x-full"}
                                 leaveTo={position === "right" ? "translate-x-full" : "-translate-x-full"}
                             >
                                 <div className="flex">
@@ -76,11 +76,11 @@ export const Drawer = forwardRef(
                                             classNames.children,
                                         )}
                                     >
-                                        <div className="w-full">
+                                        <div className="ui-drawer-header w-full">
                                             {/* eslint-disable-next-line react/jsx-max-depth */}
                                             <Dialog.Title>{title}</Dialog.Title>
                                         </div>
-                                        <div className={cn("relative mt-3 flex-1", classNames.content)}>{content}</div>
+                                        <div className={cn("ui-drawer-body relative mt-3 flex-1", classNames.content)}>{content}</div>
                                     </div>
 
                                     {position === "left" ? <CloseButton onClose={onClose} /> : null}

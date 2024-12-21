@@ -3,7 +3,7 @@ import { createIcon } from "./helpers/icon";
 
 export const PlayIcon = createIcon((props) => {
     return (
-        <svg width="19" height="19" fill="none" viewBox="0 0 19 19" {...props}>
+        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="none" viewBox="0 0 19 19" {...props}>
             <g clipPath="url(#clip0_3383_154011)">
                 <path
                     stroke="currentColor"

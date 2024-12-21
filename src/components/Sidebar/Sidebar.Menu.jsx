@@ -17,6 +17,8 @@ export const SidebarMenu = ({ children, content, ...rest }) => {
             placement="right"
             offset={[0, 4]}
             arrow={false}
+            // https://atomiks.github.io/tippyjs/v6/all-props/#interactivedebounce
+            interactiveDebounce={50} // Alternatively try interactiveBorder
             className={cn(
                 "ui-sidebar-menu",
                 styles.main,

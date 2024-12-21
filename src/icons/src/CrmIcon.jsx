@@ -3,7 +3,7 @@ import { createIcon } from "./helpers/icon";
 
 export const CrmIcon = createIcon((props) => {
     return (
-        <svg viewBox="0 0 20 15" width={20} height={15} fill="none" {...props}>
+        <svg viewBox="0 0 20 15" width={20} height={15} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
             <path
                 d="M14.9804 8.95671C16.0791 8.95671 16.9697 8.0661 16.9697 6.96748C16.9697 5.86886 16.0791 4.97825 14.9804 4.97825C13.8818 4.97825 12.9912 5.86886 12.9912 6.96748C12.9912 8.0661 13.8818 8.95671 14.9804 8.95671Z"
                 stroke="currentColor"

@@ -3,7 +3,7 @@ import { createIcon } from "./helpers/icon";
 
 export const PassIcon = createIcon((props) => {
     return (
-        <svg viewBox="0 0 18 18" width={18} height={18} fill="none" {...props}>
+        <svg viewBox="0 0 18 18" width={18} height={18} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
             <path
                 d="M7.742 6.176a1.617 1.617 0 11-2.286 2.286 1.617 1.617 0 012.286-2.286z"
                 stroke="currentColor"

@@ -3,7 +3,7 @@ import { createIcon } from "../helpers/icon";
 
 export const ExpediaImage = createIcon((props) => {
     return (
-        <svg viewBox="0 0 18 18" width={18} height={18} fill="none" {...props}>
+        <svg viewBox="0 0 18 18" width={18} height={18} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
             <path
                 d="M8.188 6.37l-.282-.797L5.515 2.38l.43-.106 4.122 3.562 2.426-.694c.285-.074.609-.09.856-.088a6.998 6.998 0 00-12.941.598 6.962 6.962 0 00-.329 3.394l5.812-2.019 2.297-.655zM13.604 5.683a3.74 3.74 0 01-.836.419l-2.432.693-1.622 5.206-.421.137.342-3.976-.191-.826-2.279.65L.144 9.403a6.998 6.998 0 1013.46-3.72z"
                 fill="#072F54"

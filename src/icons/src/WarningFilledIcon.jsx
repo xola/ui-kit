@@ -3,7 +3,7 @@ import { createIcon } from "./helpers/icon";
 
 export const WarningFilledIcon = createIcon((props) => {
     return (
-        <svg width="18" height="19" viewBox="0 0 18 19" fill="none" {...props}>
+        <svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
             <path
                 d="M16.3019 9.3168C16.3086 13.4083 13.0274 16.7498 8.92917 16.8034H8.92247C4.91131 16.857 1.61667 13.6628 1.5564 9.65162C1.54971 9.61814 1.54971 9.58466 1.54971 9.55787L1.54301 9.55117C1.52962 5.45229 4.81087 2.11077 8.90908 2.0505V2.04381C12.9135 1.98354 16.2082 5.17774 16.2685 9.1889C16.2685 9.21568 16.2685 9.24917 16.2685 9.27595L16.3019 9.3168Z"
                 fill="currentColor"

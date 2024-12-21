@@ -3,7 +3,7 @@ import { createIcon } from "./helpers/icon";
 
 export const MinusIcon = createIcon((props) => {
     return (
-        <svg width="14" height="3" fill="none" viewBox="0 0 14 3" {...props}>
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="3" fill="none" viewBox="0 0 14 3" {...props}>
             <path
                 stroke="currentColor"
                 strokeLinecap="round"

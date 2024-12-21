@@ -20,8 +20,9 @@ export const SubmitButton = ({
     isLoading,
     isSuccess,
     disabled = false,
-    className,
     variant = "standard",
+    type = "submit",
+    className,
     children,
     ...rest
 }) => {
@@ -44,6 +45,7 @@ export const SubmitButton = ({
 
     return (
         <Button
+            type={type}
             color={color}
             disabled={showTransition || disabled}
             variant={variant}

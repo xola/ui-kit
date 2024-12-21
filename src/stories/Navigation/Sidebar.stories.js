@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { AnnounceIcon, CheckIcon, HelpCenterIcon, LogoutIcon, PolicyIcon, Sidebar, StarIcon, UserIcon } from "../..";
+import { AnnounceIcon, CheckIcon, HelpCenterIcon, LogoutIcon, PiggyBankIcon, PolicyIcon, Sidebar, StarIcon, UserIcon } from "../..";
 
 const SidebarStories = {
     title: "Navigation/Sidebar",
@@ -57,6 +57,27 @@ export const Default = () => {
                 <Sidebar.Link isActive icon={UserIcon}>
                     Sellers
                 </Sidebar.Link>
+
+                <Sidebar.Menu
+                    content={
+                        <div className="space-y-5 py-6">
+                            <Sidebar.Heading icon={PiggyBankIcon} label="Bookings" />
+                            <div>
+                                <Sidebar.Link isActive isSubMenuItem>
+                                    Purchases
+                                </Sidebar.Link>
+                                <Sidebar.Link isSubMenuItem>Gifts</Sidebar.Link>
+                                <Sidebar.Link isSubMenuItem>Other Gifts</Sidebar.Link>
+                                <Sidebar.Link isSubMenuItem>Things</Sidebar.Link>
+                                <Sidebar.Link isSubMenuItem>Other Things</Sidebar.Link>
+                                <Sidebar.Separator />
+                                <Sidebar.Link isSubMenuItem>Global Settings</Sidebar.Link>
+                            </div>
+                        </div>
+                    }
+                >
+                    <Sidebar.Link icon={PiggyBankIcon}>Bookings</Sidebar.Link>
+                </Sidebar.Menu>
 
                 <Sidebar.Link icon={StarIcon}>Favorites</Sidebar.Link>
 
