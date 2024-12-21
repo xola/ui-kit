@@ -6,7 +6,7 @@ export default defineConfig({
     entry: ["src/index.js"],
     format: ["cjs", "esm"],
     splitting: true,
-    sourcemap: true,
+    sourcemap: false,
     clean: true,
     minify: false,
     loader: {

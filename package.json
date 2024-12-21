@@ -9,6 +9,10 @@
     },
     "files": [
         "dist",
+        "dist/index.css",
+        "dist/ui-kit.css",
+        "dist/index.js",
+        "dist/index.mjs",
         "README.md",
         "tailwind.config.cjs",
         "postcss.config.cjs"
