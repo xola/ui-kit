@@ -1,13 +1,13 @@
 import React, { forwardRef, useContext, useEffect, useState } from "react";
-import DayPicker, { DayPickerProps } from "react-day-picker";
+import DayPicker from "react-day-picker";
 import { kebabCase } from "lodash-es";
 import cn from "../../helpers/classnames";
 import { Context } from "../Provider";
-import { getLocalizationProps, LocaleCode, LocalizationProps } from "./DatePicker.helpers";
+import { getLocalizationProps } from "./DatePicker.helpers";
 
-export const LocalizedDayPicker = forwardRef<any, DayPickerProps>(({ className, ...rest }, ref) => {
+export const LocalizedDayPicker = forwardRef(({ className, ...rest }, ref) => {
     const { locale } = useContext(Context);
-    const [localizationProps, setLocalizationProps] = useState<Partial<LocalizationProps>>({});
+    const [localizationProps, setLocalizationProps] = useState({});
 
     useEffect(() => {
         setLocalizationProps({});
@@ -17,7 +17,7 @@ export const LocalizedDayPicker = forwardRef<any, DayPickerProps>(({ className, 
         if (!localeCode || localeCode === "en" || localeCode === "en-us") return;
 
         /* eslint-disable-next-line promise/prefer-await-to-then */
-        getLocalizationProps(locale as LocaleCode).then(setLocalizationProps);
+        getLocalizationProps(locale).then(setLocalizationProps);
     }, [locale]);
 
     /**
