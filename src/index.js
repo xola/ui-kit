@@ -61,9 +61,9 @@ export { flash } from "./helpers/flash";
 export { getChildByType, getChildrenByType } from "./helpers/children";
 
 // Chart options
-export { BaseChartOptions } from "./components/Charts/BaseChartOptions";
-export { HistogramOptions } from "./components/Charts/HistogramOptions";
-export { PieOptions } from "./components/Charts/PieOptions";
+// export { BaseChartOptions } from "./components/Charts/BaseChartOptions";
+// export { HistogramOptions } from "./components/Charts/HistogramOptions";
+// export { PieOptions } from "./components/Charts/PieOptions";
 
 export { useIsClient } from "./hooks/useIsClient";
 export { useViewportHeight } from "./hooks/useViewportHeight";
@@ -75,6 +75,6 @@ export { useViewportHeight } from "./hooks/useViewportHeight";
 //
 export * from "./icons/index.js";
 
-export { theme } from "./theme";
+// export { theme } from "./theme";
 
 export { Provider } from "./components/Provider";
