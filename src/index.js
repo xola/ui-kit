@@ -60,11 +60,6 @@ export { isOSX, isIosBrowser } from "./helpers/browser";
 export { flash } from "./helpers/flash";
 export { getChildByType, getChildrenByType } from "./helpers/children";
 
-// Chart options
-// export { BaseChartOptions } from "./components/Charts/BaseChartOptions";
-// export { HistogramOptions } from "./components/Charts/HistogramOptions";
-// export { PieOptions } from "./components/Charts/PieOptions";
-
 export { useIsClient } from "./hooks/useIsClient";
 export { useViewportHeight } from "./hooks/useViewportHeight";
 
