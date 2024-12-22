@@ -1,4 +1,5 @@
-const defaultTheme = require("tailwindcss/defaultTheme");
+import defaultTheme from "tailwindcss/defaultTheme";
+import tailwindForms from "@tailwindcss/forms";
 
 const colors = {
     transparent: "transparent",
@@ -126,14 +127,15 @@ const spacing = {
 // console.log("Paths", path.join(__dirname, "build/index.js"), path.join(__dirname, "build/../index.js"));
 // process.exit(1);
 
-module.exports = {
+/** @type {import('tailwindcss').Config} */
+export default {
     content: [
         "./src/**/*.js",
         "./src/**/*.jsx",
         "./src/**/*.ts",
         "./src/**/*.tsx",
         // The below is required so that the app installing UI Kit will build the tailwind classes
-        // path.join("/Users/rushi/Sites/work/xola/x2/ui-kit", "build/*"),
+        // path.join(__dirname, "build/../*"),
         "node_modules/@xola/ui-kit/build/*",
     ],
 
@@ -232,5 +234,5 @@ module.exports = {
         },
     },
 
-    plugins: [require("@tailwindcss/forms")],
+    plugins: [tailwindForms],
 };

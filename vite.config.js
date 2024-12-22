@@ -17,7 +17,7 @@ export default defineConfig({
             },
             name: "XolaUIKit",
             fileName: (format, name) => `${name}.${format}.js`,
-            formats: ["es", "cjs", "umd", "system"],
+            formats: ["es", "cjs"],
         },
 
         rollupOptions: {
@@ -33,7 +33,9 @@ export default defineConfig({
                     targets: [
                         { src: "index.css", dest: "build" },
                         { src: "index.d.ts", dest: "build" },
+                        { src: "tailwind.config.js", dest: "build" },
                         { src: "tailwind.config.cjs", dest: "build" },
+                        { src: "postcss.config.js", dest: "build" },
                         { src: "postcss.config.cjs", dest: "build" },
                     ],
                 }),
