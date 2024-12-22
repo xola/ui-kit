@@ -1,0 +1,63 @@
+{
+    "transparent": "transparent",
+    "current": "currentColor",
+    "black": "#222324",
+    "white": "#ffffff",
+
+    "gray": {
+        "hover": "#F7F9FB",
+        "lighter": "#F0F2F4",
+        "light": "#E0E3E7",
+        "DEFAULT": "#BDC0C6",
+        "dark": "#8A8C91",
+        "darker": "#505254"
+    },
+
+    "blue": {
+        "lighter": "#D1E1FF",
+        "light": "#2979D0",
+        "DEFAULT": "#1352C6",
+        "dark": "#3467C4",
+        "darker": "#0E44A8"
+    },
+
+    "turquoise": {
+        "DEFAULT": "#3FE2EE"
+    },
+
+    "green": {
+        "lighter": "#E2FFEF",
+        "lightish": "#C1F9D9",
+        "light": "#33E781",
+        "DEFAULT": "#27CE70",
+        "dark": "#23B965",
+        "darker": "#168848"
+    },
+
+    "red": {
+        "lighter": "#FFF0F0",
+        "lightish": "#FFE1E1",
+        "light": "#FFA1A1",
+        "DEFAULT": "#FF5A5A",
+        "dark": "#E93737",
+        "darker": "#CD1F1F"
+    },
+
+    "yellow": {
+        "lighter": "#FFFAF0",
+        "lightish": "#FFECC6",
+        "light": "#FFDB8E",
+        "DEFAULT": "#FFC03D",
+        "dark": "#EBAA24",
+        "darker": "#987122"
+    },
+
+    "orange": {
+        "lighter": "#FFF1E7",
+        "lightish": "#FFF1E7",
+        "light": "#FFB493",
+        "DEFAULT": "#FF9668",
+        "dark": "#EC743F",
+        "darker": "#ff7336"
+    }
+}
