@@ -33,6 +33,7 @@
     "scripts": {
         "start": "./scripts/storybook",
         "dev": "./scripts/storybook start --no-manager-cache",
+        "prepare": "npm run build",
         "build": "vite build && eza -l build",
         "ci": "npm run build",
         "build:storybook": "npm run build && ./scripts/storybook build",
