@@ -124,14 +124,17 @@ const spacing = {
     200: "800px",
 };
 
+// console.log("Paths", path.join(__dirname, "build/index.js"), path.join(__dirname, "build/../index.js"));
+// process.exit(1);
+
 module.exports = {
     content: [
         "./src/**/*.js",
         "./src/**/*.jsx",
         "./src/**/*.ts",
         "./src/**/*.tsx",
-        path.join(__dirname, "dist/index.js"),
-        path.join(__dirname, "dist/../index.js"),
+        path.join(__dirname, "build/index.js"),
+        path.join(__dirname, "build/../index.js"),
     ],
 
     theme: {

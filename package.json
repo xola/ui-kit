@@ -1,23 +1,44 @@
 {
     "name": "@xola/ui-kit",
-    "version": "3.0.8",
+    "version": "3.0.9",
     "description": "Xola UI Kit",
     "license": "MIT",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/xola/ui-kit.git"
     },
-    "files": [
+    "old_files": [
         "build",
+        "// This just copies entire folders. we want a selective copy",
         "index.css",
         "index.d.ts",
         "tailwind.config.cjs",
         "postcss.config.cjs",
+        "things.es.js",
         "ui-kit.es.js"
     ],
-    "main": "build/ui-kit.es.js",
-    "module": "build/ui-kit.es.js",
+    "main": "build/ui-kit.cjs.js",
+    "module": "build/ui-kit.esm.js",
     "types": "build/index.d.ts",
+    "files": [
+        "build/**",
+        "package.json"
+    ],
+    "exports": {
+        ".": {
+            "require": {
+                "types": "./build/index.d.ts",
+                "default": "./build/ui-kit.cjs.js"
+            },
+            "import": {
+                "types": "./build/index.d.ts",
+                "default": "./build/ui-kit.esm.js"
+            }
+        },
+        "./tailwind.config.cjs": "./build/tailwind.config.cjs",
+        "./index.css": "./build/index.css",
+        "./build/style.css": "./build/style.css"
+    },
     "scripts": {
         "start": "./scripts/storybook",
         "dev": "./scripts/storybook start --no-manager-cache",
@@ -34,6 +55,7 @@
     },
     "dependencies": {
         "@headlessui/react": "1.6",
+        "@nextui-org/slider": "^2.4.5",
         "@tailwindcss/forms": "^0.5.6",
         "@tailwindcss/line-clamp": "^0.4.4",
         "@tippyjs/react": "^4.2.6",
