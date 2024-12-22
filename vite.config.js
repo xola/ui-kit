@@ -17,7 +17,7 @@ export default defineConfig({
             },
             name: "XolaUIKit",
             fileName: (format, name) => `${name}.${format}.js`,
-            formats: ["esm", "cjs", "umd"],
+            formats: ["es", "cjs", "umd", "system"],
         },
 
         rollupOptions: {

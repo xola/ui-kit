@@ -133,8 +133,8 @@ module.exports = {
         "./src/**/*.jsx",
         "./src/**/*.ts",
         "./src/**/*.tsx",
-        path.join(__dirname, "build/index.js"),
-        path.join(__dirname, "build/../index.js"),
+        // The below is required so that the app installing UI Kit will build the tailwind classes
+        path.join(__dirname, "build/../*"),
     ],
 
     theme: {

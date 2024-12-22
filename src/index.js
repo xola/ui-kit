@@ -75,6 +75,6 @@ export { useViewportHeight } from "./hooks/useViewportHeight";
 //
 export * from "./icons/index.js";
 
-export { theme } from "./theme";
+// export { theme } from "./theme";
 
 export { Provider } from "./components/Provider";

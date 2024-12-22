@@ -7,18 +7,8 @@
         "type": "git",
         "url": "git+https://github.com/xola/ui-kit.git"
     },
-    "old_files": [
-        "build",
-        "// This just copies entire folders. we want a selective copy",
-        "index.css",
-        "index.d.ts",
-        "tailwind.config.cjs",
-        "postcss.config.cjs",
-        "things.es.js",
-        "ui-kit.es.js"
-    ],
     "main": "build/ui-kit.cjs.js",
-    "module": "build/ui-kit.esm.js",
+    "module": "build/ui-kit.es.js",
     "types": "build/index.d.ts",
     "files": [
         "build/**",
@@ -32,12 +22,13 @@
             },
             "import": {
                 "types": "./build/index.d.ts",
-                "default": "./build/ui-kit.esm.js"
+                "default": "./build/ui-kit.es.js"
             }
         },
-        "./tailwind.config.cjs": "./build/tailwind.config.cjs",
         "./index.css": "./build/index.css",
-        "./build/style.css": "./build/style.css"
+        "./style.css": "./build/style.css",
+        "./tailwind.config.cjs": "./build/tailwind.config.cjs",
+        "./postcss.config.cjs": "./build/postcss.config.cjs"
     },
     "scripts": {
         "start": "./scripts/storybook",
