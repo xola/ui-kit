@@ -10,7 +10,6 @@
     "main": "build/ui-kit.cjs.js",
     "module": "build/ui-kit.es.js",
     "types": "build/index.d.ts",
-    "type": "module",
     "files": [
         "build/**"
     ],

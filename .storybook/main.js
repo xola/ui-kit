@@ -2,7 +2,7 @@ module.exports = {
     stories: ["../src/**/*.stories.@(js|jsx|mdx)"],
     core: {
         disableTelemetry: true,
-        builder: 'webpack5',
+        builder: "webpack5",
     },
     addons: [
         "@storybook/addon-postcss",
