@@ -109,7 +109,7 @@ export const Default = () => {
                         </div>
                     }
                 >
-                    <Sidebar.Link icon={AnnounceIcon}>Marketing</Sidebar.Link>
+                    <Sidebar.Link hasSubmenu icon={AnnounceIcon}>Marketing</Sidebar.Link>
                 </Sidebar.Menu>
             </Sidebar>
         </div>
