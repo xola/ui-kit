@@ -80,7 +80,9 @@ export const Drawer = forwardRef(
                                             {/* eslint-disable-next-line react/jsx-max-depth */}
                                             <Dialog.Title>{title}</Dialog.Title>
                                         </div>
-                                        <div className={cn("ui-drawer-body relative mt-3 flex-1", classNames.content)}>{content}</div>
+                                        <div className={cn("ui-drawer-body relative mt-3 flex-1", classNames.content)}>
+                                            {content}
+                                        </div>
                                     </div>
 
                                     {position === "left" ? <CloseButton onClose={onClose} /> : null}

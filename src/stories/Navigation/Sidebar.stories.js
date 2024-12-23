@@ -1,5 +1,15 @@
 import React, { useState } from "react";
-import { AnnounceIcon, CheckIcon, HelpCenterIcon, LogoutIcon, PiggyBankIcon, PolicyIcon, Sidebar, StarIcon, UserIcon } from "../..";
+import {
+    AnnounceIcon,
+    CheckIcon,
+    HelpCenterIcon,
+    LogoutIcon,
+    PiggyBankIcon,
+    PolicyIcon,
+    Sidebar,
+    StarIcon,
+    UserIcon,
+} from "../..";
 
 const SidebarStories = {
     title: "Navigation/Sidebar",

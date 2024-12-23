@@ -39,7 +39,6 @@ export const SidebarLink = ({ isActive = false, icon: Icon, children, isSubMenuI
             </span>
 
             {isSubMenuItem ? null : <ChevronRightIcon className="ml-auto hidden h-3 w-3 xl:inline" />}
-
         </button>
     );
 };
