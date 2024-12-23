@@ -3,8 +3,8 @@ import { debounce } from "lodash-es";
 import PropTypes from "prop-types";
 import React, { useEffect, useId, useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
-import cn from "../helpers/classnames";
 import { isOSX } from "../helpers/browser";
+import cn from "../helpers/classnames";
 import { useIsClient } from "../hooks/useIsClient";
 import { SearchIcon } from "../icons";
 import { Key } from "./Key";
@@ -135,6 +135,7 @@ export const Search = ({
     useHotkeys("esc", () => inputReference.current.blur(), { enableOnTags: ["INPUT"] });
 
     const isVisible = open || !shouldDestroyOnClose;
+    const hasResults = itemList.some((item) => Boolean(item.id));
 
     return (
         <div suppressHydrationWarning className="ui-search relative w-full">
@@ -182,33 +183,33 @@ export const Search = ({
             >
                 {isVisible
                     ? itemList.map((item, index) => (
-                          <li key={item} {...getItemProps({ key: index, item, index, className: "ui-search-item" })}>
-                              {item === submitValueItem ? (
-                                  isLoading ? (
-                                      <div className="p-3 text-center">
-                                          <Spinner size="small" />
-                                      </div>
-                                  ) : inputValue.length < minChars ? (
-                                      <div
-                                          className={cn(
-                                              "cursor-pointer p-2",
-                                              highlightedIndex === index ? "bg-blue-light text-white" : "",
-                                          )}
-                                      >
-                                          {`Enter at least ${minChars} characters to begin search`}
-                                      </div>
-                                  ) : null
-                              ) : (
-                                  children?.(item, highlightedIndex === index)
-                              )}
-                          </li>
-                      ))
+                        <li key={item?.id ?? index} {...getItemProps({ item, index, className: "ui-search-item" })}>
+                            {item === submitValueItem ? (
+                                isLoading ? (
+                                    <div className="p-3 text-center">
+                                        <Spinner size="small" />
+                                    </div>
+                                ) : inputValue.length < minChars ? (
+                                    <div
+                                        className={cn(
+                                            "cursor-pointer p-2",
+                                            highlightedIndex === index ? "bg-blue-light text-white" : "",
+                                        )}
+                                    >
+                                        {`Enter at least ${minChars} characters to begin search`}
+                                    </div>
+                                ) : null
+                            ) : (
+                                children?.(item, highlightedIndex === index)
+                            )}
+                        </li>
+                    ))
                     : null}
 
                 {isVisible && noResultFound ? <li className="cursor-not-allowed p-2">No results found</li> : null}
 
-                {isVisible && itemList.length < 5 ? (
-                    <li className="search-footer pointer-events sticky bottom-0 flex space-x-5 p-2 text-sm text-gray-dark">
+                {isVisible && hasResults && (
+                    <li className="bg-white search-footer pointer-events sticky bottom-0 items-center flex space-x-5 p-2 text-sm text-gray-dark">
                         <span className="flex items-center">
                             <Key char="up" className="mr-0.5" />
                             <Key char="down" className="mr-2" /> navigate results
@@ -221,8 +222,14 @@ export const Search = ({
                         <span className="flex items-center">
                             <Key char="esc" className="mr-2" /> close search
                         </span>
+
+                        {isLoading && (
+                            <span>
+                                <Spinner size="tiny" className="mr-1" /> Fetching {hasResults ? "more data" : "data"}
+                            </span>
+                        )}
                     </li>
-                ) : null}
+                )}
             </ul>
         </div>
     );

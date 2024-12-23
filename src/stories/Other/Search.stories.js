@@ -14,8 +14,8 @@ const SearchStories = {
 };
 
 const fetchUsers = async (search) => {
-    const results = await fetch("https://xola.com/api/sellers", {
-        headers: { "X-API-KEY": "" }, // Some random dude's API key.
+    const results = await fetch("https://xola.com/api/sellers?limit=100", {
+        headers: { "X-API-KEY": "" }, // Put your API key here for testing
     });
 
     const response = await results.json();
@@ -53,6 +53,7 @@ export const Default = () => {
         >
             {(item, active) => (
                 <div
+                    key={item.id ?? item.email}
                     className={clsx(
                         "group flex cursor-pointer p-2",
                         active ? "bg-blue-light p-2 text-white" : "text-black",
