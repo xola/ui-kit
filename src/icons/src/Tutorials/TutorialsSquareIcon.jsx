@@ -1,8 +1,8 @@
-import clsx from "clsx";
+import cn from "../helpers/classnames";
 import React from "react";
 
 export const TutorialsSquareIcon = (props) => {
-    const className = clsx("relative -top-0.25 inline-block", props.className);
+    const className = cn("relative -top-0.25 inline-block", props.className);
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"

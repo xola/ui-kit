@@ -34,8 +34,8 @@ const RangeDatePicker = ({
     const createCaptionElement = (currentMonth, handleChange) =>
         shouldShowYearPicker && currentMonth
             ? ({ date }) => (
-                <MonthYearSelector date={date} currentMonth={currentMonth} locale={locale} onChange={handleChange} />
-            )
+                  <MonthYearSelector date={date} currentMonth={currentMonth} locale={locale} onChange={handleChange} />
+              )
             : undefined;
 
     const CaptionStartElement = createCaptionElement(startMonth, handleStartMonthChange);

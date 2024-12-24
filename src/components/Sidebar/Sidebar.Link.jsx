@@ -4,7 +4,7 @@ import cn from "../../helpers/classnames";
 import { ChevronRightIcon } from "../../icons";
 import { Dot } from "../Dot/Dot";
 
-export const SidebarLink = ({ isActive = false, icon: Icon, children, isSubMenuItem, align, classNames, ...rest }) => {
+export const SidebarLink = ({ isActive = false, hasSubmenu = false, icon: Icon, children, isSubMenuItem, align, classNames, ...rest }) => {
     return (
         <button
             type="button"
@@ -17,6 +17,7 @@ export const SidebarLink = ({ isActive = false, icon: Icon, children, isSubMenuI
                     "justify-start px-6 py-2": isSubMenuItem,
                     "justify-center py-3 xl:px-6": !isSubMenuItem,
                 },
+                classNames?.button,
             )}
             {...rest}
         >
@@ -25,6 +26,7 @@ export const SidebarLink = ({ isActive = false, icon: Icon, children, isSubMenuI
             ) : (
                 <Icon className="h-5 w-5 shrink-0 xl:mr-3" />
             )}
+
             <span
                 className={cn(
                     "hidden px-1 xl:inline",
@@ -35,7 +37,8 @@ export const SidebarLink = ({ isActive = false, icon: Icon, children, isSubMenuI
             >
                 {children}
             </span>
-            {isSubMenuItem ? null : <ChevronRightIcon className="ml-auto hidden h-3 w-3 xl:inline" />}
+
+            {isSubMenuItem || !hasSubmenu ? null : <ChevronRightIcon className="ml-auto hidden h-3 w-3 xl:inline" />}
         </button>
     );
 };
@@ -45,6 +48,7 @@ SidebarLink.displayName = "Sidebar.Link";
 SidebarLink.propTypes = {
     align: PropTypes.oneOf(["center", "left", "right"]),
     isActive: PropTypes.bool,
+    hasSubmenu: PropTypes.bool,
     icon: PropTypes.func,
     children: PropTypes.node.isRequired,
     isSubMenuItem: PropTypes.bool,
