@@ -22,7 +22,6 @@
     "dependencies": {
         "autoprefixer": "^10.4.20",
         "clsx": "^1.1.1",
-        "lodash": "^4.17.21",
         "postcss": "^8.4.49",
         "prettier": "^2.7.1",
         "prettier-plugin-tailwindcss": "^0.1.13",
