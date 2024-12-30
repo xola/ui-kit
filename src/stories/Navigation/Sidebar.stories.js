@@ -95,7 +95,7 @@ export const Default = () => {
                     icon={StarIcon}
                     info={
                         <span className="w-full text-right">
-                            <span class="inline-flex items-center justify-center w-2.5 h-2.5 p-2.5 text-sm font-medium text-white bg-danger rounded-full">
+                            <span className="inline-flex items-center justify-center w-2.5 h-2.5 p-2.5 text-sm font-medium text-white bg-danger rounded-full">
                                 3
                             </span>
                         </span>
