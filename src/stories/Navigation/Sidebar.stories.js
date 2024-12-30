@@ -8,7 +8,7 @@ import {
     PolicyIcon,
     Sidebar,
     StarIcon,
-    UserIcon,
+    UserIcon
 } from "../..";
 
 const SidebarStories = {
@@ -86,10 +86,23 @@ export const Default = () => {
                         </div>
                     }
                 >
-                    <Sidebar.Link icon={PiggyBankIcon}>Bookings</Sidebar.Link>
+                    <Sidebar.Link hasSubmenu icon={PiggyBankIcon}>
+                        Bookings
+                    </Sidebar.Link>
                 </Sidebar.Menu>
 
-                <Sidebar.Link icon={StarIcon}>Favorites</Sidebar.Link>
+                <Sidebar.Link
+                    icon={StarIcon}
+                    info={
+                        <span className="w-full text-right">
+                            <span class="inline-flex items-center justify-center w-2.5 h-2.5 p-2.5 text-sm font-medium text-white bg-danger rounded-full">
+                                3
+                            </span>
+                        </span>
+                    }
+                >
+                    Favorites
+                </Sidebar.Link>
 
                 <Sidebar.Menu
                     content={
@@ -109,7 +122,9 @@ export const Default = () => {
                         </div>
                     }
                 >
-                    <Sidebar.Link hasSubmenu icon={AnnounceIcon}>Marketing</Sidebar.Link>
+                    <Sidebar.Link hasSubmenu icon={AnnounceIcon}>
+                        Marketing
+                    </Sidebar.Link>
                 </Sidebar.Menu>
             </Sidebar>
         </div>

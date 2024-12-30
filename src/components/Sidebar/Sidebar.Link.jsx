@@ -4,7 +4,18 @@ import cn from "../../helpers/classnames";
 import { ChevronRightIcon } from "../../icons";
 import { Dot } from "../Dot/Dot";
 
-export const SidebarLink = ({ isActive = false, hasSubmenu = false, icon: Icon, children, isSubMenuItem, align, classNames, ...rest }) => {
+export const SidebarLink = ({
+    isActive = false,
+    hasSubmenu = false,
+    icon: Icon,
+    info,
+    children,
+    isSubMenuItem,
+    align,
+    classNames,
+    ...rest
+}) => {
+    const showInfo = !!info ? true : hasSubmenu;
     return (
         <button
             type="button"
@@ -38,7 +49,7 @@ export const SidebarLink = ({ isActive = false, hasSubmenu = false, icon: Icon, 
                 {children}
             </span>
 
-            {isSubMenuItem || !hasSubmenu ? null : <ChevronRightIcon className="ml-auto hidden h-3 w-3 xl:inline" />}
+            {showInfo && (info ?? <ChevronRightIcon className="ml-auto hidden h-3 w-3 xl:inline" />)}
         </button>
     );
 };
