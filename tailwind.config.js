@@ -174,6 +174,17 @@ module.exports = {
 
         // Figma: https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%F0%9F%9B%A0-Xola-DS-Desktop-Master-%F0%9F%9B%A0?node-id=1885%3A51905
         extend: {
+            animation: {
+                'reverse-spin': 'reverse-spin 1s linear infinite'
+            },
+            keyframes: {
+                'reverse-spin': {
+                    from: {
+                        transform: 'rotate(360deg)'
+                    },
+                }
+            },
+
             fontFamily: {
                 sans: ["InterVariable", "Inter", ...defaultTheme.fontFamily.sans],
                 mono: ["Roboto Mono", ...defaultTheme.fontFamily.mono],
