@@ -10,9 +10,10 @@ import "tippy.js/animations/shift-away.css";
 import "tippy.js/animations/shift-toward.css";
 
 // TODO: Implement "as='div'"
-export const Tooltip = ({ children, className, content, ...rest }) => {
+export const Tooltip = ({ children, className, contentClassName, content, ...rest }) => {
+    const tooltipContent = <span className={contentClassName}>{content}</span>;
     return (
-        <Tippy content={content} {...rest} className="ui-tooltip text-white" plugins={[followCursor]}>
+        <Tippy content={tooltipContent} {...rest} className="ui-tooltip text-white" plugins={[followCursor]}>
             <span className={className}>{children}</span>
         </Tippy>
     );
