@@ -13,7 +13,7 @@ export default defineConfig({
         lib: {
             entry: {
                 "ui-kit": path.resolve(__dirname, "src/index.js"),
-                // things: path.resolve(__dirname, "src/things.js"),
+                checkout: path.resolve(__dirname, "src/checkout.js"),
             },
             name: "XolaUIKit",
             fileName: (format, name) => `${name}.${format}.js`,
@@ -23,7 +23,7 @@ export default defineConfig({
         rollupOptions: {
             // input: {
             //     main: path.resolve(__dirname, "src/index.js"),
-            //     things: path.resolve(__dirname, "src/things.js"),
+            //     checkout: path.resolve(__dirname, "src/checkout.js"),
             // },
             // Make sure none of the dependencies are bundled.
             external: [...dependencies, ...devDependencies],
