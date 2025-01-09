@@ -157,7 +157,7 @@ export const DatePicker = ({
             if (isValidValue) {
                 // This allows us to easily select another date range,
                 // if both dates are selected.
-                onChange({ from: toDate(now(day, timezoneName).startOf("day")), to: null }, options, event);
+                onChange({ from: toDate(now(day, timezoneName)), to: null }, options, event);
             } else if (value && (value.from || value.to) && (value.from || value.to).getTime() === day.getTime()) {
                 const from = toDate(now(day, timezoneName).startOf("day"));
                 const to = toDate(now(day, timezoneName).endOf("day"), false);
