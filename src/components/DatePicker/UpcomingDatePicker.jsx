@@ -47,7 +47,7 @@ export const UpcomingDatePicker = ({ value, upcomingDates, isLoading, onChange, 
 UpcomingDatePicker.propTypes = {
     value: PropTypes.objectOf(Date),
     upcomingDates: PropTypes.arrayOf(Date).isRequired,
-    loadingDays: PropTypes.bool,
+    isLoading: PropTypes.bool,
     onChange: PropTypes.func.isRequired,
     onMonthChange: PropTypes.func.isRequired,
 };
