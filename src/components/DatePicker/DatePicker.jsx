@@ -39,6 +39,7 @@ export const DatePicker = ({
     ranges,
     shouldShowRelativeRanges = false,
     isFutureDatesAllowed = false,
+    isFetching = false,
     components = {},
     getTooltip,
     upcomingDates,
@@ -255,6 +256,7 @@ export const DatePicker = ({
             <div className="flex">
                 {upcomingDates ? (
                     <UpcomingDatePicker
+                        isLoading={isFetching}
                         upcomingDates={upcomingDates}
                         value={value}
                         onChange={handleDayClick}
@@ -344,4 +346,5 @@ DatePicker.propTypes = {
     getTooltip: PropTypes.func,
     locale: PropTypes.string,
     timezoneName: PropTypes.string,
+    isLoading: PropTypes.bool,
 };
