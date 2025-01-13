@@ -2,12 +2,17 @@ import clsx from "clsx";
 import dayjs from "dayjs";
 import PropTypes from "prop-types";
 import React from "react";
+import { Spinner } from "../Spinner";
 
-export const UpcomingDatePicker = ({ value, upcomingDates, onChange, onMonthChange }) => {
+export const UpcomingDatePicker = ({ value, upcomingDates, isLoading, onChange, onMonthChange }) => {
     return (
         <div className="rounded-l-lg border-r border-gray pt-8">
             <p className="mb-2 px-6 text-lg font-bold">Upcoming</p>
-            {upcomingDates?.length > 0 ? (
+            {isLoading ? (
+                <div className="mx-6 mt-5 flex h-full min-w-40 items-center justify-center">
+                    <Spinner />
+                </div>
+            ) : upcomingDates?.length > 0 ? (
                 <div className="mt-5">
                     {upcomingDates?.map((date) => {
                         const isSameDay = dayjs(date).isSame(dayjs(value), "day");
@@ -42,6 +47,7 @@ export const UpcomingDatePicker = ({ value, upcomingDates, onChange, onMonthChan
 UpcomingDatePicker.propTypes = {
     value: PropTypes.objectOf(Date),
     upcomingDates: PropTypes.arrayOf(Date).isRequired,
+    loadingDays: PropTypes.bool,
     onChange: PropTypes.func.isRequired,
     onMonthChange: PropTypes.func.isRequired,
 };
