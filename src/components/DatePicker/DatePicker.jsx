@@ -159,7 +159,7 @@ export const DatePicker = ({
                 // if both dates are selected.
                 onChange({ from: toDate(now(day, timezoneName)), to: null }, options, event);
             } else if (value && (value.from || value.to) && (value.from || value.to).getTime() === day.getTime()) {
-                const from = toDate(now(day, timezoneName).startOf("day"));
+                const from = toDate(now(day, timezoneName));
                 const to = toDate(now(day, timezoneName).endOf("day"), false);
 
                 onChange({ from, to }, options, event);
@@ -179,7 +179,7 @@ export const DatePicker = ({
                 // also this works when the user has selected one date
                 onChange(
                     {
-                        from: toDate(now(day, timezoneName).startOf("day")),
+                        from: toDate(now(day, timezoneName)),
                         to: toDate(now(value.from).endOf("day"), false),
                     },
                     options,
