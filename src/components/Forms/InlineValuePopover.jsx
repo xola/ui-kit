@@ -21,7 +21,7 @@ export const InlineValuePopover = ({
         setTimeout(() => {
             // This may technically belong in Seller app, but the most common use case for this component here is
             // to use inputs, so we'll provide some helpers for that
-            const popoverInput = ref?.current.querySelector("select,textarea,input");
+            const popoverInput = ref.current?.querySelector("select,textarea,input");
             if (!popoverInput) return;
 
             popoverInput.focus();

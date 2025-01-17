@@ -91,7 +91,9 @@ const spacing = {
     14: "56px",
     15: "60px",
     16: "64px",
+    18: "72px",
     20: "80px",
+    22: "88px",
     24: "96px",
     25: "100px",
     28: "112px",
@@ -121,6 +123,7 @@ const spacing = {
     140: "560px",
     200: "800px",
 };
+
 module.exports = {
     content: [
         "./src/**/*.js",
@@ -171,9 +174,24 @@ module.exports = {
 
         // Figma: https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%F0%9F%9B%A0-Xola-DS-Desktop-Master-%F0%9F%9B%A0?node-id=1885%3A51905
         extend: {
+            animation: {
+                'reverse-spin': 'reverse-spin 1s linear infinite'
+            },
+            keyframes: {
+                'reverse-spin': {
+                    from: {
+                        transform: 'rotate(360deg)'
+                    },
+                }
+            },
+
             fontFamily: {
                 sans: ["InterVariable", "Inter", ...defaultTheme.fontFamily.sans],
                 mono: ["Roboto Mono", ...defaultTheme.fontFamily.mono],
+            },
+
+            screens: {
+                "3xl": "1836px",
             },
 
             // P1 - Big 16px 130%
@@ -221,5 +239,5 @@ module.exports = {
         },
     },
 
-    plugins: [require("@tailwindcss/forms"), require("@tailwindcss/line-clamp")],
+    plugins: [require("@tailwindcss/forms")],
 };
