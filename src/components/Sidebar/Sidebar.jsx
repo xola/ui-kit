@@ -97,7 +97,7 @@ export const Sidebar = ({
                 />
             )}
 
-            <div className={cn("flex-grow space-y-2", isStickyHeaderFooter && "overflow-y-auto")}>
+            <div className={cn("flex-grow space-y-2")}>
                 <div className="text-center">
                     {logo ?? (
                         <XolaLogoSimple
