@@ -70,10 +70,6 @@ export const DatePicker = ({
     const isValidValue = value && value.from && value.to;
 
     useEffect(() => {
-        onMonthChange?.(currentMonth);
-    }, [currentMonth, onMonthChange]);
-    
-    useEffect(() => {
         if (timezoneName && !isValidTimeZoneName(timezoneName)) {
             console.log(`${timezoneName} is not a valid timezone. Using default timezone now`);
             dayjs.tz.setDefault();
