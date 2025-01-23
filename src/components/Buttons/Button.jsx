@@ -56,6 +56,7 @@ export const Button = ({
     iconPlacement = "left",
     className,
     children,
+    onClick,
     ...rest
 }) => {
     return (
@@ -69,6 +70,7 @@ export const Button = ({
                 sizes[size],
                 className,
             )}
+            onClick={() => onClick()}
             {...rest}
         >
             {icon && iconPlacement === "left" ? <span className="mr-2 flex-shrink-0">{icon}</span> : null}
