@@ -70,12 +70,6 @@ export const DatePicker = ({
     const isRangeVariant = variant === variants.range;
     const isValidValue = value && value.from && value.to;
 
-    // Sync internal month state with outside.
-    // Todo: This might not be required, as we have onMonthChange callback in handleMonthChange and other callbacks too. This causes the onMonthChange to be called more than once.
-    useEffect(() => {
-        onMonthChange?.(currentMonth);
-    }, [currentMonth, onMonthChange]);
-
     useEffect(() => {
         if (timezoneName && !isValidTimeZoneName(timezoneName)) {
             console.log(`${timezoneName} is not a valid timezone. Using default timezone now`);
@@ -160,17 +154,13 @@ export const DatePicker = ({
                 // if both dates are selected.
                 onChange({ from: toDate(now(day, timezoneName)), to: null }, options, event);
             } else if (value && (value.from || value.to) && (value.from || value.to).getTime() === day.getTime()) {
-                const from = toDate(now(day, timezoneName).startOf("day"));
+                const from = toDate(now(day, timezoneName));
                 const to = toDate(now(day, timezoneName).endOf("day"), false);
 
                 onChange({ from, to }, options, event);
             } else if (value.from && DateUtils.isDayBefore(value.from, toDate(now(day, timezoneName)))) {
                 // this works if the user first clicked on the date that will go to "from", and the second click to "to"
-                onChange(
-                    DateUtils.addDayToRange(toDate(now(day, timezoneName).endOf("day"), false), value),
-                    options,
-                    event,
-                );
+                onChange(DateUtils.addDayToRange(toDate(now(day, timezoneName), false), value), options, event);
             } else if (
                 value.from &&
                 (DateUtils.isDayAfter(value.from, toDate(now(day, timezoneName))) ||
@@ -180,7 +170,7 @@ export const DatePicker = ({
                 // also this works when the user has selected one date
                 onChange(
                     {
-                        from: toDate(now(day, timezoneName).startOf("day")),
+                        from: toDate(now(day, timezoneName)),
                         to: toDate(now(value.from).endOf("day"), false),
                     },
                     options,
