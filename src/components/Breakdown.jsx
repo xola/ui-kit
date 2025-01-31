@@ -55,7 +55,7 @@ const BreakdownItem = ({
                 <div className="flex flex-wrap items-center leading-3.5">
                     <span className="break-word">
                         <span className="mr-0.5">{methodIcon}</span>
-                        <span className={clsx("break-normal", classNames.children)}>{children}</span>
+                        <span className={clsx("break-normal", classNames.children)}>{children ?? ""}</span>
                     </span>
                     <span className="ml-1 text-sm">
                         {info && (
