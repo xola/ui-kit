@@ -57,7 +57,7 @@ const BreakdownItem = ({
                         <span className="mr-0.5">{methodIcon}</span>
                         <span className={clsx("break-normal", classNames.children)}>{children ?? ""}</span>
                     </span>
-                    <span className="ml-1 text-sm">
+                    <span className={clsx("ml-1 text-sm", classNames.info)}>
                         {info && (
                             <span className="mr-2 ml-1 rounded bg-white p-1 uppercase leading-6 text-black empty:hidden">
                                 {info}
