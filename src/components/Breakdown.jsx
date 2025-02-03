@@ -51,21 +51,15 @@ const BreakdownItem = ({
 
     return (
         <tr className={clsx("ui-breakdown-item", colors[color], className)} {...rest}>
-            <td colSpan={2} className={clsx("break-all text-left leading-none", classNames.key)}>
-                <div className="flex flex-wrap items-center leading-3.5">
-                    <span className="break-word">
-                        <span className="mr-0.5">{methodIcon}</span>
-                        <span className={clsx("break-normal", classNames.children)}>{children ?? ""}</span>
-                    </span>
-                    <span className={clsx("ml-1 text-sm", classNames.info)}>
-                        {info && (
-                            <span className="mr-2 ml-1 rounded bg-white p-1 uppercase leading-6 text-black empty:hidden">
-                                {info}
-                            </span>
-                        )}
-                        {secondary && <span className="empty:hidden">{secondary}</span>}
-                    </span>
-                </div>
+            <td colSpan={2} className={clsx("break-words text-left leading-none", classNames.key)}>
+                <span className="mr-0.5">{methodIcon}</span>
+                <span className={clsx("mr-1 break-normal md:break-all", classNames.children)}>{children ?? ""}</span>
+                <span className={clsx("text-sm", classNames.info)}>
+                    {info && (
+                        <span className="mr-2 rounded bg-white p-1 uppercase text-black empty:hidden">{info}</span>
+                    )}
+                    {secondary && <span className="empty:hidden">{secondary}</span>}
+                </span>
             </td>
 
             <td className={clsx("w-[1%] whitespace-nowrap pl-4 text-right", classNames.value)}>

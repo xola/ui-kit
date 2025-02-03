@@ -8,7 +8,7 @@ const sizes = {
     small: "max-w-100", // 400px
     medium: "max-w-125", // 500px
     large: "max-w-150", // 600px
-    huge: "max-w-[900px]", // 900px
+    huge: "max-w-200", // 800px
 };
 
 const positions = {
