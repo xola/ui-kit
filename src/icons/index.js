@@ -195,6 +195,7 @@ export { UserAddIcon } from "./src/UserAddIcon";
 export { UserChangedIcon } from "./src/UserChangedIcon";
 export { UserIcon } from "./src/UserIcon";
 export { UserSubtractIcon } from "./src/UserSubtractIcon";
+export { VerifiedTickIcon } from "./src/VerifiedTickIcon";
 export { VerifoneImage } from "./src/images/VerifoneImage";
 export { VeteranIcon } from "./src/VeteranIcon";
 export { ViewNotesIcon } from "./src/ViewNotesIcon";

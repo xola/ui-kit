@@ -262,6 +262,7 @@ export {
     UserIcon,
     UserSubtractIcon,
     ValuePopoverText,
+    VerifiedTickIcon,
     VeteranIcon,
     ViewNotesIcon,
     VoucherIcon,
