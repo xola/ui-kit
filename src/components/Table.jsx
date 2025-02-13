@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import React, { Children, cloneElement } from "react";
+import React, { Children, cloneElement, useEffect, useRef, useState } from "react";
 
 export const Table = ({ className, ...rest }) => (
     <div className="ui-table flex flex-col">
@@ -73,4 +73,65 @@ Table.Cell = ({ className, ...rest }) => {
 Table.Cell.displayName = "Table.Cell";
 Table.Cell.propTypes = {
     className: PropTypes.string,
+};
+
+Table.EditableCell = ({ className, value, onSave, ...rest }) => {
+    const [isEditing, setIsEditing] = useState(false);
+    const [localValue, setLocalValue] = useState(value);
+    const textRef = useRef(null);
+
+    const handleBlur = async () => {
+        setIsEditing(false);
+
+        if (localValue !== value) {
+            onSave(localValue);
+        }
+    };
+
+    useEffect(() => {
+        if (isEditing) {
+            requestAnimationFrame(() => textRef.current?.focus());
+        }
+    }, [isEditing]);
+
+    const handleCellClick = () => {
+        if (!isEditing) {
+            setIsEditing(true);
+        }
+    };
+
+    return (
+        <td
+            className={clsx(
+                "ui-table-cell",
+                "whitespace-nowrap px-4 py-2 text-base text-gray-darker",
+                { "bg-[#F7F9FB]": isEditing },
+                className,
+            )}
+            onClick={handleCellClick}
+            {...rest}
+        >
+            {isEditing ? (
+                <textarea
+                    rows={3}
+                    ref={textRef}
+                    value={localValue}
+                    className="w-full rounded border-none p-1 focus:outline-0 focus:!ring-gray-light"
+                    onChange={(e) => setLocalValue(e.target.value)}
+                    onBlur={handleBlur}
+                />
+            ) : (
+                <div className="hover:bg-gray-50 cursor-text">
+                    {localValue || <span className="text-gray">Not Available</span>}
+                </div>
+            )}
+        </td>
+    );
+};
+
+Table.EditableCell.displayName = "Table.EditableCell";
+Table.EditableCell.propTypes = {
+    className: PropTypes.string,
+    value: PropTypes.string.isRequired,
+    onSave: PropTypes.func.isRequired,
 };
