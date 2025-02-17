@@ -78,7 +78,10 @@ Table.Cell.propTypes = {
 Table.EditableCell = ({ className, value, onSave, ...rest }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [localValue, setLocalValue] = useState(value);
+
     const textRef = useRef(null);
+    const textAreaRef = useRef(null);
+    const [height, setHeight] = useState("auto");
 
     const handleBlur = async () => {
         setIsEditing(false);
@@ -88,17 +91,31 @@ Table.EditableCell = ({ className, value, onSave, ...rest }) => {
         }
     };
 
-    useEffect(() => {
-        if (isEditing) {
-            requestAnimationFrame(() => textRef.current?.focus());
-        }
-    }, [isEditing]);
-
     const handleCellClick = () => {
         if (!isEditing) {
             setIsEditing(true);
         }
     };
+
+    const handleChange = (e) => {
+        setLocalValue(e.target.value);
+        e.target.style.height = "auto";
+        e.target.style.height = `${e.target.scrollHeight}px`;
+    };
+
+    useEffect(() => {
+        if (isEditing) {
+            requestAnimationFrame(() => {
+                textAreaRef.current?.focus();
+            });
+
+            return;
+        }
+
+        if (textRef.current) {
+            setHeight(`${textRef.current.scrollHeight * 1.07}px`);
+        }
+    }, [isEditing]);
 
     return (
         <td
@@ -113,15 +130,15 @@ Table.EditableCell = ({ className, value, onSave, ...rest }) => {
         >
             {isEditing ? (
                 <textarea
-                    rows={3}
-                    ref={textRef}
+                    ref={textAreaRef}
                     value={localValue}
-                    className="w-full rounded border-none p-1 focus:outline-0 focus:!ring-gray-light"
-                    onChange={(e) => setLocalValue(e.target.value)}
+                    style={{ height: height }}
+                    className="h-auto w-full rounded border-none p-1 focus:outline-0 focus:!ring-gray-light"
+                    onChange={handleChange}
                     onBlur={handleBlur}
                 />
             ) : (
-                <div className="hover:bg-gray-50 cursor-text">
+                <div ref={textRef} className="hover:bg-gray-50 cursor-text whitespace-pre-wrap">
                     {localValue || <span className="text-gray">Not Available</span>}
                 </div>
             )}
