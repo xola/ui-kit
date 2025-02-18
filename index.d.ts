@@ -249,6 +249,7 @@ export {
     ToggleButton,
     Tooltip,
     TransferArrowIcon,
+    TranslationIcon,
     TrashIcon,
     TutorialsBadgeIcon,
     TutorialsButtonIcon,
