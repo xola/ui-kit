@@ -75,7 +75,7 @@ Table.Cell.propTypes = {
     className: PropTypes.string,
 };
 
-Table.EditableCell = ({ className, value, onSave, ...rest }) => {
+const EditableCell = ({ className, value, onSave, ...rest }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [localValue, setLocalValue] = useState(value);
 
@@ -146,6 +146,7 @@ Table.EditableCell = ({ className, value, onSave, ...rest }) => {
     );
 };
 
+Table.EditableCell = EditableCell;
 Table.EditableCell.displayName = "Table.EditableCell";
 Table.EditableCell.propTypes = {
     className: PropTypes.string,
