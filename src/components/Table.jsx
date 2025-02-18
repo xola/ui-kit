@@ -122,7 +122,7 @@ Table.EditableCell = ({ className, value, onSave, ...rest }) => {
             className={clsx(
                 "ui-table-cell",
                 "whitespace-nowrap px-4 py-2 text-base text-gray-darker",
-                { "bg-[#F7F9FB]": isEditing },
+                { "bg-gray-hover": isEditing },
                 className,
             )}
             onClick={handleCellClick}
@@ -138,7 +138,7 @@ Table.EditableCell = ({ className, value, onSave, ...rest }) => {
                     onBlur={handleBlur}
                 />
             ) : (
-                <div ref={textRef} className="hover:bg-gray-50 cursor-text whitespace-pre-wrap">
+                <div ref={textRef} className="cursor-text whitespace-pre-wrap">
                     {localValue || <span className="text-gray">Not Available</span>}
                 </div>
             )}
