@@ -184,6 +184,7 @@ export { ThumbsUpIcon } from "./src/ThumbsUpIcon";
 export { TicketIcon } from "./src/TicketIcon";
 export { TikTokIcon } from "./src/Logos/TikTokIcon";
 export { TransferArrowIcon } from "./src/TransferArrowIcon";
+export { TranslationIcon } from "./src/TranslationIcon";
 export { TrashIcon } from "./src/TrashIcon";
 export { TripadvisorIcon } from "./src/Logos/TripadvisorIcon";
 export { TutorialsBadgeIcon } from "./src/Tutorials/TutorialsBadgeIcon";
