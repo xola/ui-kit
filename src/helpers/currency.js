@@ -2,7 +2,7 @@ import getUserLocale from "get-user-locale";
 
 const userLocale = getUserLocale();
 
-const zeroDecimalCurrencies = new Set(["JPY", "CLP", "KRW", "LAK", "PYG", "VND", "VUV"]);
+const zeroDecimalCurrencies = new Set(["JPY", "CLP", "KRW", "LAK", "PYG", "VND", "VUV", "MXN"]);
 
 export const isZeroDecimal = (currency) => {
     return zeroDecimalCurrencies.has(currency);
