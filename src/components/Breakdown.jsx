@@ -40,6 +40,7 @@ const BreakdownItem = ({
     methodIcon,
     secondary,
     value,
+    currency: outerCurrency,
     color = "default",
     className,
     classNames = { key: "", children: "", info: "", value: "" },
@@ -64,7 +65,7 @@ const BreakdownItem = ({
 
             <td className={clsx("w-[1%] whitespace-nowrap pl-4 text-right", classNames.value)}>
                 {isNumber(value) ? (
-                    <Currency shouldRemoveTrailingZeroes={false} currency={currency} locale={locale}>
+                    <Currency shouldRemoveTrailingZeroes={false} currency={outerCurrency ?? currency} locale={locale}>
                         {value}
                     </Currency>
                 ) : (
@@ -80,6 +81,7 @@ BreakdownItem.propTypes = {
     info: PropTypes.node,
     methodIcon: PropTypes.node,
     secondary: PropTypes.node,
+    outerCurrency: PropTypes.string,
     value: PropTypes.node,
     className: PropTypes.string,
     classNames: PropTypes.object,
