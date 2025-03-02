@@ -52,10 +52,10 @@ const BreakdownItem = ({
 
     return (
         <tr className={clsx("ui-breakdown-item", colors[color], className)} {...rest}>
-            <td colSpan={2} className={clsx("break-all text-left leading-none", classNames.key)}>
+            <td colSpan={2} className={clsx("break-words text-left leading-none", classNames.key)}>
                 <span className="mr-0.5">{methodIcon}</span>
-                <span className={clsx("break-normal md:break-all", classNames.children)}>{children ?? ""}</span>
-                <span className={clsx("ml-1 text-sm", classNames.info)}>
+                <span className={clsx("mr-1 break-normal md:break-all", classNames.children)}>{children ?? ""}</span>
+                <span className={clsx("text-sm", classNames.info)}>
                     {info && (
                         <span className="mr-2 rounded bg-white p-1 uppercase text-black empty:hidden">{info}</span>
                     )}
