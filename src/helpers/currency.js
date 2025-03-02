@@ -13,7 +13,7 @@ export const getSymbol = (currency, locale = userLocale, amount = 0, isNarrowSym
         style: "currency",
         currency,
         maximumFractionDigits: 0,
-        currencyDisplay: isNarrowSymbolForm ? "narrowSymbol" : "symbol",
+        currencyDisplay: "code",
     }).format(amount);
 
     return string.replace(/\d/g, "").trim();
