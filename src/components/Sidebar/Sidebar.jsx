@@ -49,7 +49,7 @@ export const Sidebar = ({
             {leftDrawer || rightDrawer ? (
                 <div
                     className={clsx(
-                        "flex w-full p-2 sm:justify-center sm:space-x-2 xl:justify-between",
+                        "flex w-full flex-wrap gap-2 p-2 sm:justify-center sm:space-x-2 xl:justify-between",
                         isStickyHeader && "sticky top-0 z-50 bg-black",
                     )}
                 >
