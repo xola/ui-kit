@@ -23,6 +23,7 @@ const callDebounced = debounce((function_, value) => function_(value), 500);
  * @param {Function?}   props.children              Render prop for items.
  * @param {boolean?}    props.isLoading             Show loading indicator.
  * @param {boolean?}    props.shouldStayOpen        Force open the menu.
+ * @param {boolean?}    props.shouldAutoFocus             Should be auto focused on mount
  * @param {boolean?}    props.shouldDestroyOnClose  Control if the menu should be hidden on destroyed when closed.
  */
 export const Search = ({
@@ -37,18 +38,36 @@ export const Search = ({
     shouldStayOpen = false,
     shouldDestroyOnClose = true,
     shouldHideMenu = false,
+    shouldAutoFocus = false,
     minChars = 0,
     ...rest
 }) => {
     const [showShortcutKey, setShowShortcutKey] = useState(true);
     const [inputValue, setInputValue] = useState(defaultValue ?? "");
+    const [showClearText, setShowClearText] = useState(false);
     const inputReference = useRef();
     const inputId = useId("search-input");
     const menuId = useId("search-menu");
     const isClient = useIsClient();
+    const clearTextRef = useRef();
 
     // Flag for controlling the delay before actually closing the menu.
     const [canClose, setCanClose] = useState(true);
+
+    // Auto-focus on mount
+    useEffect(() => {
+        if (shouldAutoFocus && inputReference.current) {
+            inputReference.current.focus();
+        }
+    }, [shouldAutoFocus]);
+
+    useEffect(() => {
+        if (inputValue.length > 0) {
+            setShowClearText(true);
+        } else {
+            setShowClearText(false);
+        }
+    }, [inputValue]);
 
     // Placeholder item for the current search input value.
     // Will be added to the list only if not empty.
@@ -58,15 +77,11 @@ export const Search = ({
     const itemList = inputValue ? [submitValueItem, ...items] : [];
 
     const handleSelectedItemChange = ({ selectedItem, type }) => {
-        // Blur event also triggers `onSelectedItemChange`.
-        // Maybe there's a better way to do this, but this will
-        // prevent calling `onSubmit` or `onSelect` when we loose focus.
         if (type === useCombobox.stateChangeTypes.InputBlur) {
             return;
         }
 
         if (type === useCombobox.stateChangeTypes.FunctionCloseMenu) {
-            // Fired when you close the menu which can happen when you click on an item
             return;
         }
 
@@ -122,19 +137,49 @@ export const Search = ({
         openMenu();
     };
 
+    const handleClearSearch = () => {
+        setInputValue("");
+        if (onChange) {
+            onChange("");
+        }
+
+        inputReference.current.focus();
+    };
+
+    // Combined keyboard shortcuts
+    useHotkeys(
+        isOSX ? "cmd+k" : "ctrl+k",
+        (event) => {
+            event.preventDefault(); // Prevent Firefox from jumping to its search bar
+            inputReference.current.focus();
+        },
+        { enableOnTags: ["INPUT"] },
+    );
+
+    // Combined ESC key handler
+    useHotkeys(
+        "esc",
+        (event) => {
+            // eslint-disable-next-line no-undef
+            if (document?.activeElement === inputReference.current) {
+                event.preventDefault();
+
+                // If there's text, clear it
+                if (inputValue.length > 0 && shouldHideMenu) {
+                    handleClearSearch();
+                }
+                // If no text, blur the input
+                else {
+                    inputReference.current.blur();
+                }
+            }
+        },
+        { enableOnTags: ["INPUT"] },
+    );
+
     // Show dropdown only when `isOpen` is set to `true` and there are items in the list.
     const open = (isOpen || !canClose || shouldStayOpen) && itemList.length > 0 && !shouldHideMenu;
     const noResultFound = open && !isLoading && itemList.length <= 1 && inputValue.length >= minChars;
-
-    // Keyboard shortcuts.
-    useHotkeys(isOSX ? "cmd+k" : "ctrl+k", (event) => {
-        event.preventDefault(); // So in Firefox we don't jump to it's search bar
-        inputReference.current.focus();
-    });
-
-    // When `esc` is used inside the search box we should escape ot
-    useHotkeys("esc", () => inputReference.current.blur(), { enableOnTags: ["INPUT"] });
-
     const isVisible = open || !shouldDestroyOnClose;
 
     return (
@@ -168,6 +213,22 @@ export const Search = ({
                         </>
                     ) : null}
                 </div>
+            </div>
+
+            <div className="relative">
+                {shouldHideMenu && (
+                    <div
+                        ref={clearTextRef}
+                        className={`text-gray-500 absolute left-0 top-full transform 
+                       text-xs transition-all duration-200
+                       ease-in-out ${showClearText ? "translate-y-0 opacity-100" : "-translate-y-2 opacity-0"}`}
+                    >
+                        <span className="inline-flex items-center gap-1">
+                            <Key char="Esc" />
+                            <span>Clear search</span>
+                        </span>
+                    </div>
+                )}
             </div>
 
             <ul
@@ -240,4 +301,5 @@ Search.propTypes = {
     shouldStayOpen: PropTypes.bool,
     shouldDestroyOnClose: PropTypes.bool,
     shouldHideMenu: PropTypes.bool,
+    shouldAutoFocus: PropTypes.bool,
 };
