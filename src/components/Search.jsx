@@ -23,7 +23,6 @@ const callDebounced = debounce((function_, value) => function_(value), 500);
  * @param {Function?}   props.children              Render prop for items.
  * @param {boolean?}    props.isLoading             Show loading indicator.
  * @param {boolean?}    props.shouldStayOpen        Force open the menu.
- * @param {boolean?}    props.isAutoFocus             Should be auto focused on mount
  * @param {boolean?}    props.shouldDestroyOnClose  Control if the menu should be hidden on destroyed when closed.
  */
 export const Search = ({
@@ -38,7 +37,6 @@ export const Search = ({
     shouldStayOpen = false,
     shouldDestroyOnClose = true,
     shouldHideMenu = false,
-    isAutoFocus = false,
     minChars = 0,
     ...rest
 }) => {
@@ -53,13 +51,6 @@ export const Search = ({
 
     // Flag for controlling the delay before actually closing the menu.
     const [canClose, setCanClose] = useState(true);
-
-    // Auto-focus on mount
-    useEffect(() => {
-        if (isAutoFocus && inputReference.current) {
-            inputReference.current.focus();
-        }
-    }, [isAutoFocus]);
 
     useEffect(() => {
         if (inputValue.length > 0) {
@@ -301,5 +292,4 @@ Search.propTypes = {
     shouldStayOpen: PropTypes.bool,
     shouldDestroyOnClose: PropTypes.bool,
     shouldHideMenu: PropTypes.bool,
-    isAutoFocus: PropTypes.bool,
 };
