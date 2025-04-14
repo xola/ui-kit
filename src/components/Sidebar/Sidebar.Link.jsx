@@ -38,7 +38,8 @@ export const SidebarLink = ({ isActive = false, icon: Icon, children, isSubMenuI
             type="button"
             className={clsx(
                 "ui-sidebar-link",
-                "flex h-10 w-full items-center rounded leading-none transition-colors xl:justify-start",
+                "flex w-full items-center rounded leading-none transition-colors xl:justify-start",
+                !isSubMenuItem && "h-10",
                 {
                     "bg-primary text-white hover:bg-primary-dark": isActive,
                     "text-gray hover:bg-gray-darker": !isActive,

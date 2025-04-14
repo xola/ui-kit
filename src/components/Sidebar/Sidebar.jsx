@@ -87,7 +87,7 @@ export const Sidebar = ({
         if (typeof window !== "undefined" && width) {
             const timer = setTimeout(() => {
                 localStorage.setItem("sidebarWidth", width.toString());
-            }, 200);
+            }, 3000);
             return () => clearTimeout(timer);
         }
     }, [width]);
@@ -169,8 +169,10 @@ export const Sidebar = ({
 
             <div className={clsx("flex-grow space-y-2", isStickyHeaderFooter && "overflow-y-auto")}>
                 <div className="text-center">
-                    {logo ??
-                        (width > 90 && (
+                    {logo ? (
+                        <div className={clsx("inline-block h-12 w-12 ", width > 160 && "h-30 w-30")}>{logo}</div>
+                    ) : (
+                        width > 90 && (
                             <XolaLogoSimple
                                 className={clsx(
                                     "inline-block h-12 w-12 ",
@@ -179,7 +181,8 @@ export const Sidebar = ({
                                 )}
                                 onClick={onLogoClick}
                             />
-                        ))}
+                        )
+                    )}
                 </div>
 
                 <div>{children}</div>
