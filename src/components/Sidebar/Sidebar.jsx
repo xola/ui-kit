@@ -1,6 +1,7 @@
+/* eslint-disable no-undef */
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { AnnounceIcon, BellIcon, XolaLogoSimple } from "../../icons";
 import { Counter } from "../Counter";
 import { Drawer } from "../Drawer";
@@ -31,25 +32,94 @@ export const Sidebar = ({
     isRightDrawerOpen,
     handleDrawerStateChange,
 }) => {
+    // Initialize width from localStorage or use default responsive values
+    const [width, setWidth] = useState(() => {
+        if (typeof window !== "undefined") {
+            const savedWidth = localStorage.getItem("sidebarWidth");
+            return savedWidth
+                ? Number.parseInt(savedWidth, 10)
+                : window.innerWidth < 768 // sm
+                ? 64
+                : window.innerWidth < 1280 // md
+                ? 96
+                : 200; // xl
+        }
+
+        return 200;
+    });
+
+    const [isResizing, setIsResizing] = useState(false);
+    const sidebarRef = useRef(null);
+
     const { announcements: leftDrawer, notices: rightDrawer } = notifications ?? {};
     const hideRightDrawer = rightDrawer?.count <= 0 || !rightDrawer;
     const isStickyHeaderFooter = isStickyHeader && isStickyFooter;
 
+    // Handle resizing
+    useEffect(() => {
+        const handleMouseMove = (e) => {
+            if (!isResizing || !sidebarRef.current) return;
+
+            const newWidth = Math.min(Math.max(e.clientX, 64), 200); // Constrain between 64px and 200px
+            setWidth(newWidth);
+        };
+
+        const handleMouseUp = () => {
+            setIsResizing(false);
+            document.body.style.cursor = "";
+            document.body.style.userSelect = "";
+        };
+
+        if (isResizing) {
+            document.addEventListener("mousemove", handleMouseMove);
+            document.addEventListener("mouseup", handleMouseUp);
+            document.body.style.cursor = "ew-resize";
+            document.body.style.userSelect = "none";
+        }
+
+        return () => {
+            document.removeEventListener("mousemove", handleMouseMove);
+            document.removeEventListener("mouseup", handleMouseUp);
+        };
+    }, [isResizing]);
+
+    useEffect(() => {
+        if (typeof window !== "undefined" && width) {
+            const timer = setTimeout(() => {
+                localStorage.setItem("sidebarWidth", width.toString());
+            }, 200);
+            return () => clearTimeout(timer);
+        }
+    }, [width]);
+
+    const handleResizeStart = (e) => {
+        e.preventDefault();
+        setIsResizing(true);
+    };
+
     return (
         <div
+            ref={sidebarRef}
             className={clsx(
                 sidebarScroll,
                 "ui-sidebar",
                 isFixed ? "fixed" : "relative",
-                !isStickyHeaderFooter && "overflow-y-auto",
-                "z-20 flex h-full w-16 flex-col bg-black px-1 py-2 text-white md:w-24 xl:w-50",
+                "z-20 flex h-full flex-col bg-black px-1 py-2 text-white transition-all duration-300",
+                isResizing && "border-r-4 border-yellow",
                 className,
             )}
+            style={{ width: `${width}px` }}
         >
+            {/* Resize handle */}
+            <div
+                className="absolute -right-3 top-0 bottom-0 z-10 w-4 cursor-ew-resize"
+                onMouseDown={handleResizeStart}
+            />
             {leftDrawer || rightDrawer ? (
                 <div
                     className={clsx(
-                        "flex w-full flex-wrap gap-2 p-2 sm:justify-center sm:space-x-2 xl:justify-between",
+                        "flex w-full flex-wrap gap-2 p-2 sm:justify-center sm:space-x-2",
+                        width < 70 ? "justify-center" : "justify-between",
                         isStickyHeader && "sticky top-0 z-50 bg-black",
                     )}
                 >
@@ -75,7 +145,7 @@ export const Sidebar = ({
 
             {leftDrawer && (
                 <Drawer
-                    classNames={{ dialogContent: "md:left-24 xl:left-50" }}
+                    classNames={{ dialogContent: `left-[${width}px]` }}
                     position="left"
                     size="xl"
                     title={leftDrawer.title}
@@ -87,7 +157,7 @@ export const Sidebar = ({
 
             {rightDrawer && (
                 <Drawer
-                    classNames={{ dialogContent: "md:left-24 xl:left-50" }}
+                    classNames={{ dialogContent: `left-[${width}px]` }}
                     position="left"
                     size="xl"
                     title={rightDrawer.title}
@@ -99,15 +169,17 @@ export const Sidebar = ({
 
             <div className={clsx("flex-grow space-y-2", isStickyHeaderFooter && "overflow-y-auto")}>
                 <div className="text-center">
-                    {logo ?? (
-                        <XolaLogoSimple
-                            className={clsx(
-                                "inline-block h-12 w-12 xl:h-30 xl:w-30",
-                                onLogoClick && "cursor-pointer transition-opacity hover:opacity-80",
-                            )}
-                            onClick={onLogoClick}
-                        />
-                    )}
+                    {logo ??
+                        (width > 90 && (
+                            <XolaLogoSimple
+                                className={clsx(
+                                    "inline-block h-12 w-12 ",
+                                    width > 160 && "h-30 w-30",
+                                    onLogoClick && "cursor-pointer transition-opacity hover:opacity-80",
+                                )}
+                                onClick={onLogoClick}
+                            />
+                        ))}
                 </div>
 
                 <div>{children}</div>

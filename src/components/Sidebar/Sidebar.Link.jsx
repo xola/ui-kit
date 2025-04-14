@@ -1,16 +1,44 @@
+/* eslint-disable no-undef */
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ChevronRightIcon } from "../../icons";
 import { Dot } from "../Dot/Dot";
 
 export const SidebarLink = ({ isActive = false, icon: Icon, children, isSubMenuItem, align, classNames, ...rest }) => {
+    const containerRef = useRef(null);
+    const [showText, setShowText] = useState(true);
+    const [showIcon, setShowIcon] = useState(true);
+
+    useEffect(() => {
+        const checkWidth = () => {
+            if (containerRef.current) {
+                setShowText(containerRef.current.offsetWidth > 140);
+                setShowIcon(containerRef.current.offsetWidth > 174 || containerRef.current.offsetWidth < 140);
+            }
+        };
+
+        // Initial check
+        checkWidth();
+
+        // Add resize observer for dynamic changes
+        const resizeObserver = new ResizeObserver(checkWidth);
+        if (containerRef.current) {
+            resizeObserver.observe(containerRef.current);
+        }
+
+        return () => {
+            resizeObserver.disconnect();
+        };
+    }, []);
+
     return (
         <button
+            ref={containerRef}
             type="button"
             className={clsx(
                 "ui-sidebar-link",
-                "flex w-full items-center rounded leading-none transition-colors xl:justify-start",
+                "flex h-10 w-full items-center rounded leading-none transition-colors xl:justify-start",
                 {
                     "bg-primary text-white hover:bg-primary-dark": isActive,
                     "text-gray hover:bg-gray-darker": !isActive,
@@ -23,19 +51,20 @@ export const SidebarLink = ({ isActive = false, icon: Icon, children, isSubMenuI
             {isSubMenuItem ? (
                 <Dot className={clsx("mr-3 shrink-0", { "bg-white": isActive, "bg-gray": !isActive })} />
             ) : (
-                <Icon className="h-5 w-5 shrink-0 xl:mr-3" />
+                showIcon && (
+                    <div className={clsx(!showText && "flex w-full justify-center")}>
+                        <Icon className={clsx("h-5 w-5 shrink-0", showText && "mr-3")} />
+                    </div>
+                )
             )}
-            <span
-                className={clsx(
-                    "hidden px-1 xl:inline",
-                    { "!inline text-left": isSubMenuItem },
-                    { "text-left": align === "left" },
-                    classNames?.text,
-                )}
-            >
-                {children}
-            </span>
-            {isSubMenuItem ? null : <ChevronRightIcon className="ml-auto hidden h-3 w-3 xl:inline" />}
+
+            {(showText || isSubMenuItem) && (
+                <span className={clsx("px-1", { "text-left": isSubMenuItem || align === "left" }, classNames?.text)}>
+                    {children}
+                </span>
+            )}
+
+            {!isSubMenuItem && showText && <ChevronRightIcon className="ml-auto h-3 w-3" />}
         </button>
     );
 };
