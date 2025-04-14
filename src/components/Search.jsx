@@ -156,7 +156,7 @@ export const Search = ({
                 event.preventDefault();
 
                 // If there's text, clear it
-                if (inputValue.length > 0 && shouldHideMenu) {
+                if (inputValue.length > 0) {
                     handleClearSearch();
                 }
                 // If no text, blur the input
