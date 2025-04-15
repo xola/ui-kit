@@ -48,6 +48,7 @@ export const Sidebar = ({
         return 200;
     });
 
+    const [isHovered, setIsHovered] = useState(false);
     const [isResizing, setIsResizing] = useState(false);
     const sidebarRef = useRef(null);
 
@@ -104,8 +105,8 @@ export const Sidebar = ({
                 sidebarScroll,
                 "ui-sidebar",
                 isFixed ? "fixed" : "relative",
-                "z-20 flex h-full flex-col bg-black px-1 py-2 text-white transition-all duration-300",
-                isResizing && "border-r-4 border-yellow",
+                "z-20 flex h-full flex-col  bg-black px-1 py-2 text-white transition-all duration-300 ",
+                (isHovered || isResizing) && "box-border border-r-4 border-yellow",
                 className,
             )}
             style={{ width: `${width}px` }}
@@ -114,6 +115,8 @@ export const Sidebar = ({
             <div
                 className="absolute -right-3 top-0 bottom-0 z-10 w-4 cursor-ew-resize"
                 onMouseDown={handleResizeStart}
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
             />
             {leftDrawer || rightDrawer ? (
                 <div
