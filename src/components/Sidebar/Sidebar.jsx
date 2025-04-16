@@ -149,6 +149,7 @@ export const Sidebar = ({
             {leftDrawer && (
                 <Drawer
                     classNames={{ dialogContent: `left-[${width}px]` }}
+                    sideIndent={width}
                     position="left"
                     size="xl"
                     title={leftDrawer.title}
@@ -162,6 +163,7 @@ export const Sidebar = ({
                 <Drawer
                     classNames={{ dialogContent: `left-[${width}px]` }}
                     position="left"
+                    sideIndent={width}
                     size="xl"
                     title={rightDrawer.title}
                     content={rightDrawer.content}

@@ -16,7 +16,19 @@ const sizes = {
 };
 
 export const Drawer = forwardRef(
-    ({ isOpen = false, title, size = "medium", content, onClose, classNames = {}, position = "right" }, ref) => {
+    (
+        {
+            isOpen = false,
+            title,
+            size = "medium",
+            content,
+            sideIndent = 0,
+            onClose,
+            classNames = {},
+            position = "right",
+        },
+        ref,
+    ) => {
         const viewportHeight = useViewportHeight();
         const isIOS = isIosBrowser();
 
@@ -51,11 +63,10 @@ export const Drawer = forwardRef(
                             />
                         </Transition.Child>
                         <div
-                            className={clsx(
-                                "fixed inset-y-0 flex max-w-full",
-                                position === "right" ? "right-0" : "left-0",
-                                classNames.dialogContent,
-                            )}
+                            style={{
+                                [position === "right" ? "right" : "left"]: `${sideIndent ?? 0}px`,
+                            }}
+                            className={clsx("fixed inset-y-0 flex max-w-full", classNames.dialogContent)}
                         >
                             <Transition.Child
                                 as={Fragment}
@@ -118,10 +129,12 @@ Drawer.propTypes = {
     onClose: PropTypes.func.isRequired,
     classNames: PropTypes.object,
     position: PropTypes.string,
+    sideIndent: PropTypes.number,
 };
 
 Drawer.defaultProps = {
     title: "",
     classNames: {},
     position: "right",
+    sideIndent: 0,
 };
