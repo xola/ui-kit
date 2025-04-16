@@ -174,20 +174,24 @@ export const Sidebar = ({
 
             <div className={clsx("flex-grow space-y-2", isStickyHeaderFooter && "overflow-y-auto")}>
                 <div className="text-center">
-                    {logo ? (
-                        <div className={clsx("inline-block h-12 w-12 ", width > 160 && "h-30 w-30")}>{logo}</div>
-                    ) : (
-                        width > 90 && (
-                            <XolaLogoSimple
-                                className={clsx(
-                                    "inline-block h-12 w-12 ",
-                                    width > 160 && "h-30 w-30",
-                                    onLogoClick && "cursor-pointer transition-opacity hover:opacity-80",
-                                )}
-                                onClick={onLogoClick}
-                            />
-                        )
-                    )}
+                    {logo
+                        ? React.cloneElement(logo, {
+                              className: clsx(
+                                  "inline-block h-12 w-12",
+                                  width > 160 && "h-30 w-30",
+                                  logo.props.className,
+                              ),
+                          })
+                        : width > 90 && (
+                              <XolaLogoSimple
+                                  className={clsx(
+                                      "inline-block h-12 w-12 ",
+                                      width > 160 && "h-30 w-30",
+                                      onLogoClick && "cursor-pointer transition-opacity hover:opacity-80",
+                                  )}
+                                  onClick={onLogoClick}
+                              />
+                          )}
                 </div>
 
                 <div>{children}</div>
