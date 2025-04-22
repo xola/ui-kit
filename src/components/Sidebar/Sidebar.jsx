@@ -122,43 +122,47 @@ export const Sidebar = ({
                 <div
                     className={clsx(
                         "flex w-full flex-wrap gap-2 p-2",
-                        width < 130 ? "justify-center" : "justify-between",
+                        width < 134 ? "justify-center" : "justify-between",
                         isStickyHeader && "sticky top-0 z-50 bg-black",
                     )}
                 >
                     {leftDrawer && (
-                        <div className={clsx("cursor-pointer sm:text-center", leftDrawer.hide && "hidden")}>
+                        <div className={clsx("cursor-pointer text-center", leftDrawer.hide && "hidden")}>
                             <Counter
                                 style={{
                                     ...LeftDrawerCountStyle,
-                                    minWidth: width > 134 ? "48px" : "24px",
-                                    width: width > 134 ? "48px" : "24px",
+                                    minWidth: width > 168 ? "48px" : "30px",
+                                    width: width > 168 ? "48px" : "30px",
+                                    minHeight: "20px",
+                                    height: "20px",
                                     display: "inline-flex",
                                     justifyContent: "center",
                                     alignItems: "center",
                                 }}
                                 onClick={() => handleDrawerStateChange("left")}
                             >
-                                <AnnounceIcon className={clsx(width <= 134 && "hidden")} />
+                                <AnnounceIcon className={clsx(width <= 168 && "hidden")} />
                                 {leftDrawer.count}
                             </Counter>
                         </div>
                     )}
 
                     {rightDrawer && (
-                        <div className={clsx("cursor-pointer sm:text-center", hideRightDrawer && "hidden")}>
+                        <div className={clsx("cursor-pointer text-center", hideRightDrawer && "hidden")}>
                             <Counter
                                 className="text-sm"
                                 style={{
-                                    minWidth: width > 134 ? "48px" : "24px",
-                                    width: width > 134 ? "48px" : "24px",
+                                    minWidth: width > 168 ? "48px" : "30px",
+                                    width: width > 168 ? "48px" : "30px",
+                                    minHeight: "20px",
+                                    height: "20px",
                                     display: "inline-flex",
                                     justifyContent: "center",
                                     alignItems: "center",
                                 }}
                                 onClick={() => handleDrawerStateChange("right")}
                             >
-                                <BellIcon className={clsx(width <= 134 && "hidden")} />
+                                <BellIcon className={clsx(width <= 168 && "hidden")} />
                                 {rightDrawer.count}
                             </Counter>
                         </div>
