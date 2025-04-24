@@ -13,7 +13,7 @@ export const SidebarLink = ({ isActive = false, icon: Icon, children, isSubMenuI
     useEffect(() => {
         const checkWidth = () => {
             if (containerRef.current) {
-                setShowText(containerRef.current.offsetWidth > 135);
+                setShowText(containerRef.current.offsetWidth >= 140);
                 setShowIcon(containerRef.current.offsetWidth > 174 || containerRef.current.offsetWidth < 140);
             }
         };
