@@ -88,7 +88,7 @@ export const Sidebar = ({
         if (typeof window !== "undefined" && width) {
             const timer = setTimeout(() => {
                 localStorage.setItem("sidebarWidth", width.toString());
-            }, 3000);
+            }, 500);
             return () => clearTimeout(timer);
         }
     }, [width]);
