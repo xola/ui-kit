@@ -1,6 +1,7 @@
+/* eslint-disable no-undef */
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ChevronRightIcon } from "../../icons";
 import { Avatar } from "../Avatar";
 
@@ -13,27 +14,67 @@ export const SidebarAccount = ({
     className,
     ...rest
 }) => {
+    const containerRef = useRef(null);
+    const [showText, setShowText] = useState(!isResponsive);
+    const [showIcon, setShowIcon] = useState(!isResponsive);
     const accountImage = image ?? <Avatar size="tiny" name={name} />;
+
+    useEffect(() => {
+        if (!isResponsive) {
+            setShowText(true);
+            setShowIcon(true);
+            return;
+        }
+
+        const checkWidth = () => {
+            if (containerRef.current) {
+                setShowText(containerRef.current.offsetWidth > 135);
+                setShowIcon(containerRef.current.offsetWidth > 175 || containerRef.current.offsetWidth < 135);
+            }
+        };
+
+        // Initial check
+        checkWidth();
+
+        // Add resize observer for dynamic changes
+        const resizeObserver = new ResizeObserver(checkWidth);
+        const currentRef = containerRef.current;
+
+        if (currentRef) {
+            resizeObserver.observe(currentRef);
+        }
+
+        return () => {
+            if (currentRef) {
+                resizeObserver.unobserve(currentRef);
+            }
+        };
+    }, [isResponsive]);
 
     return (
         <button
+            ref={containerRef}
             type="button"
             className={clsx(
                 "ui-sidebar-account",
-                "flex w-full cursor-pointer items-center justify-center rounded px-4 py-3 hover:bg-gray-darker xl:justify-start",
+                "flex h-12 w-full cursor-pointer items-center justify-center rounded px-4 py-3 hover:bg-gray-darker",
+                "xl:justify-start", // Full layout on xl screens
                 className,
             )}
             {...rest}
         >
-            <div className="flex-shrink-0">{accountImage}</div>
+            {showIcon && <div className="m-auto flex-shrink-0">{accountImage}</div>}
 
-            {/* Adding `min-w-0` on the flex item prevents the overflow for wider text. */}
-            <div className={clsx("ml-2 min-w-0 text-left", isResponsive && "hidden xl:inline")}>
-                <div className="truncate text-base">{name}</div>
-                {description ? <div className="truncate text-sm text-gray-dark">{description}</div> : null}
-            </div>
+            {/* Text container - conditionally rendered */}
+            {showText && (
+                <div className="ml-2 min-w-0 text-left">
+                    <div className="truncate text-base">{name}</div>
+                    {description && <div className="truncate text-sm text-gray-dark">{description}</div>}
+                </div>
+            )}
 
-            <span className={clsx("ml-auto", isResponsive && "hidden xl:inline")}>{icon}</span>
+            {/* Icon - only shown when text is visible */}
+            {showText && <span className="ml-auto">{icon}</span>}
         </button>
     );
 };
