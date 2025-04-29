@@ -31,6 +31,7 @@ export const Sidebar = ({
     isLeftDrawerOpen,
     isRightDrawerOpen,
     handleDrawerStateChange,
+    onSidebarResize,
 }) => {
     // Initialize width from localStorage or use default responsive values
     const [width, setWidth] = useState(() => {
@@ -88,6 +89,7 @@ export const Sidebar = ({
         if (typeof window !== "undefined" && width) {
             const timer = setTimeout(() => {
                 localStorage.setItem("sidebarWidth", width.toString());
+                onSidebarResize?.(width);
             }, 500);
             return () => clearTimeout(timer);
         }
@@ -240,6 +242,7 @@ Sidebar.propTypes = {
     isLeftDrawerOpen: PropTypes.bool,
     isRightDrawerOpen: PropTypes.bool,
     handleDrawerStateChange: PropTypes.func,
+    onSidebarResize: PropTypes.func,
     notifications: PropTypes.shape({
         announcements: PropTypes.shape({
             count: PropTypes.number,
