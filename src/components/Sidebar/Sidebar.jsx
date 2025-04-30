@@ -18,6 +18,21 @@ const LeftDrawerCountStyle = {
     background: "linear-gradient(138.65deg, #583DFF 19.59%, #F849C7 62.96%, #FFC03D 97.07%)",
 };
 
+const SIDEBAR_WIDTHS = {
+    SM: 64, // Small (mobile)
+    MD: 134, // Medium (tablet)
+    LG: 174, // Large (small desktop)
+    XL: 200, // Extra large (desktop)
+};
+
+// Constants for breakpoints (matching Tailwind defaults)
+const BREAKPOINTS = {
+    SM: 640,
+    MD: 768,
+    LG: 1024,
+    XL: 1280,
+};
+
 export const Sidebar = ({
     logo,
     children,
@@ -31,6 +46,7 @@ export const Sidebar = ({
     isLeftDrawerOpen,
     isRightDrawerOpen,
     handleDrawerStateChange,
+    onSidebarResize,
 }) => {
     // Initialize width from localStorage or use default responsive values
     const [width, setWidth] = useState(() => {
@@ -54,10 +70,10 @@ export const Sidebar = ({
 
     // Get max width based on window size
     const getMaxWidth = useCallback(() => {
-        if (windowWidth >= 1280) return 200; // xl
-        if (windowWidth >= 1024) return 174; // lg
-        if (windowWidth >= 768) return 134; // md
-        return 64; // sm
+        if (windowWidth >= BREAKPOINTS.XL) return SIDEBAR_WIDTHS.XL;
+        if (windowWidth >= BREAKPOINTS.LG) return SIDEBAR_WIDTHS.LG;
+        if (windowWidth >= BREAKPOINTS.MD) return SIDEBAR_WIDTHS.MD;
+        return SIDEBAR_WIDTHS.SM;
     }, [windowWidth]);
 
     // Handle window resize
@@ -104,6 +120,7 @@ export const Sidebar = ({
         if (typeof window !== "undefined" && width) {
             const timer = setTimeout(() => {
                 localStorage.setItem("sidebarWidth", width.toString());
+                onSidebarResize?.(width);
             }, 500);
             return () => clearTimeout(timer);
         }
