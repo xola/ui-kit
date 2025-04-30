@@ -114,7 +114,6 @@ export const Sidebar = ({
         setIsResizing(true);
     };
 
-    console.log("width", width);
     return (
         <div
             ref={sidebarRef}
