@@ -33,6 +33,15 @@ const BREAKPOINTS = {
     XL: 1280,
 };
 
+// Get max width based on window size
+
+const getMaxWidth = (currentWindowWidth = typeof window === "undefined" ? 1280 : window.innerWidth) => {
+    if (currentWindowWidth >= BREAKPOINTS.XL) return SIDEBAR_WIDTHS.XL;
+    if (currentWindowWidth >= BREAKPOINTS.LG) return SIDEBAR_WIDTHS.LG;
+    if (currentWindowWidth >= BREAKPOINTS.MD) return SIDEBAR_WIDTHS.MD;
+    return SIDEBAR_WIDTHS.SM;
+};
+
 export const Sidebar = ({
     logo,
     children,
@@ -52,13 +61,11 @@ export const Sidebar = ({
     const [width, setWidth] = useState(() => {
         if (typeof window !== "undefined") {
             const savedWidth = localStorage.getItem("sidebarWidth");
-            return savedWidth ? Number.parseInt(savedWidth, 10) : getMaxWidth();
+            return savedWidth ? Number.parseInt(savedWidth, 10) : getMaxWidth(window.innerWidth);
         }
 
         return 200; // Default for SSR
     });
-
-    const [windowWidth, setWindowWidth] = useState(typeof window === "undefined" ? 1280 : window.innerWidth);
 
     const [isHovered, setIsHovered] = useState(false);
     const [isResizing, setIsResizing] = useState(false);
@@ -68,25 +75,16 @@ export const Sidebar = ({
     const hideRightDrawer = rightDrawer?.count <= 0 || !rightDrawer;
     const isStickyHeaderFooter = isStickyHeader && isStickyFooter;
 
-    // Get max width based on window size
-    const getMaxWidth = useCallback(() => {
-        if (windowWidth >= BREAKPOINTS.XL) return SIDEBAR_WIDTHS.XL;
-        if (windowWidth >= BREAKPOINTS.LG) return SIDEBAR_WIDTHS.LG;
-        if (windowWidth >= BREAKPOINTS.MD) return SIDEBAR_WIDTHS.MD;
-        return SIDEBAR_WIDTHS.SM;
-    }, [windowWidth]);
-
     // Handle window resize
     useEffect(() => {
         const handleResize = () => {
-            setWindowWidth(window.innerWidth);
-            const maxWidth = getMaxWidth();
+            const maxWidth = getMaxWidth(window.innerWidth);
             setWidth(maxWidth);
         };
 
         window.addEventListener("resize", handleResize);
         return () => window.removeEventListener("resize", handleResize);
-    }, [width, getMaxWidth]);
+    }, [width]);
 
     // Handle resizing
     useEffect(() => {
