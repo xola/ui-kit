@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { AnnounceIcon, BellIcon, XolaLogoSimple } from "../../icons";
 import { Counter } from "../Counter";
 import { Drawer } from "../Drawer";
