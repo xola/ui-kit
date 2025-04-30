@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { AnnounceIcon, BellIcon, XolaLogoSimple } from "../../icons";
 import { Counter } from "../Counter";
 import { Drawer } from "../Drawer";
@@ -36,17 +36,13 @@ export const Sidebar = ({
     const [width, setWidth] = useState(() => {
         if (typeof window !== "undefined") {
             const savedWidth = localStorage.getItem("sidebarWidth");
-            return savedWidth
-                ? Number.parseInt(savedWidth, 10)
-                : window.innerWidth < 768 // sm
-                ? 64
-                : window.innerWidth < 1280 // md
-                ? 96
-                : 200; // xl
+            return savedWidth ? Number.parseInt(savedWidth, 10) : getMaxWidth();
         }
 
-        return 200;
+        return 200; // Default for SSR
     });
+
+    const [windowWidth, setWindowWidth] = useState(typeof window === "undefined" ? 1280 : window.innerWidth);
 
     const [isHovered, setIsHovered] = useState(false);
     const [isResizing, setIsResizing] = useState(false);
@@ -55,6 +51,26 @@ export const Sidebar = ({
     const { announcements: leftDrawer, notices: rightDrawer } = notifications ?? {};
     const hideRightDrawer = rightDrawer?.count <= 0 || !rightDrawer;
     const isStickyHeaderFooter = isStickyHeader && isStickyFooter;
+
+    // Get max width based on window size
+    const getMaxWidth = useCallback(() => {
+        if (windowWidth >= 1280) return 200; // xl
+        if (windowWidth >= 1024) return 174; // lg
+        if (windowWidth >= 768) return 134; // md
+        return 64; // sm
+    }, [windowWidth]);
+
+    // Handle window resize
+    useEffect(() => {
+        const handleResize = () => {
+            setWindowWidth(window.innerWidth);
+            const maxWidth = getMaxWidth();
+            setWidth(maxWidth);
+        };
+
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, [width, getMaxWidth]);
 
     // Handle resizing
     useEffect(() => {
@@ -98,6 +114,7 @@ export const Sidebar = ({
         setIsResizing(true);
     };
 
+    console.log("width", width);
     return (
         <div
             ref={sidebarRef}
@@ -121,7 +138,8 @@ export const Sidebar = ({
             {leftDrawer || rightDrawer ? (
                 <div
                     className={clsx(
-                        "flex w-full flex-wrap gap-2 p-2",
+                        "flex w-full gap-2 p-2",
+                        width <= 78 && "flex-col",
                         width < 134 ? "justify-center" : "justify-between",
                         isStickyHeader && "sticky top-0 z-50 bg-black",
                     )}
