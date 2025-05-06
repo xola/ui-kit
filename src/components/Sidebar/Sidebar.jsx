@@ -93,7 +93,7 @@ export const Sidebar = ({
             }, 500);
             return () => clearTimeout(timer);
         }
-    }, [width]);
+    }, [width, onSidebarResize]);
 
     const handleResizeStart = (e) => {
         e.preventDefault();
