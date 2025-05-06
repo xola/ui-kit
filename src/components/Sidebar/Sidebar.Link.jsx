@@ -44,7 +44,7 @@ export const SidebarLink = ({ isActive = false, icon: Icon, children, isSubMenuI
                     "bg-primary text-white hover:bg-primary-dark": isActive,
                     "text-gray hover:bg-gray-darker": !isActive,
                     "justify-start px-6 py-2": isSubMenuItem,
-                    "justify-center py-3 xl:px-6": !isSubMenuItem,
+                    "justify-center py-3 px-6": !isSubMenuItem,
                 },
             )}
             {...rest}

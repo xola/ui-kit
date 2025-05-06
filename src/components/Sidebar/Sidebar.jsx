@@ -18,6 +18,30 @@ const LeftDrawerCountStyle = {
     background: "linear-gradient(138.65deg, #583DFF 19.59%, #F849C7 62.96%, #FFC03D 97.07%)",
 };
 
+const SIDEBAR_WIDTHS = {
+    SM: 64, // Small (mobile)
+    MD: 134, // Medium (tablet)
+    LG: 174, // Large (small desktop)
+    XL: 200, // Extra large (desktop)
+};
+
+// Constants for breakpoints (matching Tailwind defaults)
+const BREAKPOINTS = {
+    SM: 640,
+    MD: 768,
+    LG: 1024,
+    XL: 1280,
+};
+
+// Get max width based on window size
+
+const getMaxWidth = (currentWindowWidth = typeof window === "undefined" ? 1280 : window.innerWidth) => {
+    if (currentWindowWidth >= BREAKPOINTS.XL) return SIDEBAR_WIDTHS.XL;
+    if (currentWindowWidth >= BREAKPOINTS.LG) return SIDEBAR_WIDTHS.LG;
+    if (currentWindowWidth >= BREAKPOINTS.MD) return SIDEBAR_WIDTHS.MD;
+    return SIDEBAR_WIDTHS.SM;
+};
+
 export const Sidebar = ({
     logo,
     children,
@@ -31,21 +55,16 @@ export const Sidebar = ({
     isLeftDrawerOpen,
     isRightDrawerOpen,
     handleDrawerStateChange,
+    onSidebarResize,
 }) => {
     // Initialize width from localStorage or use default responsive values
     const [width, setWidth] = useState(() => {
         if (typeof window !== "undefined") {
             const savedWidth = localStorage.getItem("sidebarWidth");
-            return savedWidth
-                ? Number.parseInt(savedWidth, 10)
-                : window.innerWidth < 768 // sm
-                ? 64
-                : window.innerWidth < 1280 // md
-                ? 96
-                : 200; // xl
+            return savedWidth ? Number.parseInt(savedWidth, 10) : getMaxWidth(window.innerWidth);
         }
 
-        return 200;
+        return 200; // Default for SSR
     });
 
     const [isHovered, setIsHovered] = useState(false);
@@ -55,6 +74,17 @@ export const Sidebar = ({
     const { announcements: leftDrawer, notices: rightDrawer } = notifications ?? {};
     const hideRightDrawer = rightDrawer?.count <= 0 || !rightDrawer;
     const isStickyHeaderFooter = isStickyHeader && isStickyFooter;
+
+    // Handle window resize
+    useEffect(() => {
+        const handleResize = () => {
+            const maxWidth = getMaxWidth(window.innerWidth);
+            setWidth(maxWidth);
+        };
+
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, [width]);
 
     // Handle resizing
     useEffect(() => {
@@ -88,10 +118,11 @@ export const Sidebar = ({
         if (typeof window !== "undefined" && width) {
             const timer = setTimeout(() => {
                 localStorage.setItem("sidebarWidth", width.toString());
+                onSidebarResize?.(width);
             }, 500);
             return () => clearTimeout(timer);
         }
-    }, [width]);
+    }, [width, onSidebarResize]);
 
     const handleResizeStart = (e) => {
         e.preventDefault();
@@ -105,8 +136,8 @@ export const Sidebar = ({
                 sidebarScroll,
                 "ui-sidebar",
                 isFixed ? "fixed" : "relative",
-                "z-20 flex h-full flex-col  bg-black px-1 py-2 text-white transition-all duration-300 ",
-                (isHovered || isResizing) && "box-border border-r-4 border-yellow",
+                "z-20 flex h-full flex-col  border-r-4 border-black bg-black px-1 py-2 text-white transition-all duration-300",
+                (isHovered || isResizing) && "box-border !border-r-4 !border-yellow",
                 className,
             )}
             style={{ width: `${width}px` }}
@@ -121,7 +152,8 @@ export const Sidebar = ({
             {leftDrawer || rightDrawer ? (
                 <div
                     className={clsx(
-                        "flex w-full flex-wrap gap-2 p-2",
+                        "flex w-full gap-2 p-2",
+                        width <= 78 && "flex-col",
                         width < 134 ? "justify-center" : "justify-between",
                         isStickyHeader && "sticky top-0 z-50 bg-black",
                     )}
