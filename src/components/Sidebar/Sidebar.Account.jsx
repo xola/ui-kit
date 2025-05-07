@@ -63,7 +63,7 @@ export const SidebarAccount = ({
             )}
             {...rest}
         >
-            {showIcon && <div className="m-auto flex-shrink-0">{accountImage}</div>}
+            {showIcon && <div className={clsx(isResponsive && "m-auto", "flex-shrink-0")}>{accountImage}</div>}
 
             {/* Text container - conditionally rendered */}
             {showText && (
