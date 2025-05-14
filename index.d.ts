@@ -37,6 +37,7 @@ export {
     CakeIcon,
     CalendarDayIcon,
     CalendarIcon,
+    CalendarListIcon,
     CalendarMonthIcon,
     CalendarWeekIcon,
     CapacityIcon,
