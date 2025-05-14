@@ -33,13 +33,7 @@ export const CalendarListIcon = createIcon((props) => {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                 />
-                <path
-                    d="M7.5 12H8.5"
-                    stroke="#222324"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                />
+                <path d="M7.5 12H8.5" stroke="#222324" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                 <path
                     d="M7.5 15.5H8.5"
                     stroke="#222324"
