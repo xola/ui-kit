@@ -192,7 +192,7 @@ export const DatePicker = ({
 
     // TODO: Should be outside this component because this returns JSX
     const CaptionElement = useMemo(() => {
-        return shouldShowYearPicker && currentMonth
+        return (shouldShowYearPicker || shouldShowMonthPicker) && currentMonth
             ? ({ date }) =>
                   shouldShowMonthPicker ? (
                       <MonthSelector
