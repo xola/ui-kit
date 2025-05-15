@@ -193,19 +193,22 @@ export const DatePicker = ({
     // TODO: Should be outside this component because this returns JSX
     const CaptionElement = useMemo(() => {
         return shouldShowYearPicker && currentMonth
-            ? ({ date }) => shouldShowMonthPicker ? (<MonthSelector
-                date={date}
-                currentMonth={currentMonth}
-                locale={locale ?? contextLocale}
-                onChange={handleMonthChange}
-            />) : (
-                  <MonthYearSelector
-                      date={date}
-                      currentMonth={currentMonth}
-                      locale={locale ?? contextLocale}
-                      onChange={handleMonthChange}
-                  />
-              )
+            ? ({ date }) =>
+                  shouldShowMonthPicker ? (
+                      <MonthSelector
+                          date={date}
+                          currentMonth={currentMonth}
+                          locale={locale ?? contextLocale}
+                          onChange={handleMonthChange}
+                      />
+                  ) : (
+                      <MonthYearSelector
+                          date={date}
+                          currentMonth={currentMonth}
+                          locale={locale ?? contextLocale}
+                          onChange={handleMonthChange}
+                      />
+                  )
             : undefined;
         // Adding `handleMonthChange` causes a lot of re-renders, and closes drop-down.
         // eslint-disable-next-line react-hooks/exhaustive-deps
