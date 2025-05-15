@@ -172,6 +172,22 @@ addDescription(
     "This example shows how to use the `month` and `shouldShowYearPicker` prop to change the calendar's caption. For example, we can use these props to start in the month of April and to add a form to switch between months and years.",
 );
 
+
+export const SelectMonth = () => {
+    const [value, setValue] = useState(new Date());
+    return (
+        <div className="space-y-2">
+            <div>Date: April 21 2023</div>
+            <DatePicker shouldShowYearPicker shouldShowMonthPicker value={value} month={new Date(2023, 3, 21)} onChange={setValue} />
+        </div>
+    );
+};
+
+addDescription(
+    SelectYearMonth,
+    "This example shows how to use the `month` and `shouldShowYearPicker` prop to change the calendar's caption. For example, we can use these props to start in the month of April and to add a form to switch between months and years.",
+);
+
 /**
  * Helper methods for this story
  */

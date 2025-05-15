@@ -12,6 +12,7 @@ import { Context } from "../Provider";
 import { Day } from "./Day";
 import { LocalizedDayPicker } from "./LocalizedDayPicker";
 import { MonthYearSelector } from "./MonthYearSelector";
+import { MonthSelector } from "./MonthSelector";
 import { NavbarElement } from "./NavbarElement";
 import RangeDatePicker from "./RangeDatePicker";
 import { RelativeDateRange } from "./RelativeDateRange";
@@ -32,6 +33,7 @@ export const DatePicker = ({
     disabledDays = [],
     loadingDays = [],
     shouldShowYearPicker = false,
+    shouldShowMonthPicker = false,
     onChange,
     onMonthChange,
     onSubmitDateRange,
@@ -191,7 +193,12 @@ export const DatePicker = ({
     // TODO: Should be outside this component because this returns JSX
     const CaptionElement = useMemo(() => {
         return shouldShowYearPicker && currentMonth
-            ? ({ date }) => (
+            ? ({ date }) => shouldShowMonthPicker ? (<MonthSelector
+                date={date}
+                currentMonth={currentMonth}
+                locale={locale ?? contextLocale}
+                onChange={handleMonthChange}
+            />) : (
                   <MonthYearSelector
                       date={date}
                       currentMonth={currentMonth}
@@ -324,6 +331,7 @@ DatePicker.propTypes = {
     onMonthChange: PropTypes.func,
     disabledDays: PropTypes.oneOfType([PropTypes.object, PropTypes.array, PropTypes.func]),
     shouldShowYearPicker: PropTypes.bool,
+    shouldShowMonthPicker: PropTypes.bool,
     isDateRangeStyle: PropTypes.bool,
     isRangeVariant: PropTypes.bool,
     getDayContent: PropTypes.func,
