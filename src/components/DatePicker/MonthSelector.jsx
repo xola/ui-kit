@@ -11,9 +11,6 @@ export const MonthSelector = ({ date, locale, onChange, currentMonth }) => {
     const months = [...Array.from({ length: 12 }).keys()].map((m) => today.locale(locale).month(m).format("MMM"));
     const [isSelectingMonth, setIsSelectingMonth] = useState(false);
     const [selectedDate, setSelectedDate] = useState(date);
-    console.log("date", date);
-    console.log("currentMonth", currentMonth);
-    console.log("selectedDate", selectedDate);
 
     const handleMonthSelect = (monthIndex) => {
         const newDate = new Date(selectedDate.getFullYear(), monthIndex);
@@ -27,24 +24,18 @@ export const MonthSelector = ({ date, locale, onChange, currentMonth }) => {
         newDate.setFullYear(newDate.getFullYear() + offset);
         console.log("handleYearChange", newDate);
         setSelectedDate(newDate);
-        // onChange(newDate);
     };
 
     const handleClear = () => {
-        // setSelectedDate(undefined);
-        // onChange(undefined);
-        onChange(new Date());
-        // setIsSelectingMonth(false);
+        setIsSelectingMonth(false);
     };
 
     const handleToday = () => {
-        const today = new Date();
-        onChange(today);
+        onChange(new Date());
         setIsSelectingMonth(false);
     };
 
     const isCurrentYear = selectedDate.getFullYear() === currentMonth.getFullYear();
-    console.log("selectedYear is same as currentMonth year", isCurrentYear);
 
     return (
         <span className="DayPicker-Caption">
