@@ -9,6 +9,7 @@ export const MonthSelector = ({ date, locale, onChange }) => {
 
     const handleMonthSelect = (newDate) => {
         onChange(newDate);
+        setYear(new Date(date).getFullYear());
         setIsSelectingMonth(false);
     };
 
