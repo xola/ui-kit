@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 import { ChevronDownIcon } from "../../icons";
-import { Button } from "../Buttons/Button";
 import { MonthGrid } from "./MonthGrid";
 
 export const MonthSelector = ({ date, locale, onChange }) => {
