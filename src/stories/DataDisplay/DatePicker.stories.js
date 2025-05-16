@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import React, { useState } from "react";
-import { Button, DatePicker, DatePickerPopover, Switch, theme } from "../..";
+import { Button, DatePicker, DatePickerPopover, MonthPicker, Switch, theme } from "../..";
 import { formatDate } from "../../helpers/date";
 
 const DatePickerStories = {
@@ -177,14 +177,34 @@ export const SelectMonth = () => {
     const [value, setValue] = useState(new Date());
     return (
         <div className="space-y-2">
-            <div>Date: April 21 2023</div>
-            <DatePicker shouldShowYearPicker shouldShowMonthPicker value={value} month={new Date(2023, 3, 21)} onChange={setValue} />
+            <div>Date: {value.toDateString()}</div>
+            <DatePicker
+                shouldShowYearPicker
+                shouldShowMonthPicker
+                value={value}
+                month={new Date(2023, 3, 21)}
+                onChange={setValue}
+            />
         </div>
     );
 };
 
 addDescription(
     SelectYearMonth,
+    "This example shows how to use the `month` and `shouldShowYearPicker` prop to change the calendar's caption. For example, we can use these props to start in the month of April and to add a form to switch between months and years.",
+);
+
+export const MonthPickerPopover = () => {
+    const [value, setValue] = useState(new Date());
+    return (
+        <div className="h-75 w-75">
+            <DatePickerPopover pickerType="month" dateFormat="MMM YYYY"  value={value} onChange={setValue}  />
+        </div>
+    );
+};
+
+addDescription(
+    MonthPickerPopover,
     "This example shows how to use the `month` and `shouldShowYearPicker` prop to change the calendar's caption. For example, we can use these props to start in the month of April and to add a form to switch between months and years.",
 );
 

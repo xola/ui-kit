@@ -178,6 +178,7 @@ export {
     MoneyBackIcon,
     MoneyIcon,
     MountainIcon,
+    MonthPicker,
     MouseIcon,
     Number,
     numberFormat,

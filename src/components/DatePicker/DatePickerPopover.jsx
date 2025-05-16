@@ -6,12 +6,14 @@ import { formatDate } from "../../helpers/date";
 import { Input } from "../Forms/Input";
 import { Popover } from "../Popover/Popover";
 import { DatePicker } from "./DatePicker";
+import { MonthPicker } from "./MonthPicker";
 
 export const DatePickerPopover = ({
     value,
     variant = "single",
     dateFormat = "ddd, LL",
     placeholder = "Select Date",
+    pickerType = "day",
     onChange,
     children,
     classNames = {},
@@ -79,17 +81,20 @@ export const DatePickerPopover = ({
             )}
 
             <Popover.Content className="pr-1">
-                {isVisible && (
-                    <DatePicker
-                        variant={variant}
-                        getDayContent={getDayContent}
-                        value={value}
-                        components={components}
-                        onChange={handleChange}
-                        onSubmitDateRange={handleSubmitDateRange}
-                        {...rest}
-                    />
-                )}
+                {isVisible &&
+                    (pickerType === "month" ? (
+                        <MonthPicker value={value} onChange={handleChange} {...rest} />
+                    ) : (
+                        <DatePicker
+                            variant={variant}
+                            getDayContent={getDayContent}
+                            value={value}
+                            components={components}
+                            onChange={handleChange}
+                            onSubmitDateRange={handleSubmitDateRange}
+                            {...rest}
+                        />
+                    ))}
             </Popover.Content>
         </Popover>
     );
