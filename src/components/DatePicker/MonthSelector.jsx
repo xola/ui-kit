@@ -1,20 +1,14 @@
-import dayjs from "dayjs";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
-import clsx from "clsx";
-import { ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon } from "../../icons";
+import { ChevronDownIcon } from "../../icons";
 import { Button } from "../Buttons/Button";
+import { MonthGrid } from "./MonthGrid";
 
-const today = dayjs();
-
-export const MonthSelector = ({ date, locale, onChange, currentMonth }) => {
-    const months = [...Array.from({ length: 12 }).keys()].map((m) => today.locale(locale).month(m).format("MMM"));
+export const MonthSelector = ({ date, locale, onChange }) => {
     const [isSelectingMonth, setIsSelectingMonth] = useState(false);
     const [selectedDate, setSelectedDate] = useState(date);
 
-    const handleMonthSelect = (monthIndex) => {
-        const newDate = new Date(selectedDate.getFullYear(), monthIndex);
-        console.log("handleMonthSelect", newDate);
+    const handleMonthSelect = (newDate) => {
         onChange(newDate);
         setIsSelectingMonth(false);
     };
@@ -22,7 +16,6 @@ export const MonthSelector = ({ date, locale, onChange, currentMonth }) => {
     const handleYearChange = (offset) => {
         const newDate = new Date(selectedDate);
         newDate.setFullYear(newDate.getFullYear() + offset);
-        console.log("handleYearChange", newDate);
         setSelectedDate(newDate);
     };
 
@@ -35,41 +28,19 @@ export const MonthSelector = ({ date, locale, onChange, currentMonth }) => {
         setIsSelectingMonth(false);
     };
 
-    const isCurrentYear = selectedDate.getFullYear() === currentMonth.getFullYear();
-
     return (
         <span className="DayPicker-Caption">
             <span className="inline-block">
                 {isSelectingMonth ? (
                     <span className="absolute top-0 z-10 rounded-lg border border-gray  bg-white p-3 shadow-md">
-                        <div className="mb-4 flex items-center justify-between ">
-                            <ChevronButton isVisible onClick={() => handleYearChange(-1)}>
-                                <ChevronLeftIcon />
-                            </ChevronButton>
+                        <MonthGrid
+                            year={selectedDate.getFullYear()}
+                            value={date}
+                            handleYearChange={handleYearChange}
+                            locale={locale}
+                            onChange={(date) => handleMonthSelect(date)}
+                        />
 
-                            <span className="text-lg font-bold">{selectedDate.getFullYear()}</span>
-                            <ChevronButton isVisible onClick={() => handleYearChange(1)}>
-                                <ChevronRightIcon />
-                            </ChevronButton>
-                        </div>
-
-                        <div className="grid grid-cols-4 gap-2">
-                            {months.map((month, index) => (
-                                <button
-                                    key={month}
-                                    type="button"
-                                    className={clsx(
-                                        date.getMonth() === index && isCurrentYear
-                                            ? "bg-blue-dark text-white"
-                                            : "text-black",
-                                        "rounded-md p-4 text-center hover:bg-blue-dark hover:text-white",
-                                    )}
-                                    onClick={() => handleMonthSelect(index)}
-                                >
-                                    {month}
-                                </button>
-                            ))}
-                        </div>
                         <div className="flex justify-between border-t border-gray-lighter p-2">
                             <Button size="small" color="secondary" variant="outline" onClick={handleClear}>
                                 Clear
@@ -98,25 +69,4 @@ export const MonthSelector = ({ date, locale, onChange, currentMonth }) => {
 MonthSelector.propTypes = {
     date: PropTypes.objectOf(Date).isRequired,
     onChange: PropTypes.func.isRequired,
-};
-
-const ChevronButton = ({ isVisible = true, onClick, children }) => {
-    return (
-        <button
-            type="button"
-            className={clsx(
-                isVisible ? "inline-block" : "invisible",
-                "inline-flex h-7 w-7 items-center justify-center rounded-full border border-transparent leading-none text-black hover:border-black",
-            )}
-            onClick={() => onClick()}
-        >
-            {children}
-        </button>
-    );
-};
-
-ChevronButton.propTypes = {
-    isVisible: PropTypes.bool,
-    onClick: PropTypes.func.isRequired,
-    children: PropTypes.element.isRequired,
 };
