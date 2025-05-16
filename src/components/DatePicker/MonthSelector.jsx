@@ -6,9 +6,7 @@ import { MonthGrid } from "./MonthGrid";
 export const MonthSelector = ({ date, locale, onChange, currentMonth }) => {
     const [isSelectingMonth, setIsSelectingMonth] = useState(false);
     const [year, setYear] = useState(new Date(currentMonth).getFullYear());
-console.log("currentMonth", currentMonth);
-console.log("year", year);
-console.log("date", date);
+
     const handleMonthSelect = (newDate) => {
         onChange(newDate);
         setIsSelectingMonth(false);
