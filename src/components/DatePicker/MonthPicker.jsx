@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import clsx from "clsx";
-import { Button } from "../Buttons/Button";
 import { MonthGrid } from "./MonthGrid";
 
 export const MonthPicker = ({ value, onChange, locale, className }) => {
@@ -22,23 +20,16 @@ export const MonthPicker = ({ value, onChange, locale, className }) => {
     };
 
     return (
-        <div className={clsx("ui-month-picker   max-w-xs rounded-lg bg-white", className)}>
+        <div className="ui-month-picker max-w-xs rounded-lg bg-white">
             <MonthGrid
                 year={year}
                 value={value}
-                handleYearChange={handleYearChange}
                 locale={locale}
+                handleClear={handleClear}
+                handleToday={handleToday}
+                handleYearChange={handleYearChange}
                 onChange={onChange}
             />
-
-            <div className="mt-2 flex justify-between border-t border-gray-lighter pt-2">
-                <Button size="small" color="secondary" variant="outline" onClick={handleClear}>
-                    Clear
-                </Button>
-                <Button size="small" color="secondary" variant="outline" onClick={handleToday}>
-                    Today
-                </Button>
-            </div>
         </div>
     );
 };

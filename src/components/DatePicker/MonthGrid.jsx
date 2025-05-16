@@ -4,11 +4,12 @@ import PropTypes from "prop-types";
 import clsx from "clsx";
 import { Context } from "../Provider";
 import { ChevronLeftIcon, ChevronRightIcon } from "../../icons";
+import { Button } from "../Buttons/Button";
 import { ChevronButton } from "./NavbarElement";
 
 const today = dayjs();
 
-export const MonthGrid = ({ year, value, onChange, handleYearChange, locale }) => {
+export const MonthGrid = ({ year, value, onChange, handleYearChange, locale, handleClear, handleToday }) => {
     const { locale: contextLocale } = useContext(Context);
     const months = [...Array.from({ length: 12 }).keys()].map((m) =>
         today
@@ -21,8 +22,6 @@ export const MonthGrid = ({ year, value, onChange, handleYearChange, locale }) =
         const newDate = new Date(year, monthIndex);
         onChange(newDate);
     };
-
-    const isCurrentYear = value && value.getFullYear() === year;
 
     return (
         <>
@@ -42,7 +41,7 @@ export const MonthGrid = ({ year, value, onChange, handleYearChange, locale }) =
                         key={month}
                         type="button"
                         className={clsx(
-                            value && value.getMonth() === index && isCurrentYear
+                            value && value.getMonth() === index && value.getFullYear() === year
                                 ? "bg-blue-dark text-white"
                                 : "text-black",
                             "rounded-md p-4 text-center hover:bg-blue-dark hover:text-white",
@@ -52,6 +51,15 @@ export const MonthGrid = ({ year, value, onChange, handleYearChange, locale }) =
                         {month}
                     </button>
                 ))}
+            </div>
+
+            <div className="mt-2 flex justify-between border-t border-gray-lighter pt-2">
+                <Button size="small" color="secondary" variant="outline" onClick={handleClear}>
+                    Clear
+                </Button>
+                <Button size="small" color="secondary" variant="outline" onClick={handleToday}>
+                    Today
+                </Button>
             </div>
         </>
     );
