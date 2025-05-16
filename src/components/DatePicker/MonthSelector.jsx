@@ -35,7 +35,7 @@ export const MonthSelector = ({ date, locale, onChange }) => {
                             value={date}
                             locale={locale}
                             handleYearChange={handleYearChange}
-                            andleClear={handleClear}
+                            handleClear={handleClear}
                             handleToday={handleToday}
                             onChange={(date) => handleMonthSelect(date)}
                         />
