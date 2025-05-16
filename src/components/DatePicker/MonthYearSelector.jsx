@@ -29,10 +29,6 @@ export const MonthYearSelector = ({ date, locale, onChange, currentMonth }) => {
 
     const handleMonthChange = (event) => {
         const { year, month } = event.target.form;
-        const date = new Date(year.value, Number(month.value) - selectorIndex);
-        console.log("month", month.value);
-        console.log("year", year.value);
-        console.log("date", date);
         onChange(new Date(year.value, Number(month.value) - selectorIndex));
     };
 

@@ -33,7 +33,7 @@ export const DatePicker = ({
     disabledDays = [],
     loadingDays = [],
     shouldShowYearPicker = false,
-    shouldShowMonthPicker = false,
+    shouldShowMonthSelector = false,
     onChange,
     onMonthChange,
     onSubmitDateRange,
@@ -192,9 +192,9 @@ export const DatePicker = ({
 
     // TODO: Should be outside this component because this returns JSX
     const CaptionElement = useMemo(() => {
-        return (shouldShowYearPicker || shouldShowMonthPicker) && currentMonth
+        return (shouldShowYearPicker || shouldShowMonthSelector) && currentMonth
             ? ({ date }) =>
-                  shouldShowMonthPicker ? (
+                  shouldShowMonthSelector ? (
                       <MonthSelector
                           date={date}
                           currentMonth={currentMonth}
@@ -334,7 +334,7 @@ DatePicker.propTypes = {
     onMonthChange: PropTypes.func,
     disabledDays: PropTypes.oneOfType([PropTypes.object, PropTypes.array, PropTypes.func]),
     shouldShowYearPicker: PropTypes.bool,
-    shouldShowMonthPicker: PropTypes.bool,
+    shouldShowMonthSelector: PropTypes.bool,
     isDateRangeStyle: PropTypes.bool,
     isRangeVariant: PropTypes.bool,
     getDayContent: PropTypes.func,

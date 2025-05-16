@@ -179,8 +179,7 @@ export const SelectMonth = () => {
         <div className="space-y-2">
             <div>Date: {value.toDateString()}</div>
             <DatePicker
-                shouldShowYearPicker
-                shouldShowMonthPicker
+                shouldShowMonthSelector
                 value={value}
                 month={new Date(2023, 3, 21)}
                 onChange={setValue}
@@ -190,8 +189,8 @@ export const SelectMonth = () => {
 };
 
 addDescription(
-    SelectYearMonth,
-    "This example shows how to use the `month` and `shouldShowYearPicker` prop to change the calendar's caption. For example, we can use these props to start in the month of April and to add a form to switch between months and years.",
+    SelectMonth,
+    "This example shows how to use the `month` and `shouldShowMonthSelector` prop to change the calendar's month selector caption. For example, we can use these props to show month selector option.",
 );
 
 export const MonthPickerPopover = () => {
@@ -205,7 +204,7 @@ export const MonthPickerPopover = () => {
 
 addDescription(
     MonthPickerPopover,
-    "This example shows how to use the `month` and `shouldShowYearPicker` prop to change the calendar's caption. For example, we can use these props to start in the month of April and to add a form to switch between months and years.",
+    "This example shows how to use the month picker. For example, opens month selector in a popover.",
 );
 
 /**
