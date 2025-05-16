@@ -12,6 +12,7 @@ import { Context } from "../Provider";
 import { Day } from "./Day";
 import { LocalizedDayPicker } from "./LocalizedDayPicker";
 import { MonthYearSelector } from "./MonthYearSelector";
+import { MonthSelector } from "./MonthSelector";
 import { NavbarElement } from "./NavbarElement";
 import RangeDatePicker from "./RangeDatePicker";
 import { RelativeDateRange } from "./RelativeDateRange";
@@ -32,6 +33,7 @@ export const DatePicker = ({
     disabledDays = [],
     loadingDays = [],
     shouldShowYearPicker = false,
+    shouldShowMonthSelector = false,
     onChange,
     onMonthChange,
     onSubmitDateRange,
@@ -190,15 +192,23 @@ export const DatePicker = ({
 
     // TODO: Should be outside this component because this returns JSX
     const CaptionElement = useMemo(() => {
-        return shouldShowYearPicker && currentMonth
-            ? ({ date }) => (
-                  <MonthYearSelector
-                      date={date}
-                      currentMonth={currentMonth}
-                      locale={locale ?? contextLocale}
-                      onChange={handleMonthChange}
-                  />
-              )
+        return (shouldShowYearPicker || shouldShowMonthSelector) && currentMonth
+            ? ({ date }) =>
+                  shouldShowMonthSelector ? (
+                      <MonthSelector
+                          date={date}
+                          currentMonth={currentMonth}
+                          locale={locale ?? contextLocale}
+                          onChange={handleMonthChange}
+                      />
+                  ) : (
+                      <MonthYearSelector
+                          date={date}
+                          currentMonth={currentMonth}
+                          locale={locale ?? contextLocale}
+                          onChange={handleMonthChange}
+                      />
+                  )
             : undefined;
         // Adding `handleMonthChange` causes a lot of re-renders, and closes drop-down.
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -324,6 +334,7 @@ DatePicker.propTypes = {
     onMonthChange: PropTypes.func,
     disabledDays: PropTypes.oneOfType([PropTypes.object, PropTypes.array, PropTypes.func]),
     shouldShowYearPicker: PropTypes.bool,
+    shouldShowMonthSelector: PropTypes.bool,
     isDateRangeStyle: PropTypes.bool,
     isRangeVariant: PropTypes.bool,
     getDayContent: PropTypes.func,
