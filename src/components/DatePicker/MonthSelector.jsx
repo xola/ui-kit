@@ -3,13 +3,14 @@ import React, { useState } from "react";
 import { ChevronDownIcon } from "../../icons";
 import { MonthGrid } from "./MonthGrid";
 
-export const MonthSelector = ({ date, locale, onChange }) => {
+export const MonthSelector = ({ date, locale, onChange, currentMonth }) => {
     const [isSelectingMonth, setIsSelectingMonth] = useState(false);
-    const [year, setYear] = useState(new Date(date).getFullYear());
-
+    const [year, setYear] = useState(new Date(currentMonth).getFullYear());
+console.log("currentMonth", currentMonth);
+console.log("year", year);
+console.log("date", date);
     const handleMonthSelect = (newDate) => {
         onChange(newDate);
-        setYear(new Date(date).getFullYear());
         setIsSelectingMonth(false);
     };
 
