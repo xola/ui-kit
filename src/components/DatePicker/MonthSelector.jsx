@@ -5,7 +5,7 @@ import { MonthGrid } from "./MonthGrid";
 
 export const MonthSelector = ({ date, locale, onChange }) => {
     const [isSelectingMonth, setIsSelectingMonth] = useState(false);
-    const [selectedDate, setSelectedDate] = useState(date);
+    const [year, setYear] = useState(new Date(date).getFullYear());
 
     const handleMonthSelect = (newDate) => {
         onChange(newDate);
@@ -13,9 +13,7 @@ export const MonthSelector = ({ date, locale, onChange }) => {
     };
 
     const handleYearChange = (offset) => {
-        const newDate = new Date(selectedDate);
-        newDate.setFullYear(newDate.getFullYear() + offset);
-        setSelectedDate(newDate);
+        setYear(year + offset);
     };
 
     const handleClear = () => {
@@ -33,7 +31,7 @@ export const MonthSelector = ({ date, locale, onChange }) => {
                 {isSelectingMonth ? (
                     <span className="absolute top-0 z-10 rounded-lg  border border-gray bg-white p-3 shadow-md">
                         <MonthGrid
-                            year={selectedDate.getFullYear()}
+                            year={year}
                             value={date}
                             locale={locale}
                             handleYearChange={handleYearChange}
