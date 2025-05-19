@@ -29,6 +29,7 @@ const variants = {
 export const DatePicker = ({
     variant = variants.single,
     value,
+    selectedDays,
     getDayContent,
     disabledDays = [],
     loadingDays = [],
@@ -248,7 +249,7 @@ export const DatePicker = ({
     // Comparing `from` and `to` dates hides a weird CSS style when you select the same date twice in a date range.
     const useDateRangeStyle = isRangeVariant && isValidValue && value.from?.getTime() !== value.to?.getTime();
     // Return the same value if it is already dayjs object or has range variant otherwise format it to dayJs object
-    const selectedDays = value && (dayjs.isDayjs(value) || isRangeVariant ? value : now(value, timezoneName).toDate());
+    const selectedDaysValue = selectedDays ?? (value && (dayjs.isDayjs(value) || isRangeVariant ? value : now(value, timezoneName).toDate()));
 
     return (
         <>
@@ -277,7 +278,7 @@ export const DatePicker = ({
                         handleStartMonthChange={handleStartMonthChange}
                         handleEndMonthChange={handleEndMonthChange}
                         handleTodayClick={handleTodayClick}
-                        selectedDays={selectedDays}
+                        selectedDays={selectedDaysValue}
                         locale={locale ?? contextLocale}
                         timezoneName={timezoneName}
                         {...rest}
@@ -291,7 +292,7 @@ export const DatePicker = ({
                             modifiers.waitlist ? "has-custom-content" : null,
                         )}
                         todayButton="Today"
-                        selectedDays={selectedDays}
+                        selectedDays={selectedDaysValue}
                         month={currentMonth}
                         modifiers={{ ...modifiers, ...rangeModifier }}
                         disabledDays={disabledDays}
@@ -329,6 +330,7 @@ export const DatePicker = ({
 DatePicker.propTypes = {
     variant: PropTypes.oneOf(Object.keys(variants)),
     value: PropTypes.objectOf(Date),
+    selectedDays: PropTypes.objectOf(Date),
     upcomingDates: PropTypes.arrayOf(Date),
     onChange: PropTypes.func.isRequired,
     onMonthChange: PropTypes.func,
