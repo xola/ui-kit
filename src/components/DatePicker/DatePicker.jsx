@@ -31,7 +31,7 @@ export const DatePicker = ({
     value,
     getDayContent,
     disabledDays = [],
-    selectedDaysValue,
+    selectedDays,
     loadingDays = [],
     shouldShowYearPicker = false,
     shouldShowMonthSelector = false,
@@ -71,7 +71,7 @@ export const DatePicker = ({
     const [rangeName, setRangeName] = useState("");
     const isRangeVariant = variant === variants.range;
     const isValidValue = value && value.from && value.to;
-    const isSelectedDaysRangeValid = selectedDaysValue && selectedDaysValue.from && selectedDaysValue.to;
+    const isSelectedDaysHasValidRange = selectedDays && selectedDays.from && selectedDays.to;
 
     useEffect(() => {
         if (timezoneName && !isValidTimeZoneName(timezoneName)) {
@@ -245,14 +245,27 @@ export const DatePicker = ({
         );
     };
 
-    const rangeModifier = isRangeVariant && isValidValue ? { start: value.from, end: value.to } : null;
+    const rangeModifier =
+        isRangeVariant && isValidValue
+            ? { start: value.from, end: value.to }
+            : isSelectedDaysHasValidRange
+            ? { start: selectedDays.from, end: selectedDays.to }
+            : null;
 
     // Comparing `from` and `to` dates hides a weird CSS style when you select the same date twice in a date range.
     const isValidRangeValue = isRangeVariant && isValidValue && value.from?.getTime() !== value.to?.getTime();
-    const isSelectedDaysValidRange = isSelectedDaysRangeValid && selectedDaysValue.from?.getTime() !== selectedDaysValue.to?.getTime();
+    const isSelectedDaysValidRange =
+        isSelectedDaysHasValidRange && selectedDays.from?.getTime() !== selectedDays.to?.getTime();
     const useDateRangeStyle = isValidRangeValue || isSelectedDaysValidRange;
     // Return the same value if it is already dayjs object or has range variant otherwise format it to dayJs object
-    const selectedDays = selectedDaysValue ?? (value && (dayjs.isDayjs(value) || isRangeVariant ? value : now(value, timezoneName).toDate()));
+    const selectedDaysValues =
+        selectedDays ?? (value && (dayjs.isDayjs(value) || isRangeVariant ? value : now(value, timezoneName).toDate()));
+    console.log("selectedDaysValues", selectedDaysValues);
+    console.log("value", value);
+    console.log("rangeModifier", rangeModifier);
+    console.log("isSelectedDaysValidRange", isSelectedDaysValidRange);
+    console.log("isValidRangeValue", isValidRangeValue);
+    console.log("useDateRangeStyle", useDateRangeStyle);
 
     return (
         <>
@@ -281,7 +294,7 @@ export const DatePicker = ({
                         handleStartMonthChange={handleStartMonthChange}
                         handleEndMonthChange={handleEndMonthChange}
                         handleTodayClick={handleTodayClick}
-                        selectedDays={selectedDays}
+                        selectedDays={selectedDaysValues}
                         locale={locale ?? contextLocale}
                         timezoneName={timezoneName}
                         {...rest}
@@ -295,7 +308,7 @@ export const DatePicker = ({
                             modifiers.waitlist ? "has-custom-content" : null,
                         )}
                         todayButton="Today"
-                        selectedDays={selectedDays}
+                        selectedDays={selectedDaysValues}
                         month={currentMonth}
                         modifiers={{ ...modifiers, ...rangeModifier }}
                         disabledDays={disabledDays}
@@ -333,7 +346,7 @@ export const DatePicker = ({
 DatePicker.propTypes = {
     variant: PropTypes.oneOf(Object.keys(variants)),
     value: PropTypes.objectOf(Date),
-    selectedDaysValue: PropTypes.objectOf(Date),
+    selectedDays: PropTypes.objectOf(Date),
     upcomingDates: PropTypes.arrayOf(Date),
     onChange: PropTypes.func.isRequired,
     onMonthChange: PropTypes.func,
