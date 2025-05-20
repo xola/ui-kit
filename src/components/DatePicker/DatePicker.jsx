@@ -253,19 +253,12 @@ export const DatePicker = ({
             : null;
 
     // Comparing `from` and `to` dates hides a weird CSS style when you select the same date twice in a date range.
-    const isValidRangeValue = isRangeVariant && isValidValue && value.from?.getTime() !== value.to?.getTime();
-    const isSelectedDaysValidRange =
+    const useDateRangeStyle = isRangeVariant && isValidValue && value.from?.getTime() !== value.to?.getTime();
+    const useDateSelectedRangeStyle =
         isSelectedDaysHasValidRange && selectedDays.from?.getTime() !== selectedDays.to?.getTime();
-    const useDateRangeStyle = isValidRangeValue || isSelectedDaysValidRange;
     // Return the same value if it is already dayjs object or has range variant otherwise format it to dayJs object
     const selectedDaysValues =
         selectedDays ?? (value && (dayjs.isDayjs(value) || isRangeVariant ? value : now(value, timezoneName).toDate()));
-    console.log("selectedDaysValues", selectedDaysValues);
-    console.log("value", value);
-    console.log("rangeModifier", rangeModifier);
-    console.log("isSelectedDaysValidRange", isSelectedDaysValidRange);
-    console.log("isValidRangeValue", isValidRangeValue);
-    console.log("useDateRangeStyle", useDateRangeStyle);
 
     return (
         <>
@@ -304,6 +297,7 @@ export const DatePicker = ({
                         className={clsx(
                             "ui-date-picker rounded-lg pt-3",
                             useDateRangeStyle ? "date-range-picker" : null,
+                            useDateSelectedRangeStyle ? "date-range-picker max-w-[400px]" : null,
                             getDayContent ? "has-custom-content" : null,
                             modifiers.waitlist ? "has-custom-content" : null,
                         )}
