@@ -31,6 +31,7 @@ export const DatePicker = ({
     value,
     getDayContent,
     disabledDays = [],
+    selectedDaysValue,
     loadingDays = [],
     shouldShowYearPicker = false,
     shouldShowMonthSelector = false,
@@ -70,6 +71,7 @@ export const DatePicker = ({
     const [rangeName, setRangeName] = useState("");
     const isRangeVariant = variant === variants.range;
     const isValidValue = value && value.from && value.to;
+    const isSelectedDaysRangeValid = selectedDaysValue && selectedDaysValue.from && selectedDaysValue.to;
 
     useEffect(() => {
         if (timezoneName && !isValidTimeZoneName(timezoneName)) {
@@ -246,9 +248,11 @@ export const DatePicker = ({
     const rangeModifier = isRangeVariant && isValidValue ? { start: value.from, end: value.to } : null;
 
     // Comparing `from` and `to` dates hides a weird CSS style when you select the same date twice in a date range.
-    const useDateRangeStyle = isRangeVariant && isValidValue && value.from?.getTime() !== value.to?.getTime();
+    const isValidRangeValue = isRangeVariant && isValidValue && value.from?.getTime() !== value.to?.getTime();
+    const isSelectedDaysValidRange = isSelectedDaysRangeValid && selectedDaysValue.from?.getTime() !== selectedDaysValue.to?.getTime();
+    const useDateRangeStyle = isValidRangeValue || isSelectedDaysValidRange;
     // Return the same value if it is already dayjs object or has range variant otherwise format it to dayJs object
-    const selectedDays = value && (dayjs.isDayjs(value) || isRangeVariant ? value : now(value, timezoneName).toDate());
+    const selectedDays = selectedDaysValue ?? (value && (dayjs.isDayjs(value) || isRangeVariant ? value : now(value, timezoneName).toDate()));
 
     return (
         <>
@@ -329,6 +333,7 @@ export const DatePicker = ({
 DatePicker.propTypes = {
     variant: PropTypes.oneOf(Object.keys(variants)),
     value: PropTypes.objectOf(Date),
+    selectedDaysValue: PropTypes.objectOf(Date),
     upcomingDates: PropTypes.arrayOf(Date),
     onChange: PropTypes.func.isRequired,
     onMonthChange: PropTypes.func,
