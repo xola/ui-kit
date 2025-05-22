@@ -2,15 +2,20 @@ import PropTypes from "prop-types";
 import React, { useState } from "react";
 import dayjs from "dayjs";
 import { ChevronDownIcon } from "../../icons";
+import { Popover } from "../Popover/Popover";
 import { MonthGrid } from "./MonthGrid";
 
 export const MonthSelector = ({ date, locale, onChange, currentMonth }) => {
-    const [isSelectingMonth, setIsSelectingMonth] = useState(false);
+    const [isVisible, setIsVisible] = useState(false);
     const [year, setYear] = useState(new Date(currentMonth).getFullYear());
+
+    const toggleVisibility = () => {
+        setIsVisible(!isVisible);
+    };
 
     const handleMonthSelect = (newDate) => {
         onChange(newDate);
-        setIsSelectingMonth(false);
+        setIsVisible(false);
     };
 
     const handleYearChange = (offset) => {
@@ -18,38 +23,37 @@ export const MonthSelector = ({ date, locale, onChange, currentMonth }) => {
     };
 
     const handleClear = () => {
-        setIsSelectingMonth(false);
+        setIsVisible(false);
     };
 
     const handleToday = () => {
         onChange(new Date());
-        setIsSelectingMonth(false);
+        setIsVisible(false);
     };
 
     return (
-        <span className="DayPicker-Caption items-center">
+        <span className="DayPicker-Caption">
             <span className="inline-block">
-                {isSelectingMonth ? (
-                    <span className="absolute top-0 z-10 rounded-lg  border border-gray bg-white p-3 shadow-md">
-                        <MonthGrid
-                            year={year}
-                            value={date}
-                            locale={locale}
-                            handleYearChange={handleYearChange}
-                            handleClear={handleClear}
-                            handleToday={handleToday}
-                            onChange={(date) => handleMonthSelect(date)}
-                        />
-                    </span>
-                ) : (
+                <Popover visible={isVisible} placement="bottom" onClickOutside={handleClear}>
                     <div
                         className="mt-1 flex cursor-pointer items-center justify-between font-bold"
-                        onClick={() => setIsSelectingMonth(true)}
+                        onClick={toggleVisibility}
                     >
                         <span className="pr-1 text-lg">{dayjs(date).locale(locale).format("MMMM YYYY")}</span>
                         <ChevronDownIcon />
                     </div>
-                )}
+                    <Popover.Content className="max-w-xs p-3">
+                        <MonthGrid
+                            year={year}
+                            value={date}
+                            locale={locale}
+                            handleClear={handleClear}
+                            handleToday={handleToday}
+                            handleYearChange={handleYearChange}
+                            onChange={handleMonthSelect}
+                        />
+                    </Popover.Content>
+                </Popover>
             </span>
         </span>
     );
