@@ -34,9 +34,9 @@ export const MonthSelector = ({ date, locale, onChange, currentMonth }) => {
     return (
         <span className="DayPicker-Caption">
             <span className="inline-block">
-                <Popover visible={isVisible} distance={5} skidding={65} placement="bottom" onClickOutside={handleClear}>
+                <Popover visible={isVisible} distance={5} skidding={60} placement="bottom" onClickOutside={handleClear}>
                     <div
-                        className="mt-2 cursor-pointer items-center justify-between font-bold"
+                        className="mt-2 min-w-40 cursor-pointer items-center justify-between text-left font-bold"
                         onClick={toggleVisibility}
                     >
                         <span className="pr-1 text-lg">{dayjs(date).locale(locale).format("MMMM YYYY")}</span>
