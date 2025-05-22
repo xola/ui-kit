@@ -34,15 +34,15 @@ export const MonthSelector = ({ date, locale, onChange, currentMonth }) => {
     return (
         <span className="DayPicker-Caption">
             <span className="inline-block">
-                <Popover visible={isVisible} placement="bottom" onClickOutside={handleClear}>
+                <Popover visible={isVisible} distance={5} skidding={60} placement="bottom" onClickOutside={handleClear}>
                     <div
-                        className="mt-1 flex cursor-pointer items-center justify-between font-bold"
+                        className="mt-2 cursor-pointer items-center justify-between font-bold"
                         onClick={toggleVisibility}
                     >
                         <span className="pr-1 text-lg">{dayjs(date).locale(locale).format("MMMM YYYY")}</span>
                         <ChevronDownIcon />
                     </div>
-                    <Popover.Content className="max-w-xs p-3">
+                    <Popover.Content className="p-2">
                         <MonthGrid
                             year={year}
                             value={date}
