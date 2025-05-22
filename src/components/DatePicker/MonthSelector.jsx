@@ -26,7 +26,7 @@ export const MonthSelector = ({ date, locale, onChange, currentMonth }) => {
     };
 
     return (
-        <span className="DayPicker-Caption">
+        <span className="DayPicker-Caption items-center">
             <span className="inline-block">
                 {isSelectingMonth ? (
                     <span className="absolute top-0 z-10 rounded-lg  border border-gray bg-white p-3 shadow-md">
@@ -42,10 +42,10 @@ export const MonthSelector = ({ date, locale, onChange, currentMonth }) => {
                     </span>
                 ) : (
                     <div
-                        className="flex cursor-pointer items-center justify-between"
+                        className="mt-1 flex cursor-pointer items-center justify-between font-bold"
                         onClick={() => setIsSelectingMonth(true)}
                     >
-                        <span className="pr-1 text-lg font-bold">
+                        <span className="pr-1 text-lg">
                             {date.toLocaleString("default", { month: "long", year: "numeric" })}
                         </span>
                         <ChevronDownIcon />

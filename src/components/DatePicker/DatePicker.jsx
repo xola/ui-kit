@@ -214,7 +214,7 @@ export const DatePicker = ({
             : undefined;
         // Adding `handleMonthChange` causes a lot of re-renders, and closes drop-down.
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [shouldShowYearPicker, currentMonth]);
+    }, [shouldShowYearPicker, shouldShowMonthSelector, currentMonth]);
 
     // TODO: Should be outside this component because this returns JSX
     const renderDay = (date) => {
