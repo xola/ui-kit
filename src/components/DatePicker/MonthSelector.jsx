@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import React, { useState } from "react";
+import dayjs from "dayjs";
 import { ChevronDownIcon } from "../../icons";
 import { MonthGrid } from "./MonthGrid";
 
@@ -45,9 +46,7 @@ export const MonthSelector = ({ date, locale, onChange, currentMonth }) => {
                         className="mt-1 flex cursor-pointer items-center justify-between font-bold"
                         onClick={() => setIsSelectingMonth(true)}
                     >
-                        <span className="pr-1 text-lg">
-                            {date.toLocaleString("default", { month: "long", year: "numeric" })}
-                        </span>
+                        <span className="pr-1 text-lg">{dayjs(date).locale(locale).format("MMMM YYYY")}</span>
                         <ChevronDownIcon />
                     </div>
                 )}
