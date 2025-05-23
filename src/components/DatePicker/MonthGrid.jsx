@@ -24,7 +24,7 @@ export const MonthGrid = ({ year, value, onChange, handleYearChange, locale, han
     };
 
     return (
-        <>
+        <span className="min-w-72">
             <div className="mb-4 flex items-center justify-between">
                 <ChevronButton onClick={() => handleYearChange(-1)}>
                     <ChevronLeftIcon />
@@ -61,7 +61,7 @@ export const MonthGrid = ({ year, value, onChange, handleYearChange, locale, han
                     Today
                 </Button>
             </div>
-        </>
+        </span>
     );
 };
 
