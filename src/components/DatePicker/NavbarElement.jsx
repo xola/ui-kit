@@ -30,7 +30,7 @@ NavbarElement.propTypes = {
     showPreviousButton: PropTypes.bool,
 };
 
-const ChevronButton = ({ isVisible = true, onClick, children }) => {
+export const ChevronButton = ({ isVisible = true, onClick, children }) => {
     return (
         <button
             type="button"
