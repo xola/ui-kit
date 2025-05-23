@@ -20,7 +20,7 @@ export const MonthPicker = ({ value, onChange, locale }) => {
     };
 
     return (
-        <div className="ui-month-picker max-w-xs rounded-lg bg-white">
+        <div className="ui-month-picker min-w-72 max-w-xs rounded-lg bg-white">
             <MonthGrid
                 year={year}
                 value={value}
