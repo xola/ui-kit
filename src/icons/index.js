@@ -26,6 +26,7 @@ export { ButtonCodeIcon } from "./src/ButtonCodeIcon";
 export { CakeIcon } from "./src/CakeIcon";
 export { CalendarDayIcon } from "./src/CalendarDayIcon";
 export { CalendarIcon } from "./src/CalendarIcon";
+export { CalendarListIcon } from "./src/CalendarListIcon";
 export { CalendarMonthIcon } from "./src/CalendarMonthIcon";
 export { CalendarWeekIcon } from "./src/CalendarWeekIcon";
 export { CapacityIcon } from "./src/CapacityIcon";
