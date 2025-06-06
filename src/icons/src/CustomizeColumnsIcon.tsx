@@ -4,14 +4,8 @@ import { createIcon } from "./helpers/icon";
 export const CustomizeColumnsIcon = createIcon((props) => {
     return (
         <svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
-            <path
-                d="M13 11.5V15.5"
-                stroke="#222324"
-                strokeWidth="1.3"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-            />
-            <path d="M11 13.5H15" stroke="#222324" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M13 11.5V15.5" stroke="#222324" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M11 13.5H15" stroke="#222324" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
             <rect
                 x="2.5"
                 y="3.5"
