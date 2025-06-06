@@ -7,9 +7,9 @@ export const CustomizeColumnsIcon = createIcon((props) => {
             <path
                 d="M13 11.5V15.5"
                 stroke="#222324"
-                stroke-width="1.3"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="1.3"
+                strokeLinecap="round"
+                strokeLinejoin="round"
             />
             <path d="M11 13.5H15" stroke="#222324" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
             <rect
@@ -19,17 +19,19 @@ export const CustomizeColumnsIcon = createIcon((props) => {
                 height="12"
                 rx="1"
                 stroke="#222324"
-                stroke-width="1.3"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="1.3"
+                strokeLinecap="round"
+                strokeLinejoin="round"
             />
             <path
                 d="M15.5 9.5V4.5C15.5 3.94772 15.0523 3.5 14.5 3.5H13H11.5C10.9477 3.5 10.5 3.94772 10.5 4.5V9.5"
                 stroke="#222324"
-                stroke-width="1.3"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="1.3"
+                strokeLinecap="round"
+                strokeLinejoin="round"
             />
         </svg>
     );
 });
+
+CustomizeColumnsIcon.tags = ["column customization", "table"];
