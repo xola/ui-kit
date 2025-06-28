@@ -137,6 +137,7 @@ export {
     getChildrenByType,
     getInitials,
     getSymbol,
+    getValueWithCurrency,
     GiftIcon,
     GlobeIcon,
     HandIcon,
