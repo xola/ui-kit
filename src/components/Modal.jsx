@@ -62,6 +62,7 @@ export const useLocation = () => {
                 hash: window.location.hash,
             };
         }
+
         return { pathname: "", search: "", hash: "" };
     });
 
@@ -99,8 +100,6 @@ export const Modal = ({
 }) => {
     const location = useLocation();
 
-    const [localIsOpen, setIsLocalOpen] = useState(isOpen);
-
     const handleOutsideClick = () => {
         if (shouldCloseOnOutsideClick) {
             onClose();
@@ -108,15 +107,13 @@ export const Modal = ({
     };
 
     useEffect(() => {
-        setIsLocalOpen(false);
+        if (isOpen) {
+            onClose();
+        }
     }, [location]);
 
-    useEffect(() => {
-        setIsLocalOpen(isOpen);
-    }, [isOpen]);
-
     return (
-        <Transition appear show={localIsOpen} as={Fragment}>
+        <Transition appear show={isOpen} as={Fragment}>
             <Dialog as="div" className="ui-modal fixed inset-0 z-30 overflow-y-auto" onClose={handleOutsideClick}>
                 <div className="min-h-screen px-4 text-center">
                     <Transition.Child
