@@ -1,7 +1,7 @@
 import { Dialog, Transition } from "@headlessui/react";
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import { CloseIcon } from "../icons";
 
 const sizes = {
@@ -52,6 +52,34 @@ const animations = {
     },
 };
 
+export const useLocation = () => {
+    const [location, setLocation] = useState(() => ({
+        pathname: window.location.pathname,
+        search: window.location.search,
+        hash: window.location.hash,
+    }));
+
+    useEffect(() => {
+        const handlePopState = () => {
+            setLocation({
+                pathname: window.location.pathname,
+                search: window.location.search,
+                hash: window.location.hash,
+            });
+        };
+
+        window.addEventListener("popstate", handlePopState);
+        window.addEventListener("pushstate", handlePopState);
+
+        return () => {
+            window.removeEventListener("popstate", handlePopState);
+            window.removeEventListener("pushstate", handlePopState);
+        };
+    }, []);
+
+    return location;
+};
+
 export const Modal = ({
     size = "medium",
     position = "center",
@@ -61,14 +89,26 @@ export const Modal = ({
     children,
     className,
 }) => {
+    const location = useLocation();
+
+    const [localIsOpen, setIsLocalOpen] = useState(isOpen);
+
     const handleOutsideClick = () => {
         if (shouldCloseOnOutsideClick) {
             onClose();
         }
     };
 
+    useEffect(() => {
+        setIsLocalOpen(false);
+    }, [location]);
+
+    useEffect(() => {
+        setIsLocalOpen(isOpen);
+    }, [isOpen]);
+
     return (
-        <Transition appear show={isOpen} as={Fragment}>
+        <Transition appear show={localIsOpen} as={Fragment}>
             <Dialog as="div" className="ui-modal fixed inset-0 z-30 overflow-y-auto" onClose={handleOutsideClick}>
                 <div className="min-h-screen px-4 text-center">
                     <Transition.Child
