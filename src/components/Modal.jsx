@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { Dialog, Transition } from "@headlessui/react";
 import clsx from "clsx";
 import PropTypes from "prop-types";
