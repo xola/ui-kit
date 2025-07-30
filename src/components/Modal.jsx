@@ -1,7 +1,7 @@
 import { Dialog, Transition } from "@headlessui/react";
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import React, { Fragment, useEffect, useRef, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { CloseIcon } from "../icons";
 
 const sizes = {
@@ -53,13 +53,20 @@ const animations = {
 };
 
 export const useLocation = () => {
-    const [location, setLocation] = useState(() => ({
-        pathname: window.location.pathname,
-        search: window.location.search,
-        hash: window.location.hash,
-    }));
+    const [location, setLocation] = useState(() => {
+        if (typeof window !== "undefined") {
+            return {
+                pathname: window.location.pathname,
+                search: window.location.search,
+                hash: window.location.hash,
+            };
+        }
+        return { pathname: "", search: "", hash: "" };
+    });
 
     useEffect(() => {
+        if (typeof window === "undefined") return;
+
         const handlePopState = () => {
             setLocation({
                 pathname: window.location.pathname,
