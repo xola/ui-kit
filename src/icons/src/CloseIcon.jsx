@@ -2,7 +2,7 @@ import React from "react";
 import { createIcon } from "./helpers/icon";
 
 export const CloseIcon = createIcon((props) => {
-    const clipPathId = `close-icon-clip-${Math.random().toString(36).substr(2, 9)}`;
+    const clipPathId = `close-icon-clip-${Math.random().toString(36).slice(2, 11)}`;
 
     return (
         <svg width={14} height={14} fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" {...props}>
