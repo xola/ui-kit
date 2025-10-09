@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { Badge, Input } from "@xola/ui-kit";
 import { startCase, debounce } from "lodash";
@@ -15,11 +15,14 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, urlConfig }) 
     const dropdownRef = useRef(null);
     const initialFetchDoneRef = useRef(false);
 
-    const handleSelect = (sug) => {
-        setInputValue(sug.description || sug.name || "");
-        setShowDropdown(false);
-        onSelect?.(sug);
-    };
+    const handleSelect = useCallback(
+        (sug) => {
+            setInputValue(sug.description || sug.name || "");
+            setShowDropdown(false);
+            onSelect?.(sug);
+        },
+        [onSelect],
+    );
 
     const handleInputChange = (e) => {
         setInputValue(e.target.value);
@@ -51,7 +54,7 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, urlConfig }) 
                     setIsLoading(false);
                 }
             }, 300),
-        [],
+        [urlConfig, handleSelect],
     );
 
     useEffect(() => {
@@ -70,15 +73,23 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, urlConfig }) 
         }
     }, [inputValue, userTyping, fetchSuggestions]);
 
+    /* eslint-disable no-undef */
     useEffect(() => {
+        if (typeof document === "undefined") return;
+
         const handleClickOutside = (e) => {
             if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
                 setShowDropdown(false);
             }
         };
+
         document.addEventListener("mousedown", handleClickOutside);
-        return () => document.removeEventListener("mousedown", handleClickOutside);
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
     }, []);
+    /* eslint-enable no-undef */
 
     return (
         <div ref={dropdownRef} className="relative">
