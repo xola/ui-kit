@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import PropTypes from "prop-types";
-import { Badge, Input } from "@xola/ui-kit";
 import { startCase, debounce } from "lodash";
+import { Input } from "./Forms/Input";
+import { Badge } from "./Badge";
 
 const POINT_OF_INTEREST = "point_of_interest";
 
