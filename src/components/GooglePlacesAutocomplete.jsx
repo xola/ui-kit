@@ -33,7 +33,6 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, urlConfig }) 
 
     const handleBlur = () => {
         setUserTyping(false);
-        setShowDropdown(false);
     };
 
     const fetchSuggestions = useMemo(
