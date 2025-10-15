@@ -19,6 +19,7 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, urlConfig }) 
     const handleSelect = useCallback(
         (sug) => {
             setInputValue(sug.description || sug.name || "");
+            setUserTyping(false);
             setShowDropdown(false);
             onSelect?.(sug);
         },
@@ -28,6 +29,11 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, urlConfig }) 
     const handleInputChange = (e) => {
         setInputValue(e.target.value);
         setUserTyping(true);
+    };
+
+    const handleBlur = () => {
+        setUserTyping(false);
+        setShowDropdown(false);
     };
 
     const fetchSuggestions = useMemo(
@@ -94,7 +100,13 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, urlConfig }) 
 
     return (
         <div ref={dropdownRef} className="relative">
-            <Input type="text" value={inputValue} placeholder="Search place..." onChange={handleInputChange} />
+            <Input
+                type="text"
+                value={inputValue}
+                placeholder="Search place..."
+                onChange={handleInputChange}
+                onBlur={handleBlur}
+            />
             {showDropdown && (
                 <div className="absolute z-10 max-h-65 w-full overflow-y-auto rounded-md border border-gray bg-white shadow-lg">
                     {isLoading && <div className="text-gray-500 px-3 py-2">Loading...</div>}
