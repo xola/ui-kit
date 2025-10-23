@@ -4,8 +4,6 @@ import { startCase, debounce } from "lodash";
 import { Input } from "./Forms/Input";
 import { Badge } from "./Badge";
 
-const POINT_OF_INTEREST = "point_of_interest";
-
 export const GooglePlacesAutocomplete = ({ initialValue, onSelect, urlConfig }) => {
     const [inputValue, setInputValue] = useState(initialValue || "");
     const [suggestions, setSuggestions] = useState([]);
@@ -102,7 +100,7 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, urlConfig }) 
                                 <div className="flex flex-wrap items-center gap-1">
                                     <p className="mr-2 whitespace-nowrap text-md">{sug.description || sug.name}</p>
                                     {(sug.types || []).slice(0, 4).map((type) => (
-                                        <Badge key={type} color={POINT_OF_INTEREST === type ? "primary" : "secondary"}>
+                                        <Badge key={type} color={"secondary"}>
                                             {startCase(type)}
                                         </Badge>
                                     ))}
