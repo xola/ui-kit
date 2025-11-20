@@ -31,6 +31,16 @@ const ScheduleEditor = ({ value = {}, errors = {}, price = 0, isNew = true, onCh
         onChange({ ...updatedSchedule, summary: getScheduleSummary(updatedSchedule) });
     };
 
+    const handleAllowedPrivaciesChange = (privacy) => {
+        let updatedPrivacies = [...schedule.allowedPrivacies];
+        if (updatedPrivacies.includes(privacy)) {
+            updatedPrivacies = updatedPrivacies.filter((p) => p !== privacy);
+        } else {
+            updatedPrivacies.push(privacy);
+        }
+        handleChange(updatedPrivacies, "allowedPrivacies");
+    };
+
     return (
         <div>
             <ScheduleEditorRow label="Name" htmlFor="scheduleName">
@@ -41,9 +51,32 @@ const ScheduleEditor = ({ value = {}, errors = {}, price = 0, isNew = true, onCh
                     type="name"
                     name="scheduleName"
                     id="scheduleName"
-                    placeholder="sm"
                     placeholder="Daily"
                 />
+            </ScheduleEditorRow>
+            <ScheduleEditorRow label="Allowed Privacies" htmlFor="allowedPrivacies">
+                <div>
+                    <CustomInput
+                        inline
+                        type="checkbox"
+                        name="allowedPrivacies"
+                        id="privacy-public"
+                        label="Public"
+                        value="public"
+                        checked={schedule.allowedPrivacies.includes("public")}
+                        onChange={(e) => handleAllowedPrivaciesChange("public")}
+                    />
+                    <CustomInput
+                        inline
+                        type="checkbox"
+                        name="allowedPrivacies"
+                        id="privacy-private"
+                        label="Private"
+                        value="private"
+                        checked={schedule.allowedPrivacies.includes("private")}
+                        onChange={(e) => handleAllowedPrivaciesChange("private")}
+                    />
+                </div>
             </ScheduleEditorRow>
             <ScheduleEditorRow label="Availability">
                 {isNew ? (
