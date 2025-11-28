@@ -1,10 +1,11 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { startCase } from "lodash";
-import { Input } from "./Forms/Input";
-import { Badge } from "./Badge";
 import { useDebouncedCallback } from "use-debounce";
 import axios from "axios";
+import { Input } from "./Forms/Input";
+import { Badge } from "./Badge";
+import { useClickAway } from "ahooks";
 
 export const GooglePlacesAutocomplete = ({ initialValue, onSelect, urlConfig }) => {
     const [inputValue, setInputValue] = useState(initialValue || "");
@@ -82,10 +83,13 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, urlConfig }) 
             <Input type="text" value={inputValue} placeholder="Search place..." onChange={handleInputChange} />
             {showDropdown && (
                 <div className="absolute z-10 max-h-65 w-full overflow-y-auto rounded-md border border-gray bg-white shadow-lg">
-                    {isLoading && <div className="text-gray-dark px-3 py-2">Loading...</div>}
+                    {isLoading && <div className="px-3 py-2 text-gray-dark">Loading...</div>}
                     {!isLoading && suggestions.length === 0 && (
-                        <div className="text-gray-dark px-3 py-2">No results</div>
+                        <div className="px-3 py-2 text-gray-dark">No results</div>
                     )}
+
+                    {error && <div className="px-3 py-2 text-gray-dark">{error}</div>}
+
                     {!isLoading &&
                         suggestions.map((suggestion) => (
                             <div
@@ -94,7 +98,9 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, urlConfig }) 
                                 onClick={() => handleSelect(suggestion)}
                             >
                                 <div className="flex flex-wrap items-center gap-1">
-                                    <p className="mr-2 whitespace-nowrap text-md">{suggestion.description || suggestion.name}</p>
+                                    <p className="mr-2 whitespace-nowrap text-md">
+                                        {suggestion.description || suggestion.name}
+                                    </p>
                                     {(suggestion.types || []).slice(0, 4).map((type) => (
                                         <Badge key={type} color="secondary">
                                             {startCase(type)}
