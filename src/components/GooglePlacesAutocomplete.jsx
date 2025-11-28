@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 import { startCase } from "lodash";
 import { useDebouncedCallback } from "use-debounce";
 import axios from "axios";
+import { useClickAway } from "ahooks";
 import { Input } from "./Forms/Input";
 import { Badge } from "./Badge";
-import { useClickAway } from "ahooks";
 
 export const GooglePlacesAutocomplete = ({ initialValue, onSelect, urlConfig }) => {
     const [inputValue, setInputValue] = useState(initialValue || "");
