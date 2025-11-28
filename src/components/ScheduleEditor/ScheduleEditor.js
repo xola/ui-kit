@@ -11,7 +11,6 @@ import { getScheduleSummary } from "./helpers/scheduleSummary";
 import { getScheduleDefaultValues } from "./helpers/schedule";
 
 const ScheduleEditor = ({ value = {}, errors = {}, price = 0, isNew = true, onChange }) => {
-    console.log("errors", errors);
     value = JSON.parse(JSON.stringify(value));
     if (value.dates?.length > 0) {
         value.dates = value.dates.map((date) => new Date(date));
