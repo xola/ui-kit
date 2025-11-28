@@ -7,12 +7,16 @@ import { useClickAway } from "ahooks";
 import { Input } from "./Forms/Input";
 import { Badge } from "./Badge";
 
-export const GooglePlacesAutocomplete = ({ initialValue, onSelect, urlConfig }) => {
+export const GooglePlacesAutocomplete = ({ initialValue, onSelect, apiBaseUrl }) => {
     const [inputValue, setInputValue] = useState(initialValue || "");
     const [suggestions, setSuggestions] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [showDropdown, setShowDropdown] = useState(false);
     const [error, setError] = useState("");
+    const [activeSuggestionIndex, setActiveSuggestionIndex] = useState(0);
+    const activeSuggestionId = suggestions[activeSuggestionIndex]?.place_id
+        ? `autocomplete-item-${activeSuggestionIndex}`
+        : undefined;
 
     const dropdownRef = useRef(null);
     const initialFetchDoneRef = useRef(false);
@@ -32,6 +36,34 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, urlConfig }) 
         fetchSuggestions(e.target.value);
     };
 
+    const handleKeyDown = (e) => {
+        if (!showDropdown || suggestions.length === 0) return;
+
+        switch (e.key) {
+            case "ArrowDown":
+                e.preventDefault();
+                setActiveSuggestionIndex((previous) => (previous + 1) % suggestions.length);
+                break;
+
+            case "ArrowUp":
+                e.preventDefault();
+                setActiveSuggestionIndex((previous) => (previous - 1 + suggestions.length) % suggestions.length);
+                break;
+
+            case "Enter":
+                e.preventDefault();
+                handleSelect(suggestions[activeSuggestionIndex]);
+                break;
+
+            case "Escape":
+                setShowDropdown(false);
+                break;
+
+            default:
+                break;
+        }
+    };
+
     const fetchSuggestions = useDebouncedCallback(
         async (query, selectFirst = false) => {
             if (!query.trim()) {
@@ -44,7 +76,7 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, urlConfig }) 
             setError("");
 
             try {
-                const { data } = await axios.get(`${urlConfig}/searchGooglePlaces`, {
+                const { data } = await axios.get(`${apiBaseUrl}/searchGooglePlaces`, {
                     params: { input: query },
                 });
 
@@ -64,7 +96,7 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, urlConfig }) 
             }
         },
         300,
-        [urlConfig, handleSelect],
+        [apiBaseUrl],
     );
 
     useEffect(() => {
@@ -80,22 +112,36 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, urlConfig }) 
 
     return (
         <div ref={dropdownRef} className="relative">
-            <Input type="text" value={inputValue} placeholder="Search place..." onChange={handleInputChange} />
+            <Input
+                type="text"
+                role="combobox"
+                aria-expanded={showDropdown}
+                aria-controls="autocomplete-list"
+                aria-activedescendant={activeSuggestionId || undefined}
+                aria-autocomplete="list"
+                value={inputValue}
+                placeholder="Search place..."
+                onChange={handleInputChange}
+                onKeyDown={handleKeyDown}
+            />
             {showDropdown && (
-                <div className="absolute z-10 max-h-65 w-full overflow-y-auto rounded-md border border-gray bg-white shadow-lg">
-                    {isLoading && <div className="px-3 py-2 text-gray-dark">Loading...</div>}
-                    {!isLoading && suggestions.length === 0 && (
+                <div
+                    className="absolute z-10 max-h-65 w-full overflow-y-auto rounded-md border border-gray bg-white shadow-lg"
+                    role="listbox"
+                >
+                    {isLoading ? (
+                        <div className="px-3 py-2 text-gray-dark">Loading...</div>
+                    ) : error ? (
+                        <div className="px-3 py-2 text-gray-dark">{error}</div>
+                    ) : suggestions.length === 0 ? (
                         <div className="px-3 py-2 text-gray-dark">No results</div>
-                    )}
-
-                    {error && <div className="px-3 py-2 text-gray-dark">{error}</div>}
-
-                    {!isLoading &&
-                        suggestions.map((suggestion) => (
+                    ) : (
+                        suggestions.map((suggestion, index) => (
                             <div
                                 key={suggestion.place_id}
                                 className="flex cursor-pointer flex-col gap-2 border-b border-gray bg-white px-3 py-2 hover:bg-gray-light hover:text-blue-light"
                                 onClick={() => handleSelect(suggestion)}
+                                onMouseEnter={() => setActiveSuggestionIndex(index)}
                             >
                                 <div className="flex flex-wrap items-center gap-1">
                                     <p className="mr-2 whitespace-nowrap text-md">
@@ -109,7 +155,8 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, urlConfig }) 
                                 </div>
                                 {suggestion.formatted_address && <p>{suggestion.formatted_address}</p>}
                             </div>
-                        ))}
+                        ))
+                    )}
                 </div>
             )}
         </div>
@@ -119,7 +166,7 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, urlConfig }) 
 GooglePlacesAutocomplete.propTypes = {
     initialValue: PropTypes.string,
     onSelect: PropTypes.func,
-    urlConfig: PropTypes.string.isRequired,
+    apiBaseUrl: PropTypes.string.isRequired,
 };
 
 GooglePlacesAutocomplete.defaultProps = {
