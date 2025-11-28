@@ -3,6 +3,7 @@ import { Col, FormFeedback, FormGroup, Input, Label } from "reactstrap";
 import classNames from "classnames";
 
 const ScheduleEditorRow = ({ label, error, htmlFor, children }) => {
+    console.log(error);
     return (
         <FormGroup row>
             <Col className={classNames("d-flex py-1 align-items-center")} sm={2}>

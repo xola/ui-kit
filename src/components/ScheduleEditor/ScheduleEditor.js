@@ -11,6 +11,7 @@ import { getScheduleSummary } from "./helpers/scheduleSummary";
 import { getScheduleDefaultValues } from "./helpers/schedule";
 
 const ScheduleEditor = ({ value = {}, errors = {}, price = 0, isNew = true, onChange }) => {
+    console.log("errors", errors);
     value = JSON.parse(JSON.stringify(value));
     if (value.dates?.length > 0) {
         value.dates = value.dates.map((date) => new Date(date));
@@ -54,11 +55,7 @@ const ScheduleEditor = ({ value = {}, errors = {}, price = 0, isNew = true, onCh
                     placeholder="Daily"
                 />
             </ScheduleEditorRow>
-            <ScheduleEditorRow
-                label="Allowed Privacies"
-                htmlFor="allowedPrivacies"
-                error={errors && errors.allowedPrivacies}
-            >
+            <ScheduleEditorRow label="Allowed Privacies" htmlFor="allowedPrivacies">
                 <div>
                     <CustomInput
                         inline
@@ -81,6 +78,9 @@ const ScheduleEditor = ({ value = {}, errors = {}, price = 0, isNew = true, onCh
                         onChange={(e) => handleAllowedPrivaciesChange("private")}
                     />
                 </div>
+                {errors && errors.allowedPrivacies && (
+                    <FormFeedback valid={false}> {errors.allowedPrivacies}</FormFeedback>
+                )}
             </ScheduleEditorRow>
             <ScheduleEditorRow label="Availability">
                 {isNew ? (
