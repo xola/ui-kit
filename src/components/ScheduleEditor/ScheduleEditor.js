@@ -54,7 +54,11 @@ const ScheduleEditor = ({ value = {}, errors = {}, price = 0, isNew = true, onCh
                     placeholder="Daily"
                 />
             </ScheduleEditorRow>
-            <ScheduleEditorRow label="Allowed Privacies" htmlFor="allowedPrivacies">
+            <ScheduleEditorRow
+                label="Allowed Privacies"
+                htmlFor="allowedPrivacies"
+                error={errors && errors.allowedPrivacies}
+            >
                 <div>
                     <CustomInput
                         inline
