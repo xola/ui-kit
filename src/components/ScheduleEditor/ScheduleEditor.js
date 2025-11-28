@@ -82,9 +82,6 @@ const ScheduleEditor = ({ value = {}, errors = {}, price = 0, isNew = true, onCh
                         onChange={(e) => handleAllowedPrivaciesChange("private")}
                     />
                 </div>
-                {/* {errors && errors.allowedPrivacies && (
-                    <FormFeedback valid={false}> {errors.allowedPrivacies}</FormFeedback>
-                )} */}
             </ScheduleEditorRow>
             <ScheduleEditorRow label="Availability">
                 {isNew ? (
