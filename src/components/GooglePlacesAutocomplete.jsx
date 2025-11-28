@@ -1,23 +1,26 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
-import { startCase, debounce } from "lodash";
+import { startCase } from "lodash";
 import { Input } from "./Forms/Input";
 import { Badge } from "./Badge";
+import { useDebouncedCallback } from "use-debounce";
+import axios from "axios";
 
 export const GooglePlacesAutocomplete = ({ initialValue, onSelect, urlConfig }) => {
     const [inputValue, setInputValue] = useState(initialValue || "");
     const [suggestions, setSuggestions] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [showDropdown, setShowDropdown] = useState(false);
+    const [error, setError] = useState("");
 
     const dropdownRef = useRef(null);
     const initialFetchDoneRef = useRef(false);
 
     const handleSelect = useCallback(
-        (sug) => {
-            setInputValue(sug.description || sug.name || "");
+        (suggestion) => {
+            setInputValue(suggestion.description || suggestion.name || "");
             setShowDropdown(false);
-            onSelect?.(sug);
+            onSelect?.(suggestion);
         },
         [onSelect],
     );
@@ -28,31 +31,38 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, urlConfig }) 
         fetchSuggestions(e.target.value);
     };
 
-    const fetchSuggestions = useMemo(
-        () =>
-            debounce(async (query, selectFirst = false) => {
-                if (!query.trim()) {
-                    setSuggestions([]);
-                    return;
-                }
+    const fetchSuggestions = useDebouncedCallback(
+        async (query, selectFirst = false) => {
+            if (!query.trim()) {
+                setSuggestions([]);
+                setError("");
+                return;
+            }
 
-                setIsLoading(true);
-                try {
-                    const response = await fetch(`${urlConfig}/searchGooglePlaces?input=${encodeURIComponent(query)}`);
-                    const data = await response.json();
-                    const results = Array.isArray(data) ? data : data.predictions || [];
-                    setSuggestions(results);
+            setIsLoading(true);
+            setError("");
 
-                    if (selectFirst && results.length > 0) {
-                        handleSelect(results[0]);
-                    }
-                } catch (error) {
-                    console.error("Error occurred:", error);
-                    setSuggestions([]);
-                } finally {
-                    setIsLoading(false);
+            try {
+                const { data } = await axios.get(`${urlConfig}/searchGooglePlaces`, {
+                    params: { input: query },
+                });
+
+                const results = Array.isArray(data) ? data : data.predictions || [];
+
+                setSuggestions(results);
+
+                if (selectFirst && results.length > 0) {
+                    handleSelect(results[0]);
                 }
-            }, 300),
+            } catch (error) {
+                console.error("Google Places error:", error);
+                setSuggestions([]);
+                setError("Failed to load suggestions. Please try again.");
+            } finally {
+                setIsLoading(false);
+            }
+        },
+        300,
         [urlConfig, handleSelect],
     );
 
@@ -63,49 +73,35 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, urlConfig }) 
         }
     }, [initialValue, fetchSuggestions]);
 
-    /* eslint-disable no-undef */
-    useEffect(() => {
-        if (typeof document === "undefined") return;
-
-        const handleClickOutside = (e) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-                setShowDropdown(false);
-            }
-        };
-
-        document.addEventListener("mousedown", handleClickOutside);
-
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, []);
-    /* eslint-enable no-undef */
+    useClickAway(() => {
+        setShowDropdown(false);
+    }, dropdownRef);
 
     return (
         <div ref={dropdownRef} className="relative">
             <Input type="text" value={inputValue} placeholder="Search place..." onChange={handleInputChange} />
             {showDropdown && (
                 <div className="absolute z-10 max-h-65 w-full overflow-y-auto rounded-md border border-gray bg-white shadow-lg">
-                    {isLoading && <div className="text-gray-500 px-3 py-2">Loading...</div>}
+                    {isLoading && <div className="text-gray-dark px-3 py-2">Loading...</div>}
                     {!isLoading && suggestions.length === 0 && (
-                        <div className="text-gray-500 px-3 py-2">No results</div>
+                        <div className="text-gray-dark px-3 py-2">No results</div>
                     )}
                     {!isLoading &&
-                        suggestions.map((sug) => (
+                        suggestions.map((suggestion) => (
                             <div
-                                key={sug.place_id}
+                                key={suggestion.place_id}
                                 className="flex cursor-pointer flex-col gap-2 border-b border-gray bg-white px-3 py-2 hover:bg-gray-light hover:text-blue-light"
-                                onClick={() => handleSelect(sug)}
+                                onClick={() => handleSelect(suggestion)}
                             >
                                 <div className="flex flex-wrap items-center gap-1">
-                                    <p className="mr-2 whitespace-nowrap text-md">{sug.description || sug.name}</p>
-                                    {(sug.types || []).slice(0, 4).map((type) => (
-                                        <Badge key={type} color={"secondary"}>
+                                    <p className="mr-2 whitespace-nowrap text-md">{suggestion.description || suggestion.name}</p>
+                                    {(suggestion.types || []).slice(0, 4).map((type) => (
+                                        <Badge key={type} color="secondary">
                                             {startCase(type)}
                                         </Badge>
                                     ))}
                                 </div>
-                                {sug.formatted_address && <p>{sug.formatted_address}</p>}
+                                {suggestion.formatted_address && <p>{suggestion.formatted_address}</p>}
                             </div>
                         ))}
                 </div>
@@ -117,11 +113,10 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, urlConfig }) 
 GooglePlacesAutocomplete.propTypes = {
     initialValue: PropTypes.string,
     onSelect: PropTypes.func,
-    urlConfig: PropTypes.string,
+    urlConfig: PropTypes.string.isRequired,
 };
 
 GooglePlacesAutocomplete.defaultProps = {
     initialValue: "",
     onSelect: null,
-    urlConfig: "",
 };
