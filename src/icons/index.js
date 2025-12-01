@@ -63,6 +63,7 @@ export { ClockIcon } from "./src/ClockIcon";
 export { ClockManualIcon } from "./src/ClockManualIcon";
 export { CloseIcon } from "./src/CloseIcon";
 export { CollapseIcon } from "./src/CollapseIcon";
+export { CollectionIcon } from "./src/CollectionIcon";
 export { CommentAltIcon } from "./src/CommentAltIcon";
 export { CommentIcon } from "./src/CommentIcon";
 export { CompassIcon } from "./src/CompassIcon";

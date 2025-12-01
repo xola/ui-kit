@@ -33,6 +33,7 @@ export { Checkbox } from "./components/Forms/Checkbox";
 export { Label } from "./components/Forms/Label";
 export { RangeSlider } from "./components/Forms/RangeSlider";
 export { HeaderToolbar } from "./components/HeaderToolbar";
+export { GooglePlacesAutocomplete } from "./components/GooglePlacesAutocomplete";
 export { Tabs } from "./components/Tabs";
 export { Skeleton } from "./components/Skeleton";
 export { Drawer } from "./components/Drawer";
