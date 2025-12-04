@@ -10,5 +10,6 @@ export const getScheduleDefaultValues = () => {
         priceDeltaType: "",
         times: [],
         timeRanges: [],
+        allowedPrivacies: ["public", "private"],
     };
 };
