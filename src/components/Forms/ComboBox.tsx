@@ -2,8 +2,8 @@ import clsx from "clsx";
 import React, { useEffect, useRef, useState } from "react";
 import ReactSelect, { type Props as SelectProps, components, type MultiValueGenericProps } from "react-select";
 import CreatableSelect from "react-select/creatable";
-import "./ComboBox.css";
 import { Tooltip } from "../Tooltip";
+import "./ComboBox.css";
 
 export interface ComboBoxProps extends SelectProps {
     readonly isCreatable?: boolean;

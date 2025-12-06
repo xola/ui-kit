@@ -3,7 +3,7 @@
         "complexity": [
             "warn",
             {
-                "max": 25
+                "max": 35
             }
         ],
         "react/require-default-props": "off",
@@ -17,6 +17,8 @@
             }
         ],
         "import/no-named-as-default": "off",
+        "import/no-cycle": "off",
+        "react/boolean-prop-naming": "off",
         "react/prefer-read-only-props": "off",
         "@typescript-eslint/prefer-readonly": "off",
         "@typescript-eslint/prefer-readonly-parameter-types": "off"

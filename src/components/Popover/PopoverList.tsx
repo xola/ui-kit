@@ -1,6 +1,6 @@
 import { type TippyProps } from "@tippyjs/react";
 import clsx from "clsx";
-import React, { Children, ReactElement } from "react";
+import React, { Children } from "react";
 import { Popover, type PopoverProps } from "./Popover";
 import scrollFix from "./PopoverScroll.module.css";
 

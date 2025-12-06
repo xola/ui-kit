@@ -173,7 +173,7 @@ export const Sidebar = ({
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
             />
-            {leftDrawer || rightDrawer ? (
+            {leftDrawer ?? rightDrawer ? (
                 <div
                     className={clsx(
                         "flex w-full gap-2 p-2",
