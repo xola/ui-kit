@@ -16,6 +16,7 @@
                 "packageDir": "./"
             }
         ],
+        "import/no-named-as-default": "off",
         "react/prefer-read-only-props": "off",
         "@typescript-eslint/prefer-readonly": "off",
         "@typescript-eslint/prefer-readonly-parameter-types": "off"

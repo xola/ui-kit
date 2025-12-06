@@ -26,12 +26,7 @@ export interface RangeDatePickerProps {
     readonly timezoneName?: string;
     readonly getDayContent?: (day: number, date: Date) => React.ReactNode;
     readonly getTooltip?: (date: Date) => React.ReactNode;
-    handleDayClick: (
-        day: Date,
-        options: Record<string, any>,
-        event: React.MouseEvent,
-        isStart?: boolean,
-    ) => void;
+    handleDayClick: (day: Date, options: Record<string, any>, event: React.MouseEvent, isStart?: boolean) => void;
     handleStartMonthChange: (month: Date) => void;
     handleEndMonthChange: (month: Date) => void;
     handleTodayClick: (day: Date, options: Record<string, any>, event: React.MouseEvent) => void;
@@ -138,7 +133,9 @@ const RangeDatePicker = ({
                 captionElement={CaptionStartElement}
                 selectedDays={[selectedDays?.from, selectedDays] as any}
                 renderDay={renderStartDay}
-                onDayClick={(day: Date, options: Record<string, any>, event: React.MouseEvent) => handleDayClick(day, options, event, true)}
+                onDayClick={(day: Date, options: Record<string, any>, event: React.MouseEvent) =>
+                    handleDayClick(day, options, event, true)
+                }
                 onMonthChange={handleStartMonthChange}
                 onTodayButtonClick={handleTodayClick}
                 {...rest}
@@ -157,7 +154,9 @@ const RangeDatePicker = ({
                 captionElement={CaptionEndElement}
                 selectedDays={(isStartDateIsTheSameMonth ? [] : selectedDays) as any}
                 renderDay={renderEndDay}
-                onDayClick={(day: Date, options: Record<string, any>, event: React.MouseEvent) => handleDayClick(day, options, event, false)}
+                onDayClick={(day: Date, options: Record<string, any>, event: React.MouseEvent) =>
+                    handleDayClick(day, options, event, false)
+                }
                 onMonthChange={handleEndMonthChange}
                 onTodayButtonClick={handleTodayClick}
                 {...rest}
