@@ -7,12 +7,12 @@ import styles from "./Sidebar.Menu.module.css";
 const appendTo = typeof window === "undefined" ? undefined : window.document.body;
 
 export interface SidebarMenuProps {
-    children: React.ReactNode;
     content: React.ReactNode;
+    children: React.ReactNode;
     [key: string]: any;
 }
 
-export const SidebarMenu = ({ children, content, ...rest }: SidebarMenuProps) => {
+export const SidebarMenu = ({ content, children, ...rest }: SidebarMenuProps) => {
     return (
         <Tippy
             interactive

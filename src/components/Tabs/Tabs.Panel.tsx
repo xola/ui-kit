@@ -2,6 +2,7 @@ import clsx from "clsx";
 import React from "react";
 
 export interface PanelProps extends React.HTMLAttributes<HTMLDivElement> {
+    children?: React.ReactNode;
     className?: string;
 }
 

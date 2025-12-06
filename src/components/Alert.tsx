@@ -1,5 +1,4 @@
 import clsx from "clsx";
-import PropTypes from "prop-types";
 import React from "react";
 import { CloseIcon } from "../icons";
 
@@ -10,9 +9,18 @@ const colors = {
     warning: "bg-warning-lighter text-black",
     danger: "bg-danger-lighter text-black",
     caution: "bg-caution-lighter text-black",
-};
+} as const;
 
-export const Alert = ({ className, color = "primary", onClose, children, ...rest }) => {
+type AlertColor = keyof typeof colors;
+
+export interface AlertProps extends React.HTMLAttributes<HTMLDivElement> {
+    color?: AlertColor;
+    children: React.ReactNode;
+    className?: string;
+    onClose?: () => void;
+}
+
+export const Alert = ({ color = "primary", children, className, onClose, ...rest }: AlertProps) => {
     return (
         <div
             className={clsx(
@@ -31,11 +39,4 @@ export const Alert = ({ className, color = "primary", onClose, children, ...rest
             ) : null}
         </div>
     );
-};
-
-Alert.propTypes = {
-    className: PropTypes.string,
-    color: PropTypes.oneOf(Object.keys(colors)),
-    onClose: PropTypes.func,
-    children: PropTypes.node.isRequired,
 };

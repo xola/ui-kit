@@ -1,8 +1,12 @@
 import clsx from "clsx";
-import PropTypes from "prop-types";
-import React, { Children, cloneElement, useEffect, useRef, useState } from "react";
+import React, { Children, cloneElement, useEffect, useRef, useState, ReactElement } from "react";
 
-export const Table = ({ className, ...rest }) => (
+export interface TableProps extends React.TableHTMLAttributes<HTMLTableElement> {
+    children?: React.ReactNode;
+    className?: string;
+}
+
+export const Table = ({ className, ...rest }: TableProps) => (
     <div className="ui-table flex flex-col">
         <div className="-my-2 overflow-x-auto">
             <div className="inline-block min-w-full py-2 align-middle">
@@ -14,54 +18,65 @@ export const Table = ({ className, ...rest }) => (
     </div>
 );
 
-Table.propTypes = {
-    className: PropTypes.string,
-};
+export interface TableHeadProps extends React.HTMLAttributes<HTMLTableSectionElement> {
+    children?: React.ReactNode;
+    className?: string;
+}
 
-Table.Head = ({ className, ...rest }) => {
+const Head = ({ className, ...rest }: TableHeadProps) => {
     return <thead className={clsx("ui-table-head", "bg-gray-lighter", className)} {...rest} />;
 };
 
-Table.Head.displayName = "Table.Head";
-Table.Head.propTypes = {
-    className: PropTypes.string,
-};
+Head.displayName = "Table.Head";
 
-Table.Header = ({ className, ...rest }) => {
+export interface TableHeaderProps extends React.ThHTMLAttributes<HTMLTableCellElement> {
+    children?: React.ReactNode;
+    className?: string;
+}
+
+const Header = ({ className, ...rest }: TableHeaderProps) => {
     return <th className={clsx("ui-table-header", "px-4 py-2 text-left text-base font-bold", className)} {...rest} />;
 };
 
-Table.Header.displayName = "Table.Header";
-Table.Header.propTypes = {
-    className: PropTypes.string,
-};
+Header.displayName = "Table.Header";
 
-Table.Body = ({ className, isStriped = false, children, ...rest }) => {
+export interface TableBodyProps extends React.HTMLAttributes<HTMLTableSectionElement> {
+    isStriped?: boolean;
+    children: React.ReactNode;
+    className?: string;
+}
+
+const Body = ({ isStriped = false, children, className, ...rest }: TableBodyProps) => {
     return (
         <tbody className={clsx("ui-table-body", "border-none", className)} {...rest}>
-            {Children.map(children, (child) => child && cloneElement(child, { isStriped }))}
+            {Children.map(children, (child) => {
+                if (!child || !React.isValidElement(child)) return child;
+                return cloneElement(child as ReactElement<any>, { isStriped });
+            })}
         </tbody>
     );
 };
 
-Table.Body.displayName = "Table.Body";
-Table.Body.propTypes = {
-    className: PropTypes.string,
-    children: PropTypes.node.isRequired,
-    isStriped: PropTypes.bool,
-};
+Body.displayName = "Table.Body";
 
-Table.Row = ({ isStriped = false, className, ...rest }) => {
+export interface TableRowProps extends React.HTMLAttributes<HTMLTableRowElement> {
+    isStriped?: boolean;
+    children?: React.ReactNode;
+    className?: string;
+}
+
+const Row = ({ isStriped = false, className, ...rest }: TableRowProps) => {
     return <tr className={clsx("ui-table-row", isStriped && "even:bg-gray-lighter", className)} {...rest} />;
 };
 
-Table.Row.displayName = "Table.Row";
-Table.Row.propTypes = {
-    isStriped: PropTypes.bool,
-    className: PropTypes.string,
-};
+Row.displayName = "Table.Row";
 
-Table.Cell = ({ className, ...rest }) => {
+export interface TableCellProps extends React.TdHTMLAttributes<HTMLTableCellElement> {
+    children?: React.ReactNode;
+    className?: string;
+}
+
+const Cell = ({ className, ...rest }: TableCellProps) => {
     return (
         <td
             className={clsx("ui-table-cell", "whitespace-nowrap px-4 py-2 text-base text-gray-darker", className)}
@@ -70,17 +85,20 @@ Table.Cell = ({ className, ...rest }) => {
     );
 };
 
-Table.Cell.displayName = "Table.Cell";
-Table.Cell.propTypes = {
-    className: PropTypes.string,
-};
+Cell.displayName = "Table.Cell";
 
-const EditableCell = ({ className, value, onSave, ...rest }) => {
+export interface EditableCellProps extends React.TdHTMLAttributes<HTMLTableCellElement> {
+    value: string;
+    className?: string;
+    onSave: (value: string) => void;
+}
+
+const EditableCell = ({ value, className, onSave, ...rest }: EditableCellProps) => {
     const [isEditing, setIsEditing] = useState(false);
     const [localValue, setLocalValue] = useState(value);
 
-    const textRef = useRef(null);
-    const textAreaRef = useRef(null);
+    const textRef = useRef<HTMLDivElement>(null);
+    const textAreaRef = useRef<HTMLTextAreaElement>(null);
     const [height, setHeight] = useState("auto");
 
     const handleBlur = async () => {
@@ -97,7 +115,7 @@ const EditableCell = ({ className, value, onSave, ...rest }) => {
         }
     };
 
-    const handleChange = (e) => {
+    const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setLocalValue(e.target.value);
         e.target.style.height = "auto";
         e.target.style.height = `${e.target.scrollHeight}px`;
@@ -147,10 +165,11 @@ const EditableCell = ({ className, value, onSave, ...rest }) => {
     );
 };
 
+EditableCell.displayName = "Table.EditableCell";
+
+Table.Head = Head;
+Table.Header = Header;
+Table.Body = Body;
+Table.Row = Row;
+Table.Cell = Cell;
 Table.EditableCell = EditableCell;
-Table.EditableCell.displayName = "Table.EditableCell";
-Table.EditableCell.propTypes = {
-    className: PropTypes.string,
-    value: PropTypes.string.isRequired,
-    onSave: PropTypes.func.isRequired,
-};

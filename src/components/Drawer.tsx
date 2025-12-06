@@ -1,6 +1,5 @@
 import { Dialog, Transition } from "@headlessui/react";
 import clsx from "clsx";
-import PropTypes from "prop-types";
 import React, { forwardRef, Fragment } from "react";
 import { isIosBrowser } from "../helpers/browser";
 import { useViewportHeight } from "../hooks/useViewportHeight";
@@ -13,9 +12,29 @@ const sizes = {
     large: "w-110",
     xl: "w-200",
     "2xl": "w-screen md:max-w-screen-md 2xl:max-w-screen-lg", // This was the old size
-};
+} as const;
 
-export const Drawer = forwardRef(
+type DrawerSize = keyof typeof sizes;
+type DrawerPosition = "left" | "right";
+
+export interface DrawerProps {
+    isOpen: boolean;
+    title?: React.ReactNode;
+    size?: DrawerSize;
+    content: React.ReactNode;
+    sideIndent?: number;
+    position?: DrawerPosition;
+    classNames?: {
+        dialog?: string;
+        overlay?: string;
+        dialogContent?: string;
+        children?: string;
+        content?: string;
+    };
+    onClose: (value: boolean) => void;
+}
+
+export const Drawer = forwardRef<HTMLDivElement, DrawerProps>(
     (
         {
             isOpen = false,
@@ -23,9 +42,9 @@ export const Drawer = forwardRef(
             size = "medium",
             content,
             sideIndent = 0,
-            onClose,
-            classNames = {},
             position = "right",
+            classNames = {},
+            onClose,
         },
         ref,
     ) => {
@@ -33,8 +52,8 @@ export const Drawer = forwardRef(
         const isIOS = isIosBrowser();
 
         return (
-            <Transition.Root ref={ref} show={isOpen} as={Fragment}>
-                <Dialog
+            <Transition.Root show={isOpen} as={Fragment}>
+                <Dialog ref={ref}
                     as="div"
                     className={clsx("ui-drawer fixed inset-0 z-10 overflow-hidden", classNames.dialog)}
                     open={isOpen}
@@ -107,7 +126,13 @@ export const Drawer = forwardRef(
     },
 );
 
-const CloseButton = ({ onClose }) => {
+Drawer.displayName = "Drawer";
+
+interface CloseButtonProps {
+    onClose: (value: boolean) => void;
+}
+
+const CloseButton = ({ onClose }: CloseButtonProps) => {
     return (
         <Button
             size="small"
@@ -115,26 +140,9 @@ const CloseButton = ({ onClose }) => {
             className={clsx(
                 "m-2.5 inline-flex !h-10 !w-10 items-center justify-center !rounded-full bg-white !px-1.5 !text-black",
             )}
-            onClick={onClose}
+            onClick={() => onClose(false)}
         >
             <CloseIcon size="medium" />
         </Button>
     );
-};
-
-Drawer.propTypes = {
-    isOpen: PropTypes.bool.isRequired,
-    title: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
-    content: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
-    onClose: PropTypes.func.isRequired,
-    classNames: PropTypes.object,
-    position: PropTypes.string,
-    sideIndent: PropTypes.number,
-};
-
-Drawer.defaultProps = {
-    title: "",
-    classNames: {},
-    position: "right",
-    sideIndent: 0,
 };

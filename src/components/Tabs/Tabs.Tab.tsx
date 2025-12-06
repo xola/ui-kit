@@ -22,6 +22,7 @@ export interface TabProps<T extends ElementType = "button"> {
     variant?: TabVariant;
     isActive?: boolean;
     isHidden?: boolean;
+    children?: React.ReactNode;
     className?: string;
 }
 

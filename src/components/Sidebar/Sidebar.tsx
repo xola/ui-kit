@@ -50,7 +50,6 @@ interface NotificationDrawer {
 
 export interface SidebarProps {
     logo?: React.ReactElement;
-    children: React.ReactNode;
     footer: React.ReactElement;
     notifications?: {
         announcements?: NotificationDrawer;
@@ -61,6 +60,7 @@ export interface SidebarProps {
     isStickyFooter?: boolean;
     isLeftDrawerOpen?: boolean;
     isRightDrawerOpen?: boolean;
+    children: React.ReactNode;
     className?: string;
     onLogoClick: () => void;
     handleDrawerStateChange?: (drawer: "left" | "right") => void;
@@ -69,7 +69,6 @@ export interface SidebarProps {
 
 export const Sidebar = ({
     logo,
-    children,
     footer,
     notifications,
     isFixed = true,
@@ -77,6 +76,7 @@ export const Sidebar = ({
     isStickyFooter = true,
     isLeftDrawerOpen,
     isRightDrawerOpen,
+    children,
     className,
     onLogoClick,
     handleDrawerStateChange,
@@ -235,7 +235,7 @@ export const Sidebar = ({
                     size="xl"
                     title={leftDrawer.title}
                     content={leftDrawer.content}
-                    isOpen={isLeftDrawerOpen}
+                    isOpen={isLeftDrawerOpen ?? false}
                     onClose={(e: any) => !!e && handleDrawerStateChange?.("left")}
                 />
             )}
@@ -248,7 +248,7 @@ export const Sidebar = ({
                     size="xl"
                     title={rightDrawer.title}
                     content={rightDrawer.content}
-                    isOpen={isRightDrawerOpen}
+                    isOpen={isRightDrawerOpen ?? false}
                     onClose={(e: any) => !!e && handleDrawerStateChange?.("right")}
                 />
             )}

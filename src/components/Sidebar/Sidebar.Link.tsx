@@ -9,9 +9,9 @@ type SidebarLinkAlign = "center" | "left" | "right";
 export interface SidebarLinkProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     isActive?: boolean;
     icon?: ComponentType<React.SVGProps<SVGSVGElement>>;
-    children: React.ReactNode;
     isSubMenuItem?: boolean;
     align?: SidebarLinkAlign;
+    children: React.ReactNode;
     classNames?: {
         text?: string;
     };
@@ -20,9 +20,9 @@ export interface SidebarLinkProps extends React.ButtonHTMLAttributes<HTMLButtonE
 export const SidebarLink = ({
     isActive = false,
     icon: Icon,
-    children,
     isSubMenuItem,
     align,
+    children,
     classNames,
     ...rest
 }: SidebarLinkProps) => {
