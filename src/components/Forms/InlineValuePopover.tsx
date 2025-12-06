@@ -9,15 +9,15 @@ export interface InlineValuePopoverProps {
     isOpen?: boolean;
     showArrow?: boolean;
     autoSelectOnClick?: boolean;
-    onClick?: (e: React.MouseEvent) => void;
-    onClickOutside?: () => void;
+    children?: React.ReactNode;
+    error?: React.ReactNode | null;
     classNames?: {
         text?: string;
         textField?: string;
         children?: string;
     };
-    children?: React.ReactNode;
-    error?: React.ReactNode | null;
+    onClick?: (e: React.MouseEvent) => void;
+    onClickOutside?: () => void;
 }
 
 export const InlineValuePopover = ({
@@ -25,11 +25,11 @@ export const InlineValuePopover = ({
     isOpen = false,
     showArrow = true,
     autoSelectOnClick = false,
-    onClick,
-    onClickOutside,
-    classNames,
     children,
     error = null,
+    classNames,
+    onClick,
+    onClickOutside,
     ...rest
 }: InlineValuePopoverProps) => {
     const ref = useRef<HTMLDivElement>(null);
@@ -50,7 +50,7 @@ export const InlineValuePopover = ({
     };
 
     return (
-        <Popover visible={isOpen} onClickOutside={onClickOutside} className="" {...rest}>
+        <Popover visible={isOpen} className="" onClickOutside={onClickOutside} {...rest}>
             <span
                 className={clsx(
                     "cursor-pointer whitespace-nowrap",

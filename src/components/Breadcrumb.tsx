@@ -2,22 +2,16 @@ import clsx from "clsx";
 import React, { Children } from "react";
 
 export interface BreadcrumbProps extends React.HTMLAttributes<HTMLDivElement> {
-    className?: string;
+    separator?: string;
+    children?: React.ReactNode;
     classNames?: {
         item?: string;
         separator?: string;
     };
-    separator?: string;
-    children?: React.ReactNode;
+    className?: string;
 }
 
-const BreadcrumbComponent = ({
-    className,
-    classNames = {},
-    separator = "/",
-    children,
-    ...rest
-}: BreadcrumbProps) => {
+const BreadcrumbComponent = ({ separator = "/", children, classNames = {}, className, ...rest }: BreadcrumbProps) => {
     const count = Children.count(children) - 1;
 
     return (

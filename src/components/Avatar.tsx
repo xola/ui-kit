@@ -12,13 +12,13 @@ const sizes = {
 type AvatarSize = keyof typeof sizes;
 
 export interface AvatarProps extends React.HTMLAttributes<HTMLDivElement> {
-    className?: string;
     name?: string;
     color?: string;
     size?: AvatarSize;
+    className?: string;
 }
 
-export const Avatar = ({ className, name, color = "bg-primary-lighter", size = "large", ...rest }: AvatarProps) => {
+export const Avatar = ({ name, color = "bg-primary-lighter", size = "large", className, ...rest }: AvatarProps) => {
     const classes = clsx(
         "ui-avatar",
         "inline-flex items-center justify-center rounded-full text-black leading-none",

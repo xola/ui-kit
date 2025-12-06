@@ -13,9 +13,9 @@ export const numberFormat = (
     amount: number,
     currency: string | null = null,
     locale: string = userLocale,
-    maximumFractionDigits: number = 2,
-    isCompact: boolean = false,
-    isNarrowSymbolForm: boolean = false,
+    maximumFractionDigits = 2,
+    isCompact = false,
+    isNarrowSymbolForm = false,
 ): string => {
     const style = currency ? "currency" : "decimal";
 

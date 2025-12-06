@@ -24,13 +24,13 @@ interface CurrencyContextValue {
 const CurrencyContext = createContext<CurrencyContextValue | undefined>(undefined);
 
 export interface BreakdownProps extends React.TableHTMLAttributes<HTMLTableElement> {
-    children?: React.ReactNode;
-    className?: string;
     currency: string;
     locale?: string;
+    children?: React.ReactNode;
+    className?: string;
 }
 
-const BreakdownComponent = ({ children, className, currency, locale, ...rest }: BreakdownProps) => {
+const BreakdownComponent = ({ currency, locale, children, className, ...rest }: BreakdownProps) => {
     const value = useMemo(() => ({ currency, locale }), [currency, locale]);
     return (
         <CurrencyContext.Provider value={value}>
@@ -42,19 +42,19 @@ const BreakdownComponent = ({ children, className, currency, locale, ...rest }: 
 };
 
 export interface BreakdownItemProps extends React.HTMLAttributes<HTMLTableRowElement> {
-    children?: React.ReactNode;
     info?: React.ReactNode;
     methodIcon?: React.ReactNode;
     secondary?: React.ReactNode;
     value?: React.ReactNode;
-    className?: string;
+    color?: BreakdownColor;
+    children?: React.ReactNode;
     classNames?: {
         key?: string;
         children?: string;
         info?: string;
         value?: string;
     };
-    color?: BreakdownColor;
+    className?: string;
 }
 
 const BreakdownItem = ({
@@ -63,9 +63,9 @@ const BreakdownItem = ({
     secondary,
     value,
     color = "default",
-    className,
-    classNames = {},
     children,
+    classNames = {},
+    className,
     ...rest
 }: BreakdownItemProps) => {
     const context = useContext(CurrencyContext);
@@ -107,25 +107,25 @@ const BreakdownItem = ({
 BreakdownItem.displayName = "Breakdown.Item";
 
 export interface BreakdownSubtotalItemProps extends React.HTMLAttributes<HTMLTableRowElement> {
-    children?: React.ReactNode;
     info?: React.ReactNode;
     value?: React.ReactNode;
-    className?: string;
+    color?: BreakdownColor;
+    children?: React.ReactNode;
     classNames?: {
         children?: string;
         info?: string;
         value?: string;
     };
-    color?: BreakdownColor;
+    className?: string;
 }
 
 const BreakdownSubtotalItem = ({
     info,
     value,
     color = "black",
-    className,
-    classNames = {},
     children,
+    classNames = {},
+    className,
     ...rest
 }: BreakdownSubtotalItemProps) => {
     const context = useContext(CurrencyContext);

@@ -23,12 +23,12 @@ type TagSize = keyof typeof sizes;
 export interface TagProps extends React.HTMLAttributes<HTMLSpanElement> {
     color?: TagColor;
     size?: TagSize;
-    onClose?: () => void;
-    className?: string;
     children: React.ReactNode;
+    className?: string;
+    onClose?: () => void;
 }
 
-export const Tag = ({ color = "primary", size = "small", onClose, className, children, ...rest }: TagProps) => {
+export const Tag = ({ color = "primary", size = "small", children, className, onClose, ...rest }: TagProps) => {
     const handleClose = (e: React.MouseEvent) => {
         e.stopPropagation();
         onClose?.();

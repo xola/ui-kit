@@ -3,7 +3,7 @@ import phoneLib from "google-libphonenumber";
 const PNF = phoneLib.PhoneNumberFormat;
 const phoneUtil = phoneLib.PhoneNumberUtil.getInstance();
 
-export const getRegionCode = (number: string, countryCode: string = "US"): string | undefined => {
+export const getRegionCode = (number: string, countryCode = "US"): string | undefined => {
     try {
         const phoneObject = phoneUtil.parseAndKeepRawInput(number, countryCode);
 
@@ -16,7 +16,7 @@ export const getRegionCode = (number: string, countryCode: string = "US"): strin
 /**
  * Formats the Phone Number for provided country code
  */
-export const formatPhoneNumber = (number: string, countryCode: string = "US"): string => {
+export const formatPhoneNumber = (number: string, countryCode = "US"): string => {
     try {
         let phoneObject = phoneUtil.parseAndKeepRawInput(number, countryCode);
 

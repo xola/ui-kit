@@ -29,7 +29,7 @@ export const formatDate = (date: Date | Dayjs | string, format: string = DateFor
     return dayjs(date).format(format);
 };
 
-export const formatTime = (time: string | number, format: string = "h:mm a"): string => {
+export const formatTime = (time: string | number, format = "h:mm a"): string => {
     const stringTime = String(time).padStart(4, "0");
     return dayjs(stringTime, "hhmm").format(format);
 };
@@ -74,7 +74,7 @@ export const dateToString = (date: Date): string => {
 const DayTimeStart = "T00:00:00";
 const DayTimeEnd = "T23:59:59";
 
-export const toDate = (date: Date | Dayjs | string, isStartDate: boolean = true): Date => {
+export const toDate = (date: Date | Dayjs | string, isStartDate = true): Date => {
     const suffix = isStartDate ? DayTimeStart : DayTimeEnd;
 
     if (isDayjs(date)) {
@@ -84,7 +84,7 @@ export const toDate = (date: Date | Dayjs | string, isStartDate: boolean = true)
     return new Date(formatDate(date) + suffix);
 };
 
-export const isSame = (date1: Date | Dayjs, date2: Date | Dayjs, unit: string = "day"): boolean => {
+export const isSame = (date1: Date | Dayjs, date2: Date | Dayjs, unit = "day"): boolean => {
     if (isDayjs(date1) && isDayjs(date2)) {
         return date1.isSame(date2, unit as any);
     }

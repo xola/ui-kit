@@ -10,7 +10,6 @@ interface TooltipFormatter {
 }
 
 export interface RangeSliderProps {
-    className?: string;
     values: number[];
     min: number;
     max: number;
@@ -20,6 +19,7 @@ export interface RangeSliderProps {
     isTooltipEnabled?: boolean;
     tooltipCustomFormatter?: TooltipFormatter[] | null;
     tooltipSuffix?: string;
+    className?: string;
     onChange?: (values: number[], handle: number) => void;
 }
 
@@ -37,7 +37,6 @@ export interface RangeSliderProps {
  * @param {Function?}   props.onChange                  Debounced callback when range slider is changed.
  */
 export const RangeSlider = ({
-    className,
     values,
     min,
     max,
@@ -47,6 +46,7 @@ export const RangeSlider = ({
     isTooltipEnabled = true,
     tooltipCustomFormatter = null,
     tooltipSuffix,
+    className,
     onChange,
 }: RangeSliderProps) => {
     const tooltipFormatter =
@@ -54,7 +54,7 @@ export const RangeSlider = ({
         values.map(() => {
             return {
                 from: (value: number) => value,
-                to: (value: number) => Math.round(value) + (tooltipSuffix ?? ""),
+                to: (value: number) => `${Math.round(value)}${tooltipSuffix ?? ""}`,
             };
         });
 

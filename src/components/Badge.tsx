@@ -31,11 +31,11 @@ export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
     color?: BadgeColor;
     size?: BadgeSize;
     icon?: React.ReactElement;
-    className?: string;
     children: React.ReactNode;
+    className?: string;
 }
 
-export const Badge = ({ color = "primary", size = "small", icon, className, children, ...rest }: BadgeProps) => {
+export const Badge = ({ color = "primary", size = "small", icon, children, className, ...rest }: BadgeProps) => {
     return (
         <span
             className={clsx(

@@ -15,16 +15,16 @@ export interface BaseInputProps {
     as?: ElementType;
     size?: BaseInputSize;
     isError?: boolean;
-    className?: string;
     isRequired?: boolean;
     value?: string | number;
     prefix?: string;
     suffix?: string;
+    className?: string;
     [key: string]: any;
 }
 
 export const BaseInput = forwardRef<HTMLInputElement, BaseInputProps & Record<string, any>>(
-    ({ as: Tag = "input", size = "medium", isError, className, isRequired, value, prefix, suffix, ...rest }, ref) => {
+    ({ as: Tag = "input", size = "medium", isError, isRequired, value, prefix, suffix, className, ...rest }, ref) => {
         const stringValue = () => {
             if (!isString(value)) return undefined;
 

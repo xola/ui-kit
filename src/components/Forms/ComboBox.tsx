@@ -7,11 +7,11 @@ import { Tooltip } from "../Tooltip";
 
 export interface ComboBoxProps extends SelectProps {
     isCreatable?: boolean;
-    className?: string;
     isError?: boolean;
+    className?: string;
 }
 
-export const ComboBox = ({ isCreatable = false, className, isError, ...rest }: ComboBoxProps) => {
+export const ComboBox = ({ isCreatable = false, isError, className, ...rest }: ComboBoxProps) => {
     const SelectType = isCreatable ? CreatableSelect : ReactSelect;
     return (
         <SelectType
@@ -46,7 +46,12 @@ const CustomMultiValue = (props: MultiValueGenericProps) => {
 
     return (
         <MultiValueLabel {...props}>
-            <Tooltip disabled={isTooltipDisabled} maxWidth="none" content={<span>{props.data.label}</span>} className="">
+            <Tooltip
+                disabled={isTooltipDisabled}
+                maxWidth="none"
+                content={<span>{props.data.label}</span>}
+                className=""
+            >
                 <span ref={labelRef}>{props.data.label}</span>
             </Tooltip>
         </MultiValueLabel>

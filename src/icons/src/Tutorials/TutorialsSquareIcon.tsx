@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import React from "react";
 
-export const TutorialsSquareIcon = (props) => {
+export const TutorialsSquareIcon = (props: React.SVGProps<SVGSVGElement>) => {
     const className = clsx("relative -top-0.25 inline-block", props.className);
     return (
         <svg

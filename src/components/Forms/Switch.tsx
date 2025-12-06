@@ -25,22 +25,28 @@ type SwitchSize = keyof typeof sizes;
 export interface SwitchProps {
     isChecked?: boolean;
     size?: SwitchSize;
-    onChange?: (checked: boolean) => void;
     disabled?: boolean;
+    className?: string;
+    onChange?: (checked: boolean) => void;
 }
 
-const SwitchComponent = ({ isChecked = false, size = "medium", onChange, disabled }: SwitchProps) => {
+const noop = () => {
+    // intentionally empty
+};
+
+const SwitchComponent = ({ isChecked = false, size = "medium", disabled, className, onChange }: SwitchProps) => {
     return (
         <HeadlessSwitch
             checked={isChecked}
-            onChange={onChange}
             disabled={disabled}
             className={clsx(
                 "ui-switch",
                 isChecked ? "bg-primary disabled:bg-gray-light" : "bg-gray disabled:bg-gray-light",
                 "relative inline-flex flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none",
                 sizes[size].parent,
+                className,
             )}
+            onChange={onChange ?? noop}
         >
             <span
                 className={clsx(
@@ -58,7 +64,7 @@ export interface SwitchGroupProps {
     children: React.ReactNode;
 }
 
-const SwitchGroup = ({ className, children }: SwitchGroupProps) => {
+const SwitchGroup = ({ children, className }: SwitchGroupProps) => {
     return (
         <HeadlessSwitch.Group as="div" className={clsx("ui-switch-group", "inline-flex items-center", className)}>
             {children}
@@ -74,7 +80,7 @@ export interface SwitchLabelProps {
     children: React.ReactNode;
 }
 
-const SwitchLabel = ({ direction = "left", className, children }: SwitchLabelProps) => {
+const SwitchLabel = ({ direction = "left", children, className }: SwitchLabelProps) => {
     return (
         <HeadlessSwitch.Label
             as="span"

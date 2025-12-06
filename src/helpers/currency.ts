@@ -11,8 +11,8 @@ export const isZeroDecimal = (currency: string): boolean => {
 export const getSymbol = (
     currency: string,
     locale: string = userLocale,
-    amount: number = 0,
-    isNarrowSymbolForm: boolean = false,
+    amount = 0,
+    isNarrowSymbolForm = false,
 ): string => {
     const string = new Intl.NumberFormat(locale, {
         style: "currency",

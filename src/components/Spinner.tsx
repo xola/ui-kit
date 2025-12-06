@@ -24,12 +24,12 @@ type SpinnerColor = keyof typeof colors;
 type SpinnerSize = keyof typeof sizes;
 
 export interface SpinnerProps extends React.SVGProps<SVGSVGElement> {
-    className?: string;
     size?: SpinnerSize;
     color?: SpinnerColor;
+    className?: string;
 }
 
-export const Spinner = ({ className, size = "small", color = "secondary", ...rest }: SpinnerProps) => {
+export const Spinner = ({ size = "small", color = "secondary", className, ...rest }: SpinnerProps) => {
     return (
         <CircleNotch
             className={clsx("ui-spinner", className, sizes[size], colors[color], "inline-block animate-spin")}

@@ -10,11 +10,11 @@ const sizes = {
 type LogoSize = keyof typeof sizes;
 
 export interface LogoProps extends React.ImgHTMLAttributes<HTMLImageElement> {
-    className?: string;
     size?: LogoSize;
+    className?: string;
 }
 
-const LogoComponent = ({ className, size = "small", ...rest }: LogoProps) => {
+const LogoComponent = ({ size = "small", className, ...rest }: LogoProps) => {
     return <img className={clsx("ui-logo", className, "inline-block rounded object-cover", sizes[size])} {...rest} />;
 };
 

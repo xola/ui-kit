@@ -6,12 +6,12 @@ export interface SkeletonProps extends React.HTMLAttributes<HTMLDivElement> {
     style?: React.CSSProperties;
     height?: number | string;
     shouldAnimate?: boolean;
+    children?: React.ReactNode;
     classNames?: {
         container?: string;
         shimmer?: string;
         text?: string;
     };
-    children?: React.ReactNode;
 }
 
 export const Skeleton = ({
