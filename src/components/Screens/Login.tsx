@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import React, { useState } from "react";
 import { XolaLogoSimple } from "../../icons";
 import { Alert } from "../Alert";
@@ -14,7 +13,26 @@ const backgrounds = {
     x2: "https://files.xola.com/x2/images/login/x2-34fc260271ca80160c61777846784611.jpeg",
     admin: "https://files.xola.com/x2/images/login/admin-42e40b1836193f064f0fe0fafce1d2af.png",
     scaffold: "https://files.xola.com/x2/images/login/scaffold-f3bd19169b6976f1c75da53e7b61d0a7.jpeg",
-};
+} as const;
+
+type BackgroundType = keyof typeof backgrounds;
+
+export interface LoginValues {
+    email: string;
+    password: string;
+    shouldRemember: boolean;
+}
+
+export interface LoginProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "onSubmit"> {
+    defaultValues?: Partial<LoginValues>;
+    isLoading?: boolean;
+    error?: string | null;
+    onSubmit?: (values: LoginValues) => void;
+    passwordResetUrl?: string;
+    label?: React.ReactNode;
+    backgroundImage?: string | null;
+    backgroundType?: BackgroundType;
+}
 
 export const Login = ({
     defaultValues,
@@ -26,22 +44,27 @@ export const Login = ({
     backgroundImage = null,
     backgroundType = "default",
     ...rest
-}) => {
-    const [values, setValues] = useState({ email: "", password: "", shouldRemember: false, ...defaultValues });
+}: LoginProps) => {
+    const [values, setValues] = useState<LoginValues>({
+        email: "",
+        password: "",
+        shouldRemember: false,
+        ...defaultValues,
+    });
 
-    const handleInputChange = (event) => {
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
         setValues({ ...values, [name]: value });
     };
 
-    const handleCheckboxChange = (event) => {
+    const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, checked } = event.target;
         setValues({ ...values, [name]: checked });
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        onSubmit(values);
+        onSubmit?.(values);
     };
 
     const backgroundImageUrl = backgroundImage ?? backgrounds[backgroundType] ?? backgrounds.default;
@@ -147,16 +170,4 @@ export const Login = ({
             </footer>
         </div>
     );
-};
-
-Login.propTypes = {
-    defaultValues: PropTypes.shape({
-        email: PropTypes.string,
-        password: PropTypes.string,
-        shouldRemember: PropTypes.bool,
-    }),
-    isLoading: PropTypes.bool,
-    error: PropTypes.string,
-    onSubmit: PropTypes.func,
-    passwordResetUrl: PropTypes.string,
 };

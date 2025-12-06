@@ -18,7 +18,15 @@ export interface MonthGridProps {
     handleToday: () => void;
 }
 
-export const MonthGrid = ({ year, value, locale, onChange, handleYearChange, handleClear, handleToday }: MonthGridProps) => {
+export const MonthGrid = ({
+    year,
+    value,
+    locale,
+    onChange,
+    handleYearChange,
+    handleClear,
+    handleToday,
+}: MonthGridProps) => {
     const { locale: contextLocale } = useContext(Context);
     const months = [...Array.from({ length: 12 }).keys()].map((m) =>
         today

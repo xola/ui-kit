@@ -45,7 +45,11 @@ export const MonthSelector = ({ date, currentMonth, locale, onChange }: MonthSel
                         className="mt-2 min-w-40 cursor-pointer items-center justify-between text-left font-bold"
                         onClick={toggleVisibility}
                     >
-                        <span className="pr-1 text-lg">{dayjs(date).locale(locale ?? "en").format("MMMM YYYY")}</span>
+                        <span className="pr-1 text-lg">
+                            {dayjs(date)
+                                .locale(locale ?? "en")
+                                .format("MMMM YYYY")}
+                        </span>
                         <ChevronDownIcon />
                     </div>
                     <Popover.Content className="p-2">

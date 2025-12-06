@@ -18,7 +18,9 @@ const loadingColors = {
 type LoadingColor = keyof typeof loadingColors;
 type ButtonVariant = keyof typeof colors;
 
-export interface SubmitButtonProps extends Omit<ButtonProps, "icon" | "iconPlacement"> {
+export interface SubmitButtonProps
+    extends Omit<ButtonProps, "icon" | "iconPlacement">,
+        Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, keyof ButtonProps> {
     isLoading?: boolean;
     isSuccess?: boolean;
     disabled?: boolean;

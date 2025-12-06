@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import clsx from "clsx";
 import React, { useEffect, useRef, useState } from "react";
 import { AnnounceIcon, BellIcon, XolaLogoSimple } from "../../icons";

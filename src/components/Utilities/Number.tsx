@@ -1,4 +1,4 @@
-import getUserLocale from "get-user-locale";
+import { getUserLocale } from "get-user-locale";
 import React from "react";
 import { numberFormat } from "../../helpers/numbers";
 
@@ -11,7 +11,12 @@ export interface NumberProps {
     children: number;
 }
 
-export const Number = ({ locale = userLocale, maximumFractionDigits = 2, isCompact = false, children }: NumberProps) => {
+export const Number = ({
+    locale = userLocale,
+    maximumFractionDigits = 2,
+    isCompact = false,
+    children,
+}: NumberProps) => {
     const formattedNumber = numberFormat(children, null, locale, maximumFractionDigits, isCompact);
     return <span className="ui-number">{formattedNumber}</span>;
 };

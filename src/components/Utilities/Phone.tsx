@@ -16,7 +16,7 @@ export const Phone = ({ countryCode = "US", children, className }: PhoneProps) =
     return (
         <span
             className={clsx("ui-phone", className)}
-            data-region-code={regionCode || "N/A"}
+            data-region-code={regionCode ?? "N/A"}
             data-country-code={countryCode}
             title={number}
         >

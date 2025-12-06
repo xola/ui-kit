@@ -75,7 +75,7 @@ const LazyTippy = forwardRef<any, TippyProps>((props, ref) => {
     };
 
     const computedProps: any = { ...props };
-    computedProps.plugins = [lazyPlugin, ...(props.plugins || [])];
+    computedProps.plugins = [lazyPlugin, ...(props.plugins ?? [])];
 
     if (props.render) {
         computedProps.render = (attributes: any, content: any, instance: any) =>

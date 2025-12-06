@@ -100,9 +100,15 @@ export const DatePicker = ({
     });
     const [rangeName, setRangeName] = useState("");
     const isRangeVariant = variant === variants.range;
-    const isValidValue = value && typeof value === "object" && "from" in value && "to" in value && value.from && value.to;
+    const isValidValue =
+        value && typeof value === "object" && "from" in value && "to" in value && value.from && value.to;
     const isSelectedDaysHasValidRange =
-        selectedDays && typeof selectedDays === "object" && "from" in selectedDays && "to" in selectedDays && selectedDays.from && selectedDays.to;
+        selectedDays &&
+        typeof selectedDays === "object" &&
+        "from" in selectedDays &&
+        "to" in selectedDays &&
+        selectedDays.from &&
+        selectedDays.to;
 
     useEffect(() => {
         if (timezoneName && !isValidTimeZoneName(timezoneName)) {
@@ -177,10 +183,14 @@ export const DatePicker = ({
             return;
         }
 
-        if (value && typeof value === "object" && "from" in value && value.from) {
-            if (isSame(now(value.from, tz), now(day, tz), "month")) {
-                handleStartMonthChange(day);
-            }
+        if (
+            value &&
+            typeof value === "object" &&
+            "from" in value &&
+            value.from &&
+            isSame(now(value.from, tz), now(day, tz), "month")
+        ) {
+            handleStartMonthChange(day);
         }
 
         setRangeName("");
@@ -190,7 +200,11 @@ export const DatePicker = ({
                 // This allows us to easily select another date range,
                 // if both dates are selected.
                 onChange({ from: toDate(now(day, tz)), to: null }, options, event);
-            } else if (rangeValue && (rangeValue.from || rangeValue.to) && (rangeValue.from || rangeValue.to).getTime() === day.getTime()) {
+            } else if (
+                rangeValue &&
+                (rangeValue.from || rangeValue.to) &&
+                (rangeValue.from || rangeValue.to).getTime() === day.getTime()
+            ) {
                 const from = toDate(now(day, tz));
                 const to = toDate(now(day, tz).endOf("day"), false);
 
@@ -215,11 +229,7 @@ export const DatePicker = ({
                 );
             } else {
                 // Fallback when rangeValue.from is null
-                onChange(
-                    DateUtils.addDayToRange(toDate(now(day, tz).endOf("day"), false), rangeValue),
-                    options,
-                    event,
-                );
+                onChange(DateUtils.addDayToRange(toDate(now(day, tz).endOf("day"), false), rangeValue), options, event);
             }
         } else {
             onChange(toDate(now(day, tz)), options, event);
@@ -287,7 +297,8 @@ export const DatePicker = ({
             : null;
 
     // Comparing `from` and `to` dates hides a weird CSS style when you select the same date twice in a date range.
-    const useDateRangeStyle = isRangeVariant && isValidValue && (value as any).from?.getTime() !== (value as any).to?.getTime();
+    const useDateRangeStyle =
+        isRangeVariant && isValidValue && (value as any).from?.getTime() !== (value as any).to?.getTime();
     const useDateSelectedRangeStyle =
         isSelectedDaysHasValidRange && (selectedDays as any).from?.getTime() !== (selectedDays as any).to?.getTime();
     // Return the same value if it is already dayjs object or has range variant otherwise format it to dayJs object

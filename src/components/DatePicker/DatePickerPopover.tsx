@@ -4,9 +4,9 @@ import { CalendarIcon, DownArrowIcon } from "../..";
 import { formatDate } from "../../helpers/date";
 import { Input } from "../Forms/Input";
 import { Popover } from "../Popover/Popover";
+import type { PopoverProps } from "../Popover/Popover";
 import { DatePicker } from "./DatePicker";
 import { MonthPicker } from "./MonthPicker";
-import type { PopoverProps } from "../Popover/Popover";
 
 type DateValue = Date | { from?: Date; to?: Date };
 type PickerType = "day" | "month";
@@ -28,7 +28,7 @@ export interface DatePickerPopoverProps {
     popoverProps?: Partial<PopoverProps>;
     children?: React.ReactElement;
     getDayContent?: (day: number, date: Date) => React.ReactNode;
-    onChange?: (...args: any[]) => void;
+    onChange?: (...arguments_: any[]) => void;
     [key: string]: any;
 }
 

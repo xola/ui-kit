@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import clsx from "clsx";
 import React, { ComponentType, useEffect, useRef, useState } from "react";
 import { ChevronRightIcon } from "../../icons";
@@ -80,8 +79,8 @@ export const SidebarLink = ({
                 )
             )}
 
-            {(showText || isSubMenuItem) && (
-                <span className={clsx("px-1", { "text-left": isSubMenuItem || align === "left" }, classNames?.text)}>
+            {(showText ?? isSubMenuItem) && (
+                <span className={clsx("px-1", { "text-left": isSubMenuItem ?? align === "left" }, classNames?.text)}>
                     {children}
                 </span>
             )}

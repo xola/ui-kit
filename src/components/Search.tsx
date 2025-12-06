@@ -1,7 +1,6 @@
 import clsx from "clsx";
 import { useCombobox } from "downshift";
 import debounce from "lodash/debounce";
-import PropTypes from "prop-types";
 import React, { useEffect, useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { isOSX } from "../helpers/browser";
@@ -11,21 +10,25 @@ import { SearchIcon } from "../icons";
 import { Key } from "./Key";
 import { Spinner } from "./Spinner";
 
-const callDebounced = debounce((function_, value) => function_(value), 500);
+const callDebounced = debounce((function_: (value: string) => void, value: string) => function_(value), 500);
 
-/**
- * @param {string?}     props.className             Class name to apply to the input.
- * @param {any[]?}      props.items                 Items to display in the dropdown menu.
- * @param {string?}     props.defaultValue          Search input default value.
- * @param {Function?}   props.onChange              Debounced callback when search input is changed.
- * @param {Function}    props.onSubmit              Called when search input value is selected.
- * @param {Function?}   props.onSelect              Called when item is selected.
- * @param {Function?}   props.children              Render prop for items.
- * @param {boolean?}    props.isLoading             Show loading indicator.
- * @param {boolean?}    props.shouldStayOpen        Force open the menu.
- * @param {boolean?}    props.shouldDestroyOnClose  Control if the menu should be hidden on destroyed when closed.
- */
-export const Search = ({
+export interface SearchProps<T = any>
+    extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "onChange" | "onSelect" | "onSubmit"> {
+    className?: string;
+    items?: T[];
+    defaultValue?: string;
+    onChange?: (value: string) => void;
+    onSubmit?: (value: string) => void;
+    onSelect?: (item: T) => void;
+    children?: (item: T, isHighlighted: boolean) => React.ReactNode;
+    isLoading?: boolean;
+    shouldStayOpen?: boolean;
+    shouldDestroyOnClose?: boolean;
+    shouldHideMenu?: boolean;
+    minChars?: number;
+}
+
+export const Search = <T = any,>({
     className,
     items = [],
     defaultValue,
@@ -39,15 +42,15 @@ export const Search = ({
     shouldHideMenu = false,
     minChars = 0,
     ...rest
-}) => {
+}: SearchProps<T>) => {
     const [showShortcutKey, setShowShortcutKey] = useState(true);
     const [inputValue, setInputValue] = useState(defaultValue ?? "");
     const [showClearText, setShowClearText] = useState(false);
-    const inputReference = useRef();
+    const inputReference = useRef<HTMLInputElement>(null);
     const inputId = useId("search-input");
     const menuId = useId("search-menu");
     const isClient = useIsClient();
-    const clearTextRef = useRef();
+    const clearTextRef = useRef<HTMLDivElement>(null);
 
     // Flag for controlling the delay before actually closing the menu.
     const [canClose, setCanClose] = useState(true);
@@ -62,12 +65,12 @@ export const Search = ({
 
     // Placeholder item for the current search input value.
     // Will be added to the list only if not empty.
-    const submitValueItem = { value: inputValue };
+    const submitValueItem: T = { value: inputValue };
 
     // List of all items, including the submit value item.
     const itemList = inputValue ? [submitValueItem, ...items] : [];
 
-    const handleSelectedItemChange = ({ selectedItem, type }) => {
+    const handleSelectedItemChange = ({ selectedItem, type }: any) => {
         if (type === useCombobox.stateChangeTypes.InputBlur) {
             return;
         }
@@ -78,20 +81,21 @@ export const Search = ({
 
         if (selectedItem === submitValueItem) {
             onSubmit?.(inputValue);
-            inputReference.current.blur(); // Remove focus so that focusing away and coming doesn't open the search box
+            inputReference.current?.blur(); // Remove focus so that focusing away and coming doesn't open the search box
         } else if (selectedItem) {
             onSelect?.(selectedItem);
-            inputReference.current.blur(); // Remove focus so that focusing away and coming doesn't open the search box
+            inputReference.current?.blur(); // Remove focus so that focusing away and coming doesn't open the search box
         }
 
         // Always close the menu after an item is selected.
         closeMenu();
     };
 
-    const handleInputChange = ({ inputValue }) => {
-        setInputValue(inputValue);
+    const handleInputChange = ({ inputValue }: { inputValue?: string }) => {
+        const value = inputValue ?? "";
+        setInputValue(value);
         if (onChange) {
-            callDebounced(onChange, inputValue);
+            callDebounced(onChange, value);
         }
     };
 
@@ -134,7 +138,7 @@ export const Search = ({
             onChange("");
         }
 
-        inputReference.current.focus();
+        inputReference.current?.focus();
     };
 
     // Combined keyboard shortcuts
@@ -142,7 +146,7 @@ export const Search = ({
         isOSX ? "cmd+k" : "ctrl+k",
         (event) => {
             event.preventDefault(); // Prevent Firefox from jumping to its search bar
-            inputReference.current.focus();
+            inputReference.current?.focus();
         },
         { enableOnTags: ["INPUT"] },
     );
@@ -151,7 +155,6 @@ export const Search = ({
     useHotkeys(
         "esc",
         (event) => {
-            // eslint-disable-next-line no-undef
             if (document?.activeElement === inputReference.current) {
                 event.preventDefault();
 
@@ -161,7 +164,7 @@ export const Search = ({
                 }
                 // If no text, blur the input
                 else {
-                    inputReference.current.blur();
+                    inputReference.current?.blur();
                 }
             }
         },
@@ -192,7 +195,7 @@ export const Search = ({
                         ref: inputReference,
                         onFocus: handleInputFocus,
                         onBlur: () => setShowShortcutKey(true),
-                        onChange: (e) => setInputValue(e.target.value),
+                        onChange: (e: React.ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value),
                         ...rest,
                     })}
                 />
@@ -210,7 +213,7 @@ export const Search = ({
                 {shouldHideMenu && (
                     <div
                         ref={clearTextRef}
-                        className={`text-gray-500 absolute left-0 top-full transform 
+                        className={`text-gray-500 absolute left-0 top-full transform
                        text-xs transition-all duration-200
                        ease-in-out ${showClearText ? "translate-y-0 opacity-100" : "-translate-y-2 opacity-0"}`}
                     >
@@ -234,7 +237,10 @@ export const Search = ({
             >
                 {isVisible
                     ? itemList.map((item, index) => (
-                          <li key={item} {...getItemProps({ key: index, item, index, className: "ui-search-item" })}>
+                          <li
+                              key={item === submitValueItem ? "submit-value" : `search-item-${index}`}
+                              {...getItemProps({ key: index, item, index, className: "ui-search-item" })}
+                          >
                               {item === submitValueItem ? (
                                   isLoading ? (
                                       <div className="p-3 text-center">
@@ -278,18 +284,4 @@ export const Search = ({
             </ul>
         </div>
     );
-};
-
-Search.propTypes = {
-    className: PropTypes.string,
-    items: PropTypes.arrayOf(PropTypes.any),
-    defaultValue: PropTypes.string,
-    onChange: PropTypes.func,
-    onSubmit: PropTypes.func,
-    onSelect: PropTypes.func,
-    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node, PropTypes.func]),
-    isLoading: PropTypes.bool,
-    shouldStayOpen: PropTypes.bool,
-    shouldDestroyOnClose: PropTypes.bool,
-    shouldHideMenu: PropTypes.bool,
 };

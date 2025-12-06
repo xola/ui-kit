@@ -3,7 +3,6 @@ import clsx from "clsx";
 import React from "react";
 import styles from "./Sidebar.Menu.module.css";
 
-// eslint-disable-next-line no-undef
 const appendTo = typeof window === "undefined" ? undefined : window.document.body;
 
 export interface SidebarMenuProps {

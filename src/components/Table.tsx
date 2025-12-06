@@ -51,7 +51,7 @@ const Body = ({ isStriped = false, children, className, ...rest }: TableBodyProp
         <tbody className={clsx("ui-table-body", "border-none", className)} {...rest}>
             {Children.map(children, (child) => {
                 if (!child || !React.isValidElement(child)) return child;
-                return cloneElement(child as ReactElement<any>, { isStriped });
+                return cloneElement(child as ReactElement, { isStriped });
             })}
         </tbody>
     );
@@ -123,7 +123,6 @@ const EditableCell = ({ value, className, onSave, ...rest }: EditableCellProps) 
 
     useEffect(() => {
         if (isEditing) {
-            // eslint-disable-next-line no-undef
             requestAnimationFrame(() => {
                 textAreaRef.current?.focus();
             });

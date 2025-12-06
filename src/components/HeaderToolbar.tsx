@@ -39,11 +39,13 @@ const BreadcrumbComponent = ({ children, className }: HeaderToolbarBreadcrumbPro
         </Breadcrumb>
     );
 };
+
 BreadcrumbComponent.displayName = "HeaderToolbar.Breadcrumb";
 
 const SearchComponent = (props: any) => {
     return <Search className="ui-header-toolbar-search w-full flex-grow pr-1" {...props} />;
 };
+
 SearchComponent.displayName = "HeaderToolbar.Search";
 
 HeaderToolbar.Breadcrumb = BreadcrumbComponent;

@@ -1,7 +1,23 @@
 import clsx from "clsx";
-import PropTypes from "prop-types";
 import React, { useRef, useState } from "react";
 import { Button, ImageIcon, Logo, SubmitButton, TrashIcon } from "..";
+
+type LogoSize = "small" | "medium" | "large";
+
+export interface ImageUploadProps
+    extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "onChange" | "size" | "onError"> {
+    src?: string;
+    size?: LogoSize;
+    isLoading?: boolean;
+    maxSize?: number;
+    hasDelete?: boolean;
+    requirements?: React.ReactNode | string | null;
+    caption?: string | null;
+    csvAcceptFormats?: string;
+    onChange: (file: File) => void;
+    onDelete: () => void;
+    onError: (message: string) => void;
+}
 
 export const ImageUpload = ({
     src,
@@ -16,16 +32,20 @@ export const ImageUpload = ({
     onDelete,
     onError,
     ...props
-}) => {
-    const inputReference = useRef();
+}: ImageUploadProps) => {
+    const inputReference = useRef<HTMLInputElement>(null);
     const [inputKey, setInputKey] = useState(0);
 
     const handleUploadClick = () => {
-        inputReference.current.click();
+        inputReference.current?.click();
     };
 
-    const handleChange = (event) => {
-        const [file] = event.target.files;
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const [file] = event.target.files ?? [];
+
+        if (!file) {
+            return;
+        }
 
         if (maxSize && 1_048_576 * maxSize < file.size) {
             onError(`Image size shouldn't exceed ${maxSize}MB`);
@@ -75,12 +95,12 @@ export const ImageUpload = ({
                                 Delete
                             </Button>
                             <SubmitButton disabled={isLoading} isLoading={isLoading} onClick={handleUploadClick}>
-                                {hasCaption ? caption.trim() : "Upload New Photo"}
+                                {hasCaption ? caption!.trim() : "Upload New Photo"}
                             </SubmitButton>
                         </>
                     ) : (
                         <SubmitButton disabled={isLoading} isLoading={isLoading} onClick={handleUploadClick}>
-                            {hasCaption ? caption.trim() : src ? "Replace Photo" : "Upload New Photo"}
+                            {hasCaption ? caption!.trim() : src ? "Replace Photo" : "Upload New Photo"}
                         </SubmitButton>
                     )}
                 </div>
@@ -107,18 +127,4 @@ export const ImageUpload = ({
             </div>
         </div>
     );
-};
-
-ImageUpload.propTypes = {
-    src: PropTypes.string,
-    size: PropTypes.oneOf(["small", "medium", "large"]),
-    isLoading: PropTypes.bool,
-    maxSize: PropTypes.number,
-    hasDelete: PropTypes.bool,
-    caption: PropTypes.string,
-    requirements: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
-    csvAcceptFormats: PropTypes.string,
-    onChange: PropTypes.func.isRequired,
-    onDelete: PropTypes.func.isRequired,
-    onError: PropTypes.func.isRequired,
 };

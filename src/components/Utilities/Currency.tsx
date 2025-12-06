@@ -1,4 +1,4 @@
-import getUserLocale from "get-user-locale";
+import { getUserLocale } from "get-user-locale";
 import React from "react";
 import { getSymbol, isZeroDecimal } from "../../helpers/currency";
 import { almostZero, numberFormat, roundNumber } from "../../helpers/numbers";
@@ -66,6 +66,7 @@ const Round = ({ currency = "USD", children }: CurrencyRoundProps) => {
     const number = roundNumber(currency, children);
     return <span className="ui-currency-round">{number}</span>;
 };
+
 Round.displayName = "Currency.Round";
 
 interface CurrencySplitProps {
@@ -103,6 +104,7 @@ const Split = ({ currency = "USD", locale = userLocale, isNarrowSymbolForm, chil
         </span>
     );
 };
+
 Split.displayName = "Currency.Split";
 
 Currency.Round = Round;

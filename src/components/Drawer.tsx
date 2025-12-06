@@ -53,7 +53,8 @@ export const Drawer = forwardRef<HTMLDivElement, DrawerProps>(
 
         return (
             <Transition.Root show={isOpen} as={Fragment}>
-                <Dialog ref={ref}
+                <Dialog
+                    ref={ref}
                     as="div"
                     className={clsx("ui-drawer fixed inset-0 z-10 overflow-hidden", classNames.dialog)}
                     open={isOpen}

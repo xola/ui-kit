@@ -16,7 +16,12 @@ export interface MonthYearSelectorProps {
 }
 
 export const MonthYearSelector = ({ date, currentMonth, locale, onChange }: MonthYearSelectorProps) => {
-    const months = [...Array.from({ length: 12 }).keys()].map((m) => today.locale(locale ?? "en").month(m).format("MMM"));
+    const months = [...Array.from({ length: 12 }).keys()].map((m) =>
+        today
+            .locale(locale ?? "en")
+            .month(m)
+            .format("MMM"),
+    );
     // 2012 as baseline + 5 years in future
     const years = [...Array.from({ length: today.year() - 2012 + 5 + 1 }).keys()].map((y) =>
         today

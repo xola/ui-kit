@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import PropTypes from "prop-types";
 import { startCase } from "lodash";
 import { useDebouncedCallback } from "use-debounce";
 import axios from "axios";
@@ -7,9 +6,27 @@ import { useClickAway } from "ahooks";
 import { Input } from "./Forms/Input";
 import { Badge } from "./Badge";
 
-export const GooglePlacesAutocomplete = ({ initialValue, onSelect, apiBaseUrl }) => {
+export interface GooglePlaceSuggestion {
+    place_id: string;
+    description?: string;
+    name?: string;
+    formatted_address?: string;
+    types?: string[];
+}
+
+export interface GooglePlacesAutocompleteProps {
+    initialValue?: string;
+    onSelect?: (suggestion: GooglePlaceSuggestion) => void;
+    apiBaseUrl: string;
+}
+
+export const GooglePlacesAutocomplete = ({
+    initialValue = "",
+    onSelect,
+    apiBaseUrl,
+}: GooglePlacesAutocompleteProps) => {
     const [inputValue, setInputValue] = useState(initialValue || "");
-    const [suggestions, setSuggestions] = useState([]);
+    const [suggestions, setSuggestions] = useState<GooglePlaceSuggestion[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [showDropdown, setShowDropdown] = useState(false);
     const [error, setError] = useState("");
@@ -18,25 +35,25 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, apiBaseUrl })
         ? `autocomplete-item-${activeSuggestionIndex}`
         : undefined;
 
-    const dropdownRef = useRef(null);
+    const dropdownRef = useRef<HTMLDivElement>(null);
     const initialFetchDoneRef = useRef(false);
 
     const handleSelect = useCallback(
-        (suggestion) => {
-            setInputValue(suggestion.description || suggestion.name || "");
+        (suggestion: GooglePlaceSuggestion) => {
+            setInputValue(suggestion.description ?? suggestion.name ?? "");
             setShowDropdown(false);
             onSelect?.(suggestion);
         },
         [onSelect],
     );
 
-    const handleInputChange = (e) => {
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setInputValue(e.target.value);
         setShowDropdown(true);
         fetchSuggestions(e.target.value);
     };
 
-    const handleKeyDown = (e) => {
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (!showDropdown || suggestions.length === 0) return;
 
         switch (e.key) {
@@ -64,40 +81,36 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, apiBaseUrl })
         }
     };
 
-    const fetchSuggestions = useDebouncedCallback(
-        async (query, selectFirst = false) => {
-            if (!query.trim()) {
-                setSuggestions([]);
-                setError("");
-                return;
-            }
-
-            setIsLoading(true);
+    const fetchSuggestions = useDebouncedCallback(async (query: string, selectFirst = false) => {
+        if (!query.trim()) {
+            setSuggestions([]);
             setError("");
+            return;
+        }
 
-            try {
-                const { data } = await axios.get(`${apiBaseUrl}/searchGooglePlaces`, {
-                    params: { input: query },
-                });
+        setIsLoading(true);
+        setError("");
 
-                const results = Array.isArray(data) ? data : data.predictions || [];
+        try {
+            const { data } = await axios.get(`${apiBaseUrl}/searchGooglePlaces`, {
+                params: { input: query },
+            });
 
-                setSuggestions(results);
+            const results = Array.isArray(data) ? data : data.predictions || [];
 
-                if (selectFirst && results.length > 0) {
-                    handleSelect(results[0]);
-                }
-            } catch (error) {
-                console.error("Google Places error:", error);
-                setSuggestions([]);
-                setError("Failed to load suggestions. Please try again.");
-            } finally {
-                setIsLoading(false);
+            setSuggestions(results);
+
+            if (selectFirst && results.length > 0) {
+                handleSelect(results[0]);
             }
-        },
-        300,
-        [apiBaseUrl],
-    );
+        } catch (error) {
+            console.error("Google Places error:", error);
+            setSuggestions([]);
+            setError("Failed to load suggestions. Please try again.");
+        } finally {
+            setIsLoading(false);
+        }
+    }, 300);
 
     useEffect(() => {
         if (initialValue && !initialFetchDoneRef.current) {
@@ -117,7 +130,7 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, apiBaseUrl })
                 role="combobox"
                 aria-expanded={showDropdown}
                 aria-controls="autocomplete-list"
-                aria-activedescendant={activeSuggestionId || undefined}
+                aria-activedescendant={activeSuggestionId ?? undefined}
                 aria-autocomplete="list"
                 value={inputValue}
                 placeholder="Search place..."
@@ -145,9 +158,9 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, apiBaseUrl })
                             >
                                 <div className="flex flex-wrap items-center gap-1">
                                     <p className="mr-2 whitespace-nowrap text-md">
-                                        {suggestion.description || suggestion.name}
+                                        {suggestion.description ?? suggestion.name}
                                     </p>
-                                    {(suggestion.types || []).slice(0, 4).map((type) => (
+                                    {(suggestion.types ?? []).slice(0, 4).map((type) => (
                                         <Badge key={type} color="secondary">
                                             {startCase(type)}
                                         </Badge>
@@ -161,15 +174,4 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, apiBaseUrl })
             )}
         </div>
     );
-};
-
-GooglePlacesAutocomplete.propTypes = {
-    initialValue: PropTypes.string,
-    onSelect: PropTypes.func,
-    apiBaseUrl: PropTypes.string.isRequired,
-};
-
-GooglePlacesAutocomplete.defaultProps = {
-    initialValue: "",
-    onSelect: null,
 };
