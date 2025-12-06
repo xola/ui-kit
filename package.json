@@ -102,6 +102,12 @@
     "engines": {
         "node": ">=16"
     },
+    "overrides": {
+        "minimatch": "^9.0.5",
+        "@isaacs/brace-expansion": "npm:brace-expansion@^2.0.1",
+        "@isaacs/balanced-match": "npm:balanced-match@^1.0.2",
+        "postcss-load-config": "^4.0.2"
+    },
     "prettier": {
         "semi": true,
         "printWidth": 120,
