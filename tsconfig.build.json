@@ -1,0 +1,28 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        /* Override for build */
+        "declaration": true,
+        "declarationMap": true,
+        "emitDeclarationOnly": false,
+        "noEmit": false,
+        "outDir": "./build"
+    },
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "build",
+        "dist",
+        "storybook-static",
+        "**/*.test.js",
+        "**/*.test.ts",
+        "**/*.test.tsx",
+        "**/*.stories.js",
+        "**/*.stories.jsx",
+        "**/*.stories.ts",
+        "**/*.stories.tsx",
+        "src/stories/**/*"
+    ]
+}
