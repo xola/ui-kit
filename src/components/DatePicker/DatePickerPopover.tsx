@@ -13,6 +13,7 @@ type PickerType = "day" | "month";
 type PickerVariant = "single" | "range";
 
 export interface DatePickerPopoverProps {
+    [key: string]: any;
     value?: DateValue;
     variant?: PickerVariant;
     dateFormat?: string;
@@ -29,7 +30,6 @@ export interface DatePickerPopoverProps {
     children?: React.ReactElement;
     getDayContent?: (day: number, date: Date) => React.ReactNode;
     onChange?: (...arguments_: any[]) => void;
-    [key: string]: any;
 }
 
 export const DatePickerPopover = ({
@@ -125,8 +125,8 @@ export const DatePickerPopover = ({
 };
 
 interface DefaultInputProps {
-    className?: string;
     [key: string]: any;
+    className?: string;
 }
 
 const DefaultInput = forwardRef<HTMLDivElement, DefaultInputProps>(({ className, ...rest }, reference) => {

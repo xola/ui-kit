@@ -6,9 +6,9 @@ import styles from "./Sidebar.Menu.module.css";
 const appendTo = typeof window === "undefined" ? undefined : window.document.body;
 
 export interface SidebarMenuProps {
+    [key: string]: any;
     content: React.ReactNode;
     children: React.ReactNode;
-    [key: string]: any;
 }
 
 export const SidebarMenu = ({ content, children, ...rest }: SidebarMenuProps) => {

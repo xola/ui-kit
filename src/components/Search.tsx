@@ -65,7 +65,8 @@ export const Search = <T = any,>({
 
     // Placeholder item for the current search input value.
     // Will be added to the list only if not empty.
-    const submitValueItem: T = { value: inputValue };
+    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+    const submitValueItem = { value: inputValue } as T;
 
     // List of all items, including the submit value item.
     const itemList = inputValue ? [submitValueItem, ...items] : [];

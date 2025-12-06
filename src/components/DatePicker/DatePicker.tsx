@@ -27,6 +27,7 @@ type DateValue = Date | { from?: Date; to?: Date };
 type RangeKey = "day" | "week" | "month" | "quarter" | "year";
 
 export interface DatePickerProps {
+    [key: string]: any;
     variant?: DatePickerVariant;
     value?: DateValue;
     selectedDays?: DateValue;
@@ -49,7 +50,6 @@ export interface DatePickerProps {
     onChange: (value: any, options?: any, event?: any) => void;
     onMonthChange?: (month: Date) => void;
     onSubmitDateRange?: () => void;
-    [key: string]: any;
 }
 
 /**

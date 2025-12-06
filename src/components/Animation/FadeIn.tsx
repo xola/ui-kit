@@ -2,6 +2,7 @@ import { Transition } from "@headlessui/react";
 import React from "react";
 
 export interface FadeInProps {
+    [key: string]: any;
     shouldShow?: boolean;
     shouldAppear?: boolean;
     tag?: React.ElementType;
@@ -10,7 +11,6 @@ export interface FadeInProps {
     enterTo?: string;
     children?: React.ReactNode;
     className?: string;
-    [key: string]: any;
 }
 
 export const FadeIn = ({
