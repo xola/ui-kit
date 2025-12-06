@@ -1,15 +1,21 @@
+import { TippyProps } from "@tippyjs/react";
 import clsx from "clsx";
-import PropTypes from "prop-types";
-import React, { Children } from "react";
-import { Popover } from "./Popover";
+import React, { Children, ReactElement } from "react";
+import { Popover, PopoverProps } from "./Popover";
 import scrollFix from "./PopoverScroll.module.css";
 
-export const PopoverList = ({ placement = "bottom", className, children, ...rest }) => {
+export interface PopoverListProps extends Omit<Partial<PopoverProps>, "placement" | "children" | "className"> {
+    placement?: TippyProps["placement"];
+    children: React.ReactNode;
+    className?: string;
+}
+
+export const PopoverList = ({ placement = "bottom", children, className, ...rest }: PopoverListProps) => {
     const childrenArray = Children.toArray(children);
-    const innerContent = childrenArray.filter((child) => child.type !== PopoverList.Item);
+    const innerContent = childrenArray.filter((child: any) => child.type !== Item);
     const totalItems = childrenArray.length - innerContent.length;
-    const items = childrenArray.map((child, position) => {
-        return child.type === PopoverList.Item ? React.cloneElement(child, { position, total: totalItems }) : null;
+    const items = childrenArray.map((child: any, position) => {
+        return child.type === Item ? React.cloneElement(child, { position, total: totalItems }) : null;
     });
 
     const content = (
@@ -32,18 +38,32 @@ export const PopoverList = ({ placement = "bottom", className, children, ...rest
     );
 };
 
-PopoverList.propTypes = {
-    placement: PropTypes.string,
-    className: PropTypes.string,
-    children: PropTypes.node.isRequired,
-};
+export interface PopoverListItemProps {
+    name: string;
+    isActive?: boolean;
+    id?: string | null;
+    position?: number;
+    total?: number;
+    children: React.ReactNode;
+    className?: string;
+    onClickItem: (event: React.MouseEvent<HTMLDivElement>, name: string, id: string | null) => void;
+}
 
-const Item = ({ name, isActive = false, id = null, position, total, children, className, onClickItem, ...rest }) => {
-    const onClick = (event) => onClickItem(event, name, id);
+const Item = ({
+    name,
+    isActive = false,
+    id = null,
+    position,
+    total,
+    children,
+    className,
+    onClickItem,
+    ...rest
+}: PopoverListItemProps) => {
+    const onClick = (event: React.MouseEvent<HTMLDivElement>) => onClickItem(event, name, id);
 
     return (
         <div
-            name={name}
             className={clsx(
                 "ui-popover-list-item",
                 "flex cursor-pointer space-x-2.5 p-4 align-text-top font-semibold leading-4 tracking-tightest hover:bg-gray-lighter",
@@ -61,15 +81,5 @@ const Item = ({ name, isActive = false, id = null, position, total, children, cl
 };
 
 Item.displayName = "PopoverList.Item";
-Item.propTypes = {
-    position: PropTypes.number,
-    total: PropTypes.number,
-    name: PropTypes.string.isRequired,
-    isActive: PropTypes.bool,
-    id: PropTypes.string,
-    children: PropTypes.node.isRequired,
-    className: PropTypes.string,
-    onClickItem: PropTypes.func.isRequired,
-};
 
 PopoverList.Item = Item;

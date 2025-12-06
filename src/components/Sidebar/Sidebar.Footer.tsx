@@ -1,7 +1,10 @@
-import PropTypes from "prop-types";
 import React from "react";
 
-export const SidebarFooter = ({ children, ...rest }) => {
+export interface SidebarFooterProps extends React.HTMLAttributes<HTMLDivElement> {
+    children: React.ReactNode;
+}
+
+export const SidebarFooter = ({ children, ...rest }: SidebarFooterProps) => {
     return (
         <div className="ui-sidebar-footer py-3" {...rest}>
             <div className="mx-4 border-t border-secondary-darker pb-2" />
@@ -11,7 +14,3 @@ export const SidebarFooter = ({ children, ...rest }) => {
 };
 
 SidebarFooter.displayName = "Sidebar.Footer";
-
-SidebarFooter.propTypes = {
-    children: PropTypes.node.isRequired,
-};

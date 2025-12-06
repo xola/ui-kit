@@ -41,6 +41,7 @@ export const roundNumber = (currency: string, amount: number): number => {
         return round(number);
     }
 
+    // It's done this odd way to ensure JS rounds numbers the same way as PHP
     if (round(number, 3) === round(number, 4)) {
         number = round(number, 3);
     }

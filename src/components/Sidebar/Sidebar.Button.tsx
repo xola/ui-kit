@@ -1,8 +1,13 @@
 import clsx from "clsx";
-import PropTypes from "prop-types";
-import React from "react";
+import React, { ComponentType } from "react";
 
-export const SidebarButton = ({ icon: Icon, label, className, ...rest }) => {
+export interface SidebarButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+    icon: ComponentType<React.SVGProps<SVGSVGElement>>;
+    label: string;
+    className?: string;
+}
+
+export const SidebarButton = ({ icon: Icon, label, className, ...rest }: SidebarButtonProps) => {
     return (
         <button
             type="button"
@@ -22,8 +27,3 @@ export const SidebarButton = ({ icon: Icon, label, className, ...rest }) => {
 };
 
 SidebarButton.displayName = "Sidebar.Button";
-
-SidebarButton.propTypes = {
-    icon: PropTypes.elementType.isRequired,
-    label: PropTypes.string.isRequired,
-};

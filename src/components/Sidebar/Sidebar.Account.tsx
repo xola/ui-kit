@@ -1,9 +1,17 @@
 /* eslint-disable no-undef */
 import clsx from "clsx";
-import PropTypes from "prop-types";
 import React, { useEffect, useRef, useState } from "react";
 import { ChevronRightIcon } from "../../icons";
 import { Avatar } from "../Avatar";
+
+export interface SidebarAccountProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+    name: string;
+    description?: string;
+    image?: React.ReactElement;
+    icon?: React.ReactElement;
+    isResponsive?: boolean;
+    className?: string;
+}
 
 export const SidebarAccount = ({
     name,
@@ -13,8 +21,8 @@ export const SidebarAccount = ({
     isResponsive = false,
     className,
     ...rest
-}) => {
-    const containerRef = useRef(null);
+}: SidebarAccountProps) => {
+    const containerRef = useRef<HTMLButtonElement>(null);
     const [showText, setShowText] = useState(!isResponsive);
     const [showIcon, setShowIcon] = useState(!isResponsive);
     const accountImage = image ?? <Avatar size="tiny" name={name} />;
@@ -80,12 +88,3 @@ export const SidebarAccount = ({
 };
 
 SidebarAccount.displayName = "Sidebar.Account";
-
-SidebarAccount.propTypes = {
-    name: PropTypes.string.isRequired,
-    description: PropTypes.string,
-    image: PropTypes.element,
-    icon: PropTypes.element,
-    isResponsive: PropTypes.bool,
-    className: PropTypes.string,
-};

@@ -1,12 +1,32 @@
 /* eslint-disable no-undef */
 import clsx from "clsx";
-import PropTypes from "prop-types";
-import React, { useEffect, useRef, useState } from "react";
+import React, { ComponentType, useEffect, useRef, useState } from "react";
 import { ChevronRightIcon } from "../../icons";
 import { Dot } from "../Dot/Dot";
 
-export const SidebarLink = ({ isActive = false, icon: Icon, children, isSubMenuItem, align, classNames, ...rest }) => {
-    const containerRef = useRef(null);
+type SidebarLinkAlign = "center" | "left" | "right";
+
+export interface SidebarLinkProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+    isActive?: boolean;
+    icon?: ComponentType<React.SVGProps<SVGSVGElement>>;
+    children: React.ReactNode;
+    isSubMenuItem?: boolean;
+    align?: SidebarLinkAlign;
+    classNames?: {
+        text?: string;
+    };
+}
+
+export const SidebarLink = ({
+    isActive = false,
+    icon: Icon,
+    children,
+    isSubMenuItem,
+    align,
+    classNames,
+    ...rest
+}: SidebarLinkProps) => {
+    const containerRef = useRef<HTMLButtonElement>(null);
     const [showText, setShowText] = useState(true);
     const [showIcon, setShowIcon] = useState(true);
 
@@ -52,7 +72,8 @@ export const SidebarLink = ({ isActive = false, icon: Icon, children, isSubMenuI
             {isSubMenuItem ? (
                 <Dot className={clsx("mr-3 shrink-0", { "bg-white": isActive, "bg-gray": !isActive })} />
             ) : (
-                showIcon && (
+                showIcon &&
+                Icon && (
                     <div className={clsx(!showText && "flex w-full justify-center")}>
                         <Icon className={clsx("h-5 w-5 shrink-0", showText && "mr-3")} />
                     </div>
@@ -72,20 +93,12 @@ export const SidebarLink = ({ isActive = false, icon: Icon, children, isSubMenuI
 
 SidebarLink.displayName = "Sidebar.Link";
 
-SidebarLink.propTypes = {
-    align: PropTypes.oneOf(["center", "left", "right"]),
-    isActive: PropTypes.bool,
-    icon: PropTypes.func,
-    children: PropTypes.node.isRequired,
-    isSubMenuItem: PropTypes.bool,
-};
+export interface SidebarSeparatorProps {
+    className?: string;
+}
 
-export const SidebarSeparator = ({ className }) => {
+export const SidebarSeparator = ({ className }: SidebarSeparatorProps) => {
     return <hr className={clsx("mx-3 my-4 border-gray-lighter/20", className)} />;
 };
 
 SidebarSeparator.displayName = "Sidebar.Separator";
-
-SidebarSeparator.propTypes = {
-    className: PropTypes.string,
-};

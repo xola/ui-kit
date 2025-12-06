@@ -1,6 +1,5 @@
 /* eslint-disable no-undef */
 import clsx from "clsx";
-import PropTypes from "prop-types";
 import React, { useEffect, useRef, useState } from "react";
 import { AnnounceIcon, BellIcon, XolaLogoSimple } from "../../icons";
 import { Counter } from "../Counter";
@@ -34,29 +33,55 @@ const BREAKPOINTS = {
 };
 
 // Get max width based on window size
-
-const getMaxWidth = (currentWindowWidth = typeof window === "undefined" ? 1280 : window.innerWidth) => {
+const getMaxWidth = (currentWindowWidth = typeof window === "undefined" ? 1280 : window.innerWidth): number => {
     if (currentWindowWidth >= BREAKPOINTS.XL) return SIDEBAR_WIDTHS.XL;
     if (currentWindowWidth >= BREAKPOINTS.LG) return SIDEBAR_WIDTHS.LG;
     if (currentWindowWidth >= BREAKPOINTS.MD) return SIDEBAR_WIDTHS.MD;
     return SIDEBAR_WIDTHS.SM;
 };
 
+interface NotificationDrawer {
+    count: number;
+    content: React.ReactNode;
+    title: string;
+    hide?: boolean;
+    onClose?: () => void;
+}
+
+export interface SidebarProps {
+    logo?: React.ReactElement;
+    children: React.ReactNode;
+    footer: React.ReactElement;
+    notifications?: {
+        announcements?: NotificationDrawer;
+        notices?: NotificationDrawer;
+    };
+    isFixed?: boolean;
+    isStickyHeader?: boolean;
+    isStickyFooter?: boolean;
+    isLeftDrawerOpen?: boolean;
+    isRightDrawerOpen?: boolean;
+    className?: string;
+    onLogoClick: () => void;
+    handleDrawerStateChange?: (drawer: "left" | "right") => void;
+    onSidebarResize?: (width: number) => void;
+}
+
 export const Sidebar = ({
     logo,
     children,
-    className,
     footer,
     notifications,
     isFixed = true,
-    onLogoClick,
     isStickyHeader = true,
     isStickyFooter = true,
     isLeftDrawerOpen,
     isRightDrawerOpen,
+    className,
+    onLogoClick,
     handleDrawerStateChange,
     onSidebarResize,
-}) => {
+}: SidebarProps) => {
     // Initialize width from localStorage or use default responsive values
     const [width, setWidth] = useState(() => {
         if (typeof window !== "undefined") {
@@ -69,10 +94,10 @@ export const Sidebar = ({
 
     const [isHovered, setIsHovered] = useState(false);
     const [isResizing, setIsResizing] = useState(false);
-    const sidebarRef = useRef(null);
+    const sidebarRef = useRef<HTMLDivElement>(null);
 
     const { announcements: leftDrawer, notices: rightDrawer } = notifications ?? {};
-    const hideRightDrawer = rightDrawer?.count <= 0 || !rightDrawer;
+    const hideRightDrawer = (rightDrawer?.count ?? 0) <= 0 || !rightDrawer;
     const isStickyHeaderFooter = isStickyHeader && isStickyFooter;
 
     // Handle window resize
@@ -88,7 +113,7 @@ export const Sidebar = ({
 
     // Handle resizing
     useEffect(() => {
-        const handleMouseMove = (e) => {
+        const handleMouseMove = (e: MouseEvent) => {
             if (!isResizing || !sidebarRef.current) return;
 
             const newWidth = Math.min(Math.max(e.clientX, 64), 200); // Constrain between 64px and 200px
@@ -124,7 +149,7 @@ export const Sidebar = ({
         }
     }, [width, onSidebarResize]);
 
-    const handleResizeStart = (e) => {
+    const handleResizeStart = (e: React.MouseEvent) => {
         e.preventDefault();
         setIsResizing(true);
     };
@@ -171,7 +196,7 @@ export const Sidebar = ({
                                     justifyContent: "center",
                                     alignItems: "center",
                                 }}
-                                onClick={() => handleDrawerStateChange("left")}
+                                onClick={() => handleDrawerStateChange?.("left")}
                             >
                                 <AnnounceIcon className={clsx(width <= 168 && "hidden")} />
                                 {leftDrawer.count}
@@ -192,7 +217,7 @@ export const Sidebar = ({
                                     justifyContent: "center",
                                     alignItems: "center",
                                 }}
-                                onClick={() => handleDrawerStateChange("right")}
+                                onClick={() => handleDrawerStateChange?.("right")}
                             >
                                 <BellIcon className={clsx(width <= 168 && "hidden")} />
                                 {rightDrawer.count}
@@ -211,7 +236,7 @@ export const Sidebar = ({
                     title={leftDrawer.title}
                     content={leftDrawer.content}
                     isOpen={isLeftDrawerOpen}
-                    onClose={(e) => !!e && handleDrawerStateChange("left")}
+                    onClose={(e: any) => !!e && handleDrawerStateChange?.("left")}
                 />
             )}
 
@@ -224,7 +249,7 @@ export const Sidebar = ({
                     title={rightDrawer.title}
                     content={rightDrawer.content}
                     isOpen={isRightDrawerOpen}
-                    onClose={(e) => !!e && handleDrawerStateChange("right")}
+                    onClose={(e: any) => !!e && handleDrawerStateChange?.("right")}
                 />
             )}
 
@@ -244,7 +269,8 @@ export const Sidebar = ({
                                       className={clsx(
                                           "inline-block h-12 w-12 ",
                                           width > 160 && "h-30 w-30",
-                                          onLogoClick && "cursor-pointer transition-opacity hover:opacity-80",
+                                          typeof onLogoClick !== "undefined" &&
+                                              "cursor-pointer transition-opacity hover:opacity-80",
                                       )}
                                       onClick={onLogoClick}
                                   />
@@ -258,35 +284,6 @@ export const Sidebar = ({
             <div className={clsx(isStickyFooter && "sticky bottom-0 bg-black")}>{footer}</div>
         </div>
     );
-};
-
-Sidebar.propTypes = {
-    logo: PropTypes.node,
-    children: PropTypes.node.isRequired,
-    className: PropTypes.string,
-    footer: PropTypes.element.isRequired,
-    isFixed: PropTypes.bool,
-    isStickyHeader: PropTypes.bool,
-    isStickyFooter: PropTypes.bool,
-    onLogoClick: PropTypes.func.isRequired,
-    isLeftDrawerOpen: PropTypes.bool,
-    isRightDrawerOpen: PropTypes.bool,
-    handleDrawerStateChange: PropTypes.func,
-    notifications: PropTypes.shape({
-        announcements: PropTypes.shape({
-            count: PropTypes.number,
-            content: PropTypes.node,
-            title: PropTypes.string,
-            hide: PropTypes.bool,
-            onClose: PropTypes.func,
-        }),
-        notices: PropTypes.shape({
-            count: PropTypes.number,
-            content: PropTypes.node,
-            title: PropTypes.string,
-            onClose: PropTypes.func,
-        }),
-    }),
 };
 
 Sidebar.Account = SidebarAccount;

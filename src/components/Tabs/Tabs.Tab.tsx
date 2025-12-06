@@ -1,29 +1,40 @@
 import clsx from "clsx";
-import PropTypes from "prop-types";
-import React from "react";
+import React, { ElementType } from "react";
 
 const variants = {
-    default: (isActive) =>
+    default: (isActive: boolean) =>
         clsx(
             "border-b border-gray-light",
             isActive ? "text-primary border-l border-r border-b-transparent" : "hover:text-gray-darker",
         ),
 
-    simple: (isActive) =>
+    simple: (isActive: boolean) =>
         clsx(
             "flex-1 text-lg transition-colors",
             isActive ? "bg-white text-black" : "text-gray-dark hover:text-black hover:bg-gray-light",
         ),
-};
+} as const;
 
-export const Tab = ({
+type TabVariant = keyof typeof variants;
+
+export interface TabProps<T extends ElementType = "button"> {
+    as?: T;
+    variant?: TabVariant;
+    isActive?: boolean;
+    isHidden?: boolean;
+    className?: string;
+}
+
+export const Tab = <T extends ElementType = "button">({
     variant = "default",
-    as: Tag = "button",
-    className,
+    as,
     isActive = false,
     isHidden = false,
+    className,
     ...rest
-}) => {
+}: TabProps<T> & Omit<React.ComponentPropsWithoutRef<T>, keyof TabProps<T>>) => {
+    const Tag = as ?? "button";
+
     if (isHidden) {
         return null;
     }
@@ -39,14 +50,6 @@ export const Tab = ({
             {...rest}
         />
     );
-};
-
-Tab.propTypes = {
-    variant: PropTypes.oneOf(Object.keys(variants)),
-    as: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]),
-    className: PropTypes.string,
-    isActive: PropTypes.bool,
-    isHidden: PropTypes.bool,
 };
 
 Tab.displayName = "Tabs.Tab";

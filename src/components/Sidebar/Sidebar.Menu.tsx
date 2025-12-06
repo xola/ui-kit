@@ -1,13 +1,18 @@
 import Tippy from "@tippyjs/react";
 import clsx from "clsx";
-import PropTypes from "prop-types";
 import React from "react";
 import styles from "./Sidebar.Menu.module.css";
 
 // eslint-disable-next-line no-undef
 const appendTo = typeof window === "undefined" ? undefined : window.document.body;
 
-export const SidebarMenu = ({ children, content, ...rest }) => {
+export interface SidebarMenuProps {
+    children: React.ReactNode;
+    content: React.ReactNode;
+    [key: string]: any;
+}
+
+export const SidebarMenu = ({ children, content, ...rest }: SidebarMenuProps) => {
     return (
         <Tippy
             interactive
@@ -31,8 +36,3 @@ export const SidebarMenu = ({ children, content, ...rest }) => {
 };
 
 SidebarMenu.displayName = "Sidebar.Menu";
-
-SidebarMenu.propTypes = {
-    children: PropTypes.node.isRequired,
-    content: PropTypes.node.isRequired,
-};

@@ -1,6 +1,5 @@
 import { Dialog, Transition } from "@headlessui/react";
 import clsx from "clsx";
-import PropTypes from "prop-types";
 import React, { Fragment } from "react";
 import { CloseIcon } from "../icons";
 
@@ -9,7 +8,7 @@ const sizes = {
     medium: "max-w-125", // 500px
     large: "max-w-150", // 600px
     huge: "max-w-200", // 800px
-};
+} as const;
 
 const positions = {
     center: "inline-block",
@@ -17,7 +16,7 @@ const positions = {
     topRight: "absolute m-4 top-0 right-0",
     bottomLeft: "absolute m-4 bottom-0 left-0",
     bottomRight: "absolute m-4 bottom-0 right-0",
-};
+} as const;
 
 const animations = {
     center: {
@@ -50,17 +49,30 @@ const animations = {
         leaveFrom: "scale-100 origin-bottom-right",
         leaveTo: "scale-0 origin-bottom-right",
     },
-};
+} as const;
+
+type ModalSize = keyof typeof sizes;
+type ModalPosition = keyof typeof positions;
+
+export interface ModalProps {
+    size?: ModalSize;
+    position?: ModalPosition;
+    isOpen: boolean;
+    shouldCloseOnOutsideClick?: boolean;
+    children: React.ReactNode;
+    className?: string;
+    onClose: () => void;
+}
 
 export const Modal = ({
     size = "medium",
     position = "center",
     isOpen = false,
     shouldCloseOnOutsideClick = false,
-    onClose,
     children,
     className,
-}) => {
+    onClose,
+}: ModalProps) => {
     const handleOutsideClick = () => {
         if (shouldCloseOnOutsideClick) {
             onClose();
@@ -126,17 +138,13 @@ export const Modal = ({
     );
 };
 
-Modal.propTypes = {
-    size: PropTypes.oneOf(Object.keys(sizes)),
-    position: PropTypes.oneOf(Object.keys(positions)),
-    isOpen: PropTypes.bool.isRequired,
-    shouldCloseOnOutsideClick: PropTypes.bool,
-    onClose: PropTypes.func.isRequired,
-    children: PropTypes.node.isRequired,
-    className: PropTypes.string,
-};
+export interface ModalHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
+    description?: string;
+    children: React.ReactNode;
+    className?: string;
+}
 
-const Header = ({ children, description, className, ...rest }) => {
+const Header = ({ description, children, className, ...rest }: ModalHeaderProps) => {
     return (
         <Dialog.Title as="div" className={clsx(className, "ui-modal-header text-center")} {...rest}>
             <h3 className="text-2xl font-semibold leading-6 text-black">{children}</h3>
@@ -148,33 +156,29 @@ const Header = ({ children, description, className, ...rest }) => {
     );
 };
 
-Header.propTypes = {
-    children: PropTypes.node.isRequired,
-    description: PropTypes.string,
-    className: PropTypes.string,
-};
-
 Header.displayName = "Modal.Header";
-Modal.Header = Header;
 
-const Body = ({ className, ...rest }) => {
+export interface ModalBodyProps extends React.HTMLAttributes<HTMLDivElement> {
+    className?: string;
+}
+
+const Body = ({ className, ...rest }: ModalBodyProps) => {
     return <div className={clsx(className, "ui-modal-body mt-10")} {...rest} />;
 };
 
-Body.propTypes = {
-    className: PropTypes.string,
-};
-
 Body.displayName = "Modal.Body";
-Modal.Body = Body;
 
-const Footer = ({ className, ...rest }) => {
+export interface ModalFooterProps extends React.HTMLAttributes<HTMLDivElement> {
+    className?: string;
+}
+
+const Footer = ({ className, ...rest }: ModalFooterProps) => {
     return <div className={clsx(className, "ui-modal-footer mt-10 space-x-4 text-right")} {...rest} />;
 };
 
-Footer.propTypes = {
-    className: PropTypes.string,
-};
-
 Footer.displayName = "Modal.Footer";
+
+// Attach sub-components
+Modal.Header = Header;
+Modal.Body = Body;
 Modal.Footer = Footer;

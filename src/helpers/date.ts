@@ -53,6 +53,7 @@ export const now = (date?: Date | Dayjs | string | number, timezone?: string): D
     }
 
     if (isDayjs(date)) {
+        // We do this late because under some conditions this is expensive (see: X2-9122)
         return date;
     }
 

@@ -1,8 +1,13 @@
 import clsx from "clsx";
-import PropTypes from "prop-types";
-import React from "react";
+import React, { ComponentType } from "react";
 
-export const SidebarHeading = ({ icon: Icon, label, className }) => {
+export interface SidebarHeadingProps {
+    icon: ComponentType<React.SVGProps<SVGSVGElement>>;
+    label: string;
+    className?: string;
+}
+
+export const SidebarHeading = ({ icon: Icon, label, className }: SidebarHeadingProps) => {
     return (
         <p className={clsx("ml-4 flex items-center text-white", className)}>
             <Icon className="mr-3 h-5 w-5" />
@@ -12,9 +17,3 @@ export const SidebarHeading = ({ icon: Icon, label, className }) => {
 };
 
 SidebarHeading.displayName = "Sidebar.Heading";
-
-SidebarHeading.propTypes = {
-    icon: PropTypes.func.isRequired,
-    label: PropTypes.string.isRequired,
-    className: PropTypes.string,
-};
