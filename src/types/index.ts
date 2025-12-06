@@ -11,7 +11,7 @@ export type Variant = "standard" | "outline" | "link";
 
 // Polymorphic component props helper for components that accept an 'as' prop
 // This allows components to be rendered as different HTML elements while maintaining type safety
-export type PolymorphicComponentProps<T extends ElementType, P = {}> = P &
+export type PolymorphicComponentProps<T extends ElementType, P = Record<string, never>> = P &
     Omit<ComponentPropsWithoutRef<T>, keyof P> & {
         as?: T;
     };

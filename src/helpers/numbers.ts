@@ -1,7 +1,8 @@
-import getUserLocale from "get-user-locale";
+import * as getUserLocaleModule from "get-user-locale";
 import { round } from "lodash";
 import { isZeroDecimal } from "./currency";
 
+const getUserLocale = getUserLocaleModule.default || getUserLocaleModule;
 const userLocale = getUserLocale();
 
 export const almostZero = (number: number): boolean => {

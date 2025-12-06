@@ -1,5 +1,6 @@
-import getUserLocale from "get-user-locale";
+import * as getUserLocaleModule from "get-user-locale";
 
+const getUserLocale = getUserLocaleModule.default || getUserLocaleModule;
 const userLocale = getUserLocale();
 
 const zeroDecimalCurrencies = new Set(["JPY", "CLP", "KRW", "LAK", "PYG", "VND", "VUV"]);

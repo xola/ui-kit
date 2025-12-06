@@ -12,6 +12,7 @@ const sizes = {
 type BaseInputSize = keyof typeof sizes;
 
 export interface BaseInputProps {
+    [key: string]: any;
     as?: ElementType;
     size?: BaseInputSize;
     isError?: boolean;
@@ -20,7 +21,6 @@ export interface BaseInputProps {
     prefix?: string;
     suffix?: string;
     className?: string;
-    [key: string]: any;
 }
 
 export const BaseInput = forwardRef<HTMLInputElement, BaseInputProps & Record<string, any>>(

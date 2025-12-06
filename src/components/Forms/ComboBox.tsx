@@ -38,7 +38,7 @@ const CustomMultiValue = (props: MultiValueGenericProps) => {
     const [isTooltipDisabled, setIsTooltipDisabled] = useState(true);
 
     useEffect(() => {
-        if (labelRef.current && labelRef.current.offsetParent) {
+        if (labelRef.current?.offsetParent) {
             const isOverflowing = labelRef.current.offsetWidth > labelRef.current.offsetParent.clientWidth;
             setIsTooltipDisabled(!isOverflowing);
         }

@@ -1,5 +1,15 @@
 {
     "rules": {
-        "complexity": ["warn", { "max": 25 }]
+        "complexity": ["warn", { "max": 25 }],
+        "react/require-default-props": "off",
+        "import/no-extraneous-dependencies": [
+            "error",
+            {
+                "devDependencies": true,
+                "optionalDependencies": false,
+                "peerDependencies": false,
+                "packageDir": "./"
+            }
+        ]
     }
 }
