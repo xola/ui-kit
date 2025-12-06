@@ -1,11 +1,16 @@
 import React from "react";
 import { Tooltip, WarningDiamondIcon } from "../..";
 
-export const ValuePopoverText = ({ value, error }) => {
+export interface ValuePopoverTextProps {
+    value?: React.ReactNode;
+    error?: React.ReactNode | null;
+}
+
+export const ValuePopoverText = ({ value, error }: ValuePopoverTextProps) => {
     return (
         <span>
             {error ? (
-                <Tooltip content={error}>
+                <Tooltip content={error} className="">
                     <span>
                         <WarningDiamondIcon className="mr-1 text-danger" />
                     </span>

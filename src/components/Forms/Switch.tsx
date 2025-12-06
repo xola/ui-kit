@@ -1,6 +1,5 @@
 import { Switch as HeadlessSwitch } from "@headlessui/react";
 import clsx from "clsx";
-import PropTypes from "prop-types";
 import React from "react";
 
 const sizes = {
@@ -19,21 +18,29 @@ const sizes = {
         inner: "h-2 w-2",
         translate: "translate-x-2",
     },
-};
+} as const;
 
-// TODO: Native checkbox input `checked` and `disabled` properties are not prefixed with `is`.
-// Decide on the naming convention.
-export const Switch = ({ isChecked = false, size = "medium", ...rest }) => {
+type SwitchSize = keyof typeof sizes;
+
+export interface SwitchProps {
+    isChecked?: boolean;
+    size?: SwitchSize;
+    onChange?: (checked: boolean) => void;
+    disabled?: boolean;
+}
+
+const SwitchComponent = ({ isChecked = false, size = "medium", onChange, disabled }: SwitchProps) => {
     return (
         <HeadlessSwitch
             checked={isChecked}
+            onChange={onChange}
+            disabled={disabled}
             className={clsx(
                 "ui-switch",
                 isChecked ? "bg-primary disabled:bg-gray-light" : "bg-gray disabled:bg-gray-light",
                 "relative inline-flex flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none",
                 sizes[size].parent,
             )}
-            {...rest}
         >
             <span
                 className={clsx(
@@ -46,12 +53,12 @@ export const Switch = ({ isChecked = false, size = "medium", ...rest }) => {
     );
 };
 
-Switch.propTypes = {
-    isChecked: PropTypes.bool,
-    size: PropTypes.string,
-};
+export interface SwitchGroupProps {
+    className?: string;
+    children: React.ReactNode;
+}
 
-Switch.Group = ({ className, children }) => {
+const SwitchGroup = ({ className, children }: SwitchGroupProps) => {
     return (
         <HeadlessSwitch.Group as="div" className={clsx("ui-switch-group", "inline-flex items-center", className)}>
             {children}
@@ -59,14 +66,15 @@ Switch.Group = ({ className, children }) => {
     );
 };
 
-Switch.Group.displayName = "Switch.Group";
+SwitchGroup.displayName = "Switch.Group";
 
-Switch.Group.propTypes = {
-    className: PropTypes.string,
-    children: PropTypes.node.isRequired,
-};
+export interface SwitchLabelProps {
+    direction?: "left" | "right";
+    className?: string;
+    children: React.ReactNode;
+}
 
-Switch.Label = ({ direction = "left", className, children }) => {
+const SwitchLabel = ({ direction = "left", className, children }: SwitchLabelProps) => {
     return (
         <HeadlessSwitch.Label
             as="span"
@@ -77,10 +85,9 @@ Switch.Label = ({ direction = "left", className, children }) => {
     );
 };
 
-Switch.Label.displayName = "Switch.Label";
+SwitchLabel.displayName = "Switch.Label";
 
-Switch.Label.propTypes = {
-    direction: PropTypes.string,
-    className: PropTypes.string,
-    children: PropTypes.node.isRequired,
-};
+export const Switch = Object.assign(SwitchComponent, {
+    Group: SwitchGroup,
+    Label: SwitchLabel,
+});

@@ -4,6 +4,22 @@ import { DownArrowIcon } from "../..";
 import { Popover } from "../Popover/Popover";
 import { ValuePopoverText } from "./ValuePopoverText";
 
+export interface InlineValuePopoverProps {
+    text?: React.ReactNode;
+    isOpen?: boolean;
+    showArrow?: boolean;
+    autoSelectOnClick?: boolean;
+    onClick?: (e: React.MouseEvent) => void;
+    onClickOutside?: () => void;
+    classNames?: {
+        text?: string;
+        textField?: string;
+        children?: string;
+    };
+    children?: React.ReactNode;
+    error?: React.ReactNode | null;
+}
+
 export const InlineValuePopover = ({
     text,
     isOpen = false,
@@ -15,13 +31,13 @@ export const InlineValuePopover = ({
     children,
     error = null,
     ...rest
-}) => {
-    const ref = useRef();
-    const handleClick = (e) => {
+}: InlineValuePopoverProps) => {
+    const ref = useRef<HTMLDivElement>(null);
+    const handleClick = (e: React.MouseEvent) => {
         setTimeout(() => {
             // This may technically belong in Seller app, but the most common use case for this component here is
             // to use inputs, so we'll provide some helpers for that
-            const popoverInput = ref?.current.querySelector("select,textarea,input");
+            const popoverInput = ref?.current?.querySelector("select,textarea,input") as HTMLInputElement | null;
             if (!popoverInput) return;
 
             popoverInput.focus();
@@ -34,7 +50,7 @@ export const InlineValuePopover = ({
     };
 
     return (
-        <Popover visible={isOpen} onClickOutside={onClickOutside} {...rest}>
+        <Popover visible={isOpen} onClickOutside={onClickOutside} className="" {...rest}>
             <span
                 className={clsx(
                     "cursor-pointer whitespace-nowrap",

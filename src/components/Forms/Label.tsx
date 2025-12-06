@@ -1,8 +1,13 @@
 import clsx from "clsx";
-import PropTypes from "prop-types";
 import React from "react";
 
-export const Label = ({ isDisabled = false, isError = false, className, ...rest }) => {
+export interface LabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
+    isDisabled?: boolean;
+    isError?: boolean;
+    className?: string;
+}
+
+export const Label = ({ isDisabled = false, isError = false, className, ...rest }: LabelProps) => {
     return (
         <label
             className={clsx(
@@ -14,10 +19,4 @@ export const Label = ({ isDisabled = false, isError = false, className, ...rest 
             {...rest}
         />
     );
-};
-
-Label.propTypes = {
-    isDisabled: PropTypes.bool,
-    isError: PropTypes.bool,
-    className: PropTypes.string,
 };

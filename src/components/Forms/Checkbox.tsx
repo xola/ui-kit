@@ -1,10 +1,18 @@
 import clsx from "clsx";
-import PropTypes from "prop-types";
 import React from "react";
 import { useId } from "../../hooks/useId";
 import styles from "./Checkbox.module.css";
 
-export const Checkbox = ({ label, className, classNames = {}, ...rest }) => {
+export interface CheckboxProps extends React.InputHTMLAttributes<HTMLInputElement> {
+    label: React.ReactNode;
+    className?: string;
+    classNames?: {
+        checkbox?: string;
+        label?: string;
+    };
+}
+
+export const Checkbox = ({ label, className, classNames = {}, ...rest }: CheckboxProps) => {
     const id = useId("checkbox");
 
     return (
@@ -31,11 +39,4 @@ export const Checkbox = ({ label, className, classNames = {}, ...rest }) => {
             ) : null}
         </div>
     );
-};
-
-Checkbox.propTypes = {
-    label: PropTypes.node.isRequired,
-    className: PropTypes.string,
-    classNames: PropTypes.shape({ checkbox: PropTypes.string, label: PropTypes.string }),
-    onChange: PropTypes.func,
 };

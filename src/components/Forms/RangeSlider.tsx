@@ -1,9 +1,27 @@
 import clsx from "clsx";
 import Nouislider from "nouislider-react";
-import PropTypes from "prop-types";
 import React from "react";
 import "nouislider/distribute/nouislider.css";
 import "./RangeSlider.css";
+
+interface TooltipFormatter {
+    from: (value: number) => number;
+    to: (value: number) => string;
+}
+
+export interface RangeSliderProps {
+    className?: string;
+    values: number[];
+    min: number;
+    max: number;
+    isDisabled?: boolean;
+    shouldConnectHandles?: boolean;
+    step?: number;
+    isTooltipEnabled?: boolean;
+    tooltipCustomFormatter?: TooltipFormatter[] | null;
+    tooltipSuffix?: string;
+    onChange?: (values: number[], handle: number) => void;
+}
 
 /**
  * @param {string?}     props.className                 Class name to apply to the Range slider input.
@@ -30,13 +48,13 @@ export const RangeSlider = ({
     tooltipCustomFormatter = null,
     tooltipSuffix,
     onChange,
-}) => {
+}: RangeSliderProps) => {
     const tooltipFormatter =
         tooltipCustomFormatter ??
         values.map(() => {
             return {
-                from: (value) => value,
-                to: (value) => Math.round(value) + tooltipSuffix,
+                from: (value: number) => value,
+                to: (value: number) => Math.round(value) + (tooltipSuffix ?? ""),
             };
         });
 
@@ -52,23 +70,4 @@ export const RangeSlider = ({
             onChange={onChange}
         />
     );
-};
-
-RangeSlider.propTypes = {
-    className: PropTypes.string,
-    values: PropTypes.arrayOf(PropTypes.number).isRequired,
-    min: PropTypes.number.isRequired,
-    max: PropTypes.number.isRequired,
-    isDisabled: PropTypes.bool,
-    shouldConnectHandles: PropTypes.bool,
-    isTooltipEnabled: PropTypes.bool,
-    tooltipSuffix: PropTypes.string,
-    tooltipCustomFormatter: PropTypes.arrayOf(
-        PropTypes.shape({
-            from: PropTypes.func.isRequired,
-            to: PropTypes.func.isRequired,
-        }),
-    ),
-    step: PropTypes.number,
-    onChange: PropTypes.func,
 };

@@ -1,17 +1,30 @@
 import clsx from "clsx";
 import { isEmpty, isString } from "lodash";
-import PropTypes from "prop-types";
-import React, { forwardRef } from "react";
+import React, { ElementType, forwardRef } from "react";
 import { Dot } from "../Dot/Dot";
 
 const sizes = {
-    small: "px-3 py-1.5 text-sm leading-sm", // 30px
-    medium: "px-3 py-2.5 text-base leading-base", // 40px
-    large: "px-5 py-3.5 text-md leading-md", // 50px
-};
+    small: "px-3 py-1.5 text-sm leading-sm",
+    medium: "px-3 py-2.5 text-base leading-base",
+    large: "px-5 py-3.5 text-md leading-md",
+} as const;
 
-export const BaseInput = forwardRef(
-    ({ as: Tag, size = "medium", isError, className, isRequired, value, prefix, suffix, ...rest }, ref) => {
+type BaseInputSize = keyof typeof sizes;
+
+export interface BaseInputProps {
+    as?: ElementType;
+    size?: BaseInputSize;
+    isError?: boolean;
+    className?: string;
+    isRequired?: boolean;
+    value?: string | number;
+    prefix?: string;
+    suffix?: string;
+    [key: string]: any;
+}
+
+export const BaseInput = forwardRef<HTMLInputElement, BaseInputProps & Record<string, any>>(
+    ({ as: Tag = "input", size = "medium", isError, className, isRequired, value, prefix, suffix, ...rest }, ref) => {
         const stringValue = () => {
             if (!isString(value)) return undefined;
 
@@ -71,22 +84,4 @@ export const BaseInput = forwardRef(
     },
 );
 
-BaseInput.propTypes = {
-    as: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]),
-    size: PropTypes.oneOf(Object.keys(sizes)),
-    className: PropTypes.string,
-    isError: PropTypes.bool,
-    isRequired: PropTypes.bool,
-    // eslint-disable-next-line react/require-default-props
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    prefix: PropTypes.string, // eslint-disable-line react/require-default-props
-    suffix: PropTypes.string, // eslint-disable-line react/require-default-props
-};
-
-BaseInput.defaultProps = {
-    as: "input",
-    size: "medium",
-    className: "",
-    isError: false,
-    isRequired: false,
-};
+BaseInput.displayName = "BaseInput";
