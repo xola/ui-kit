@@ -2,8 +2,8 @@ import { Transition } from "@headlessui/react";
 import React from "react";
 
 export interface SlideDownProps {
-    isOpen?: boolean;
-    children?: React.ReactNode;
+    readonly isOpen?: boolean;
+    readonly children?: React.ReactNode;
 }
 
 export const SlideDown = ({ isOpen, children }: SlideDownProps) => {

@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { isEmpty, isString } from "lodash";
-import React, { ElementType, forwardRef } from "react";
+import React, { type ElementType, forwardRef } from "react";
 import { Dot } from "../Dot/Dot";
 
 const sizes = {
@@ -13,14 +13,14 @@ type BaseInputSize = keyof typeof sizes;
 
 export interface BaseInputProps {
     [key: string]: any;
-    as?: ElementType;
-    size?: BaseInputSize;
-    isError?: boolean;
-    isRequired?: boolean;
-    value?: string | number;
-    prefix?: string;
-    suffix?: string;
-    className?: string;
+    readonly as?: ElementType;
+    readonly size?: BaseInputSize;
+    readonly isError?: boolean;
+    readonly isRequired?: boolean;
+    readonly value?: string | number;
+    readonly prefix?: string;
+    readonly suffix?: string;
+    readonly className?: string;
 }
 
 export const BaseInput = forwardRef<HTMLInputElement, BaseInputProps & Record<string, any>>(
@@ -53,7 +53,7 @@ export const BaseInput = forwardRef<HTMLInputElement, BaseInputProps & Record<st
             return (
                 result
                     // Remove one or more whitespace characters that are not followed by a period
-                    .replace(/[^.\S]+/g, "")
+                    .replaceAll(/[^.\S]+/g, "")
                     // Remove any currency symbold
                     .replace(/[\p{Sc}]/u, "")
             );

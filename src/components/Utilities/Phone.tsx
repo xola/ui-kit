@@ -3,9 +3,9 @@ import React from "react";
 import { formatPhoneNumber, getRegionCode } from "../../helpers/phone";
 
 export interface PhoneProps {
-    countryCode?: string;
+    readonly countryCode?: string;
     children: string | number;
-    className?: string;
+    readonly className?: string;
 }
 
 export const Phone = ({ countryCode = "US", children, className }: PhoneProps) => {

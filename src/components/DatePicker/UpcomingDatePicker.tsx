@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 import React from "react";
 
 export interface UpcomingDatePickerProps {
-    value?: Date | { from?: Date; to?: Date } | null;
+    readonly value?: Date | { from?: Date; to?: Date } | null;
     upcomingDates: Date[];
     onChange: (day: Date, options: Record<string, any>, event: React.MouseEvent) => void;
     onMonthChange: (month: Date) => void;

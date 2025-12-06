@@ -2,8 +2,8 @@ import React from "react";
 import { Tooltip, WarningDiamondIcon } from "../..";
 
 export interface ValuePopoverTextProps {
-    value?: React.ReactNode;
-    error?: React.ReactNode | null;
+    readonly value?: React.ReactNode;
+    readonly error?: React.ReactNode | null;
 }
 
 export const ValuePopoverText = ({ value, error }: ValuePopoverTextProps) => {

@@ -6,12 +6,12 @@ import { almostZero, numberFormat, roundNumber } from "../../helpers/numbers";
 const userLocale = getUserLocale();
 
 export interface CurrencyProps {
-    currency?: string;
-    locale?: string;
-    shouldRemoveTrailingZeroes?: boolean;
-    maximumFractionDigits?: number;
-    compact?: boolean;
-    isNarrowSymbolForm?: boolean;
+    readonly currency?: string;
+    readonly locale?: string;
+    readonly shouldRemoveTrailingZeroes?: boolean;
+    readonly maximumFractionDigits?: number;
+    readonly compact?: boolean;
+    readonly isNarrowSymbolForm?: boolean;
     children: number;
 }
 
@@ -58,7 +58,7 @@ export const Currency = ({
 
 // TODO: See if this feature can be implemented as a prop on `Currency` component.
 interface CurrencyRoundProps {
-    currency?: string;
+    readonly currency?: string;
     children: number;
 }
 
@@ -70,9 +70,9 @@ const Round = ({ currency = "USD", children }: CurrencyRoundProps) => {
 Round.displayName = "Currency.Round";
 
 interface CurrencySplitProps {
-    currency?: string;
-    locale?: string;
-    isNarrowSymbolForm?: boolean;
+    readonly currency?: string;
+    readonly locale?: string;
+    readonly isNarrowSymbolForm?: boolean;
     children: number;
 }
 

@@ -1,7 +1,7 @@
 import clsx from "clsx";
-import React, { Children, cloneElement, ReactElement } from "react";
-import { Panel, PanelProps } from "./Tabs.Panel";
-import { Tab, TabProps } from "./Tabs.Tab";
+import React, { Children, cloneElement, type ReactElement } from "react";
+import { Panel, type PanelProps } from "./Tabs.Panel";
+import { Tab, type TabProps } from "./Tabs.Tab";
 
 const variants = {
     default: "border-t border-gray-light",
@@ -11,10 +11,10 @@ const variants = {
 type TabsVariant = keyof typeof variants;
 
 export interface TabsProps extends Omit<React.HTMLAttributes<HTMLElement>, "onChange"> {
-    variant?: TabsVariant;
+    readonly variant?: TabsVariant;
     value: number;
     children: React.ReactNode;
-    className?: string;
+    readonly className?: string;
     onChange: (index: number) => void;
 }
 

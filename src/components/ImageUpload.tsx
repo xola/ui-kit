@@ -6,14 +6,14 @@ type LogoSize = "small" | "medium" | "large";
 
 export interface ImageUploadProps
     extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "onChange" | "size" | "onError"> {
-    src?: string;
-    size?: LogoSize;
-    isLoading?: boolean;
-    maxSize?: number;
-    hasDelete?: boolean;
-    requirements?: React.ReactNode | string | null;
-    caption?: string | null;
-    csvAcceptFormats?: string;
+    readonly src?: string;
+    readonly size?: LogoSize;
+    readonly isLoading?: boolean;
+    readonly maxSize?: number;
+    readonly hasDelete?: boolean;
+    readonly requirements?: React.ReactNode | string | null;
+    readonly caption?: string | null;
+    readonly csvAcceptFormats?: string;
     onChange: (file: File) => void;
     onDelete: () => void;
     onError: (message: string) => void;

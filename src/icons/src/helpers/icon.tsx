@@ -1,12 +1,12 @@
 import clsx from "clsx";
-import React, { ComponentPropsWithoutRef, FC } from "react";
+import React, { type ComponentPropsWithoutRef, type FC } from "react";
 import { iconSizes } from "./iconSizes";
 
 type IconSize = keyof typeof iconSizes;
 
 export interface IconProps extends ComponentPropsWithoutRef<"svg"> {
-    size?: IconSize;
-    className?: string;
+    readonly size?: IconSize;
+    readonly className?: string;
 }
 
 export interface IconComponent extends FC<IconProps> {

@@ -3,7 +3,7 @@ import React from "react";
 import { Breadcrumb, Search } from "..";
 
 export interface HeaderToolbarProps {
-    classNames?: string;
+    readonly classNames?: string;
     children: React.ReactNode;
 }
 
@@ -23,7 +23,7 @@ export const HeaderToolbar = ({ classNames, children }: HeaderToolbarProps) => {
 
 interface HeaderToolbarBreadcrumbProps {
     children: React.ReactNode;
-    className?: string;
+    readonly className?: string;
 }
 
 const BreadcrumbComponent = ({ children, className }: HeaderToolbarBreadcrumbProps) => {

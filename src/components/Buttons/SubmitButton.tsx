@@ -3,8 +3,7 @@ import clsx from "clsx";
 import React, { useEffect, useState } from "react";
 import { CheckIcon } from "../../icons";
 import { Spinner } from "../Spinner";
-import { Button, colors } from "./Button";
-import type { ButtonProps } from "./Button";
+import { Button, type colors, type ButtonProps } from "./Button";
 
 const loadingColors = {
     primary: "!bg-primary-light",
@@ -21,10 +20,10 @@ type ButtonVariant = keyof typeof colors;
 export interface SubmitButtonProps
     extends Omit<ButtonProps, "icon" | "iconPlacement">,
         Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, keyof ButtonProps> {
-    isLoading?: boolean;
-    isSuccess?: boolean;
-    disabled?: boolean;
-    variant?: ButtonVariant;
+    readonly isLoading?: boolean;
+    readonly isSuccess?: boolean;
+    readonly disabled?: boolean;
+    readonly variant?: ButtonVariant;
 }
 
 export const SubmitButton = ({

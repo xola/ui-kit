@@ -48,22 +48,22 @@ interface NotificationDrawer {
 }
 
 export interface SidebarProps {
-    logo?: React.ReactElement;
+    readonly logo?: React.ReactElement;
     footer: React.ReactElement;
-    notifications?: {
+    readonly notifications?: {
         announcements?: NotificationDrawer;
         notices?: NotificationDrawer;
     };
-    isFixed?: boolean;
-    isStickyHeader?: boolean;
-    isStickyFooter?: boolean;
-    isLeftDrawerOpen?: boolean;
-    isRightDrawerOpen?: boolean;
+    readonly isFixed?: boolean;
+    readonly isStickyHeader?: boolean;
+    readonly isStickyFooter?: boolean;
+    readonly isLeftDrawerOpen?: boolean;
+    readonly isRightDrawerOpen?: boolean;
     children: React.ReactNode;
-    className?: string;
+    readonly className?: string;
     onLogoClick: () => void;
-    handleDrawerStateChange?: (drawer: "left" | "right") => void;
-    onSidebarResize?: (width: number) => void;
+    readonly handleDrawerStateChange?: (drawer: "left" | "right") => void;
+    readonly onSidebarResize?: (width: number) => void;
 }
 
 export const Sidebar = ({
@@ -168,7 +168,7 @@ export const Sidebar = ({
         >
             {/* Resize handle */}
             <div
-                className="absolute -right-3 top-0 bottom-0 z-10 w-4 cursor-ew-resize"
+                className="absolute -right-3 bottom-0 top-0 z-10 w-4 cursor-ew-resize"
                 onMouseDown={handleResizeStart}
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
@@ -268,7 +268,7 @@ export const Sidebar = ({
                                       className={clsx(
                                           "inline-block h-12 w-12 ",
                                           width > 160 && "h-30 w-30",
-                                          typeof onLogoClick !== "undefined" &&
+                                          onLogoClick !== undefined &&
                                               "cursor-pointer transition-opacity hover:opacity-80",
                                       )}
                                       onClick={onLogoClick}

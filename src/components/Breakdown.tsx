@@ -25,9 +25,9 @@ const CurrencyContext = createContext<CurrencyContextValue | undefined>(undefine
 
 export interface BreakdownProps extends React.TableHTMLAttributes<HTMLTableElement> {
     currency: string;
-    locale?: string;
-    children?: React.ReactNode;
-    className?: string;
+    readonly locale?: string;
+    readonly children?: React.ReactNode;
+    readonly className?: string;
 }
 
 const BreakdownComponent = ({ currency, locale, children, className, ...rest }: BreakdownProps) => {
@@ -42,19 +42,19 @@ const BreakdownComponent = ({ currency, locale, children, className, ...rest }: 
 };
 
 export interface BreakdownItemProps extends React.HTMLAttributes<HTMLTableRowElement> {
-    info?: React.ReactNode;
-    methodIcon?: React.ReactNode;
-    secondary?: React.ReactNode;
-    value?: React.ReactNode;
-    color?: BreakdownColor;
-    children?: React.ReactNode;
-    classNames?: {
+    readonly info?: React.ReactNode;
+    readonly methodIcon?: React.ReactNode;
+    readonly secondary?: React.ReactNode;
+    readonly value?: React.ReactNode;
+    readonly color?: BreakdownColor;
+    readonly children?: React.ReactNode;
+    readonly classNames?: {
         key?: string;
         children?: string;
         info?: string;
         value?: string;
     };
-    className?: string;
+    readonly className?: string;
 }
 
 const BreakdownItem = ({
@@ -107,16 +107,16 @@ const BreakdownItem = ({
 BreakdownItem.displayName = "Breakdown.Item";
 
 export interface BreakdownSubtotalItemProps extends React.HTMLAttributes<HTMLTableRowElement> {
-    info?: React.ReactNode;
-    value?: React.ReactNode;
-    color?: BreakdownColor;
-    children?: React.ReactNode;
-    classNames?: {
+    readonly info?: React.ReactNode;
+    readonly value?: React.ReactNode;
+    readonly color?: BreakdownColor;
+    readonly children?: React.ReactNode;
+    readonly classNames?: {
         children?: string;
         info?: string;
         value?: string;
     };
-    className?: string;
+    readonly className?: string;
 }
 
 const BreakdownSubtotalItem = ({
@@ -134,10 +134,10 @@ const BreakdownSubtotalItem = ({
 
     return (
         <tr className={clsx("ui-breakdown-subtotal-item", "font-bold", colors[color], className)} {...rest}>
-            <td className={clsx("pt-1 pb-4 text-left", classNames.children)}>{children}</td>
-            <td className={clsx("whitespace-nowrap pt-1 pb-4 text-right", classNames.info)}>{info}</td>
+            <td className={clsx("pb-4 pt-1 text-left", classNames.children)}>{children}</td>
+            <td className={clsx("whitespace-nowrap pb-4 pt-1 text-right", classNames.info)}>{info}</td>
 
-            <td className={clsx("w-[1%] whitespace-nowrap pt-1 pb-4 pl-4 text-right", classNames.value)}>
+            <td className={clsx("w-[1%] whitespace-nowrap pb-4 pl-4 pt-1 text-right", classNames.value)}>
                 <Currency
                     shouldRemoveTrailingZeroes={false}
                     currency={currency}
@@ -155,7 +155,7 @@ const BreakdownSubtotalItem = ({
 BreakdownSubtotalItem.displayName = "Breakdown.SubtotalItem";
 
 export interface BreakdownSeparatorProps extends React.HTMLAttributes<HTMLTableRowElement> {
-    className?: string;
+    readonly className?: string;
 }
 
 const BreakdownSeparator = ({ className, ...rest }: BreakdownSeparatorProps) => {

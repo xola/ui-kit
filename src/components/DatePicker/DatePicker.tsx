@@ -28,28 +28,28 @@ type RangeKey = "day" | "week" | "month" | "quarter" | "year";
 
 export interface DatePickerProps {
     [key: string]: any;
-    variant?: DatePickerVariant;
-    value?: DateValue;
-    selectedDays?: DateValue;
-    upcomingDates?: Date[];
-    disabledDays?: ((date: Date) => boolean) | Date[];
-    loadingDays?: ((date: Date) => boolean) | Date[];
-    shouldShowYearPicker?: boolean;
-    shouldShowMonthSelector?: boolean;
-    shouldShowRelativeRanges?: boolean;
-    isFutureDatesAllowed?: boolean;
-    modifiers?: Record<string, any>;
-    ranges?: RangeKey[];
-    components?: {
+    readonly variant?: DatePickerVariant;
+    readonly value?: DateValue;
+    readonly selectedDays?: DateValue;
+    readonly upcomingDates?: Date[];
+    readonly disabledDays?: ((date: Date) => boolean) | Date[];
+    readonly loadingDays?: ((date: Date) => boolean) | Date[];
+    readonly shouldShowYearPicker?: boolean;
+    readonly shouldShowMonthSelector?: boolean;
+    readonly shouldShowRelativeRanges?: boolean;
+    readonly isFutureDatesAllowed?: boolean;
+    readonly modifiers?: Record<string, any>;
+    readonly ranges?: RangeKey[];
+    readonly components?: {
         Footer?: React.ComponentType;
     };
-    locale?: string;
-    timezoneName?: string;
-    getDayContent?: (day: number, date: Date) => React.ReactNode;
-    getTooltip?: (date: Date) => React.ReactNode;
+    readonly locale?: string;
+    readonly timezoneName?: string;
+    readonly getDayContent?: (day: number, date: Date) => React.ReactNode;
+    readonly getTooltip?: (date: Date) => React.ReactNode;
     onChange: (value: any, options?: any, event?: any) => void;
-    onMonthChange?: (month: Date) => void;
-    onSubmitDateRange?: () => void;
+    readonly onMonthChange?: (month: Date) => void;
+    readonly onSubmitDateRange?: () => void;
 }
 
 /**

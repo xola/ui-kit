@@ -10,6 +10,8 @@
                 "peerDependencies": false,
                 "packageDir": "./"
             }
-        ]
+        ],
+        "@typescript-eslint/prefer-readonly": "off",
+        "@typescript-eslint/prefer-readonly-parameter-types": "off"
     }
 }

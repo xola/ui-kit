@@ -14,14 +14,14 @@ export interface RangeSliderProps {
     values: number[];
     min: number;
     max: number;
-    isDisabled?: boolean;
-    shouldConnectHandles?: boolean;
-    step?: number;
-    isTooltipEnabled?: boolean;
-    tooltipCustomFormatter?: TooltipFormatter[] | null;
-    tooltipSuffix?: string;
-    className?: string;
-    onChange?: (values: number[], handle: number) => void;
+    readonly isDisabled?: boolean;
+    readonly shouldConnectHandles?: boolean;
+    readonly step?: number;
+    readonly isTooltipEnabled?: boolean;
+    readonly tooltipCustomFormatter?: TooltipFormatter[] | null;
+    readonly tooltipSuffix?: string;
+    readonly className?: string;
+    readonly onChange?: (values: number[], handle: number) => void;
 }
 
 /**

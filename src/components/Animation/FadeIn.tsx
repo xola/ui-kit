@@ -3,14 +3,14 @@ import React from "react";
 
 export interface FadeInProps {
     [key: string]: any;
-    shouldShow?: boolean;
-    shouldAppear?: boolean;
-    tag?: React.ElementType;
-    enter?: string;
-    enterFrom?: string;
-    enterTo?: string;
-    children?: React.ReactNode;
-    className?: string;
+    readonly shouldShow?: boolean;
+    readonly shouldAppear?: boolean;
+    readonly tag?: React.ElementType;
+    readonly enter?: string;
+    readonly enterFrom?: string;
+    readonly enterTo?: string;
+    readonly children?: React.ReactNode;
+    readonly className?: string;
 }
 
 export const FadeIn = ({

@@ -7,7 +7,7 @@ import { MonthGrid } from "./MonthGrid";
 export interface MonthSelectorProps {
     date: Date;
     currentMonth: Date;
-    locale?: string;
+    readonly locale?: string;
     onChange: (newDate: Date) => void;
 }
 

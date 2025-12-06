@@ -1,7 +1,7 @@
 export const isOSX: boolean = typeof window === "undefined" ? false : window.navigator.userAgent.includes("Macintosh");
 
 export const isIosBrowser = (): boolean => {
-    if (typeof window === "undefined" || !window.navigator) {
+    if (!window?.navigator) {
         return false;
     }
 

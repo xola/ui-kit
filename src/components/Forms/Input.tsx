@@ -1,11 +1,11 @@
 import clsx from "clsx";
 import React, { forwardRef } from "react";
-import { BaseInput, BaseInputProps } from "./BaseInput";
+import { BaseInput, type BaseInputProps } from "./BaseInput";
 
 export interface InputProps
     extends BaseInputProps,
         Omit<React.InputHTMLAttributes<HTMLInputElement>, keyof BaseInputProps> {
-    type?: string;
+    readonly type?: string;
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(({ className, type = "text", value, ...rest }, ref) => {

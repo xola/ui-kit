@@ -5,11 +5,11 @@ import styles from "./Checkbox.module.css";
 
 export interface CheckboxProps extends React.InputHTMLAttributes<HTMLInputElement> {
     label: React.ReactNode;
-    classNames?: {
+    readonly classNames?: {
         checkbox?: string;
         label?: string;
     };
-    className?: string;
+    readonly className?: string;
 }
 
 export const Checkbox = ({ label, classNames = {}, className, ...rest }: CheckboxProps) => {

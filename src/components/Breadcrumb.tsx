@@ -2,13 +2,13 @@ import clsx from "clsx";
 import React, { Children } from "react";
 
 export interface BreadcrumbProps extends React.HTMLAttributes<HTMLDivElement> {
-    separator?: string;
-    children?: React.ReactNode;
-    classNames?: {
+    readonly separator?: string;
+    readonly children?: React.ReactNode;
+    readonly classNames?: {
         item?: string;
         separator?: string;
     };
-    className?: string;
+    readonly className?: string;
 }
 
 const BreadcrumbComponent = ({ separator = "/", children, classNames = {}, className, ...rest }: BreadcrumbProps) => {
@@ -34,8 +34,8 @@ const BreadcrumbComponent = ({ separator = "/", children, classNames = {}, class
 };
 
 export interface BreadcrumbItemProps extends React.HTMLAttributes<HTMLDivElement> {
-    className?: string;
-    onClick?: () => void;
+    readonly className?: string;
+    readonly onClick?: () => void;
     children: React.ReactNode;
 }
 

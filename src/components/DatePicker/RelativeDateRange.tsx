@@ -72,7 +72,10 @@ export const rangeLabels: Record<string, string> = {
     [rangeOptions.LEADING_YEAR]: "Leading Year",
 };
 
-type RangeOption = { value: string; label: string };
+interface RangeOption {
+    value: string;
+    label: string;
+}
 
 export const dateRanges: Record<string, { label: string; rangeOptions: RangeOption[] }> = {
     day: {
@@ -150,7 +153,10 @@ const futureDates = new Set([
     rangeOptions.LEADING_YEAR,
 ]);
 
-type DateRange = { from: Date; to: Date };
+interface DateRange {
+    from: Date;
+    to: Date;
+}
 
 const handlers: Record<string, (timezone: string | undefined) => DateRange> = {
     [rangeOptions.YESTERDAY]: (timezone) => {
@@ -327,13 +333,13 @@ const handlers: Record<string, (timezone: string | undefined) => DateRange> = {
 type RangeKey = "day" | "week" | "month" | "quarter" | "year";
 
 export interface RelativeDateRangeProps {
-    ranges?: RangeKey[];
-    value?: string;
-    showApply?: boolean;
-    isFutureDatesAllowed?: boolean;
-    timezoneName?: string;
+    readonly ranges?: RangeKey[];
+    readonly value?: string;
+    readonly showApply?: boolean;
+    readonly isFutureDatesAllowed?: boolean;
+    readonly timezoneName?: string;
     onChange: (rangeName: string, range: DateRange) => void;
-    onSubmit?: () => void;
+    readonly onSubmit?: () => void;
 }
 
 export const RelativeDateRange = ({

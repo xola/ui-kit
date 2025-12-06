@@ -1,5 +1,5 @@
 import React, { forwardRef } from "react";
-import { BaseInput, BaseInputProps } from "./BaseInput";
+import { BaseInput, type BaseInputProps } from "./BaseInput";
 
 export interface SelectProps
     extends BaseInputProps,

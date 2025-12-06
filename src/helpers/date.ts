@@ -1,4 +1,4 @@
-import dayjs, { Dayjs, isDayjs } from "dayjs";
+import dayjs, { type Dayjs, isDayjs } from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import LocalizedFormat from "dayjs/plugin/localizedFormat";
 import quarterOfYear from "dayjs/plugin/quarterOfYear";

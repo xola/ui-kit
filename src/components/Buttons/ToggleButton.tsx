@@ -18,8 +18,8 @@ type ToggleVariant = keyof typeof colors;
 type ToggleColor = keyof typeof colors.outline;
 
 export interface ToggleButtonProps extends ButtonProps {
-    color?: ToggleColor;
-    variant?: ToggleVariant;
+    readonly color?: ToggleColor;
+    readonly variant?: ToggleVariant;
     isActive: boolean;
 }
 

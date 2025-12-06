@@ -5,9 +5,9 @@ import { numberFormat } from "../../helpers/numbers";
 const userLocale = getUserLocale();
 
 export interface NumberProps {
-    locale?: string;
-    maximumFractionDigits?: number;
-    isCompact?: boolean;
+    readonly locale?: string;
+    readonly maximumFractionDigits?: number;
+    readonly isCompact?: boolean;
     children: number;
 }
 

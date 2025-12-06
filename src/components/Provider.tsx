@@ -25,8 +25,8 @@ export const Context = createContext<ContextValue>({
 
 export interface ProviderProps {
     children: React.ReactNode;
-    localize?: boolean;
-    locale?: string;
+    readonly localize?: boolean;
+    readonly locale?: string;
 }
 
 /**

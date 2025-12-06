@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import React, { Children, cloneElement, ElementType, ReactElement } from "react";
+import React, { Children, cloneElement, type ElementType, type ReactElement } from "react";
 
 const sizes = {
     small: "px-2 py-1.5 text-sm",

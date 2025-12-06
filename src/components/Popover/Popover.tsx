@@ -1,4 +1,4 @@
-import Tippy, { TippyProps } from "@tippyjs/react";
+import Tippy, { type TippyProps } from "@tippyjs/react";
 import clsx from "clsx";
 import React, { Children, forwardRef, useState } from "react";
 import { followCursor } from "tippy.js";
@@ -9,11 +9,11 @@ import styles from "./Popover.module.css";
 import scrollFix from "./PopoverScroll.module.css";
 
 export interface PopoverProps extends Omit<Partial<TippyProps>, "children" | "className"> {
-    isLazy?: boolean;
-    skidding?: number;
-    distance?: number;
+    readonly isLazy?: boolean;
+    readonly skidding?: number;
+    readonly distance?: number;
     children: React.ReactNode;
-    className?: string;
+    readonly className?: string;
 }
 
 export const Popover = ({ isLazy = true, skidding = 0, distance = 10, children, className, ...rest }: PopoverProps) => {
@@ -46,7 +46,7 @@ export const Popover = ({ isLazy = true, skidding = 0, distance = 10, children, 
 
 export interface PopoverContentProps {
     children: React.ReactNode;
-    className?: string;
+    readonly className?: string;
 }
 
 const Content = ({ children, className }: PopoverContentProps) => {

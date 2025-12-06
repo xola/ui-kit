@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import React, { ElementType } from "react";
+import React, { type ElementType } from "react";
 
 const variants = {
     default: (isActive: boolean) =>
@@ -18,12 +18,12 @@ const variants = {
 type TabVariant = keyof typeof variants;
 
 export interface TabProps<T extends ElementType = "button"> {
-    as?: T;
-    variant?: TabVariant;
-    isActive?: boolean;
-    isHidden?: boolean;
-    children?: React.ReactNode;
-    className?: string;
+    readonly as?: T;
+    readonly variant?: TabVariant;
+    readonly isActive?: boolean;
+    readonly isHidden?: boolean;
+    readonly children?: React.ReactNode;
+    readonly className?: string;
 }
 
 export const Tab = <T extends ElementType = "button">({
@@ -45,7 +45,7 @@ export const Tab = <T extends ElementType = "button">({
             className={clsx(
                 "ui-tabs-tab",
                 className,
-                "cursor-pointer whitespace-nowrap py-4 px-8 text-center font-semibold focus-visible:ring",
+                "cursor-pointer whitespace-nowrap px-8 py-4 text-center font-semibold focus-visible:ring",
                 variants[variant](isActive),
             )}
             {...rest}

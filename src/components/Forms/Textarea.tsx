@@ -1,12 +1,12 @@
 import clsx from "clsx";
 import React, { forwardRef } from "react";
 import TextareaAutosize from "react-textarea-autosize";
-import { BaseInput, BaseInputProps } from "./BaseInput";
+import { BaseInput, type BaseInputProps } from "./BaseInput";
 
 export interface TextareaProps
     extends BaseInputProps,
         Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, keyof BaseInputProps> {
-    shouldAutoSize?: boolean;
+    readonly shouldAutoSize?: boolean;
 }
 
 export const Textarea = forwardRef<HTMLInputElement, TextareaProps>(

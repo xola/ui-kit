@@ -1,17 +1,17 @@
 import clsx from "clsx";
-import React, { ComponentType, useEffect, useRef, useState } from "react";
+import React, { type ComponentType, useEffect, useRef, useState } from "react";
 import { ChevronRightIcon } from "../../icons";
 import { Dot } from "../Dot/Dot";
 
 type SidebarLinkAlign = "center" | "left" | "right";
 
 export interface SidebarLinkProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-    isActive?: boolean;
-    icon?: ComponentType<React.SVGProps<SVGSVGElement>>;
-    isSubMenuItem?: boolean;
-    align?: SidebarLinkAlign;
+    readonly isActive?: boolean;
+    readonly icon?: ComponentType<React.SVGProps<SVGSVGElement>>;
+    readonly isSubMenuItem?: boolean;
+    readonly align?: SidebarLinkAlign;
     children: React.ReactNode;
-    classNames?: {
+    readonly classNames?: {
         text?: string;
     };
 }
@@ -63,7 +63,7 @@ export const SidebarLink = ({
                     "bg-primary text-white hover:bg-primary-dark": isActive,
                     "text-gray hover:bg-gray-darker": !isActive,
                     "justify-start px-6 py-2": isSubMenuItem,
-                    "justify-center py-3 px-6": !isSubMenuItem,
+                    "justify-center px-6 py-3": !isSubMenuItem,
                 },
             )}
             {...rest}
@@ -93,7 +93,7 @@ export const SidebarLink = ({
 SidebarLink.displayName = "Sidebar.Link";
 
 export interface SidebarSeparatorProps {
-    className?: string;
+    readonly className?: string;
 }
 
 export const SidebarSeparator = ({ className }: SidebarSeparatorProps) => {

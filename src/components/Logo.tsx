@@ -10,8 +10,8 @@ const sizes = {
 type LogoSize = keyof typeof sizes;
 
 export interface LogoProps extends React.ImgHTMLAttributes<HTMLImageElement> {
-    size?: LogoSize;
-    className?: string;
+    readonly size?: LogoSize;
+    readonly className?: string;
 }
 
 const LogoComponent = ({ size = "small", className, ...rest }: LogoProps) => {

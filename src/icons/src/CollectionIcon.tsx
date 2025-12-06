@@ -1,4 +1,4 @@
-import React, { ComponentPropsWithoutRef } from "react";
+import React, { type ComponentPropsWithoutRef } from "react";
 import { createIcon } from "./helpers/icon";
 
 export const CollectionIcon = createIcon((props: ComponentPropsWithoutRef<"svg">) => {

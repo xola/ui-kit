@@ -1,10 +1,10 @@
 import clsx from "clsx";
-import React, { ComponentType } from "react";
+import React, { type ComponentType } from "react";
 
 export interface SidebarButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     icon: ComponentType<React.SVGProps<SVGSVGElement>>;
     label: string;
-    className?: string;
+    readonly className?: string;
 }
 
 export const SidebarButton = ({ icon: Icon, label, className, ...rest }: SidebarButtonProps) => {
@@ -12,7 +12,7 @@ export const SidebarButton = ({ icon: Icon, label, className, ...rest }: Sidebar
         <button
             type="button"
             className={clsx(
-                "ui-sidebar-button flex w-full cursor-pointer items-center rounded py-2 px-4 hover:bg-gray-darker",
+                "ui-sidebar-button flex w-full cursor-pointer items-center rounded px-4 py-2 hover:bg-gray-darker",
                 className,
             )}
             {...rest}

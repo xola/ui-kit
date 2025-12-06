@@ -28,11 +28,11 @@ type BadgeColor = keyof typeof colors;
 type BadgeSize = keyof typeof sizes;
 
 export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
-    color?: BadgeColor;
-    size?: BadgeSize;
-    icon?: React.ReactElement;
+    readonly color?: BadgeColor;
+    readonly size?: BadgeSize;
+    readonly icon?: React.ReactElement;
     children: React.ReactNode;
-    className?: string;
+    readonly className?: string;
 }
 
 export const Badge = ({ color = "primary", size = "small", icon, children, className, ...rest }: BadgeProps) => {

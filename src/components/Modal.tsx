@@ -55,12 +55,12 @@ type ModalSize = keyof typeof sizes;
 type ModalPosition = keyof typeof positions;
 
 export interface ModalProps {
-    size?: ModalSize;
-    position?: ModalPosition;
+    readonly size?: ModalSize;
+    readonly position?: ModalPosition;
     isOpen: boolean;
-    shouldCloseOnOutsideClick?: boolean;
+    readonly shouldCloseOnOutsideClick?: boolean;
     children: React.ReactNode;
-    className?: string;
+    readonly className?: string;
     onClose: () => void;
 }
 
@@ -139,9 +139,9 @@ export const Modal = ({
 };
 
 export interface ModalHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
-    description?: string;
+    readonly description?: string;
     children: React.ReactNode;
-    className?: string;
+    readonly className?: string;
 }
 
 const Header = ({ description, children, className, ...rest }: ModalHeaderProps) => {
@@ -159,7 +159,7 @@ const Header = ({ description, children, className, ...rest }: ModalHeaderProps)
 Header.displayName = "Modal.Header";
 
 export interface ModalBodyProps extends React.HTMLAttributes<HTMLDivElement> {
-    className?: string;
+    readonly className?: string;
 }
 
 const Body = ({ className, ...rest }: ModalBodyProps) => {
@@ -169,7 +169,7 @@ const Body = ({ className, ...rest }: ModalBodyProps) => {
 Body.displayName = "Modal.Body";
 
 export interface ModalFooterProps extends React.HTMLAttributes<HTMLDivElement> {
-    className?: string;
+    readonly className?: string;
 }
 
 const Footer = ({ className, ...rest }: ModalFooterProps) => {

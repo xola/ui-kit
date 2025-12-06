@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import React, { ElementType } from "react";
+import React, { type ElementType } from "react";
 
 export const colors = {
     standard: {
@@ -52,14 +52,14 @@ type ButtonSize = keyof typeof sizes;
 type IconPlacement = "left" | "right";
 
 export interface ButtonProps<T extends ElementType = "button"> {
-    as?: T;
-    variant?: ButtonVariant;
-    color?: ButtonColor;
-    size?: ButtonSize;
-    icon?: React.ReactElement;
-    iconPlacement?: IconPlacement;
+    readonly as?: T;
+    readonly variant?: ButtonVariant;
+    readonly color?: ButtonColor;
+    readonly size?: ButtonSize;
+    readonly icon?: React.ReactElement;
+    readonly iconPlacement?: IconPlacement;
     children: React.ReactNode;
-    className?: string;
+    readonly className?: string;
 }
 
 export const Button = <T extends ElementType = "button">({

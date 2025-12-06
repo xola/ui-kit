@@ -1,9 +1,9 @@
 import clsx from "clsx";
-import React, { Children, cloneElement, useEffect, useRef, useState, ReactElement } from "react";
+import React, { Children, cloneElement, useEffect, useRef, useState, type ReactElement } from "react";
 
 export interface TableProps extends React.TableHTMLAttributes<HTMLTableElement> {
-    children?: React.ReactNode;
-    className?: string;
+    readonly children?: React.ReactNode;
+    readonly className?: string;
 }
 
 export const Table = ({ className, ...rest }: TableProps) => (
@@ -19,8 +19,8 @@ export const Table = ({ className, ...rest }: TableProps) => (
 );
 
 export interface TableHeadProps extends React.HTMLAttributes<HTMLTableSectionElement> {
-    children?: React.ReactNode;
-    className?: string;
+    readonly children?: React.ReactNode;
+    readonly className?: string;
 }
 
 const Head = ({ className, ...rest }: TableHeadProps) => {
@@ -30,8 +30,8 @@ const Head = ({ className, ...rest }: TableHeadProps) => {
 Head.displayName = "Table.Head";
 
 export interface TableHeaderProps extends React.ThHTMLAttributes<HTMLTableCellElement> {
-    children?: React.ReactNode;
-    className?: string;
+    readonly children?: React.ReactNode;
+    readonly className?: string;
 }
 
 const Header = ({ className, ...rest }: TableHeaderProps) => {
@@ -41,9 +41,9 @@ const Header = ({ className, ...rest }: TableHeaderProps) => {
 Header.displayName = "Table.Header";
 
 export interface TableBodyProps extends React.HTMLAttributes<HTMLTableSectionElement> {
-    isStriped?: boolean;
+    readonly isStriped?: boolean;
     children: React.ReactNode;
-    className?: string;
+    readonly className?: string;
 }
 
 const Body = ({ isStriped = false, children, className, ...rest }: TableBodyProps) => {
@@ -60,9 +60,9 @@ const Body = ({ isStriped = false, children, className, ...rest }: TableBodyProp
 Body.displayName = "Table.Body";
 
 export interface TableRowProps extends React.HTMLAttributes<HTMLTableRowElement> {
-    isStriped?: boolean;
-    children?: React.ReactNode;
-    className?: string;
+    readonly isStriped?: boolean;
+    readonly children?: React.ReactNode;
+    readonly className?: string;
 }
 
 const Row = ({ isStriped = false, className, ...rest }: TableRowProps) => {
@@ -72,8 +72,8 @@ const Row = ({ isStriped = false, className, ...rest }: TableRowProps) => {
 Row.displayName = "Table.Row";
 
 export interface TableCellProps extends React.TdHTMLAttributes<HTMLTableCellElement> {
-    children?: React.ReactNode;
-    className?: string;
+    readonly children?: React.ReactNode;
+    readonly className?: string;
 }
 
 const Cell = ({ className, ...rest }: TableCellProps) => {
@@ -89,7 +89,7 @@ Cell.displayName = "Table.Cell";
 
 export interface EditableCellProps extends React.TdHTMLAttributes<HTMLTableCellElement> {
     value: string;
-    className?: string;
+    readonly className?: string;
     onSave: (value: string) => void;
 }
 

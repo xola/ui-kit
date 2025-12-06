@@ -24,14 +24,14 @@ export interface LoginValues {
 }
 
 export interface LoginProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "onSubmit"> {
-    defaultValues?: Partial<LoginValues>;
-    isLoading?: boolean;
-    error?: string | null;
-    onSubmit?: (values: LoginValues) => void;
-    passwordResetUrl?: string;
-    label?: React.ReactNode;
-    backgroundImage?: string | null;
-    backgroundType?: BackgroundType;
+    readonly defaultValues?: Partial<LoginValues>;
+    readonly isLoading?: boolean;
+    readonly error?: string | null;
+    readonly onSubmit?: (values: LoginValues) => void;
+    readonly passwordResetUrl?: string;
+    readonly label?: React.ReactNode;
+    readonly backgroundImage?: string | null;
+    readonly backgroundType?: BackgroundType;
 }
 
 export const Login = ({

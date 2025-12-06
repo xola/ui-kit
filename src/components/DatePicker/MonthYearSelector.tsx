@@ -11,7 +11,7 @@ const getDiffInMonths = (to: Date, from: Date) => {
 export interface MonthYearSelectorProps {
     date: Date;
     currentMonth: Date;
-    locale?: string;
+    readonly locale?: string;
     onChange: (newDate: Date) => void;
 }
 

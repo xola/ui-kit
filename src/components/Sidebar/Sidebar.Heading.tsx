@@ -1,10 +1,10 @@
 import clsx from "clsx";
-import React, { ComponentType } from "react";
+import React, { type ComponentType } from "react";
 
 export interface SidebarHeadingProps {
     icon: ComponentType<React.SVGProps<SVGSVGElement>>;
     label: string;
-    className?: string;
+    readonly className?: string;
 }
 
 export const SidebarHeading = ({ icon: Icon, label, className }: SidebarHeadingProps) => {
