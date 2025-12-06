@@ -1,0 +1,154 @@
+# AGENTS.md
+
+## Project Overview
+
+Xola UI Kit is a React 17-based component library for Xola products, published as `@xola/ui-kit` and `@xola/icons`. It provides a comprehensive set of UI components, icons, and utilities, built with Vite and Storybook. The codebase is being migrated from PropTypes to TypeScript for improved type safety and developer experience.
+
+- **Tech Stack:** React 17, Vite, Storybook, TypeScript, ESLint
+- **Build Outputs:** UMD and ESM formats
+- **Testing:** Jest, Chromatic, Storybook
+
+## Setup Commands
+
+- Install dependencies:
+  ```zsh
+  npm install
+  ```
+- Start development server:
+  ```zsh
+  ```zsh
+  npm run storybook
+  ```
+
+  npm run type-check
+  npm run type-check:watch
+  ```
+- Linting:
+  ```zsh
+  npm run lint:fix
+  ```
+- Build:
+  npm run build
+  ```
+- Hot reload/watch mode is enabled by default in Vite (`npm run dev`).
+- Run all tests:
+  ```zsh
+  npm test
+  npm run type-check
+  ```
+- Visual regression:
+  - Use Jest coverage tools if configured
+- Storybook stories are in `src/stories/` and alongside components
+
+  - Hooks: `src/hooks/`
+  - Types: `src/types/`
+- **Naming conventions:**
+  - Components: PascalCase
+  - Files: match component name
+  - Types: PascalCase
+- **Import/export:** Prefer named exports; export types alongside components
+
+## Build and Deployment
+
+- Build command:
+  ```zsh
+  npm run build
+  ```
+- Output directory: `build/`
+- Type declarations: `build/index.d.ts`
+- Package exports configured in `package.json`
+- CI/CD: GitHub Actions (type check, lint, build)
+
+## Pull Request Guidelines
+
+- Title format: `[component] Brief description`
+- Required checks: `npm run lint`, `npm run type-check`, `npm test`
+- Review: At least one approval required
+- Commit message: Use clear, descriptive messages
+
+## Security Considerations
+
+- No secrets or sensitive data in repo
+- Use npm for dependency management
+- Audit dependencies regularly
+
+## Debugging and Troubleshooting
+
+- Common issues:
+  - TypeScript errors: run `npm run type-check`
+  - Build errors: check Vite config and dependencies
+  - Storybook issues: check `.storybook/` config
+- Logging: Use browser console for runtime errors
+
+## Monorepo Instructions
+
+- Not a monorepo, but icons are published as a separate package
+- If splitting further, add AGENTS.md to subprojects
+
+## Additional Notes
+
+- Migration plan is in `TYPESCRIPT_MIGRATION_PLAN.md`
+- Follow incremental migration strategy: helpers → hooks → icons → components → stories
+- Remove PropTypes after migration
+- Update documentation in `docs/` as needed
+
+## Success Criteria
+
+- All source files migrated to TypeScript
+- Zero TypeScript errors with strict mode
+- PropTypes removed
+- Storybook and build work
+- All tests pass
+- Type declarations generated
+- CI/CD pipeline passes
+- Documentation updated
+
+## Code Style Guidelines
+
+- **Language:** TypeScript (migrating from JS/JSX)
+- **Linting:** ESLint with @typescript-eslint
+- **Formatting:** Prettier (if configured)
+- **File organization:**
+  - Components: `src/components/`
+  - Helpers: `src/helpers/`
+  - Hooks: `src/hooks/`
+  - Icons: `src/icons/`
+  - Types: `src/types/`
+- **Naming conventions:**
+  - Components: PascalCase
+  - Files: match component name
+  - Types: PascalCase
+- **Import/export:** Prefer named exports; export types alongside components
+
+## Agent Coding and Review Guidelines (from .github/copilot-instructions.md)
+
+- Apply general coding guidelines and prefer immutable data (`const`, `readonly`).
+- Use `useMount` from `ahooks` instead of `useEffect([])`.
+- Use `useModal` for modal state management.
+- Highlight browser compatibility or performance issues and suggest solutions.
+- Review for memory leaks and garbage collection issues, especially with hooks. Ensure cleanup in `useEffect` (event listeners, timers, subscriptions), and avoid unclosed intervals/timeouts and circular references.
+- Always check for missing or incorrect TypeScript types.
+- Ensure Tailwind CSS classes follow best practices; replace custom CSS with Tailwind where possible.
+- Validate component/file organization for clarity.
+- Do not use `props: any`; always destructure and type all props.
+- Simplify `useEffect` dependencies by extracting complex conditions outside the effect.
+- Disallow functions declared in a scope capturing less than 3 variables from the outer scope (unless outside a React component).
+
+### High Confidence Rules
+3. Strictly follow React hooks rules.
+4. Do not use React.FC type; always create a props interface.
+7. Never suppress `react-hooks/exhaustive-deps` ESLint rule.
+8. Tag `@rushi` in PR if any `.github` or ESLint config files are changed.
+9. Do not allow more than 5 levels of indenting in a React component's JSX.
+10. Minimize use of `useEffect` and `useState`; favor derived state and memoization.
+
+### Other Review Points
+- Confirm React Hooks are used correctly and avoid anti-patterns.
+- Validate Tailwind usage and avoid deprecated patterns.
+- Reference `.github/copilot-instructions.md` and line number in review comments if you use any of these instructions.
+- Only summarize the pull request the first time Copilot is invoked; subsequent reviews should only summarize changes since the last review.
+- Do not give feedback on accessibility.
+
+---
+
+This file is symlinked as `CLAUDE.md` for compatibility with agent tools.
