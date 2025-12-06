@@ -32,7 +32,7 @@ const locales = {
 
 export const getLocalizationProps = async (localeCode: LocaleCode): Promise<Partial<LocalizationProps>> => {
     try {
-        const locale = await locales[localeCode];
+        const locale = locales[localeCode];
 
         return {
             locale: localeCode,

@@ -8,3 +8,4 @@ storybook-static
 *.tgz
 src/theme.js
 .idea
+coverage
