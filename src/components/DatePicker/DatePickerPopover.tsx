@@ -1,5 +1,4 @@
 import clsx from "clsx";
-import PropTypes from "prop-types";
 import React, { cloneElement, forwardRef, useEffect, useState } from "react";
 import { CalendarIcon, DownArrowIcon } from "../..";
 import { formatDate } from "../../helpers/date";
@@ -7,6 +6,31 @@ import { Input } from "../Forms/Input";
 import { Popover } from "../Popover/Popover";
 import { DatePicker } from "./DatePicker";
 import { MonthPicker } from "./MonthPicker";
+import type { PopoverProps } from "../Popover/Popover";
+
+type DateValue = Date | { from?: Date; to?: Date };
+type PickerType = "day" | "month";
+type PickerVariant = "single" | "range";
+
+export interface DatePickerPopoverProps {
+    value?: DateValue;
+    variant?: PickerVariant;
+    dateFormat?: string;
+    placeholder?: string;
+    pickerType?: PickerType;
+    classNames?: {
+        popover?: string;
+        input?: string;
+    };
+    components?: {
+        Footer?: React.ComponentType;
+    };
+    popoverProps?: Partial<PopoverProps>;
+    children?: React.ReactElement;
+    getDayContent?: (day: number, date: Date) => React.ReactNode;
+    onChange?: (...args: any[]) => void;
+    [key: string]: any;
+}
 
 export const DatePickerPopover = ({
     value,
@@ -14,14 +38,14 @@ export const DatePickerPopover = ({
     dateFormat = "ddd, LL",
     placeholder = "Select Date",
     pickerType = "day",
-    onChange,
-    children,
     classNames = {},
     components = {},
     popoverProps,
+    children,
     getDayContent,
+    onChange,
     ...rest
-}) => {
+}: DatePickerPopoverProps) => {
     const [initialValue] = useState(value);
     const [originalValue, setOriginalValue] = useState(value);
     const [isVisible, setIsVisible] = useState(false);
@@ -30,7 +54,7 @@ export const DatePickerPopover = ({
         setIsVisible(!isVisible);
     };
 
-    const handleChange = (date, options, event) => {
+    const handleChange = (date: any, options?: any, event?: any) => {
         if (variant === "single") {
             onChange?.(date, options, event);
             toggleVisibility();
@@ -46,8 +70,8 @@ export const DatePickerPopover = ({
     };
 
     const handleClickOutside = () => {
-        if (!value?.to && variant === "range") {
-            onChange(initialValue);
+        if (variant === "range" && value && typeof value === "object" && "to" in value && !value.to) {
+            onChange?.(initialValue);
         }
 
         toggleVisibility();
@@ -73,7 +97,7 @@ export const DatePickerPopover = ({
                 <DefaultInput
                     readOnly
                     size="medium"
-                    value={value ? formatDate(value, dateFormat) : ""}
+                    value={value ? formatDate(value as any, dateFormat) : ""}
                     placeholder={placeholder}
                     className={classNames?.input}
                     onClick={toggleVisibility}
@@ -83,7 +107,7 @@ export const DatePickerPopover = ({
             <Popover.Content className="pr-1">
                 {isVisible &&
                     (pickerType === "month" ? (
-                        <MonthPicker value={value} onChange={handleChange} {...rest} />
+                        <MonthPicker value={value as Date} onChange={handleChange} {...rest} />
                     ) : (
                         <DatePicker
                             variant={variant}
@@ -100,15 +124,12 @@ export const DatePickerPopover = ({
     );
 };
 
-DatePickerPopover.propTypes = {
-    ...DatePicker.propTypes,
-    dateFormat: PropTypes.string,
-    classNames: PropTypes.object,
-    popoverProps: PropTypes.object,
-    children: PropTypes.node,
-};
+interface DefaultInputProps {
+    className?: string;
+    [key: string]: any;
+}
 
-const DefaultInput = forwardRef(({ className, ...rest }, reference) => {
+const DefaultInput = forwardRef<HTMLDivElement, DefaultInputProps>(({ className, ...rest }, reference) => {
     return (
         <div ref={reference} className="relative flex bg-gray-lighter">
             <div className="pointer-events-none absolute inset-0 flex items-center pl-3">
@@ -124,6 +145,4 @@ const DefaultInput = forwardRef(({ className, ...rest }, reference) => {
     );
 });
 
-DefaultInput.propTypes = {
-    className: PropTypes.string,
-};
+DefaultInput.displayName = "DefaultInput";

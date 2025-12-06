@@ -1,15 +1,24 @@
-import React, { useContext } from "react";
-import dayjs from "dayjs";
-import PropTypes from "prop-types";
 import clsx from "clsx";
-import { Context } from "../Provider";
+import dayjs from "dayjs";
+import React, { useContext } from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "../../icons";
+import { Context } from "../Provider";
 import { Button } from "../Buttons/Button";
 import { ChevronButton } from "./NavbarElement";
 
 const today = dayjs();
 
-export const MonthGrid = ({ year, value, onChange, handleYearChange, locale, handleClear, handleToday }) => {
+export interface MonthGridProps {
+    year: number;
+    value?: Date;
+    locale?: string;
+    onChange: (newDate: Date) => void;
+    handleYearChange: (offset: number) => void;
+    handleClear: () => void;
+    handleToday: () => void;
+}
+
+export const MonthGrid = ({ year, value, locale, onChange, handleYearChange, handleClear, handleToday }: MonthGridProps) => {
     const { locale: contextLocale } = useContext(Context);
     const months = [...Array.from({ length: 12 }).keys()].map((m) =>
         today
@@ -18,7 +27,7 @@ export const MonthGrid = ({ year, value, onChange, handleYearChange, locale, han
             .format("MMM"),
     );
 
-    const handleMonthSelect = (monthIndex) => {
+    const handleMonthSelect = (monthIndex: number) => {
         const newDate = new Date(year, monthIndex);
         onChange(newDate);
     };
@@ -63,11 +72,4 @@ export const MonthGrid = ({ year, value, onChange, handleYearChange, locale, han
             </div>
         </span>
     );
-};
-
-MonthGrid.propTypes = {
-    year: PropTypes.number.isRequired,
-    value: PropTypes.objectOf(Date),
-    onChange: PropTypes.func.isRequired,
-    locale: PropTypes.string,
 };

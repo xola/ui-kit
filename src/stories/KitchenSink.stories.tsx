@@ -215,9 +215,9 @@ export const AllComponents = () => (
         <PopoverList className="mb-2" placement="bottom"><span>Popover List Target</span></PopoverList>
         <hr />
         <DatePicker
-            value={null}
+            value={undefined}
             getDayContent={() => null}
-            selectedDays={[]}
+            selectedDays={undefined}
             onChange={() => {}}
             className="mb-2"
             onMonthChange={() => {}}
@@ -227,7 +227,7 @@ export const AllComponents = () => (
             loadingDays={[]}
             disabledDays={[]}
             shouldShowYearPicker={false}
-            timezoneName={null}
+            timezoneName={undefined}
             upcomingDates={[]}
             locale="en-US"
             variant="single"
@@ -235,10 +235,10 @@ export const AllComponents = () => (
         <hr />
         {/* LocalizedDayPicker removed due to incompatible props */}
         <hr />
-        <RelativeDateRange value={null} onChange={() => {}} onSubmit={() => {}} ranges={[]} timezoneName="UTC" />
+        <RelativeDateRange value={undefined} onChange={() => {}} onSubmit={() => {}} ranges={[]} timezoneName="UTC" />
         <hr />
         <DatePickerPopover
-            value={null}
+            value={undefined}
             onChange={() => {}}
             popoverProps={{}}
             getDayContent={() => null}

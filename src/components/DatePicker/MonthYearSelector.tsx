@@ -1,20 +1,26 @@
 import dayjs from "dayjs";
-import PropTypes from "prop-types";
 import React from "react";
 import { Select } from "../Forms/Select";
 
 const today = dayjs();
 
-const getDiffInMonths = (to, from) => {
+const getDiffInMonths = (to: Date, from: Date) => {
     return 12 * (to.getFullYear() - from.getFullYear()) + (to.getMonth() - from.getMonth());
 };
 
-export const MonthYearSelector = ({ date, locale, onChange, currentMonth }) => {
-    const months = [...Array.from({ length: 12 }).keys()].map((m) => today.locale(locale).month(m).format("MMM"));
+export interface MonthYearSelectorProps {
+    date: Date;
+    currentMonth: Date;
+    locale?: string;
+    onChange: (newDate: Date) => void;
+}
+
+export const MonthYearSelector = ({ date, currentMonth, locale, onChange }: MonthYearSelectorProps) => {
+    const months = [...Array.from({ length: 12 }).keys()].map((m) => today.locale(locale ?? "en").month(m).format("MMM"));
     // 2012 as baseline + 5 years in future
     const years = [...Array.from({ length: today.year() - 2012 + 5 + 1 }).keys()].map((y) =>
         today
-            .locale(locale)
+            .locale(locale ?? "en")
             .year(2012 + y)
             .format("YYYY"),
     );
@@ -27,13 +33,13 @@ export const MonthYearSelector = ({ date, locale, onChange, currentMonth }) => {
      **/
     const selectorIndex = getDiffInMonths(date, currentMonth);
 
-    const handleMonthChange = (event) => {
-        const { year, month } = event.target.form;
+    const handleMonthChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const { year, month } = event.target.form as any;
         onChange(new Date(year.value, Number(month.value) - selectorIndex));
     };
 
-    const handleYearChange = (event) => {
-        const { year } = event.target.form;
+    const handleYearChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const { year } = event.target.form as any;
         onChange(new Date(year.value, currentMonth.getMonth()));
     };
 
@@ -60,9 +66,4 @@ export const MonthYearSelector = ({ date, locale, onChange, currentMonth }) => {
             </span>
         </form>
     );
-};
-
-MonthYearSelector.propTypes = {
-    date: PropTypes.objectOf(Date).isRequired,
-    onChange: PropTypes.func.isRequired,
 };

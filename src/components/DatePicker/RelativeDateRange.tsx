@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import React from "react";
 import { Button, Select } from "../..";
 import { now, toDate } from "../../helpers/date";
@@ -36,9 +35,9 @@ export const rangeOptions = {
     THIS_YEAR: "P1Y,first day of this year",
     NEXT_YEAR: "P1Y,next year",
     LEADING_YEAR: "P1Y,+1 year",
-};
+} as const;
 
-export const rangeLabels = {
+export const rangeLabels: Record<string, string> = {
     // Day
     [rangeOptions.YESTERDAY]: "Yesterday",
     [rangeOptions.TODAY]: "Today",
@@ -73,7 +72,9 @@ export const rangeLabels = {
     [rangeOptions.LEADING_YEAR]: "Leading Year",
 };
 
-export const dateRanges = {
+type RangeOption = { value: string; label: string };
+
+export const dateRanges: Record<string, { label: string; rangeOptions: RangeOption[] }> = {
     day: {
         label: "Day",
         rangeOptions: [
@@ -128,7 +129,7 @@ export const dateRanges = {
     },
 };
 
-const filterFutureDates = (rangeOptions, isFutureDatesAllowed, futureDates) => {
+const filterFutureDates = (rangeOptions: RangeOption[], isFutureDatesAllowed: boolean, futureDates: Set<string>) => {
     if (!isFutureDatesAllowed) {
         return rangeOptions.filter((option) => !futureDates.has(option.value));
     }
@@ -149,9 +150,11 @@ const futureDates = new Set([
     rangeOptions.LEADING_YEAR,
 ]);
 
-const handlers = {
+type DateRange = { from: Date; to: Date };
+
+const handlers: Record<string, (timezone: string | undefined) => DateRange> = {
     [rangeOptions.YESTERDAY]: (timezone) => {
-        const yesterday = now(null, timezone).subtract(1, "day");
+        const yesterday = now(undefined, timezone).subtract(1, "day");
         return {
             from: toDate(yesterday.startOf("day")),
             to: toDate(yesterday.endOf("day"), false),
@@ -160,13 +163,13 @@ const handlers = {
 
     [rangeOptions.TODAY]: (timezone) => {
         return {
-            from: toDate(now(null, timezone).startOf("day")),
-            to: toDate(now(null, timezone).endOf("day"), false),
+            from: toDate(now(undefined, timezone).startOf("day")),
+            to: toDate(now(undefined, timezone).endOf("day"), false),
         };
     },
 
     [rangeOptions.NEXT_DAY]: (timezone) => {
-        const nextDay = now(null, timezone).add(1, "day");
+        const nextDay = now(undefined, timezone).add(1, "day");
         return {
             from: toDate(nextDay.startOf("day")),
             to: toDate(nextDay.endOf("day"), false),
@@ -174,7 +177,7 @@ const handlers = {
     },
 
     [rangeOptions.LAST_WEEK]: (timezone) => {
-        const lastWeek = now(null, timezone).subtract(7, "day");
+        const lastWeek = now(undefined, timezone).subtract(7, "day");
         return {
             from: toDate(lastWeek.startOf("week")),
             to: toDate(lastWeek.endOf("week"), false),
@@ -183,20 +186,20 @@ const handlers = {
 
     [rangeOptions.TRAILING_WEEK]: (timezone) => {
         return {
-            from: toDate(now(null, timezone).subtract(7, "day").startOf("day")),
-            to: toDate(now(null, timezone).subtract(1, "day").endOf("day"), false),
+            from: toDate(now(undefined, timezone).subtract(7, "day").startOf("day")),
+            to: toDate(now(undefined, timezone).subtract(1, "day").endOf("day"), false),
         };
     },
 
     [rangeOptions.THIS_WEEK]: (timezone) => {
         return {
-            from: toDate(now(null, timezone).startOf("week")),
-            to: toDate(now(null, timezone).endOf("week"), false),
+            from: toDate(now(undefined, timezone).startOf("week")),
+            to: toDate(now(undefined, timezone).endOf("week"), false),
         };
     },
 
     [rangeOptions.NEXT_WEEK]: (timezone) => {
-        const nextWeek = now(null, timezone).add(1, "week");
+        const nextWeek = now(undefined, timezone).add(1, "week");
         return {
             from: toDate(nextWeek.startOf("week")),
             to: toDate(nextWeek.endOf("week"), false),
@@ -204,7 +207,7 @@ const handlers = {
     },
 
     [rangeOptions.LEADING_WEEK]: (timezone) => {
-        const today = now(null, timezone);
+        const today = now(undefined, timezone);
         return {
             from: toDate(today.startOf("day")),
             to: toDate(today.add(1, "week").subtract(1, "day").endOf("day"), false),
@@ -212,7 +215,7 @@ const handlers = {
     },
 
     [rangeOptions.LAST_MONTH]: (timezone) => {
-        const lastMonth = now(null, timezone).subtract(1, "month");
+        const lastMonth = now(undefined, timezone).subtract(1, "month");
         return {
             from: toDate(lastMonth.startOf("month")),
             to: toDate(lastMonth.endOf("month"), false),
@@ -221,18 +224,18 @@ const handlers = {
 
     [rangeOptions.TRAILING_MONTH]: (timezone) => {
         return {
-            from: toDate(now(null, timezone).subtract(1, "month").startOf("day")),
-            to: toDate(now(null, timezone).subtract(1, "day").endOf("day"), false),
+            from: toDate(now(undefined, timezone).subtract(1, "month").startOf("day")),
+            to: toDate(now(undefined, timezone).subtract(1, "day").endOf("day"), false),
         };
     },
 
     [rangeOptions.THIS_MONTH]: (timezone) => ({
-        from: toDate(now(null, timezone).startOf("month")),
-        to: toDate(now(null, timezone).endOf("month"), false),
+        from: toDate(now(undefined, timezone).startOf("month")),
+        to: toDate(now(undefined, timezone).endOf("month"), false),
     }),
 
     [rangeOptions.NEXT_MONTH]: (timezone) => {
-        const nextMonth = now(null, timezone).add(1, "month");
+        const nextMonth = now(undefined, timezone).add(1, "month");
         return {
             from: toDate(nextMonth.startOf("month")),
             to: toDate(nextMonth.endOf("month"), false),
@@ -240,7 +243,7 @@ const handlers = {
     },
 
     [rangeOptions.LEADING_MONTH]: (timezone) => {
-        const today = now(null, timezone);
+        const today = now(undefined, timezone);
         return {
             from: toDate(today.startOf("day")),
             to: toDate(today.add(1, "month").subtract(1, "day").endOf("day"), false),
@@ -249,27 +252,27 @@ const handlers = {
 
     [rangeOptions.LAST_QUARTER]: (timezone) => {
         return {
-            from: toDate(now(null, timezone).startOf("quarter").subtract(3, "month").startOf("month")),
-            to: toDate(now(null, timezone).endOf("quarter").subtract(3, "month").endOf("month"), false),
+            from: toDate(now(undefined, timezone).startOf("quarter").subtract(3, "month").startOf("month")),
+            to: toDate(now(undefined, timezone).endOf("quarter").subtract(3, "month").endOf("month"), false),
         };
     },
 
     [rangeOptions.TRAILING_QUARTER]: (timezone) => {
         return {
-            from: toDate(now(null, timezone).subtract(3, "month").startOf("day")),
-            to: toDate(now(null, timezone).subtract(1, "day").endOf("day"), false),
+            from: toDate(now(undefined, timezone).subtract(3, "month").startOf("day")),
+            to: toDate(now(undefined, timezone).subtract(1, "day").endOf("day"), false),
         };
     },
 
     [rangeOptions.THIS_QUARTER]: (timezone) => {
         return {
-            from: toDate(now(null, timezone).startOf("Q")),
-            to: toDate(now(null, timezone).endOf("Q"), false),
+            from: toDate(now(undefined, timezone).startOf("Q")),
+            to: toDate(now(undefined, timezone).endOf("Q"), false),
         };
     },
 
     [rangeOptions.NEXT_QUARTER]: (timezone) => {
-        const nextQuarter = now(null, timezone).add(1, "quarter");
+        const nextQuarter = now(undefined, timezone).add(1, "quarter");
         return {
             from: toDate(nextQuarter.startOf("quarter")),
             to: toDate(nextQuarter.endOf("quarter"), false),
@@ -277,15 +280,15 @@ const handlers = {
     },
 
     [rangeOptions.LEADING_QUARTER]: (timezone) => {
-        const today = now(null, timezone);
+        const today = now(undefined, timezone);
         return {
             from: toDate(today.startOf("day")),
-            to: toDate(today.add(3, "month").subtract(1, "day").endOf("day"), false), // Сегодня + 3 месяца
+            to: toDate(today.add(3, "month").subtract(1, "day").endOf("day"), false),
         };
     },
 
     [rangeOptions.LAST_YEAR]: (timezone) => {
-        const lastYear = now(null, timezone).subtract(1, "year");
+        const lastYear = now(undefined, timezone).subtract(1, "year");
         return {
             from: toDate(lastYear.startOf("year")),
             to: toDate(lastYear.endOf("year"), false),
@@ -294,18 +297,18 @@ const handlers = {
 
     [rangeOptions.TRAILING_YEAR]: (timezone) => {
         return {
-            from: toDate(now(null, timezone).subtract(1, "year").startOf("day")),
-            to: toDate(now(null, timezone).subtract(1, "day").endOf("day"), false),
+            from: toDate(now(undefined, timezone).subtract(1, "year").startOf("day")),
+            to: toDate(now(undefined, timezone).subtract(1, "day").endOf("day"), false),
         };
     },
 
     [rangeOptions.THIS_YEAR]: (timezone) => ({
-        from: toDate(now(null, timezone).startOf("year")),
-        to: toDate(now(null, timezone).endOf("year"), false),
+        from: toDate(now(undefined, timezone).startOf("year")),
+        to: toDate(now(undefined, timezone).endOf("year"), false),
     }),
 
     [rangeOptions.NEXT_YEAR]: (timezone) => {
-        const nextYear = now(null, timezone).add(1, "year");
+        const nextYear = now(undefined, timezone).add(1, "year");
         return {
             from: toDate(nextYear.startOf("year")),
             to: toDate(nextYear.endOf("year"), false),
@@ -313,25 +316,36 @@ const handlers = {
     },
 
     [rangeOptions.LEADING_YEAR]: (timezone) => {
-        const today = now(null, timezone);
+        const today = now(undefined, timezone);
         return {
             from: toDate(today.startOf("day")),
-            to: toDate(today.add(1, "year").subtract(1, "day").endOf("day"), false), // Сегодня + 1 год
+            to: toDate(today.add(1, "year").subtract(1, "day").endOf("day"), false),
         };
     },
 };
 
+type RangeKey = "day" | "week" | "month" | "quarter" | "year";
+
+export interface RelativeDateRangeProps {
+    ranges?: RangeKey[];
+    value?: string;
+    showApply?: boolean;
+    isFutureDatesAllowed?: boolean;
+    timezoneName?: string;
+    onChange: (rangeName: string, range: DateRange) => void;
+    onSubmit?: () => void;
+}
+
 export const RelativeDateRange = ({
     ranges = ["day", "week", "month", "quarter", "year"],
     value,
-    // TODO: Prop name (showApply) doesn't match rule (^(is|has|should)[A-Z]([A-Za-z0-9]?)+)
     showApply = true,
+    isFutureDatesAllowed = false,
+    timezoneName,
     onChange,
     onSubmit,
-    timezoneName,
-    isFutureDatesAllowed = false, // This prop used to be able to select Future Dates in RelativeDateRange,
-}) => {
-    const handleChange = (e) => {
+}: RelativeDateRangeProps) => {
+    const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const rangeName = e.target.value;
         const range = handlers[rangeName](timezoneName);
         onChange(rangeName, range);
@@ -358,15 +372,4 @@ export const RelativeDateRange = ({
             {showApply && <Button onClick={onSubmit}>Apply</Button>}
         </div>
     );
-};
-
-RelativeDateRange.propTypes = {
-    ranges: PropTypes.arrayOf(PropTypes.oneOf(["day", "week", "month", "quarter", "year"])),
-    onChange: PropTypes.func.isRequired,
-    onSubmit: PropTypes.func.isRequired,
-    // eslint-disable-next-line react/boolean-prop-naming
-    showApply: PropTypes.bool,
-    value: PropTypes.string,
-    timezoneName: PropTypes.string,
-    isFutureDatesAllowed: PropTypes.bool,
 };

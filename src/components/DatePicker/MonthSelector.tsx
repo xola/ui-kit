@@ -1,11 +1,17 @@
-import PropTypes from "prop-types";
-import React, { useState } from "react";
 import dayjs from "dayjs";
+import React, { useState } from "react";
 import { ChevronDownIcon } from "../../icons";
 import { Popover } from "../Popover/Popover";
 import { MonthGrid } from "./MonthGrid";
 
-export const MonthSelector = ({ date, locale, onChange, currentMonth }) => {
+export interface MonthSelectorProps {
+    date: Date;
+    currentMonth: Date;
+    locale?: string;
+    onChange: (newDate: Date) => void;
+}
+
+export const MonthSelector = ({ date, currentMonth, locale, onChange }: MonthSelectorProps) => {
     const [isVisible, setIsVisible] = useState(false);
     const [year, setYear] = useState(new Date(currentMonth).getFullYear());
 
@@ -13,12 +19,12 @@ export const MonthSelector = ({ date, locale, onChange, currentMonth }) => {
         setIsVisible(!isVisible);
     };
 
-    const handleMonthSelect = (newDate) => {
+    const handleMonthSelect = (newDate: Date) => {
         onChange(newDate);
         setIsVisible(false);
     };
 
-    const handleYearChange = (offset) => {
+    const handleYearChange = (offset: number) => {
         setYear(year + offset);
     };
 
@@ -39,7 +45,7 @@ export const MonthSelector = ({ date, locale, onChange, currentMonth }) => {
                         className="mt-2 min-w-40 cursor-pointer items-center justify-between text-left font-bold"
                         onClick={toggleVisibility}
                     >
-                        <span className="pr-1 text-lg">{dayjs(date).locale(locale).format("MMMM YYYY")}</span>
+                        <span className="pr-1 text-lg">{dayjs(date).locale(locale ?? "en").format("MMMM YYYY")}</span>
                         <ChevronDownIcon />
                     </div>
                     <Popover.Content className="p-2">
@@ -57,9 +63,4 @@ export const MonthSelector = ({ date, locale, onChange, currentMonth }) => {
             </span>
         </span>
     );
-};
-
-MonthSelector.propTypes = {
-    date: PropTypes.objectOf(Date).isRequired,
-    onChange: PropTypes.func.isRequired,
 };

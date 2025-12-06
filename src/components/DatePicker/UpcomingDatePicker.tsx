@@ -1,16 +1,22 @@
 import clsx from "clsx";
 import dayjs from "dayjs";
-import PropTypes from "prop-types";
 import React from "react";
 
-export const UpcomingDatePicker = ({ value, upcomingDates, onChange, onMonthChange }) => {
+export interface UpcomingDatePickerProps {
+    value?: Date | { from?: Date; to?: Date } | null;
+    upcomingDates: Date[];
+    onChange: (day: Date, options: Record<string, any>, event: React.MouseEvent) => void;
+    onMonthChange: (month: Date) => void;
+}
+
+export const UpcomingDatePicker = ({ value, upcomingDates, onChange, onMonthChange }: UpcomingDatePickerProps) => {
     return (
         <div className="rounded-l-lg border-r border-gray pt-8">
             <p className="mb-2 px-6 text-lg font-bold">Upcoming</p>
             {upcomingDates?.length > 0 ? (
                 <div className="mt-5">
                     {upcomingDates?.map((date) => {
-                        const isSameDay = dayjs(date).isSame(dayjs(value), "day");
+                        const isSameDay = dayjs(date).isSame(dayjs(value as Date), "day");
                         const key = dayjs(date).format();
                         return (
                             <div
@@ -37,11 +43,4 @@ export const UpcomingDatePicker = ({ value, upcomingDates, onChange, onMonthChan
             )}
         </div>
     );
-};
-
-UpcomingDatePicker.propTypes = {
-    value: PropTypes.objectOf(Date),
-    upcomingDates: PropTypes.arrayOf(Date).isRequired,
-    onChange: PropTypes.func.isRequired,
-    onMonthChange: PropTypes.func.isRequired,
 };

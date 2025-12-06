@@ -1,12 +1,25 @@
 import clsx from "clsx";
-import PropTypes from "prop-types";
 import React from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "../../icons";
+
+export interface NavbarElementProps {
+    showPreviousButton?: boolean;
+    showNextButton?: boolean;
+    className?: string;
+    onPreviousClick?: () => void;
+    onNextClick?: () => void;
+}
 
 /**
  * Render the custom left & right arrows to change the current month.
  */
-export const NavbarElement = ({ onPreviousClick, onNextClick, className, showNextButton, showPreviousButton }) => {
+export const NavbarElement = ({
+    showPreviousButton,
+    showNextButton,
+    className,
+    onPreviousClick,
+    onNextClick,
+}: NavbarElementProps) => {
     return (
         <div className={clsx("absolute right-1 top-1.5 z-50", className)}>
             <ChevronButton isVisible={showPreviousButton} onClick={onPreviousClick}>
@@ -20,17 +33,13 @@ export const NavbarElement = ({ onPreviousClick, onNextClick, className, showNex
     );
 };
 
-NavbarElement.propTypes = {
-    onPreviousClick: PropTypes.func,
-    onNextClick: PropTypes.func,
-    className: PropTypes.string,
-    // eslint-disable-next-line react/boolean-prop-naming
-    showNextButton: PropTypes.bool,
-    // eslint-disable-next-line react/boolean-prop-naming
-    showPreviousButton: PropTypes.bool,
-};
+export interface ChevronButtonProps {
+    isVisible?: boolean;
+    children: React.ReactElement;
+    onClick?: () => void;
+}
 
-export const ChevronButton = ({ isVisible = true, onClick, children }) => {
+export const ChevronButton = ({ isVisible = true, children, onClick }: ChevronButtonProps) => {
     return (
         <button
             type="button"
@@ -38,15 +47,9 @@ export const ChevronButton = ({ isVisible = true, onClick, children }) => {
                 isVisible ? "inline-block" : "invisible",
                 "inline-flex h-7 w-7 items-center justify-center rounded-full border border-transparent leading-none text-black hover:border-black",
             )}
-            onClick={() => onClick()}
+            onClick={() => onClick?.()}
         >
             {children}
         </button>
     );
-};
-
-ChevronButton.propTypes = {
-    isVisible: PropTypes.bool,
-    onClick: PropTypes.func.isRequired,
-    children: PropTypes.element.isRequired,
 };

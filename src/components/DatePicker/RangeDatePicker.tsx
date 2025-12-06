@@ -1,6 +1,5 @@
 import clsx from "clsx";
 import { isArray, isFunction } from "lodash";
-import PropTypes from "prop-types";
 import React from "react";
 import { now } from "../../helpers/date";
 import { Tooltip } from "../Tooltip";
@@ -9,31 +8,55 @@ import { LocalizedDayPicker } from "./LocalizedDayPicker";
 import { MonthYearSelector } from "./MonthYearSelector";
 import { NavbarElement } from "./NavbarElement";
 
+interface DateRange {
+    from?: Date;
+    to?: Date;
+}
+
+export interface RangeDatePickerProps {
+    value?: DateRange;
+    selectedDays?: DateRange;
+    startMonth: Date;
+    endMonth: Date;
+    isDateRangeStyle?: boolean;
+    shouldShowYearPicker?: boolean;
+    disabledDays?: ((date: Date) => boolean) | Date[];
+    modifiers?: Record<string, any>;
+    locale?: string;
+    timezoneName?: string;
+    getDayContent?: (day: number, date: Date) => React.ReactNode;
+    getTooltip?: (date: Date) => React.ReactNode;
+    handleDayClick: (day: Date, options: Record<string, any>, event: React.MouseEvent, isStart?: boolean) => void;
+    handleStartMonthChange: (month: Date) => void;
+    handleEndMonthChange: (month: Date) => void;
+    handleTodayClick: (day: Date, options: Record<string, any>, event: React.MouseEvent) => void;
+}
+
 const RangeDatePicker = ({
-    getTooltip,
     value,
-    getDayContent,
+    selectedDays,
+    startMonth,
+    endMonth,
     isDateRangeStyle,
     shouldShowYearPicker,
-    startMonth,
     disabledDays,
-    endMonth,
-    modifiers,
-    selectedDays,
+    modifiers = {},
+    locale,
+    timezoneName,
+    getDayContent,
+    getTooltip,
     handleDayClick,
     handleStartMonthChange,
     handleEndMonthChange,
     handleTodayClick,
-    locale,
-    timezoneName,
     ...rest
-}) => {
+}: RangeDatePickerProps) => {
     const isStartDateIsTheSameMonth = now(value?.from, timezoneName).isSame(now(value?.to, timezoneName), "month");
     const isSingleDayDateRange = now(value?.from, timezoneName).isSame(now(value?.to, timezoneName), "day");
 
-    const createCaptionElement = (currentMonth, handleChange) =>
+    const createCaptionElement = (currentMonth: Date, handleChange: (month: Date) => void) =>
         shouldShowYearPicker && currentMonth
-            ? ({ date }) => (
+            ? ({ date }: { date: Date }) => (
                   <MonthYearSelector date={date} currentMonth={currentMonth} locale={locale} onChange={handleChange} />
               )
             : undefined;
@@ -41,7 +64,7 @@ const RangeDatePicker = ({
     const CaptionStartElement = createCaptionElement(startMonth, handleStartMonthChange);
     const CaptionEndElement = createCaptionElement(endMonth, handleEndMonthChange);
 
-    const isDateDisabledFromOutside = (date) => {
+    const isDateDisabledFromOutside = (date: Date) => {
         if (isFunction(disabledDays)) {
             return disabledDays(date);
         }
@@ -53,41 +76,44 @@ const RangeDatePicker = ({
         return false;
     };
 
-    const isDisabledStartDays = (date) => {
+    const isDisabledStartDays = (date: Date) => {
         return isDateDisabledFromOutside(date);
     };
 
-    const isDisabledEndDays = (date) => {
+    const isDisabledEndDays = (date: Date) => {
         const isDateBeforeStartDate = now(date, timezoneName).isBefore(value?.from, "day");
 
         return isDateDisabledFromOutside(date) || (isDateBeforeStartDate && !isSingleDayDateRange);
     };
 
-    const renderDay = (date, isDisabledDays, currentMonth) => {
+    const renderDay = (date: Date, isDisabledDays: (date: Date) => boolean, currentMonth: Date) => {
         const tooltipContent = getTooltip?.(date);
         const disabled = isDisabledDays(date);
 
-        const DayWrapper = tooltipContent ? Tooltip : React.Fragment;
-        const dayWrapperProps = tooltipContent ? { placement: "top", content: tooltipContent } : {};
+        const dayElement = (
+            <Day
+                disabled={disabled}
+                selectedDate={value}
+                date={date}
+                getContent={getDayContent}
+                currentMonth={currentMonth}
+            />
+        );
 
-        return (
-            <DayWrapper {...dayWrapperProps}>
-                <Day
-                    disabled={disabled}
-                    selectedDate={value}
-                    date={date}
-                    getContent={getDayContent}
-                    currentMonth={currentMonth}
-                />
-            </DayWrapper>
+        return tooltipContent ? (
+            <Tooltip placement="top" content={tooltipContent}>
+                {dayElement}
+            </Tooltip>
+        ) : (
+            dayElement
         );
     };
 
-    const renderStartDay = (date) => {
+    const renderStartDay = (date: Date) => {
         return renderDay(date, isDisabledStartDays, startMonth);
     };
 
-    const renderEndDay = (date) => {
+    const renderEndDay = (date: Date) => {
         return renderDay(date, isDisabledEndDays, endMonth);
     };
 
@@ -105,9 +131,8 @@ const RangeDatePicker = ({
                 disabledDays={isDisabledStartDays}
                 navbarElement={NavbarElement}
                 captionElement={CaptionStartElement}
-                selectedDays={[selectedDays?.from, selectedDays]}
+                selectedDays={[selectedDays?.from, selectedDays] as any}
                 renderDay={renderStartDay}
-                getTooltip={getTooltip}
                 onDayClick={(day, options, event) => handleDayClick(day, options, event, true)}
                 onMonthChange={handleStartMonthChange}
                 onTodayButtonClick={handleTodayClick}
@@ -125,9 +150,8 @@ const RangeDatePicker = ({
                 disabledDays={isDisabledEndDays}
                 navbarElement={NavbarElement}
                 captionElement={CaptionEndElement}
-                selectedDays={isStartDateIsTheSameMonth ? [] : selectedDays}
+                selectedDays={(isStartDateIsTheSameMonth ? [] : selectedDays) as any}
                 renderDay={renderEndDay}
-                getTooltip={getTooltip}
                 onDayClick={(day, options, event) => handleDayClick(day, options, event, false)}
                 onMonthChange={handleEndMonthChange}
                 onTodayButtonClick={handleTodayClick}
@@ -135,24 +159,6 @@ const RangeDatePicker = ({
             />
         </div>
     );
-};
-
-RangeDatePicker.propTypes = {
-    getTooltip: PropTypes.func,
-    value: PropTypes.object,
-    getDayContent: PropTypes.func,
-    isDisabled: PropTypes.func,
-    isDateRangeStyle: PropTypes.bool,
-    startMonth: PropTypes.instanceOf(Date),
-    endMonth: PropTypes.instanceOf(Date),
-    modifiers: PropTypes.object,
-    disabledStartDays: PropTypes.func,
-    disabledEndDays: PropTypes.func,
-    handleDayClick: PropTypes.func,
-    handleStartMonthChange: PropTypes.func,
-    handleEndMonthChange: PropTypes.func,
-    handleTodayClick: PropTypes.func,
-    timezoneName: PropTypes.string,
 };
 
 export default RangeDatePicker;

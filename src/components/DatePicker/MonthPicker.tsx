@@ -1,11 +1,16 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
 import { MonthGrid } from "./MonthGrid";
 
-export const MonthPicker = ({ value, onChange, locale }) => {
+export interface MonthPickerProps {
+    value: Date;
+    locale?: string;
+    onChange: (date: Date) => void;
+}
+
+export const MonthPicker = ({ value, locale, onChange }: MonthPickerProps) => {
     const [year, setYear] = useState(new Date(value).getFullYear());
 
-    const handleYearChange = (offset) => {
+    const handleYearChange = (offset: number) => {
         setYear(year + offset);
     };
 
@@ -32,10 +37,4 @@ export const MonthPicker = ({ value, onChange, locale }) => {
             />
         </div>
     );
-};
-
-MonthPicker.propTypes = {
-    value: PropTypes.objectOf(Date),
-    onChange: PropTypes.func,
-    locale: PropTypes.string,
 };
