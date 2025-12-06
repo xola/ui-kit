@@ -1,22 +1,45 @@
 import clsx from "clsx";
-import PropTypes from "prop-types";
-import React, { Children, cloneElement } from "react";
+import React, { Children, cloneElement, ElementType, ReactElement } from "react";
 
 const sizes = {
     small: "px-2 py-1.5 text-sm",
     medium: "py-3 px-2.5 text-base",
     large: "px-4 py-3.5 text-lg",
-};
+} as const;
 
-const ButtonGroup = ({ size, value, isCollapsed = false, onChange, className, children, ...rest }) => {
+type ButtonGroupSize = keyof typeof sizes;
+type IconPlacement = "left" | "right";
+
+export interface ButtonGroupProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, "onChange"> {
+    size: ButtonGroupSize;
+    value: number;
+    isCollapsed?: boolean;
+    children: React.ReactNode;
+    className?: string;
+    onChange: (index: number) => void;
+}
+
+const ButtonGroupComponent = ({
+    size,
+    value,
+    isCollapsed = false,
+    children,
+    className,
+    onChange,
+    ...rest
+}: ButtonGroupProps) => {
     return (
         <span className={clsx("ui-button-group", "inline-flex whitespace-nowrap", className)} {...rest}>
             {Children.map(children, (child, index) => {
-                const buttonProps = { size };
+                if (!React.isValidElement(child)) {
+                    return null;
+                }
 
                 if (child.props.isHidden) {
-                    return;
+                    return null;
                 }
+
+                const buttonProps: Partial<ButtonGroupButtonProps> = { size };
 
                 // Conditionally adding props like this so that we
                 // are also able to control the props on `ButtonGroup.Button`
@@ -33,23 +56,26 @@ const ButtonGroup = ({ size, value, isCollapsed = false, onChange, className, ch
                     buttonProps.onClick = () => onChange(index);
                 }
 
-                return cloneElement(child, buttonProps);
+                return cloneElement(child as ReactElement, buttonProps);
             })}
         </span>
     );
 };
 
-ButtonGroup.propTypes = {
-    className: PropTypes.string,
-    size: PropTypes.oneOf(Object.keys(sizes)).isRequired,
-    value: PropTypes.number.isRequired,
-    isCollapsed: PropTypes.bool,
-    onChange: PropTypes.func.isRequired,
-    children: PropTypes.node.isRequired,
-};
+export interface ButtonGroupButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+    as?: ElementType;
+    isActive?: boolean;
+    shouldShowText?: boolean;
+    isHidden?: boolean;
+    size?: ButtonGroupSize;
+    icon?: React.ReactElement;
+    iconPlacement?: IconPlacement;
+    children: React.ReactNode;
+    className?: string;
+}
 
-const Button = ({
-    as: Tag = "button",
+const ButtonGroupButton = ({
+    as,
     isActive,
     shouldShowText = true,
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
@@ -57,10 +83,12 @@ const Button = ({
     size = "medium",
     icon,
     iconPlacement = "left",
-    className,
     children,
+    className,
     ...rest
-}) => {
+}: ButtonGroupButtonProps) => {
+    const Tag = as ?? "button";
+
     const classes = clsx(
         "ui-button-group-button",
         "inline-flex border-t border-l border-b last:border-r first:rounded-l-md last:rounded-r-md transition-colors focus:ring disabled:opacity-60 focus:z-10 leading-none",
@@ -81,18 +109,8 @@ const Button = ({
     );
 };
 
-Button.displayName = "ButtonGroup.Button";
-Button.propTypes = {
-    as: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]),
-    isActive: PropTypes.bool,
-    shouldShowText: PropTypes.bool,
-    isHidden: PropTypes.bool,
-    size: PropTypes.oneOf(Object.keys(sizes)),
-    icon: PropTypes.element,
-    iconPlacement: PropTypes.oneOf(["left", "right"]),
-    className: PropTypes.string,
-    children: PropTypes.node.isRequired,
-};
-ButtonGroup.Button = Button;
+ButtonGroupButton.displayName = "ButtonGroup.Button";
 
-export { ButtonGroup };
+export const ButtonGroup = Object.assign(ButtonGroupComponent, {
+    Button: ButtonGroupButton,
+});

@@ -1,7 +1,7 @@
 import clsx from "clsx";
-import PropTypes from "prop-types";
 import React from "react";
 import { Button } from "./Button";
+import type { ButtonProps } from "./Button";
 
 const colors = {
     outline: {
@@ -12,9 +12,24 @@ const colors = {
         caution: "bg-caution-lightish border border-caution hover:bg-caution-light hover:border-caution-dark",
         danger: "bg-danger-lightish border border-danger hover:bg-danger-light hover:border-danger-dark",
     },
-};
+} as const;
 
-export const ToggleButton = ({ color = "primary", variant = "outline", isActive, className, ...rest }) => {
+type ToggleVariant = keyof typeof colors;
+type ToggleColor = keyof typeof colors.outline;
+
+export interface ToggleButtonProps extends ButtonProps {
+    color?: ToggleColor;
+    variant?: ToggleVariant;
+    isActive: boolean;
+}
+
+export const ToggleButton = ({
+    color = "primary",
+    variant = "outline",
+    isActive,
+    className,
+    ...rest
+}: ToggleButtonProps) => {
     return (
         <Button
             color={color}
@@ -27,9 +42,4 @@ export const ToggleButton = ({ color = "primary", variant = "outline", isActive,
             {...rest}
         />
     );
-};
-
-ToggleButton.propTypes = {
-    ...Button.propTypes,
-    isActive: PropTypes.bool.isRequired,
 };

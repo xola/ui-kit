@@ -1,10 +1,10 @@
 import { Transition } from "@headlessui/react";
 import clsx from "clsx";
-import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import { CheckIcon } from "../../icons";
 import { Spinner } from "../Spinner";
 import { Button, colors } from "./Button";
+import type { ButtonProps } from "./Button";
 
 const loadingColors = {
     primary: "!bg-primary-light",
@@ -13,18 +13,28 @@ const loadingColors = {
     warning: "!bg-warning-light",
     caution: "!bg-caution-light",
     danger: "!bg-danger-light",
-};
+} as const;
+
+type LoadingColor = keyof typeof loadingColors;
+type ButtonVariant = keyof typeof colors;
+
+export interface SubmitButtonProps extends Omit<ButtonProps, "icon" | "iconPlacement"> {
+    isLoading?: boolean;
+    isSuccess?: boolean;
+    disabled?: boolean;
+    variant?: ButtonVariant;
+}
 
 export const SubmitButton = ({
     color = "primary",
+    variant = "standard",
     isLoading,
     isSuccess,
     disabled = false,
-    className,
-    variant = "standard",
     children,
+    className,
     ...rest
-}) => {
+}: SubmitButtonProps) => {
     const [showSuccess, setShowSuccess] = useState(false);
 
     useEffect(() => {
@@ -40,14 +50,14 @@ export const SubmitButton = ({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isSuccess, isLoading]);
 
-    const showTransition = isLoading || showSuccess;
+    const showTransition = Boolean(isLoading) || showSuccess;
 
     return (
         <Button
             color={color}
-            disabled={showTransition || disabled}
             variant={variant}
-            className={clsx(className, "relative", showTransition && loadingColors[color])}
+            disabled={showTransition || disabled}
+            className={clsx(className, "relative", showTransition && loadingColors[color as LoadingColor])}
             {...rest}
         >
             <span
@@ -68,7 +78,6 @@ export const SubmitButton = ({
                         {showSuccess && (
                             <CheckIcon
                                 size="medium"
-                                color="current"
                                 className={clsx("relative -top-0.25 text-white", {
                                     "text-black": variant === "outline",
                                 })}
@@ -83,13 +92,4 @@ export const SubmitButton = ({
             <span className={clsx(showTransition ? "flex-shrink flex-grow opacity-0" : "opacity-100")}>{children}</span>
         </Button>
     );
-};
-
-SubmitButton.propTypes = {
-    ...Button.propTypes,
-    isLoading: PropTypes.bool,
-    isSuccess: PropTypes.bool,
-    variant: PropTypes.oneOf(Object.keys(colors)),
-    // eslint-disable-next-line react/boolean-prop-naming
-    disabled: PropTypes.bool,
 };

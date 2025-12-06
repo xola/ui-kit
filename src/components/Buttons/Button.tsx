@@ -1,6 +1,5 @@
 import clsx from "clsx";
-import PropTypes from "prop-types";
-import React from "react";
+import React, { ElementType } from "react";
 
 export const colors = {
     standard: {
@@ -38,34 +37,63 @@ export const colors = {
         caution: "text-caution",
         danger: "text-danger",
     },
-};
+} as const;
 
 const sizes = {
     tiny: "px-2 py-0.5 text-xs leading-xs", // 20px
     small: "px-3 py-2 h-7.5 text-sm leading-sm", // 30px
     medium: "px-4.5 py-3 h-10 text-base leading-base", // 40px
     large: "px-6 py-4 h-[50px] text-md leading-md", // 50px
-};
+} as const;
 
-export const Button = ({
-    as: Tag = "button",
+type ButtonVariant = keyof typeof colors;
+type ButtonColor = keyof typeof colors.outline;
+type ButtonSize = keyof typeof sizes;
+type IconPlacement = "left" | "right";
+
+export interface ButtonProps<T extends ElementType = "button"> {
+    as?: T;
+    variant?: ButtonVariant;
+    color?: ButtonColor;
+    size?: ButtonSize;
+    icon?: React.ReactElement;
+    iconPlacement?: IconPlacement;
+    children: React.ReactNode;
+    className?: string;
+}
+
+export const Button = <T extends ElementType = "button">({
+    as,
     variant = "standard",
     color = "primary",
     size = "medium",
     icon,
     iconPlacement = "left",
-    className,
     children,
+    className,
     ...rest
-}) => {
+}: ButtonProps<T> & Omit<React.ComponentPropsWithoutRef<T>, keyof ButtonProps<T>>) => {
+    const Tag = as ?? "button";
+
+    // Runtime validation in development
+    if (process.env.NODE_ENV !== "production" && icon && !children) {
+        console.error(
+            "UI Kit: You are using an icon without specifying children. If you want to use an icon only specify it as a child instead of prop",
+        );
+    }
+
+    const variantColors = colors[variant];
+    const colorClass =
+        color in variantColors ? variantColors[color as keyof typeof variantColors] : variantColors.primary;
+
     return (
         <Tag
             className={clsx(
                 "ui-button",
                 "inline-flex rounded border transition-colors focus:ring disabled:cursor-default disabled:bg-gray-lighter disabled:text-gray-dark",
                 "items-center justify-center font-semibold",
-                colors[variant].common,
-                colors[variant][color],
+                variantColors.common,
+                colorClass,
                 sizes[size],
                 className,
             )}
@@ -76,24 +104,4 @@ export const Button = ({
             {icon && iconPlacement === "right" ? <span className="ml-2 flex-shrink-0">{icon}</span> : null}
         </Tag>
     );
-};
-
-Button.propTypes = {
-    // as: PropTypes.string,
-    color: PropTypes.oneOf(Object.keys(colors.outline)),
-    variant: PropTypes.oneOf(Object.keys(colors)),
-    size: PropTypes.oneOf(Object.keys(sizes)),
-    className: PropTypes.string,
-    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
-    icon(props, ...rest) {
-        // See: https://reactjs.org/docs/typechecking-with-proptypes.html#proptypes
-        if (props.icon && !props.children) {
-            return new Error(
-                "UI Kit: You are using an icon without specifying children. If you want to use an icon only specify it as a child instead of prop",
-            );
-        }
-
-        return PropTypes.element(props, ...rest);
-    },
-    iconPlacement: PropTypes.string,
 };
