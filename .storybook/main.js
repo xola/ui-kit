@@ -31,4 +31,27 @@ module.exports = {
             },
         },
     },
+    webpackFinal: async (config) => {
+        // Transpile @tanstack packages that use modern JS syntax
+        config.module.rules.push({
+            test: /\.m?js$/,
+            include: /node_modules\/@tanstack/,
+            use: {
+                loader: require.resolve("babel-loader"),
+                options: {
+                    presets: [
+                        [
+                            require.resolve("@babel/preset-env"),
+                            {
+                                targets: {
+                                    browsers: ["last 2 versions"],
+                                },
+                            },
+                        ],
+                    ],
+                },
+            },
+        });
+        return config;
+    },
 };
