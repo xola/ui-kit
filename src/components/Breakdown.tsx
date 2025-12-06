@@ -108,7 +108,7 @@ BreakdownItem.displayName = "Breakdown.Item";
 
 export interface BreakdownSubtotalItemProps extends React.HTMLAttributes<HTMLTableRowElement> {
     readonly info?: React.ReactNode;
-    readonly value?: React.ReactNode;
+    readonly value?: number;
     readonly color?: BreakdownColor;
     readonly children?: React.ReactNode;
     readonly classNames?: {
