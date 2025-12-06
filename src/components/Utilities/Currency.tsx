@@ -1,10 +1,19 @@
 import getUserLocale from "get-user-locale";
-import PropTypes from "prop-types";
 import React from "react";
 import { getSymbol, isZeroDecimal } from "../../helpers/currency";
 import { almostZero, numberFormat, roundNumber } from "../../helpers/numbers";
 
 const userLocale = getUserLocale();
+
+export interface CurrencyProps {
+    currency?: string;
+    locale?: string;
+    shouldRemoveTrailingZeroes?: boolean;
+    maximumFractionDigits?: number;
+    compact?: boolean;
+    isNarrowSymbolForm?: boolean;
+    children: number;
+}
 
 export const Currency = ({
     currency = "USD",
@@ -14,14 +23,14 @@ export const Currency = ({
     compact = false,
     isNarrowSymbolForm,
     children,
-}) => {
+}: CurrencyProps) => {
     let amount = children;
     if (almostZero(amount)) {
         amount = 0;
     }
 
     const maxDigits = isZeroDecimal(currency) ? 0 : maximumFractionDigits;
-    let formattedAmount = numberFormat(amount, currency, locale, maxDigits, compact);
+    let formattedAmount = numberFormat(amount, currency, locale, maxDigits, compact, isNarrowSymbolForm);
 
     const isNegative = amount < 0;
     if (isNegative) {
@@ -32,7 +41,7 @@ export const Currency = ({
         return (
             <span className="ui-currency">
                 {isNegative && "-"}
-                {getSymbol(currency, locale, isNarrowSymbolForm)}
+                {getSymbol(currency, locale, 0, isNarrowSymbolForm)}
                 {formattedAmount}
             </span>
         );
@@ -47,26 +56,26 @@ export const Currency = ({
     );
 };
 
-Currency.propTypes = {
-    currency: PropTypes.string,
-    locale: PropTypes.string,
-    shouldRemoveTrailingZeroes: PropTypes.bool,
-    maximumFractionDigits: PropTypes.number,
-    children: PropTypes.node.isRequired,
-};
-
 // TODO: See if this feature can be implemented as a prop on `Currency` component.
-Currency.Round = ({ currency, children }) => {
+interface CurrencyRoundProps {
+    currency?: string;
+    children: number;
+}
+
+const Round = ({ currency = "USD", children }: CurrencyRoundProps) => {
     const number = roundNumber(currency, children);
     return <span className="ui-currency-round">{number}</span>;
 };
+Round.displayName = "Currency.Round";
 
-Currency.Round.propTypes = {
-    currency: PropTypes.string,
-    children: PropTypes.node.isRequired,
-};
+interface CurrencySplitProps {
+    currency?: string;
+    locale?: string;
+    isNarrowSymbolForm?: boolean;
+    children: number;
+}
 
-Currency.Split = ({ currency = "USD", locale = userLocale, isNarrowSymbolForm, children }) => {
+const Split = ({ currency = "USD", locale = userLocale, isNarrowSymbolForm, children }: CurrencySplitProps) => {
     let amount = children;
     if (almostZero(amount)) {
         amount = 0;
@@ -81,10 +90,10 @@ Currency.Split = ({ currency = "USD", locale = userLocale, isNarrowSymbolForm, c
         amountDecimal += "0";
     }
 
-    const formattedAmountInt = numberFormat(amountInt, currency, locale, 0, isNarrowSymbolForm);
+    const formattedAmountInt = numberFormat(Number(amountInt), currency, locale, 0, false, isNarrowSymbolForm);
 
     return (
-        <span title={amount} className="ui-currency-split">
+        <span title={amount.toString()} className="ui-currency-split">
             <span className="ui-currency-split-int">{formattedAmountInt}</span>
             {!isZeroDecimal(currency) && (
                 <span className="ui-currency-split-decimal pl-1">
@@ -94,10 +103,9 @@ Currency.Split = ({ currency = "USD", locale = userLocale, isNarrowSymbolForm, c
         </span>
     );
 };
+Split.displayName = "Currency.Split";
 
-Currency.Split.propTypes = {
-    currency: PropTypes.string,
-    locale: PropTypes.string,
-    children: PropTypes.node.isRequired,
-    isNarrowSymbolForm: PropTypes.bool,
-};
+Currency.Round = Round;
+Currency.Split = Split;
+
+export type { CurrencyRoundProps, CurrencySplitProps };

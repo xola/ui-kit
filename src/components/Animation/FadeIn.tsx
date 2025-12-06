@@ -1,6 +1,17 @@
 import { Transition } from "@headlessui/react";
-import PropTypes from "prop-types";
 import React from "react";
+
+export interface FadeInProps {
+    shouldShow?: boolean;
+    shouldAppear?: boolean;
+    tag?: React.ElementType;
+    enter?: string;
+    enterFrom?: string;
+    enterTo?: string;
+    children?: React.ReactNode;
+    className?: string;
+    [key: string]: any;
+}
 
 export const FadeIn = ({
     shouldShow = true,
@@ -9,10 +20,10 @@ export const FadeIn = ({
     enter = "transition-opacity duration-700",
     enterFrom = "opacity-0",
     enterTo = "opacity-100",
-    className,
     children,
+    className,
     ...rest
-}) => {
+}: FadeInProps) => {
     return (
         <Transition
             show={shouldShow}
@@ -27,15 +38,4 @@ export const FadeIn = ({
             {children}
         </Transition>
     );
-};
-
-FadeIn.propTypes = {
-    shouldShow: PropTypes.bool,
-    shouldAppear: PropTypes.bool,
-    tag: PropTypes.string,
-    enter: PropTypes.string,
-    enterFrom: PropTypes.string,
-    enterTo: PropTypes.string,
-    className: PropTypes.string,
-    children: PropTypes.node,
 };

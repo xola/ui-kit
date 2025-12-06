@@ -1,10 +1,15 @@
 import clsx from "clsx";
-import PropTypes from "prop-types";
 import React from "react";
 import { formatPhoneNumber, getRegionCode } from "../../helpers/phone";
 
-export const Phone = ({ countryCode = "US", className, children }) => {
-    const number = children;
+export interface PhoneProps {
+    countryCode?: string;
+    children: string | number;
+    className?: string;
+}
+
+export const Phone = ({ countryCode = "US", children, className }: PhoneProps) => {
+    const number = children.toString();
     const formattedNumber = formatPhoneNumber(number, countryCode);
     const regionCode = getRegionCode(number, countryCode);
 
@@ -18,10 +23,4 @@ export const Phone = ({ countryCode = "US", className, children }) => {
             {formattedNumber}
         </span>
     );
-};
-
-Phone.propTypes = {
-    countryCode: PropTypes.string,
-    className: PropTypes.string,
-    children: PropTypes.node.isRequired,
 };

@@ -1,8 +1,12 @@
 import { Transition } from "@headlessui/react";
-import PropTypes from "prop-types";
 import React from "react";
 
-export const SlideDown = ({ isOpen, children }) => {
+export interface SlideDownProps {
+    isOpen?: boolean;
+    children?: React.ReactNode;
+}
+
+export const SlideDown = ({ isOpen, children }: SlideDownProps) => {
     return (
         <div className="overflow-hidden">
             <Transition
@@ -20,9 +24,4 @@ export const SlideDown = ({ isOpen, children }) => {
             </Transition>
         </div>
     );
-};
-
-SlideDown.propTypes = {
-    isOpen: PropTypes.bool,
-    children: PropTypes.node,
 };

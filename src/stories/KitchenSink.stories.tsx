@@ -86,11 +86,15 @@ export default {
 
 export const AllComponents = () => (
     <div style={{ padding: 24 }}>
-        <Alert color="primary" className="" onClose={() => {}}>Alert</Alert>
+        <Alert color="primary" className="" onClose={() => {}}>
+            Alert
+        </Alert>
         <hr />
         <Avatar name="John Doe" size="large" color="bg-primary-lighter" />
         <hr />
-        <Badge color="primary" size="small">Badge</Badge>
+        <Badge color="primary" size="small">
+            Badge
+        </Badge>
         <hr />
         <Breadcrumb separator="/">
             <span>Home</span>
@@ -98,7 +102,10 @@ export const AllComponents = () => (
         </Breadcrumb>
         <hr />
         <Breakdown currency="USD">
-            <tr><td>Breakdown</td><td>42</td></tr>
+            <tr>
+                <td>Breakdown</td>
+                <td>42</td>
+            </tr>
         </Breakdown>
         <hr />
         <Counter>5</Counter>
@@ -132,19 +139,37 @@ export const AllComponents = () => (
         <Spinner size="small" color="secondary" />
         <hr />
         <Table className="">
-            <thead><tr><th>Header</th></tr></thead>
-            <tbody><tr><td>Cell</td></tr></tbody>
+            <thead>
+                <tr>
+                    <th>Header</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Cell</td>
+                </tr>
+            </tbody>
         </Table>
         <hr />
-        <Tag color="primary" size="small">Tag</Tag>
+        <Tag color="primary" size="small">
+            Tag
+        </Tag>
         <hr />
-        <Tooltip content="Tooltip" className=""><span>Hover me</span></Tooltip>
+        <Tooltip content="Tooltip" className="">
+            <span>Hover me</span>
+        </Tooltip>
         <hr />
-        <Button color="primary" variant="standard" size="medium">Button</Button>
+        <Button color="primary" variant="standard" size="medium">
+            Button
+        </Button>
         <hr />
-        <ToggleButton color="primary" variant="outline" isActive={false}>Toggle</ToggleButton>
+        <ToggleButton color="primary" variant="outline" isActive={false}>
+            Toggle
+        </ToggleButton>
         <hr />
-        <SubmitButton color="primary" variant="standard">Submit</SubmitButton>
+        <SubmitButton color="primary" variant="standard">
+            Submit
+        </SubmitButton>
         <hr />
         <ButtonGroup size="small" value={0} onChange={() => {}}>
             <Button>One</Button>
@@ -187,7 +212,7 @@ export const AllComponents = () => (
             onLogoClick={() => {}}
             notifications={{
                 announcements: { count: 0, content: <div>No announcements</div>, title: "Announcements" },
-                notices: { count: 0, content: <div>No notices</div>, title: "Notices" }
+                notices: { count: 0, content: <div>No notices</div>, title: "Notices" },
             }}
             isFixed={false}
             isStickyHeader={false}
@@ -198,7 +223,9 @@ export const AllComponents = () => (
             onSidebarResize={() => {}}
         >
             <SidebarButton icon={() => <Logo />} label="Button" />
-            <SidebarMenu content={<div>Menu Content</div>}><span>Menu Children</span></SidebarMenu>
+            <SidebarMenu content={<div>Menu Content</div>}>
+                <span>Menu Children</span>
+            </SidebarMenu>
             <SidebarAccount name="John Doe" description="Account" image={<Logo />} />
             <SidebarHeading label="Heading" icon={() => <Logo />} />
             <SidebarLink icon={() => <Logo />} isSubMenuItem={false} align="left" classNames={{}}>
@@ -206,13 +233,27 @@ export const AllComponents = () => (
             </SidebarLink>
         </Sidebar>
         <hr />
-        <FadeIn shouldShow={true} shouldAppear={true} tag="div" enter="transition-opacity duration-700" enterFrom="opacity-0" enterTo="opacity-100" className="mb-2">FadeIn</FadeIn>
+        <FadeIn
+            shouldShow={true}
+            shouldAppear={true}
+            tag="div"
+            enter="transition-opacity duration-700"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            className="mb-2"
+        >
+            FadeIn
+        </FadeIn>
         <hr />
         <SlideDown isOpen={true}>SlideDown</SlideDown>
         <hr />
-        <Popover className="mb-2" isLazy={true} skidding={0} distance={10}><span>Popover Target</span></Popover>
+        <Popover className="mb-2" isLazy={true} skidding={0} distance={10}>
+            <span>Popover Target</span>
+        </Popover>
         <hr />
-        <PopoverList className="mb-2" placement="bottom"><span>Popover List Target</span></PopoverList>
+        <PopoverList className="mb-2" placement="bottom">
+            <span>Popover List Target</span>
+        </PopoverList>
         <hr />
         <DatePicker
             value={undefined}
@@ -262,10 +303,21 @@ export const AllComponents = () => (
         <hr />
         <DotProgress current={1} total={3} />
         <hr />
-        <NumberUtil locale="en-US" maximumFractionDigits={2} isCompact={false}>123</NumberUtil>
+        <NumberUtil locale="en-US" maximumFractionDigits={2} isCompact={false}>
+            {123}
+        </NumberUtil>
         <hr />
         <PhoneUtil countryCode="US">555-1234</PhoneUtil>
         <hr />
-        <CurrencyUtil currency="USD" locale="en-US" shouldRemoveTrailingZeroes={true} maximumFractionDigits={2} compact={false} isNarrowSymbolForm={false}>100</CurrencyUtil>
+        <CurrencyUtil
+            currency="USD"
+            locale="en-US"
+            shouldRemoveTrailingZeroes={true}
+            maximumFractionDigits={2}
+            compact={false}
+            isNarrowSymbolForm={false}
+        >
+            {100}
+        </CurrencyUtil>
     </div>
 );
