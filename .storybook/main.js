@@ -1,6 +1,4 @@
-import type { StorybookConfig } from "@storybook/react/types";
-
-const config: StorybookConfig = {
+module.exports = {
     // Support both .js/.jsx and .ts/.tsx story files during migration
     stories: ["../src/**/*.stories.@(js|jsx|ts|tsx|mdx)"],
     core: {
@@ -34,5 +32,3 @@ const config: StorybookConfig = {
         },
     },
 };
-
-export default config;
