@@ -1,6 +1,11 @@
 {
     "rules": {
-        "complexity": ["warn", { "max": 25 }],
+        "complexity": [
+            "warn",
+            {
+                "max": 25
+            }
+        ],
         "react/require-default-props": "off",
         "import/no-extraneous-dependencies": [
             "error",
@@ -11,6 +16,7 @@
                 "packageDir": "./"
             }
         ],
+        "react/prefer-read-only-props": "off",
         "@typescript-eslint/prefer-readonly": "off",
         "@typescript-eslint/prefer-readonly-parameter-types": "off"
     }
