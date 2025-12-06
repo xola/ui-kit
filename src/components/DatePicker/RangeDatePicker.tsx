@@ -138,7 +138,7 @@ const RangeDatePicker = ({
                 captionElement={CaptionStartElement}
                 selectedDays={[selectedDays?.from, selectedDays] as any}
                 renderDay={renderStartDay}
-                onDayClick={(day, options, event) => handleDayClick(day, options, event, true)}
+                onDayClick={(day: Date, options: Record<string, any>, event: React.MouseEvent) => handleDayClick(day, options, event, true)}
                 onMonthChange={handleStartMonthChange}
                 onTodayButtonClick={handleTodayClick}
                 {...rest}
@@ -157,7 +157,7 @@ const RangeDatePicker = ({
                 captionElement={CaptionEndElement}
                 selectedDays={(isStartDateIsTheSameMonth ? [] : selectedDays) as any}
                 renderDay={renderEndDay}
-                onDayClick={(day, options, event) => handleDayClick(day, options, event, false)}
+                onDayClick={(day: Date, options: Record<string, any>, event: React.MouseEvent) => handleDayClick(day, options, event, false)}
                 onMonthChange={handleEndMonthChange}
                 onTodayButtonClick={handleTodayClick}
                 {...rest}

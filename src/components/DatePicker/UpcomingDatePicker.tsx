@@ -26,7 +26,7 @@ export const UpcomingDatePicker = ({ value, upcomingDates, onChange, onMonthChan
                                     "rounded border border-gray py-3 hover:border-blue hover:bg-blue hover:text-white",
                                     { "border-blue bg-blue text-white": isSameDay },
                                 )}
-                                onClick={(event) => {
+                                onClick={(event: React.MouseEvent<HTMLDivElement>) => {
                                     onChange(date, {}, event);
                                     onMonthChange(date);
                                 }}
