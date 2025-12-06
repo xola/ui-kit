@@ -188,17 +188,17 @@ export const AllComponents = () => (
         <hr />
         <BaseInput value="Input" />
         <hr />
-        <Checkbox checked={false} label="Checkbox" />
+        <Checkbox checked={false} label="Checkbox" onChange={() => {}} />
         <hr />
         <RangeSlider values={[10]} min={0} max={100} />
         <hr />
         <Switch isChecked={false} />
         <hr />
-        <Select value="" />
+        <Select value="" readOnly />
         <hr />
-        <Textarea value="Text" />
+        <Textarea value="Text" readOnly />
         <hr />
-        <Input value="Input" />
+        <Input value="Input" readOnly />
         <hr />
         <Tabs value={0} onChange={() => {}} className="mb-4" variant="default">
             <Tab className="mr-2">Tab 1</Tab>

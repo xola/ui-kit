@@ -62,7 +62,7 @@ const ButtonGroupComponent = ({
     );
 };
 
-export interface ButtonGroupButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonGroupButtonProps {
     as?: ElementType;
     isActive?: boolean;
     shouldShowText?: boolean;
@@ -72,6 +72,7 @@ export interface ButtonGroupButtonProps extends React.ButtonHTMLAttributes<HTMLB
     iconPlacement?: IconPlacement;
     children: React.ReactNode;
     className?: string;
+    onClick?: () => void;
 }
 
 const ButtonGroupButton = ({
@@ -86,8 +87,14 @@ const ButtonGroupButton = ({
     children,
     className,
     ...rest
-}: ButtonGroupButtonProps) => {
+}: ButtonGroupButtonProps & Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, keyof ButtonGroupButtonProps>) => {
     const Tag = as ?? "button";
+
+    // Remove custom props that shouldn't be passed to DOM
+    const domProps = { ...rest };
+    delete (domProps as any).isActive;
+    delete (domProps as any).shouldShowText;
+    delete (domProps as any).isHidden;
 
     const classes = clsx(
         "ui-button-group-button",
@@ -100,7 +107,7 @@ const ButtonGroupButton = ({
     );
 
     return (
-        <Tag className={classes} {...rest}>
+        <Tag className={classes} {...domProps}>
             {icon && iconPlacement === "left" ? <span className="mr-2 flex-shrink-0">{icon}</span> : null}
             {/* Always show text if the icon isn't specified */}
             {shouldShowText ? children : icon ? null : children}
