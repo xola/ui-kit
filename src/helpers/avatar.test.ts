@@ -1,7 +1,8 @@
+import { describe, it, expect } from "vitest";
 import { getInitials } from "./avatar";
 
 describe("getInitials", () => {
-    test("should get initials from name", () => {
+    it("should get initials from name", () => {
         expect(getInitials("Nemanja Krstić")).toBe("NK");
         expect(getInitials("Cher")).toBe("C");
         expect(getInitials("James Scott Zimmerman")).toBe("JZ");

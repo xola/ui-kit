@@ -123,6 +123,17 @@ $ rm -rf package-lock.json node_modules ui-kit/node_modules your-project/node_mo
 $ npm install
 ```
 
+### Testing
+
+This project uses [Vitest](https://vitest.dev/) for unit testing. Run tests with:
+
+```bash
+npm test              # Run tests in watch mode
+npm test -- --run     # Run tests once (CI mode)
+npm run test:ui       # Open interactive test UI
+npm run test:coverage # Run tests with coverage report
+```
+
 ### Lint & Auto-fix
 
 To automatically fix lint issues in this project you have the following commands:
