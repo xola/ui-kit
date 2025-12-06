@@ -1,4 +1,4 @@
-export const getInitials = (name) => {
+export const getInitials = (name?: string): string => {
     let initials = "N/A";
     const pieces = typeof name === "string" && name.match(/\b\w/g);
 

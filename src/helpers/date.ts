@@ -1,4 +1,4 @@
-import dayjs, { isDayjs } from "dayjs";
+import dayjs, { Dayjs, isDayjs } from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import LocalizedFormat from "dayjs/plugin/localizedFormat";
 import quarterOfYear from "dayjs/plugin/quarterOfYear";
@@ -13,9 +13,9 @@ dayjs.extend(timezone);
 
 export const DateFormat = {
     DATE_ISO: "YYYY-MM-DD",
-};
+} as const;
 
-export const isValidTimeZoneName = (timezoneName) => {
+export const isValidTimeZoneName = (timezoneName: string): boolean => {
     try {
         dayjs.tz(new Date(), timezoneName);
     } catch {
@@ -25,20 +25,20 @@ export const isValidTimeZoneName = (timezoneName) => {
     return true;
 };
 
-export const formatDate = (date, format = DateFormat.DATE_ISO) => {
+export const formatDate = (date: Date | Dayjs | string, format: string = DateFormat.DATE_ISO): string => {
     return dayjs(date).format(format);
 };
 
-export const formatTime = (time, format = "h:mm a") => {
-    const stringTime = String(time).padStart(4, 0); // 700 to 0700
+export const formatTime = (time: string | number, format: string = "h:mm a"): string => {
+    const stringTime = String(time).padStart(4, "0");
     return dayjs(stringTime, "hhmm").format(format);
 };
 
-export const dateFromObjectId = (id) => {
+export const dateFromObjectId = (id: string): Dayjs => {
     return dayjs(new Date(Number.parseInt(id.slice(0, 8), 16) * 1000));
 };
 
-export const now = (date, timezone) => {
+export const now = (date?: Date | Dayjs | string | number, timezone?: string): Dayjs => {
     if (!date) {
         return timezone ? dayjs().tz(timezone).startOf("day") : dayjs();
     }
@@ -53,7 +53,6 @@ export const now = (date, timezone) => {
     }
 
     if (isDayjs(date)) {
-        // We do this late because under some conditions this is expensive (see: X2-9122)
         return date;
     }
 
@@ -64,9 +63,9 @@ export const now = (date, timezone) => {
     return timezone ? dayjs().tz(timezone) : dayjs();
 };
 
-const padNumber = (value) => value.toString().padStart(2, "0");
+const padNumber = (value: number): string => value.toString().padStart(2, "0");
 
-export const dateToString = (date) => {
+export const dateToString = (date: Date): string => {
     const dateString = `${date.getFullYear()}-${padNumber(date.getMonth() + 1)}-${padNumber(date.getDate())}`;
     const timeString = `${padNumber(date.getHours())}:${padNumber(date.getMinutes())}:${padNumber(date.getSeconds())}`;
     return `${dateString} ${timeString}`;
@@ -75,7 +74,7 @@ export const dateToString = (date) => {
 const DayTimeStart = "T00:00:00";
 const DayTimeEnd = "T23:59:59";
 
-export const toDate = (date, isStartDate = true) => {
+export const toDate = (date: Date | Dayjs | string, isStartDate: boolean = true): Date => {
     const suffix = isStartDate ? DayTimeStart : DayTimeEnd;
 
     if (isDayjs(date)) {
@@ -85,9 +84,9 @@ export const toDate = (date, isStartDate = true) => {
     return new Date(formatDate(date) + suffix);
 };
 
-export const isSame = (date1, date2, unit = "day") => {
+export const isSame = (date1: Date | Dayjs, date2: Date | Dayjs, unit: string = "day"): boolean => {
     if (isDayjs(date1) && isDayjs(date2)) {
-        return date1.isSame(date2, unit);
+        return date1.isSame(date2, unit as any);
     }
 
     return false;
