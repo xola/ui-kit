@@ -92,6 +92,106 @@ Xola UI Kit is a React 17-based component library for Xola products, published a
 - Remove PropTypes after migration
 - Update documentation in `docs/` as needed
 
+## TypeScript Migration Patterns
+
+### Interface and Type Patterns
+
+1. **Component Props Pattern:**
+   ```typescript
+   export interface ComponentProps extends Omit<React.HTMLAttributes<HTMLElement>, "conflictingProp"> {
+       size?: "small" | "medium" | "large";
+       variant?: "primary" | "secondary";
+       children: React.ReactNode;
+       className?: string;
+   }
+   ```
+
+2. **Enum-like Types:**
+   ```typescript
+   const sizes = {
+       small: "px-2 py-1",
+       medium: "px-4 py-2",
+       large: "px-6 py-3",
+   } as const;
+
+   type ComponentSize = keyof typeof sizes;
+   ```
+
+3. **ForwardRef Components:**
+   ```typescript
+   export const Component = forwardRef<HTMLInputElement, ComponentProps>(
+       ({ prop1, prop2, ...rest }, ref) => {
+           // implementation
+       }
+   );
+   ```
+
+4. **Generic Components:**
+   ```typescript
+   export interface SearchProps<T = any> extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "onChange"> {
+       items?: T[];
+       onChange?: (value: string) => void;
+       onSelect?: (item: T) => void;
+   }
+
+   export const Search = <T = any>({ ... }: SearchProps<T>) => { ... };
+   ```
+
+5. **Compound Components:**
+   ```typescript
+   export const Modal = ({ ... }: ModalProps) => { ... };
+
+   const Header = ({ ... }: ModalHeaderProps) => { ... };
+   Header.displayName = "Modal.Header";
+
+   Modal.Header = Header;
+   Modal.Body = Body;
+   Modal.Footer = Footer;
+   ```
+
+### Common Fixes
+
+1. **Prop Conflicts:** When extending HTML element props, use `Omit<>` to exclude conflicting props:
+   - `onChange` conflicts with InputHTMLAttributes
+   - `onError` conflicts with InputHTMLAttributes
+   - `onSubmit` conflicts with FormEventHandler
+
+2. **Nullish Coalescing:** Always use `??` instead of `||` for safer default values (lint rule)
+
+3. **Member Ordering:** Index signatures must come first in interfaces:
+   ```typescript
+   export interface Props {
+       [key: string]: any;  // Must be first
+       name?: string;
+       value?: number;
+   }
+   ```
+
+4. **Type Assertions:** Minimize use; when necessary, disable lint rule inline:
+   ```typescript
+   // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+   const item = { value: inputValue } as T;
+   ```
+
+5. **Optional Parameters:** Use optional chaining and nullish coalescing:
+   ```typescript
+   inputReference.current?.click();
+   const value = props.value ?? defaultValue;
+   ```
+
+### Helper Function Signatures
+
+- `numberFormat(amount, currency, locale, maxDigits, compact, isNarrowSymbolForm)`
+- `getSymbol(currency, locale, amount, isNarrowSymbolForm)`
+- `roundNumber(currency, amount)`
+- `formatPhoneNumber(number, countryCode)`
+- `getRegionCode(number, countryCode)`
+
+### Import Patterns
+
+- Prefer named imports: `import { getUserLocale } from "get-user-locale"`
+- Export types alongside components: `export type { ComponentProps }`
+
 ## Success Criteria
 
 - All source files migrated to TypeScript
