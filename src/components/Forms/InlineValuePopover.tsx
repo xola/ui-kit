@@ -5,19 +5,19 @@ import { Popover } from "../Popover/Popover";
 import { ValuePopoverText } from "./ValuePopoverText";
 
 export interface InlineValuePopoverProps {
-    readonly text?: React.ReactNode;
-    readonly isOpen?: boolean;
-    readonly showArrow?: boolean;
-    readonly autoSelectOnClick?: boolean;
-    readonly children?: React.ReactNode;
-    readonly error?: React.ReactNode | null;
-    readonly classNames?: {
+    text?: React.ReactNode;
+    isOpen?: boolean;
+    showArrow?: boolean;
+    autoSelectOnClick?: boolean;
+    children?: React.ReactNode;
+    error?: React.ReactNode | null;
+    classNames?: {
         text?: string;
         textField?: string;
         children?: string;
     };
-    readonly onClick?: (e: React.MouseEvent) => void;
-    readonly onClickOutside?: () => void;
+    onClick?: (e: React.MouseEvent) => void;
+    onClickOutside?: () => void;
 }
 
 export const InlineValuePopover = ({

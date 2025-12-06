@@ -15,8 +15,8 @@ export interface GooglePlaceSuggestion {
 }
 
 export interface GooglePlacesAutocompleteProps {
-    readonly initialValue?: string;
-    readonly onSelect?: (suggestion: GooglePlaceSuggestion) => void;
+    initialValue?: string;
+    onSelect?: (suggestion: GooglePlaceSuggestion) => void;
     apiBaseUrl: string;
 }
 

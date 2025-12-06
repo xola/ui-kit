@@ -5,11 +5,11 @@ import { Avatar } from "../Avatar";
 
 export interface SidebarAccountProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     name: string;
-    readonly description?: string;
-    readonly image?: React.ReactElement;
-    readonly icon?: React.ReactElement;
-    readonly isResponsive?: boolean;
-    readonly className?: string;
+    description?: string;
+    image?: React.ReactElement;
+    icon?: React.ReactElement;
+    isResponsive?: boolean;
+    className?: string;
 }
 
 export const SidebarAccount = ({

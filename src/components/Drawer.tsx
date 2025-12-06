@@ -19,12 +19,12 @@ type DrawerPosition = "left" | "right";
 
 export interface DrawerProps {
     isOpen: boolean;
-    readonly title?: React.ReactNode;
-    readonly size?: DrawerSize;
+    title?: React.ReactNode;
+    size?: DrawerSize;
     content: React.ReactNode;
-    readonly sideIndent?: number;
-    readonly position?: DrawerPosition;
-    readonly classNames?: {
+    sideIndent?: number;
+    position?: DrawerPosition;
+    classNames?: {
         dialog?: string;
         overlay?: string;
         dialogContent?: string;

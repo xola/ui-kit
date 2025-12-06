@@ -1,5 +1,5 @@
 declare const styles: {
-    readonly shimmer: string;
+    shimmer: string;
 };
 
 export default styles;

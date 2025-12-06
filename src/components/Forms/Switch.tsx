@@ -24,11 +24,11 @@ const sizes = {
 type SwitchSize = keyof typeof sizes;
 
 export interface SwitchProps {
-    readonly isChecked?: boolean;
-    readonly size?: SwitchSize;
-    readonly disabled?: boolean;
-    readonly className?: string;
-    readonly onChange?: (checked: boolean) => void;
+    isChecked?: boolean;
+    size?: SwitchSize;
+    disabled?: boolean;
+    className?: string;
+    onChange?: (checked: boolean) => void;
 }
 
 const SwitchComponent = ({ isChecked = false, size = "medium", disabled, className, onChange }: SwitchProps) => {
@@ -57,7 +57,7 @@ const SwitchComponent = ({ isChecked = false, size = "medium", disabled, classNa
 };
 
 export interface SwitchGroupProps {
-    readonly className?: string;
+    className?: string;
     children: React.ReactNode;
 }
 
@@ -72,8 +72,8 @@ const SwitchGroup = ({ children, className }: SwitchGroupProps) => {
 SwitchGroup.displayName = "Switch.Group";
 
 export interface SwitchLabelProps {
-    readonly direction?: "left" | "right";
-    readonly className?: string;
+    direction?: "left" | "right";
+    className?: string;
     children: React.ReactNode;
 }
 

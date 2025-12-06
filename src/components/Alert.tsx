@@ -14,10 +14,10 @@ const colors = {
 type AlertColor = keyof typeof colors;
 
 export interface AlertProps extends React.HTMLAttributes<HTMLDivElement> {
-    readonly color?: AlertColor;
+    color?: AlertColor;
     children: React.ReactNode;
-    readonly className?: string;
-    readonly onClose?: () => void;
+    className?: string;
+    onClose?: () => void;
 }
 
 export const Alert = ({ color = "primary", children, className, onClose, ...rest }: AlertProps) => {

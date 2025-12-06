@@ -11,10 +11,10 @@ const variants = {
 type TabsVariant = keyof typeof variants;
 
 export interface TabsProps extends Omit<React.HTMLAttributes<HTMLElement>, "onChange"> {
-    readonly variant?: TabsVariant;
+    variant?: TabsVariant;
     value: number;
     children: React.ReactNode;
-    readonly className?: string;
+    className?: string;
     onChange: (index: number) => void;
 }
 

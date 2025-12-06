@@ -6,12 +6,12 @@ import { Dot } from "../Dot/Dot";
 type SidebarLinkAlign = "center" | "left" | "right";
 
 export interface SidebarLinkProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-    readonly isActive?: boolean;
-    readonly icon?: ComponentType<React.SVGProps<SVGSVGElement>>;
-    readonly isSubMenuItem?: boolean;
-    readonly align?: SidebarLinkAlign;
+    isActive?: boolean;
+    icon?: ComponentType<React.SVGProps<SVGSVGElement>>;
+    isSubMenuItem?: boolean;
+    align?: SidebarLinkAlign;
     children: React.ReactNode;
-    readonly classNames?: {
+    classNames?: {
         text?: string;
     };
 }
@@ -93,7 +93,7 @@ export const SidebarLink = ({
 SidebarLink.displayName = "Sidebar.Link";
 
 export interface SidebarSeparatorProps {
-    readonly className?: string;
+    className?: string;
 }
 
 export const SidebarSeparator = ({ className }: SidebarSeparatorProps) => {

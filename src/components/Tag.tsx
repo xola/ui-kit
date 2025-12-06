@@ -21,11 +21,11 @@ type TagColor = keyof typeof colors;
 type TagSize = keyof typeof sizes;
 
 export interface TagProps extends React.HTMLAttributes<HTMLSpanElement> {
-    readonly color?: TagColor;
-    readonly size?: TagSize;
+    color?: TagColor;
+    size?: TagSize;
     children: React.ReactNode;
-    readonly className?: string;
-    readonly onClose?: () => void;
+    className?: string;
+    onClose?: () => void;
 }
 
 export const Tag = ({ color = "primary", size = "small", children, className, onClose, ...rest }: TagProps) => {

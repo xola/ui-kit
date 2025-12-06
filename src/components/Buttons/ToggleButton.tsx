@@ -17,9 +17,9 @@ const colors = {
 type ToggleVariant = keyof typeof colors;
 type ToggleColor = keyof typeof colors.outline;
 
-export interface ToggleButtonProps extends ButtonProps {
-    readonly color?: ToggleColor;
-    readonly variant?: ToggleVariant;
+export interface ToggleButtonProps extends Omit<ButtonProps, "variant" | "color"> {
+    color?: ToggleColor;
+    variant?: ToggleVariant;
     isActive: boolean;
 }
 

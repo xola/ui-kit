@@ -25,9 +25,9 @@ const CurrencyContext = createContext<CurrencyContextValue | undefined>(undefine
 
 export interface BreakdownProps extends React.TableHTMLAttributes<HTMLTableElement> {
     currency: string;
-    readonly locale?: string;
-    readonly children?: React.ReactNode;
-    readonly className?: string;
+    locale?: string;
+    children?: React.ReactNode;
+    className?: string;
 }
 
 const BreakdownComponent = ({ currency, locale, children, className, ...rest }: BreakdownProps) => {
@@ -42,19 +42,19 @@ const BreakdownComponent = ({ currency, locale, children, className, ...rest }: 
 };
 
 export interface BreakdownItemProps extends React.HTMLAttributes<HTMLTableRowElement> {
-    readonly info?: React.ReactNode;
-    readonly methodIcon?: React.ReactNode;
-    readonly secondary?: React.ReactNode;
-    readonly value?: React.ReactNode;
-    readonly color?: BreakdownColor;
-    readonly children?: React.ReactNode;
-    readonly classNames?: {
+    info?: React.ReactNode;
+    methodIcon?: React.ReactNode;
+    secondary?: React.ReactNode;
+    value?: React.ReactNode;
+    color?: BreakdownColor;
+    children?: React.ReactNode;
+    classNames?: {
         key?: string;
         children?: string;
         info?: string;
         value?: string;
     };
-    readonly className?: string;
+    className?: string;
 }
 
 const BreakdownItem = ({
@@ -107,16 +107,16 @@ const BreakdownItem = ({
 BreakdownItem.displayName = "Breakdown.Item";
 
 export interface BreakdownSubtotalItemProps extends React.HTMLAttributes<HTMLTableRowElement> {
-    readonly info?: React.ReactNode;
-    readonly value?: number;
-    readonly color?: BreakdownColor;
-    readonly children?: React.ReactNode;
-    readonly classNames?: {
+    info?: React.ReactNode;
+    value?: number;
+    color?: BreakdownColor;
+    children?: React.ReactNode;
+    classNames?: {
         children?: string;
         info?: string;
         value?: string;
     };
-    readonly className?: string;
+    className?: string;
 }
 
 const BreakdownSubtotalItem = ({
@@ -155,7 +155,7 @@ const BreakdownSubtotalItem = ({
 BreakdownSubtotalItem.displayName = "Breakdown.SubtotalItem";
 
 export interface BreakdownSeparatorProps extends React.HTMLAttributes<HTMLTableRowElement> {
-    readonly className?: string;
+    className?: string;
 }
 
 const BreakdownSeparator = ({ className, ...rest }: BreakdownSeparatorProps) => {

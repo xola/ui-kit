@@ -333,13 +333,13 @@ const handlers: Record<string, (timezone: string | undefined) => DateRange> = {
 type RangeKey = "day" | "week" | "month" | "quarter" | "year";
 
 export interface RelativeDateRangeProps {
-    readonly ranges?: RangeKey[];
-    readonly value?: string;
-    readonly showApply?: boolean;
-    readonly isFutureDatesAllowed?: boolean;
-    readonly timezoneName?: string;
+    ranges?: RangeKey[];
+    value?: string;
+    showApply?: boolean;
+    isFutureDatesAllowed?: boolean;
+    timezoneName?: string;
     onChange: (rangeName: string, range: DateRange) => void;
-    readonly onSubmit?: () => void;
+    onSubmit?: () => void;
 }
 
 export const RelativeDateRange = ({

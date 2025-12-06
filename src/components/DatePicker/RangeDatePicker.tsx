@@ -14,18 +14,18 @@ interface DateRange {
 }
 
 export interface RangeDatePickerProps {
-    readonly value?: DateRange;
-    readonly selectedDays?: DateRange;
+    value?: DateRange;
+    selectedDays?: DateRange;
     startMonth: Date;
     endMonth: Date;
-    readonly isDateRangeStyle?: boolean;
-    readonly shouldShowYearPicker?: boolean;
-    readonly disabledDays?: ((date: Date) => boolean) | Date[];
-    readonly modifiers?: Record<string, any>;
-    readonly locale?: string;
-    readonly timezoneName?: string;
-    readonly getDayContent?: (day: number, date: Date) => React.ReactNode;
-    readonly getTooltip?: (date: Date) => React.ReactNode;
+    isDateRangeStyle?: boolean;
+    shouldShowYearPicker?: boolean;
+    disabledDays?: ((date: Date) => boolean) | Date[];
+    modifiers?: Record<string, any>;
+    locale?: string;
+    timezoneName?: string;
+    getDayContent?: (day: number, date: Date) => React.ReactNode;
+    getTooltip?: (date: Date) => React.ReactNode;
     handleDayClick: (day: Date, options: Record<string, any>, event: React.MouseEvent, isStart?: boolean) => void;
     handleStartMonthChange: (month: Date) => void;
     handleEndMonthChange: (month: Date) => void;

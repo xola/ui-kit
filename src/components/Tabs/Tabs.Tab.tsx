@@ -18,12 +18,12 @@ const variants = {
 type TabVariant = keyof typeof variants;
 
 export interface TabProps<T extends ElementType = "button"> {
-    readonly as?: T;
-    readonly variant?: TabVariant;
-    readonly isActive?: boolean;
-    readonly isHidden?: boolean;
-    readonly children?: React.ReactNode;
-    readonly className?: string;
+    as?: T;
+    variant?: TabVariant;
+    isActive?: boolean;
+    isHidden?: boolean;
+    children?: React.ReactNode;
+    className?: string;
 }
 
 export const Tab = <T extends ElementType = "button">({

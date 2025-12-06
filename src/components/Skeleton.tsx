@@ -3,11 +3,11 @@ import React from "react";
 import styles from "./Skeleton.module.css";
 
 export interface SkeletonProps extends React.HTMLAttributes<HTMLDivElement> {
-    readonly style?: React.CSSProperties;
-    readonly height?: number | string;
-    readonly shouldAnimate?: boolean;
-    readonly children?: React.ReactNode;
-    readonly classNames?: {
+    style?: React.CSSProperties;
+    height?: number | string;
+    shouldAnimate?: boolean;
+    children?: React.ReactNode;
+    classNames?: {
         container?: string;
         shimmer?: string;
         text?: string;

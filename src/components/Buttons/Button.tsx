@@ -52,14 +52,14 @@ type ButtonSize = keyof typeof sizes;
 type IconPlacement = "left" | "right";
 
 export interface ButtonProps<T extends ElementType = "button"> {
-    readonly as?: T;
-    readonly variant?: ButtonVariant;
-    readonly color?: ButtonColor;
-    readonly size?: ButtonSize;
-    readonly icon?: React.ReactElement;
-    readonly iconPlacement?: IconPlacement;
+    as?: T;
+    variant?: ButtonVariant;
+    color?: ButtonColor;
+    size?: ButtonSize;
+    icon?: React.ReactElement;
+    iconPlacement?: IconPlacement;
     children: React.ReactNode;
-    readonly className?: string;
+    className?: string;
 }
 
 export const Button = <T extends ElementType = "button">({

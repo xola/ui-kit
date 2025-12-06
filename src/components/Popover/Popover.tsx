@@ -9,11 +9,11 @@ import styles from "./Popover.module.css";
 import scrollFix from "./PopoverScroll.module.css";
 
 export interface PopoverProps extends Omit<Partial<TippyProps>, "children" | "className"> {
-    readonly isLazy?: boolean;
-    readonly skidding?: number;
-    readonly distance?: number;
+    isLazy?: boolean;
+    skidding?: number;
+    distance?: number;
     children: React.ReactNode;
-    readonly className?: string;
+    className?: string;
 }
 
 export const Popover = ({ isLazy = true, skidding = 0, distance = 10, children, className, ...rest }: PopoverProps) => {
@@ -46,7 +46,7 @@ export const Popover = ({ isLazy = true, skidding = 0, distance = 10, children, 
 
 export interface PopoverContentProps {
     children: React.ReactNode;
-    readonly className?: string;
+    className?: string;
 }
 
 const Content = ({ children, className }: PopoverContentProps) => {

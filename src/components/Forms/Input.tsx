@@ -5,7 +5,7 @@ import { BaseInput, type BaseInputProps } from "./BaseInput";
 export interface InputProps
     extends BaseInputProps,
         Omit<React.InputHTMLAttributes<HTMLInputElement>, keyof BaseInputProps> {
-    readonly type?: string;
+    type?: string;
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(({ className, type = "text", value, ...rest }, ref) => {

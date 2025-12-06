@@ -4,7 +4,7 @@ import React, { type ComponentType } from "react";
 export interface SidebarButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     icon: ComponentType<React.SVGProps<SVGSVGElement>>;
     label: string;
-    readonly className?: string;
+    className?: string;
 }
 
 export const SidebarButton = ({ icon: Icon, label, className, ...rest }: SidebarButtonProps) => {

@@ -12,10 +12,10 @@ const sizes = {
 type AvatarSize = keyof typeof sizes;
 
 export interface AvatarProps extends React.HTMLAttributes<HTMLDivElement> {
-    readonly name?: string;
-    readonly color?: string;
-    readonly size?: AvatarSize;
-    readonly className?: string;
+    name?: string;
+    color?: string;
+    size?: AvatarSize;
+    className?: string;
 }
 
 export const Avatar = ({ name, color = "bg-primary-lighter", size = "large", className, ...rest }: AvatarProps) => {

@@ -14,22 +14,22 @@ type PickerVariant = "single" | "range";
 
 export interface DatePickerPopoverProps {
     [key: string]: any;
-    readonly value?: DateValue;
-    readonly variant?: PickerVariant;
-    readonly dateFormat?: string;
-    readonly placeholder?: string;
-    readonly pickerType?: PickerType;
-    readonly classNames?: {
+    value?: DateValue;
+    variant?: PickerVariant;
+    dateFormat?: string;
+    placeholder?: string;
+    pickerType?: PickerType;
+    classNames?: {
         popover?: string;
         input?: string;
     };
-    readonly components?: {
+    components?: {
         Footer?: React.ComponentType;
     };
-    readonly popoverProps?: Partial<PopoverProps>;
-    readonly children?: React.ReactElement;
-    readonly getDayContent?: (day: number, date: Date) => React.ReactNode;
-    readonly onChange?: (...arguments_: any[]) => void;
+    popoverProps?: Partial<PopoverProps>;
+    children?: React.ReactElement;
+    getDayContent?: (day: number, date: Date) => React.ReactNode;
+    onChange?: (...arguments_: any[]) => void;
 }
 
 export const DatePickerPopover = ({
@@ -126,7 +126,7 @@ export const DatePickerPopover = ({
 
 interface DefaultInputProps {
     [key: string]: any;
-    readonly className?: string;
+    className?: string;
 }
 
 const DefaultInput = forwardRef<HTMLDivElement, DefaultInputProps>(({ className, ...rest }, reference) => {

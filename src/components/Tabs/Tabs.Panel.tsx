@@ -2,8 +2,8 @@ import clsx from "clsx";
 import React from "react";
 
 export interface PanelProps extends React.HTMLAttributes<HTMLDivElement> {
-    readonly children?: React.ReactNode;
-    readonly className?: string;
+    children?: React.ReactNode;
+    className?: string;
 }
 
 export const Panel = ({ className, ...rest }: PanelProps) => {

@@ -6,7 +6,7 @@ import { BaseInput, type BaseInputProps } from "./BaseInput";
 export interface TextareaProps
     extends BaseInputProps,
         Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, keyof BaseInputProps> {
-    readonly shouldAutoSize?: boolean;
+    shouldAutoSize?: boolean;
 }
 
 export const Textarea = forwardRef<HTMLInputElement, TextareaProps>(

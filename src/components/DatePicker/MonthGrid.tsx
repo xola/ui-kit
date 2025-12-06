@@ -10,8 +10,8 @@ const today = dayjs();
 
 export interface MonthGridProps {
     year: number;
-    readonly value?: Date;
-    readonly locale?: string;
+    value?: Date;
+    locale?: string;
     onChange: (newDate: Date) => void;
     handleYearChange: (offset: number) => void;
     handleClear: () => void;

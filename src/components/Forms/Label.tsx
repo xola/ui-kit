@@ -2,9 +2,9 @@ import clsx from "clsx";
 import React from "react";
 
 export interface LabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
-    readonly isDisabled?: boolean;
-    readonly isError?: boolean;
-    readonly className?: string;
+    isDisabled?: boolean;
+    isError?: boolean;
+    className?: string;
 }
 
 export const Label = ({ isDisabled = false, isError = false, className, ...rest }: LabelProps) => {

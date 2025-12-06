@@ -3,7 +3,7 @@ import { MonthGrid } from "./MonthGrid";
 
 export interface MonthPickerProps {
     value: Date;
-    readonly locale?: string;
+    locale?: string;
     onChange: (date: Date) => void;
 }
 

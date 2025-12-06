@@ -5,9 +5,9 @@ import { Popover, type PopoverProps } from "./Popover";
 import scrollFix from "./PopoverScroll.module.css";
 
 export interface PopoverListProps extends Omit<Partial<PopoverProps>, "placement" | "children" | "className"> {
-    readonly placement?: TippyProps["placement"];
+    placement?: TippyProps["placement"];
     children: React.ReactNode;
-    readonly className?: string;
+    className?: string;
 }
 
 export const PopoverList = ({ placement = "bottom", children, className, ...rest }: PopoverListProps) => {
@@ -40,12 +40,12 @@ export const PopoverList = ({ placement = "bottom", children, className, ...rest
 
 export interface PopoverListItemProps {
     name: string;
-    readonly isActive?: boolean;
-    readonly id?: string | null;
-    readonly position?: number;
-    readonly total?: number;
+    isActive?: boolean;
+    id?: string | null;
+    position?: number;
+    total?: number;
     children: React.ReactNode;
-    readonly className?: string;
+    className?: string;
     onClickItem: (event: React.MouseEvent<HTMLDivElement>, name: string, id: string | null) => void;
 }
 

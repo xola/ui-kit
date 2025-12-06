@@ -4,12 +4,12 @@ import React from "react";
 import { Dot } from "../Dot/Dot";
 
 export interface DayProps {
-    readonly selectedDate?: Date | { from?: Date; to?: Date } | null;
+    selectedDate?: Date | { from?: Date; to?: Date } | null;
     date: Date;
     currentMonth: Date;
-    readonly isLoading?: boolean;
-    readonly disabled?: boolean;
-    readonly getContent?: (day: number, date: Date) => React.ReactNode;
+    isLoading?: boolean;
+    disabled?: boolean;
+    getContent?: (day: number, date: Date) => React.ReactNode;
 }
 
 export const Day = ({
@@ -59,7 +59,7 @@ export const Day = ({
 };
 
 interface DayContentProps {
-    readonly selectedDate?: Date | { from?: Date; to?: Date } | null;
+    selectedDate?: Date | { from?: Date; to?: Date } | null;
     date: Date;
     getContent: (day: number, date: Date) => React.ReactNode;
 }

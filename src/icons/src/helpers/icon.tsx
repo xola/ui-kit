@@ -5,8 +5,8 @@ import { iconSizes } from "./iconSizes";
 type IconSize = keyof typeof iconSizes;
 
 export interface IconProps extends ComponentPropsWithoutRef<"svg"> {
-    readonly size?: IconSize;
-    readonly className?: string;
+    size?: IconSize;
+    className?: string;
 }
 
 export interface IconComponent extends FC<IconProps> {

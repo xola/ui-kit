@@ -48,22 +48,22 @@ interface NotificationDrawer {
 }
 
 export interface SidebarProps {
-    readonly logo?: React.ReactElement;
+    logo?: React.ReactElement;
     footer: React.ReactElement;
-    readonly notifications?: {
+    notifications?: {
         announcements?: NotificationDrawer;
         notices?: NotificationDrawer;
     };
-    readonly isFixed?: boolean;
-    readonly isStickyHeader?: boolean;
-    readonly isStickyFooter?: boolean;
-    readonly isLeftDrawerOpen?: boolean;
-    readonly isRightDrawerOpen?: boolean;
+    isFixed?: boolean;
+    isStickyHeader?: boolean;
+    isStickyFooter?: boolean;
+    isLeftDrawerOpen?: boolean;
+    isRightDrawerOpen?: boolean;
     children: React.ReactNode;
-    readonly className?: string;
+    className?: string;
     onLogoClick: () => void;
-    readonly handleDrawerStateChange?: (drawer: "left" | "right") => void;
-    readonly onSidebarResize?: (width: number) => void;
+    handleDrawerStateChange?: (drawer: "left" | "right") => void;
+    onSidebarResize?: (width: number) => void;
 }
 
 export const Sidebar = ({

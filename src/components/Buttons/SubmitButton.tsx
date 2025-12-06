@@ -20,10 +20,10 @@ type ButtonVariant = keyof typeof colors;
 export interface SubmitButtonProps
     extends Omit<ButtonProps, "icon" | "iconPlacement">,
         Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, keyof ButtonProps> {
-    readonly isLoading?: boolean;
-    readonly isSuccess?: boolean;
-    readonly disabled?: boolean;
-    readonly variant?: ButtonVariant;
+    isLoading?: boolean;
+    isSuccess?: boolean;
+    disabled?: boolean;
+    variant?: ButtonVariant;
 }
 
 export const SubmitButton = ({

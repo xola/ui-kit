@@ -12,7 +12,7 @@ const keyMap: Record<string, string> = {
 
 export interface KeyProps extends React.HTMLAttributes<HTMLDivElement> {
     char: string;
-    readonly className?: string;
+    className?: string;
 }
 
 export const Key = ({ char, className, ...rest }: KeyProps) => {

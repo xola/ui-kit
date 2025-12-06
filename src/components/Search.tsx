@@ -14,18 +14,18 @@ const callDebounced = debounce((function_: (value: string) => void, value: strin
 
 export interface SearchProps<T = any>
     extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "onChange" | "onSelect" | "onSubmit"> {
-    readonly className?: string;
-    readonly items?: T[];
-    readonly defaultValue?: string;
-    readonly onChange?: (value: string) => void;
-    readonly onSubmit?: (value: string) => void;
-    readonly onSelect?: (item: T) => void;
-    readonly children?: (item: T, isHighlighted: boolean) => React.ReactNode;
-    readonly isLoading?: boolean;
-    readonly shouldStayOpen?: boolean;
-    readonly shouldDestroyOnClose?: boolean;
-    readonly shouldHideMenu?: boolean;
-    readonly minChars?: number;
+    className?: string;
+    items?: T[];
+    defaultValue?: string;
+    onChange?: (value: string) => void;
+    onSubmit?: (value: string) => void;
+    onSelect?: (item: T) => void;
+    children?: (item: T, isHighlighted: boolean) => React.ReactNode;
+    isLoading?: boolean;
+    shouldStayOpen?: boolean;
+    shouldDestroyOnClose?: boolean;
+    shouldHideMenu?: boolean;
+    minChars?: number;
 }
 
 export const Search = <T = any,>({

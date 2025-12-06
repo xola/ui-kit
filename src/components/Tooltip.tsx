@@ -6,7 +6,7 @@ import "tippy.js/dist/tippy.css"; // If we customize the style, the change this 
 export interface TooltipProps extends Omit<Partial<TippyProps>, "content" | "children" | "className"> {
     content: React.ReactNode; // string, an element, or an array of elements
     children: React.ReactNode;
-    readonly className?: string;
+    className?: string;
 }
 
 // TODO: Implement "as='div'"

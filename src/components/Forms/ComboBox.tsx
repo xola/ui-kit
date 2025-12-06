@@ -6,9 +6,9 @@ import { Tooltip } from "../Tooltip";
 import "./ComboBox.css";
 
 export interface ComboBoxProps extends SelectProps {
-    readonly isCreatable?: boolean;
-    readonly isError?: boolean;
-    readonly className?: string;
+    isCreatable?: boolean;
+    isError?: boolean;
+    className?: string;
 }
 
 export const ComboBox = ({ isCreatable = false, isError, className, ...rest }: ComboBoxProps) => {

@@ -21,9 +21,9 @@ type DotColor = keyof typeof colors;
 type DotSize = keyof typeof sizes;
 
 export interface DotProps extends React.HTMLAttributes<HTMLSpanElement> {
-    readonly color?: DotColor;
-    readonly size?: DotSize;
-    readonly className?: string;
+    color?: DotColor;
+    size?: DotSize;
+    className?: string;
 }
 
 export const Dot = ({ color = "primary", size = "medium", className, ...rest }: DotProps) => {

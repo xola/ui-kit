@@ -4,7 +4,7 @@ import React, { type ComponentType } from "react";
 export interface SidebarHeadingProps {
     icon: ComponentType<React.SVGProps<SVGSVGElement>>;
     label: string;
-    readonly className?: string;
+    className?: string;
 }
 
 export const SidebarHeading = ({ icon: Icon, label, className }: SidebarHeadingProps) => {

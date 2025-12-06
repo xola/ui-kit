@@ -3,11 +3,11 @@ import React from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "../../icons";
 
 export interface NavbarElementProps {
-    readonly showPreviousButton?: boolean;
-    readonly showNextButton?: boolean;
-    readonly className?: string;
-    readonly onPreviousClick?: () => void;
-    readonly onNextClick?: () => void;
+    showPreviousButton?: boolean;
+    showNextButton?: boolean;
+    className?: string;
+    onPreviousClick?: () => void;
+    onNextClick?: () => void;
 }
 
 /**
@@ -34,9 +34,9 @@ export const NavbarElement = ({
 };
 
 export interface ChevronButtonProps {
-    readonly isVisible?: boolean;
+    isVisible?: boolean;
     children: React.ReactElement;
-    readonly onClick?: () => void;
+    onClick?: () => void;
 }
 
 export const ChevronButton = ({ isVisible = true, children, onClick }: ChevronButtonProps) => {

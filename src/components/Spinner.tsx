@@ -24,9 +24,9 @@ type SpinnerColor = keyof typeof colors;
 type SpinnerSize = keyof typeof sizes;
 
 export interface SpinnerProps extends React.SVGProps<SVGSVGElement> {
-    readonly size?: SpinnerSize;
-    readonly color?: SpinnerColor;
-    readonly className?: string;
+    size?: SpinnerSize;
+    color?: SpinnerColor;
+    className?: string;
 }
 
 export const Spinner = ({ size = "small", color = "secondary", className, ...rest }: SpinnerProps) => {

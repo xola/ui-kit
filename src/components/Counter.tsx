@@ -2,7 +2,7 @@ import clsx from "clsx";
 import React from "react";
 
 export interface CounterProps extends React.HTMLAttributes<HTMLSpanElement> {
-    readonly className?: string;
+    className?: string;
 }
 
 export const Counter = ({ className, ...rest }: CounterProps) => {
