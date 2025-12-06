@@ -1,8 +1,11 @@
 import clsx from "clsx";
-import PropTypes from "prop-types";
 import React from "react";
 
-export const Counter = ({ className, ...rest }) => {
+export interface CounterProps extends React.HTMLAttributes<HTMLSpanElement> {
+    className?: string;
+}
+
+export const Counter = ({ className, ...rest }: CounterProps) => {
     return (
         <span
             className={clsx(
@@ -13,8 +16,4 @@ export const Counter = ({ className, ...rest }) => {
             {...rest}
         />
     );
-};
-
-Counter.propTypes = {
-    className: PropTypes.string,
 };

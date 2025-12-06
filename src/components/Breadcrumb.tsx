@@ -1,8 +1,23 @@
 import clsx from "clsx";
-import PropTypes from "prop-types";
 import React, { Children } from "react";
 
-export const Breadcrumb = ({ className, classNames = {}, separator = "/", children, ...rest }) => {
+export interface BreadcrumbProps extends React.HTMLAttributes<HTMLDivElement> {
+    className?: string;
+    classNames?: {
+        item?: string;
+        separator?: string;
+    };
+    separator?: string;
+    children?: React.ReactNode;
+}
+
+const BreadcrumbComponent = ({
+    className,
+    classNames = {},
+    separator = "/",
+    children,
+    ...rest
+}: BreadcrumbProps) => {
     const count = Children.count(children) - 1;
 
     return (
@@ -24,14 +39,13 @@ export const Breadcrumb = ({ className, classNames = {}, separator = "/", childr
     );
 };
 
-Breadcrumb.propTypes = {
-    className: PropTypes.string,
-    classNames: PropTypes.object,
-    separator: PropTypes.string,
-    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
-};
+export interface BreadcrumbItemProps extends React.HTMLAttributes<HTMLDivElement> {
+    className?: string;
+    onClick?: () => void;
+    children: React.ReactNode;
+}
 
-Breadcrumb.Item = ({ className, onClick, children }) => {
+const BreadcrumbItem = ({ className, onClick, children }: BreadcrumbItemProps) => {
     return (
         <div
             className={clsx("ui-breadcrumb-item inline", onClick && "cursor-pointer hover:underline", className)}
@@ -42,10 +56,8 @@ Breadcrumb.Item = ({ className, onClick, children }) => {
     );
 };
 
-Breadcrumb.Item.displayName = "Breadcrumb.Item";
+BreadcrumbItem.displayName = "Breadcrumb.Item";
 
-Breadcrumb.Item.propTypes = {
-    className: PropTypes.string,
-    onClick: PropTypes.func,
-    children: PropTypes.node.isRequired,
-};
+export const Breadcrumb = Object.assign(BreadcrumbComponent, {
+    Item: BreadcrumbItem,
+});

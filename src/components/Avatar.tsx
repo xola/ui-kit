@@ -1,5 +1,4 @@
 import clsx from "clsx";
-import PropTypes from "prop-types";
 import React from "react";
 import { getInitials } from "../helpers/avatar";
 
@@ -8,9 +7,18 @@ const sizes = {
     small: "h-10 w-10 text-base",
     medium: "h-12 w-12 text-md",
     large: "h-15 w-15 text-xl",
-};
+} as const;
 
-export const Avatar = ({ className, name, color = "bg-primary-lighter", size = "large", ...rest }) => {
+type AvatarSize = keyof typeof sizes;
+
+export interface AvatarProps extends React.HTMLAttributes<HTMLDivElement> {
+    className?: string;
+    name?: string;
+    color?: string;
+    size?: AvatarSize;
+}
+
+export const Avatar = ({ className, name, color = "bg-primary-lighter", size = "large", ...rest }: AvatarProps) => {
     const classes = clsx(
         "ui-avatar",
         "inline-flex items-center justify-center rounded-full text-black leading-none",
@@ -24,11 +32,4 @@ export const Avatar = ({ className, name, color = "bg-primary-lighter", size = "
             {getInitials(name)}
         </div>
     );
-};
-
-Avatar.propTypes = {
-    className: PropTypes.string,
-    color: PropTypes.string,
-    name: PropTypes.string,
-    size: PropTypes.oneOf(Object.keys(sizes)),
 };

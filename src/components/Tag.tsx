@@ -1,5 +1,4 @@
 import clsx from "clsx";
-import PropTypes from "prop-types";
 import React from "react";
 import { CloseIcon } from "../icons";
 
@@ -10,19 +9,28 @@ const colors = {
     warning: "bg-warning-lighter text-black border border-warning",
     danger: "bg-danger-lighter text-black border border-danger",
     caution: "bg-caution-lighter text-black border border-caution",
-};
+} as const;
 
 const sizes = {
     small: "px-1 py-0.75 text-sm leading-3.5",
     medium: "px-2 py-1 text-base leading-3.5",
     large: "px-2 py-1.5 text-base leading-4",
-};
+} as const;
 
-// Dashboard - height 25 Padding 6, 8Purchases - 20 padding 3,4
+type TagColor = keyof typeof colors;
+type TagSize = keyof typeof sizes;
 
-export const Tag = ({ color = "primary", size = "small", onClose, className, children, ...rest }) => {
-    const handleClose = (e) => {
-        e.stopPropagation(); // Stop from bubbling to the click handler for the tag itself
+export interface TagProps extends React.HTMLAttributes<HTMLSpanElement> {
+    color?: TagColor;
+    size?: TagSize;
+    onClose?: () => void;
+    className?: string;
+    children: React.ReactNode;
+}
+
+export const Tag = ({ color = "primary", size = "small", onClose, className, children, ...rest }: TagProps) => {
+    const handleClose = (e: React.MouseEvent) => {
+        e.stopPropagation();
         onClose?.();
     };
 
@@ -42,12 +50,4 @@ export const Tag = ({ color = "primary", size = "small", onClose, className, chi
             ) : null}
         </span>
     );
-};
-
-Tag.propTypes = {
-    color: PropTypes.oneOf(Object.keys(colors)),
-    size: PropTypes.oneOf(Object.keys(sizes)),
-    onClose: PropTypes.func,
-    className: PropTypes.string,
-    children: PropTypes.node.isRequired,
 };

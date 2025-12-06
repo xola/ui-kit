@@ -1,6 +1,5 @@
 import clsx from "clsx";
 import { isNumber } from "lodash";
-import PropTypes from "prop-types";
 import React, { createContext, useContext, useMemo } from "react";
 import { Currency } from "./Utilities/Currency";
 
@@ -13,11 +12,25 @@ const colors = {
     success: "text-success",
     danger: "text-danger",
     caution: "text-caution",
-};
+} as const;
 
-const CurrencyContext = createContext();
+type BreakdownColor = keyof typeof colors;
 
-export const Breakdown = ({ children, className, currency, locale, ...rest }) => {
+interface CurrencyContextValue {
+    currency?: string;
+    locale?: string;
+}
+
+const CurrencyContext = createContext<CurrencyContextValue | undefined>(undefined);
+
+export interface BreakdownProps extends React.TableHTMLAttributes<HTMLTableElement> {
+    children?: React.ReactNode;
+    className?: string;
+    currency: string;
+    locale?: string;
+}
+
+const BreakdownComponent = ({ children, className, currency, locale, ...rest }: BreakdownProps) => {
     const value = useMemo(() => ({ currency, locale }), [currency, locale]);
     return (
         <CurrencyContext.Provider value={value}>
@@ -28,12 +41,21 @@ export const Breakdown = ({ children, className, currency, locale, ...rest }) =>
     );
 };
 
-Breakdown.propTypes = {
-    children: PropTypes.node,
-    className: PropTypes.string,
-    currency: PropTypes.string.isRequired,
-    locale: PropTypes.string,
-};
+export interface BreakdownItemProps extends React.HTMLAttributes<HTMLTableRowElement> {
+    children?: React.ReactNode;
+    info?: React.ReactNode;
+    methodIcon?: React.ReactNode;
+    secondary?: React.ReactNode;
+    value?: React.ReactNode;
+    className?: string;
+    classNames?: {
+        key?: string;
+        children?: string;
+        info?: string;
+        value?: string;
+    };
+    color?: BreakdownColor;
+}
 
 const BreakdownItem = ({
     info,
@@ -42,12 +64,13 @@ const BreakdownItem = ({
     value,
     color = "default",
     className,
-    classNames = { key: "", children: "", info: "", value: "" },
+    classNames = {},
     children,
     ...rest
-}) => {
-    // When BreakdownItem is directly used without outer <Breakdown /> component, the context would be `undefined`
-    const { currency, locale } = useContext(CurrencyContext) ?? {};
+}: BreakdownItemProps) => {
+    const context = useContext(CurrencyContext);
+    const currency = context?.currency;
+    const locale = context?.locale;
 
     return (
         <tr className={clsx("ui-breakdown-item", colors[color], className)} {...rest}>
@@ -64,7 +87,13 @@ const BreakdownItem = ({
 
             <td className={clsx("w-[1%] whitespace-nowrap pl-4 text-right", classNames.value)}>
                 {isNumber(value) ? (
-                    <Currency shouldRemoveTrailingZeroes={false} currency={currency} locale={locale}>
+                    <Currency
+                        shouldRemoveTrailingZeroes={false}
+                        currency={currency}
+                        locale={locale}
+                        compact={undefined}
+                        isNarrowSymbolForm={undefined}
+                    >
                         {value}
                     </Currency>
                 ) : (
@@ -75,30 +104,33 @@ const BreakdownItem = ({
     );
 };
 
-BreakdownItem.propTypes = {
-    children: PropTypes.node,
-    info: PropTypes.node,
-    methodIcon: PropTypes.node,
-    secondary: PropTypes.node,
-    value: PropTypes.node,
-    className: PropTypes.string,
-    classNames: PropTypes.object,
-    color: PropTypes.oneOf(Object.keys(colors)),
-};
+BreakdownItem.displayName = "Breakdown.Item";
 
-Breakdown.Item = BreakdownItem;
-Breakdown.Item.displayName = "Breakdown.Item";
+export interface BreakdownSubtotalItemProps extends React.HTMLAttributes<HTMLTableRowElement> {
+    children?: React.ReactNode;
+    info?: React.ReactNode;
+    value?: React.ReactNode;
+    className?: string;
+    classNames?: {
+        children?: string;
+        info?: string;
+        value?: string;
+    };
+    color?: BreakdownColor;
+}
 
 const BreakdownSubtotalItem = ({
     info,
     value,
     color = "black",
     className,
-    classNames = { children: "", info: "", value: "" },
+    classNames = {},
     children,
     ...rest
-}) => {
-    const { currency, locale } = useContext(CurrencyContext) ?? {};
+}: BreakdownSubtotalItemProps) => {
+    const context = useContext(CurrencyContext);
+    const currency = context?.currency;
+    const locale = context?.locale;
 
     return (
         <tr className={clsx("ui-breakdown-subtotal-item", "font-bold", colors[color], className)} {...rest}>
@@ -106,27 +138,27 @@ const BreakdownSubtotalItem = ({
             <td className={clsx("whitespace-nowrap pt-1 pb-4 text-right", classNames.info)}>{info}</td>
 
             <td className={clsx("w-[1%] whitespace-nowrap pt-1 pb-4 pl-4 text-right", classNames.value)}>
-                <Currency shouldRemoveTrailingZeroes={false} currency={currency} locale={locale}>
-                    {value}
+                <Currency
+                    shouldRemoveTrailingZeroes={false}
+                    currency={currency}
+                    locale={locale}
+                    compact={undefined}
+                    isNarrowSymbolForm={undefined}
+                >
+                    {value ?? 0}
                 </Currency>
             </td>
         </tr>
     );
 };
 
-BreakdownSubtotalItem.propTypes = {
-    children: PropTypes.node,
-    info: PropTypes.node,
-    value: PropTypes.node,
-    className: PropTypes.string,
-    classNames: PropTypes.object,
-    color: PropTypes.oneOf(Object.keys(colors)),
-};
+BreakdownSubtotalItem.displayName = "Breakdown.SubtotalItem";
 
-Breakdown.SubtotalItem = BreakdownSubtotalItem;
-Breakdown.SubtotalItem.displayName = "Breakdown.SubtotalItem";
+export interface BreakdownSeparatorProps extends React.HTMLAttributes<HTMLTableRowElement> {
+    className?: string;
+}
 
-const BreakdownSeparator = ({ className, ...rest }) => {
+const BreakdownSeparator = ({ className, ...rest }: BreakdownSeparatorProps) => {
     return (
         <tr className={clsx("ui-breakdown-separator", className)} {...rest}>
             <td colSpan={3} className="border-b border-gray-light pb-1" />
@@ -134,9 +166,10 @@ const BreakdownSeparator = ({ className, ...rest }) => {
     );
 };
 
-BreakdownSeparator.propTypes = {
-    className: PropTypes.string,
-};
+BreakdownSeparator.displayName = "Breakdown.Separator";
 
-Breakdown.Separator = BreakdownSeparator;
-Breakdown.Separator.displayName = "Breakdown.Separator";
+export const Breakdown = Object.assign(BreakdownComponent, {
+    Item: BreakdownItem,
+    SubtotalItem: BreakdownSubtotalItem,
+    Separator: BreakdownSeparator,
+});

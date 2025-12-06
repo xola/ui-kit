@@ -1,9 +1,27 @@
 import clsx from "clsx";
-import PropTypes from "prop-types";
 import React from "react";
 import styles from "./Skeleton.module.css";
 
-export const Skeleton = ({ style, height = 300, shouldAnimate = true, children, classNames = {}, ...rest }) => {
+export interface SkeletonProps extends React.HTMLAttributes<HTMLDivElement> {
+    style?: React.CSSProperties;
+    height?: number | string;
+    shouldAnimate?: boolean;
+    classNames?: {
+        container?: string;
+        shimmer?: string;
+        text?: string;
+    };
+    children?: React.ReactNode;
+}
+
+export const Skeleton = ({
+    style,
+    height = 300,
+    shouldAnimate = true,
+    children,
+    classNames = {},
+    ...rest
+}: SkeletonProps) => {
     return (
         <div
             className={clsx(
@@ -20,12 +38,4 @@ export const Skeleton = ({ style, height = 300, shouldAnimate = true, children, 
             <div className={clsx("text-gray", classNames.text)}>{children}</div>
         </div>
     );
-};
-
-Skeleton.propTypes = {
-    style: PropTypes.object,
-    height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    shouldAnimate: PropTypes.bool,
-    classNames: PropTypes.object,
-    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
 };
