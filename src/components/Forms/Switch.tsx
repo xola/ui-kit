@@ -1,5 +1,6 @@
 import { Switch as HeadlessSwitch } from "@headlessui/react";
 import clsx from "clsx";
+import { noop } from "lodash";
 import React from "react";
 
 const sizes = {
@@ -29,10 +30,6 @@ export interface SwitchProps {
     className?: string;
     onChange?: (checked: boolean) => void;
 }
-
-const noop = () => {
-    // intentionally empty
-};
 
 const SwitchComponent = ({ isChecked = false, size = "medium", disabled, className, onChange }: SwitchProps) => {
     return (
