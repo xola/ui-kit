@@ -44,7 +44,10 @@
         "checkJs": false,
 
         /* Completeness */
-        "skipLibCheck": true
+        "skipLibCheck": true,
+
+        /* Explicitly include only needed @types packages to avoid stub package errors */
+        "types": ["node", "react", "react-dom", "google-libphonenumber"]
     },
     "include": [
         "src/**/*"
