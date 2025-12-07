@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     // Story files: .jsx/.tsx for components with JSX, .js/.ts for pure JS/TS
     stories: ["../src/**/*.stories.@(js|jsx|ts|tsx)"],
 
@@ -30,7 +30,7 @@ module.exports = {
         // Vite automatically handles:
         // - Modern JS syntax
         // - JSX in .jsx and .tsx files
-        // - PostCSS via postcss.config.mjs
+        // - PostCSS via postcss.config.js
         // - CSS Modules out of the box
 
         return config;

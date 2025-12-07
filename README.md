@@ -13,6 +13,7 @@ It's storybook is publicly published at [ui.xola.io](https://ui.xola.io). The ic
 
 -   Node.js v20 or higher
 -   NPM v7 or higher
+-   **ESM-only package** - This package uses ES modules exclusively and does not support CommonJS
 
 ### Usage
 
@@ -28,12 +29,48 @@ Install peer dependencies:
 npm install autoprefixer postcss tailwindcss vite
 ```
 
-Create PostCSS and Tailwind config files:
+#### Option 1: Use configs directly (Recommended)
 
-```bash
-echo 'module.exports = require("@xola/ui-kit/tailwind.config");' > tailwind.config.js
-echo 'module.exports = require("@xola/ui-kit/postcss.config");' > postcss.config.js
+Import and extend the configs in your project:
+
+**tailwind.config.js:**
+```js
+import uiKitConfig from "@xola/ui-kit/tailwind.config.js";
+
+export default {
+  ...uiKitConfig,
+  content: [
+    ...uiKitConfig.content,
+    "./src/**/*.{js,jsx,ts,tsx}",
+  ],
+};
 ```
+
+**postcss.config.js:**
+```js
+export default {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+};
+```
+
+#### Option 2: Re-export configs (Simple)
+
+If you want to use the UI Kit configs as-is:
+
+**tailwind.config.js:**
+```js
+export { default } from "@xola/ui-kit/tailwind.config.js";
+```
+
+**postcss.config.js:**
+```js
+export { default } from "@xola/ui-kit/postcss.config.js";
+```
+
+#### Import Styles and Components
 
 Import main CSS files in your project:
 
@@ -47,13 +84,20 @@ UI kit expects you already have a working React 18+ dev environment with PostCSS
 Import and use the components (with full TypeScript support):
 
 ```tsx
-import { Button } from "@xola/ui-kit";
+import { Button, Modal, Input } from "@xola/ui-kit";
 
 // TypeScript types are automatically included
 function MyComponent() {
-  return <Button variant="primary">Click me</Button>;
+  return (
+    <>
+      <Button variant="primary">Click me</Button>
+      <Input type="text" placeholder="Enter text" />
+    </>
+  );
 }
 ```
+
+> **Note:** This package is ESM-only. Ensure your project has `"type": "module"` in package.json or use `.mjs` file extensions for configuration files.
 
 ## Development
 

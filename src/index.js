@@ -72,11 +72,10 @@ export { useIsClient } from "./hooks/useIsClient";
 export { useViewportHeight } from "./hooks/useViewportHeight";
 
 //
-// IMPORTANT: Add all icon exports into icons/index.js, and it will be published as a new package @xola/icons
-// This is temporary only for backward compatibility. Later all icons will be removed from @xola/ui-kit and only
-// @xola/icons will be used
+// Icons are published separately as @xola/icons package.
+// Use: npm install @xola/icons
+// See: https://www.npmjs.com/package/@xola/icons
 //
-export * from "./icons/index.js";
 
 export { theme } from "./theme";
 

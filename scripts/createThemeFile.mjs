@@ -1,6 +1,6 @@
 // The scripts generates a theme file in `src/theme.js` using the configured theme object from TailwindCSS.
 import fs from "fs";
-import tailwind from "../tailwind.config.mjs";
+import tailwind from "../tailwind.config.js";
 
 const theme = JSON.stringify(tailwind.theme, null, 4);
 

@@ -1,5 +1,6 @@
 import React from "react";
-import { Tooltip, WarningDiamondIcon } from "../..";
+import { Tooltip } from "../..";
+import { WarningDiamondIcon } from "../../icons";
 
 export interface ValuePopoverTextProps {
     value?: React.ReactNode;
