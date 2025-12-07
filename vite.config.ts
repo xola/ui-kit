@@ -13,7 +13,12 @@ export default defineConfig({
         dts({
             insertTypesEntry: true,
             include: ["src/**/*"],
-            exclude: ["src/**/*.stories.*", "src/**/*.test.*", "src/stories/**/*"],
+            exclude: [
+                "src/**/*.stories.*",
+                "src/**/*.test.*",
+                "src/stories/**/*",
+                "src/icons/**/*", // Icons published separately as @xola/icons
+            ],
             // Use tsconfig.build.json for declaration generation
             tsConfigFilePath: "./tsconfig.build.json",
         }),
