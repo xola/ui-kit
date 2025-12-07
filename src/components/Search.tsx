@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { useCombobox } from "downshift";
-import debounce from "lodash/debounce";
+import debounce from "lodash-es/debounce";
 import React, { useEffect, useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { isOSX } from "../helpers/browser";

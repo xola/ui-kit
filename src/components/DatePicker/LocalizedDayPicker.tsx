@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import React, { forwardRef, useContext, useEffect, useState } from "react";
 import DayPicker, { type DayPickerProps } from "react-day-picker";
-import { kebabCase } from "lodash";
+import { kebabCase } from "lodash-es";
 import { Context } from "../Provider";
 import { getLocalizationProps, type LocaleCode, type LocalizationProps } from "./DatePicker.helpers";
 

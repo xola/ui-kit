@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { startCase } from "lodash";
+import { startCase } from "lodash-es";
 import { useDebouncedCallback } from "use-debounce";
 import axios from "axios";
 import { useClickAway } from "ahooks";

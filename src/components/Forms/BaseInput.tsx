@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { isEmpty, isString } from "lodash";
+import { isEmpty, isString } from "lodash-es";
 import React, { type ElementType, forwardRef } from "react";
 import { Dot } from "../Dot/Dot";
 

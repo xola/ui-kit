@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import dayjs from "dayjs";
-import { isArray, isFunction } from "lodash";
+import { isArray, isFunction } from "lodash-es";
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { DateUtils } from "react-day-picker";
 import "react-day-picker/lib/style.css";

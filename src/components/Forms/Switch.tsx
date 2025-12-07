@@ -1,6 +1,6 @@
 import { Switch as HeadlessSwitch } from "@headlessui/react";
 import clsx from "clsx";
-import { noop } from "lodash";
+import { noop } from "lodash-es";
 import React from "react";
 
 const sizes = {
