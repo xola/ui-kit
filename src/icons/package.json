@@ -35,9 +35,9 @@
     "devDependencies": {
         "@types/react": "^18.3.27",
         "@types/react-dom": "^18.3.7",
-        "@xola/jslint": "^3.2.0",
+        "@xola/jslint": "^2.1.2",
         "autoprefixer": "^10.4.20",
-        "eslint": "^9.39.1",
+        "eslint": "^8.57.1",
         "postcss": "8.4",
         "prettier": "^3.3.3",
         "prettier-plugin-tailwindcss": "^0.4.1",
@@ -45,14 +45,17 @@
         "react-dom": "^18.3.1",
         "tailwindcss": "3.4",
         "typescript": "5.7",
-        "vite": "^6.4.1",
-        "vite-plugin-dts": "^4.5.4"
+        "vite": "^4.5.3",
+        "vite-plugin-dts": "^3.9.1"
     },
     "peerDependencies": {
         "react": ">=17"
     },
     "engines": {
         "node": ">=16"
+    },
+    "overrides": {
+        "postcss-load-config": "^4.0.2"
     },
     "prettier": {
         "semi": true,

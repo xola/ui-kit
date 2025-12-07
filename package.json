@@ -94,6 +94,9 @@
     "engines": {
         "node": ">=16"
     },
+    "overrides": {
+        "postcss-load-config": "^4.0.2"
+    },
     "prettier": {
         "semi": true,
         "printWidth": 120,
