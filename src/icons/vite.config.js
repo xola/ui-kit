@@ -24,7 +24,7 @@ export default defineConfig({
             entry: path.resolve(__dirname, "./index.js"),
             name: "XolaIcons",
             fileName: (format) => `icons.${format}.js`,
-            formats: ["es"],
+            formats: ["es", "cjs"],
         },
 
         rollupOptions: {
