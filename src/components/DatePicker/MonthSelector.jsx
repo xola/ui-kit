@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 import dayjs from "dayjs";
-import { ChevronDownIcon } from "../../icons";
+import { ChevronDownIcon } from "../../icons/index.js";
 import { Popover } from "../Popover/Popover";
 import { MonthGrid } from "./MonthGrid";
 

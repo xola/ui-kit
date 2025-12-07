@@ -2,7 +2,7 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import React, { useEffect, useRef, useState } from "react";
-import { AnnounceIcon, BellIcon, XolaLogoSimple } from "../../icons";
+import { AnnounceIcon, BellIcon, XolaLogoSimple } from "../../icons/index.js";
 import { Counter } from "../Counter";
 import { Drawer } from "../Drawer";
 import { SidebarAccount } from "./Sidebar.Account";

@@ -2,7 +2,7 @@ import clsx from "clsx";
 import PropTypes from "prop-types";
 import React, { useRef, useState } from "react";
 import { Button, Logo, SubmitButton } from "..";
-import { ImageIcon, TrashIcon } from "../icons";
+import { ImageIcon, TrashIcon } from "../icons/index.js";
 
 export const ImageUpload = ({
     src,

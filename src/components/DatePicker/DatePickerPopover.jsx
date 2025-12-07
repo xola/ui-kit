@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import React, { cloneElement, forwardRef, useEffect, useState } from "react";
-import { CalendarIcon, DownArrowIcon } from "../../icons";
+import { CalendarIcon, DownArrowIcon } from "../../icons/index.js";
 import { formatDate } from "../../helpers/date";
 import { Input } from "../Forms/Input";
 import { Popover } from "../Popover/Popover";

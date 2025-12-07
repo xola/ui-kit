@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import React, { useRef } from "react";
-import { DownArrowIcon } from "../../icons";
+import { DownArrowIcon } from "../../icons/index.js";
 import { Popover } from "../Popover/Popover";
 import { ValuePopoverText } from "./ValuePopoverText";
 

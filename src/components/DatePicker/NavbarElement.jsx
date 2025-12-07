@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import React from "react";
-import { ChevronLeftIcon, ChevronRightIcon } from "../../icons";
+import { ChevronLeftIcon, ChevronRightIcon } from "../../icons/index.js";
 
 /**
  * Render the custom left & right arrows to change the current month.
