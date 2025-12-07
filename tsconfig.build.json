@@ -3,7 +3,7 @@
     "compilerOptions": {
         /* Override for build */
         "declaration": true,
-        "declarationMap": true,
+        "declarationMap": false,
         "emitDeclarationOnly": false,
         "noEmit": false,
         "outDir": "./build"

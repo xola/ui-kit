@@ -5,7 +5,7 @@ import dts from "vite-plugin-dts";
 import pkg from "./package.json";
 
 const dependencies = Object.keys(pkg.dependencies);
-const devDependencies = Object.keys(pkg.devDependencies);
+const peerDependencies = Object.keys(pkg.peerDependencies || {});
 
 export default defineConfig({
     plugins: [
@@ -21,6 +21,10 @@ export default defineConfig({
             ],
             // Use tsconfig.build.json for declaration generation
             tsConfigFilePath: "./tsconfig.build.json",
+            // Disable declaration maps to reduce package size
+            compilerOptions: {
+                declarationMap: false,
+            },
         }),
     ],
     build: {
@@ -36,7 +40,7 @@ export default defineConfig({
 
         rollupOptions: {
             // Make sure none of the dependencies are bundled.
-            external: [...dependencies, ...devDependencies],
+            external: [...dependencies, ...peerDependencies],
             output: {
                 // Provide global variables to use in the UMD build for externalized deps
                 globals: {
