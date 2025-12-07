@@ -42,6 +42,9 @@ export { Login } from "./components/Screens/Login";
 export { DatePicker } from "./components/DatePicker/DatePicker";
 export { RelativeDateRange } from "./components/DatePicker/RelativeDateRange";
 export { DatePickerPopover } from "./components/DatePicker/DatePickerPopover";
+export { MonthPicker } from "./components/DatePicker/MonthPicker";
+export { MonthSelector } from "./components/DatePicker/MonthSelector";
+export { UpcomingDatePicker } from "./components/DatePicker/UpcomingDatePicker";
 export { InlineValuePopover } from "./components/Forms/InlineValuePopover";
 export { ImageUpload } from "./components/ImageUpload";
 
