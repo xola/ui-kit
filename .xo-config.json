@@ -21,6 +21,7 @@
         "react/boolean-prop-naming": "off",
         "react/prefer-read-only-props": "off",
         "@typescript-eslint/prefer-readonly": "off",
-        "@typescript-eslint/prefer-readonly-parameter-types": "off"
+        "@typescript-eslint/prefer-readonly-parameter-types": "off",
+        "@typescript-eslint/no-explicit-any": "warn"
     }
 }
