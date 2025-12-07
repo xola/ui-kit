@@ -11,7 +11,7 @@ It's storybook is publicly published at [ui.xola.io](https://ui.xola.io). The ic
 
 ### Requirements
 
--   Node.js v16
+-   Node.js v20 or higher
 -   NPM v7 or higher
 
 ### Usage
@@ -25,7 +25,7 @@ npm install @xola/ui-kit
 Install peer dependencies:
 
 ```bash
-npm install autoprefixer postcss tailwindcss lodash
+npm install autoprefixer postcss tailwindcss vite
 ```
 
 Create PostCSS and Tailwind config files:
@@ -39,15 +39,20 @@ Import main CSS files in your project:
 
 ```js
 import "@xola/ui-kit/index.css";
-import "@xola/ui-kit/build/style.css";
+import "@xola/ui-kit/build/ui-kit.css";
 ```
 
-UI kit expects you already have a working React dev environment with PostCSS support.
+UI kit expects you already have a working React 18+ dev environment with PostCSS support.
 
-Import and use the components:
+Import and use the components (with full TypeScript support):
 
-```js
+```tsx
 import { Button } from "@xola/ui-kit";
+
+// TypeScript types are automatically included
+function MyComponent() {
+  return <Button variant="primary">Click me</Button>;
+}
 ```
 
 ## Development
@@ -57,7 +62,7 @@ import { Button } from "@xola/ui-kit";
 Install all required dependencies:
 
 ```bash
-$ nvm use # Project needs Node.js v16 with NPM v7
+$ nvm use # Project needs Node.js v20+ with NPM v7+
 $ npm install
 ```
 
