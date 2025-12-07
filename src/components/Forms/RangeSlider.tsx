@@ -1,7 +1,6 @@
 import clsx from "clsx";
 import Nouislider from "nouislider-react";
 import React from "react";
-// eslint-disable-next-line import/no-extraneous-dependencies -- nouislider is a peer dependency of nouislider-react
 import "nouislider/distribute/nouislider.css";
 import "./RangeSlider.css";
 

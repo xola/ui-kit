@@ -1,3 +1,4 @@
+import { describe, expect, test } from "vitest";
 import { getInitials } from "./avatar";
 
 describe("getInitials", () => {

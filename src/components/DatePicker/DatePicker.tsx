@@ -293,8 +293,8 @@ export const DatePicker = ({
         isRangeVariant && isValidValue
             ? { start: (value as any).from, end: (value as any).to }
             : isSelectedDaysHasValidRange
-            ? { start: (selectedDays as any).from, end: (selectedDays as any).to }
-            : null;
+              ? { start: (selectedDays as any).from, end: (selectedDays as any).to }
+              : null;
 
     // Comparing `from` and `to` dates hides a weird CSS style when you select the same date twice in a date range.
     const useDateRangeStyle =

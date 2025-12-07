@@ -24,3 +24,5 @@ export const LocalizedDayPicker = forwardRef<any, DayPickerProps>(({ className, 
      */
     return <DayPicker ref={ref} className={clsx(className)} {...localizationProps} {...rest} />;
 });
+
+LocalizedDayPicker.displayName = "LocalizedDayPicker";

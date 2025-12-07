@@ -6,7 +6,7 @@ export const useViewportHeight = () => {
     useEffect(() => {
         const detectViewportHeight = () => {
             // Use window.innerHeight for a more accurate viewport height
-            // eslint-disable-next-line no-undef
+
             setViewportHeight(window.innerHeight);
         };
 
@@ -14,11 +14,10 @@ export const useViewportHeight = () => {
         detectViewportHeight();
 
         // Optional: Re-detect on orientation change for mobile devices
-        // eslint-disable-next-line no-undef
+
         window.addEventListener("orientationchange", detectViewportHeight);
 
         return () => {
-            // eslint-disable-next-line no-undef
             window.removeEventListener("orientationchange", detectViewportHeight);
         };
     }, []);
