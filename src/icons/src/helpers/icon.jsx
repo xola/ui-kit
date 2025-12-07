@@ -7,7 +7,7 @@ export const createIcon = (Icon) => {
         return <Icon className={cn(iconSizes[size], "relative -top-0.25 inline-block", className)} {...rest} />;
     };
 
-    IconContainer.displayName = `Icon(${Icon.displayName || Icon.name || 'Component'})`;
+    IconContainer.displayName = `Icon(${Icon.displayName || Icon.name || "Component"})`;
 
     return IconContainer;
 };
