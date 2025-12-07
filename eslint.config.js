@@ -8,5 +8,5 @@ xolaLint[1].settings.progress = {
 };
 xolaLint[1].plugins.progress = progress;
 
-xolaLint[0].ignores.push(".next", "src/theme.js");
+xolaLint[0].ignores.push(".next", "src/theme.js", "src/stories/**", "src/icons/**");
 export default [...xolaLint];

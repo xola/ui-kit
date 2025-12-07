@@ -10,7 +10,8 @@ module.exports = {
 
     core: {
         disableTelemetry: true,
-        disableWhatsNewNotifications: true
+        disableWhatsNewNotifications: true,
+        disableVersionCheck: true
     },
 
     addons: ["@storybook/addon-links", "@storybook/addon-docs"],
