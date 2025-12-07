@@ -26,7 +26,7 @@
         "dev:clean": "npm run storybook -- --no-manager-cache",
         "build": "npm run prepare && vite build",
         "clean": "rm -rf node_modules/.vite",
-        "storybook": "npm run prepare && storybook dev -p 6006 --no-open",
+        "storybook": "npm run prepare && storybook dev -p 6006 --no-open --no-version-updates",
         "build:storybook": "npm run prepare && storybook build",
         "type-check": "tsc --noEmit",
         "type-check:watch": "tsc --noEmit --watch",
