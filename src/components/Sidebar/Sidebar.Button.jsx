@@ -7,7 +7,7 @@ export const SidebarButton = ({ icon: Icon, label, className, ...rest }) => {
         <button
             type="button"
             className={clsx(
-                "ui-sidebar-button flex w-full cursor-pointer items-center rounded py-2 px-4 hover:bg-gray-darker",
+                "ui-sidebar-button flex w-full cursor-pointer items-center rounded px-4 py-2 hover:bg-gray-darker",
                 className,
             )}
             {...rest}
