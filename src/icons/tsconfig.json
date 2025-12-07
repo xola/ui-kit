@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "target": "ES2020",
+        "lib": ["ES2022", "DOM", "DOM.Iterable"],
+        "jsx": "react",
+        "module": "ESNext",
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "declaration": true,
+        "declarationMap": true,
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "forceConsistentCasingInFileNames": true,
+        "strict": false,
+        "allowJs": true,
+        "checkJs": false,
+        "skipLibCheck": true,
+        "types": ["react"]
+    },
+    "include": ["src/**/*", "index.js"],
+    "exclude": ["node_modules", "build"]
+}

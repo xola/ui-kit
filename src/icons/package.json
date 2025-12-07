@@ -1,6 +1,6 @@
 {
     "name": "@xola/icons",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "description": "Xola's icon set",
     "type": "module",
     "repository": {
@@ -12,11 +12,13 @@
     ],
     "exports": {
         ".": {
+            "types": "./build/index.d.ts",
             "import": "./build/icons.es.js"
         },
         "./*": "./build/*"
     },
     "module": "./build/icons.es.js",
+    "types": "./build/index.d.ts",
     "scripts": {
         "prepare": "vite build",
         "build": "vite build",
@@ -26,17 +28,17 @@
     },
     "dependencies": {
         "autoprefixer": "^10.4.20",
-        "clsx": "^1.1.1",
-        "postcss": "^8.4.49",
-        "prettier": "^2.7.1",
-        "prettier-plugin-tailwindcss": "^0.1.13",
-        "react": "18.2",
-        "react-dom": "18.2",
+        "clsx": "^2.1.1",
+        "postcss": "8.4",
+        "prettier": "^3.3.3",
+        "prettier-plugin-tailwindcss": "^0.4.1",
+        "react": "^18.3.1",
+        "react-dom": "^18.3.1",
         "tailwind-merge": "^2.5.5",
         "tailwindcss": "3.4"
     },
     "engines": {
-        "node": ">=18"
+        "node": ">=20"
     },
     "prettier": {
         "semi": true,
@@ -50,6 +52,10 @@
         "tabWidth": 4
     },
     "devDependencies": {
-        "vite": "5.4"
+        "@types/react": "^18.3.27",
+        "@types/react-dom": "^18.3.7",
+        "typescript": "5.7",
+        "vite": "^6.4.1",
+        "vite-plugin-dts": "^4.5.4"
     }
 }

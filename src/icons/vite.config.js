@@ -1,10 +1,18 @@
 import path from "path";
 import { defineConfig } from "vite";
+import dts from "vite-plugin-dts";
 import pkg from "./package.json";
 
 const dependencies = Object.keys(pkg.dependencies);
 
 export default defineConfig({
+    plugins: [
+        dts({
+            insertTypesEntry: true,
+            include: ["src/**/*", "index.js"],
+            tsConfigFilePath: "./tsconfig.json",
+        }),
+    ],
     build: {
         outDir: "build",
 
