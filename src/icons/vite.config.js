@@ -3,7 +3,11 @@ import { defineConfig } from "vite";
 import dts from "vite-plugin-dts";
 import pkg from "./package.json";
 
-const dependencies = Object.keys(pkg.dependencies);
+// External dependencies that should not be bundled
+const external = [
+    ...Object.keys(pkg.dependencies || {}),
+    ...Object.keys(pkg.peerDependencies || {}),
+];
 
 export default defineConfig({
     plugins: [
@@ -25,7 +29,14 @@ export default defineConfig({
 
         rollupOptions: {
             // Make sure none of the dependencies are bundled.
-            external: dependencies,
+            external,
+            output: {
+                globals: {
+                    react: "React",
+                    clsx: "clsx",
+                    "tailwind-merge": "tailwindMerge",
+                },
+            },
         },
     },
 });
