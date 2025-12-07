@@ -74,7 +74,7 @@ export const Introduction = {
                         <ul className="space-y-3">
                             <li className="flex items-center">
                                 <span className="w-2 h-2 bg-black rounded-full mr-3"></span>
-                                <span>React v17 (using <a href="https://reactjs.org/docs/hooks-overview.html" className="text-primary hover:underline">hooks</a>)</span>
+                                <span>React v18 (using <a href="https://reactjs.org/docs/hooks-overview.html" className="text-primary hover:underline">hooks</a>)</span>
                             </li>
                             <li className="flex items-center">
                                 <span className="w-2 h-2 bg-black rounded-full mr-3"></span>

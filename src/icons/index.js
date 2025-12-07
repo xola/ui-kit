@@ -108,6 +108,7 @@ export { FaceSadIcon } from "./src/FaceSadIcon";
 export { FaceSmileIcon } from "./src/FaceSmileIcon";
 export { FeedbackLightBulbIcon } from "./src/FeedbackLightBulbIcon";
 export { FilterIcon } from "./src/FilterIcon";
+export { FilterIconOld } from "./src/FilterIconOld";
 export { FlagIcon } from "./src/FlagIcon";
 export { FlexFee2Icon } from "./src/FlexFee2Icon";
 export { FlexFeeIcon } from "./src/FlexFeeIcon";
