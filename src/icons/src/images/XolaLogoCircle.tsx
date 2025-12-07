@@ -1,6 +1,6 @@
 import React from "react";
 
-export const XolaLogoCircle = (props) => {
+export const XolaLogoCircle = (props: React.SVGProps<SVGSVGElement>) => {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" fill="none" viewBox="0 0 192 192" {...props}>
             <path

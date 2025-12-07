@@ -6,7 +6,7 @@ export const getInitials = (name) => {
         initials = pieces[0];
 
         if (pieces.length > 1) {
-            initials += pieces[pieces.length - 1];
+            initials += pieces.at(-1);
         }
     }
 

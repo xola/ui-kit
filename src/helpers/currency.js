@@ -16,5 +16,5 @@ export const getSymbol = (currency, locale = userLocale, amount = 0, isNarrowSym
         currencyDisplay: isNarrowSymbolForm ? "narrowSymbol" : "symbol",
     }).format(amount);
 
-    return string.replace(/\d/g, "").trim();
+    return string.replaceAll(/\d/g, "").trim();
 };

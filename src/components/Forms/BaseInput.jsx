@@ -40,7 +40,7 @@ export const BaseInput = forwardRef(
             return (
                 result
                     // Remove one or more whitespace characters that are not followed by a period
-                    .replace(/[^.\S]+/g, "")
+                    .replaceAll(/[^.\S]+/g, "")
                     // Remove any currency symbold
                     .replace(/[\p{Sc}]/u, "")
             );

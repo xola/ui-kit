@@ -40,27 +40,32 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, apiBaseUrl })
         if (!showDropdown || suggestions.length === 0) return;
 
         switch (e.key) {
-            case "ArrowDown":
+            case "ArrowDown": {
                 e.preventDefault();
                 setActiveSuggestionIndex((previous) => (previous + 1) % suggestions.length);
                 break;
+            }
 
-            case "ArrowUp":
+            case "ArrowUp": {
                 e.preventDefault();
                 setActiveSuggestionIndex((previous) => (previous - 1 + suggestions.length) % suggestions.length);
                 break;
+            }
 
-            case "Enter":
+            case "Enter": {
                 e.preventDefault();
                 handleSelect(suggestions[activeSuggestionIndex]);
                 break;
+            }
 
-            case "Escape":
+            case "Escape": {
                 setShowDropdown(false);
                 break;
+            }
 
-            default:
+            default: {
                 break;
+            }
         }
     };
 

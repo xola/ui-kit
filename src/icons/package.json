@@ -1,32 +1,63 @@
 {
     "name": "@xola/icons",
-    "version": "1.1.18",
+    "version": "1.2.4",
     "description": "Xola's icon set",
-    "main": "./index.js",
-    "scripts": {
-        "format": "prettier --write -l src",
-        "lint": "xola-lint src",
-        "lint:fix": "xola-lint --fix src"
-    },
-    "homepage": "https://github.com/xola/ui-kit/tree/master/src/icons/",
     "repository": {
         "type": "git",
         "url": "git://github.com/xola/ui-kit.git"
     },
+    "files": [
+        "build"
+    ],
+    "main": "./build/icons.cjs.js",
+    "module": "./build/icons.es.js",
+    "types": "./build/index.d.ts",
+    "exports": {
+        ".": {
+            "types": "./build/index.d.ts",
+            "import": "./build/icons.es.js",
+            "require": "./build/icons.cjs.js",
+            "default": "./build/icons.es.js"
+        },
+        "./*": "./build/*"
+    },
+    "scripts": {
+        "prepare": "vite build",
+        "build": "vite build",
+        "format": "prettier --write -l src",
+        "lint": "eslint --cache --fix src",
+        "lint:ci": "eslint --cache src",
+        "verify-exports": "node scripts/verify-exports.js",
+        "prepublish": "npm run verify-exports"
+    },
     "dependencies": {
-        "clsx": "^1.1.1",
-        "lodash": "^4.17.21",
-        "prettier": "^2.7.1",
-        "prettier-plugin-tailwindcss": "^0.1.13",
-        "prop-types": "^15.7.2"
+        "clsx": "^2.1.1",
+        "tailwind-merge": "^2.5.5"
     },
     "devDependencies": {
-        "react": "^17.0.2",
-        "react-dom": "^17.0.2"
+        "@types/react": "^18.3.27",
+        "@types/react-dom": "^18.3.7",
+        "@xola/jslint": "^2.1.2",
+        "autoprefixer": "^10.4.20",
+        "eslint": "^8.57.1",
+        "postcss": "8.4",
+        "prettier": "^3.3.3",
+        "prettier-plugin-tailwindcss": "^0.4.1",
+        "react": "^18.3.1",
+        "react-dom": "^18.3.1",
+        "tailwindcss": "3.4",
+        "typescript": "5.7",
+        "vite": "^4.5.3",
+        "vite-plugin-dts": "^3.9.1"
     },
-    "author": "Rushi Vishavadia <rushi@xola.com>",
+    "peerDependencies": {
+        "react": ">=17"
+    },
     "engines": {
         "node": ">=16"
+    },
+    "overrides": {
+        "postcss-load-config": "^4.0.2"
     },
     "prettier": {
         "semi": true,

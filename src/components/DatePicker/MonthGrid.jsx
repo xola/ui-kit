@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { Context } from "../Provider";
-import { ChevronLeftIcon, ChevronRightIcon } from "../../icons";
+import { ChevronLeftIcon, ChevronRightIcon } from "../../icons/index.js";
 import { Button } from "../Buttons/Button";
 import { ChevronButton } from "./NavbarElement";
 

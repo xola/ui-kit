@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import React from "react";
-import { CircleNotch } from "../icons";
+import { CircleNotch } from "../icons/index.js";
 
 const colors = {
     primary: "text-primary",
