@@ -23,8 +23,8 @@
         "prepare": "vite build",
         "build": "vite build",
         "format": "prettier --write -l src",
-        "lint": "xola-lint src",
-        "lint:fix": "xola-lint --fix src"
+        "lint": "eslint --cache --fix src",
+        "lint:ci": "eslint --cache src"
     },
     "dependencies": {
         "clsx": "^2.1.1",
@@ -33,7 +33,9 @@
     "devDependencies": {
         "@types/react": "^18.3.27",
         "@types/react-dom": "^18.3.7",
+        "@xola/jslint": "^3.2.0",
         "autoprefixer": "^10.4.20",
+        "eslint": "^9.39.1",
         "postcss": "8.4",
         "prettier": "^3.3.3",
         "prettier-plugin-tailwindcss": "^0.4.1",
