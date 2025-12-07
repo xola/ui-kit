@@ -10,18 +10,10 @@ module.exports = {
 
     core: {
         disableTelemetry: true,
+        disableWhatsNewNotifications: true
     },
 
-    addons: [
-        "@storybook/addon-links",
-        // "storybook-addon-designs", // Temporarily disabled - incompatible with Storybook 8
-        {
-            name: "@storybook/addon-essentials",
-            options: {
-                backgrounds: false,
-            },
-        },
-    ],
+    addons: ["@storybook/addon-links", "@storybook/addon-docs"],
 
     // TypeScript configuration for Storybook
     typescript: {
@@ -42,4 +34,8 @@ module.exports = {
 
         return config;
     },
+
+    features: {
+        backgrounds: false
+    }
 };

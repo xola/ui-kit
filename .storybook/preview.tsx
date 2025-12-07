@@ -1,5 +1,5 @@
 import React from "react";
-import type { Preview } from "@storybook/react";
+import type { Preview } from "@storybook/react-vite";
 import { Provider } from "../src";
 import xola from "./xola";
 import "../index.css";
