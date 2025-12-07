@@ -26,7 +26,9 @@
         "build": "vite build",
         "format": "prettier --write -l src",
         "lint": "eslint --cache --fix src",
-        "lint:ci": "eslint --cache src"
+        "lint:ci": "eslint --cache src",
+        "verify-exports": "node scripts/verify-exports.js",
+        "prepublish": "npm run verify-exports"
     },
     "dependencies": {
         "clsx": "^2.1.1",
