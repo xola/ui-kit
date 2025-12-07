@@ -5,6 +5,6 @@ export NODE_OPTIONS="--openssl-legacy-provider"
 if [[ $1 == "build" ]]; then
   npx storybook build
 else
-  node scripts/prepare
+  node scripts/prepare.mjs
   npx storybook dev -p 6006 --no-open --no-version-updates "$@"
 fi
