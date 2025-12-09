@@ -35,20 +35,53 @@ export default defineConfig({
             entry: path.resolve(__dirname, "src/index.js"),
             name: "XolaUIKit",
             formats: ["es"],
-            fileName: (format) => `ui-kit.${format}.js`,
+            fileName: (format) => `index.${format === "es" ? "js" : format}`,
         },
 
         rollupOptions: {
             // Make sure none of the dependencies are bundled.
-            external: [
-                ...dependencies,
-                ...peerDependencies,
-                "@xola/icons",
-                // Externalize React internals to ensure compatibility with both React 18 and 19
-                "react/jsx-runtime",
-                "react/jsx-dev-runtime",
-            ],
+            external: (id) => {
+                // Common transitive dependencies that should be externalized
+                const transitiveExternals = [
+                    "@emotion",
+                    "date-fns",
+                    "@floating-ui",
+                    "stylis",
+                    "memoize-one",
+                    "hoist-non-react-statics",
+                    "@babel/runtime",
+                ];
+
+                // Externalize all dependencies and their subpaths
+                if (dependencies.some((dep) => id === dep || id.startsWith(`${dep}/`))) {
+                    return true;
+                }
+                // Externalize all peerDependencies and their subpaths
+                if (peerDependencies.some((dep) => id === dep || id.startsWith(`${dep}/`))) {
+                    return true;
+                }
+                // Externalize common transitive dependencies
+                if (transitiveExternals.some((dep) => id === dep || id.startsWith(`${dep}/`))) {
+                    return true;
+                }
+                // Externalize @xola/icons
+                if (id === "@xola/icons" || id.startsWith("@xola/icons/")) {
+                    return true;
+                }
+                // Externalize React internals
+                if (id === "react/jsx-runtime" || id === "react/jsx-dev-runtime") {
+                    return true;
+                }
+                return false;
+            },
             output: {
+                // Preserve module structure for tree-shaking
+                preserveModules: true,
+                preserveModulesRoot: "src",
+                entryFileNames: (chunkInfo) => {
+                    // Preserve original file structure
+                    return `${chunkInfo.name}.js`;
+                },
                 // Provide global variables to use in the UMD build for externalized deps
                 globals: {
                     react: "React",

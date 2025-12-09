@@ -14,10 +14,13 @@
         "tailwind.config.js",
         "postcss.config.js"
     ],
+    "sideEffects": [
+        "*.css"
+    ],
     "exports": {
         ".": {
             "types": "./build/index.d.ts",
-            "import": "./build/ui-kit.es.js"
+            "import": "./build/index.js"
         },
         "./index.css": "./index.css",
         "./build/ui-kit.css": "./build/ui-kit.css",
@@ -26,7 +29,7 @@
         "./postcss.config.js": "./postcss.config.js",
         "./postcss.config": "./postcss.config.js"
     },
-    "module": "./build/ui-kit.es.js",
+    "module": "./build/index.js",
     "types": "./build/index.d.ts",
     "scripts": {
         "prepare": "node scripts/prepare.mjs && vite build",
