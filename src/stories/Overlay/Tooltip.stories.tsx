@@ -1,6 +1,7 @@
 // @ts-nocheck
 import React from "react";
-import { Button, Tooltip, UserIcon } from "../..";
+import { Button, Tooltip } from "../..";
+import { UserIcon } from "@xola/icons";
 
 // More props in docs
 const documentationUrl = "https://atomiks.github.io/tippyjs/v6/all-props/";

@@ -40,7 +40,7 @@ export default defineConfig({
 
         rollupOptions: {
             // Make sure none of the dependencies are bundled.
-            external: [...dependencies, ...peerDependencies],
+            external: [...dependencies, ...peerDependencies, "@xola/icons"],
             output: {
                 // Provide global variables to use in the UMD build for externalized deps
                 globals: {

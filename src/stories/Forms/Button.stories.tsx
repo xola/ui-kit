@@ -1,6 +1,7 @@
 // @ts-nocheck
 import React from "react";
-import { Button, EllipsisIcon, KeyIcon, PlusIcon, UserIcon, WaitlistIcon, WarningIcon } from "../..";
+import { Button } from "../..";
+import { EllipsisIcon, KeyIcon, PlusIcon, UserIcon, WaitlistIcon, WarningIcon } from "@xola/icons";
 
 const ButtonStories = {
     title: "Forms & Fields/Buttons/Button",

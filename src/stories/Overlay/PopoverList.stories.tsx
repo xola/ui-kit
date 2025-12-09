@@ -1,6 +1,7 @@
 // @ts-nocheck
 import React, { useState } from "react";
-import { Button, CalendarDayIcon, CalendarMonthIcon, CalendarWeekIcon, MenuIcon, PopoverList } from "../..";
+import { Button, PopoverList } from "../..";
+import { CalendarDayIcon, CalendarMonthIcon, CalendarWeekIcon, MenuIcon } from "@xola/icons";
 
 const PopoverStories = {
     id: "PopoverList",

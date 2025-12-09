@@ -1,6 +1,7 @@
 // @ts-nocheck
 import React, { useState } from "react";
-import { CheckIcon, ToggleButton } from "../..";
+import { ToggleButton } from "../..";
+import { CheckIcon } from "@xola/icons";
 
 const ToggleButtonStories = {
     title: "Forms & Fields/Buttons/ToggleButton",

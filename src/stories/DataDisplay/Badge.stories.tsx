@@ -1,6 +1,7 @@
 // @ts-nocheck
 import React from "react";
-import { Badge, BellIcon, BoxIcon, CakeIcon, CashIcon, EditIcon, StackIcon } from "../..";
+import { Badge } from "../..";
+import { BellIcon, BoxIcon, CakeIcon, CashIcon, EditIcon, StackIcon } from "@xola/icons";
 
 const BadgeStories = {
     title: "Data Display/Badges",

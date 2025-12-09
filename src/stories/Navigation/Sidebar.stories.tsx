@@ -1,6 +1,7 @@
 // @ts-nocheck
 import React, { useState } from "react";
-import { AnnounceIcon, CheckIcon, HelpCenterIcon, LogoutIcon, PolicyIcon, Sidebar, StarIcon, UserIcon } from "../..";
+import { Sidebar } from "../..";
+import { AnnounceIcon, CheckIcon, HelpCenterIcon, LogoutIcon, PolicyIcon, StarIcon, UserIcon } from "@xola/icons";
 
 const SidebarStories = {
     title: "Navigation/Sidebar",
