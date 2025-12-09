@@ -23,7 +23,7 @@ export default defineConfig({
         lib: {
             entry: path.resolve(__dirname, "./index.js"),
             name: "XolaIcons",
-            fileName: (format) => `icons.${format}.js`,
+            fileName: (format) => `index.${format === "es" ? "js" : format}`,
             formats: ["es"],
         },
 
@@ -31,6 +31,14 @@ export default defineConfig({
             // Make sure none of the dependencies are bundled.
             external,
             output: {
+                // Preserve module structure for tree-shaking
+                preserveModules: true,
+                preserveModulesRoot: ".",
+                entryFileNames: (chunkInfo) => {
+                    // Preserve original file structure
+                    const name = chunkInfo.name.replace(/^src\//, "");
+                    return `${name}.js`;
+                },
                 globals: {
                     react: "React",
                     clsx: "clsx",

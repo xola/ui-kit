@@ -10,14 +10,15 @@
     "files": [
         "build"
     ],
+    "sideEffects": false,
     "exports": {
         ".": {
             "types": "./build/index.d.ts",
-            "import": "./build/icons.es.js"
+            "import": "./build/index.js"
         },
         "./*": "./build/*"
     },
-    "module": "./build/icons.es.js",
+    "module": "./build/index.js",
     "types": "./build/index.d.ts",
     "scripts": {
         "prepare": "vite build",
