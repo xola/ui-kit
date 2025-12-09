@@ -40,7 +40,14 @@ export default defineConfig({
 
         rollupOptions: {
             // Make sure none of the dependencies are bundled.
-            external: [...dependencies, ...peerDependencies, "@xola/icons"],
+            external: [
+                ...dependencies,
+                ...peerDependencies,
+                "@xola/icons",
+                // Externalize React internals to ensure compatibility with both React 18 and 19
+                "react/jsx-runtime",
+                "react/jsx-dev-runtime",
+            ],
             output: {
                 // Provide global variables to use in the UMD build for externalized deps
                 globals: {
