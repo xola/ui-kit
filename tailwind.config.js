@@ -130,10 +130,8 @@ const spacing = {
 
 export default {
     content: [
-        "./src/**/*.js",
-        "./src/**/*.jsx",
-        "./src/**/*.ts",
-        "./src/**/*.tsx",
+        "./src/**/*.{js,jsx,ts,tsx}",
+        "!./src/**/node_modules",
         path.join(__dirname, "build/ui-kit.es.js"),
     ],
 

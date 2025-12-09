@@ -20,7 +20,7 @@ export default defineConfig({
                 "src/icons/**/*", // Icons published separately as @xola/icons
             ],
             // Use tsconfig.build.json for declaration generation
-            tsConfigFilePath: "./tsconfig.build.json",
+            tsconfigPath: "./tsconfig.build.json",
             // Disable declaration maps to reduce package size
             compilerOptions: {
                 declarationMap: false,
@@ -48,6 +48,7 @@ export default defineConfig({
                     "react-dom": "ReactDOM",
                     "@headlessui/react": "HeadlessUI",
                     clsx: "clsx",
+                    "lodash-es": "lodash",
                     "@tippyjs/react": "Tippy",
                     "tippy.js": "tippy",
                     downshift: "Downshift",
@@ -56,10 +57,15 @@ export default defineConfig({
                     "react-textarea-autosize": "TextareaAutosize",
                     "react-select": "ReactSelect",
                     "nouislider-react": "Nouislider",
+                    "use-debounce": "useDebounce",
+                    axios: "axios",
+                    ahooks: "ahooks",
                     dayjs: "dayjs",
                     "react-day-picker": "DayPicker",
                     "google-libphonenumber": "libphonenumber",
                     "react-hot-toast": "toast",
+                    "react18-json-view": "ReactJsonView",
+                    "tailwind-merge": "tailwindMerge",
                 },
             },
         },
