@@ -76,6 +76,33 @@ export { useViewportHeight } from "./hooks/useViewportHeight";
 // Use: npm install @xola/icons
 // See: https://www.npmjs.com/package/@xola/icons
 //
+// Note: Some commonly used icons are exported here for Storybook development
+export { AnnounceIcon } from "./icons/src/AnnounceIcon";
+export { BellIcon } from "./icons/src/BellIcon";
+export { BoxIcon } from "./icons/src/BoxIcon";
+export { CakeIcon } from "./icons/src/CakeIcon";
+export { CalendarDayIcon } from "./icons/src/CalendarDayIcon";
+export { CalendarMonthIcon } from "./icons/src/CalendarMonthIcon";
+export { CalendarWeekIcon } from "./icons/src/CalendarWeekIcon";
+export { CardIcon } from "./icons/src/CardIcon";
+export { CashIcon } from "./icons/src/CashIcon";
+export { CheckIcon } from "./icons/src/CheckIcon";
+export { ChecklistIcon } from "./icons/src/ChecklistIcon";
+export { EditIcon } from "./icons/src/EditIcon";
+export { EllipsisIcon } from "./icons/src/EllipsisIcon";
+export { EmptyChecklistIcon } from "./icons/src/EmptyChecklistIcon";
+export { HelpCenterIcon } from "./icons/src/HelpCenterIcon";
+export { KeyIcon } from "./icons/src/KeyIcon";
+export { LogoutIcon } from "./icons/src/LogoutIcon";
+export { MenuIcon } from "./icons/src/MenuIcon";
+export { MixedChecklistIcon } from "./icons/src/MixedChecklistIcon";
+export { PlusIcon } from "./icons/src/PlusIcon";
+export { PolicyIcon } from "./icons/src/PolicyIcon";
+export { StackIcon } from "./icons/src/StackIcon";
+export { StarIcon } from "./icons/src/StarIcon";
+export { UserIcon } from "./icons/src/UserIcon";
+export { WaitlistIcon } from "./icons/src/WaitlistIcon";
+export { WarningIcon } from "./icons/src/WarningIcon";
 
 export { theme } from "./theme";
 
