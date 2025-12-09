@@ -69,7 +69,7 @@ export default defineConfig({
                     ahooks: "ahooks",
                     dayjs: "dayjs",
                     "react-day-picker": "DayPicker",
-                    "google-libphonenumber": "libphonenumber",
+                    "libphonenumber-js": "libphonenumber",
                     "react-hot-toast": "toast",
                     "react18-json-view": "ReactJsonView",
                     "tailwind-merge": "tailwindMerge",

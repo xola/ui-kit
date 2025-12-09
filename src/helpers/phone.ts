@@ -1,13 +1,10 @@
-import phoneLib from "google-libphonenumber";
+import { parsePhoneNumber, type CountryCode } from "libphonenumber-js";
 
-const PNF = phoneLib.PhoneNumberFormat;
-const phoneUtil = phoneLib.PhoneNumberUtil.getInstance();
-
-export const getRegionCode = (number: string, countryCode = "US"): string | undefined => {
+export const getRegionCode = (number: string, countryCode: CountryCode = "US"): string | undefined => {
     try {
-        const phoneObject = phoneUtil.parseAndKeepRawInput(number, countryCode);
+        const phoneNumber = parsePhoneNumber(number, countryCode);
 
-        return phoneUtil.getRegionCodeForNumber(phoneObject);
+        return phoneNumber?.country;
     } catch {
         return undefined;
     }
@@ -21,23 +18,25 @@ export const getRegionCode = (number: string, countryCode = "US"): string | unde
  *
  * @return {string}
  */
-export const formatPhoneNumber = (number: string, countryCode = "US"): string => {
+export const formatPhoneNumber = (number: string, countryCode: CountryCode = "US"): string => {
     try {
-        let phoneObject = phoneUtil.parseAndKeepRawInput(number, countryCode);
+        let phoneNumber = parsePhoneNumber(number, countryCode);
 
-        const regionCode = phoneUtil.getRegionCodeForNumber(phoneObject);
+        if (!phoneNumber) {
+            return number;
+        }
+
+        const regionCode = phoneNumber.country;
         if (regionCode && regionCode !== countryCode) {
             // If the region code is different than what was passed in, reparse according to that format
-            phoneObject = phoneUtil.parseAndKeepRawInput(number, regionCode);
+            phoneNumber = parsePhoneNumber(number, regionCode);
         }
 
         // Parse number for display in the region's format
-
         let formattedNumber: string;
 
-        if (regionCode) {
-            const format = regionCode === countryCode ? PNF.NATIONAL : PNF.INTERNATIONAL;
-            formattedNumber = phoneUtil.format(phoneObject, format);
+        if (regionCode && phoneNumber) {
+            formattedNumber = regionCode === countryCode ? phoneNumber.formatNational() : phoneNumber.formatInternational();
         } else {
             // If we didn't detect a region, don't guess and return the original thing
             formattedNumber = number;

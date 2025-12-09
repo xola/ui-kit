@@ -1,13 +1,10 @@
-import { PhoneNumberFormat, PhoneNumberUtil } from "google-libphonenumber";
-
-const PNF = PhoneNumberFormat;
-const phoneUtil = PhoneNumberUtil.getInstance();
+import { parsePhoneNumber } from "libphonenumber-js";
 
 export const getRegionCode = (number, countryCode = "US") => {
     try {
-        const phoneObject = phoneUtil.parseAndKeepRawInput(number, countryCode);
+        const phoneNumber = parsePhoneNumber(number, countryCode);
 
-        return phoneUtil.getRegionCodeForNumber(phoneObject);
+        return phoneNumber?.country;
     } catch {
         return undefined;
     }
@@ -23,20 +20,23 @@ export const getRegionCode = (number, countryCode = "US") => {
  */
 export const formatPhoneNumber = (number, countryCode = "US") => {
     try {
-        let phoneObject = phoneUtil.parseAndKeepRawInput(number, countryCode);
+        let phoneNumber = parsePhoneNumber(number, countryCode);
 
-        const regionCode = phoneUtil.getRegionCodeForNumber(phoneObject);
+        if (!phoneNumber) {
+            return number;
+        }
+
+        const regionCode = phoneNumber.country;
         if (regionCode && regionCode !== countryCode) {
             // If the region code is different than what was passed in, reparse according to that format
-            phoneObject = phoneUtil.parseAndKeepRawInput(number, regionCode);
+            phoneNumber = parsePhoneNumber(number, regionCode);
         }
 
         // Parse number for display in the region's format
         let formattedNumber;
 
-        if (regionCode) {
-            const format = regionCode === countryCode ? PNF.NATIONAL : PNF.INTERNATIONAL;
-            formattedNumber = phoneUtil.format(phoneObject, format);
+        if (regionCode && phoneNumber) {
+            formattedNumber = regionCode === countryCode ? phoneNumber.formatNational() : phoneNumber.formatInternational();
         } else {
             // If we didn't detect a region, don't guess and return the original thing
             formattedNumber = number;

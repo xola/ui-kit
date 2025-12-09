@@ -47,7 +47,7 @@
         "skipLibCheck": true,
 
         /* Explicitly include only needed @types packages to avoid stub package errors */
-        "types": ["node", "react", "react-dom", "google-libphonenumber"]
+        "types": ["node", "react", "react-dom"]
     },
     "include": [
         "src/**/*"

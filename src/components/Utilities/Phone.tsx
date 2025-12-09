@@ -1,9 +1,10 @@
 import clsx from "clsx";
 import React from "react";
+import type { CountryCode } from "libphonenumber-js";
 import { formatPhoneNumber, getRegionCode } from "../../helpers/phone";
 
 export interface PhoneProps {
-    countryCode?: string;
+    countryCode?: CountryCode;
     children: string | number;
     className?: string;
 }
