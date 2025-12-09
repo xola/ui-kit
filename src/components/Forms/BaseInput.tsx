@@ -70,6 +70,7 @@ export const BaseInput = forwardRef<HTMLInputElement, BaseInputProps & Record<st
                         "w-full rounded text-gray-darker placeholder-gray-dark hover:placeholder-gray-darker disabled:text-gray",
                         "border border-transparent hover:border-black hover:bg-gray-lighter focus:text-black active:text-black disabled:bg-gray-lighter",
                         sizes[size as keyof typeof sizes],
+                        Tag === "select" && "pr-8",
                         isError
                             ? "!focus:border-danger !border-danger focus:ring-0 focus:ring-danger"
                             : "border-gray-light focus:border-primary focus:ring-0 focus:ring-primary",

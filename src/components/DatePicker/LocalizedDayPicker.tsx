@@ -1,16 +1,17 @@
 import clsx from "clsx";
-import React, { forwardRef, useContext, useEffect, useState } from "react";
-import DayPicker, { type DayPickerProps } from "react-day-picker";
+import React, { useContext, useEffect, useState } from "react";
+import { DayPicker, type DayPickerProps } from "react-day-picker";
 import { kebabCase } from "lodash-es";
+import { enUS } from "date-fns/locale";
 import { Context } from "../Provider";
 import { getLocalizationProps, type LocaleCode, type LocalizationProps } from "./DatePicker.helpers";
 
-export const LocalizedDayPicker = forwardRef<any, DayPickerProps>(({ className, ...rest }, ref) => {
+export const LocalizedDayPicker = ({ className, ...rest }: DayPickerProps) => {
     const { locale } = useContext(Context);
-    const [localizationProps, setLocalizationProps] = useState<Partial<LocalizationProps>>({});
+    const [localizationProps, setLocalizationProps] = useState<Partial<LocalizationProps>>({ locale: enUS });
 
     useEffect(() => {
-        setLocalizationProps({});
+        setLocalizationProps({ locale: enUS });
         const localeCode = kebabCase(locale).toLowerCase();
 
         /** We don't want any localization-related props for "English" */
@@ -22,7 +23,7 @@ export const LocalizedDayPicker = forwardRef<any, DayPickerProps>(({ className, 
     /**
      * Note: DayPicker expects locale in en-US, es, en-GB format
      */
-    return <DayPicker ref={ref} className={clsx(className)} {...localizationProps} {...rest} />;
-});
+    return <DayPicker className={clsx(className)} {...localizationProps} {...rest} />;
+};
 
 LocalizedDayPicker.displayName = "LocalizedDayPicker";

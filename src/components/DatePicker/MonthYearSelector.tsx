@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import React from "react";
+import React, { useRef } from "react";
 import { Select } from "../Forms/Select";
 
 const today = dayjs();
@@ -16,6 +16,9 @@ export interface MonthYearSelectorProps {
 }
 
 export const MonthYearSelector = ({ date, currentMonth, locale, onChange }: MonthYearSelectorProps) => {
+    const monthRef = useRef<HTMLInputElement>(null);
+    const yearRef = useRef<HTMLInputElement>(null);
+
     const months = [...Array.from({ length: 12 }).keys()].map((m) =>
         today
             .locale(locale ?? "en")
@@ -39,19 +42,26 @@ export const MonthYearSelector = ({ date, currentMonth, locale, onChange }: Mont
     const selectorIndex = getDiffInMonths(date, currentMonth);
 
     const handleMonthChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        const { year, month } = event.target.form as any;
-        onChange(new Date(year.value, Number(month.value) - selectorIndex));
+        const monthValue = Number(event.target.value);
+        const yearValue = yearRef.current ? Number(yearRef.current.value) : date.getFullYear();
+        onChange(new Date(yearValue, monthValue - selectorIndex));
     };
 
     const handleYearChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        const { year } = event.target.form as any;
-        onChange(new Date(year.value, currentMonth.getMonth()));
+        const yearValue = Number(event.target.value);
+        onChange(new Date(yearValue, currentMonth.getMonth()));
     };
 
     return (
         <form className="DayPicker-Caption space-x-2">
             <span className="inline-block">
-                <Select name="month" value={date.getMonth()} className="month-selector" onChange={handleMonthChange}>
+                <Select
+                    ref={monthRef}
+                    name="month"
+                    value={date.getMonth()}
+                    className="month-selector"
+                    onChange={handleMonthChange}
+                >
                     {months.map((month, index) => (
                         <option key={month} value={index}>
                             {month}
@@ -61,7 +71,13 @@ export const MonthYearSelector = ({ date, currentMonth, locale, onChange }: Mont
             </span>
 
             <span className="inline-block">
-                <Select name="year" value={date.getFullYear()} className="year-selector" onChange={handleYearChange}>
+                <Select
+                    ref={yearRef}
+                    name="year"
+                    value={date.getFullYear()}
+                    className="year-selector"
+                    onChange={handleYearChange}
+                >
                     {years.map((year) => (
                         <option key={year} value={year}>
                             {year}
