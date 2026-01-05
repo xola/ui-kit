@@ -73,6 +73,7 @@ export {
     CloseCircleIcon,
     CloseIcon,
     CollapseIcon,
+    CollectionIcon,
     ComboBox,
     CommentAltIcon,
     CommentIcon,
