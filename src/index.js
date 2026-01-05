@@ -58,6 +58,8 @@ export { formatPhoneNumber } from "./helpers/phone";
 export { rangeLabels, rangeOptions } from "./components/DatePicker/RelativeDateRange";
 export { isOSX, isIosBrowser } from "./helpers/browser";
 export { flash } from "./helpers/flash";
+
+// Hooks
 export { useId } from "./hooks/useId";
 
 // Chart options
