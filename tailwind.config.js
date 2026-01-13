@@ -132,7 +132,7 @@ export default {
     content: [
         "./src/**/*.{js,jsx,ts,tsx}",
         "!./src/**/node_modules",
-        path.join(__dirname, "build/ui-kit.es.js"),
+        path.join(__dirname, "build/**/*.js"),
     ],
 
     theme: {

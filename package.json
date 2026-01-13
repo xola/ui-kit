@@ -22,7 +22,8 @@
             "types": "./build/index.d.ts",
             "import": "./build/index.js"
         },
-        "./index.css": "./index.css",
+        "./index.css": "./build/base.css",
+        "./build/base.css": "./build/base.css",
         "./build/ui-kit.css": "./build/ui-kit.css",
         "./tailwind.config.js": "./tailwind.config.js",
         "./tailwind.config": "./tailwind.config.js",
@@ -32,7 +33,7 @@
     "module": "./build/index.js",
     "types": "./build/index.d.ts",
     "scripts": {
-        "prepare": "node scripts/prepare.mjs && vite build",
+        "prepare": "node scripts/prepare.mjs && vite build && node scripts/compileBaseCss.mjs",
         "start": "./scripts/storybook",
         "dev": "npm start",
         "dev:clean": "./scripts/storybook --no-manager-cache",
