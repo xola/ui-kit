@@ -138,7 +138,8 @@ const RangeDatePicker = ({
         month_grid: "w-full mt-4",
         week: "mt-0.5 flex w-full justify-between",
         day: "w-[calc(100%/7)] mr-0.5 rounded",
-        day_button: "h-12 w-full cursor-pointer rounded bg-transparent hover:border hover:border-blue hover:bg-blue-lighter hover:text-black disabled:cursor-not-allowed disabled:text-gray-light disabled:hover:border-none disabled:hover:bg-transparent",
+        day_button:
+            "h-12 w-full cursor-pointer rounded bg-transparent hover:border hover:border-blue hover:bg-blue-lighter hover:text-black disabled:cursor-not-allowed disabled:text-gray-light disabled:hover:border-none disabled:hover:bg-transparent",
         selected: clsx(
             isDateRangeStyle
                 ? "[&>button]:bg-transparent [&>button]:text-black [&>button:hover]:bg-blue-lighter [&>button:hover]:text-black"
@@ -155,13 +156,17 @@ const RangeDatePicker = ({
             isDateRangeStyle && !isSingleDayDateRange
                 ? "rounded-none [background:linear-gradient(90deg,#ffffff_40%,#d1e1ff_25%)] [&>button]:!bg-blue [&>button]:!text-white [&>button]:rounded-full"
                 : "[&>button]:!bg-blue [&>button]:!text-white",
-            isSingleDayDateRange ? "[&>button]:outline [&>button]:outline-offset-1 [&>button]:outline-blue-lighter" : null,
+            isSingleDayDateRange
+                ? "[&>button]:outline [&>button]:outline-offset-1 [&>button]:outline-blue-lighter"
+                : null,
         ),
         end: clsx(
             isDateRangeStyle && !isSingleDayDateRange
                 ? "rounded-none [background:linear-gradient(90deg,#d1e1ff_40%,#ffffff_25%)] [&>button]:!bg-blue [&>button]:!text-white [&>button]:rounded-full"
                 : "[&>button]:!bg-blue [&>button]:!text-white",
-            isSingleDayDateRange ? "[&>button]:outline [&>button]:outline-offset-1 [&>button]:outline-blue-lighter" : null,
+            isSingleDayDateRange
+                ? "[&>button]:outline [&>button]:outline-offset-1 [&>button]:outline-blue-lighter"
+                : null,
         ),
         selected: isDateRangeStyle ? "rounded-none bg-blue-lighter text-black" : "",
         waitlist:
@@ -171,7 +176,9 @@ const RangeDatePicker = ({
     return (
         <div className="flex gap-4">
             <LocalizedDayPicker
-                className={clsx("pt-6 tracking-tightest max-w-[400px] rounded-lg ring-0 focus:outline-none focus:ring-0")}
+                className={clsx(
+                    "pt-6 tracking-tightest max-w-[400px] rounded-lg ring-0 focus:outline-none focus:ring-0",
+                )}
                 mode="single"
                 selected={selectedDays?.from}
                 month={startMonth}
@@ -188,9 +195,8 @@ const RangeDatePicker = ({
                 modifiersClassNames={datePickerModifiersClassNames}
                 components={{
                     ...(CaptionStartElement ? { CaptionLabel: CaptionStartElement } : {}),
-                    DayButton: (props) => {
-                        const { children, ...buttonProps } = props;
-                        return <button {...buttonProps}>{renderStartDay(props.day.date)}</button>;
+                    DayButton: ({ day, ...buttonProps }) => {
+                        return <button {...buttonProps}>{renderStartDay(day.date)}</button>;
                     },
                     Nav: (props) => (
                         <NavbarElement {...props} onTodayClick={(e) => handleTodayClick(new Date(), {}, e)} />
@@ -199,7 +205,9 @@ const RangeDatePicker = ({
                 {...rest}
             />
             <LocalizedDayPicker
-                className={clsx("pt-6 tracking-tightest max-w-[400px] rounded-lg ring-0 focus:outline-none focus:ring-0")}
+                className={clsx(
+                    "pt-6 tracking-tightest max-w-[400px] rounded-lg ring-0 focus:outline-none focus:ring-0",
+                )}
                 mode="single"
                 selected={isStartDateIsTheSameMonth ? undefined : selectedDays?.to}
                 month={endMonth}
@@ -216,10 +224,7 @@ const RangeDatePicker = ({
                 modifiersClassNames={datePickerModifiersClassNames}
                 components={{
                     ...(CaptionEndElement ? { CaptionLabel: CaptionEndElement } : {}),
-                    DayButton: (props) => {
-                        const { children, ...buttonProps } = props;
-                        return <button {...buttonProps}>{renderEndDay(props.day.date)}</button>;
-                    },
+                    DayButton: ({ day, ...buttonProps }) => <button {...buttonProps}>{renderEndDay(day.date)}</button>,
                     Nav: (props) => <NavbarElement {...props} />,
                 }}
                 {...rest}

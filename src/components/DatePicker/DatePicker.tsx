@@ -74,15 +74,8 @@ export const DatePicker = ({
     onChange,
     onMonthChange,
     onSubmitDateRange,
-    // Deprecated v7 props that should be ignored
-    modifiersStyles,
-    todayButton,
-    navbarElement,
-    captionElement,
-    renderDay: _renderDay,
-    onDayClick: _onDayClick,
-    onTodayButtonClick: _onTodayButtonClick,
     month: externalMonth,
+    // Deprecated v7 props are spread into rest and ignored
     ...rest
 }: DatePickerProps) => {
     const { locale: contextLocale } = useContext(Context);
@@ -336,8 +329,6 @@ export const DatePicker = ({
     // Comparing `from` and `to` dates hides a weird CSS style when you select the same date twice in a date range.
     const useDateRangeStyle =
         isRangeVariant && isValidValue && (value as any).from?.getTime() !== (value as any).to?.getTime();
-    const useDateSelectedRangeStyle =
-        isSelectedDaysHasValidRange && (selectedDays as any).from?.getTime() !== (selectedDays as any).to?.getTime();
     // Return the same value if it is already dayjs object or has range variant otherwise format it to dayJs object
     const selectedDaysValues =
         selectedDays ?? (value && (dayjs.isDayjs(value) || isRangeVariant ? value : now(value as Date, tz).toDate()));
@@ -410,9 +401,8 @@ export const DatePicker = ({
                         }}
                         components={{
                             ...(CaptionElement ? { CaptionLabel: CaptionElement } : {}),
-                            DayButton: (props) => {
-                                const { children, ...buttonProps } = props;
-                                return <button {...buttonProps}>{renderDay(props.day.date)}</button>;
+                            DayButton: ({ day, ...buttonProps }) => {
+                                return <button {...buttonProps}>{renderDay(day.date)}</button>;
                             },
                             Nav: (props) => (
                                 <NavbarElement {...props} onTodayClick={(e) => handleTodayClick(new Date(), {}, e)} />

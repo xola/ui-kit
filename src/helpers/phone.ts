@@ -36,7 +36,8 @@ export const formatPhoneNumber = (number: string, countryCode: CountryCode = "US
         let formattedNumber: string;
 
         if (regionCode && phoneNumber) {
-            formattedNumber = regionCode === countryCode ? phoneNumber.formatNational() : phoneNumber.formatInternational();
+            formattedNumber =
+                regionCode === countryCode ? phoneNumber.formatNational() : phoneNumber.formatInternational();
         } else {
             // If we didn't detect a region, don't guess and return the original thing
             formattedNumber = number;
