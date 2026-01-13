@@ -57,7 +57,7 @@ export { Number } from "./components/Utilities/Number";
 export { getInitials } from "./utils/avatar.js";
 export { almostZero, compactNumber, numberFormat, roundNumber } from "./utils/numbers";
 export { getSymbol, isZeroDecimal } from "./utils/currency";
-export { formatDate, formatTime, dateFromObjectId } from "./utils/date";
+export { formatDate, formatTime, dateFromObjectId } from "./helpers/date";
 export { formatPhoneNumber } from "./utils/phone";
 export { isOSX, isIosBrowser } from "./helpers/browser";
 export { flash } from "./helpers/flash";

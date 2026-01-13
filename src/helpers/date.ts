@@ -1,9 +1,9 @@
 import dayjs, { type Dayjs, isDayjs } from "dayjs";
-import customParseFormat from "dayjs/plugin/customParseFormat";
-import LocalizedFormat from "dayjs/plugin/localizedFormat";
-import quarterOfYear from "dayjs/plugin/quarterOfYear";
-import timezone from "dayjs/plugin/timezone";
-import utc from "dayjs/plugin/utc";
+import customParseFormat from "dayjs/plugin/customParseFormat.js";
+import LocalizedFormat from "dayjs/plugin/localizedFormat.js";
+import quarterOfYear from "dayjs/plugin/quarterOfYear.js";
+import timezone from "dayjs/plugin/timezone.js";
+import utc from "dayjs/plugin/utc.js";
 
 dayjs.extend(customParseFormat);
 dayjs.extend(LocalizedFormat);
