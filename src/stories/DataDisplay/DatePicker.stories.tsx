@@ -173,18 +173,12 @@ addDescription(
     "This example shows how to use the `month` and `shouldShowYearPicker` prop to change the calendar's caption. For example, we can use these props to start in the month of April and to add a form to switch between months and years.",
 );
 
-
 export const SelectMonth = () => {
     const [value, setValue] = useState(new Date());
     return (
         <div className="space-y-2">
             <div>Date: {value.toDateString()}</div>
-            <DatePicker
-                shouldShowMonthSelector
-                value={value}
-                month={new Date(2023, 3, 21)}
-                onChange={setValue}
-            />
+            <DatePicker shouldShowMonthSelector value={value} month={new Date(2023, 3, 21)} onChange={setValue} />
         </div>
     );
 };
@@ -198,7 +192,7 @@ export const MonthPickerPopover = () => {
     const [value, setValue] = useState(new Date());
     return (
         <div className="h-75 w-75">
-            <DatePickerPopover pickerType="month" dateFormat="MMM YYYY"  value={value} onChange={setValue}  />
+            <DatePickerPopover pickerType="month" dateFormat="MMM YYYY" value={value} onChange={setValue} />
         </div>
     );
 };

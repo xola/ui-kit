@@ -48,7 +48,13 @@ export const Default = () => {
                     Payment
                 </Breakdown.Item>
 
-                <Breakdown.Item color="primary" info="*0259" secondary="07/23/2021" value={-62} methodIcon={<CardIcon />}>
+                <Breakdown.Item
+                    color="primary"
+                    info="*0259"
+                    secondary="07/23/2021"
+                    value={-62}
+                    methodIcon={<CardIcon />}
+                >
                     Return Payment
                 </Breakdown.Item>
 

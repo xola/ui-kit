@@ -4,10 +4,7 @@ import dts from "vite-plugin-dts";
 import pkg from "./package.json";
 
 // External dependencies that should not be bundled
-const external = [
-    ...Object.keys(pkg.dependencies || {}),
-    ...Object.keys(pkg.peerDependencies || {}),
-];
+const external = [...Object.keys(pkg.dependencies || {}), ...Object.keys(pkg.peerDependencies || {})];
 
 export default defineConfig({
     plugins: [

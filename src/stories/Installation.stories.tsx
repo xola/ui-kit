@@ -14,9 +14,7 @@ export const Installation = {
         <div className="sb-unstyled max-w-4xl mx-auto p-8 space-y-8">
             <div className="space-y-2">
                 <h2 className="text-2xl font-semibold">Installation & Setup</h2>
-                <p className="text-lg">
-                    Get started with the Xola UI Kit in your React project in just a few steps.
-                </p>
+                <p className="text-lg">Get started with the Xola UI Kit in your React project in just a few steps.</p>
             </div>
 
             <div className="space-y-6">
@@ -26,23 +24,20 @@ export const Installation = {
                     <div className="space-y-2 text-md">
                         <p>This repository is published as two NPM packages:</p>
                         <div className="grid md:grid-cols-2 gap-4 text-md pl-4">
-                            <a
-                                href="https://www.npmjs.com/package/@xola/ui-kit"
-                                className="rounded-md"
-                            >
+                            <a href="https://www.npmjs.com/package/@xola/ui-kit" className="rounded-md">
                                 <div className="font-semibold text-primary">@xola/ui-kit</div>
                                 <div className="text-sm">React components & utilities</div>
                             </a>
-                            <a
-                                href="https://www.npmjs.com/package/@xola/icons"
-                                className="rounded-md"
-                            >
+                            <a href="https://www.npmjs.com/package/@xola/icons" className="rounded-md">
                                 <div className="font-semibold text-primary">@xola/icons</div>
                                 <div className="text-sm">Icon library</div>
                             </a>
                         </div>
                         <p>
-                            View the live Storybook at <a href="https://ui.xola.io" className="text-primary hover:underline font-medium">ui.xola.io</a>
+                            View the live Storybook at{" "}
+                            <a href="https://ui.xola.io" className="text-primary hover:underline font-medium">
+                                ui.xola.io
+                            </a>
                         </p>
                     </div>
                 </div>
@@ -107,7 +102,8 @@ import "@xola/ui-kit/build/style.css";`}</code>
 
                     <div className="p-4 bg-blue-lighter rounded-md">
                         <p className="text-base">
-                            <strong>Note:</strong> The UI Kit expects you to have a working React development environment with PostCSS support.
+                            <strong>Note:</strong> The UI Kit expects you to have a working React development
+                            environment with PostCSS support.
                         </p>
                     </div>
                 </div>
@@ -138,8 +134,8 @@ npm install`}</code>
                 <div className="space-y-4">
                     <h2 className="text-xl font-semibold mb-4">Advanced: Local Development</h2>
                     <p>
-                        To integrate your app with a locally installed UI Kit, set up an NPM workspace.
-                        Both <code className="bg-gray-lighter p-1 rounded">ui-kit</code> and{" "}
+                        To integrate your app with a locally installed UI Kit, set up an NPM workspace. Both{" "}
+                        <code className="bg-gray-lighter p-1 rounded">ui-kit</code> and{" "}
                         <code className="bg-gray-lighter p-1 rounded">your-project</code> must be in the same directory.
                     </p>
 
@@ -179,10 +175,10 @@ npm run build -- --watch`}</code>
                     <p className="mb-4">This project uses Vitest for unit testing:</p>
                     <div className="space-y-2">
                         <pre className="bg-black/90 text-white p-3 rounded-md overflow-x-auto text-sm">
-                            <code>npm test              # Run tests in watch mode</code>
+                            <code>npm test # Run tests in watch mode</code>
                         </pre>
                         <pre className="bg-black/90 text-white p-3 rounded-md overflow-x-auto text-sm">
-                            <code>npm test -- --run     # Run tests once (CI mode)</code>
+                            <code>npm test -- --run # Run tests once (CI mode)</code>
                         </pre>
                         <pre className="bg-black/90 text-white p-3 rounded-md overflow-x-auto text-sm">
                             <code>npm run test:coverage # Run with coverage report</code>
@@ -200,7 +196,8 @@ npm run build -- --watch`}</code>
                     </p>
                     <p>
                         Use the same <code className="bg-gray-lighter p-1 rounded">.npmrc</code> file in your projects,
-                        or always run installs with the <code className="bg-gray-lighter p-1 rounded">--legacy-peer-deps</code> flag:
+                        or always run installs with the{" "}
+                        <code className="bg-gray-lighter p-1 rounded">--legacy-peer-deps</code> flag:
                     </p>
                     <pre className="bg-black/90 text-white p-3 rounded-md overflow-x-auto text-sm">
                         <code>npm install --legacy-peer-deps</code>
