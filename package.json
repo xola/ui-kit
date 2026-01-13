@@ -22,8 +22,9 @@
             "types": "./build/index.d.ts",
             "import": "./build/index.js"
         },
-        "./index.css": "./build/base.css",
+        "./index.css": "./build/full.css",
         "./build/base.css": "./build/base.css",
+        "./build/full.css": "./build/full.css",
         "./build/ui-kit.css": "./build/ui-kit.css",
         "./tailwind.config.js": "./tailwind.config.js",
         "./tailwind.config": "./tailwind.config.js",

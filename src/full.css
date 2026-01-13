@@ -1,0 +1,101 @@
+/* Full styles for consuming apps - includes base, components, and utilities */
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;700&display=swap");
+
+/* Include all Tailwind layers for consuming apps */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        /* https://rsms.me/inter/#usage */
+        font-feature-settings:
+            "liga" 1,
+            "calt" 1; /* fix for Chrome */
+    }
+
+    html {
+        /* Never change this default! */
+        @apply text-black text-base;
+    }
+
+    /* For testing advanced typographic features */
+    .font-ligatures {
+        font-feature-settings:
+            "liga" 1,
+            "calt" 1,
+            "dlig" 1,
+            "ss03" 1,
+            "ss02" 1 !important;
+    }
+
+    a {
+        @apply text-primary hover:underline;
+    }
+
+    button:focus {
+        @apply outline-none;
+    }
+
+    h1 {
+        @apply text-2xl; /* 24px */
+        @apply font-bold;
+        @apply leading-p1 tracking-tightest;
+    }
+
+    h2 {
+        @apply text-xl; /* 21px */
+        @apply font-bold;
+        @apply leading-p1 tracking-tightest;
+    }
+
+    h3 {
+        @apply text-lg; /* 18px */
+        @apply font-bold;
+        @apply tracking-tightest;
+    }
+
+    h4 {
+        @apply text-md; /* 16 px */
+        @apply leading-p2 tracking-tightest;
+    }
+
+    h5 {
+        @apply text-base; /* 14 px */
+        @apply leading-p2 tracking-tightest;
+    }
+
+    h6 {
+        @apply text-sm; /* 14 px */
+        @apply leading-p3 tracking-tightest;
+    }
+
+    .p1 {
+        @apply text-md; /* 16px */
+        @apply leading-p1 tracking-tightest;
+    }
+
+    .p2 {
+        @apply text-base; /* 14px */
+        @apply leading-p2 tracking-tightest;
+    }
+
+    .p3 {
+        @apply text-sm; /* 12px */
+        @apply leading-p3 tracking-tightest;
+    }
+
+    .ui-badge .icon {
+        position: relative;
+        top: -1px;
+    }
+
+    sup {
+        top: -7px;
+    }
+
+    .font-bold {
+        @apply antialiased;
+    }
+}
