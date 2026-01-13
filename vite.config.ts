@@ -8,8 +8,7 @@ const dependencies = Object.keys(pkg.dependencies);
 const peerDependencies = Object.keys(pkg.peerDependencies || {});
 
 export default defineConfig({
-    // Force production mode to ensure JSX uses production runtime (jsx/jsxs, not jsxDEV)
-    // This is critical for library builds that run via `prepare` script during npm install
+    // Force production JSX (jsx/jsxs, not jsxDEV) - backup to NODE_ENV in prepare script
     mode: "production",
     plugins: [
         react(),
