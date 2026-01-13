@@ -160,7 +160,7 @@ export const Sidebar = ({
                 sidebarScroll,
                 "ui-sidebar",
                 isFixed ? "fixed" : "relative",
-                "z-20 flex h-full flex-col  border-r-4 border-black bg-black px-1 py-2 text-white transition-all duration-300",
+                "z-20 flex h-full flex-col overflow-x-hidden border-r-4 border-black bg-black px-1 py-2 text-white transition-all duration-300",
                 (isHovered || isResizing) && "box-border !border-r-4 !border-yellow",
                 className,
             )}
