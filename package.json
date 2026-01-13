@@ -33,7 +33,7 @@
     "module": "./build/index.js",
     "types": "./build/index.d.ts",
     "scripts": {
-        "prepare": "node scripts/prepare.mjs && vite build && node scripts/compileBaseCss.mjs",
+        "prepare": "node scripts/prepare.mjs && NODE_ENV=production vite build --mode production && node scripts/compileBaseCss.mjs",
         "start": "./scripts/storybook",
         "dev": "npm start",
         "dev:clean": "./scripts/storybook --no-manager-cache",
