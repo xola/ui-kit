@@ -252,7 +252,7 @@ export const Sidebar = ({
                 />
             )}
 
-            <div className={clsx("flex-grow space-y-2", isStickyHeaderFooter && "overflow-y-auto")}>
+            <div className={clsx("flex-grow space-y-2", isStickyHeaderFooter && "overflow-y-auto overflow-x-hidden")}>
                 {width > 60 && (
                     <div className="text-center">
                         {logo
