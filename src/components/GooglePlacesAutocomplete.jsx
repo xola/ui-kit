@@ -86,9 +86,7 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, apiBaseUrl, r
                 setSuggestions(results);
 
                 if (selectMatchingId) {
-                    const matchingIndex = results.findIndex(
-                        (result) => result.place_id === selectMatchingId,
-                    );
+                    const matchingIndex = results.findIndex((result) => result.place_id === selectMatchingId);
                     if (matchingIndex !== -1) {
                         setActiveSuggestionIndex(matchingIndex);
                         handleSelect(results[matchingIndex]);
