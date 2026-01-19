@@ -7,7 +7,7 @@ import { useClickAway } from "ahooks";
 import { Input } from "./Forms/Input";
 import { Badge } from "./Badge";
 
-export const GooglePlacesAutocomplete = ({ initialValue, onSelect, apiBaseUrl }) => {
+export const GooglePlacesAutocomplete = ({ initialValue, onSelect, apiBaseUrl, remoteId }) => {
     const [inputValue, setInputValue] = useState(initialValue || "");
     const [suggestions, setSuggestions] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -20,6 +20,7 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, apiBaseUrl })
 
     const dropdownRef = useRef(null);
     const initialFetchDoneRef = useRef(false);
+    const remoteIdRef = useRef(remoteId);
 
     const handleSelect = useCallback(
         (suggestion) => {
@@ -65,7 +66,7 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, apiBaseUrl })
     };
 
     const fetchSuggestions = useDebouncedCallback(
-        async (query, selectFirst = false) => {
+        async (query, selectMatchingId = null) => {
             if (!query.trim()) {
                 setSuggestions([]);
                 setError("");
@@ -84,8 +85,14 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, apiBaseUrl })
 
                 setSuggestions(results);
 
-                if (selectFirst && results.length > 0) {
-                    handleSelect(results[0]);
+                if (selectMatchingId) {
+                    const matchingIndex = results.findIndex(
+                        (result) => result.place_id === selectMatchingId,
+                    );
+                    if (matchingIndex !== -1) {
+                        setActiveSuggestionIndex(matchingIndex);
+                        handleSelect(results[matchingIndex]);
+                    }
                 }
             } catch (error) {
                 console.error("Google Places error:", error);
@@ -102,7 +109,7 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, apiBaseUrl })
     useEffect(() => {
         if (initialValue && !initialFetchDoneRef.current) {
             initialFetchDoneRef.current = true;
-            fetchSuggestions(initialValue, true);
+            fetchSuggestions(initialValue, remoteIdRef.current);
         }
     }, [initialValue, fetchSuggestions]);
 
@@ -167,9 +174,11 @@ GooglePlacesAutocomplete.propTypes = {
     initialValue: PropTypes.string,
     onSelect: PropTypes.func,
     apiBaseUrl: PropTypes.string.isRequired,
+    remoteId: PropTypes.string,
 };
 
 GooglePlacesAutocomplete.defaultProps = {
     initialValue: "",
     onSelect: null,
+    remoteId: null,
 };
