@@ -258,7 +258,8 @@ export const Sidebar = ({
                         {logo
                             ? React.cloneElement(logo, {
                                   className: clsx(
-                                      "inline-block h-12 w-12",
+                                      "inline-block",
+                                      "h-12 w-12",
                                       width > 160 && "h-30 w-30",
                                       logo.props.className,
                                   ),
