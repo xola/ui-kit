@@ -68,7 +68,7 @@ export const BaseInput = forwardRef<HTMLInputElement, BaseInputProps & Record<st
                     ref={ref}
                     className={clsx(
                         "w-full rounded text-gray-darker placeholder-gray-dark hover:placeholder-gray-darker disabled:text-gray",
-                        "border border-transparent hover:border-black hover:bg-gray-lighter focus:text-black active:text-black disabled:bg-gray-lighter",
+                        "border hover:border-black hover:bg-gray-lighter focus:text-black active:text-black disabled:bg-gray-lighter",
                         sizes[size as keyof typeof sizes],
                         Tag === "select" && "pr-8",
                         isError
