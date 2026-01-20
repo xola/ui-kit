@@ -1,7 +1,7 @@
-import React from "react";
-import { createIcon } from "./helpers/icon.jsx";
+import React, { type ComponentPropsWithoutRef } from "react";
+import { createIcon } from "./helpers/icon";
 
-export const CollectionIcon = createIcon((props) => {
+export const CollectionIcon = createIcon((props: ComponentPropsWithoutRef<"svg">) => {
     return (
         <svg width={24} height={24} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
             <g clipPath="url(#clip0_11341_315267)">

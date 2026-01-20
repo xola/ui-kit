@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import React from "react";
-import { CloseIcon } from "../icons";
+import { CloseIcon } from "../icons/index.js";
 
 const colors = {
     primary: "bg-primary-lighter text-black",

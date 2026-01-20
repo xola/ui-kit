@@ -1,6 +1,6 @@
 import React from "react";
 
-export const TutorialsBadgeIcon = (props) => {
+export const TutorialsBadgeIcon = (props: React.SVGProps<SVGSVGElement>) => {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" width="200" height="97" fill="none" viewBox="0 0 200 97" {...props}>
             <g filter="url(#filter0_d_10041_286941)">

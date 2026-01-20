@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import React, { useEffect, useRef, useState } from "react";
 import Select, { components } from "react-select";
 import CreatableSelect from "react-select/creatable";
-import "./ComboBox.css";
 import { Tooltip } from "../Tooltip";
+import "./ComboBox.css";
 
 // TODO: Common parameters should be defined in stories like `options` and `defaultValue`
 export const ComboBox = ({ isCreatable = false, className, isError, ...rest }) => {
