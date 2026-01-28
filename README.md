@@ -72,12 +72,17 @@ export { default } from "@xola/ui-kit/postcss.config.js";
 
 #### Import Styles and Components
 
-Import main CSS files in your project:
+Import CSS files in your project's entry point (e.g., `main.tsx` or `App.tsx`):
 
 ```js
+// Full Tailwind setup with base styles, fonts, and CSS reset
 import "@xola/ui-kit/index.css";
+
+// Component-specific styles (Popover, Checkbox, RangeSlider, Sidebar, Skeleton, etc.)
 import "@xola/ui-kit/build/ui-kit.css";
 ```
+
+**Both imports are required** for components to render correctly. The first provides Tailwind base styles and fonts, while the second includes all component CSS modules.
 
 UI kit expects you already have a working React 18+ dev environment with PostCSS support.
 
@@ -164,7 +169,26 @@ $ rm -rf node_modules/@xola
 
 ### Troubleshooting
 
-If you encounter some package related issues, try removing the following directories and running the install command again:
+#### Missing Component Styles
+
+If components are rendering without styles (e.g., Popover, Checkbox, RangeSlider), ensure both CSS imports are present:
+
+```js
+import "@xola/ui-kit/index.css";          // Tailwind base + fonts
+import "@xola/ui-kit/build/ui-kit.css";   // Component CSS modules
+```
+
+All component-specific styles are bundled in `ui-kit.css`, including:
+- Popover (`.main` with arrow styles)
+- PopoverScroll (scrollbar customization)
+- Checkbox (custom checkmark)
+- RangeSlider (noUiSlider styling)
+- Sidebar (menu and scroll styles)
+- Skeleton (shimmer animation)
+
+#### Package Installation Issues
+
+If you encounter package related issues, try removing the following directories and running the install command again:
 
 ```bash
 $ cd workspace
