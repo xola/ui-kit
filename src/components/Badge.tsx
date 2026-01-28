@@ -13,12 +13,14 @@ const colors = {
 } as const;
 
 const sizes = {
+    xs: "px-1 py-0.5 h-3 text-xs",
     small: "px-2 py-0.75 h-5 text-sm leading-sm",
     medium: "px-3 py-1.5 h-7.5 text-base leading-base",
     large: "px-3.5 py-0.75 h-10 text-lg leading-lg",
 } as const;
 
 const iconSizes = {
+    xs: "w-2.5 h-2.5",
     small: "w-3 h-3",
     medium: "w-4 h-4",
     large: "w-5 h-5 mr-1.5",
