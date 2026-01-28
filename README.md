@@ -175,6 +175,7 @@ If components are rendering without styles (e.g., Popover, Checkbox, RangeSlider
 
 ```js
 import "@xola/ui-kit/index.css";          // Tailwind base + fonts
+import "tippy.js/dist/tippy.css";
 import "@xola/ui-kit/build/ui-kit.css";   // Component CSS modules
 ```
 
