@@ -60,6 +60,9 @@ export { rangeLabels, rangeOptions } from "./components/DatePicker/RelativeDateR
 export { isOSX, isIosBrowser } from "./helpers/browser";
 export { flash } from "./helpers/flash";
 
+// Hooks
+export { useId } from "./hooks/useId";
+
 // Chart options
 export { BaseChartOptions } from "./components/Charts/BaseChartOptions";
 export { HistogramOptions } from "./components/Charts/HistogramOptions";
