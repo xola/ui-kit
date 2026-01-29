@@ -20,7 +20,6 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, apiBaseUrl, r
 
     const dropdownRef = useRef(null);
     const initialFetchDoneRef = useRef(false);
-    const remoteIdRef = useRef(remoteId);
 
     const handleSelect = useCallback(
         (suggestion) => {
@@ -66,7 +65,7 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, apiBaseUrl, r
     };
 
     const fetchSuggestions = useDebouncedCallback(
-        async (query, selectMatchingId = null) => {
+        async (query, placeIdToSelect = null) => {
             if (!query.trim()) {
                 setSuggestions([]);
                 setError("");
@@ -85,8 +84,8 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, apiBaseUrl, r
 
                 setSuggestions(results);
 
-                if (selectMatchingId) {
-                    const matchingIndex = results.findIndex((result) => result.place_id === selectMatchingId);
+                if (placeIdToSelect != null && placeIdToSelect !== undefined) {
+                    const matchingIndex = results.findIndex((result) => result.place_id === placeIdToSelect);
                     if (matchingIndex !== -1) {
                         setActiveSuggestionIndex(matchingIndex);
                         handleSelect(results[matchingIndex]);
@@ -107,7 +106,7 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, apiBaseUrl, r
     useEffect(() => {
         if (initialValue && !initialFetchDoneRef.current) {
             initialFetchDoneRef.current = true;
-            fetchSuggestions(initialValue, remoteIdRef.current);
+            fetchSuggestions(initialValue, remoteId);
         }
     }, [initialValue, fetchSuggestions]);
 
