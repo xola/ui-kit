@@ -58,4 +58,80 @@ export const Drawers = ({ title = "Hello World", size, content = "Lorem Ipsum. C
     );
 };
 
+export const SmallDrawer = () => {
+    const [open, setOpen] = useState(false);
+
+    return (
+        <div>
+            <Button size="large" onClick={() => setOpen(true)}>
+                Open Small Drawer
+            </Button>
+            <Drawer
+                title="Small Drawer"
+                content="This is a small drawer (w-72)"
+                size="small"
+                isOpen={open}
+                onClose={() => setOpen(false)}
+            />
+        </div>
+    );
+};
+
+export const MediumDrawer = () => {
+    const [open, setOpen] = useState(false);
+
+    return (
+        <div>
+            <Button size="large" onClick={() => setOpen(true)}>
+                Open Medium Drawer
+            </Button>
+            <Drawer
+                title="Medium Drawer"
+                content="This is a medium drawer (w-85)"
+                size="medium"
+                isOpen={open}
+                onClose={() => setOpen(false)}
+            />
+        </div>
+    );
+};
+
+export const LargeDrawer = () => {
+    const [open, setOpen] = useState(false);
+
+    return (
+        <div>
+            <Button size="large" onClick={() => setOpen(true)}>
+                Open Large Drawer
+            </Button>
+            <Drawer
+                title="Large Drawer"
+                content="This is a large drawer (w-110)"
+                size="large"
+                isOpen={open}
+                onClose={() => setOpen(false)}
+            />
+        </div>
+    );
+};
+
+export const ExtraLargeDrawer = () => {
+    const [open, setOpen] = useState(false);
+
+    return (
+        <div>
+            <Button size="large" onClick={() => setOpen(true)}>
+                Open XL Drawer
+            </Button>
+            <Drawer
+                title="Extra Large Drawer"
+                content="This is an extra large drawer (w-200)"
+                size="xl"
+                isOpen={open}
+                onClose={() => setOpen(false)}
+            />
+        </div>
+    );
+};
+
 export default DrawerStories;
