@@ -1,7 +1,16 @@
 // @ts-nocheck
 import React, { useState } from "react";
 import { Sidebar } from "../..";
-import { AnnounceIcon, CheckIcon, HelpCenterIcon, LogoutIcon, PolicyIcon, StarIcon, UserIcon } from "@xola/icons";
+import {
+    AnnounceIcon,
+    CheckIcon,
+    HelpCenterIcon,
+    LogoutIcon,
+    PolicyIcon,
+    StarIcon,
+    UserIcon,
+    XolaLogoCircle,
+} from "@xola/icons";
 
 const SidebarStories = {
     title: "Navigation/Sidebar",
@@ -88,11 +97,13 @@ export const Default = () => {
 };
 
 export const CustomLogo = () => {
-    const Logo = () => <img src="https://c02.xola.com/images/xola-logo-header.png" className="bg-green" />;
+    const Logo = () => <XolaLogoCircle size="small" className="h-20" />;
 
     return (
-        <div className="h-screen">
-            Pass in any component for the "logo" property
+        <div className="h-screen space-y-4">
+            <div>
+                Pass in any component for the <code>logo</code> prop
+            </div>
             <Sidebar logo={<Logo />} footer={<SidebarFooter />} onLogoClick={handleLogoClick}>
                 <Sidebar.Link isActive icon={UserIcon}>
                     Sellers

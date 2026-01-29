@@ -2,6 +2,7 @@ import React, { type ComponentType, useEffect, useRef, useState } from "react";
 import cn from "../../helpers/classnames";
 import { ChevronRightIcon } from "../../icons";
 import { Dot } from "../Dot/Dot";
+import { useSidebarMenu } from "./Sidebar.Menu";
 
 type SidebarLinkAlign = "center" | "left" | "right";
 
@@ -28,6 +29,7 @@ export const SidebarLink = ({
     const containerRef = useRef<HTMLButtonElement>(null);
     const [showText, setShowText] = useState(true);
     const [showIcon, setShowIcon] = useState(true);
+    const { hasSubmenu } = useSidebarMenu();
 
     useEffect(() => {
         const checkWidth = () => {
@@ -85,7 +87,7 @@ export const SidebarLink = ({
                 </span>
             )}
 
-            {!isSubMenuItem && showText && <ChevronRightIcon className="ml-auto h-3 w-3" />}
+            {!isSubMenuItem && showText && hasSubmenu && <ChevronRightIcon className="ml-auto h-3 w-3" />}
         </button>
     );
 };
