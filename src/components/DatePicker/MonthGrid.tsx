@@ -1,7 +1,7 @@
-import clsx from "clsx";
 import dayjs from "dayjs";
 import React, { useContext } from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "../../icons";
+import cn from "../../helpers/classnames";
 import { Context } from "../Provider";
 import { Button } from "../Buttons/Button";
 import { ChevronButton } from "./NavbarElement";
@@ -57,7 +57,7 @@ export const MonthGrid = ({
                     <button
                         key={month}
                         type="button"
-                        className={clsx(
+                        className={cn(
                             value && value.getMonth() === index && value.getFullYear() === year
                                 ? "bg-blue-dark text-white"
                                 : "text-black",

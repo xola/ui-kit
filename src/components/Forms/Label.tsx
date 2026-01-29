@@ -1,5 +1,5 @@
-import clsx from "clsx";
 import React from "react";
+import cn from "../../helpers/classnames";
 
 export interface LabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
     isDisabled?: boolean;
@@ -10,7 +10,7 @@ export interface LabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> 
 export const Label = ({ isDisabled = false, isError = false, className, ...rest }: LabelProps) => {
     return (
         <label
-            className={clsx(
+            className={cn(
                 "ui-label",
                 className,
                 "mb-1 block text-sm font-bold",

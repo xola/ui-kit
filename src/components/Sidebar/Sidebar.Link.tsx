@@ -1,5 +1,5 @@
-import clsx from "clsx";
 import React, { type ComponentType, useEffect, useRef, useState } from "react";
+import cn from "../../helpers/classnames";
 import { ChevronRightIcon } from "../../icons";
 import { Dot } from "../Dot/Dot";
 
@@ -55,7 +55,7 @@ export const SidebarLink = ({
         <button
             ref={containerRef}
             type="button"
-            className={clsx(
+            className={cn(
                 "ui-sidebar-link",
                 "flex w-full items-center rounded leading-none transition-colors xl:justify-start",
                 !isSubMenuItem && "h-11",
@@ -69,18 +69,18 @@ export const SidebarLink = ({
             {...rest}
         >
             {isSubMenuItem ? (
-                <Dot className={clsx("mr-3 shrink-0", { "bg-white": isActive, "bg-gray": !isActive })} />
+                <Dot className={cn("mr-3 shrink-0", { "bg-white": isActive, "bg-gray": !isActive })} />
             ) : (
                 showIcon &&
                 Icon && (
-                    <div className={clsx(!showText && "flex w-full justify-center")}>
-                        <Icon className={clsx("h-5 w-5 shrink-0", showText && "mr-3")} />
+                    <div className={cn(!showText && "flex w-full justify-center")}>
+                        <Icon className={cn("h-5 w-5 shrink-0", showText && "mr-3")} />
                     </div>
                 )
             )}
 
-            {(showText ?? isSubMenuItem) && (
-                <span className={clsx("px-1", { "text-left": isSubMenuItem ?? align === "left" }, classNames?.text)}>
+            {(showText || isSubMenuItem) && (
+                <span className={cn("px-1", { "text-left": isSubMenuItem ?? align === "left" }, classNames?.text)}>
                     {children}
                 </span>
             )}
@@ -97,7 +97,7 @@ export interface SidebarSeparatorProps {
 }
 
 export const SidebarSeparator = ({ className }: SidebarSeparatorProps) => {
-    return <hr className={clsx("mx-3 my-4 border-gray-lighter/20", className)} />;
+    return <hr className={cn("mx-3 my-4 border-gray-lighter/20", className)} />;
 };
 
 SidebarSeparator.displayName = "Sidebar.Separator";

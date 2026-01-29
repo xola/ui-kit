@@ -1,5 +1,5 @@
-import clsx from "clsx";
 import React, { useEffect, useRef, useState } from "react";
+import cn from "../../helpers/classnames";
 import { AnnounceIcon, BellIcon, XolaLogoSimple } from "../../icons";
 import { Counter } from "../Counter";
 import { Drawer } from "../Drawer";
@@ -156,7 +156,7 @@ export const Sidebar = ({
     return (
         <div
             ref={sidebarRef}
-            className={clsx(
+            className={cn(
                 sidebarScroll,
                 "ui-sidebar",
                 isFixed ? "fixed" : "relative",
@@ -175,7 +175,7 @@ export const Sidebar = ({
             />
             {(leftDrawer ?? rightDrawer) ? (
                 <div
-                    className={clsx(
+                    className={cn(
                         "flex w-full gap-2 p-2",
                         width <= 78 && "flex-col",
                         width < 134 ? "justify-center" : "justify-between",
@@ -183,7 +183,7 @@ export const Sidebar = ({
                     )}
                 >
                     {leftDrawer && (
-                        <div className={clsx("cursor-pointer text-center", leftDrawer.hide && "hidden")}>
+                        <div className={cn("cursor-pointer text-center", leftDrawer.hide && "hidden")}>
                             <Counter
                                 style={{
                                     ...LeftDrawerCountStyle,
@@ -197,14 +197,14 @@ export const Sidebar = ({
                                 }}
                                 onClick={() => handleDrawerStateChange?.("left")}
                             >
-                                <AnnounceIcon className={clsx(width <= 168 && "hidden")} />
+                                <AnnounceIcon className={cn(width <= 168 && "hidden")} />
                                 {leftDrawer.count}
                             </Counter>
                         </div>
                     )}
 
                     {rightDrawer && (
-                        <div className={clsx("cursor-pointer text-center", hideRightDrawer && "hidden")}>
+                        <div className={cn("cursor-pointer text-center", hideRightDrawer && "hidden")}>
                             <Counter
                                 className="text-sm"
                                 style={{
@@ -218,7 +218,7 @@ export const Sidebar = ({
                                 }}
                                 onClick={() => handleDrawerStateChange?.("right")}
                             >
-                                <BellIcon className={clsx(width <= 168 && "hidden")} />
+                                <BellIcon className={cn(width <= 168 && "hidden")} />
                                 {rightDrawer.count}
                             </Counter>
                         </div>
@@ -252,12 +252,12 @@ export const Sidebar = ({
                 />
             )}
 
-            <div className={clsx("flex-grow space-y-2", isStickyHeaderFooter && "overflow-y-auto overflow-x-hidden")}>
+            <div className={cn("flex-grow space-y-2", isStickyHeaderFooter && "overflow-y-auto overflow-x-hidden")}>
                 {width > 60 && (
                     <div className="text-center">
                         {logo
                             ? React.cloneElement(logo, {
-                                  className: clsx(
+                                  className: cn(
                                       "inline-block",
                                       "h-12 w-12",
                                       width > 160 && "h-30 w-30",
@@ -266,7 +266,7 @@ export const Sidebar = ({
                               })
                             : width > 90 && (
                                   <XolaLogoSimple
-                                      className={clsx(
+                                      className={cn(
                                           "inline-block h-12 w-12 ",
                                           width > 160 && "h-30 w-30",
                                           onLogoClick !== undefined &&
@@ -281,7 +281,7 @@ export const Sidebar = ({
                 <div>{children}</div>
             </div>
 
-            <div className={clsx(isStickyFooter && "sticky bottom-0 bg-black")}>{footer}</div>
+            <div className={cn(isStickyFooter && "sticky bottom-0 bg-black")}>{footer}</div>
         </div>
     );
 };

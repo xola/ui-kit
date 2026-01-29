@@ -1,6 +1,6 @@
-import clsx from "clsx";
 import dayjs from "dayjs";
 import React from "react";
+import cn from "../../helpers/classnames";
 
 export interface UpcomingDatePickerProps {
     value?: Date | { from?: Date; to?: Date } | null;
@@ -21,7 +21,7 @@ export const UpcomingDatePicker = ({ value, upcomingDates, onChange, onMonthChan
                         return (
                             <div
                                 key={key}
-                                className={clsx(
+                                className={cn(
                                     "mx-6 mt-3 flex min-w-40 cursor-pointer items-center justify-center",
                                     "rounded border border-gray py-3 hover:border-blue hover:bg-blue hover:text-white",
                                     { "border-blue bg-blue text-white": isSameDay },

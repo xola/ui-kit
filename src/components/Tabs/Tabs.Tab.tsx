@@ -1,15 +1,15 @@
-import clsx from "clsx";
 import React, { type ElementType } from "react";
+import cn from "../../helpers/classnames";
 
 const variants = {
     default: (isActive: boolean) =>
-        clsx(
+        cn(
             "border-b border-gray-light",
             isActive ? "text-primary border-l border-r border-b-transparent" : "hover:text-gray-darker",
         ),
 
     simple: (isActive: boolean) =>
-        clsx(
+        cn(
             "flex-1 text-lg transition-colors",
             isActive ? "bg-white text-black" : "text-gray-dark hover:text-black hover:bg-gray-light",
         ),
@@ -42,7 +42,7 @@ export const Tab = <T extends ElementType = "button">({
 
     return (
         <Tag
-            className={clsx(
+            className={cn(
                 "ui-tabs-tab",
                 className,
                 "cursor-pointer whitespace-nowrap px-8 py-4 text-center font-semibold focus-visible:ring",

@@ -1,5 +1,5 @@
-import clsx from "clsx";
 import React from "react";
+import cn from "../helpers/classnames";
 
 const sizes = {
     small: "w-10 h-10",
@@ -15,7 +15,7 @@ export interface LogoProps extends React.ImgHTMLAttributes<HTMLImageElement> {
 }
 
 const LogoComponent = ({ size = "small", className, ...rest }: LogoProps) => {
-    return <img className={clsx("ui-logo", className, "inline-block rounded object-cover", sizes[size])} {...rest} />;
+    return <img className={cn("ui-logo", className, "inline-block rounded object-cover", sizes[size])} {...rest} />;
 };
 
 export const Logo = Object.assign(LogoComponent, { sizes });

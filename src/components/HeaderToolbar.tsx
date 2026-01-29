@@ -1,5 +1,5 @@
-import clsx from "clsx";
 import React from "react";
+import cn from "../helpers/classnames";
 import { Breadcrumb, Search } from "..";
 
 export interface HeaderToolbarProps {
@@ -10,7 +10,7 @@ export interface HeaderToolbarProps {
 export const HeaderToolbar = ({ classNames, children }: HeaderToolbarProps) => {
     return (
         <div
-            className={clsx(
+            className={cn(
                 "ui-header-toolbar",
                 "flex w-full items-center space-x-2 border-b border-gray-light px-5 py-3 pr-3 xl:space-x-6 xl:px-10 xl:py-5",
                 classNames,
@@ -29,7 +29,7 @@ interface HeaderToolbarBreadcrumbProps {
 const BreadcrumbComponent = ({ children, className }: HeaderToolbarBreadcrumbProps) => {
     return (
         <Breadcrumb
-            className={clsx(
+            className={cn(
                 "ui-header-toolbar-breadcrumb",
                 "border-r border-gray-light text-xl md:pr-4 xl:pr-6",
                 className,

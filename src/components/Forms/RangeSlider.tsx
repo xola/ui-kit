@@ -1,7 +1,7 @@
-import clsx from "clsx";
 import Nouislider from "nouislider-react";
 import React from "react";
 import "nouislider/distribute/nouislider.css";
+import cn from "../../helpers/classnames";
 import "./RangeSlider.css";
 
 interface TooltipFormatter {
@@ -60,7 +60,7 @@ export const RangeSlider = ({
 
     return (
         <Nouislider
-            className={clsx("ui-range-slider", className)}
+            className={cn("ui-range-slider", className)}
             connect={shouldConnectHandles}
             disabled={isDisabled}
             start={values}

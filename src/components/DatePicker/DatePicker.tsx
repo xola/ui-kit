@@ -1,10 +1,10 @@
-import clsx from "clsx";
 import dayjs from "dayjs";
 import { isArray, isFunction } from "lodash-es";
 import React, { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { isBefore, isAfter, isSameDay, startOfDay, endOfDay } from "date-fns";
 import { Tooltip } from "../..";
 import { isSame, isValidTimeZoneName, now, toDate } from "../../helpers/date";
+import cn from "../../helpers/classnames";
 import { Context } from "../Provider";
 import { Day } from "./Day";
 import { LocalizedDayPicker } from "./LocalizedDayPicker";
@@ -367,7 +367,7 @@ export const DatePicker = ({
                     />
                 ) : (
                     <LocalizedDayPicker
-                        className={clsx("pt-6 tracking-tightest rounded-lg ring-0 focus:outline-none focus:ring-0")}
+                        className={cn("pt-6 tracking-tightest rounded-lg ring-0 focus:outline-none focus:ring-0")}
                         mode="single"
                         selected={value as Date}
                         month={currentMonth}

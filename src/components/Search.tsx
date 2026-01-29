@@ -1,9 +1,9 @@
-import clsx from "clsx";
 import { useCombobox } from "downshift";
 import { debounce } from "lodash-es";
 import React, { useEffect, useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { isOSX } from "../helpers/browser";
+import cn from "../helpers/classnames";
 import { useId } from "../hooks/useId";
 import { useIsClient } from "../hooks/useIsClient";
 import { SearchIcon } from "../icons";
@@ -188,7 +188,7 @@ export const Search = <T = any,>({
                     {...getInputProps({
                         id: inputId,
                         type: "text",
-                        className: clsx(
+                        className: cn(
                             "ui-search-input",
                             "block w-full border-none pl-0 md:pl-7 text-base md:text-md text-gray-darker leading-p2 focus:ring-0",
                             className,
@@ -229,7 +229,7 @@ export const Search = <T = any,>({
             <ul
                 {...getMenuProps({
                     id: menuId,
-                    className: clsx(
+                    className: cn(
                         "ui-search-menu",
                         "absolute top-10 divide-y divide-gray-light w-full xl:w-[590px] max-h-[75vh] border border-secondary-lighter shadow-xl mt-1 rounded overflow-auto z-20 bg-white",
                         { hidden: !open },
@@ -249,7 +249,7 @@ export const Search = <T = any,>({
                                       </div>
                                   ) : inputValue.length < minChars ? (
                                       <div
-                                          className={clsx(
+                                          className={cn(
                                               "cursor-pointer p-2",
                                               highlightedIndex === index ? "bg-blue-light text-white" : "",
                                           )}

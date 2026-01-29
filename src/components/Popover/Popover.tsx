@@ -1,6 +1,6 @@
 import Tippy, { type TippyProps } from "@tippyjs/react";
-import clsx from "clsx";
 import React, { Children, forwardRef, useState } from "react";
+import cn from "../../helpers/classnames";
 import { followCursor } from "tippy.js";
 import "tippy.js/dist/border.css";
 import "tippy.js/dist/tippy.css";
@@ -28,13 +28,7 @@ export const Popover = ({ isLazy = true, skidding = 0, distance = 10, children, 
             interactive
             zIndex={50}
             content={content}
-            className={clsx(
-                "ui-popover",
-                scrollFix,
-                styles.main,
-                "!rounded-lg !border-gray-light shadow-xl",
-                className,
-            )}
+            className={cn("ui-popover", scrollFix, styles.main, "!rounded-lg !border-gray-light shadow-xl", className)}
             plugins={[followCursor]}
             offset={[skidding ?? 0, distance ?? 10]}
             {...rest}
@@ -50,7 +44,7 @@ export interface PopoverContentProps {
 }
 
 const Content = ({ children, className }: PopoverContentProps) => {
-    return <div className={clsx("ui-popover-content", className)}>{children}</div>;
+    return <div className={cn("ui-popover-content", className)}>{children}</div>;
 };
 
 Content.displayName = "Popover.Content";

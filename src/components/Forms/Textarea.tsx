@@ -1,6 +1,6 @@
-import clsx from "clsx";
 import React, { forwardRef } from "react";
 import TextareaAutosize from "react-textarea-autosize";
+import cn from "../../helpers/classnames";
 import { BaseInput, type BaseInputProps } from "./BaseInput";
 
 export interface TextareaProps
@@ -18,7 +18,7 @@ export const Textarea = forwardRef<HTMLInputElement, TextareaProps>(
                 as={TextareaAutosize}
                 value={value}
                 minRows={rows}
-                className={clsx("ui-textarea", className)}
+                className={cn("ui-textarea", className)}
                 {...rest}
             />
         ) : (
@@ -27,7 +27,7 @@ export const Textarea = forwardRef<HTMLInputElement, TextareaProps>(
                 as="textarea"
                 value={value}
                 rows={rows}
-                className={clsx("ui-textarea", className)}
+                className={cn("ui-textarea", className)}
                 {...rest}
             />
         );

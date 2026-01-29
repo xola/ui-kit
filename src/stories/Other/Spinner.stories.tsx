@@ -20,7 +20,7 @@ const SpinnerStories = {
             },
         },
         size: {
-            options: ["small", "medium", "large", "current"],
+            options: ["tiny", "small", "medium", "large", "current"],
             control: { type: "select" },
             table: {
                 type: { summary: null },
@@ -37,6 +37,7 @@ export const Default = (props) => {
 export const Sizes = () => {
     return (
         <div className="space-x-8">
+            <Spinner size="tiny" />
             <Spinner size="small" />
             <Spinner size="medium" />
             <Spinner size="large" />

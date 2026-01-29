@@ -1,5 +1,5 @@
-import clsx from "clsx";
 import React, { Children } from "react";
+import cn from "../helpers/classnames";
 
 export interface BreadcrumbProps extends React.HTMLAttributes<HTMLDivElement> {
     separator?: string;
@@ -15,16 +15,16 @@ const BreadcrumbComponent = ({ separator = "/", children, classNames = {}, class
     const count = Children.count(children) - 1;
 
     return (
-        <div className={clsx("ui-breadcrumb", "whitespace-nowrap text-2xl font-semibold", className)} {...rest}>
+        <div className={cn("ui-breadcrumb", "whitespace-nowrap text-2xl font-semibold", className)} {...rest}>
             {Children.map(children, (child, index) => {
                 const isLast = index >= count;
 
                 return (
                     <>
-                        <span className={clsx(classNames.item, isLast ? "text-black" : "text-gray-dark")}>{child}</span>
+                        <span className={cn(classNames.item, isLast ? "text-black" : "text-gray-dark")}>{child}</span>
 
                         {isLast ? null : (
-                            <span className={clsx(classNames.separator, "mx-2 text-gray-dark")}>{separator}</span>
+                            <span className={cn(classNames.separator, "mx-2 text-gray-dark")}>{separator}</span>
                         )}
                     </>
                 );
@@ -42,7 +42,7 @@ export interface BreadcrumbItemProps extends React.HTMLAttributes<HTMLDivElement
 const BreadcrumbItem = ({ className, onClick, children }: BreadcrumbItemProps) => {
     return (
         <div
-            className={clsx("ui-breadcrumb-item inline", onClick && "cursor-pointer hover:underline", className)}
+            className={cn("ui-breadcrumb-item inline", onClick && "cursor-pointer hover:underline", className)}
             onClick={onClick}
         >
             {children}

@@ -1,6 +1,6 @@
-import clsx from "clsx";
 import React from "react";
 import { isOSX } from "../helpers/browser";
+import cn from "../helpers/classnames";
 
 const keyMap: Record<string, string> = {
     cmd: isOSX ? "⌘" : "ctrl",
@@ -20,7 +20,7 @@ export const Key = ({ char, className, ...rest }: KeyProps) => {
 
     return (
         <div
-            className={clsx(
+            className={cn(
                 "ui-key",
                 "no-translate inline-flex h-5 items-center justify-center rounded bg-gray-lighter px-2 py-1 text-xs font-semibold text-gray",
                 key.length === 1 && "w-5",

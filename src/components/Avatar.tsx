@@ -1,6 +1,6 @@
-import clsx from "clsx";
 import React from "react";
 import { getInitials } from "../helpers/avatar";
+import cn from "../helpers/classnames";
 
 const sizes = {
     tiny: "h-7 w-7 text-base",
@@ -19,7 +19,7 @@ export interface AvatarProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export const Avatar = ({ name, color = "bg-primary-lighter", size = "large", className, ...rest }: AvatarProps) => {
-    const classes = clsx(
+    const classes = cn(
         "ui-avatar",
         "inline-flex items-center justify-center rounded-full text-black leading-none",
         sizes[size],

@@ -28,7 +28,7 @@ const BadgeStories = {
             control: { type: "select" },
         },
         size: {
-            options: ["small", "medium", "large"],
+            options: ["tiny", "small", "medium", "large"],
             control: { type: "inline-radio" },
         },
     },
@@ -90,6 +90,7 @@ export const Colors = () => {
 export const AllSizes = () => {
     return (
         <div className="space-x-4">
+            <Badge size="tiny">Tiny</Badge>
             <Badge size="small">Small</Badge>
 
             <Badge size="medium" icon={<StackIcon />}>

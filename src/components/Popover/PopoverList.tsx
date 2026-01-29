@@ -1,6 +1,6 @@
 import { type TippyProps } from "@tippyjs/react";
-import clsx from "clsx";
 import React, { Children } from "react";
+import cn from "../../helpers/classnames";
 import { Popover, type PopoverProps } from "./Popover";
 import scrollFix from "./PopoverScroll.module.css";
 
@@ -20,19 +20,14 @@ export const PopoverList = ({ placement = "bottom", children, className, ...rest
 
     const content = (
         <Popover.Content
-            className={clsx(scrollFix, "ui-popover-list-content divide-y divide-solid divide-gray-lighter p-0 ")}
+            className={cn(scrollFix, "ui-popover-list-content divide-y divide-solid divide-gray-lighter p-0 ")}
         >
             {items}
         </Popover.Content>
     );
 
     return (
-        <Popover
-            content={content}
-            placement={placement}
-            className={clsx("ui-popover-list", "w-40", className)}
-            {...rest}
-        >
+        <Popover content={content} placement={placement} className={cn("ui-popover-list", "w-40", className)} {...rest}>
             {innerContent}
         </Popover>
     );
@@ -64,7 +59,7 @@ const Item = ({
 
     return (
         <div
-            className={clsx(
+            className={cn(
                 "ui-popover-list-item",
                 "flex cursor-pointer space-x-2.5 p-4 align-text-top font-semibold leading-4 tracking-tightest hover:bg-gray-lighter",
                 isActive ? "bg-gray-lighter" : null,

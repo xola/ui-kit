@@ -1,5 +1,5 @@
-import clsx from "clsx";
 import React from "react";
+import cn from "../helpers/classnames";
 import { CircleNotch } from "../icons";
 
 const colors = {
@@ -32,7 +32,7 @@ export interface SpinnerProps extends React.SVGProps<SVGSVGElement> {
 export const Spinner = ({ size = "small", color = "secondary", className, ...rest }: SpinnerProps) => {
     return (
         <CircleNotch
-            className={clsx("ui-spinner", className, sizes[size], colors[color], "inline-block animate-spin")}
+            className={cn("ui-spinner", className, sizes[size], colors[color], "inline-block animate-spin")}
             {...rest}
         />
     );

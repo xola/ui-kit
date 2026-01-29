@@ -1,5 +1,5 @@
-import clsx from "clsx";
 import React, { Children, cloneElement, type ReactElement } from "react";
+import cn from "../../helpers/classnames";
 import { Panel, type PanelProps } from "./Tabs.Panel";
 import { Tab, type TabProps } from "./Tabs.Tab";
 
@@ -29,7 +29,7 @@ export const Tabs = ({ variant = "default", value, children, className, onChange
 
     return (
         <>
-            <nav className={clsx("ui-tabs", "flex overflow-x-auto", variants[variant], className)} {...rest}>
+            <nav className={cn("ui-tabs", "flex overflow-x-auto", variants[variant], className)} {...rest}>
                 {variant === "default" ? <div className="min-w-10 flex-shrink-0 border-b border-gray-light" /> : null}
 
                 {tabs.map((child, index) => {

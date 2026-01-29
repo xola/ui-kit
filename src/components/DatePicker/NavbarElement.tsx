@@ -1,7 +1,7 @@
-import clsx from "clsx";
 import React, { useCallback } from "react";
 import { useDayPicker, type NavProps } from "react-day-picker";
 import { ChevronLeftIcon, ChevronRightIcon } from "../../icons";
+import cn from "../../helpers/classnames";
 
 export interface NavbarElementProps extends NavProps {
     onTodayClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
@@ -32,7 +32,7 @@ export const NavbarElement = ({ className, onTodayClick }: NavbarElementProps) =
     }, [goToMonth, nextMonth]);
 
     return (
-        <nav className={clsx("h-8 right-0 absolute items-center flex space-x-4 z-10", className)}>
+        <nav className={cn("h-8 right-0 absolute items-center flex space-x-4 z-10", className)}>
             {onTodayClick && (
                 <button
                     type="button"
@@ -65,7 +65,7 @@ export const ChevronButton = ({ isVisible = true, children, onClick }: ChevronBu
     return (
         <button
             type="button"
-            className={clsx(
+            className={cn(
                 isVisible ? "inline-block" : "invisible",
                 "inline-flex h-7 w-7 items-center justify-center rounded-full border border-transparent leading-none text-black hover:border-black",
             )}

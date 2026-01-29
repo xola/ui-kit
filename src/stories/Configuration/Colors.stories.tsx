@@ -1,7 +1,7 @@
 // @ts-nocheck
-import clsx from "clsx";
 import React from "react";
 import { theme } from "../../theme";
+import cn from "../../helpers/classnames";
 
 const ColorsStories = {
     title: "Configuration/Colors",
@@ -55,7 +55,7 @@ const Color = ({ prefix = "bg", name, color, hex, className = "" }) => {
     const key = color === "DEFAULT" ? colorName : `${colorName}-${color}`;
 
     return (
-        <div className={clsx("flex flex-col font-mono text-sm", className)}>
+        <div className={cn("flex flex-col font-mono text-sm", className)}>
             <div className="h-10 w-10 rounded-full border border-gray-lighter" style={{ backgroundColor: hex }}>
                 &nbsp;
             </div>

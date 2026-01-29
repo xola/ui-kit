@@ -1,6 +1,6 @@
-import clsx from "clsx";
 import React from "react";
 import type { CountryCode } from "libphonenumber-js";
+import cn from "../../helpers/classnames";
 import { formatPhoneNumber, getRegionCode } from "../../helpers/phone";
 
 export interface PhoneProps {
@@ -16,7 +16,7 @@ export const Phone = ({ countryCode = "US", children, className }: PhoneProps) =
 
     return (
         <span
-            className={clsx("ui-phone", className)}
+            className={cn("ui-phone", className)}
             data-region-code={regionCode ?? "N/A"}
             data-country-code={countryCode}
             title={number}

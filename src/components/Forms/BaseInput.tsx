@@ -1,6 +1,6 @@
-import clsx from "clsx";
 import { isEmpty, isString } from "lodash-es";
 import React, { type ElementType, forwardRef } from "react";
+import cn from "../../helpers/classnames";
 import { Dot } from "../Dot/Dot";
 
 const sizes = {
@@ -66,7 +66,7 @@ export const BaseInput = forwardRef<HTMLInputElement, BaseInputProps & Record<st
             <div className="relative flex w-full items-center">
                 <Tag
                     ref={ref}
-                    className={clsx(
+                    className={cn(
                         "w-full rounded text-gray-darker placeholder-gray-dark hover:placeholder-gray-darker disabled:text-gray",
                         "border hover:border-black hover:bg-gray-lighter focus:text-black active:text-black disabled:bg-gray-lighter",
                         sizes[size as keyof typeof sizes],

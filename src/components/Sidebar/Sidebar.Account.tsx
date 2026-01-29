@@ -1,5 +1,5 @@
-import clsx from "clsx";
 import React, { useEffect, useRef, useState } from "react";
+import cn from "../../helpers/classnames";
 import { ChevronRightIcon } from "../../icons";
 import { Avatar } from "../Avatar";
 
@@ -62,7 +62,7 @@ export const SidebarAccount = ({
         <button
             ref={containerRef}
             type="button"
-            className={clsx(
+            className={cn(
                 "ui-sidebar-account",
                 "flex h-12 w-full cursor-pointer items-center justify-center rounded px-4 py-3 hover:bg-gray-darker",
                 "xl:justify-start", // Full layout on xl screens
@@ -70,7 +70,7 @@ export const SidebarAccount = ({
             )}
             {...rest}
         >
-            {showIcon && <div className={clsx(isResponsive && "m-auto", "flex-shrink-0")}>{accountImage}</div>}
+            {showIcon && <div className={cn(isResponsive && "m-auto", "flex-shrink-0")}>{accountImage}</div>}
 
             {/* Text container - conditionally rendered */}
             {showText && (

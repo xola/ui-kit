@@ -1,5 +1,5 @@
-import clsx from "clsx";
 import React, { cloneElement } from "react";
+import cn from "../helpers/classnames";
 
 const colors = {
     primary: "bg-primary-lighter text-primary-dark",
@@ -13,17 +13,17 @@ const colors = {
 } as const;
 
 const sizes = {
-    xs: "px-1 py-0.5 h-3 text-xs",
+    tiny: "px-2 py-0.5 h-4 text-xs",
     small: "px-2 py-0.75 h-5 text-sm leading-sm",
     medium: "px-3 py-1.5 h-7.5 text-base leading-base",
-    large: "px-3.5 py-0.75 h-10 text-lg leading-lg",
+    large: "px-3.5 py-0.75 h-8 text-md leading-md",
 } as const;
 
 const iconSizes = {
-    xs: "w-2.5 h-2.5",
-    small: "w-3 h-3",
-    medium: "w-4 h-4",
-    large: "w-5 h-5 mr-1.5",
+    tiny: "!w-2.5 !h-2.5",
+    small: "!w-3 !h-3",
+    medium: "!w-4 !h-4",
+    large: "!w-4.5 !h-4.5 mr-1",
 } as const;
 
 type BadgeColor = keyof typeof colors;
@@ -40,7 +40,7 @@ export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
 export const Badge = ({ color = "primary", size = "small", icon, children, className, ...rest }: BadgeProps) => {
     return (
         <span
-            className={clsx(
+            className={cn(
                 "ui-badge",
                 "inline-flex items-center whitespace-nowrap rounded-full",
                 colors[color],
@@ -49,7 +49,7 @@ export const Badge = ({ color = "primary", size = "small", icon, children, class
             )}
             {...rest}
         >
-            {icon ? cloneElement(icon, { className: clsx("mr-1", iconSizes[size]) }) : null}
+            {icon ? cloneElement(icon, { className: cn("mr-1", iconSizes[size]) }) : null}
             {children}
         </span>
     );

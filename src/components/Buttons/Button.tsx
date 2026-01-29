@@ -1,5 +1,5 @@
-import clsx from "clsx";
 import React, { type ElementType } from "react";
+import cn from "../../helpers/classnames";
 
 export const colors = {
     standard: {
@@ -88,7 +88,7 @@ export const Button = <T extends ElementType = "button">({
 
     return (
         <Tag
-            className={clsx(
+            className={cn(
                 "ui-button",
                 "inline-flex rounded border transition-colors focus:ring disabled:cursor-default disabled:bg-gray-lighter disabled:text-gray-dark",
                 "items-center justify-center font-semibold",

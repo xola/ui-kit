@@ -1,5 +1,5 @@
-import clsx from "clsx";
 import React, { useRef, useState } from "react";
+import cn from "../helpers/classnames";
 import { Button, Logo, SubmitButton } from "..";
 import { ImageIcon, TrashIcon } from "../icons";
 
@@ -66,13 +66,13 @@ export const ImageUpload = ({
     const hasCaption = caption ? caption.trim().length > 0 : false;
 
     return (
-        <div className={clsx("flex items-center rounded bg-gray-lighter p-4", hasDelete ? "space-x-2" : "space-x-3")}>
+        <div className={cn("flex items-center rounded bg-gray-lighter p-4", hasDelete ? "space-x-2" : "space-x-3")}>
             <div>
                 {src ? (
                     <Logo src={src} size={size} />
                 ) : (
                     <div
-                        className={clsx(
+                        className={cn(
                             Logo.sizes[size],
                             "flex items-center justify-center rounded border border-gray-light",
                         )}

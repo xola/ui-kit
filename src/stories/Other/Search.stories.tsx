@@ -1,7 +1,7 @@
 // @ts-nocheck
-import clsx from "clsx";
 import React, { useState } from "react";
 import { Search } from "../..";
+import cn from "../../helpers/classnames";
 
 const SearchStories = {
     title: "Other/Search",
@@ -54,7 +54,7 @@ export const Default = () => {
         >
             {(item, active) => (
                 <div
-                    className={clsx(
+                    className={cn(
                         "group flex cursor-pointer p-2",
                         active ? "bg-blue-light p-2 text-white" : "text-black",
                     )}
@@ -65,7 +65,7 @@ export const Default = () => {
                         <div>{item.name}</div>
 
                         <div
-                            className={clsx(
+                            className={cn(
                                 "text-sm",
                                 active ? "text-white" : "text-gray-dark",
                                 "group-hover:text-white",

@@ -1,6 +1,6 @@
 import { Dialog, Transition } from "@headlessui/react";
-import clsx from "clsx";
 import React, { Fragment } from "react";
+import cn from "../helpers/classnames";
 import { CloseIcon } from "../icons";
 
 const sizes = {
@@ -104,15 +104,15 @@ export const Modal = ({
 
                     <Transition.Child
                         as={Fragment}
-                        enter={clsx("ease-out duration-300")}
-                        enterFrom={clsx("opacity-0", animations[position].enterFrom)}
-                        enterTo={clsx("opacity-100", animations[position].enterTo)}
-                        leave={clsx("ease-in duration-300")}
-                        leaveFrom={clsx("opacity-100", animations[position].leaveFrom)}
-                        leaveTo={clsx("opacity-0", animations[position].leaveTo)}
+                        enter={cn("ease-out duration-300")}
+                        enterFrom={cn("opacity-0", animations[position].enterFrom)}
+                        enterTo={cn("opacity-100", animations[position].enterTo)}
+                        leave={cn("ease-in duration-300")}
+                        leaveFrom={cn("opacity-100", animations[position].leaveFrom)}
+                        leaveTo={cn("opacity-0", animations[position].leaveTo)}
                     >
                         <div
-                            className={clsx(
+                            className={cn(
                                 className,
                                 sizes[size],
                                 positions[position],
@@ -146,7 +146,7 @@ export interface ModalHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
 
 const Header = ({ description, children, className, ...rest }: ModalHeaderProps) => {
     return (
-        <Dialog.Title as="div" className={clsx(className, "ui-modal-header text-center")} {...rest}>
+        <Dialog.Title as="div" className={cn(className, "ui-modal-header text-center")} {...rest}>
             <h3 className="text-2xl font-semibold leading-6 text-black">{children}</h3>
 
             {description ? (
@@ -163,7 +163,7 @@ export interface ModalBodyProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const Body = ({ className, ...rest }: ModalBodyProps) => {
-    return <div className={clsx(className, "ui-modal-body mt-10")} {...rest} />;
+    return <div className={cn(className, "ui-modal-body mt-10")} {...rest} />;
 };
 
 Body.displayName = "Modal.Body";
@@ -173,7 +173,7 @@ export interface ModalFooterProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const Footer = ({ className, ...rest }: ModalFooterProps) => {
-    return <div className={clsx(className, "ui-modal-footer mt-10 space-x-4 text-right")} {...rest} />;
+    return <div className={cn(className, "ui-modal-footer mt-10 space-x-4 text-right")} {...rest} />;
 };
 
 Footer.displayName = "Modal.Footer";

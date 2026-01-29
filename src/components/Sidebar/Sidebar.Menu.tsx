@@ -1,6 +1,6 @@
 import Tippy from "@tippyjs/react";
-import clsx from "clsx";
 import React from "react";
+import cn from "../../helpers/classnames";
 import styles from "./Sidebar.Menu.module.css";
 
 const appendTo = typeof window === "undefined" ? undefined : window.document.body;
@@ -21,7 +21,7 @@ export const SidebarMenu = ({ content, children, ...rest }: SidebarMenuProps) =>
             placement="right"
             offset={[0, 4]}
             arrow={false}
-            className={clsx(
+            className={cn(
                 "ui-sidebar-menu",
                 styles.main,
                 "!rounded-none bg-black bg-opacity-90 p-2 backdrop-blur-sm backdrop-filter",

@@ -1,5 +1,5 @@
-import clsx from "clsx";
 import React, { Children, cloneElement, useEffect, useRef, useState, type ReactElement } from "react";
+import cn from "../helpers/classnames";
 
 export interface TableProps extends React.TableHTMLAttributes<HTMLTableElement> {
     children?: React.ReactNode;
@@ -11,7 +11,7 @@ export const Table = ({ className, ...rest }: TableProps) => (
         <div className="-my-2 overflow-x-auto">
             <div className="inline-block min-w-full py-2 align-middle">
                 <div className="overflow-hidden border-b border-gray-lighter sm:rounded-lg">
-                    <table className={clsx(className, "min-w-full divide-y border border-gray-lighter")} {...rest} />
+                    <table className={cn(className, "min-w-full divide-y border border-gray-lighter")} {...rest} />
                 </div>
             </div>
         </div>
@@ -24,7 +24,7 @@ export interface TableHeadProps extends React.HTMLAttributes<HTMLTableSectionEle
 }
 
 const Head = ({ className, ...rest }: TableHeadProps) => {
-    return <thead className={clsx("ui-table-head", "bg-gray-lighter", className)} {...rest} />;
+    return <thead className={cn("ui-table-head", "bg-gray-lighter", className)} {...rest} />;
 };
 
 Head.displayName = "Table.Head";
@@ -35,7 +35,7 @@ export interface TableHeaderProps extends React.ThHTMLAttributes<HTMLTableCellEl
 }
 
 const Header = ({ className, ...rest }: TableHeaderProps) => {
-    return <th className={clsx("ui-table-header", "px-4 py-2 text-left text-base font-bold", className)} {...rest} />;
+    return <th className={cn("ui-table-header", "px-4 py-2 text-left text-base font-bold", className)} {...rest} />;
 };
 
 Header.displayName = "Table.Header";
@@ -48,7 +48,7 @@ export interface TableBodyProps extends React.HTMLAttributes<HTMLTableSectionEle
 
 const Body = ({ isStriped = false, children, className, ...rest }: TableBodyProps) => {
     return (
-        <tbody className={clsx("ui-table-body", "border-none", className)} {...rest}>
+        <tbody className={cn("ui-table-body", "border-none", className)} {...rest}>
             {Children.map(children, (child) => {
                 if (!child || !React.isValidElement(child)) return child;
                 return cloneElement(child as ReactElement, { isStriped });
@@ -66,7 +66,7 @@ export interface TableRowProps extends React.HTMLAttributes<HTMLTableRowElement>
 }
 
 const Row = ({ isStriped = false, className, ...rest }: TableRowProps) => {
-    return <tr className={clsx("ui-table-row", isStriped && "even:bg-gray-lighter", className)} {...rest} />;
+    return <tr className={cn("ui-table-row", isStriped && "even:bg-gray-lighter", className)} {...rest} />;
 };
 
 Row.displayName = "Table.Row";
@@ -79,7 +79,7 @@ export interface TableCellProps extends React.TdHTMLAttributes<HTMLTableCellElem
 const Cell = ({ className, ...rest }: TableCellProps) => {
     return (
         <td
-            className={clsx("ui-table-cell", "whitespace-nowrap px-4 py-2 text-base text-gray-darker", className)}
+            className={cn("ui-table-cell", "whitespace-nowrap px-4 py-2 text-base text-gray-darker", className)}
             {...rest}
         />
     );
@@ -137,7 +137,7 @@ const EditableCell = ({ value, className, onSave, ...rest }: EditableCellProps) 
 
     return (
         <td
-            className={clsx(
+            className={cn(
                 "ui-table-cell",
                 "whitespace-nowrap px-4 py-2 text-base text-gray-darker",
                 { "bg-gray-hover": isEditing },

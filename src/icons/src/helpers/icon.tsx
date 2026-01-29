@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import cn from "./classnames";
 import React, { type ComponentPropsWithoutRef, type FC } from "react";
 import { iconSizes } from "./iconSizes";
 
@@ -15,7 +15,7 @@ export interface IconComponent extends FC<IconProps> {
 
 export const createIcon = (Icon: FC<ComponentPropsWithoutRef<"svg">>): IconComponent => {
     const IconContainer: FC<IconProps> = ({ size = "small", className, ...rest }) => {
-        return <Icon className={clsx(iconSizes[size], "relative -top-0.25 inline-block", className)} {...rest} />;
+        return <Icon className={cn(iconSizes[size], "relative -top-0.25 inline-block", className)} {...rest} />;
     };
 
     return IconContainer as IconComponent;

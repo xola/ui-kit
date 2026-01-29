@@ -1,6 +1,6 @@
-import clsx from "clsx";
 import dayjs from "dayjs";
 import React from "react";
+import cn from "../../helpers/classnames";
 import { Dot } from "../Dot/Dot";
 
 export interface DayProps {
@@ -46,7 +46,7 @@ export const Day = ({
 
     return (
         <div
-            className={clsx(
+            className={cn(
                 "ui-date-picker-day",
                 "flex items-center justify-center",
                 isSameDay && isSameMonth && !disabled ? "selected text-white" : null,
@@ -75,7 +75,7 @@ const DayContent = ({ selectedDate, date, getContent }: DayContentProps) => {
     return (
         <div className="ui-day-content align-center flex flex-col justify-center">
             {/* The date itself */}
-            <div className={clsx("ui-day-content-value", { "selected text-white": isSameDay })}>{day}</div>
+            <div className={cn("ui-day-content-value", { "selected text-white": isSameDay })}>{day}</div>
 
             {/* The custom content below it */}
             {contentValue ? <div className="ui-day-content-custom mt-1">{contentValue}</div> : null}

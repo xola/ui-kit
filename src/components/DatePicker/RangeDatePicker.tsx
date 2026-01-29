@@ -1,7 +1,7 @@
-import clsx from "clsx";
 import { isArray, isFunction } from "lodash-es";
 import React from "react";
 import { now } from "../../helpers/date";
+import cn from "../../helpers/classnames";
 import { Tooltip } from "../Tooltip";
 import { Day } from "./Day";
 import { LocalizedDayPicker } from "./LocalizedDayPicker";
@@ -140,7 +140,7 @@ const RangeDatePicker = ({
         day: "w-[calc(100%/7)] mr-0.5 rounded",
         day_button:
             "h-12 w-full cursor-pointer rounded bg-transparent hover:border hover:border-blue hover:bg-blue-lighter hover:text-black disabled:cursor-not-allowed disabled:text-gray-light disabled:hover:border-none disabled:hover:bg-transparent",
-        selected: clsx(
+        selected: cn(
             isDateRangeStyle
                 ? "[&>button]:bg-transparent [&>button]:text-black [&>button:hover]:bg-blue-lighter [&>button:hover]:text-black"
                 : "[&>button]:border [&>button]:border-blue [&>button]:bg-blue [&>button]:text-white [&>button:hover]:border-blue-darker [&>button:hover]:bg-blue-darker",
@@ -152,7 +152,7 @@ const RangeDatePicker = ({
     };
 
     const datePickerModifiersClassNames = {
-        start: clsx(
+        start: cn(
             isDateRangeStyle && !isSingleDayDateRange
                 ? "rounded-none [background:linear-gradient(90deg,#ffffff_40%,#d1e1ff_25%)] [&>button]:!bg-blue [&>button]:!text-white [&>button]:rounded-full"
                 : "[&>button]:!bg-blue [&>button]:!text-white",
@@ -160,7 +160,7 @@ const RangeDatePicker = ({
                 ? "[&>button]:outline [&>button]:outline-offset-1 [&>button]:outline-blue-lighter"
                 : null,
         ),
-        end: clsx(
+        end: cn(
             isDateRangeStyle && !isSingleDayDateRange
                 ? "rounded-none [background:linear-gradient(90deg,#d1e1ff_40%,#ffffff_25%)] [&>button]:!bg-blue [&>button]:!text-white [&>button]:rounded-full"
                 : "[&>button]:!bg-blue [&>button]:!text-white",
@@ -176,9 +176,7 @@ const RangeDatePicker = ({
     return (
         <div className="flex gap-4">
             <LocalizedDayPicker
-                className={clsx(
-                    "pt-6 tracking-tightest max-w-[400px] rounded-lg ring-0 focus:outline-none focus:ring-0",
-                )}
+                className={cn("pt-6 tracking-tightest max-w-[400px] rounded-lg ring-0 focus:outline-none focus:ring-0")}
                 mode="single"
                 selected={selectedDays?.from}
                 month={startMonth}
@@ -205,9 +203,7 @@ const RangeDatePicker = ({
                 {...rest}
             />
             <LocalizedDayPicker
-                className={clsx(
-                    "pt-6 tracking-tightest max-w-[400px] rounded-lg ring-0 focus:outline-none focus:ring-0",
-                )}
+                className={cn("pt-6 tracking-tightest max-w-[400px] rounded-lg ring-0 focus:outline-none focus:ring-0")}
                 mode="single"
                 selected={isStartDateIsTheSameMonth ? undefined : selectedDays?.to}
                 month={endMonth}

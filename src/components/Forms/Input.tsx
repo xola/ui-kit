@@ -1,5 +1,5 @@
-import clsx from "clsx";
 import React, { forwardRef } from "react";
+import cn from "../../helpers/classnames";
 import { BaseInput, type BaseInputProps } from "./BaseInput";
 
 export interface InputProps
@@ -9,9 +9,7 @@ export interface InputProps
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(({ className, type = "text", value, ...rest }, ref) => {
-    return (
-        <BaseInput ref={ref} as="input" className={clsx("ui-input", className)} type={type} value={value} {...rest} />
-    );
+    return <BaseInput ref={ref} as="input" className={cn("ui-input", className)} type={type} value={value} {...rest} />;
 });
 
 Input.displayName = "Input";

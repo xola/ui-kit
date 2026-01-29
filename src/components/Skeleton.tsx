@@ -1,5 +1,5 @@
-import clsx from "clsx";
 import React from "react";
+import cn from "../helpers/classnames";
 import styles from "./Skeleton.module.css";
 
 export interface SkeletonProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -24,7 +24,7 @@ export const Skeleton = ({
 }: SkeletonProps) => {
     return (
         <div
-            className={clsx(
+            className={cn(
                 "ui-skeleton",
                 "relative flex items-center justify-center overflow-hidden rounded border border-gray-lighter bg-gray-lighter",
                 classNames.container,
@@ -33,9 +33,9 @@ export const Skeleton = ({
             {...rest}
         >
             {shouldAnimate ? (
-                <div className={clsx(styles.shimmer, "absolute h-full w-full", classNames.shimmer)} />
+                <div className={cn(styles.shimmer, "absolute h-full w-full", classNames.shimmer)} />
             ) : null}
-            <div className={clsx("text-gray", classNames.text)}>{children}</div>
+            <div className={cn("text-gray", classNames.text)}>{children}</div>
         </div>
     );
 };

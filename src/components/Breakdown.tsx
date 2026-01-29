@@ -1,6 +1,6 @@
-import clsx from "clsx";
 import { isNumber } from "lodash-es";
 import React, { createContext, useContext, useMemo } from "react";
+import cn from "../helpers/classnames";
 import { Currency } from "./Utilities/Currency";
 
 const colors = {
@@ -34,7 +34,7 @@ const BreakdownComponent = ({ currency, locale, children, className, ...rest }: 
     const value = useMemo(() => ({ currency, locale }), [currency, locale]);
     return (
         <CurrencyContext.Provider value={value}>
-            <table className={clsx("ui-breakdown", "w-full", className)} {...rest}>
+            <table className={cn("ui-breakdown", "w-full", className)} {...rest}>
                 <tbody>{children}</tbody>
             </table>
         </CurrencyContext.Provider>
@@ -73,11 +73,11 @@ const BreakdownItem = ({
     const locale = context?.locale;
 
     return (
-        <tr className={clsx("ui-breakdown-item", colors[color], className)} {...rest}>
-            <td colSpan={2} className={clsx("break-words text-left leading-none", classNames.key)}>
+        <tr className={cn("ui-breakdown-item", colors[color], className)} {...rest}>
+            <td colSpan={2} className={cn("break-words text-left leading-none", classNames.key)}>
                 <span className="mr-0.5">{methodIcon}</span>
-                <span className={clsx("mr-1 break-normal md:break-all", classNames.children)}>{children ?? ""}</span>
-                <span className={clsx("text-sm", classNames.info)}>
+                <span className={cn("mr-1 break-normal md:break-all", classNames.children)}>{children ?? ""}</span>
+                <span className={cn("text-sm", classNames.info)}>
                     {info && (
                         <span className="mr-2 rounded bg-white p-1 uppercase text-black empty:hidden">{info}</span>
                     )}
@@ -85,7 +85,7 @@ const BreakdownItem = ({
                 </span>
             </td>
 
-            <td className={clsx("w-[1%] whitespace-nowrap pl-4 text-right", classNames.value)}>
+            <td className={cn("w-[1%] whitespace-nowrap pl-4 text-right", classNames.value)}>
                 {isNumber(value) ? (
                     <Currency
                         shouldRemoveTrailingZeroes={false}
@@ -133,11 +133,11 @@ const BreakdownSubtotalItem = ({
     const locale = context?.locale;
 
     return (
-        <tr className={clsx("ui-breakdown-subtotal-item", "font-bold", colors[color], className)} {...rest}>
-            <td className={clsx("pb-4 pt-1 text-left", classNames.children)}>{children}</td>
-            <td className={clsx("whitespace-nowrap pb-4 pt-1 text-right", classNames.info)}>{info}</td>
+        <tr className={cn("ui-breakdown-subtotal-item", "font-bold", colors[color], className)} {...rest}>
+            <td className={cn("pb-4 pt-1 text-left", classNames.children)}>{children}</td>
+            <td className={cn("whitespace-nowrap pb-4 pt-1 text-right", classNames.info)}>{info}</td>
 
-            <td className={clsx("w-[1%] whitespace-nowrap pb-4 pl-4 pt-1 text-right", classNames.value)}>
+            <td className={cn("w-[1%] whitespace-nowrap pb-4 pl-4 pt-1 text-right", classNames.value)}>
                 <Currency
                     shouldRemoveTrailingZeroes={false}
                     currency={currency}
@@ -160,7 +160,7 @@ export interface BreakdownSeparatorProps extends React.HTMLAttributes<HTMLTableR
 
 const BreakdownSeparator = ({ className, ...rest }: BreakdownSeparatorProps) => {
     return (
-        <tr className={clsx("ui-breakdown-separator", className)} {...rest}>
+        <tr className={cn("ui-breakdown-separator", className)} {...rest}>
             <td colSpan={3} className="border-b border-gray-light pb-1" />
         </tr>
     );

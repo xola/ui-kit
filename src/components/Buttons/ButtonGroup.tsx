@@ -1,5 +1,5 @@
-import clsx from "clsx";
 import React, { Children, cloneElement, type ElementType, type ReactElement } from "react";
+import cn from "../../helpers/classnames";
 
 const sizes = {
     small: "px-2 py-1.5 text-sm",
@@ -29,7 +29,7 @@ const ButtonGroupComponent = ({
     ...rest
 }: ButtonGroupProps) => {
     return (
-        <span className={clsx("ui-button-group", "inline-flex whitespace-nowrap", className)} {...rest}>
+        <span className={cn("ui-button-group", "inline-flex whitespace-nowrap", className)} {...rest}>
             {Children.map(children, (child, index) => {
                 if (!React.isValidElement(child)) {
                     return null;
@@ -96,7 +96,7 @@ const ButtonGroupButton = ({
     delete (domProps as any).shouldShowText;
     delete (domProps as any).isHidden;
 
-    const classes = clsx(
+    const classes = cn(
         "ui-button-group-button",
         "inline-flex border-t border-l border-b last:border-r first:rounded-l-md last:rounded-r-md transition-colors focus:ring disabled:opacity-60 focus:z-10 leading-none",
         sizes[size],

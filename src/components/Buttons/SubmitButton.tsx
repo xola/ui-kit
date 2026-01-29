@@ -1,6 +1,6 @@
 import { Transition } from "@headlessui/react";
-import clsx from "clsx";
 import React, { useEffect, useState } from "react";
+import cn from "../../helpers/classnames";
 import { CheckIcon } from "../../icons";
 import { Spinner } from "../Spinner";
 import { Button, type colors, type ButtonProps } from "./Button";
@@ -58,11 +58,11 @@ export const SubmitButton = ({
             color={color}
             variant={variant}
             disabled={showTransition || disabled}
-            className={clsx(className, "relative", showTransition && loadingColors[color as LoadingColor])}
+            className={cn(className, "relative", showTransition && loadingColors[color as LoadingColor])}
             {...rest}
         >
             <span
-                className={clsx(
+                className={cn(
                     "absolute inset-0 flex items-center justify-center",
                     showTransition ? "opacity-100" : "opacity-0",
                 )}
@@ -79,7 +79,7 @@ export const SubmitButton = ({
                         {showSuccess && (
                             <CheckIcon
                                 size="medium"
-                                className={clsx("relative -top-0.25 text-white", {
+                                className={cn("relative -top-0.25 text-white", {
                                     "text-black": variant === "outline",
                                 })}
                             />
@@ -90,7 +90,7 @@ export const SubmitButton = ({
                     </Transition>
                 )}
             </span>
-            <span className={clsx(showTransition ? "flex-shrink flex-grow opacity-0" : "opacity-100")}>{children}</span>
+            <span className={cn(showTransition ? "flex-shrink flex-grow opacity-0" : "opacity-100")}>{children}</span>
         </Button>
     );
 };

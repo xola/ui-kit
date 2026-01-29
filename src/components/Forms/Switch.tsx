@@ -1,7 +1,7 @@
 import { Switch as HeadlessSwitch } from "@headlessui/react";
-import clsx from "clsx";
 import { noop } from "lodash-es";
 import React from "react";
+import cn from "../../helpers/classnames";
 
 const sizes = {
     large: {
@@ -36,7 +36,7 @@ const SwitchComponent = ({ isChecked = false, size = "medium", disabled, classNa
         <HeadlessSwitch
             checked={isChecked}
             disabled={disabled}
-            className={clsx(
+            className={cn(
                 "ui-switch",
                 isChecked ? "bg-primary disabled:bg-gray-light" : "bg-gray disabled:bg-gray-light",
                 "relative inline-flex flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none",
@@ -46,7 +46,7 @@ const SwitchComponent = ({ isChecked = false, size = "medium", disabled, classNa
             onChange={onChange ?? noop}
         >
             <span
-                className={clsx(
+                className={cn(
                     isChecked ? sizes[size].translate : "translate-x-0",
                     "ui-switch-inner pointer-events-none inline-block transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out",
                     sizes[size].inner,
@@ -63,7 +63,7 @@ export interface SwitchGroupProps {
 
 const SwitchGroup = ({ children, className }: SwitchGroupProps) => {
     return (
-        <HeadlessSwitch.Group as="div" className={clsx("ui-switch-group", "inline-flex items-center", className)}>
+        <HeadlessSwitch.Group as="div" className={cn("ui-switch-group", "inline-flex items-center", className)}>
             {children}
         </HeadlessSwitch.Group>
     );
@@ -81,7 +81,7 @@ const SwitchLabel = ({ direction = "left", children, className }: SwitchLabelPro
     return (
         <HeadlessSwitch.Label
             as="span"
-            className={clsx("ui-switch-label", "cursor-pointer", direction === "left" ? "mr-2" : "ml-2", className)}
+            className={cn("ui-switch-label", "cursor-pointer", direction === "left" ? "mr-2" : "ml-2", className)}
         >
             {children}
         </HeadlessSwitch.Label>

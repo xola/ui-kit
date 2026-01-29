@@ -1,5 +1,5 @@
-import clsx from "clsx";
 import React from "react";
+import cn from "../../helpers/classnames";
 
 const colors = {
     primary: "bg-primary",
@@ -29,7 +29,7 @@ export interface DotProps extends React.HTMLAttributes<HTMLSpanElement> {
 export const Dot = ({ color = "primary", size = "medium", className, ...rest }: DotProps) => {
     return (
         <span
-            className={clsx("ui-dot", "inline-block rounded-full text-white", colors[color], sizes[size], className)}
+            className={cn("ui-dot", "inline-block rounded-full text-white", colors[color], sizes[size], className)}
             {...rest}
         />
     );

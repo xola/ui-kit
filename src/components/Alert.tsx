@@ -1,6 +1,6 @@
-import clsx from "clsx";
 import React from "react";
 import { CloseIcon } from "../icons";
+import cn from "../helpers/classnames";
 
 const colors = {
     primary: "bg-primary-lighter text-black",
@@ -23,11 +23,7 @@ export interface AlertProps extends React.HTMLAttributes<HTMLDivElement> {
 export const Alert = ({ color = "primary", children, className, onClose, ...rest }: AlertProps) => {
     return (
         <div
-            className={clsx(
-                "ui-alert flex items-start rounded px-3 py-3 text-base leading-4",
-                colors[color],
-                className,
-            )}
+            className={cn("ui-alert flex items-start rounded px-3 py-3 text-base leading-4", colors[color], className)}
             {...rest}
         >
             <span className="ui-alert-content w-full leading-p1">{children}</span>

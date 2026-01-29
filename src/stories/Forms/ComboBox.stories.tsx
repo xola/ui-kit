@@ -1,7 +1,7 @@
 // @ts-nocheck
-import clsx from "clsx";
 import React from "react";
 import { ComboBox, Currency, FormGroup, Label } from "../..";
+import cn from "../../helpers/classnames";
 
 const ComboBoxStories = {
     primary: true,
@@ -110,7 +110,7 @@ export const RenderCustomOptionItems = () => {
     const Option = ({ innerProps, innerRef, label, data, isSelected, isFocused }) => (
         <div
             ref={innerRef}
-            className={clsx(
+            className={cn(
                 "flex items-center border-b border-gray-light p-4",
                 isSelected && "bg-success-dark text-white",
                 !isSelected && isFocused && "bg-success-lighter",

@@ -1,5 +1,5 @@
-import clsx from "clsx";
 import React from "react";
+import cn from "../../helpers/classnames";
 
 export interface PanelProps extends React.HTMLAttributes<HTMLDivElement> {
     children?: React.ReactNode;
@@ -7,7 +7,7 @@ export interface PanelProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export const Panel = ({ className, ...rest }: PanelProps) => {
-    return <div className={clsx("ui-tabs-panel", className)} {...rest} />;
+    return <div className={cn("ui-tabs-panel", className)} {...rest} />;
 };
 
 Panel.displayName = "Tabs.Panel";

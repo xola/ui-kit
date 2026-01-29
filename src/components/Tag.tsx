@@ -1,5 +1,5 @@
-import clsx from "clsx";
 import React from "react";
+import cn from "../helpers/classnames";
 import { CloseIcon } from "../icons";
 
 const colors = {
@@ -35,13 +35,13 @@ export const Tag = ({ color = "primary", size = "small", children, className, on
     };
 
     return (
-        <span className={clsx("ui-tag", "inline-flex rounded", colors[color], sizes[size], className)} {...rest}>
+        <span className={cn("ui-tag", "inline-flex rounded", colors[color], sizes[size], className)} {...rest}>
             {children}
 
             {onClose ? (
                 <CloseIcon
                     size="small"
-                    className={clsx(
+                    className={cn(
                         "ui-tag-close ml-2 cursor-pointer leading-4 hover:text-gray-darker",
                         size === "large" ? "mt-0.5" : "mt-0.25",
                     )}
