@@ -29,11 +29,9 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, apiBaseUrl, r
     }, [onSelect]);
 
     const handleSelect = useCallback((suggestion) => {
-        console.log("selecting suggestion", suggestion)
         setInputValue(suggestion.description || suggestion.name || "");
         setShowDropdown(false);
         if (!isSilentModeRef.current) {
-            console.log("Calling Parent");
             onSelectRef.current?.(suggestion);
         }
         isSilentModeRef.current = false;
@@ -113,7 +111,6 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, apiBaseUrl, r
     );
 
     useEffect(() => {
-        console.log("Initial value effect:", { initialValue, remoteId });
         if (initialValue && !initialFetchDoneRef.current) {
             initialFetchDoneRef.current = true;
             isSilentModeRef.current = true;
