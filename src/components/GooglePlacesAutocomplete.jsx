@@ -22,10 +22,12 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, apiBaseUrl, r
     const initialFetchDoneRef = useRef(false);
 
     const handleSelect = useCallback(
-        (suggestion) => {
+        (suggestion, silent = false) => {
             setInputValue(suggestion.description || suggestion.name || "");
             setShowDropdown(false);
-            onSelect?.(suggestion);
+            if (!silent) {
+                onSelect?.(suggestion);
+            }
         },
         [onSelect],
     );
@@ -65,7 +67,7 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, apiBaseUrl, r
     };
 
     const fetchSuggestions = useDebouncedCallback(
-        async (query, placeIdToSelect = null) => {
+        async (query, placeIdToSelect = null, silent = false) => {
             if (!query.trim()) {
                 setSuggestions([]);
                 setError("");
@@ -88,7 +90,7 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, apiBaseUrl, r
                     const matchingIndex = results.findIndex((result) => result.place_id === placeIdToSelect);
                     if (matchingIndex !== -1) {
                         setActiveSuggestionIndex(matchingIndex);
-                        handleSelect(results[matchingIndex]);
+                        handleSelect(results[matchingIndex], silent);
                     }
                 }
             } catch (error) {
@@ -100,13 +102,13 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, apiBaseUrl, r
             }
         },
         300,
-        [apiBaseUrl],
+        [apiBaseUrl, handleSelect],
     );
 
     useEffect(() => {
         if (initialValue && !initialFetchDoneRef.current) {
             initialFetchDoneRef.current = true;
-            fetchSuggestions(initialValue, remoteId);
+            fetchSuggestions(initialValue, remoteId, true);
         }
     }, [initialValue, remoteId, fetchSuggestions]);
 
