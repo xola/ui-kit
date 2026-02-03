@@ -34,6 +34,7 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, apiBaseUrl, r
         if (!isSilentModeRef.current) {
             onSelectRef.current?.(suggestion);
         }
+
         isSilentModeRef.current = false;
     }, []);
 
