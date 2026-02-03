@@ -93,7 +93,7 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, apiBaseUrl, r
 
                 setSuggestions(results);
 
-                if (placeIdToSelect != null) {
+                if (placeIdToSelect !== null) {
                     const matchingIndex = results.findIndex((result) => result.place_id === placeIdToSelect);
                     if (matchingIndex !== -1) {
                         setActiveSuggestionIndex(matchingIndex);
