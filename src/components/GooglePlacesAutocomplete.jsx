@@ -20,14 +20,16 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, apiBaseUrl, r
 
     const dropdownRef = useRef(null);
     const initialFetchDoneRef = useRef(false);
+    const isSilentModeRef = useRef(false);
 
     const handleSelect = useCallback(
-        (suggestion, silent = false) => {
+        (suggestion) => {
             setInputValue(suggestion.description || suggestion.name || "");
             setShowDropdown(false);
-            if (!silent) {
+            if (!isSilentModeRef.current) {
                 onSelect?.(suggestion);
             }
+            isSilentModeRef.current = false;
         },
         [onSelect],
     );
@@ -67,7 +69,7 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, apiBaseUrl, r
     };
 
     const fetchSuggestions = useDebouncedCallback(
-        async (query, placeIdToSelect = null, silent = false) => {
+        async (query, placeIdToSelect = null) => {
             if (!query.trim()) {
                 setSuggestions([]);
                 setError("");
@@ -90,7 +92,7 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, apiBaseUrl, r
                     const matchingIndex = results.findIndex((result) => result.place_id === placeIdToSelect);
                     if (matchingIndex !== -1) {
                         setActiveSuggestionIndex(matchingIndex);
-                        handleSelect(results[matchingIndex], silent);
+                        handleSelect(results[matchingIndex]);
                     }
                 }
             } catch (error) {
@@ -108,7 +110,8 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, apiBaseUrl, r
     useEffect(() => {
         if (initialValue && !initialFetchDoneRef.current) {
             initialFetchDoneRef.current = true;
-            fetchSuggestions(initialValue, remoteId, true);
+            isSilentModeRef.current = true;
+            fetchSuggestions(initialValue, remoteId);
         }
     }, [initialValue, remoteId, fetchSuggestions]);
 
