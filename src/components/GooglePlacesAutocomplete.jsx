@@ -21,18 +21,23 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, apiBaseUrl, r
     const dropdownRef = useRef(null);
     const initialFetchDoneRef = useRef(false);
     const isSilentModeRef = useRef(false);
+    const onSelectRef = useRef(onSelect);
 
-    const handleSelect = useCallback(
-        (suggestion) => {
-            setInputValue(suggestion.description || suggestion.name || "");
-            setShowDropdown(false);
-            if (!isSilentModeRef.current) {
-                onSelect?.(suggestion);
-            }
-            isSilentModeRef.current = false;
-        },
-        [onSelect],
-    );
+    // Keep onSelectRef in sync with latest onSelect
+    useEffect(() => {
+        onSelectRef.current = onSelect;
+    }, [onSelect]);
+
+    const handleSelect = useCallback((suggestion) => {
+        console.log("selecting suggestion", suggestion)
+        setInputValue(suggestion.description || suggestion.name || "");
+        setShowDropdown(false);
+        if (!isSilentModeRef.current) {
+            console.log("Calling Parent");
+            onSelectRef.current?.(suggestion);
+        }
+        isSilentModeRef.current = false;
+    }, []);
 
     const handleInputChange = (e) => {
         setInputValue(e.target.value);
@@ -104,16 +109,18 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, apiBaseUrl, r
             }
         },
         300,
-        [apiBaseUrl, handleSelect],
+        [apiBaseUrl],
     );
 
     useEffect(() => {
+        console.log("Initial value effect:", { initialValue, remoteId });
         if (initialValue && !initialFetchDoneRef.current) {
             initialFetchDoneRef.current = true;
             isSilentModeRef.current = true;
             fetchSuggestions(initialValue, remoteId);
         }
-    }, [initialValue, remoteId, fetchSuggestions]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [initialValue, remoteId]);
 
     useClickAway(() => {
         setShowDropdown(false);
