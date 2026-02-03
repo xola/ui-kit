@@ -41,6 +41,7 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, apiBaseUrl, r
     const handleInputChange = (e) => {
         setInputValue(e.target.value);
         setShowDropdown(true);
+        isSilentModeRef.current = false;
         fetchSuggestions(e.target.value);
     };
 
@@ -92,7 +93,7 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, apiBaseUrl, r
 
                 setSuggestions(results);
 
-                if (placeIdToSelect !== null && placeIdToSelect !== undefined) {
+                if (placeIdToSelect != null) {
                     const matchingIndex = results.findIndex((result) => result.place_id === placeIdToSelect);
                     if (matchingIndex !== -1) {
                         setActiveSuggestionIndex(matchingIndex);
@@ -117,6 +118,8 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, apiBaseUrl, r
             isSilentModeRef.current = true;
             fetchSuggestions(initialValue, remoteId);
         }
+        // fetchSuggestions is intentionally excluded: it's stable due to useDebouncedCallback
+        // and we only want this effect to run when initialValue or remoteId change.
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [initialValue, remoteId]);
 
