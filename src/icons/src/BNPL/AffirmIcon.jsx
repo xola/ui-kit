@@ -5,7 +5,15 @@ export const AffirmIcon = createIcon((props) => {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
             <rect width="24" height="24" rx="12" fill="white" />
-            <mask id="mask0_affirm" style={{ maskType: "luminance" }} maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="18">
+            <mask
+                id="mask0_affirm"
+                style={{ maskType: "luminance" }}
+                maskUnits="userSpaceOnUse"
+                x="0"
+                y="0"
+                width="24"
+                height="18"
+            >
                 <path d="M24 0H0V17.5943H24V0Z" fill="white" />
             </mask>
             <g mask="url(#mask0_affirm)">
