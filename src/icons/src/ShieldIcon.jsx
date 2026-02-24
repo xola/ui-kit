@@ -19,3 +19,5 @@ export const ShieldIcon = createIcon((props) => {
         </svg>
     );
 });
+
+ShieldIcon.tags = ["shield", "security", "protection", "verify", "verified", "safe"];
