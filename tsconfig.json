@@ -1,0 +1,66 @@
+{
+    "compilerOptions": {
+        /* Language and Environment */
+        "target": "ES2020",
+        "lib": ["ES2022", "DOM", "DOM.Iterable"],
+        "jsx": "react",
+
+        /* Modules */
+        "module": "ESNext",
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+
+        /* Emit */
+        "declaration": true,
+        "declarationMap": true,
+        "sourceMap": true,
+        "outDir": "./dist",
+        "removeComments": false,
+
+        /* Interop Constraints */
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "forceConsistentCasingInFileNames": true,
+        "isolatedModules": true,
+
+        /* Type Checking - Starting Lenient for Incremental Migration */
+        "strict": true,
+        "noImplicitAny": true,
+        "strictNullChecks": true,
+        "strictFunctionTypes": true,
+        "strictBindCallApply": true,
+        "strictPropertyInitialization": true,
+        "noImplicitThis": true,
+        "alwaysStrict": true,
+
+        /* Start lenient, will tighten later */
+        "noUnusedLocals": false,
+        "noUnusedParameters": false,
+        "noImplicitReturns": false,
+        "noFallthroughCasesInSwitch": true,
+
+        /* Critical for Incremental Migration */
+        "allowJs": true,
+        "checkJs": false,
+
+        /* Completeness */
+        "skipLibCheck": true,
+
+        /* Explicitly include only needed @types packages to avoid stub package errors */
+        "types": ["node", "react", "react-dom", "google-libphonenumber"]
+    },
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "build",
+        "dist",
+        "storybook-static",
+        "**/*.test.js",
+        "**/*.test.ts",
+        "**/*.test.tsx",
+        "**/*.stories.js",
+        "**/*.stories.jsx"
+    ]
+}
