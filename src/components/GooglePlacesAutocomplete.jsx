@@ -7,7 +7,7 @@ import { useClickAway } from "ahooks";
 import { Input } from "./Forms/Input";
 import { Badge } from "./Badge";
 
-export const GooglePlacesAutocomplete = ({ initialValue, onSelect, apiBaseUrl }) => {
+export const GooglePlacesAutocomplete = ({ initialValue, onSelect, apiBaseUrl, remoteId }) => {
     const [inputValue, setInputValue] = useState(initialValue || "");
     const [suggestions, setSuggestions] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -20,19 +20,28 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, apiBaseUrl })
 
     const dropdownRef = useRef(null);
     const initialFetchDoneRef = useRef(false);
+    const isSilentModeRef = useRef(false);
+    const onSelectRef = useRef(onSelect);
 
-    const handleSelect = useCallback(
-        (suggestion) => {
-            setInputValue(suggestion.description || suggestion.name || "");
-            setShowDropdown(false);
-            onSelect?.(suggestion);
-        },
-        [onSelect],
-    );
+    // Keep onSelectRef in sync with latest onSelect
+    useEffect(() => {
+        onSelectRef.current = onSelect;
+    }, [onSelect]);
+
+    const handleSelect = useCallback((suggestion) => {
+        setInputValue(suggestion.description || suggestion.name || "");
+        setShowDropdown(false);
+        if (!isSilentModeRef.current) {
+            onSelectRef.current?.(suggestion);
+        }
+
+        isSilentModeRef.current = false;
+    }, []);
 
     const handleInputChange = (e) => {
         setInputValue(e.target.value);
         setShowDropdown(true);
+        isSilentModeRef.current = false;
         fetchSuggestions(e.target.value);
     };
 
@@ -65,7 +74,7 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, apiBaseUrl })
     };
 
     const fetchSuggestions = useDebouncedCallback(
-        async (query, selectFirst = false) => {
+        async (query, placeIdToSelect = null) => {
             if (!query.trim()) {
                 setSuggestions([]);
                 setError("");
@@ -84,8 +93,12 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, apiBaseUrl })
 
                 setSuggestions(results);
 
-                if (selectFirst && results.length > 0) {
-                    handleSelect(results[0]);
+                if (placeIdToSelect !== null) {
+                    const matchingIndex = results.findIndex((result) => result.place_id === placeIdToSelect);
+                    if (matchingIndex !== -1) {
+                        setActiveSuggestionIndex(matchingIndex);
+                        handleSelect(results[matchingIndex]);
+                    }
                 }
             } catch (error) {
                 console.error("Google Places error:", error);
@@ -102,9 +115,13 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, apiBaseUrl })
     useEffect(() => {
         if (initialValue && !initialFetchDoneRef.current) {
             initialFetchDoneRef.current = true;
-            fetchSuggestions(initialValue, true);
+            isSilentModeRef.current = true;
+            fetchSuggestions(initialValue, remoteId);
         }
-    }, [initialValue, fetchSuggestions]);
+        // fetchSuggestions is intentionally excluded: it's stable due to useDebouncedCallback
+        // and we only want this effect to run when initialValue or remoteId change.
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [initialValue, remoteId]);
 
     useClickAway(() => {
         setShowDropdown(false);
@@ -167,9 +184,11 @@ GooglePlacesAutocomplete.propTypes = {
     initialValue: PropTypes.string,
     onSelect: PropTypes.func,
     apiBaseUrl: PropTypes.string.isRequired,
+    remoteId: PropTypes.string,
 };
 
 GooglePlacesAutocomplete.defaultProps = {
     initialValue: "",
     onSelect: null,
+    remoteId: null,
 };
