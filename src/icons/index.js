@@ -173,6 +173,7 @@ export { ServiceIcon } from "./src/ServiceIcon";
 export { SettingsIcon } from "./src/SettingsIcon";
 export { ShapesIcon } from "./src/ShapesIcon";
 export { ShareIcon } from "./src/ShareIcon";
+export { ShieldIcon } from "./src/ShieldIcon";
 export { ShirtIcon } from "./src/ShirtIcon";
 export { ShoppingBagIcon } from "./src/ShoppingBagIcon";
 export { SnapchatIcon } from "./src/Logos/SnapchatIcon";
