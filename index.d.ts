@@ -216,6 +216,7 @@ export {
     RoundedSquareIcon,
     roundNumber,
     RulerIcon,
+    ScanQrCodeIcon,
     Search,
     SearchAltIcon,
     SearchIcon,
@@ -283,5 +284,4 @@ export {
     WriteIcon,
     XolaBotIcon,
     XrayIcon,
-    ScanQRCodeIcon,
 } from "./build/ui-kit.umd";
