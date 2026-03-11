@@ -228,3 +228,4 @@ export { XolaLogoSimple } from "./src/images/XolaLogoSimple";
 export { XrayIcon } from "./src/XrayIcon";
 export { YelpIcon } from "./src/Logos/YelpIcon";
 export { ZipIcon } from "./src/BNPL/ZipIcon";
+export { ScanQRCodeIcon } from "./src/ScanQRCodeIcon";

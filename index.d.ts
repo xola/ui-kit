@@ -283,4 +283,5 @@ export {
     WriteIcon,
     XolaBotIcon,
     XrayIcon,
+    ScanQRCodeIcon,
 } from "./build/ui-kit.umd";
