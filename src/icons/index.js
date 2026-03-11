@@ -167,6 +167,7 @@ export { RefreshIcon } from "./src/RefreshIcon";
 export { RosterIcon } from "./src/RosterIcon";
 export { RoundedSquareIcon } from "./src/RoundedSquareIcon";
 export { RulerIcon } from "./src/RulerIcon";
+export { ScanQrCodeIcon } from "./src/ScanQrCodeIcon";
 export { SearchAltIcon } from "./src/SearchAltIcon";
 export { SearchIcon } from "./src/SearchIcon";
 export { SendIcon } from "./src/SendIcon";

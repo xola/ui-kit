@@ -216,6 +216,7 @@ export {
     RoundedSquareIcon,
     roundNumber,
     RulerIcon,
+    ScanQrCodeIcon,
     Search,
     SearchAltIcon,
     SearchIcon,
