@@ -91,6 +91,7 @@ export const Drawer = forwardRef(
                                             <Dialog.Title>{title} test</Dialog.Title>
                                         </div>
                                         <div className={clsx("relative mt-3 flex-1", classNames.content)}>
+                                            {"test"}
                                             {content}
                                         </div>
                                     </Dialog.Panel>
