@@ -79,8 +79,7 @@ export const Drawer = forwardRef(
                             >
                                 <div className="flex">
                                     {position === "right" ? <CloseButton onClose={onClose} /> : null}
-
-                                    <div
+                                    <Dialog.Panel
                                         className={clsx(
                                             "flex h-full w-full flex-col overflow-y-auto bg-white px-4 py-8 shadow-xl sm:px-6",
                                             sizes[size],
@@ -94,7 +93,7 @@ export const Drawer = forwardRef(
                                         <div className={clsx("relative mt-3 flex-1", classNames.content)}>
                                             {content}
                                         </div>
-                                    </div>
+                                    </Dialog.Panel>
 
                                     {position === "left" ? <CloseButton onClose={onClose} /> : null}
                                 </div>
