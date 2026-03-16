@@ -88,7 +88,7 @@ export const Drawer = forwardRef(
                                     >
                                         <div className="w-full">
                                             {/* eslint-disable-next-line react/jsx-max-depth */}
-                                            <Dialog.Title>{title}</Dialog.Title>
+                                            <Dialog.Title>{title} test</Dialog.Title>
                                         </div>
                                         <div className={clsx("relative mt-3 flex-1", classNames.content)}>
                                             {content}
