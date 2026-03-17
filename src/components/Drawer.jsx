@@ -109,10 +109,7 @@ export const Drawer = forwardRef(
                                         onMouseDownCapture={handleContentInteraction}
                                         onTouchStartCapture={handleContentInteraction}
                                     >
-                                        <div className="w-full">
-                                            {/* eslint-disable-next-line react/jsx-max-depth */}
-                                            <Dialog.Title>{title} testUIKIT1</Dialog.Title>
-                                        </div>
+                                      
                                         <div className={clsx("relative mt-3 flex-1", classNames.content)}>
                                             {"testUIKIT1"}
                                             {content}
@@ -158,6 +155,6 @@ Drawer.propTypes = {
 Drawer.defaultProps = {
     title: "",
     classNames: {},
-    position: "right",
+    position: "left",
     sideIndent: 0,
 };
