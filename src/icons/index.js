@@ -36,6 +36,7 @@ export { CardAltIcon } from "./src/CardAltIcon";
 export { CardIcon } from "./src/CardIcon";
 export { CartIcon } from "./src/CartIcon";
 export { CashIcon } from "./src/CashIcon";
+export { ChallengeIcon } from "./src/ChallengeIcon";
 export { CheckboxIcon } from "./src/CheckboxIcon";
 export { CheckIcon } from "./src/CheckIcon";
 export { ChecklistIcon } from "./src/ChecklistIcon";
