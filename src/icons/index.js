@@ -118,6 +118,7 @@ export { GlobeIcon } from "./src/GlobeIcon";
 export { HandIcon } from "./src/HandIcon";
 export { HandshakeIcon } from "./src/HandshakeIcon";
 export { HelpCenterIcon } from "./src/HelpCenterIcon";
+export { HideIcon } from "./src/HideIcon";
 export { HouseIcon } from "./src/HouseIcon";
 export { ImageIcon } from "./src/ImageIcon";
 export { InfinityIcon } from "./src/InfinityIcon";

@@ -7,7 +7,7 @@ export const ItemsIcon = createIcon((props) => {
             <g
                 clipPath="url(#clip0_14983_75633)"
                 stroke="currentColor"
-                strokeWidth="1.125"
+                strokeWidth="1.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
             >
