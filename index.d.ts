@@ -145,7 +145,6 @@ export {
     HandshakeIcon,
     HeaderToolbar,
     HelpCenterIcon,
-    HideIcon,
     HiddenIcon,
     HouseIcon,
     ImageIcon,
