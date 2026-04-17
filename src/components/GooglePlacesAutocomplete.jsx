@@ -156,8 +156,8 @@ export const GooglePlacesAutocomplete = ({ initialValue, onSelect, apiBaseUrl, r
                     ) : (
                         suggestions.map((suggestion, index) => (
                             <div
-                                data-testid="google-places-option"
                                 key={suggestion.place_id}
+                                data-testid="google-places-option"
                                 className="flex cursor-pointer flex-col gap-2 border-b border-gray bg-white px-3 py-2 hover:bg-gray-light hover:text-blue-light"
                                 onClick={() => handleSelect(suggestion)}
                                 onMouseEnter={() => setActiveSuggestionIndex(index)}
