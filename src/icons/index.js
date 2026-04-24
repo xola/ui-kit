@@ -183,6 +183,7 @@ export { ShieldIcon } from "./src/ShieldIcon";
 export { ShirtIcon } from "./src/ShirtIcon";
 export { ShoppingBagIcon } from "./src/ShoppingBagIcon";
 export { SnapchatIcon } from "./src/Logos/SnapchatIcon";
+export { SplitArrowIcon } from "./src/SplitArrowIcon";
 export { SplitPaymentIcon } from "./src/SplitPaymentIcon";
 export { StackIcon } from "./src/StackIcon";
 export { StarFilledIcon } from "./src/StarFilledIcon";
