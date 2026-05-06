@@ -235,6 +235,7 @@ export {
     Skeleton,
     SlideDown,
     Spinner,
+    SplitArrowIcon,
     SplitPaymentIcon,
     SquareIcon,
     StackIcon,
