@@ -102,6 +102,7 @@ export { EquipmentIcon } from "./src/EquipmentIcon";
 export { ExpediaImage } from "./src/images/ExpediaImage";
 export { ExportIcon } from "./src/ExportIcon";
 export { EyeIcon } from "./src/EyeIcon";
+export { EyeClosedIcon } from "./src/EyeClosedIcon";
 export { FacebookIcon } from "./src/Logos/FacebookIcon";
 export { FaceNeutralIcon } from "./src/FaceNeutralIcon";
 export { FaceSadIcon } from "./src/FaceSadIcon";
