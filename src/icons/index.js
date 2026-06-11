@@ -146,6 +146,7 @@ export { MoneyIcon } from "./src/MoneyIcon";
 export { MountainIcon } from "./src/MountainIcon";
 export { MouseIcon } from "./src/MouseIcon";
 export { PassIcon } from "./src/PassIcon";
+export { PosIcon } from "./src/PosIcon";
 export { PenIcon } from "./src/PenIcon";
 export { PhoneIcon } from "./src/PhoneIcon";
 export { PhotosIcon } from "./src/PhotosIcon";
