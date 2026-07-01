@@ -22,9 +22,16 @@ export const Currency = ({
 
     const maxDigits = isZeroDecimal(currency) ? 0 : maximumFractionDigits;
     let formattedAmount = numberFormat(amount, currency, locale, maxDigits, compact);
+
+    const isNegative = amount < 0;
+    if (isNegative) {
+        formattedAmount = formattedAmount.replace("-", "");
+    }
+
     if (compact) {
         return (
             <span className="ui-currency">
+                {isNegative && "-"}
                 {getSymbol(currency, locale, isNarrowSymbolForm)}
                 {formattedAmount}
             </span>
@@ -32,7 +39,12 @@ export const Currency = ({
     }
 
     formattedAmount = shouldRemoveTrailingZeroes ? formattedAmount.replace(".00", "") : formattedAmount;
-    return <span className="ui-currency">{formattedAmount}</span>;
+    return (
+        <span className="ui-currency">
+            {isNegative && "-"}
+            {formattedAmount}
+        </span>
+    );
 };
 
 Currency.propTypes = {

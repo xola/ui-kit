@@ -16,3 +16,14 @@ Install the icons
 ```bash
 npm install @xola/icons
 ```
+
+### Publish
+
+Run these commands in the `src/icons/` folder
+
+```bash
+npm version <your-new-version>
+npm publish --tag=latest
+```
+
+You can view your publish package here https://www.npmjs.com/package/@xola/icons?activeTab=versions

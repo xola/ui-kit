@@ -2,10 +2,10 @@ import clsx from "clsx";
 import { isArray, isFunction } from "lodash";
 import PropTypes from "prop-types";
 import React from "react";
-import DayPicker from "react-day-picker";
 import { now } from "../../helpers/date";
 import { Tooltip } from "../Tooltip";
 import { Day } from "./Day";
+import { LocalizedDayPicker } from "./LocalizedDayPicker";
 import { MonthYearSelector } from "./MonthYearSelector";
 import { NavbarElement } from "./NavbarElement";
 
@@ -24,6 +24,7 @@ const RangeDatePicker = ({
     handleStartMonthChange,
     handleEndMonthChange,
     handleTodayClick,
+    locale,
     timezoneName,
     ...rest
 }) => {
@@ -32,7 +33,9 @@ const RangeDatePicker = ({
 
     const createCaptionElement = (currentMonth, handleChange) =>
         shouldShowYearPicker && currentMonth
-            ? ({ date }) => <MonthYearSelector date={date} currentMonth={currentMonth} onChange={handleChange} />
+            ? ({ date }) => (
+                  <MonthYearSelector date={date} currentMonth={currentMonth} locale={locale} onChange={handleChange} />
+              )
             : undefined;
 
     const CaptionStartElement = createCaptionElement(startMonth, handleStartMonthChange);
@@ -90,7 +93,7 @@ const RangeDatePicker = ({
 
     return (
         <div className="flex gap-4">
-            <DayPicker
+            <LocalizedDayPicker
                 className={clsx(
                     "ui-date-picker max-w-[400px] rounded-lg pt-3",
                     isDateRangeStyle ? "date-range-picker" : null,
@@ -110,7 +113,7 @@ const RangeDatePicker = ({
                 onTodayButtonClick={handleTodayClick}
                 {...rest}
             />
-            <DayPicker
+            <LocalizedDayPicker
                 className={clsx(
                     "ui-date-picker max-w-[400px] rounded-lg pt-3",
                     isDateRangeStyle ? "date-range-picker" : null,

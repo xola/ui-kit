@@ -27,7 +27,7 @@ jobs:
         id: generate_token
         uses: tibdex/github-app-token@v1
         with:
-          app_id: ${{ secrets.XOLA_GITHUB_APP_ID }}
+          app_id: ${{ vars.XOLA_GITHUB_APP_ID }}
           private_key: ${{ secrets.XOLA_GITHUB_APP_PRIVATE_KEY }}
 
       - name: Add Jira info
