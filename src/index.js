@@ -33,6 +33,7 @@ export { Checkbox } from "./components/Forms/Checkbox";
 export { Label } from "./components/Forms/Label";
 export { RangeSlider } from "./components/Forms/RangeSlider";
 export { HeaderToolbar } from "./components/HeaderToolbar";
+export { GooglePlacesAutocomplete } from "./components/GooglePlacesAutocomplete";
 export { Tabs } from "./components/Tabs";
 export { Skeleton } from "./components/Skeleton";
 export { Drawer } from "./components/Drawer";
@@ -41,6 +42,7 @@ export { Login } from "./components/Screens/Login";
 export { DatePicker } from "./components/DatePicker/DatePicker";
 export { RelativeDateRange } from "./components/DatePicker/RelativeDateRange";
 export { DatePickerPopover } from "./components/DatePicker/DatePickerPopover";
+export { MonthPicker } from "./components/DatePicker/MonthPicker";
 export { InlineValuePopover } from "./components/Forms/InlineValuePopover";
 export { ImageUpload } from "./components/ImageUpload";
 
@@ -57,6 +59,9 @@ export { formatPhoneNumber } from "./helpers/phone";
 export { rangeLabels, rangeOptions } from "./components/DatePicker/RelativeDateRange";
 export { isOSX, isIosBrowser } from "./helpers/browser";
 export { flash } from "./helpers/flash";
+
+// Hooks
+export { useId } from "./hooks/useId";
 
 // Chart options
 export { BaseChartOptions } from "./components/Charts/BaseChartOptions";
