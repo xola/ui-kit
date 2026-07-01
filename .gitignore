@@ -8,3 +8,4 @@ storybook-static
 *.tgz
 src/theme.js
 .idea
+.claude/settings.local.json
