@@ -1,6 +1,6 @@
 {
     "name": "@xola/ui-kit",
-    "version": "2.3.34",
+    "version": "2.3.37",
     "description": "Xola UI Kit",
     "license": "MIT",
     "repository": {
@@ -37,6 +37,8 @@
         "@tailwindcss/forms": "^0.5.6",
         "@tailwindcss/line-clamp": "^0.3.1",
         "@tippyjs/react": "^4.2.6",
+        "ahooks": "^3.9.6",
+        "axios": "^1.13.2",
         "clsx": "^1.1.1",
         "dayjs": "^1.11.10",
         "downshift": "^6.1.5",
@@ -48,10 +50,11 @@
         "react-hot-toast": "^2.1.0",
         "react-hotkeys-hook": "^3.4.0",
         "react-json-view": "^1.21.3",
-        "react-textarea-autosize": "^8.5.3",
         "react-select": "^5.7.0",
+        "react-textarea-autosize": "^8.5.3",
         "storybook-addon-designs": "^6.3.1",
-        "tippy.js": "^6.3.1"
+        "tippy.js": "^6.3.1",
+        "use-debounce": "^10.0.6"
     },
     "devDependencies": {
         "@babel/core": "^7.14.8",
