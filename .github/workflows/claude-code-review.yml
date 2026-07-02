@@ -2,7 +2,7 @@ name: Claude Code Review
 
 on:
   pull_request:
-    types: [opened, ready_for_review, reopened, closed, labeled]
+    types: [opened, ready_for_review, reopened, closed]
   workflow_dispatch:
     inputs:
       pr_number:
