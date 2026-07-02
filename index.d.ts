@@ -26,6 +26,7 @@ export {
     BellIcon,
     BookIcon,
     BookmarkIcon,
+    BottomSheet,
     BoxIcon,
     BugIcon,
     Breadcrumb,

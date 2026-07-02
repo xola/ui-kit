@@ -15,6 +15,7 @@ export { Tooltip } from "./components/Tooltip";
 export { Popover } from "./components/Popover/Popover";
 export { PopoverList } from "./components/Popover/PopoverList";
 export { Modal } from "./components/Modal";
+export { BottomSheet } from "./components/BottomSheet";
 export { Table } from "./components/Table";
 export { ButtonGroup } from "./components/Buttons/ButtonGroup";
 export { Counter } from "./components/Counter";
