@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import React, { Fragment } from "react";
 import { isIosBrowser } from "../helpers/browser";
 import { useViewportHeight } from "../hooks/useViewportHeight";
+import { CloseIcon } from "../icons";
 
 // A mobile-first bottom sheet. Mirrors Modal's compound API (Header/Body/Footer) so it can be
 // swapped in wherever a Modal is used on small screens. Kept at z-30 (same as Modal) so popovers
@@ -66,10 +67,17 @@ export const BottomSheet = ({
                         style={panelStyle}
                         className={clsx(
                             className,
-                            "ui-bottom-sheet-panel fixed inset-x-0 bottom-0 flex max-h-[90dvh] w-full flex-col rounded-t-2xl bg-white px-6 pb-8 pt-3 text-left shadow-xl",
+                            "ui-bottom-sheet-panel fixed inset-x-0 bottom-0 flex max-h-[90dvh] w-full flex-col rounded-t-2xl bg-white px-6 pb-8 pt-6 text-left shadow-xl",
                         )}
                     >
-                        <div className="mx-auto mb-4 h-1.5 w-10 shrink-0 rounded-full bg-gray" aria-hidden="true" />
+                        <button
+                            type="button"
+                            aria-label="Close"
+                            className="absolute right-4 top-4 z-10 p-1 text-black hover:text-gray-darker"
+                            onClick={() => onClose()}
+                        >
+                            <CloseIcon />
+                        </button>
 
                         {children}
                     </div>
@@ -87,9 +95,14 @@ BottomSheet.propTypes = {
     className: PropTypes.string,
 };
 
+// px-8 keeps the centered title clear of the absolute close button in the top-right corner.
 const Header = ({ children, description, className, ...rest }) => {
     return (
-        <Dialog.Title as="div" className={clsx(className, "ui-bottom-sheet-header shrink-0 text-center")} {...rest}>
+        <Dialog.Title
+            as="div"
+            className={clsx(className, "ui-bottom-sheet-header shrink-0 px-8 text-center")}
+            {...rest}
+        >
             <h3 className="text-2xl font-semibold leading-6 text-black">{children}</h3>
 
             {description ? (
