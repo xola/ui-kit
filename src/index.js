@@ -63,6 +63,7 @@ export { flash } from "./helpers/flash";
 
 // Hooks
 export { useId } from "./hooks/useId";
+export { useIsMobile } from "./hooks/useIsMobile";
 
 // Chart options
 export { BaseChartOptions } from "./components/Charts/BaseChartOptions";
