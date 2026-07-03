@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import React, { cloneElement, forwardRef, useEffect, useState } from "react";
 import { CalendarIcon, DownArrowIcon } from "../..";
 import { formatDate } from "../../helpers/date";
+import { useIsMobile } from "../../hooks/useIsMobile";
 import { Input } from "../Forms/Input";
 import { Popover } from "../Popover/Popover";
 import { DatePicker } from "./DatePicker";
@@ -57,6 +58,12 @@ export const DatePickerPopover = ({
         setOriginalValue(value);
     }, [value]);
 
+    // On mobile the calendar is tall relative to the viewport; opening it downward (below the
+    // input) runs it off the bottom of the screen — especially inside a bottom sheet, and worse
+    // behind the mobile browser's toolbar. Force it to open upward into the roomier space above the
+    // field. This deliberately overrides any consumer-supplied `placement` on mobile only.
+    const isMobile = useIsMobile();
+
     return (
         <Popover
             visible={isVisible}
@@ -66,6 +73,7 @@ export const DatePickerPopover = ({
             className={clsx("ui-date-picker-input", classNames.popover)}
             onClickOutside={handleClickOutside}
             {...popoverProps}
+            {...(isMobile ? { placement: "top", distance: 4 } : {})}
         >
             {children ? (
                 cloneElement(children, { onClick: toggleVisibility })
