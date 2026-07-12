@@ -8,7 +8,7 @@ import {
     PolicyIcon,
     Sidebar,
     StarIcon,
-    UserIcon
+    UserIcon,
 } from "../..";
 
 const SidebarStories = {

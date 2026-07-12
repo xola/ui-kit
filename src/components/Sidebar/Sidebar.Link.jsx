@@ -15,7 +15,7 @@ export const SidebarLink = ({
     classNames,
     ...rest
 }) => {
-    const showInfo = !!info ? true : hasSubmenu;
+    const showInfo = info ? true : hasSubmenu;
     return (
         <button
             type="button"

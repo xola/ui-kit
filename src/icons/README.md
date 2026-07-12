@@ -6,8 +6,8 @@ The preview for icons are published as part of the repository's storybook on [ui
 
 ### Requirements
 
--   Node.js v16
--   NPM v7 or higher
+- Node.js v16
+- NPM v7 or higher
 
 ### Usage
 

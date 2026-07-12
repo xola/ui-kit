@@ -183,27 +183,27 @@ export const Search = ({
             >
                 {isVisible
                     ? itemList.map((item, index) => (
-                        <li key={item?.id ?? index} {...getItemProps({ item, index, className: "ui-search-item" })}>
-                            {item === submitValueItem ? (
-                                isLoading && !hasResults ? (
-                                    <div className="p-3 text-center">
-                                        <Spinner size="small" />
-                                    </div>
-                                ) : inputValue.length < minChars ? (
-                                    <div
-                                        className={cn(
-                                            "cursor-pointer p-2",
-                                            highlightedIndex === index ? "bg-blue-light text-white" : "",
-                                        )}
-                                    >
-                                        {`Enter at least ${minChars} characters to begin search`}
-                                    </div>
-                                ) : null
-                            ) : (
-                                children?.(item, highlightedIndex === index)
-                            )}
-                        </li>
-                    ))
+                          <li key={item?.id ?? index} {...getItemProps({ item, index, className: "ui-search-item" })}>
+                              {item === submitValueItem ? (
+                                  isLoading && !hasResults ? (
+                                      <div className="p-3 text-center">
+                                          <Spinner size="small" />
+                                      </div>
+                                  ) : inputValue.length < minChars ? (
+                                      <div
+                                          className={cn(
+                                              "cursor-pointer p-2",
+                                              highlightedIndex === index ? "bg-blue-light text-white" : "",
+                                          )}
+                                      >
+                                          {`Enter at least ${minChars} characters to begin search`}
+                                      </div>
+                                  ) : null
+                              ) : (
+                                  children?.(item, highlightedIndex === index)
+                              )}
+                          </li>
+                      ))
                     : null}
 
                 {isVisible && noResultFound ? <li className="cursor-not-allowed p-2">No results found</li> : null}

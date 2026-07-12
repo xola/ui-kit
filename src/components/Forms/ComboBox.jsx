@@ -16,9 +16,9 @@ export const ComboBox = forwardRef(({ isCreatable = false, className, isError, .
             components={
                 isCreatable
                     ? {
-                        IndicatorsContainer: () => null,
-                        Menu: () => null,
-                    }
+                          IndicatorsContainer: () => null,
+                          Menu: () => null,
+                      }
                     : null
             }
             {...rest}
@@ -29,4 +29,9 @@ export const ComboBox = forwardRef(({ isCreatable = false, className, isError, .
 ComboBox.propTypes = {
     className: PropTypes.string,
     isError: PropTypes.bool,
+};
+
+ComboBox.defaultProps = {
+    className: "",
+    isError: false,
 };

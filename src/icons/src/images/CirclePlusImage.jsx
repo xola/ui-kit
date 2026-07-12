@@ -1,5 +1,5 @@
-import cn from "../helpers/classnames";
 import React from "react";
+import cn from "../helpers/classnames";
 import { createIcon } from "../helpers/icon";
 
 export const CirclePlusImage = createIcon(({ className, ...rest }) => {
