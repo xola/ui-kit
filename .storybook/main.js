@@ -1,19 +1,28 @@
 module.exports = {
-    stories: ["../src/**/*.stories.@(js|jsx|mdx)"],
+    stories: ["../src/**/*.@(mdx|stories.@(js|jsx))"],
+
+    staticDirs: ["../public"],
+
     core: {
-        disableTelemetry: true,
-        builder: 'webpack5',
+        disableTelemetry: true
     },
+
     addons: [
+        "@storybook/addon-webpack5-compiler-babel",
         "@storybook/addon-postcss",
         "@storybook/addon-links",
         "storybook-css-modules-preset",
-        "storybook-addon-designs",
         {
             name: "@storybook/addon-essentials",
             options: {
                 backgrounds: false,
             },
         },
+        "@storybook/addon-mdx-gfm"
     ],
+
+    framework: {
+        name: "@storybook/react-webpack5",
+        options: {}
+    }
 };
