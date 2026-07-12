@@ -6,7 +6,7 @@ import cn from "../../helpers/classnames";
 import "./ComboBox.css";
 
 // TODO: Common parameters should be defined in stories like `options` and `defaultValue`
-export const ComboBox = forwardRef(({ isCreatable = false, className, isError, ...rest }, ref) => {
+export const ComboBox = forwardRef(({ isCreatable = false, className = "", isError = false, ...rest }, ref) => {
     const SelectType = isCreatable ? CreatableSelect : Select;
     return (
         <SelectType
@@ -29,9 +29,4 @@ export const ComboBox = forwardRef(({ isCreatable = false, className, isError, .
 ComboBox.propTypes = {
     className: PropTypes.string,
     isError: PropTypes.bool,
-};
-
-ComboBox.defaultProps = {
-    className: "",
-    isError: false,
 };
