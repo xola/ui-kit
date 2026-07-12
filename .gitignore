@@ -11,3 +11,4 @@ src/theme.js
 .vscode
 .codegraph
 /docs
+.claude/settings.local.json
