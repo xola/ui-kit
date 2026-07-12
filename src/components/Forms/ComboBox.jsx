@@ -51,6 +51,8 @@ const CustomMultiValue = (props) => {
 };
 
 ComboBox.propTypes = {
+    // eslint-disable-next-line react/require-default-props -- default set via default param, not defaultProps
     className: PropTypes.string,
+    // eslint-disable-next-line react/require-default-props -- default set via default param, not defaultProps
     isError: PropTypes.bool,
 };
