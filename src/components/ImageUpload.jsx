@@ -11,7 +11,7 @@ export const ImageUpload = ({
     hasDelete = true,
     requirements = null,
     caption = null,
-    csvAcceptFormats = "image/png,image/jpeg",
+    csvAcceptFormats = "image/png,image/jpeg,image/webp",
     onChange,
     onDelete,
     onError,
@@ -99,7 +99,7 @@ export const ImageUpload = ({
                         requirements
                     ) : (
                         <div>
-                            Check that the image is in PNG or JPG format
+                            Check that the image is in PNG, JPG or WebP format
                             {maxSize ? ` and does not exceed ${maxSize}MB` : ""}
                         </div>
                     )}

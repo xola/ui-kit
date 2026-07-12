@@ -3,15 +3,18 @@ import React, { cloneElement, forwardRef, useEffect, useState } from "react";
 import cn from "../../helpers/classnames";
 import { CalendarIcon, DownArrowIcon } from "../..";
 import { formatDate } from "../../utils/date";
+import { useIsMobile } from "../../hooks/useIsMobile";
 import { Input } from "../Forms/Input";
 import { Popover } from "../Popover/Popover";
 import { DatePicker } from "./DatePicker";
+import { MonthPicker } from "./MonthPicker";
 
 export const DatePickerPopover = ({
     value,
     variant = "single",
     dateFormat = "ddd, LL",
     placeholder = "Select Date",
+    pickerType = "day",
     onChange,
     children,
     classNames = {},
@@ -55,6 +58,12 @@ export const DatePickerPopover = ({
         setOriginalValue(value);
     }, [value]);
 
+    // On mobile the calendar is tall relative to the viewport; opening it downward (below the
+    // input) runs it off the bottom of the screen — especially inside a bottom sheet, and worse
+    // behind the mobile browser's toolbar. Force it to open upward into the roomier space above the
+    // field. This deliberately overrides any consumer-supplied `placement` on mobile only.
+    const isMobile = useIsMobile();
+
     return (
         <Popover
             visible={isVisible}
@@ -64,6 +73,7 @@ export const DatePickerPopover = ({
             className={cn("ui-date-picker-input", classNames.popover)}
             onClickOutside={handleClickOutside}
             {...popoverProps}
+            {...(isMobile ? { placement: "top", distance: 4 } : {})}
         >
             {children ? (
                 cloneElement(children, { onClick: toggleVisibility })
@@ -79,17 +89,20 @@ export const DatePickerPopover = ({
             )}
 
             <Popover.Content className="pr-1">
-                {isVisible && (
-                    <DatePicker
-                        variant={variant}
-                        getDayContent={getDayContent}
-                        value={value}
-                        components={components}
-                        onChange={handleChange}
-                        onSubmitDateRange={handleSubmitDateRange}
-                        {...rest}
-                    />
-                )}
+                {isVisible &&
+                    (pickerType === "month" ? (
+                        <MonthPicker value={value} onChange={handleChange} {...rest} />
+                    ) : (
+                        <DatePicker
+                            variant={variant}
+                            getDayContent={getDayContent}
+                            value={value}
+                            components={components}
+                            onChange={handleChange}
+                            onSubmitDateRange={handleSubmitDateRange}
+                            {...rest}
+                        />
+                    ))}
             </Popover.Content>
         </Popover>
     );

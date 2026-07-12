@@ -1,8 +1,9 @@
 import PropTypes from "prop-types";
-import React, { forwardRef } from "react";
-import Select from "react-select";
+import React, { forwardRef, useEffect, useRef, useState } from "react";
+import Select, { components } from "react-select";
 import CreatableSelect from "react-select/creatable";
 import cn from "../../helpers/classnames";
+import { Tooltip } from "../Tooltip";
 import "./ComboBox.css";
 
 // TODO: Common parameters should be defined in stories like `options` and `defaultValue`
@@ -18,6 +19,7 @@ export const ComboBox = forwardRef(({ isCreatable = false, className = "", isErr
                     ? {
                           IndicatorsContainer: () => null,
                           Menu: () => null,
+                          MultiValueLabel: CustomMultiValue,
                       }
                     : null
             }
@@ -25,6 +27,28 @@ export const ComboBox = forwardRef(({ isCreatable = false, className = "", isErr
         />
     );
 });
+
+const { MultiValueLabel } = components;
+
+const CustomMultiValue = (props) => {
+    const labelRef = useRef(null);
+    const [isTooltipDisabled, setIsTooltipDisabled] = useState(true);
+
+    useEffect(() => {
+        if (labelRef.current) {
+            const isOverflowing = labelRef.current.offsetWidth > labelRef.current.offsetParent.offsetWidth;
+            setIsTooltipDisabled(!isOverflowing);
+        }
+    }, [props.data.label]);
+
+    return (
+        <MultiValueLabel {...props}>
+            <Tooltip disabled={isTooltipDisabled} maxWidth="none" content={<span>{props.data.label}</span>}>
+                <span ref={labelRef}>{props.data.label}</span>
+            </Tooltip>
+        </MultiValueLabel>
+    );
+};
 
 ComboBox.propTypes = {
     className: PropTypes.string,

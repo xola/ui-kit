@@ -54,7 +54,10 @@
         "react-textarea-autosize": "^8.5.9",
         "react18-json-view": "^0.2.10",
         "tailwind-merge": "^2.6.1",
-        "tippy.js": "^6.3.7"
+        "tippy.js": "^6.3.7",
+        "ahooks": "^3.9.6",
+        "axios": "^1.13.2",
+        "use-debounce": "^10.0.6"
     },
     "devDependencies": {
         "@babel/core": "^7.29.7",

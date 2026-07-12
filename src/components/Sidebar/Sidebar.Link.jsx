@@ -1,5 +1,6 @@
+/* eslint-disable no-undef */
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import cn from "../../helpers/classnames";
 import { ChevronRightIcon } from "../../icons";
 import { Dot } from "../Dot/Dot";
@@ -16,17 +17,45 @@ export const SidebarLink = ({
     ...rest
 }) => {
     const showInfo = info ? true : hasSubmenu;
+    const containerRef = useRef(null);
+    const [showText, setShowText] = useState(true);
+    const [showIcon, setShowIcon] = useState(true);
+
+    useEffect(() => {
+        const checkWidth = () => {
+            if (containerRef.current) {
+                setShowText(containerRef.current.offsetWidth >= 140);
+                setShowIcon(containerRef.current.offsetWidth > 174 || containerRef.current.offsetWidth < 140);
+            }
+        };
+
+        // Initial check
+        checkWidth();
+
+        // Add resize observer for dynamic changes
+        const resizeObserver = new ResizeObserver(checkWidth);
+        if (containerRef.current) {
+            resizeObserver.observe(containerRef.current);
+        }
+
+        return () => {
+            resizeObserver.disconnect();
+        };
+    }, []);
+
     return (
         <button
+            ref={containerRef}
             type="button"
             className={cn(
                 "ui-sidebar-link",
                 "flex w-full items-center rounded leading-none transition-colors xl:justify-start",
+                !isSubMenuItem && "h-10",
                 {
                     "bg-primary text-white hover:bg-primary-dark": isActive,
                     "text-gray hover:bg-gray-darker": !isActive,
                     "justify-start px-6 py-2": isSubMenuItem,
-                    "justify-center py-3 xl:px-6": !isSubMenuItem,
+                    "justify-center py-3 px-6": !isSubMenuItem,
                 },
                 classNames?.button,
             )}
@@ -35,21 +64,20 @@ export const SidebarLink = ({
             {isSubMenuItem ? (
                 <Dot className={cn("mr-3 shrink-0", { "bg-white": isActive, "bg-gray": !isActive })} />
             ) : (
-                <Icon className="h-5 w-5 shrink-0 xl:mr-3" />
+                showIcon && (
+                    <div className={cn(!showText && "flex w-full justify-center")}>
+                        <Icon className={cn("h-5 w-5 shrink-0", showText && "mr-3")} />
+                    </div>
+                )
             )}
 
-            <span
-                className={cn(
-                    "hidden px-1 xl:inline",
-                    { "!inline text-left": isSubMenuItem },
-                    { "text-left": align === "left" },
-                    classNames?.text,
-                )}
-            >
-                {children}
-            </span>
+            {(showText || isSubMenuItem) && (
+                <span className={cn("px-1", { "text-left": isSubMenuItem || align === "left" }, classNames?.text)}>
+                    {children}
+                </span>
+            )}
 
-            {showInfo && (info ?? <ChevronRightIcon className="ml-auto hidden h-3 w-3 xl:inline" />)}
+            {!isSubMenuItem && showText && showInfo && (info ?? <ChevronRightIcon className="ml-auto h-3 w-3" />)}
         </button>
     );
 };

@@ -17,6 +17,7 @@ const colors = {
     },
 
     blue: {
+        medium: "#B0C7F1",
         lighter: "#D1E1FF",
         light: "#2979D0",
         DEFAULT: "#1352C6",
