@@ -18,7 +18,6 @@ module.exports = {
                 backgrounds: false,
             },
         },
-        "@storybook/addon-mdx-gfm"
     ],
 
     framework: {

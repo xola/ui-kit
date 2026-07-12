@@ -64,7 +64,6 @@
         "@storybook/addon-actions": "8.6.18",
         "@storybook/addon-essentials": "8.6.18",
         "@storybook/addon-links": "8.6.18",
-        "@storybook/addon-mdx-gfm": "^8.6.18",
         "@storybook/addon-postcss": "^2.0.0",
         "@storybook/addon-webpack5-compiler-babel": "^4.0.1",
         "@storybook/manager-api": "^8.6.18",
