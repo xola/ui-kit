@@ -3,6 +3,7 @@ export { FadeIn } from "./components/Animation/FadeIn";
 export { SlideDown } from "./components/Animation/SlideDown";
 export { Button } from "./components/Buttons/Button";
 export { SubmitButton } from "./components/Buttons/SubmitButton";
+export { SecondaryButton } from "./components/Buttons/SecondaryButton";
 export { ToggleButton } from "./components/Buttons/ToggleButton";
 export { Badge } from "./components/Badge";
 export { Tag } from "./components/Tag";
