@@ -61,7 +61,7 @@ export const Button = ({
         <Tag
             className={cn(
                 "ui-button",
-                "inline-flex rounded border transition-colors focus:ring disabled:cursor-default disabled:bg-gray-lighter disabled:text-gray-dark",
+                "inline-flex rounded border transition-colors focus:ring disabled:cursor-default disabled:bg-gray-lighter disabled:text-gray-darker",
                 "items-center justify-center font-semibold",
                 colors[variant].common,
                 colors[variant][color],
