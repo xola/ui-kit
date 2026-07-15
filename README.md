@@ -11,7 +11,7 @@ It's storybook is publicly published at [ui.xola.io](https://ui.xola.io). The ic
 
 ### Requirements
 
--   Node.js v16
+-   Node.js v20
 -   NPM v7 or higher
 
 ### Usage
@@ -25,8 +25,18 @@ npm install @xola/ui-kit
 Install peer dependencies:
 
 ```bash
-npm install autoprefixer postcss tailwindcss lodash
+npm install autoprefixer postcss tailwindcss vite @types/react @types/react-dom
 ```
+
+UI kit expects you already have a working React dev environment with PostCSS support.
+
+Import and use the components:
+
+```js
+import { Button } from "@xola/ui-kit";
+```
+
+#### Tailwind v3 projects
 
 Create PostCSS and Tailwind config files:
 
@@ -42,13 +52,47 @@ import "@xola/ui-kit/index.css";
 import "@xola/ui-kit/build/style.css";
 ```
 
-UI kit expects you already have a working React dev environment with PostCSS support.
+`index.css` is raw source (`@tailwind base/components/utilities`) that your own
+Tailwind v3 pipeline compiles, using `tailwind.config.js` above to pick up
+ui-kit's theme and scan its components for classes.
 
-Import and use the components:
+#### Tailwind v4 projects
 
-```js
-import { Button } from "@xola/ui-kit";
-```
+UI kit is still built on Tailwind v3, so there's no native way for it to hand
+its config to a v4 project (v3's JS config format and v4's CSS-first `@theme`
+aren't directly compatible). Two things bridge the gap:
+
+1. **Don't import `@xola/ui-kit/index.css`.** It uses `@tailwind` directives
+    and `@apply`, which v4's compiler doesn't understand and will error on.
+    Only import the prebuilt CSS:
+
+    ```js
+    import "@xola/ui-kit/build/style.css";
+    ```
+
+2. **Scan ui-kit's bundle and import its color palette**, in your app's main
+    CSS entry point (the file with `@import "tailwindcss";`):
+
+    ```css
+    @import "tailwindcss";
+
+    /* v4 excludes node_modules from class scanning by default, so ui-kit's
+       own utility classes (px-4.5, disabled:bg-gray-lighter, etc.) won't be
+       generated unless something in your own source happens to use the same
+       class string. Opt ui-kit's bundle back in explicitly. */
+    @source "./node_modules/@xola/ui-kit/build/ui-kit.es.js";
+
+    /* ui-kit's color palette (primary, gray, success, warning, ...),
+       auto-generated from its tailwind.config.js. Import this instead of
+       hand-copying hex values — otherwise names like "primary" will
+       silently resolve to your own theme's colors instead of Xola's. */
+    @import "@xola/ui-kit/build/theme.css";
+    ```
+
+If your app defines its own `primary`/`secondary`/`success`/etc. tokens (e.g.
+via shadcn/ui), those will collide with ui-kit's — `build/theme.css` must be
+imported after your own theme so ui-kit's classNames resolve to ui-kit's
+colors, not yours.
 
 ## Development
 
@@ -57,7 +101,7 @@ import { Button } from "@xola/ui-kit";
 Install all required dependencies:
 
 ```bash
-$ nvm use # Project needs Node.js v16 with NPM v7
+$ nvm use # Project needs Node.js v20 with NPM v7
 $ npm install
 ```
 

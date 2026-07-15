@@ -1,5 +1,5 @@
-import cn from "../helpers/classnames";
 import React from "react";
+import cn from "../helpers/classnames";
 
 export const TutorialsSquareIcon = (props) => {
     const className = cn("relative -top-0.25 inline-block", props.className);

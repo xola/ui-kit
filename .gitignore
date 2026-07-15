@@ -7,6 +7,9 @@ node_modules
 storybook-static
 *.tgz
 src/theme.js
+public/theme.css
 .idea
 .vscode
 .codegraph
+/docs
+.claude/settings.local.json

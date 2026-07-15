@@ -12,6 +12,7 @@ import "./DatePicker.css";
 import { Day } from "./Day";
 import { LocalizedDayPicker } from "./LocalizedDayPicker";
 import { MonthYearSelector } from "./MonthYearSelector";
+import { MonthSelector } from "./MonthSelector";
 import { NavbarElement } from "./NavbarElement";
 import RangeDatePicker from "./RangeDatePicker";
 import { RelativeDateRange } from "./RelativeDateRange";
@@ -30,13 +31,17 @@ export const DatePicker = ({
     value,
     getDayContent,
     disabledDays = [],
+    selectedDays,
+    loadingDays = [],
     shouldShowYearPicker = false,
+    shouldShowMonthSelector = false,
     onChange,
     onMonthChange,
     onSubmitDateRange,
     modifiers = {},
     ranges,
     shouldShowRelativeRanges = false,
+    isFutureDatesAllowed = false,
     components = {},
     getTooltip,
     upcomingDates,
@@ -66,12 +71,7 @@ export const DatePicker = ({
     const [rangeName, setRangeName] = useState("");
     const isRangeVariant = variant === variants.range;
     const isValidValue = value && value.from && value.to;
-
-    // Sync internal month state with outside.
-    // Todo: This might not be required, as we have onMonthChange callback in handleMonthChange and other callbacks too. This causes the onMonthChange to be called more than once.
-    useEffect(() => {
-        onMonthChange?.(currentMonth);
-    }, [currentMonth, onMonthChange]);
+    const isSelectedDaysHasValidRange = selectedDays && selectedDays.from && selectedDays.to;
 
     useEffect(() => {
         if (timezoneName && !isValidTimeZoneName(timezoneName)) {
@@ -105,6 +105,18 @@ export const DatePicker = ({
         }
 
         return disabledDays(date);
+    };
+
+    const isLoading = (date) => {
+        if (isArray(loadingDays)) {
+            return loadingDays.some((_date) => isSame(now(_date, timezoneName), date, "day"));
+        }
+
+        if (isFunction(loadingDays)) {
+            return loadingDays(date);
+        }
+
+        return loadingDays(date);
     };
 
     const handleRelativeRangeChanged = (rangeName, range) => {
@@ -143,19 +155,15 @@ export const DatePicker = ({
             if (isValidValue) {
                 // This allows us to easily select another date range,
                 // if both dates are selected.
-                onChange({ from: toDate(now(day, timezoneName).startOf("day")), to: null }, options, event);
+                onChange({ from: toDate(now(day, timezoneName)), to: null }, options, event);
             } else if (value && (value.from || value.to) && (value.from || value.to).getTime() === day.getTime()) {
-                const from = toDate(now(day, timezoneName).startOf("day"));
+                const from = toDate(now(day, timezoneName));
                 const to = toDate(now(day, timezoneName).endOf("day"), false);
 
                 onChange({ from, to }, options, event);
             } else if (value.from && DateUtils.isDayBefore(value.from, toDate(now(day, timezoneName)))) {
                 // this works if the user first clicked on the date that will go to "from", and the second click to "to"
-                onChange(
-                    DateUtils.addDayToRange(toDate(now(day, timezoneName).endOf("day"), false), value),
-                    options,
-                    event,
-                );
+                onChange(DateUtils.addDayToRange(toDate(now(day, timezoneName), false), value), options, event);
             } else if (
                 value.from &&
                 (DateUtils.isDayAfter(value.from, toDate(now(day, timezoneName))) ||
@@ -165,7 +173,7 @@ export const DatePicker = ({
                 // also this works when the user has selected one date
                 onChange(
                     {
-                        from: toDate(now(day, timezoneName).startOf("day")),
+                        from: toDate(now(day, timezoneName)),
                         to: toDate(now(value.from).endOf("day"), false),
                     },
                     options,
@@ -186,29 +194,39 @@ export const DatePicker = ({
 
     // TODO: Should be outside this component because this returns JSX
     const CaptionElement = useMemo(() => {
-        return shouldShowYearPicker && currentMonth
-            ? ({ date }) => (
-                  <MonthYearSelector
-                      date={date}
-                      currentMonth={currentMonth}
-                      locale={locale ?? contextLocale}
-                      onChange={handleMonthChange}
-                  />
-              )
+        return (shouldShowYearPicker || shouldShowMonthSelector) && currentMonth
+            ? ({ date }) =>
+                  shouldShowMonthSelector ? (
+                      <MonthSelector
+                          date={date}
+                          currentMonth={currentMonth}
+                          locale={locale ?? contextLocale}
+                          onChange={handleMonthChange}
+                      />
+                  ) : (
+                      <MonthYearSelector
+                          date={date}
+                          currentMonth={currentMonth}
+                          locale={locale ?? contextLocale}
+                          onChange={handleMonthChange}
+                      />
+                  )
             : undefined;
         // Adding `handleMonthChange` causes a lot of re-renders, and closes drop-down.
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [shouldShowYearPicker, currentMonth]);
+    }, [shouldShowYearPicker, shouldShowMonthSelector, currentMonth]);
 
     // TODO: Should be outside this component because this returns JSX
     const renderDay = (date) => {
         const tooltipContent = getTooltip?.(date);
         const disabled = isDisabled(date);
+        const loading = isLoading(date);
 
         return tooltipContent ? (
             <Tooltip placement="top" content={tooltipContent}>
                 <Day
                     disabled={disabled}
+                    isLoading={loading}
                     selectedDate={value}
                     date={date}
                     getContent={getDayContent}
@@ -218,6 +236,7 @@ export const DatePicker = ({
         ) : (
             <Day
                 disabled={disabled}
+                isLoading={loading}
                 selectedDate={value}
                 date={date}
                 getContent={getDayContent}
@@ -226,12 +245,20 @@ export const DatePicker = ({
         );
     };
 
-    const rangeModifier = isRangeVariant && isValidValue ? { start: value.from, end: value.to } : null;
+    const rangeModifier =
+        isRangeVariant && isValidValue
+            ? { start: value.from, end: value.to }
+            : isSelectedDaysHasValidRange
+              ? { start: selectedDays.from, end: selectedDays.to }
+              : null;
 
     // Comparing `from` and `to` dates hides a weird CSS style when you select the same date twice in a date range.
     const useDateRangeStyle = isRangeVariant && isValidValue && value.from?.getTime() !== value.to?.getTime();
+    const useDateSelectedRangeStyle =
+        isSelectedDaysHasValidRange && selectedDays.from?.getTime() !== selectedDays.to?.getTime();
     // Return the same value if it is already dayjs object or has range variant otherwise format it to dayJs object
-    const selectedDays = value && (dayjs.isDayjs(value) || isRangeVariant ? value : now(value, timezoneName).toDate());
+    const selectedDaysValues =
+        selectedDays ?? (value && (dayjs.isDayjs(value) || isRangeVariant ? value : now(value, timezoneName).toDate()));
 
     return (
         <>
@@ -260,7 +287,7 @@ export const DatePicker = ({
                         handleStartMonthChange={handleStartMonthChange}
                         handleEndMonthChange={handleEndMonthChange}
                         handleTodayClick={handleTodayClick}
-                        selectedDays={selectedDays}
+                        selectedDays={selectedDaysValues}
                         locale={locale ?? contextLocale}
                         timezoneName={timezoneName}
                         {...rest}
@@ -270,11 +297,12 @@ export const DatePicker = ({
                         className={cn(
                             "ui-date-picker rounded-lg pt-3",
                             useDateRangeStyle ? "date-range-picker" : null,
+                            useDateSelectedRangeStyle ? "date-range-picker max-w-[400px]" : null,
                             getDayContent ? "has-custom-content" : null,
                             modifiers.waitlist ? "has-custom-content" : null,
                         )}
                         todayButton="Today"
-                        selectedDays={selectedDays}
+                        selectedDays={selectedDaysValues}
                         month={currentMonth}
                         modifiers={{ ...modifiers, ...rangeModifier }}
                         disabledDays={disabledDays}
@@ -298,6 +326,7 @@ export const DatePicker = ({
                             value={rangeName}
                             ranges={ranges}
                             timezoneName={timezoneName}
+                            isFutureDatesAllowed={isFutureDatesAllowed}
                             onChange={handleRelativeRangeChanged}
                             onSubmit={onSubmitDateRange}
                         />
@@ -311,11 +340,13 @@ export const DatePicker = ({
 DatePicker.propTypes = {
     variant: PropTypes.oneOf(Object.keys(variants)),
     value: PropTypes.objectOf(Date),
+    selectedDays: PropTypes.objectOf(Date),
     upcomingDates: PropTypes.arrayOf(Date),
     onChange: PropTypes.func.isRequired,
     onMonthChange: PropTypes.func,
     disabledDays: PropTypes.oneOfType([PropTypes.object, PropTypes.array, PropTypes.func]),
     shouldShowYearPicker: PropTypes.bool,
+    shouldShowMonthSelector: PropTypes.bool,
     isDateRangeStyle: PropTypes.bool,
     isRangeVariant: PropTypes.bool,
     getDayContent: PropTypes.func,
