@@ -29,14 +29,15 @@
         "lint:fix": "xola-lint src --fix",
         "lint:report": "xola-lint src --reporter=json src > eslint_report.json",
         "format": "prettier -l --write src",
-        "test": "vitest run",
-        "chromatic": "chromatic --exit-zero-on-changes --build-script-name build:storybook"
+        "test": "vitest run"
     },
     "dependencies": {
         "@headlessui/react": "1.7",
         "@tailwindcss/forms": "^0.5.11",
         "@tailwindcss/line-clamp": "^0.4.4",
         "@tippyjs/react": "^4.2.6",
+        "ahooks": "^3.9.6",
+        "axios": "^1.13.2",
         "clsx": "^1.2.1",
         "dayjs": "^1.11.21",
         "downshift": "^6.1.12",
@@ -55,8 +56,6 @@
         "react18-json-view": "^0.2.10",
         "tailwind-merge": "^2.6.1",
         "tippy.js": "^6.3.7",
-        "ahooks": "^3.9.6",
-        "axios": "^1.13.2",
         "use-debounce": "^10.0.6"
     },
     "devDependencies": {
@@ -79,7 +78,6 @@
         "@xola/jslint": "^3.0.1",
         "autoprefixer": "^10.5.2",
         "babel-loader": "^8.4.1",
-        "chromatic": "^6.24.1",
         "css-loader": "^7.1.4",
         "postcss": "8.5",
         "postcss-loader": "^8.2.1",

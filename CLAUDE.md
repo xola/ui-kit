@@ -19,7 +19,6 @@ npm run lint               # xola-lint (ESLint) on src, auto-fix
 npm run lint:fix          # Same, explicit auto-fix
 npm run format            # Prettier --write on src
 npm test                  # Run all tests (Jest)
-npm run chromatic         # Visual regression via Chromatic
 ```
 
 Run a single test file:
