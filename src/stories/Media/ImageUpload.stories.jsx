@@ -44,14 +44,6 @@ const ImageUploadStories = {
                 defaultValue: { summary: "medium" },
             },
         },
-        csvAcceptFormats: {
-            description: "The caption to show on the upload button",
-            control: { type: "text" },
-            table: {
-                type: { summary: null },
-                defaultValue: { summary: "Upload New Photo" },
-            },
-        },
         isLoading: {
             control: { type: "boolean" },
             table: {

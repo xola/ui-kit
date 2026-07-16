@@ -1,3 +1,5 @@
+const path = require("path");
+
 module.exports = {
     stories: ["../src/**/*.@(mdx|stories.@(js|jsx))"],
 
@@ -8,7 +10,6 @@ module.exports = {
     },
 
     addons: [
-        "@storybook/addon-webpack5-compiler-babel",
         "@storybook/addon-links",
         {
             name: "@storybook/addon-essentials",
@@ -16,51 +17,43 @@ module.exports = {
                 backgrounds: false,
             },
         },
-        {
-            name: "@storybook/addon-styling-webpack",
-            options: {
-                rules: [
-                    {
-                        test: /\.module\.css$/,
-                        use: [
-                            "style-loader",
-                            {
-                                loader: "css-loader",
-                                options: {
-                                    importLoaders: 1,
-                                    modules: {
-                                        auto: true,
-                                        namedExport: false,
-                                        exportLocalsConvention: "camel-case-only",
-                                        localIdentName: "[name]__[local]--[hash:base64:5]",
-                                    },
-                                },
-                            },
-                            {
-                                loader: "postcss-loader",
-                                options: { implementation: require.resolve("postcss") },
-                            },
-                        ],
-                    },
-                    {
-                        test: /\.css$/,
-                        exclude: /\.module\.css$/,
-                        use: [
-                            "style-loader",
-                            { loader: "css-loader", options: { importLoaders: 1 } },
-                            {
-                                loader: "postcss-loader",
-                                options: { implementation: require.resolve("postcss") },
-                            },
-                        ],
-                    },
-                ],
-            },
-        },
     ],
 
     framework: {
-        name: "@storybook/react-webpack5",
+        name: "@storybook/react-vite",
         options: {}
+    },
+
+    async viteFinal(config) {
+        config.css = { ...config.css, modules: { localsConvention: "camelCaseOnly" } };
+
+        // tailwind.config.js is CommonJS (consumed by Tailwind/PostCSS via require) but
+        // Configuration stories import it as a default ESM import. Vite's build-time
+        // commonjs plugin only scans node_modules by default, so include the config here.
+        config.build = {
+            ...config.build,
+            commonjsOptions: {
+                ...config.build?.commonjsOptions,
+                include: [/tailwind\.config\.js$/, /node_modules/],
+            },
+        };
+
+        // tailwind.config.js references __dirname (Node-only) in its content globs. The
+        // webpack builder mocked it for the browser bundle; Vite does not, so shim it to
+        // keep the Configuration stories that import the config from throwing at runtime.
+        config.define = {
+            ...config.define,
+            __dirname: JSON.stringify("/"),
+        };
+
+        config.resolve = {
+            ...config.resolve,
+            alias: {
+                ...config.resolve?.alias,
+                path: path.resolve(__dirname, "node-path-shim.js"),
+            },
+        };
+
+        return config;
     }
 };
