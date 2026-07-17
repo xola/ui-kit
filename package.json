@@ -26,11 +26,13 @@
         "build": "npm run prepare && vite build && cp index.d.ts build",
         "build:storybook": "npm run build && ./scripts/storybook build",
         "clean": "rm -rf node_modules/.vite",
-        "lint": "eslint src",
-        "lint:fix": "eslint src --fix",
-        "lint:report": "eslint src --format json --output-file eslint_report.json",
+        "lint": "eslint --cache --cache-strategy content --fix src",
+        "lint:ci": "eslint --cache --cache-strategy content src",
+        "lint:report": "eslint --cache --cache-strategy content --output-file=eslint_report.json --format=json src",
         "format": "prettier -l --write src",
-        "test": "vitest run"
+        "test": "vitest run --project unit",
+        "test:storybook": "vitest run --project storybook",
+        "test:all": "vitest run"
     },
     "dependencies": {
         "@headlessui/react": "1.7",
@@ -60,13 +62,17 @@
     "devDependencies": {
         "@storybook/addon-docs": "^10.5.2",
         "@storybook/addon-links": "^10.5.2",
+        "@storybook/addon-vitest": "^10.5.2",
         "@storybook/react-vite": "^10.5.2",
         "@types/react": "^18.3.31",
         "@types/react-dom": "^18.3.7",
         "@vitejs/plugin-react": "^4.3.4",
+        "@vitest/browser": "^3.2.7",
+        "@vitest/coverage-v8": "3.2.7",
         "@xola/jslint": "^4.0.1",
         "autoprefixer": "^10.5.2",
         "eslint": "^9.18.0",
+        "playwright": "^1.61.1",
         "postcss": "8.5",
         "prettier": "^3.9.5",
         "prettier-plugin-tailwindcss": "^0.8.0",
@@ -76,7 +82,7 @@
         "tailwindcss": "3.4",
         "typescript": "^5.7.2",
         "vite": "^5.4.21",
-        "vitest": "^2.1.9"
+        "vitest": "^3.2.7"
     },
     "peerDependencies": {
         "@types/react": "^18.2.22",
