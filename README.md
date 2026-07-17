@@ -25,13 +25,13 @@ npm install @xola/ui-kit
 Install peer dependencies:
 
 ```bash
-npm install autoprefixer postcss tailwindcss vite @types/react @types/react-dom
+npm install react react-dom autoprefixer postcss tailwindcss vite @types/react @types/react-dom
 ```
 
 UI kit expects you already have a working React dev environment with PostCSS support.
 
 > **ESM only.** `@xola/ui-kit` ships as ESM (`"type": "module"`) with no CommonJS build. Consume it
-> from an ESM context — `require("@xola/ui-kit")` is not supported.
+> from an ESM context; `require("@xola/ui-kit")` is not supported.
 
 Import and use the components:
 
@@ -88,13 +88,13 @@ aren't directly compatible). Two things bridge the gap:
 
     /* ui-kit's color palette (primary, gray, success, warning, ...),
        auto-generated from its tailwind.config.js. Import this instead of
-       hand-copying hex values — otherwise names like "primary" will
+       hand-copying hex values, otherwise names like "primary" will
        silently resolve to your own theme's colors instead of Xola's. */
     @import "@xola/ui-kit/build/theme.css";
     ```
 
 If your app defines its own `primary`/`secondary`/`success`/etc. tokens (e.g.
-via shadcn/ui), those will collide with ui-kit's — `build/theme.css` must be
+via shadcn/ui), those will collide with ui-kit's, so `build/theme.css` must be
 imported after your own theme so ui-kit's classNames resolve to ui-kit's
 colors, not yours.
 
