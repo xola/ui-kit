@@ -1,4 +1,5 @@
 import React from "react";
+import { expect } from "storybook/test";
 import { Alert } from "../..";
 
 const AlertStories = {
@@ -50,6 +51,10 @@ export const Default = ({ className, color, text = "Default" }) => {
     );
 };
 
+Default.play = async ({ canvas, args }) => {
+    await expect(canvas.getByText(args.text)).toBeInTheDocument();
+};
+
 export const Colors = () => {
     return (
         <div className="space-y-4">
@@ -59,6 +64,13 @@ export const Colors = () => {
             <Alert color="danger">Danger</Alert>
         </div>
     );
+};
+
+Colors.play = async ({ canvas }) => {
+    await expect(canvas.getByText("Primary")).toBeInTheDocument();
+    await expect(canvas.getByText("Success")).toBeInTheDocument();
+    await expect(canvas.getByText("Warning")).toBeInTheDocument();
+    await expect(canvas.getByText("Danger")).toBeInTheDocument();
 };
 
 export const Dismissible = () => {

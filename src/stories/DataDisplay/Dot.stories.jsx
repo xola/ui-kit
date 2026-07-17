@@ -1,4 +1,5 @@
 import React from "react";
+import { expect } from "storybook/test";
 import { Dot } from "../..";
 
 const DotStories = {
@@ -30,6 +31,12 @@ export const Default = ({ color }) => {
     );
 };
 
+Default.play = async ({ canvasElement }) => {
+    const dots = canvasElement.querySelectorAll(".ui-dot");
+    await expect(dots).toHaveLength(1);
+    await expect(dots[0]).toHaveClass("bg-primary");
+};
+
 export const AllColors = () => {
     return (
         <div className="space-x-4">
@@ -41,6 +48,11 @@ export const AllColors = () => {
             <Dot color="danger" />
         </div>
     );
+};
+
+AllColors.play = async ({ canvasElement }) => {
+    const dots = canvasElement.querySelectorAll(".ui-dot");
+    await expect(dots).toHaveLength(6);
 };
 
 export default DotStories;

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { expect } from "storybook/test";
 import { Switch } from "../..";
 
 const SwitchStories = {
@@ -37,6 +38,13 @@ export const Default = ({ size }) => {
     return <Switch isChecked={checked} size={size} onChange={setChecked} />;
 };
 
+Default.play = async ({ canvas, userEvent }) => {
+    const toggle = canvas.getByRole("switch");
+    await expect(toggle).toHaveAttribute("aria-checked", "false");
+    await userEvent.click(toggle);
+    await expect(toggle).toHaveAttribute("aria-checked", "true");
+};
+
 export const WithLabel = () => {
     const [checked, setChecked] = useState(false);
     return (
@@ -47,9 +55,24 @@ export const WithLabel = () => {
     );
 };
 
+WithLabel.play = async ({ canvas, userEvent }) => {
+    await expect(canvas.getByText("Hello World")).toBeInTheDocument();
+    const toggle = canvas.getByRole("switch");
+    await userEvent.click(toggle);
+    await expect(toggle).toHaveAttribute("aria-checked", "true");
+};
+
 export const Disabled = ({ size }) => {
     const [checked, setChecked] = useState(false);
     return <Switch disabled isChecked={checked} size={size} onChange={setChecked} />;
+};
+
+Disabled.play = async ({ canvas, userEvent }) => {
+    const toggle = canvas.getByRole("switch");
+    await expect(toggle).toBeDisabled();
+    await userEvent.click(toggle);
+    // Disabled switch must not toggle
+    await expect(toggle).toHaveAttribute("aria-checked", "false");
 };
 
 export default SwitchStories;

@@ -1,4 +1,5 @@
 import React, { Fragment } from "react";
+import { expect } from "storybook/test";
 import { Avatar } from "../..";
 
 const avatarColors = [
@@ -64,16 +65,32 @@ export const Default = ({ className, name = "John Doe", size, color }) => {
     return <Avatar className={className} name={name} size={size} color={color} />;
 };
 
+Default.play = async ({ canvas }) => {
+    await expect(canvas.getByText("JD")).toBeInTheDocument();
+};
+
 export const OneNameLikeCher = ({ className, name = "Cher", size, color }) => {
     return <Avatar className={className} name={name} size={size} color={color} />;
+};
+
+OneNameLikeCher.play = async ({ canvas }) => {
+    await expect(canvas.getByText("C")).toBeInTheDocument();
 };
 
 export const ThreeNames = ({ className, name = "James Scott Zimmerman", size, color }) => {
     return <Avatar className={className} name={name} size={size} color={color} />;
 };
 
+ThreeNames.play = async ({ canvas }) => {
+    await expect(canvas.getByText("JZ")).toBeInTheDocument();
+};
+
 export const SpecialChars = ({ className, name = "Rushi (Xola)", size, color }) => {
     return <Avatar className={className} name={name} size={size} color={color} />;
+};
+
+SpecialChars.play = async ({ canvas }) => {
+    await expect(canvas.getByText("RX")).toBeInTheDocument();
 };
 
 export const AllColorsAndSizes = ({ className, name = "Barthélémy Chalvet" }) => {

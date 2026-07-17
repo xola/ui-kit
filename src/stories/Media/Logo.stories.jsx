@@ -1,4 +1,5 @@
 import React from "react";
+import { expect } from "storybook/test";
 import { Logo } from "../..";
 
 const LogoStories = {
@@ -43,6 +44,12 @@ export const Default = ({ src: source = "http://seller.staging.xola.app/favicon.
     return <Logo src={source} size={size} />;
 };
 
+Default.play = async ({ canvasElement }) => {
+    const logo = canvasElement.querySelector("img.ui-logo");
+    await expect(logo).toBeInTheDocument();
+    await expect(logo).toHaveAttribute("src");
+};
+
 export const AllSizes = () => {
     return (
         <div className="space-x-4">
@@ -51,6 +58,10 @@ export const AllSizes = () => {
             <Logo src="https://xola.com/api/users/52fc61323e269e5b08000007/picture?size=large" size="large" />
         </div>
     );
+};
+
+AllSizes.play = async ({ canvasElement }) => {
+    await expect(canvasElement.querySelectorAll("img.ui-logo")).toHaveLength(3);
 };
 
 export default LogoStories;

@@ -1,4 +1,5 @@
 import React from "react";
+import { expect } from "storybook/test";
 import { Tag } from "../..";
 
 const TagStories = {
@@ -44,6 +45,12 @@ export const Default = ({ color, size, text }) => {
     );
 };
 
+Default.play = async ({ canvas, canvasElement, args }) => {
+    await expect(canvas.getByText(args.text)).toBeInTheDocument();
+    // onClose provided, so the tag is removable and shows a close affordance
+    await expect(canvasElement.querySelector(".ui-tag-close")).toBeInTheDocument();
+};
+
 export const BookingTag = () => {
     return (
         <Tag color="secondary" size="small" onClose={onTagCloseClick}>
@@ -52,12 +59,23 @@ export const BookingTag = () => {
     );
 };
 
+BookingTag.play = async ({ canvas, canvasElement }) => {
+    await expect(canvas.getByText("Testing Tag")).toBeInTheDocument();
+    await expect(canvasElement.querySelector(".ui-tag-close")).toBeInTheDocument();
+};
+
 export const SystemTag = () => {
     return (
         <Tag color="secondary" size="small">
             You cannot remove this tag
         </Tag>
     );
+};
+
+SystemTag.play = async ({ canvas, canvasElement }) => {
+    await expect(canvas.getByText("You cannot remove this tag")).toBeInTheDocument();
+    // No onClose, so there must be no close affordance
+    await expect(canvasElement.querySelector(".ui-tag-close")).not.toBeInTheDocument();
 };
 
 export default TagStories;

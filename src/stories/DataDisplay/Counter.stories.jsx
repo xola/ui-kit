@@ -1,4 +1,5 @@
 import React from "react";
+import { expect } from "storybook/test";
 import { Counter } from "../..";
 
 const CounterStories = {
@@ -27,6 +28,12 @@ export const Counters = () => {
             <Counter>999</Counter>
         </div>
     );
+};
+
+Counters.play = async ({ canvas }) => {
+    await expect(canvas.getByText("0")).toBeInTheDocument();
+    await expect(canvas.getByText("10")).toBeInTheDocument();
+    await expect(canvas.getByText("999")).toBeInTheDocument();
 };
 
 export default CounterStories;

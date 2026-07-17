@@ -1,4 +1,5 @@
 import React from "react";
+import { expect } from "storybook/test";
 import { Table } from "../..";
 
 const TableStories = {
@@ -92,6 +93,14 @@ export const Default = () => {
     );
 };
 
+Default.play = async ({ canvas }) => {
+    await expect(canvas.getByText("Michael Scott")).toBeInTheDocument();
+    await expect(canvas.getByText("Jim")).toBeInTheDocument();
+    await expect(canvas.getAllByRole("columnheader")).toHaveLength(5);
+    // 1 header row + 3 body rows
+    await expect(canvas.getAllByRole("row")).toHaveLength(4);
+};
+
 export const StripedTable = () => {
     return (
         <Table>
@@ -140,6 +149,12 @@ export const StripedTable = () => {
             </Table.Body>
         </Table>
     );
+};
+
+StripedTable.play = async ({ canvas }) => {
+    await expect(canvas.getByText("Pam Beesly")).toBeInTheDocument();
+    // 1 header row + 4 body rows
+    await expect(canvas.getAllByRole("row")).toHaveLength(5);
 };
 
 export default TableStories;

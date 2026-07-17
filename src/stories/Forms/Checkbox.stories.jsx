@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { expect } from "storybook/test";
 import { Checkbox } from "../..";
 
 const CheckboxStories = {
@@ -23,6 +24,13 @@ export const Default = () => {
     return <Checkbox label="Checkbox" checked={checked} onChange={(event_) => setChecked(event_.target.checked)} />;
 };
 
+Default.play = async ({ canvas, userEvent }) => {
+    const checkbox = canvas.getByRole("checkbox");
+    await expect(checkbox).not.toBeChecked();
+    await userEvent.click(checkbox);
+    await expect(checkbox).toBeChecked();
+};
+
 export const Disabled = () => {
     return (
         <div className="space-y-3">
@@ -30,6 +38,14 @@ export const Disabled = () => {
             <Checkbox disabled label="Checkbox" />
         </div>
     );
+};
+
+Disabled.play = async ({ canvas }) => {
+    const [checkedBox, uncheckedBox] = canvas.getAllByRole("checkbox");
+    await expect(checkedBox).toBeDisabled();
+    await expect(checkedBox).toBeChecked();
+    await expect(uncheckedBox).toBeDisabled();
+    await expect(uncheckedBox).not.toBeChecked();
 };
 
 export default CheckboxStories;

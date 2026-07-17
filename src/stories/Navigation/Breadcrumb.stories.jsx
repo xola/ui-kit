@@ -1,4 +1,5 @@
 import React from "react";
+import { expect } from "storybook/test";
 import { Breadcrumb } from "../..";
 
 const BreadcrumbStories = {
@@ -46,6 +47,11 @@ export const Default = ({ spacing, separator }) => {
     );
 };
 
+Default.play = async ({ canvas }) => {
+    await expect(canvas.getByText("Settings")).toBeInTheDocument();
+    await expect(canvas.getByText("Preferences")).toBeInTheDocument();
+};
+
 export const MultipleLevels = () => {
     return (
         <div className="space-x-6">
@@ -56,6 +62,12 @@ export const MultipleLevels = () => {
             </Breadcrumb>
         </div>
     );
+};
+
+MultipleLevels.play = async ({ canvas }) => {
+    await expect(canvas.getByText("Settings")).toBeInTheDocument();
+    await expect(canvas.getByText("Preferences")).toBeInTheDocument();
+    await expect(canvas.getByText("Gifts")).toBeInTheDocument();
 };
 
 export default BreadcrumbStories;

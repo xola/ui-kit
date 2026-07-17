@@ -1,4 +1,5 @@
 import React from "react";
+import { expect } from "storybook/test";
 import { Spinner } from "../..";
 
 const SpinnerStories = {
@@ -33,6 +34,10 @@ export const Default = (props) => {
     return <Spinner {...props} />;
 };
 
+Default.play = async ({ canvasElement }) => {
+    await expect(canvasElement.querySelector(".ui-spinner")).toBeInTheDocument();
+};
+
 export const Sizes = () => {
     return (
         <div className="space-x-8">
@@ -41,6 +46,10 @@ export const Sizes = () => {
             <Spinner size="large" />
         </div>
     );
+};
+
+Sizes.play = async ({ canvasElement }) => {
+    await expect(canvasElement.querySelectorAll(".ui-spinner")).toHaveLength(3);
 };
 
 export default SpinnerStories;
