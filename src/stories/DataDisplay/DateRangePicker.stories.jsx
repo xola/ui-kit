@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import React, { useState } from "react";
+import { expect, waitFor, within } from "storybook/test";
 import { DatePicker, DatePickerPopover } from "../..";
 
 const DateRangePickerStories = {
@@ -46,6 +47,14 @@ export const Default = () => {
     return <DatePicker variant="range" value={value} onChange={setValue} />;
 };
 
+Default.play = async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    // Range variant renders two months side by side
+    await expect(canvas.getByText(/February 2022/)).toBeInTheDocument();
+    await expect(canvas.getByText(/March 2022/)).toBeInTheDocument();
+    await expect(canvasElement.querySelectorAll(".DayPicker-Day--selected").length).toBeGreaterThan(0);
+};
+
 export const RelativeDateRanges = () => {
     const [value, setValue] = useState({ from: new Date("2022-03-03"), to: new Date("2022-04-08") });
 
@@ -61,6 +70,14 @@ export const RelativeDateRanges = () => {
             />
         </div>
     );
+};
+
+RelativeDateRanges.play = async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    // Relative-range dropdown with grouped options is shown
+    await expect(canvas.getByText("Relative Date Range")).toBeInTheDocument();
+    const optgroupLabels = [...canvasElement.querySelectorAll("optgroup")].map((group) => group.label);
+    await expect(optgroupLabels).toEqual(expect.arrayContaining(["Day", "Week", "Month", "Quarter", "Year"]));
 };
 
 export const RelativeDateRangesWithTimeZone = () => {
@@ -79,6 +96,12 @@ export const RelativeDateRangesWithTimeZone = () => {
             />
         </div>
     );
+};
+
+RelativeDateRangesWithTimeZone.play = async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expect(canvas.getByText("Relative Date Range")).toBeInTheDocument();
+    await expect(canvasElement.querySelectorAll(".DayPicker-Day").length).toBeGreaterThan(0);
 };
 
 export const DateRangeWithInput = ({ shouldShowRelativeRanges, ranges }) => {
@@ -107,6 +130,11 @@ export const DateRangeWithInput = ({ shouldShowRelativeRanges, ranges }) => {
             </DatePickerPopover>
         </div>
     );
+};
+
+DateRangeWithInput.play = async ({ canvasElement, userEvent }) => {
+    await userEvent.click(canvasElement.querySelector(".cursor-pointer"));
+    await waitFor(() => expect(canvasElement.ownerDocument.querySelector(".DayPicker")).toBeInTheDocument());
 };
 
 export default DateRangePickerStories;

@@ -1,7 +1,13 @@
 import dayjs from "dayjs";
 import React, { useState } from "react";
+import { expect, waitFor, within } from "storybook/test";
 import { Button, DatePicker, DatePickerPopover, MonthPicker, Switch, theme } from "../..";
 import { formatDate } from "../../utils/date";
+
+const findDayCell = (canvasElement, day) =>
+    [...canvasElement.querySelectorAll(".DayPicker-Day:not(.DayPicker-Day--outside)")].find(
+        (cell) => cell.textContent.trim() === String(day),
+    );
 
 const DatePickerStories = {
     title: "Data Display/Date & Time/Date Picker",
@@ -49,6 +55,22 @@ export const Default = () => {
     return <DatePicker value={value} onChange={setValue} />;
 };
 
+Default.play = async ({ canvasElement, userEvent }) => {
+    const canvas = within(canvasElement);
+    await expect(canvas.getByText(/October 2022/)).toBeInTheDocument();
+    await expect(canvasElement.querySelector(".DayPicker-Day--selected")).toHaveTextContent("10");
+
+    await userEvent.click(findDayCell(canvasElement, 15));
+    await waitFor(() => expect(canvasElement.querySelector(".DayPicker-Day--selected")).toHaveTextContent("15"));
+
+    // Navigate to the next month (last non-Today button is the next-month chevron)
+    const navButtons = [...canvasElement.querySelectorAll("button")].filter(
+        (button) => button.textContent.trim() !== "Today",
+    );
+    await userEvent.click(navButtons[navButtons.length - 1]);
+    await expect(canvas.getByText(/November 2022/)).toBeInTheDocument();
+};
+
 export const DisabledDays = () => {
     const [value, setValue] = useState(defaultDate);
 
@@ -74,6 +96,15 @@ addDescription(
     DisabledDays,
     'Use the `disabledDays` prop to display days with a "disabled" style. You can match a wide range of days by passing one or more [different modifiers](http://react-day-picker.js.org/docs/matching-days) to disabledDays',
 );
+
+DisabledDays.play = async ({ canvasElement, userEvent }) => {
+    const disabledCell = findDayCell(canvasElement, 14);
+    await expect(disabledCell).toHaveClass("DayPicker-Day--disabled");
+
+    // Clicking a disabled day must not move the selection off the 10th
+    await userEvent.click(disabledCell);
+    await expect(canvasElement.querySelector(".DayPicker-Day--selected")).toHaveTextContent("10");
+};
 
 export const WithFooter = () => {
     const [value, setValue] = useState(defaultDate);
@@ -104,6 +135,16 @@ addDescription(
     "Use the `components` prop to extend DatePicker functionality by passing a react components that will be positioned in the footer are of the component",
 );
 
+WithFooter.play = async ({ canvasElement, userEvent }) => {
+    const canvas = within(canvasElement);
+    await expect(canvas.getByText("Switch toggle")).toBeInTheDocument();
+
+    await expect(canvas.getByRole("switch")).toHaveAttribute("aria-checked", "false");
+    // The footer remounts on toggle, so re-query the switch after clicking
+    await userEvent.click(canvas.getByRole("switch"));
+    await waitFor(() => expect(canvas.getByRole("switch")).toHaveAttribute("aria-checked", "true"));
+};
+
 export const RestrictNavigation = () => {
     const [value, setValue] = useState(defaultDate);
 
@@ -122,6 +163,15 @@ addDescription(
     RestrictNavigation,
     "Use the `fromMonth` and `toMonth` props to restrict the navigation between months.",
 );
+
+RestrictNavigation.play = async ({ canvasElement }) => {
+    const navButtons = [...canvasElement.querySelectorAll("button")].filter(
+        (button) => button.textContent.trim() !== "Today",
+    );
+    // fromMonth equals the current month, so the previous-month chevron is hidden
+    await expect(navButtons[0]).toHaveClass("invisible");
+    await expect(navButtons[1]).not.toHaveClass("invisible");
+};
 
 export const ModifyCellStyle = () => {
     const [value, setValue] = useState(defaultDate);
@@ -157,6 +207,10 @@ addDescription(
     "*WIP** (based on design changes of date picker) You can apply a custom inline style to day cells using [modifiers](https://react-day-picker.js.org/docs/matching-days). For example you can style certain cells in the Waitlist yellow.",
 );
 
+ModifyCellStyle.play = async ({ canvasElement }) => {
+    await expect(canvasElement.querySelectorAll(".DayPicker-Day").length).toBeGreaterThan(0);
+};
+
 export const SelectYearMonth = () => {
     const [value, setValue] = useState(new Date());
     return (
@@ -171,6 +225,12 @@ addDescription(
     SelectYearMonth,
     "This example shows how to use the `month` and `shouldShowYearPicker` prop to change the calendar's caption. For example, we can use these props to start in the month of April and to add a form to switch between months and years.",
 );
+
+SelectYearMonth.play = async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expect(canvas.getByText("Date: April 21 2023")).toBeInTheDocument();
+    await expect(canvasElement.querySelectorAll(".DayPicker-Day").length).toBeGreaterThan(0);
+};
 
 export const SelectMonth = () => {
     const [value, setValue] = useState(new Date());
@@ -187,6 +247,12 @@ addDescription(
     "This example shows how to use the `month` and `shouldShowMonthSelector` prop to change the calendar's month selector caption. For example, we can use these props to show month selector option.",
 );
 
+SelectMonth.play = async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expect(canvas.getByText(/^Date:/)).toBeInTheDocument();
+    await expect(canvasElement.querySelectorAll(".DayPicker-Day").length).toBeGreaterThan(0);
+};
+
 export const MonthPickerPopover = () => {
     const [value, setValue] = useState(new Date());
     return (
@@ -200,6 +266,13 @@ addDescription(
     MonthPickerPopover,
     "This example shows how to use the month picker. For example, opens month selector in a popover.",
 );
+
+MonthPickerPopover.play = async ({ canvasElement, userEvent }) => {
+    await userEvent.click(canvasElement.querySelector("input"));
+    await waitFor(() =>
+        expect(canvasElement.ownerDocument.querySelector(".ui-month-picker")).toBeInTheDocument(),
+    );
+};
 
 /**
  * Helper methods for this story
@@ -224,6 +297,12 @@ addDescription(
     WithCustomContent,
     "**WIP** (pending designs) Add custom content to any day cell for example the maximum price for a specific date",
 );
+
+WithCustomContent.play = async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expect(canvas.getByText("205 spots")).toBeInTheDocument();
+    await expect(canvas.getAllByText("Sold Out").length).toBeGreaterThan(0);
+};
 
 export const PickerWithInput = () => {
     const [date, setDate] = useState(new Date());
@@ -257,6 +336,11 @@ addDescription(
     "The `DatePickerPopover` component binds the DatePicker with an input field, displaying the calendar in a popover",
 );
 
+PickerWithInput.play = async ({ canvasElement, userEvent }) => {
+    await userEvent.click(canvasElement.querySelector("input"));
+    await waitFor(() => expect(canvasElement.ownerDocument.querySelector(".ui-date-picker")).toBeInTheDocument());
+};
+
 export const PickerCustomInput = () => {
     return (
         <div className="h-75">
@@ -265,6 +349,12 @@ export const PickerCustomInput = () => {
             </DatePickerPopover>
         </div>
     );
+};
+
+PickerCustomInput.play = async ({ canvasElement, userEvent }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByText("Hello, click me to open up a date picker"));
+    await waitFor(() => expect(canvasElement.ownerDocument.querySelector(".ui-date-picker")).toBeInTheDocument());
 };
 
 export const InputWithCustomContent = () => {
@@ -278,6 +368,11 @@ export const InputWithCustomContent = () => {
             />
         </div>
     );
+};
+
+InputWithCustomContent.play = async ({ canvasElement, userEvent }) => {
+    await userEvent.click(canvasElement.querySelector("input"));
+    await waitFor(() => expect(canvasElement.ownerDocument.querySelector(".ui-date-picker")).toBeInTheDocument());
 };
 
 export const DatePickerWithTooltip = () => {
@@ -296,6 +391,10 @@ export const DatePickerWithTooltip = () => {
     };
 
     return <DatePicker getTooltip={getTooltip} value={value} onChange={setValue} onMonthChange={setMonth} />;
+};
+
+DatePickerWithTooltip.play = async ({ canvasElement }) => {
+    await expect(canvasElement.querySelectorAll(".DayPicker-Day").length).toBeGreaterThan(0);
 };
 
 export const EventHandlers = () => {
@@ -329,6 +428,15 @@ addDescription(
     EventHandlers,
     "This shows various useful [event handlers](https://react-day-picker.js.org/api/DayPicker#onBlur) with `DatePicker` ",
 );
+
+EventHandlers.play = async ({ canvasElement, userEvent }) => {
+    const canvas = within(canvasElement);
+    await expect(canvas.getByText("Selected Date")).toBeInTheDocument();
+    await expect(canvas.getByText("Current Month")).toBeInTheDocument();
+
+    await userEvent.click(findDayCell(canvasElement, 20));
+    await waitFor(() => expect(canvasElement.querySelector(".DayPicker-Day--selected")).toHaveTextContent("20"));
+};
 
 export const WithUpcomingDates = () => {
     const [value, setValue] = useState(defaultMonth);
@@ -365,6 +473,10 @@ export const WithUpcomingDates = () => {
             onChange={handleChange}
         />
     );
+};
+
+WithUpcomingDates.play = async ({ canvasElement }) => {
+    await expect(canvasElement.querySelectorAll(".DayPicker-Day").length).toBeGreaterThan(0);
 };
 
 function addDescription(component, description) {
