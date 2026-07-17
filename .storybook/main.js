@@ -1,4 +1,6 @@
-module.exports = {
+import { theme } from "../src/theme.js";
+
+export default {
     stories: ["../src/**/*.@(mdx|stories.@(js|jsx))"],
     staticDirs: ["../public"],
 
@@ -16,13 +18,11 @@ module.exports = {
     async viteFinal(config) {
         config.css = { ...config.css, modules: { localsConvention: "camelCaseOnly" } };
 
-        // The Configuration stories import tailwind.config.js to display theme tokens. It
-        // stays CommonJS (it is published and consumed by Tailwind/PostCSS and by apps via
-        // require), and it uses Node-only APIs (require, __dirname, path) that don't exist
-        // in the browser. Vite also serves root CJS files raw in dev, so a plain
-        // `import cfg from ".../tailwind.config"` has no default export. Evaluate it in Node
-        // here and hand the stories a plain ESM data object instead — identical in dev and
-        // build. Functions (the plugins array) are dropped; the stories only read `.theme`.
+        // The Configuration stories import tailwind.config.js to display theme tokens, but
+        // that file pulls in Node-only imports (path, url, @tailwindcss/forms) that can't run
+        // in the browser. src/theme.js is the same theme object generated for the browser
+        // (npm run prepare, before Storybook starts), so serve that in its place. The stories
+        // only read `.theme`.
         config.plugins = [
             ...(config.plugins ?? []),
             {
@@ -33,13 +33,7 @@ module.exports = {
                         return null;
                     }
 
-                    delete require.cache[require.resolve(id)];
-                    const config = require(id);
-                    const json = JSON.stringify(config, (_key, value) =>
-                        typeof value === "function" ? undefined : value
-                    );
-
-                    return { code: `export default ${json};`, map: null };
+                    return { code: `export default ${JSON.stringify({ theme })};`, map: null };
                 },
             },
         ];

@@ -32,6 +32,11 @@ npx jest src/helpers/avatar.test.js
 React 17 + Tailwind CSS v3 component library, built with Vite. Plain JavaScript/JSX — no
 TypeScript. `index.d.ts` is hand-maintained for consumers that want types.
 
+**ESM only.** The package is `"type": "module"`; every file is native ESM (`import`/`export`, no
+`require`/`module.exports`). This includes the published `tailwind.config.js` and
+`postcss.config.js`, so consuming apps must load them from an ESM context. There is no CommonJS
+build or entry. Storybook runs on the Vite builder (`@storybook/react-vite`, Storybook 9).
+
 - `src/index.js` — the public API. Every exported component must be added here; this is the only
   barrel file and it defines what `@xola/ui-kit` actually ships.
 - `src/components/` — one folder per component or component family (e.g. `Forms/`, `Buttons/`,
@@ -43,14 +48,22 @@ TypeScript. `index.d.ts` is hand-maintained for consumers that want types.
   from linting and from the npm package.
 - `src/theme.js` — generated/local theme file, gitignored.
 - Tailwind theme (custom color scale, spacing, etc.) is defined in `tailwind.config.js` at the
-  repo root — this is the file consuming apps point their own Tailwind config at.
+  repo root (ESM `export default`) — this is the file consuming apps point their own Tailwind
+  config at, and it is the single source of truth `src/theme.js` and `public/theme.css` are
+  generated from (`npm run prepare`).
 
 **Testing:** Jest only, no `@testing-library/react`. Existing tests cover `src/helpers/*` pure
 functions (see `src/helpers/avatar.test.js`). Component behavior is validated visually through
-Storybook + Chromatic, not through rendered unit tests — don't introduce a testing-library
-dependency without discussion.
+Storybook, not through rendered unit tests — don't introduce a testing-library dependency without
+discussion.
 
 ## Key Rules
+
+### Module format
+
+- ESM only. Author every file (source, config, scripts) with `import`/`export`; never `require` or
+  `module.exports`. Deep Node imports need the file extension (e.g. `tailwindcss/defaultTheme.js`),
+  and `__dirname` must be derived from `import.meta.url` (`fileURLToPath`).
 
 ### Public API
 

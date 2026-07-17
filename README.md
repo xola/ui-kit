@@ -30,6 +30,9 @@ npm install autoprefixer postcss tailwindcss vite @types/react @types/react-dom
 
 UI kit expects you already have a working React dev environment with PostCSS support.
 
+> **ESM only.** `@xola/ui-kit` ships as ESM (`"type": "module"`) with no CommonJS build. Consume it
+> from an ESM context — `require("@xola/ui-kit")` is not supported.
+
 Import and use the components:
 
 ```js
@@ -38,11 +41,12 @@ import { Button } from "@xola/ui-kit";
 
 #### Tailwind v3 projects
 
-Create PostCSS and Tailwind config files:
+Re-export ui-kit's PostCSS and Tailwind config. Use the `.mjs` extension (or set `"type": "module"`
+in your `package.json`) so the ESM re-export loads regardless of your project's module type:
 
 ```bash
-echo 'module.exports = require("@xola/ui-kit/tailwind.config");' > tailwind.config.js
-echo 'module.exports = require("@xola/ui-kit/postcss.config");' > postcss.config.js
+echo 'export { default } from "@xola/ui-kit/tailwind.config.js";' > tailwind.config.mjs
+echo 'export { default } from "@xola/ui-kit/postcss.config.js";' > postcss.config.mjs
 ```
 
 Import main CSS files in your project:

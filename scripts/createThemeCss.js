@@ -3,9 +3,12 @@
 // `@import "@xola/ui-kit/build/theme.css";` instead of hand-copying hex
 // values into their own theme (which drifts out of sync as this palette
 // changes).
-const fs = require("fs");
-const path = require("path");
-const tailwind = require("../tailwind.config");
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+import tailwind from "../tailwind.config.js";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // black/white are excluded: overriding them would silently reskin every
 // bg-black/text-white a consumer already has in their own app, since those
