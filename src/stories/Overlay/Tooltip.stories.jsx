@@ -1,4 +1,5 @@
 import React from "react";
+import { expect, within } from "storybook/test";
 import { Button, Tooltip, UserIcon } from "../..";
 
 // More props in docs
@@ -82,6 +83,12 @@ export const Default = (config) => {
             <Button>Hello World</Button>
         </Tooltip>
     );
+};
+
+Default.play = async ({ canvas, canvasElement, userEvent }) => {
+    const body = within(canvasElement.ownerDocument.body);
+    await userEvent.hover(canvas.getByRole("button", { name: "Hello World" }));
+    await expect(await body.findByText("Hey there!")).toBeInTheDocument();
 };
 
 export const WithHTMLContent = () => {

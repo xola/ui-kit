@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { expect, waitFor, within } from "storybook/test";
 import { Button, Input, Modal } from "../..";
 
 const ModalStories = {
@@ -83,6 +84,18 @@ export const Default = ({ size, position, shouldCloseOnOutsideClick }) => {
             </Modal>
         </div>
     );
+};
+
+Default.play = async ({ canvas, canvasElement, userEvent }) => {
+    const body = within(canvasElement.ownerDocument.body);
+    await expect(body.queryByText("Apply Code")).not.toBeInTheDocument();
+
+    await userEvent.click(canvas.getByRole("button", { name: "Click me to launch a modal" }));
+    await expect(await body.findByText("Apply Code")).toBeInTheDocument();
+    await expect(body.getByPlaceholderText("Coupon of Affiliate")).toBeInTheDocument();
+
+    await userEvent.click(body.getByRole("button", { name: "Cancel" }));
+    await waitFor(() => expect(body.queryByText("Apply Code")).not.toBeInTheDocument());
 };
 
 export const CustomWidth = ({ size, position, shouldCloseOnOutsideClick }) => {

@@ -1,4 +1,5 @@
 import React from "react";
+import { expect, within } from "storybook/test";
 import { Button, Popover } from "../..";
 
 // More props in docs
@@ -86,6 +87,14 @@ export const Default = ({ demoText = "Hello World", ...rest }) => {
             </Popover>
         </div>
     );
+};
+
+Default.play = async ({ canvas, canvasElement, userEvent }) => {
+    const body = within(canvasElement.ownerDocument.body);
+    await expect(body.queryByText("Popover Title")).not.toBeInTheDocument();
+    // Popover content mounts on hover (tippy portals to the document body)
+    await userEvent.hover(canvas.getByRole("button", { name: "Hello World" }));
+    await expect(await body.findByText("Popover Title")).toBeInTheDocument();
 };
 
 export const NoTitle = ({ demoText = "Detailed", ...rest }) => {

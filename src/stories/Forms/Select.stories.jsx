@@ -1,4 +1,5 @@
 import React from "react";
+import { expect } from "storybook/test";
 import { FormGroup, Label, Select } from "../..";
 
 const SelectStories = {
@@ -18,6 +19,13 @@ export const Default = () => {
             </Select>
         </FormGroup>
     );
+};
+
+Default.play = async ({ canvas, userEvent }) => {
+    const select = canvas.getByRole("combobox");
+    await expect(select).toHaveValue("1");
+    await userEvent.selectOptions(select, "Two");
+    await expect(select).toHaveValue("2");
 };
 
 export const Sizes = () => {
@@ -68,6 +76,16 @@ export const Disabled = () => {
             </Select>
         </FormGroup>
     );
+};
+
+Sizes.play = async ({ canvas }) => {
+    await expect(canvas.getAllByRole("combobox")).toHaveLength(3);
+};
+
+Disabled.play = async ({ canvas }) => {
+    const select = canvas.getByRole("combobox");
+    await expect(select).toBeDisabled();
+    await expect(select).toHaveValue("1");
 };
 
 export const WithError = () => {

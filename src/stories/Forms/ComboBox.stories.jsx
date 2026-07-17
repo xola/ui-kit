@@ -1,14 +1,15 @@
 import clsx from "clsx";
 import React from "react";
+import { expect, waitFor } from "storybook/test";
 import { ComboBox, Currency, FormGroup, Label } from "../..";
 
 const ComboBoxStories = {
     primary: true,
     title: "Forms & Fields/ComboBox",
     args: {
-        isCreatable: "boolean",
-        isMulti: "boolean",
-        closeMenuOnSelect: "boolean",
+        isCreatable: false,
+        isMulti: false,
+        closeMenuOnSelect: false,
     },
     argTypes: {
         isCreatable: {
@@ -56,6 +57,18 @@ export const Default = ({ isCreatable = false, isMulti = false }) => {
     );
 };
 
+Default.play = async ({ canvasElement, userEvent }) => {
+    // Typing filters the options and opens the react-select menu
+    await userEvent.type(canvasElement.querySelector("input"), "10");
+    await waitFor(() => expect(canvasElement.querySelector(".ui-combo-box__option")).toBeInTheDocument());
+
+    const options = canvasElement.querySelectorAll(".ui-combo-box__option");
+    const tenOff = [...options].find((option) => option.textContent.includes("10% OFF"));
+    await userEvent.click(tenOff);
+
+    await expect(canvasElement.querySelector(".ui-combo-box__single-value")).toHaveTextContent("10% OFF");
+};
+
 export const TagsCreator = () => {
     const tags = [
         { value: 1, label: "5% OFF" },
@@ -77,6 +90,11 @@ export const TagsCreator = () => {
             </FormGroup>
         </div>
     );
+};
+
+TagsCreator.play = async ({ canvasElement }) => {
+    // isMulti with a defaultValue renders one removable tag per selected option
+    await expect(canvasElement.querySelectorAll(".ui-combo-box__multi-value")).toHaveLength(2);
 };
 
 export const UseCustomSchemaAsOptions = () => {
