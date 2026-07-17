@@ -1,5 +1,3 @@
-const path = require("path");
-
 module.exports = {
     stories: ["../src/**/*.@(mdx|stories.@(js|jsx))"],
     staticDirs: ["../public"],
@@ -18,32 +16,33 @@ module.exports = {
     async viteFinal(config) {
         config.css = { ...config.css, modules: { localsConvention: "camelCaseOnly" } };
 
-        // tailwind.config.js is CommonJS (consumed by Tailwind/PostCSS via require) but
-        // Configuration stories import it as a default ESM import. Vite's build-time
-        // commonjs plugin only scans node_modules by default, so include the config here.
-        config.build = {
-            ...config.build,
-            commonjsOptions: {
-                ...config.build?.commonjsOptions,
-                include: [/tailwind\.config\.js$/, /node_modules/],
-            },
-        };
+        // The Configuration stories import tailwind.config.js to display theme tokens. It
+        // stays CommonJS (it is published and consumed by Tailwind/PostCSS and by apps via
+        // require), and it uses Node-only APIs (require, __dirname, path) that don't exist
+        // in the browser. Vite also serves root CJS files raw in dev, so a plain
+        // `import cfg from ".../tailwind.config"` has no default export. Evaluate it in Node
+        // here and hand the stories a plain ESM data object instead — identical in dev and
+        // build. Functions (the plugins array) are dropped; the stories only read `.theme`.
+        config.plugins = [
+            ...(config.plugins ?? []),
+            {
+                name: "xola-tailwind-config-as-data",
+                enforce: "pre",
+                transform(_code, id) {
+                    if (!id.replace(/\\/g, "/").endsWith("/tailwind.config.js")) {
+                        return null;
+                    }
 
-        // tailwind.config.js references __dirname (Node-only) in its content globs. The
-        // webpack builder mocked it for the browser bundle; Vite does not, so shim it to
-        // keep the Configuration stories that import the config from throwing at runtime.
-        config.define = {
-            ...config.define,
-            __dirname: JSON.stringify("/"),
-        };
+                    delete require.cache[require.resolve(id)];
+                    const config = require(id);
+                    const json = JSON.stringify(config, (_key, value) =>
+                        typeof value === "function" ? undefined : value
+                    );
 
-        config.resolve = {
-            ...config.resolve,
-            alias: {
-                ...config.resolve?.alias,
-                path: path.resolve(__dirname, "node-path-shim.js"),
+                    return { code: `export default ${json};`, map: null };
+                },
             },
-        };
+        ];
 
         return config;
     },
