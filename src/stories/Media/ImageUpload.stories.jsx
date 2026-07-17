@@ -1,4 +1,5 @@
 import React from "react";
+import { expect } from "storybook/test";
 import { ImageUpload } from "../..";
 
 const ImageUploadStories = {
@@ -123,6 +124,10 @@ export const Default = ({
             onError={(error) => console.log(error)}
         />
     );
+};
+
+Default.play = async ({ canvasElement }) => {
+    await expect(canvasElement.querySelector("input[type='file']")).toBeInTheDocument();
 };
 
 export default ImageUploadStories;

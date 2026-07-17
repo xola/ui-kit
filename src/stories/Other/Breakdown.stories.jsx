@@ -1,4 +1,5 @@
 import React from "react";
+import { expect } from "storybook/test";
 import { Breakdown, Button, CardIcon } from "../..";
 
 const BreakdownStories = {
@@ -80,6 +81,13 @@ export const Default = () => {
             </Breakdown>
         </div>
     );
+};
+
+Default.play = async ({ canvas }) => {
+    await expect(canvas.getByText("Adults")).toBeInTheDocument();
+    await expect(canvas.getByText("VAT")).toBeInTheDocument();
+    await expect(canvas.getByText("Payment")).toBeInTheDocument();
+    await expect(canvas.getByText("Return Payment")).toBeInTheDocument();
 };
 
 export default BreakdownStories;

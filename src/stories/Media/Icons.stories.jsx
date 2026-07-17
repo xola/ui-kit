@@ -1,6 +1,7 @@
 import { map, omitBy } from "lodash-es";
 import React, { useState } from "react";
 import { Toaster } from "react-hot-toast";
+import { expect } from "storybook/test";
 import { flash, Input } from "../..";
 import * as all from "../../icons/";
 
@@ -127,6 +128,10 @@ export const Tiny12Px = ({ color }) => {
 
 export const Default14Px = ({ color }) => {
     return <IconList color={color} size="small" />;
+};
+
+Default14Px.play = async ({ canvasElement }) => {
+    await expect(canvasElement.querySelectorAll("svg").length).toBeGreaterThan(10);
 };
 
 export const Medium18px = ({ color }) => {

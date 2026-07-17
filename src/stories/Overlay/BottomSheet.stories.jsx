@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import React, { useState } from "react";
+import { expect, within } from "storybook/test";
 import { BottomSheet, Button, DatePickerPopover, Input } from "../..";
 
 const BottomSheetStories = {
@@ -55,6 +56,15 @@ export const Default = ({ shouldCloseOnOutsideClick }) => {
     );
 };
 
+Default.play = async ({ canvas, canvasElement, userEvent }) => {
+    const body = within(canvasElement.ownerDocument.body);
+    await expect(body.queryByText("Apply Code")).not.toBeInTheDocument();
+
+    await userEvent.click(canvas.getByRole("button", { name: "Click me to launch a bottom sheet" }));
+    await expect(await body.findByText("Apply Code")).toBeInTheDocument();
+    await expect(body.getByPlaceholderText("Coupon or Affiliate")).toBeInTheDocument();
+};
+
 // Tall scrollable body: the Body scrolls independently while the Header/Footer stay pinned.
 export const ScrollableContent = ({ shouldCloseOnOutsideClick }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -88,6 +98,13 @@ export const ScrollableContent = ({ shouldCloseOnOutsideClick }) => {
             </BottomSheet>
         </div>
     );
+};
+
+ScrollableContent.play = async ({ canvas, canvasElement, userEvent }) => {
+    const body = within(canvasElement.ownerDocument.body);
+    await userEvent.click(canvas.getByRole("button", { name: "Click me to launch a scrollable bottom sheet" }));
+    await expect(await body.findByText("Terms & Conditions")).toBeInTheDocument();
+    await expect(body.getByText(/Paragraph 1:/)).toBeInTheDocument();
 };
 
 // Priced day content — reproduces the traveler calendar's `has-custom-content` layout (larger day

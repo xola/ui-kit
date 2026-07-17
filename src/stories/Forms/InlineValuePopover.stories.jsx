@@ -1,5 +1,6 @@
 import { random } from "lodash-es";
 import React, { useState } from "react";
+import { expect, within } from "storybook/test";
 import { Button, FormGroup, InlineValuePopover, Input, Select } from "../..";
 
 const InlineValuePopoverStories = {
@@ -56,6 +57,14 @@ export const Default = () => {
     );
 };
 
+Default.play = async ({ canvas, canvasElement, userEvent }) => {
+    await expect(canvas.getByText("8 hours")).toBeInTheDocument();
+    // Clicking the value opens a popover holding the edit form
+    await userEvent.click(canvas.getByText("8 hours"));
+    const body = within(canvasElement.ownerDocument.body);
+    await expect(await body.findByRole("button", { name: "Apply" })).toBeInTheDocument();
+};
+
 export const WithoutArrow = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [text, setText] = useState("8 hours");
@@ -92,6 +101,12 @@ export const WithoutArrow = () => {
             </InlineValuePopover>
         </div>
     );
+};
+
+WithoutArrow.play = async ({ canvas, canvasElement, userEvent }) => {
+    await userEvent.click(canvas.getByText("8 hours"));
+    const body = within(canvasElement.ownerDocument.body);
+    await expect(await body.findByRole("button", { name: "Apply" })).toBeInTheDocument();
 };
 
 export default InlineValuePopoverStories;

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { expect, within } from "storybook/test";
 import { Button, CalendarDayIcon, CalendarMonthIcon, CalendarWeekIcon, MenuIcon, PopoverList } from "../..";
 
 const PopoverStories = {
@@ -97,6 +98,14 @@ export const Default = () => {
     );
 };
 
+Default.play = async ({ canvas, canvasElement, userEvent }) => {
+    const body = within(canvasElement.ownerDocument.body);
+    // The button click toggles the controlled `visible` state open
+    await userEvent.click(canvas.getByRole("button", { name: "Hover over me" }));
+    const months = await body.findAllByText("Month");
+    await expect(months.length).toBeGreaterThan(0);
+};
+
 export const NoIcons = (props) => {
     const onClickItem = (event_, element) => console.log("Clicked on", event_, element);
     return (
@@ -112,6 +121,13 @@ export const NoIcons = (props) => {
             </PopoverList>
         </div>
     );
+};
+
+NoIcons.play = async ({ canvas, canvasElement, userEvent }) => {
+    const body = within(canvasElement.ownerDocument.body);
+    await userEvent.hover(canvas.getByRole("button", { name: "Hover over me" }));
+    await expect(await body.findByText("Listing")).toBeInTheDocument();
+    await expect(body.getByText("Guides")).toBeInTheDocument();
 };
 
 export const Scrollable = () => {
@@ -166,6 +182,12 @@ export const Scrollable = () => {
             </PopoverList>
         </div>
     );
+};
+
+Scrollable.play = async ({ canvas, canvasElement, userEvent }) => {
+    const body = within(canvasElement.ownerDocument.body);
+    await userEvent.click(canvas.getByRole("button", { name: "Click here" }));
+    await expect(await body.findByText("Item 1")).toBeInTheDocument();
 };
 
 export default PopoverStories;

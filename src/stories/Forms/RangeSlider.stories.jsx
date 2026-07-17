@@ -1,4 +1,5 @@
 import React from "react";
+import { expect } from "storybook/test";
 import { FormGroup, Label, RangeSlider } from "../..";
 
 const RangeSliderStories = {
@@ -17,6 +18,12 @@ export const Default = () => {
     );
 };
 
+Default.play = async ({ canvasElement }) => {
+    await expect(canvasElement.querySelectorAll(".noUi-handle")).toHaveLength(2);
+    const tooltips = [...canvasElement.querySelectorAll(".noUi-tooltip")].map((tooltip) => tooltip.textContent);
+    await expect(tooltips).toEqual(["10%", "30%"]);
+};
+
 export const MultipleInput = () => {
     const values = [3, 10, 15];
 
@@ -27,6 +34,10 @@ export const MultipleInput = () => {
             <RangeSlider values={values} min={0} max={31} tooltipSuffix=" days" />
         </FormGroup>
     );
+};
+
+MultipleInput.play = async ({ canvasElement }) => {
+    await expect(canvasElement.querySelectorAll(".noUi-handle")).toHaveLength(3);
 };
 
 export default RangeSliderStories;

@@ -1,4 +1,5 @@
 import React from "react";
+import { expect } from "storybook/test";
 import { Badge, Login } from "../..";
 
 const LoginStories = {
@@ -46,6 +47,14 @@ export const Default = (props) => {
     return <Login onSubmit={onSubmit} {...props} />;
 };
 
+Default.play = async ({ canvas, canvasElement }) => {
+    await expect(canvas.getByText("Email")).toBeInTheDocument();
+    await expect(canvas.getByText("Password")).toBeInTheDocument();
+    await expect(canvasElement.querySelector("input[type='email']")).toBeInTheDocument();
+    await expect(canvasElement.querySelector("input[type='password']")).toBeInTheDocument();
+    await expect(canvasElement.querySelector("button[type='submit']")).toBeInTheDocument();
+};
+
 export const X2 = () => {
     const label = (
         <Badge color="warning" className="!rounded">
@@ -53,6 +62,10 @@ export const X2 = () => {
         </Badge>
     );
     return <Login backgroundType="x2" label={label} onSubmit={onSubmit} />;
+};
+
+X2.play = async ({ canvas }) => {
+    await expect(canvas.getByText("X2")).toBeInTheDocument();
 };
 
 export const Admin = () => {
@@ -64,9 +77,17 @@ export const Admin = () => {
     return <Login backgroundType="admin" label={label} onSubmit={onSubmit} />;
 };
 
+Admin.play = async ({ canvas }) => {
+    await expect(canvas.getByText("THIS IS THE ADMIN PANEL!!111")).toBeInTheDocument();
+};
+
 export const Scaffold = () => {
     const label = <Badge className="!rounded">Scaffold</Badge>;
     return <Login backgroundType="scaffold" label={label} onSubmit={onSubmit} />;
+};
+
+Scaffold.play = async ({ canvas }) => {
+    await expect(canvas.getByText("Scaffold")).toBeInTheDocument();
 };
 
 export const Custom = () => {

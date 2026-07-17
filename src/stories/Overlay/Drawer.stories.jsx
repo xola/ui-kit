@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { expect, within } from "storybook/test";
 import { Button, Drawer } from "../..";
 
 const DrawerStories = {
@@ -55,6 +56,15 @@ export const Drawers = ({ title = "Hello World", size, content = "Lorem Ipsum. C
             <Drawer title={title} content={content} size={size} isOpen={open} onClose={onClose} />
         </div>
     );
+};
+
+Drawers.play = async ({ canvas, canvasElement, userEvent }) => {
+    const body = within(canvasElement.ownerDocument.body);
+    await expect(body.queryByText("Hello World")).not.toBeInTheDocument();
+
+    await userEvent.click(canvas.getByRole("button", { name: "Click Me to open the Drawer" }));
+    await expect(await body.findByText("Hello World")).toBeInTheDocument();
+    await expect(body.getByText("Lorem Ipsum. Click the X to close")).toBeInTheDocument();
 };
 
 export default DrawerStories;

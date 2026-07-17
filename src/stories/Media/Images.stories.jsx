@@ -1,5 +1,6 @@
 import { map, omitBy } from "lodash-es";
 import React from "react";
+import { expect } from "storybook/test";
 import * as all from "../../icons/";
 import { XolaLogo, XolaLogoCircle, XolaLogoSimple } from "../../icons/";
 
@@ -80,6 +81,10 @@ export const Default = ({ color }) => {
     return <ImageList color={color} size="large" />;
 };
 
+Default.play = async ({ canvasElement }) => {
+    await expect(canvasElement.querySelectorAll("svg").length).toBeGreaterThan(0);
+};
+
 export const XolaLogos = () => {
     return (
         <div className="space-y-8 divide-y divide-gray-light">
@@ -98,6 +103,10 @@ export const XolaLogos = () => {
             </div>
         </div>
     );
+};
+
+XolaLogos.play = async ({ canvas }) => {
+    await expect(canvas.getByText("Available Xola logos")).toBeInTheDocument();
 };
 
 export default ImagesStories;

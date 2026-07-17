@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { expect } from "storybook/test";
 import {
     AnnounceIcon,
     CheckIcon,
@@ -131,6 +132,11 @@ export const Default = () => {
     );
 };
 
+Default.play = async ({ canvas }) => {
+    await expect(canvas.getByText("Sellers")).toBeInTheDocument();
+    await expect(canvas.getByText("Favorites")).toBeInTheDocument();
+};
+
 export const CustomLogo = () => {
     const Logo = () => <img src="https://c02.xola.com/images/xola-logo-header.png" className="bg-green" />;
 
@@ -146,6 +152,11 @@ export const CustomLogo = () => {
             </Sidebar>
         </div>
     );
+};
+
+CustomLogo.play = async ({ canvas, canvasElement }) => {
+    await expect(canvasElement.querySelector("img")).toBeInTheDocument();
+    await expect(canvas.getByText("Sellers")).toBeInTheDocument();
 };
 
 export const SidebarWithNotifications = () => {
@@ -225,6 +236,11 @@ export const SidebarWithNotifications = () => {
             </Sidebar>
         </div>
     );
+};
+
+SidebarWithNotifications.play = async ({ canvas }) => {
+    await expect(canvas.getByText("Sellers")).toBeInTheDocument();
+    await expect(canvas.getByText("Favorites")).toBeInTheDocument();
 };
 
 export default SidebarStories;

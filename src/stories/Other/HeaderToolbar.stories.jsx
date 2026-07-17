@@ -1,4 +1,5 @@
 import React from "react";
+import { expect } from "storybook/test";
 import { Breadcrumb, Button, HeaderToolbar } from "../..";
 
 const HeaderToolbarStories = {
@@ -34,6 +35,13 @@ export const HeaderToolbars = () => {
             </Button>
         </HeaderToolbar>
     );
+};
+
+HeaderToolbars.play = async ({ canvas, canvasElement }) => {
+    await expect(canvas.getByText("Seller")).toBeInTheDocument();
+    await expect(canvas.getByText("Lasting Adventures")).toBeInTheDocument();
+    await expect(canvas.getByRole("button", { name: "Impersonate" })).toBeInTheDocument();
+    await expect(canvasElement.querySelector("input[placeholder='Search for seller']")).toBeInTheDocument();
 };
 
 export default HeaderToolbarStories;
