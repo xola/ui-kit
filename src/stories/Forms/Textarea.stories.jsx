@@ -1,4 +1,5 @@
 import React from "react";
+import { expect } from "storybook/test";
 import { FormGroup, Label, Textarea } from "../..";
 
 const TextareaStories = {
@@ -20,6 +21,13 @@ export const Default = () => {
             <Textarea rows={5} />
         </FormGroup>
     );
+};
+
+Default.play = async ({ canvas, userEvent }) => {
+    const textarea = canvas.getByRole("textbox");
+    await expect(textarea).toHaveValue("");
+    await userEvent.type(textarea, "Hello world");
+    await expect(textarea).toHaveValue("Hello world");
 };
 
 export const Sizes = () => {
@@ -50,6 +58,12 @@ export const Disabled = () => {
             <Textarea disabled value="f003e8a95139cd7b70999070838561e0" />
         </FormGroup>
     );
+};
+
+Disabled.play = async ({ canvas }) => {
+    const textarea = canvas.getByRole("textbox");
+    await expect(textarea).toBeDisabled();
+    await expect(textarea).toHaveValue("f003e8a95139cd7b70999070838561e0");
 };
 
 export const WithError = () => {

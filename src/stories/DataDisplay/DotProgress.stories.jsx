@@ -1,4 +1,5 @@
 import React from "react";
+import { expect } from "storybook/test";
 import { DotProgress } from "../..";
 
 const DotProgressStories = {
@@ -35,6 +36,13 @@ export const Default = ({ current, total }) => {
             <DotProgress current={current} total={total} />
         </div>
     );
+};
+
+Default.play = async ({ canvasElement }) => {
+    await expect(canvasElement.querySelectorAll(".ui-dot")).toHaveLength(6);
+    // Exactly one dot is active (primary), the rest are secondary
+    await expect(canvasElement.querySelectorAll(".ui-dot.bg-primary")).toHaveLength(1);
+    await expect(canvasElement.querySelectorAll(".ui-dot.bg-secondary")).toHaveLength(5);
 };
 
 export default DotProgressStories;

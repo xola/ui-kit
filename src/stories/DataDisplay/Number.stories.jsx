@@ -1,4 +1,5 @@
 import React from "react";
+import { expect } from "storybook/test";
 import { Number, numberFormat } from "../..";
 
 const NumberStories = {
@@ -51,6 +52,10 @@ export const Default = ({ locale, amount }) => {
             <Number locale={locale}>{amount}</Number>
         </div>
     );
+};
+
+Default.play = async ({ canvas }) => {
+    await expect(canvas.getByText("109,482.84")).toBeInTheDocument();
 };
 
 export const CompactValues = ({ locale }) => {

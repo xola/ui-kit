@@ -1,4 +1,5 @@
 import React from "react";
+import { expect } from "storybook/test";
 import { SecondaryButton } from "../..";
 
 const SecondaryButtonStories = {
@@ -31,5 +32,12 @@ export const Default = (args) => (
         <SecondaryButton {...args}>Button with really long text</SecondaryButton>
     </div>
 );
+
+Default.play = async ({ canvas }) => {
+    await expect(canvas.getByText("Secondary")).toBeInTheDocument();
+    const buttons = canvas.getAllByRole("button");
+    await expect(buttons).toHaveLength(2);
+    await expect(buttons[0]).toBeEnabled();
+};
 
 export default SecondaryButtonStories;

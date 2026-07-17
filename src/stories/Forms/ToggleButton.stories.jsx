@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { expect } from "storybook/test";
 import { CheckIcon, ToggleButton } from "../..";
 
 const ToggleButtonStories = {
@@ -63,6 +64,12 @@ export const Default = ({ size, isActive }) => {
             </div>
         </div>
     );
+};
+
+Default.play = async ({ canvas, userEvent }) => {
+    await expect(canvas.getByText(/Is Active: No/)).toBeInTheDocument();
+    await userEvent.click(canvas.getAllByRole("button")[0]);
+    await expect(canvas.getByText(/Is Active: Yes/)).toBeInTheDocument();
 };
 
 export default ToggleButtonStories;

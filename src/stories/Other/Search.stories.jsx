@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import React, { useState } from "react";
+import { expect } from "storybook/test";
 import { Search } from "../..";
 
 const SearchStories = {
@@ -80,12 +81,23 @@ export const Default = () => {
     );
 };
 
+Default.play = async ({ canvasElement }) => {
+    // Typing triggers a network fetch, so only assert the search input renders
+    await expect(canvasElement.querySelector("input")).toBeInTheDocument();
+};
+
 export const Simple = () => {
     const handleSubmit = (inputValue) => {
         console.log(`You submitted "${inputValue}"`);
     };
 
     return <Search onSubmit={handleSubmit} />;
+};
+
+Simple.play = async ({ canvasElement, userEvent }) => {
+    const input = canvasElement.querySelector("input");
+    await userEvent.type(input, "kayak");
+    await expect(input).toHaveValue("kayak");
 };
 
 export default SearchStories;

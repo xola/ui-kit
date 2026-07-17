@@ -1,4 +1,5 @@
 import React from "react";
+import { expect } from "storybook/test";
 import { Phone } from "../..";
 
 const PhoneStories = {
@@ -39,6 +40,12 @@ const PhoneStories = {
 
 export const Default = (props) => {
     return <PhoneDisplay {...props} />;
+};
+
+Default.play = async ({ canvas }) => {
+    await expect(canvas.getByText("5402322157")).toBeInTheDocument();
+    // US number formatted to national format
+    await expect(canvas.getByText("(540) 232-2157")).toBeInTheDocument();
 };
 
 export const InvalidNumbers = () => {

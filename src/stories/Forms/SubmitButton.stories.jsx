@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { expect } from "storybook/test";
 import { SubmitButton } from "../..";
 
 const SubmitButtonStories = {
@@ -100,6 +101,11 @@ export const Default = ({ isLoading, ...rest }) => {
             </div>
         </div>
     );
+};
+
+Default.play = async ({ canvas }) => {
+    await expect(canvas.getAllByRole("button")).toHaveLength(6);
+    await expect(canvas.getAllByText("Submit")).toHaveLength(3);
 };
 
 export default SubmitButtonStories;

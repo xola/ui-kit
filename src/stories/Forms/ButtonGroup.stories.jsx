@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { expect } from "storybook/test";
 import { ButtonGroup, ChecklistIcon, EmptyChecklistIcon, MixedChecklistIcon, WaitlistIcon } from "../..";
 
 const ButtonGroupStories = {
@@ -42,6 +43,14 @@ export const Default = ({ size = "medium", value = -1 }) => {
             <ButtonGroup.Button>Third</ButtonGroup.Button>
         </ButtonGroup>
     );
+};
+
+Default.play = async ({ canvas, userEvent }) => {
+    const second = canvas.getByRole("button", { name: "Second" });
+    // No button is active until one is clicked
+    await expect(second).not.toHaveClass("bg-primary");
+    await userEvent.click(second);
+    await expect(second).toHaveClass("bg-primary");
 };
 
 export const WithIcons = ({ size, value = -1 }) => {

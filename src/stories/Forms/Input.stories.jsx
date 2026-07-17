@@ -1,4 +1,5 @@
 import React from "react";
+import { expect } from "storybook/test";
 import { FormGroup, Input, Label } from "../..";
 
 const InputStories = {
@@ -20,6 +21,14 @@ export const Default = () => {
             <Input defaultValue="Hello, World" />
         </FormGroup>
     );
+};
+
+Default.play = async ({ canvas, userEvent }) => {
+    const input = canvas.getByRole("textbox");
+    await expect(input).toHaveValue("Hello, World");
+    await userEvent.clear(input);
+    await userEvent.type(input, "New value");
+    await expect(input).toHaveValue("New value");
 };
 
 export const Sizes = () => {
@@ -52,6 +61,16 @@ export const Disabled = () => {
     );
 };
 
+Sizes.play = async ({ canvas }) => {
+    await expect(canvas.getAllByRole("textbox")).toHaveLength(3);
+};
+
+Disabled.play = async ({ canvas }) => {
+    const input = canvas.getByRole("textbox");
+    await expect(input).toBeDisabled();
+    await expect(input).toHaveValue("f003e8a95139cd7b70999070838561e0");
+};
+
 export const WithError = () => {
     return (
         <FormGroup>
@@ -77,6 +96,12 @@ export const CustomWidth = () => {
             <Input className="!w-60" />
         </FormGroup>
     );
+};
+
+WithRequired.play = async ({ canvas, canvasElement }) => {
+    await expect(canvas.getByRole("textbox")).toHaveValue("");
+    // isRequired shows a danger dot indicator while the field is empty
+    await expect(canvasElement.querySelector(".ui-dot.bg-danger")).toBeInTheDocument();
 };
 
 export default InputStories;

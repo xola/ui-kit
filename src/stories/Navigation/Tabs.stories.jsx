@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { expect } from "storybook/test";
 import { Tabs } from "../..";
 
 const TabsStories = {
@@ -62,6 +63,17 @@ export const Default = ({ className, variant, isHidden }) => {
     );
 };
 
+Default.play = async ({ canvas, userEvent }) => {
+    // Only the active panel is rendered
+    await expect(canvas.getByText("Seller Details Content")).toBeInTheDocument();
+    // isHidden tab is not rendered
+    await expect(canvas.queryByText("Admin Tools")).not.toBeInTheDocument();
+
+    await userEvent.click(canvas.getByText("Invoices"));
+    await expect(canvas.getByText("Invoices Content")).toBeInTheDocument();
+    await expect(canvas.queryByText("Seller Details Content")).not.toBeInTheDocument();
+};
+
 export const Simple = ({ className }) => {
     const [activeTab, setActiveTab] = useState(0);
 
@@ -86,6 +98,12 @@ export const Simple = ({ className }) => {
             </Tabs>
         </div>
     );
+};
+
+Simple.play = async ({ canvas, userEvent }) => {
+    await expect(canvas.getByText("Seller Details Content")).toBeInTheDocument();
+    await userEvent.click(canvas.getByText("App Store"));
+    await expect(canvas.getByText("App Store Content")).toBeInTheDocument();
 };
 
 export default TabsStories;
