@@ -64,7 +64,7 @@
         "@types/react": "^18.3.31",
         "@types/react-dom": "^18.3.7",
         "@vitejs/plugin-react": "^4.3.4",
-        "@xola/jslint": "^3.2.1",
+        "@xola/jslint": "^4.0.1",
         "autoprefixer": "^10.5.2",
         "eslint": "^9.18.0",
         "postcss": "8.5",
