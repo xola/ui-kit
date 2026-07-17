@@ -24,9 +24,9 @@ NavbarElement.propTypes = {
     onPreviousClick: PropTypes.func,
     onNextClick: PropTypes.func,
     className: PropTypes.string,
-    // eslint-disable-next-line react/boolean-prop-naming
+
     showNextButton: PropTypes.bool,
-    // eslint-disable-next-line react/boolean-prop-naming
+
     showPreviousButton: PropTypes.bool,
 };
 

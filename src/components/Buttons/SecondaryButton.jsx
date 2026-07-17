@@ -26,6 +26,6 @@ export const SecondaryButton = ({
 
 SecondaryButton.propTypes = {
     ...Button.propTypes,
-    // eslint-disable-next-line react/boolean-prop-naming
+
     disabled: PropTypes.bool,
 };

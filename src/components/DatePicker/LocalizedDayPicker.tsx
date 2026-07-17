@@ -5,7 +5,10 @@ import cn from "../../helpers/classnames";
 import { Context } from "../Provider";
 import { getLocalizationProps, LocaleCode, LocalizationProps } from "./DatePicker.helpers";
 
-export const LocalizedDayPicker = forwardRef<any, DayPickerProps>(({ className, ...rest }, ref) => {
+export const LocalizedDayPicker = forwardRef<any, DayPickerProps>(function LocalizedDayPicker(
+    { className, ...rest },
+    ref,
+) {
     const { locale } = useContext(Context);
     const [localizationProps, setLocalizationProps] = useState<Partial<LocalizationProps>>({});
 
@@ -16,7 +19,6 @@ export const LocalizedDayPicker = forwardRef<any, DayPickerProps>(({ className, 
         /** We don't want any localization-related props for "English" */
         if (!localeCode || localeCode === "en" || localeCode === "en-us") return;
 
-        /* eslint-disable-next-line promise/prefer-await-to-then */
         getLocalizationProps(locale as LocaleCode).then(setLocalizationProps);
     }, [locale]);
 

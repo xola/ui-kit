@@ -79,3 +79,5 @@ const LazyTippy = React.forwardRef((props, ref) => {
 
     return <Tippy {...computedProps} ref={ref} />;
 });
+
+LazyTippy.displayName = "LazyTippy";

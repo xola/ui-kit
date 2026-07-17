@@ -61,6 +61,8 @@ Currency.Round = ({ currency, children }) => {
     return <span className="ui-currency-round">{number}</span>;
 };
 
+Currency.Round.displayName = "Currency.Round";
+
 Currency.Round.propTypes = {
     currency: PropTypes.string,
     children: PropTypes.node.isRequired,
@@ -94,6 +96,8 @@ Currency.Split = ({ currency = "USD", locale = userLocale, isNarrowSymbolForm, c
         </span>
     );
 };
+
+Currency.Split.displayName = "Currency.Split";
 
 Currency.Split.propTypes = {
     currency: PropTypes.string,

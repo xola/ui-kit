@@ -71,16 +71,18 @@ export const BaseInput = forwardRef(
     },
 );
 
+BaseInput.displayName = "BaseInput";
+
 BaseInput.propTypes = {
     as: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]),
     size: PropTypes.oneOf(Object.keys(sizes)),
     className: PropTypes.string,
     isError: PropTypes.bool,
     isRequired: PropTypes.bool,
-    // eslint-disable-next-line react/require-default-props
+
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    prefix: PropTypes.string, // eslint-disable-line react/require-default-props
-    suffix: PropTypes.string, // eslint-disable-line react/require-default-props
+    prefix: PropTypes.string,
+    suffix: PropTypes.string,
 };
 
 BaseInput.defaultProps = {

@@ -132,7 +132,8 @@ const DefaultInput = forwardRef(({ className, ...rest }, reference) => {
     );
 });
 
+DefaultInput.displayName = "DefaultInput";
+
 DefaultInput.propTypes = {
-    // eslint-disable-next-line react/require-default-props
     className: PropTypes.string,
 };
