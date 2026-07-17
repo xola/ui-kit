@@ -90,10 +90,14 @@ export const AllStyles = (props) => {
         <div className="w-96 space-y-8">
             {FlashStories.argTypes.color.options.map((color) => {
                 const classes = flash.getStyles(color, props.size, "relative", true);
-                return flash.container(`[${color}] ${props.text}`, classes, props.canClose ? handleClose : null, {
-                    id: `flash-${color}`,
-                    visible: true,
-                });
+                return (
+                    <React.Fragment key={color}>
+                        {flash.container(`[${color}] ${props.text}`, classes, props.canClose ? handleClose : null, {
+                            id: `flash-${color}`,
+                            visible: true,
+                        })}
+                    </React.Fragment>
+                );
             })}
         </div>
     );

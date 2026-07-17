@@ -81,7 +81,7 @@ export const AllCurrencies = ({ amount, locale }) => {
             <span className="pb-4 font-semibold">Locale: {locale}</span>
             {currencies.map((currency) => {
                 return (
-                    <span className="flex space-x-4">
+                    <span key={currency} className="flex space-x-4">
                         <span>{currency}</span>
                         <Currency locale={locale} currency={currency}>
                             {amount}
@@ -102,7 +102,7 @@ export const LocalesWithUSDollar = () => {
             </div>
             {locales.map((locale) => {
                 return (
-                    <div className="my-2 space-x-4">
+                    <div key={locale} className="my-2 space-x-4">
                         <span>Locale: {locale}</span>
                         <span className="font-mono">
                             <Currency locale={locale} currency="USD">
@@ -143,7 +143,7 @@ export const CompactValues = ({ locale }) => {
     const amounts = [123, 1234, 123_456, 123_456_789, 123_456_789_123];
 
     return amounts.map((amount) => (
-        <div className="my-2 font-mono tracking-tighter">
+        <div key={amount} className="my-2 font-mono tracking-tighter">
             {numberFormat(amount, null, locale, 0)}:{" "}
             <span className="font-semibold">
                 <Currency compact locale={locale}>
