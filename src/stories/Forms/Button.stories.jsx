@@ -1,4 +1,5 @@
 import React from "react";
+import { expect, fn } from "storybook/test";
 import { Button, EllipsisIcon, KeyIcon, PlusIcon, UserIcon, WaitlistIcon, WarningIcon } from "../..";
 
 const ButtonStories = {
@@ -51,6 +52,19 @@ export const Default = (props) => {
             </Button>
         </div>
     );
+};
+
+export const Clickable = (props) => {
+    return <Button {...props}>Click me</Button>;
+};
+
+Clickable.args = {
+    onClick: fn(),
+};
+
+Clickable.play = async ({ args, canvas, userEvent }) => {
+    await userEvent.click(canvas.getByRole("button", { name: "Click me" }));
+    await expect(args.onClick).toHaveBeenCalledOnce();
 };
 
 export const Colors = () => {

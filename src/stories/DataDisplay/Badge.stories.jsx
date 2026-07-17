@@ -1,4 +1,5 @@
 import React from "react";
+import { expect } from "storybook/test";
 import { Badge, BellIcon, BoxIcon, CakeIcon, CashIcon, EditIcon, StackIcon } from "../..";
 
 const BadgeStories = {
@@ -40,6 +41,10 @@ export const Default = ({ text = "Default", color, size, className }) => {
             </Badge>
         </div>
     );
+};
+
+Default.play = async ({ canvas, args }) => {
+    await expect(canvas.getByText(args.text)).toBeInTheDocument();
 };
 
 export const WithIcons = () => {
