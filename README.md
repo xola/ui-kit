@@ -16,10 +16,43 @@ It's storybook is publicly published at [ui.xola.io](https://ui.xola.io). The ic
 
 ### Usage
 
+#### Install with an AI agent
+
+Paste the following prompt into your coding agent (Claude Code, Cursor, etc.) to have it install
+and wire up the UI kit for you:
+
+```text
+Install and configure the @xola/ui-kit React component library in this project.
+
+1. Install the package: npm install @xola/ui-kit@next
+2. Install its peer dependencies: react react-dom autoprefixer postcss tailwindcss vite
+   @types/react @types/react-dom
+3. @xola/ui-kit is ESM only ("type": "module") with no CommonJS build. Import it, never
+   require() it.
+4. Detect the project's Tailwind CSS major version and configure accordingly:
+   - Tailwind v3: create tailwind.config.mjs and postcss.config.mjs that re-export the ui-kit
+     configs:
+       export { default } from "@xola/ui-kit/tailwind.config.js";
+       export { default } from "@xola/ui-kit/postcss.config.js";
+     Then import both "@xola/ui-kit/index.css" and "@xola/ui-kit/build/style.css".
+   - Tailwind v4: do NOT import "@xola/ui-kit/index.css" (it uses @tailwind/@apply and will
+     error). Import only "@xola/ui-kit/build/style.css". In the CSS entry that has
+     @import "tailwindcss";, add:
+       @source "./node_modules/@xola/ui-kit/build/ui-kit.es.js";
+       @import "@xola/ui-kit/build/theme.css";  /* after any of your own theme tokens */
+5. This project uses legacy-peer-deps; run installs with --legacy-peer-deps (or copy ui-kit's
+   .npmrc).
+6. Verify by importing and rendering a component: import { Button } from "@xola/ui-kit";
+
+Read the @xola/ui-kit README for the full details before making changes.
+```
+
+Prefer manual setup? Follow the steps below.
+
 Install the UI kit:
 
 ```bash
-npm install @xola/ui-kit
+npm install @xola/ui-kit@next
 ```
 
 Install peer dependencies:
@@ -115,6 +148,24 @@ Start the Storybook development server:
 $ npm start
 ```
 
+### Testing
+
+Tests run on [Vitest](https://vitest.dev). Pure helpers in `src/utils` and `src/helpers` have unit
+tests; component behavior is validated through Storybook interaction (`play`) tests that run in a
+real browser via `@storybook/addon-vitest` and Playwright.
+
+```bash
+npm test               # Unit tests (Vitest, node environment)
+npm run test:storybook # Storybook interaction tests (Playwright/Chromium)
+npm run test:all       # Both projects
+```
+
+The Storybook tests need Playwright's Chromium browser the first time:
+
+```bash
+npx playwright install chromium
+```
+
 ## Advanced
 ### Integrate your app with a locally installed UI Kit
 
@@ -173,11 +224,10 @@ $ npm install
 
 ### Lint & Auto-fix
 
-To automatically fix lint issues in this project you have the following commands:
-
 ```bash
-npm run lint # Run lint on `src` and output issues
-npm run lint:fix # Run lint and automatically fix any issues. Any that are not fixed are output to screen.
+npm run lint        # Lint `src` and auto-fix whatever can be fixed
+npm run lint:ci     # Lint `src` without fixing (used in CI)
+npm run lint:report # Write a JSON report to eslint_report.json
 ```
 
 ## Notes
