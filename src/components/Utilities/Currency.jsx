@@ -1,14 +1,12 @@
-import getUserLocale from "get-user-locale";
 import PropTypes from "prop-types";
 import React from "react";
 import { getSymbol, isZeroDecimal } from "../../utils/currency";
 import { almostZero, numberFormat, roundNumber } from "../../utils/numbers";
-
-const userLocale = getUserLocale();
+import { getDefaultLocale } from "../../utils/userLocale";
 
 export const Currency = ({
     currency = "USD",
-    locale = userLocale,
+    locale = getDefaultLocale(),
     shouldRemoveTrailingZeroes = true,
     maximumFractionDigits = 2,
     compact = false,

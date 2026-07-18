@@ -1,9 +1,21 @@
 import { PhoneNumberFormat, PhoneNumberUtil } from "google-libphonenumber";
 
 const PNF = PhoneNumberFormat;
-const phoneUtil = PhoneNumberUtil.getInstance();
+
+// PhoneNumberUtil.getInstance() eagerly builds the full region metadata. Defer it
+// to first use (and memoize) so importing this module stays cheap and side-effect-light.
+let cachedPhoneUtil;
+const getPhoneUtil = () => {
+    if (!cachedPhoneUtil) {
+        cachedPhoneUtil = PhoneNumberUtil.getInstance();
+    }
+
+    return cachedPhoneUtil;
+};
 
 export const getRegionCode = (number, countryCode = "US") => {
+    const phoneUtil = getPhoneUtil();
+
     try {
         const phoneObject = phoneUtil.parseAndKeepRawInput(number, countryCode);
 
@@ -22,6 +34,8 @@ export const getRegionCode = (number, countryCode = "US") => {
  * @return {string}
  */
 export const formatPhoneNumber = (number, countryCode = "US") => {
+    const phoneUtil = getPhoneUtil();
+
     try {
         let phoneObject = phoneUtil.parseAndKeepRawInput(number, countryCode);
 

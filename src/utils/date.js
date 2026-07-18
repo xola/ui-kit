@@ -1,4 +1,4 @@
-import dayjs, { isDayjs } from "dayjs";
+import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import LocalizedFormat from "dayjs/plugin/localizedFormat";
 import quarterOfYear from "dayjs/plugin/quarterOfYear";
@@ -52,7 +52,7 @@ export const now = (date, timezone) => {
         return timezone ? dayjs(date).tz(timezone) : dayjs();
     }
 
-    if (isDayjs(date)) {
+    if (dayjs.isDayjs(date)) {
         // We do this late because under some conditions this is expensive (see: X2-9122)
         return date;
     }
@@ -78,7 +78,7 @@ const DayTimeEnd = "T23:59:59";
 export const toDate = (date, isStartDate = true) => {
     const suffix = isStartDate ? DayTimeStart : DayTimeEnd;
 
-    if (isDayjs(date)) {
+    if (dayjs.isDayjs(date)) {
         return new Date(date.format(DateFormat.DATE_ISO) + suffix);
     }
 
@@ -86,7 +86,7 @@ export const toDate = (date, isStartDate = true) => {
 };
 
 export const isSame = (date1, date2, unit = "day") => {
-    if (isDayjs(date1) && isDayjs(date2)) {
+    if (dayjs.isDayjs(date1) && dayjs.isDayjs(date2)) {
         return date1.isSame(date2, unit);
     }
 
