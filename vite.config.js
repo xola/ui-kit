@@ -2,7 +2,15 @@ import path from "path";
 import { defineConfig } from "vite";
 import pkg from "./package.json";
 
-const dependencies = Object.keys(pkg.dependencies);
+// We import NAMED exports from these two CommonJS-only deps (`{ DateUtils }` from react-day-picker,
+// `{ PhoneNumberUtil, PhoneNumberFormat }` from google-libphonenumber). Node's ESM loader can't detect
+// named exports of a CJS module via cjs-module-lexer, so if left external the built ui-kit throws
+// "Named export 'X' not found" under a Node ESM/SSR context. Bundling just these two lets Rollup do the
+// CJS->ESM interop. Every other dep is either ESM or imported as default (which Node resolves fine), so
+// they stay external to keep the bundle lean and avoid duplicating deps the consuming app already has.
+const bundleForEsmInterop = ["react-day-picker", "google-libphonenumber"];
+
+const dependencies = Object.keys(pkg.dependencies).filter((dep) => !bundleForEsmInterop.includes(dep));
 const devDependencies = Object.keys(pkg.devDependencies);
 
 export default defineConfig({
