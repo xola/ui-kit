@@ -10,6 +10,7 @@ src/theme.js
 public/theme.css
 .idea
 .vscode
+.eslintcache
 .codegraph
 /docs
 .claude/settings.local.json
