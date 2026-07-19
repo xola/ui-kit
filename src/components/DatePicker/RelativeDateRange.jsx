@@ -73,7 +73,7 @@ export const rangeLabels = {
     [rangeOptions.LEADING_YEAR]: "Leading Year",
 };
 
-export const dateRanges = {
+const dateRanges = {
     day: {
         label: "Day",
         rangeOptions: [

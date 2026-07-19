@@ -11,7 +11,7 @@ dayjs.extend(quarterOfYear);
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-export const DateFormat = {
+const DateFormat = {
     DATE_ISO: "YYYY-MM-DD",
 };
 
@@ -66,7 +66,7 @@ export const now = (date, timezone) => {
 
 const padNumber = (value) => value.toString().padStart(2, "0");
 
-export const dateToString = (date) => {
+const dateToString = (date) => {
     const dateString = `${date.getFullYear()}-${padNumber(date.getMonth() + 1)}-${padNumber(date.getDate())}`;
     const timeString = `${padNumber(date.getHours())}:${padNumber(date.getMinutes())}:${padNumber(date.getSeconds())}`;
     return `${dateString} ${timeString}`;
