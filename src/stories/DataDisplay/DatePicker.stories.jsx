@@ -269,9 +269,7 @@ addDescription(
 
 MonthPickerPopover.play = async ({ canvasElement, userEvent }) => {
     await userEvent.click(canvasElement.querySelector("input"));
-    await waitFor(() =>
-        expect(canvasElement.ownerDocument.querySelector(".ui-month-picker")).toBeInTheDocument(),
-    );
+    await waitFor(() => expect(canvasElement.ownerDocument.querySelector(".ui-month-picker")).toBeInTheDocument());
 };
 
 /**

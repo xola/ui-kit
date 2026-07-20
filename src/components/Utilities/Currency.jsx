@@ -66,7 +66,7 @@ Currency.Round.propTypes = {
     children: PropTypes.node.isRequired,
 };
 
-Currency.Split = ({ currency = "USD", locale = userLocale, isNarrowSymbolForm, children }) => {
+Currency.Split = ({ currency = "USD", locale = getDefaultLocale(), isNarrowSymbolForm, children }) => {
     let amount = children;
     if (almostZero(amount)) {
         amount = 0;
