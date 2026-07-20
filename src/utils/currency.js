@@ -1,6 +1,4 @@
-import getUserLocale from "get-user-locale";
-
-const userLocale = getUserLocale();
+import { getDefaultLocale } from "./userLocale";
 
 const zeroDecimalCurrencies = new Set(["JPY", "CLP", "KRW", "LAK", "PYG", "VND", "VUV"]);
 
@@ -8,7 +6,7 @@ export const isZeroDecimal = (currency) => {
     return zeroDecimalCurrencies.has(currency);
 };
 
-export const getSymbol = (currency, locale = userLocale, amount = 0, isNarrowSymbolForm = false) => {
+export const getSymbol = (currency, locale = getDefaultLocale(), amount = 0, isNarrowSymbolForm = false) => {
     const string = new Intl.NumberFormat(locale, {
         style: "currency",
         currency,

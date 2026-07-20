@@ -1,8 +1,6 @@
-import getUserLocale from "get-user-locale";
 import { round } from "lodash-es";
 import { isZeroDecimal } from "./currency";
-
-const userLocale = getUserLocale();
+import { getDefaultLocale } from "./userLocale";
 
 export const almostZero = (number) => {
     const absAmount = Math.abs(number);
@@ -12,7 +10,7 @@ export const almostZero = (number) => {
 export const numberFormat = (
     amount,
     currency = null,
-    locale = userLocale,
+    locale = getDefaultLocale(),
     maximumFractionDigits = 2,
     isCompact = false,
     isNarrowSymbolForm = false,
@@ -44,6 +42,6 @@ export const roundNumber = (currency, amount) => {
     return round(number, 2);
 };
 
-export const compactNumber = (value, locale = userLocale) => {
+export const compactNumber = (value, locale = getDefaultLocale()) => {
     return new Intl.NumberFormat(locale, { notation: "compact", maximumFractionDigits: 2 }).format(value);
 };

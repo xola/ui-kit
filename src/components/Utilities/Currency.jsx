@@ -1,14 +1,12 @@
-import getUserLocale from "get-user-locale";
 import PropTypes from "prop-types";
 import React from "react";
 import { getSymbol, isZeroDecimal } from "../../utils/currency";
 import { almostZero, numberFormat, roundNumber } from "../../utils/numbers";
-
-const userLocale = getUserLocale();
+import { getDefaultLocale } from "../../utils/userLocale";
 
 export const Currency = ({
     currency = "USD",
-    locale = userLocale,
+    locale = getDefaultLocale(),
     shouldRemoveTrailingZeroes = true,
     maximumFractionDigits = 2,
     compact = false,
@@ -61,12 +59,14 @@ Currency.Round = ({ currency, children }) => {
     return <span className="ui-currency-round">{number}</span>;
 };
 
+Currency.Round.displayName = "Currency.Round";
+
 Currency.Round.propTypes = {
     currency: PropTypes.string,
     children: PropTypes.node.isRequired,
 };
 
-Currency.Split = ({ currency = "USD", locale = userLocale, isNarrowSymbolForm, children }) => {
+Currency.Split = ({ currency = "USD", locale = getDefaultLocale(), isNarrowSymbolForm, children }) => {
     let amount = children;
     if (almostZero(amount)) {
         amount = 0;
@@ -94,6 +94,8 @@ Currency.Split = ({ currency = "USD", locale = userLocale, isNarrowSymbolForm, c
         </span>
     );
 };
+
+Currency.Split.displayName = "Currency.Split";
 
 Currency.Split.propTypes = {
     currency: PropTypes.string,

@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import PropTypes from "prop-types";
 import React, { useEffect, useRef, useState } from "react";
 import cn from "../../helpers/classnames";

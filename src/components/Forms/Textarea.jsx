@@ -27,6 +27,8 @@ export const Textarea = forwardRef(({ className, value, shouldAutoSize = false, 
     );
 });
 
+Textarea.displayName = "Textarea";
+
 Textarea.propTypes = {
     ...BaseInput.propTypes,
     rows: PropTypes.number,

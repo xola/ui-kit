@@ -43,8 +43,8 @@ HeaderToolbar.Breadcrumb.propTypes = {
     children: PropTypes.node.isRequired,
 };
 
-HeaderToolbar.Breadcrumb.displayName = "HeaderToolbar.Search";
-
 HeaderToolbar.Search = (props) => {
     return <Search className="ui-header-toolbar-search w-full flex-grow pr-1" {...props} />;
 };
+
+HeaderToolbar.Search.displayName = "HeaderToolbar.Search";

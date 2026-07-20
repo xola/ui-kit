@@ -1,6 +1,7 @@
-module.exports = {
-    stories: ["../src/**/*.@(mdx|stories.@(js|jsx))"],
+import { theme } from "../src/theme.js";
 
+export default {
+    stories: ["../src/**/*.@(mdx|stories.@(js|jsx))"],
     staticDirs: ["../public"],
 
     core: {
@@ -8,59 +9,43 @@ module.exports = {
     },
 
     addons: [
-        "@storybook/addon-webpack5-compiler-babel",
         "@storybook/addon-links",
-        {
-            name: "@storybook/addon-essentials",
-            options: {
-                backgrounds: false,
-            },
-        },
-        {
-            name: "@storybook/addon-styling-webpack",
-            options: {
-                rules: [
-                    {
-                        test: /\.module\.css$/,
-                        use: [
-                            "style-loader",
-                            {
-                                loader: "css-loader",
-                                options: {
-                                    importLoaders: 1,
-                                    modules: {
-                                        auto: true,
-                                        namedExport: false,
-                                        exportLocalsConvention: "camel-case-only",
-                                        localIdentName: "[name]__[local]--[hash:base64:5]",
-                                    },
-                                },
-                            },
-                            {
-                                loader: "postcss-loader",
-                                options: { implementation: require.resolve("postcss") },
-                            },
-                        ],
-                    },
-                    {
-                        test: /\.css$/,
-                        exclude: /\.module\.css$/,
-                        use: [
-                            "style-loader",
-                            { loader: "css-loader", options: { importLoaders: 1 } },
-                            {
-                                loader: "postcss-loader",
-                                options: { implementation: require.resolve("postcss") },
-                            },
-                        ],
-                    },
-                ],
-            },
-        },
+        "@storybook/addon-docs",
+        "@storybook/addon-vitest"
     ],
 
     framework: {
-        name: "@storybook/react-webpack5",
+        name: "@storybook/react-vite",
         options: {}
+    },
+
+    async viteFinal(config) {
+        config.css = { ...config.css, modules: { localsConvention: "camelCaseOnly" } };
+
+        // The Configuration stories import tailwind.config.js to display theme tokens, but
+        // that file pulls in Node-only imports (path, url, @tailwindcss/forms) that can't run
+        // in the browser. src/theme.js is the same theme object generated for the browser
+        // (npm run prepare, before Storybook starts), so serve that in its place. The stories
+        // only read `.theme`.
+        config.plugins = [
+            ...(config.plugins ?? []),
+            {
+                name: "xola-tailwind-config-as-data",
+                enforce: "pre",
+                transform(_code, id) {
+                    if (!id.replace(/\\/g, "/").endsWith("/tailwind.config.js")) {
+                        return null;
+                    }
+
+                    return { code: `export default ${JSON.stringify({ theme })};`, map: null };
+                },
+            },
+        ];
+
+        return config;
+    },
+
+    features: {
+        backgrounds: false
     }
 };

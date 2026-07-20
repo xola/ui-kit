@@ -125,6 +125,8 @@ const CloseButton = ({ onClose }) => {
     );
 };
 
+Drawer.displayName = "Drawer";
+
 Drawer.propTypes = {
     isOpen: PropTypes.bool.isRequired,
     title: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),

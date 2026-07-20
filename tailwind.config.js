@@ -1,5 +1,9 @@
-const defaultTheme = require("tailwindcss/defaultTheme");
-const path = require("path");
+import defaultTheme from "tailwindcss/defaultTheme.js";
+import forms from "@tailwindcss/forms";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const colors = {
     transparent: "transparent",
@@ -125,7 +129,7 @@ const spacing = {
     200: "800px",
 };
 
-module.exports = {
+export default {
     content: [
         "./src/**/*.js",
         "./src/**/*.jsx",
@@ -240,5 +244,5 @@ module.exports = {
         },
     },
 
-    plugins: [require("@tailwindcss/forms")],
+    plugins: [forms],
 };

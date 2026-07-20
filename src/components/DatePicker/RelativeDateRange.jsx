@@ -73,7 +73,7 @@ export const rangeLabels = {
     [rangeOptions.LEADING_YEAR]: "Leading Year",
 };
 
-export const dateRanges = {
+const dateRanges = {
     day: {
         label: "Day",
         rangeOptions: [
@@ -364,7 +364,7 @@ RelativeDateRange.propTypes = {
     ranges: PropTypes.arrayOf(PropTypes.oneOf(["day", "week", "month", "quarter", "year"])),
     onChange: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    // eslint-disable-next-line react/boolean-prop-naming
+
     showApply: PropTypes.bool,
     value: PropTypes.string,
     timezoneName: PropTypes.string,

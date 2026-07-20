@@ -13,7 +13,7 @@ Exceptions where comments add value:
 
 - Complex Tailwind class combinations where the reasoning behind a value matters (e.g. a magic
   pixel value chosen to match a design spec).
-- Non-obvious `prop-types` validators (custom validation functions) — explain what invalid state
+- Non-obvious `prop-types` validators (custom validation functions): explain what invalid state
   they're guarding against.
 - Workarounds for a specific bug or third-party library quirk (`react-day-picker`, `downshift`,
   `tippy.js`, `nouislider-react`).
@@ -50,14 +50,14 @@ return (
 ### Dead code comments
 
 ```jsx
-// Don't comment out code — use git history instead
+// Don't comment out code; use git history instead
 // const oldRenderIcon = () => { ... };
 ```
 
 ### Changelog / caller / ticket comments
 
 ```jsx
-// Don't maintain history or reference the current task in comments — use git history and the PR
+// Don't maintain history or reference the current task in comments; use git history and the PR
 // description instead
 // Added for X2-1234
 ```
@@ -76,7 +76,7 @@ return (
 
 ```jsx
 icon(props, ...rest) {
-    // Icon without children silently renders a button with no visible label — fail loudly
+    // Icon without children silently renders a button with no visible label, so fail loudly
     // instead of shipping an inaccessible control.
     if (props.icon && !props.children) {
         return new Error("UI Kit: icon requires children");
@@ -89,7 +89,7 @@ icon(props, ...rest) {
 ### Third-party library gotchas
 
 ```jsx
-// react-day-picker fires onDayClick even for disabled days — guard explicitly
+// react-day-picker fires onDayClick even for disabled days, so guard explicitly
 if (modifiers.disabled) {
     return;
 }
@@ -118,7 +118,7 @@ Use these prefixes for work-in-progress notes:
 ```
 // TODO: Replace with the shared Popover primitive once it supports controlled mode
 // FIXME: Focus trap doesn't restore focus on close in Safari
-// HACK: Workaround for a tippy.js v6 positioning bug — remove after upgrade
+// HACK: Workaround for a tippy.js v6 positioning bug; remove after upgrade
 // NOTE: This assumes a single scrollable ancestor
 // PERF: Consider virtualizing this list if item counts grow beyond ~200
 ```

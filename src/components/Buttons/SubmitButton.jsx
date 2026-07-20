@@ -92,6 +92,6 @@ SubmitButton.propTypes = {
     isLoading: PropTypes.bool,
     isSuccess: PropTypes.bool,
     variant: PropTypes.oneOf(Object.keys(colors)),
-    // eslint-disable-next-line react/boolean-prop-naming
+
     disabled: PropTypes.bool,
 };

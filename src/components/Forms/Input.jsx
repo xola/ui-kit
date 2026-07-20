@@ -7,6 +7,8 @@ export const Input = forwardRef(({ className, type = "text", value, ...rest }, r
     return <BaseInput ref={ref} as="input" className={cn("ui-input", className)} type={type} value={value} {...rest} />;
 });
 
+Input.displayName = "Input";
+
 Input.propTypes = {
     ...BaseInput.propTypes,
     type: PropTypes.string,

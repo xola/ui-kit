@@ -150,7 +150,6 @@ export const Search = ({
     useHotkeys(
         "esc",
         (event) => {
-            // eslint-disable-next-line no-undef
             if (document?.activeElement === inputReference.current) {
                 event.preventDefault();
 

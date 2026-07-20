@@ -1,0 +1,43 @@
+name: Storybook Tests
+
+on:
+  push:
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: 🧪 Storybook Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: ${{ github.event.pull_request.head.sha }}
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+
+      - name: Node.JS 20
+        uses: actions/setup-node@v7
+        with:
+          node-version: 20
+          cache: "npm"
+          cache-dependency-path: "package-lock.json"
+
+      # npm ci runs the "prepare" script, generating src/theme.js and
+      # public/theme.css that .storybook/main.js imports.
+      - name: Install Node Dependencies
+        run: npm ci --no-fund --no-audit
+
+      - name: Install Playwright Chromium
+        run: npx playwright install chromium --with-deps
+
+      - name: Run unit tests
+        run: npm test
+
+      - name: Run Storybook interaction tests
+        run: npm run test:storybook
