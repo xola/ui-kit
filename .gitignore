@@ -10,3 +10,5 @@ src/theme.js
 .idea
 .claude/settings.local.json
 .codegraph
+/.eslintcache
+/docs

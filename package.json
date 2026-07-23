@@ -25,12 +25,10 @@
         "build": "npm run prepare && vite build",
         "clean": "rm -rf node_modules/.vite",
         "build:storybook": "npm run prepare && build-storybook -s public",
-        "lint": "xola-lint src --ignore src/stories",
-        "lint:fix": "xola-lint src --fix --ignore src/stories",
-        "lint:report": "xola-lint src --ignore src/stories --reporter=json src > eslint_report.json",
+        "lint": "xola-lint --fix src",
+        "lint:report": "xola-lint src --reporter=json src > eslint_report.json",
         "format": "prettier -l --write src",
-        "test": "jest",
-        "chromatic": "chromatic --exit-zero-on-changes --build-script-name build:storybook"
+        "test": "jest"
     },
     "dependencies": {
         "@headlessui/react": "^1.4.0",
@@ -70,7 +68,6 @@
         "autoprefixer": "^10.4.5",
         "babel-jest": "^27.2.0",
         "babel-loader": "^8.2.2",
-        "chromatic": "^6.11.4",
         "jest": "^27.2.0",
         "lodash": "^4.17.21",
         "postcss": "^8.4.5",
