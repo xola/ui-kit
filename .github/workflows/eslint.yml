@@ -2,6 +2,8 @@ name: Lint
 
 on:
   push:
+    branches:
+      - "master"
   # Runs against the workflow and code from the merge commit
   # pull_request:
   #   types: [ opened, synchronize, reopened ]
