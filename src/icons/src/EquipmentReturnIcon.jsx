@@ -10,12 +10,7 @@ export const EquipmentReturnIcon = createIcon((props) => {
                 strokeLinecap="round"
                 strokeLinejoin="round"
             />
-            <path
-                d="M4.14107 6.10742H9.00537"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-            />
+            <path d="M4.14107 6.10742H9.00537" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" />
             <path
                 d="M5.36426 3.68945L2.94537 6.10834L5.36426 8.52723"
                 stroke="currentColor"

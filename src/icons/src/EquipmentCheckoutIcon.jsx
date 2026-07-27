@@ -10,12 +10,7 @@ export const EquipmentCheckoutIcon = createIcon((props) => {
                 strokeLinecap="round"
                 strokeLinejoin="round"
             />
-            <path
-                d="M20.0328 16.8691H15.1685"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-            />
+            <path d="M20.0328 16.8691H15.1685" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" />
             <path
                 d="M18.8096 14.4512L21.2285 16.8701L18.8096 19.2889"
                 stroke="currentColor"
