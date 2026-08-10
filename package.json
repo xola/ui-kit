@@ -18,6 +18,16 @@
     "main": "build/ui-kit.es.js",
     "module": "build/ui-kit.es.js",
     "types": "build/index.d.ts",
+    "exports": {
+        ".": { "types": "./build/index.d.ts", "import": "./build/ui-kit.es.js" },
+        "./index.css": "./index.css",
+        "./build/*": "./build/*",
+        "./tailwind.config": "./tailwind.config.js",
+        "./tailwind.config.js": "./tailwind.config.js",
+        "./postcss.config": "./postcss.config.js",
+        "./postcss.config.js": "./postcss.config.js",
+        "./package.json": "./package.json"
+    },
     "scripts": {
         "prepare": "node scripts/prepare && vite build",
         "start": "./scripts/storybook",
