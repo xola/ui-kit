@@ -1,4 +1,4 @@
-import getUserLocale from "get-user-locale";
+import { getUserLocale } from "get-user-locale";
 import PropTypes from "prop-types";
 import React from "react";
 import { numberFormat } from "../../utils/numbers";

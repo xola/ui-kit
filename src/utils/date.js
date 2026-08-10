@@ -1,9 +1,12 @@
-import dayjs, { isDayjs } from "dayjs";
+import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import LocalizedFormat from "dayjs/plugin/localizedFormat";
 import quarterOfYear from "dayjs/plugin/quarterOfYear";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
+
+// dayjs is CJS-only, so a named import breaks every Node ESM consumer (SSR, prerender).
+const { isDayjs } = dayjs;
 
 dayjs.extend(customParseFormat);
 dayjs.extend(LocalizedFormat);

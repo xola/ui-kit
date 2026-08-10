@@ -1,6 +1,6 @@
 import { Dialog, Transition } from "@headlessui/react";
 import clsx from "clsx";
-import { noop } from "lodash";
+import { noop } from "lodash-es";
 import PropTypes from "prop-types";
 import React, { Fragment } from "react";
 import { isIosBrowser } from "../helpers/browser";
