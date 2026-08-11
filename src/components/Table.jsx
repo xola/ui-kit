@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import React, { Children, cloneElement, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import cn from "../helpers/classnames";
 
 export const Table = ({ className, ...rest }) => (
@@ -38,8 +38,18 @@ Table.Header.propTypes = {
 
 Table.Body = ({ className, isStriped = false, children, ...rest }) => {
     return (
-        <tbody className={cn("ui-table-body", "border-none", className)} {...rest}>
-            {Children.map(children, (child) => child && cloneElement(child, { isStriped }))}
+        <tbody
+            className={cn(
+                "ui-table-body",
+                "border-none",
+                // Stripe via CSS instead of cloning isStriped onto every child; a non-Row child
+                // would otherwise spread it to the DOM and warn under React.
+                isStriped && "[&>tr:nth-child(even)]:bg-gray-lighter",
+                className,
+            )}
+            {...rest}
+        >
+            {children}
         </tbody>
     );
 };
