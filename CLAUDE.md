@@ -11,15 +11,17 @@ and other Xola frontends. Components are documented and visually tested via Stor
 ## Commands
 
 ```sh
-npm run dev              # Storybook dev server (no manager cache)
-npm run storybook        # Storybook dev server on port 6006
+npm start                 # Storybook dev server (port 6006)
+npm run dev               # Same as npm start
 npm run build             # Production build (vite build to build/)
 npm run build:storybook   # Static Storybook build
 npm run lint               # eslint --fix on src (flat config from @xola/jslint); use lint:ci for a read-only check
 npm run lint:fix          # eslint --fix on src (alias for lint)
 npm run lint:ci           # eslint check only, no writes; exits non-zero on violations
 npm run format            # Prettier --write on src
-npm test                  # Run all tests (Vitest)
+npm test                  # Unit tests only (Vitest); use test:all for unit + Storybook
+npm run test:storybook    # Storybook interaction (play) tests, Playwright/Chromium
+npm run test:all          # Unit + Storybook tests
 ```
 
 Run a single test file:
@@ -39,10 +41,13 @@ number of files (`LocalizedDayPicker.tsx`, `DatePicker.helpers.ts`, some icons) 
 `postcss.config.js`, so consuming apps must load them from an ESM context. There is no CommonJS
 build or entry. Storybook runs on the Vite builder (`@storybook/react-vite`, Storybook 10).
 
-- `src/index.js`: the public API. Every exported component must be added here; this is the only
-  barrel file and it defines what `@xola/ui-kit` actually ships.
+- `src/index.js`: the public API. Every exported component must be added here; it defines what
+  `@xola/ui-kit` actually ships. Some component folders (e.g. `Tabs/`, `Sidebar/`) have their own
+  small `index.js` for the folder import; `src/icons/index.js` is a separate barrel for the icons
+  subpackage.
 - `src/components/`: one folder per component or component family (e.g. `Forms/`, `Buttons/`,
-  `DatePicker/`). Components are `.jsx`, typed at the boundary with `prop-types`.
+  `DatePicker/`). Mostly `.jsx`, typed at the boundary with `prop-types`; a few files (e.g.
+  `DatePicker/LocalizedDayPicker.tsx`) are TypeScript.
 - `src/utils/`, `src/helpers/`, `src/hooks/`: shared utilities, framework-free helpers, and hooks.
 - `src/icons/`: SVG icon components.
 - `src/stories/`: Storybook stories, organized to mirror the Storybook sidebar (`Forms`,
