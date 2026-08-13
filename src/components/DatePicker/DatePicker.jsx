@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import { isArray, isFunction } from "lodash-es";
 import PropTypes from "prop-types";
 import React, { useContext, useEffect, useMemo, useState } from "react";
-import { DateUtils } from "react-day-picker";
+import DayPicker from "react-day-picker";
 import "react-day-picker/lib/style.css";
 import { Tooltip } from "../..";
 import cn from "../../helpers/classnames";
@@ -17,6 +17,9 @@ import { NavbarElement } from "./NavbarElement";
 import RangeDatePicker from "./RangeDatePicker";
 import { RelativeDateRange } from "./RelativeDateRange";
 import { UpcomingDatePicker } from "./UpcomingDatePicker";
+
+// react-day-picker v7 is CJS-only, so a named import breaks every Node ESM consumer.
+const { DateUtils } = DayPicker;
 
 const variants = {
     single: "single",

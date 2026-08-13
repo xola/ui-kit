@@ -1,28 +1,9 @@
-import { PhoneNumberFormat, PhoneNumberUtil } from "google-libphonenumber";
-
-const PNF = PhoneNumberFormat;
-
-// PhoneNumberUtil.getInstance() eagerly builds the full region metadata. Defer it
-// to first use (and memoize) so importing this module stays cheap and side-effect-light.
-let cachedPhoneUtil;
-const getPhoneUtil = () => {
-    if (!cachedPhoneUtil) {
-        cachedPhoneUtil = PhoneNumberUtil.getInstance();
-    }
-
-    return cachedPhoneUtil;
-};
+import { parsePhoneNumberFromString } from "libphonenumber-js";
 
 export const getRegionCode = (number, countryCode = "US") => {
-    const phoneUtil = getPhoneUtil();
+    const phone = parsePhoneNumberFromString(number, countryCode);
 
-    try {
-        const phoneObject = phoneUtil.parseAndKeepRawInput(number, countryCode);
-
-        return phoneUtil.getRegionCodeForNumber(phoneObject);
-    } catch {
-        return undefined;
-    }
+    return phone?.country;
 };
 
 /**
@@ -34,30 +15,14 @@ export const getRegionCode = (number, countryCode = "US") => {
  * @return {string}
  */
 export const formatPhoneNumber = (number, countryCode = "US") => {
-    const phoneUtil = getPhoneUtil();
+    const phone = parsePhoneNumberFromString(number, countryCode);
 
-    try {
-        let phoneObject = phoneUtil.parseAndKeepRawInput(number, countryCode);
-
-        const regionCode = phoneUtil.getRegionCodeForNumber(phoneObject);
-        if (regionCode && regionCode !== countryCode) {
-            // If the region code is different than what was passed in, reparse according to that format
-            phoneObject = phoneUtil.parseAndKeepRawInput(number, regionCode);
-        }
-
-        // Parse number for display in the region's format
-        let formattedNumber;
-
-        if (regionCode) {
-            const format = regionCode === countryCode ? PNF.NATIONAL : PNF.INTERNATIONAL;
-            formattedNumber = phoneUtil.format(phoneObject, format);
-        } else {
-            // If we didn't detect a region, don't guess and return the original thing
-            formattedNumber = number;
-        }
-
-        return formattedNumber;
-    } catch {
+    if (!phone?.country) {
+        // Couldn't detect a region, don't guess and return the original thing
         return number;
     }
+
+    const format = phone.country === countryCode ? "NATIONAL" : "INTERNATIONAL";
+
+    return phone.format(format);
 };

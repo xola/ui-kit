@@ -5,6 +5,9 @@ import quarterOfYear from "dayjs/plugin/quarterOfYear";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 
+// dayjs is CJS-only, so a named import breaks every Node ESM consumer (SSR, prerender).
+const { isDayjs } = dayjs;
+
 dayjs.extend(customParseFormat);
 dayjs.extend(LocalizedFormat);
 dayjs.extend(quarterOfYear);
@@ -52,7 +55,7 @@ export const now = (date, timezone) => {
         return timezone ? dayjs(date).tz(timezone) : dayjs();
     }
 
-    if (dayjs.isDayjs(date)) {
+    if (isDayjs(date)) {
         // We do this late because under some conditions this is expensive (see: X2-9122)
         return date;
     }
@@ -78,7 +81,7 @@ const DayTimeEnd = "T23:59:59";
 export const toDate = (date, isStartDate = true) => {
     const suffix = isStartDate ? DayTimeStart : DayTimeEnd;
 
-    if (dayjs.isDayjs(date)) {
+    if (isDayjs(date)) {
         return new Date(date.format(DateFormat.DATE_ISO) + suffix);
     }
 
@@ -86,7 +89,7 @@ export const toDate = (date, isStartDate = true) => {
 };
 
 export const isSame = (date1, date2, unit = "day") => {
-    if (dayjs.isDayjs(date1) && dayjs.isDayjs(date2)) {
+    if (isDayjs(date1) && isDayjs(date2)) {
         return date1.isSame(date2, unit);
     }
 

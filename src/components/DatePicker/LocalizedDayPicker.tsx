@@ -1,5 +1,5 @@
 import React, { forwardRef, useContext, useEffect, useState } from "react";
-import DayPicker, { DayPickerProps } from "react-day-picker";
+import DayPicker, { type DayPickerProps } from "react-day-picker";
 import { kebabCase } from "lodash-es";
 import cn from "../../helpers/classnames";
 import { Context } from "../Provider";
