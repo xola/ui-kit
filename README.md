@@ -38,7 +38,7 @@ Install and configure the @xola/ui-kit React component library in this project.
    - Tailwind v4: do NOT import "@xola/ui-kit/index.css" (it uses @tailwind/@apply and will
      error). Import only "@xola/ui-kit/build/style.css". In the CSS entry that has
      @import "tailwindcss";, add:
-       @source "./node_modules/@xola/ui-kit/build/ui-kit.es.js";
+       @source "../node_modules/@xola/ui-kit/build/ui-kit.es.js";
        @import "@xola/ui-kit/build/theme.css";  /* after any of your own theme tokens */
 5. This project uses legacy-peer-deps; run installs with --legacy-peer-deps (or copy ui-kit's
    .npmrc).
@@ -52,13 +52,13 @@ Prefer manual setup? Follow the steps below.
 Install the UI kit:
 
 ```bash
-npm install @xola/ui-kit@next
+npm install @xola/ui-kit@next --legacy-peer-deps
 ```
 
 Install peer dependencies:
 
 ```bash
-npm install react react-dom autoprefixer postcss tailwindcss vite @types/react @types/react-dom
+npm install react react-dom autoprefixer postcss tailwindcss vite @types/react @types/react-dom --legacy-peer-deps
 ```
 
 UI kit expects you already have a working React dev environment with PostCSS support.
@@ -117,7 +117,7 @@ aren't directly compatible). Two things bridge the gap:
        own utility classes (px-4.5, disabled:bg-gray-lighter, etc.) won't be
        generated unless something in your own source happens to use the same
        class string. Opt ui-kit's bundle back in explicitly. */
-    @source "./node_modules/@xola/ui-kit/build/ui-kit.es.js";
+    @source "../node_modules/@xola/ui-kit/build/ui-kit.es.js";
 
     /* ui-kit's color palette (primary, gray, success, warning, ...),
        auto-generated from its tailwind.config.js. Import this instead of

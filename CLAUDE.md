@@ -15,8 +15,9 @@ npm run dev              # Storybook dev server (no manager cache)
 npm run storybook        # Storybook dev server on port 6006
 npm run build             # Production build (vite build to build/)
 npm run build:storybook   # Static Storybook build
-npm run lint               # eslint on src (flat config from @xola/jslint)
-npm run lint:fix          # eslint --fix on src
+npm run lint               # eslint --fix on src (flat config from @xola/jslint); use lint:ci for a read-only check
+npm run lint:fix          # eslint --fix on src (alias for lint)
+npm run lint:ci           # eslint check only, no writes; exits non-zero on violations
 npm run format            # Prettier --write on src
 npm test                  # Run all tests (Vitest)
 ```
@@ -29,8 +30,9 @@ npx vitest run src/utils/avatar.test.js
 
 ## Architecture
 
-React 18 + Tailwind CSS v3 component library, built with Vite. Plain JavaScript/JSX, no
-TypeScript. `index.d.ts` is hand-maintained for consumers that want types.
+React 18 + Tailwind CSS v3 component library, built with Vite. Mostly JavaScript/JSX; a small
+number of files (`LocalizedDayPicker.tsx`, `DatePicker.helpers.ts`, some icons) are TypeScript.
+`index.d.ts` is hand-maintained for consumers that want types.
 
 **ESM only.** The package is `"type": "module"`; every file is native ESM (`import`/`export`, no
 `require`/`module.exports`). This includes the published `tailwind.config.js` and
