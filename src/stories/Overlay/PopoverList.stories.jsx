@@ -100,7 +100,6 @@ export const Default = () => {
 
 Default.play = async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
-    // The button click toggles the controlled `visible` state open
     await userEvent.click(canvas.getByRole("button", { name: "Hover over me" }));
     const months = await body.findAllByText("Month");
     await expect(months.length).toBeGreaterThan(0);

@@ -64,9 +64,7 @@ export const Default = ({ className, variant, isHidden }) => {
 };
 
 Default.play = async ({ canvas, userEvent }) => {
-    // Only the active panel is rendered
     await expect(canvas.getByText("Seller Details Content")).toBeInTheDocument();
-    // isHidden tab is not rendered
     await expect(canvas.queryByText("Admin Tools")).not.toBeInTheDocument();
 
     await userEvent.click(canvas.getByText("Invoices"));

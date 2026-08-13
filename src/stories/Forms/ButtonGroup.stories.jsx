@@ -47,10 +47,9 @@ export const Default = ({ size = "medium", value = -1 }) => {
 
 Default.play = async ({ canvas, userEvent }) => {
     const second = canvas.getByRole("button", { name: "Second" });
-    // No button is active until one is clicked
-    await expect(second).not.toHaveClass("bg-primary");
+    await expect(second).toHaveAttribute("aria-pressed", "false");
     await userEvent.click(second);
-    await expect(second).toHaveClass("bg-primary");
+    await expect(second).toHaveAttribute("aria-pressed", "true");
 };
 
 export const WithIcons = ({ size, value = -1 }) => {

@@ -40,7 +40,6 @@ export const Default = ({ current, total }) => {
 
 Default.play = async ({ canvasElement }) => {
     await expect(canvasElement.querySelectorAll(".ui-dot")).toHaveLength(6);
-    // Exactly one dot is active (primary), the rest are secondary
     await expect(canvasElement.querySelectorAll(".ui-dot.bg-primary")).toHaveLength(1);
     await expect(canvasElement.querySelectorAll(".ui-dot.bg-secondary")).toHaveLength(5);
 };

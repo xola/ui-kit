@@ -72,7 +72,7 @@ const Button = ({
     );
 
     return (
-        <Tag className={classes} {...rest}>
+        <Tag aria-pressed={isActive} className={classes} {...rest}>
             {icon && iconPlacement === "left" ? <span className="mr-2 flex-shrink-0">{icon}</span> : null}
             {/* Always show text if the icon isn't specified */}
             {shouldShowText ? children : icon ? null : children}

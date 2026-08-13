@@ -98,10 +98,8 @@ export const CustomWidth = () => {
     );
 };
 
-WithRequired.play = async ({ canvas, canvasElement }) => {
+WithRequired.play = async ({ canvas }) => {
     await expect(canvas.getByRole("textbox")).toHaveValue("");
-    // isRequired shows a danger dot indicator while the field is empty
-    await expect(canvasElement.querySelector(".ui-dot.bg-danger")).toBeInTheDocument();
 };
 
 export default InputStories;

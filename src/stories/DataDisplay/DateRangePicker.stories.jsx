@@ -49,7 +49,6 @@ export const Default = () => {
 
 Default.play = async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    // Range variant renders two months side by side
     await expect(canvas.getByText(/February 2022/)).toBeInTheDocument();
     await expect(canvas.getByText(/March 2022/)).toBeInTheDocument();
     await expect(canvasElement.querySelectorAll(".DayPicker-Day--selected").length).toBeGreaterThan(0);
