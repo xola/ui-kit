@@ -1,171 +1,188 @@
 ## Xola UI Kit
 
-Xola's React component library with Tailwind CSS for the next generation of Xola apps.
+Xola's React component library. It uses Tailwind CSS and serves the next generation of Xola apps.
 
-This repository is published as two pieces:
+This repository publishes two packages:
 
-1. [@xola/ui-kit](https://www.npmjs.com/package/@xola/ui-kit)
-2. [@xola/icons](https://www.npmjs.com/package/@xola/icons)
+1. [@xola/ui-kit](https://www.npmjs.com/package/@xola/ui-kit), the components.
+2. [@xola/icons](https://www.npmjs.com/package/@xola/icons), the icon set.
 
-It's storybook is publicly published at [ui.xola.io](https://ui.xola.io). The icons can be previewed there as well.
+Storybook is public at [ui.xola.io](https://ui.xola.io). You can preview components and icons there.
 
-### Requirements
+## Table of Contents
 
--   Node.js v16
--   NPM v7 or higher
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Configuration](#configuration)
+- [Development](#development)
+- [Local Package Linking](#local-package-linking)
+- [Troubleshooting](#troubleshooting)
+- [Deployment](#deployment)
 
-### Usage
+## Requirements
 
-Install the UI kit:
+- Node.js v16
+- npm v7 or higher
+
+This repo's `master` branch targets React 17. For React 18 or 19, use the `next` branch, or
+install the package with the `next` tag:
+
+```bash
+npm install @xola/ui-kit@next
+```
+
+## Installation
+
+Install the UI kit in your project:
 
 ```bash
 npm install @xola/ui-kit
 ```
 
-Install peer dependencies:
+Install its peer dependencies:
 
 ```bash
 npm install autoprefixer postcss tailwindcss lodash
 ```
 
-Create PostCSS and Tailwind config files:
+## Usage
+
+1. Create Tailwind and PostCSS config files that extend the UI kit's config.
+
+   ```bash
+   echo 'module.exports = require("@xola/ui-kit/tailwind.config");' > tailwind.config.js
+   echo 'module.exports = require("@xola/ui-kit/postcss.config");' > postcss.config.js
+   ```
+
+2. Import the UI kit's CSS in your app entry point.
+
+   ```js
+   import "@xola/ui-kit/index.css";
+   import "@xola/ui-kit/build/style.css";
+   ```
+
+3. Import and use a component.
+
+   ```js
+   import { Button } from "@xola/ui-kit";
+   ```
+
+The UI kit assumes your project already has a working React setup with PostCSS support.
+
+## Configuration
+
+npm v7 changed how it resolves peer dependencies. This repo sets `legacy-peer-deps=true` in
+`.npmrc` to avoid peer dependency conflicts.
+
+Apply the same setting in any project that consumes `@xola/ui-kit`. Copy this repo's `.npmrc`, or
+pass the flag on every install:
 
 ```bash
-echo 'module.exports = require("@xola/ui-kit/tailwind.config");' > tailwind.config.js
-echo 'module.exports = require("@xola/ui-kit/postcss.config");' > postcss.config.js
-```
-
-Import main CSS files in your project:
-
-```js
-import "@xola/ui-kit/index.css";
-import "@xola/ui-kit/build/style.css";
-```
-
-UI kit expects you already have a working React dev environment with PostCSS support.
-
-Import and use the components:
-
-```js
-import { Button } from "@xola/ui-kit";
+npm install --legacy-peer-deps
+npm install some-package --legacy-peer-deps
 ```
 
 ## Development
 
-### Installation
+1. Use the pinned Node version.
 
-Install all required dependencies:
+   ```bash
+   nvm use
+   ```
 
-```bash
-$ nvm use # Project needs Node.js v16 with NPM v7
-$ npm install
-```
+2. Install dependencies.
 
-Start the Storybook development server:
+   ```bash
+   npm install
+   ```
 
-```bash
-$ npm start
-```
+3. Start the Storybook dev server.
 
-## Advanced
-### Integrate your app with a locally installed UI Kit
+   ```bash
+   npm start
+   ```
 
-In order for this to work you will have to set up an NPM workspace. That means, `ui-kit` and `your-project` has to be in the same directory.
-
-Start by creating a `package.json` file in your "workspace" directory with the following content:
-
-```json
-{
-    "workspaces": ["ui-kit", "your-project"]
-}
-```
-
-Your workspace directory should also contain `.npmrc` and `.nvmrc` files. Copy them from this project:
+### Lint
 
 ```bash
-$ cd workspace
-$ cp ui-kit/.npmrc .
-$ cp ui-kit/.nvmrc .
+npm run lint         # Check src for lint issues and auto-fix them
+npm run lint:report  # Same check, writes results to eslint_report.json
 ```
 
-Now we're ready to install the dependencies for both projects:
+## Local Package Linking
+
+Use an npm workspace to test local `ui-kit` changes against another project before you publish.
+
+1. Place `ui-kit` and your project in the same parent directory.
+2. In that parent directory, create a `package.json`:
+
+   ```json
+   {
+       "workspaces": ["ui-kit", "your-project"]
+   }
+   ```
+
+3. Copy `.npmrc` and `.nvmrc` from `ui-kit` into the parent directory.
+
+   ```bash
+   cp ui-kit/.npmrc .
+   cp ui-kit/.nvmrc .
+   ```
+
+4. From the parent directory, install dependencies for both projects.
+
+   ```bash
+   npm install
+   ```
+
+   npm now links `your-project`'s `@xola/ui-kit` dependency to the local `ui-kit` folder.
+
+5. From `ui-kit`, start the build in watch mode.
+
+   ```bash
+   cd ui-kit
+   npm run build -- --watch
+   ```
+
+   Changes in `ui-kit` now appear in `your-project`.
+
+## Troubleshooting
+
+**Changes in `ui-kit` don't show up in `your-project`.** npm likely installed a separate copy in
+`your-project`'s `node_modules`. Remove it and let the workspace link take over again:
 
 ```bash
-$ cd workspace
-$ npm install
+cd your-project
+rm -rf node_modules/@xola
 ```
 
-If all went well, NPM will use locally installed `ui-kit` in `your-project`.
-
-Next, start the build command from `ui-kit`:
+**Install fails or dependency state looks broken.** Clear lockfiles and `node_modules` for both
+projects, then reinstall:
 
 ```bash
-$ cd ui-kit
-$ npm run build -- --watch
+cd workspace
+rm -rf package-lock.json node_modules ui-kit/node_modules your-project/node_modules
+npm install
 ```
 
-This will build and watch for changes the `ui-kit` project. Any change made in the `ui-kit` should be visible in `your-project`.
+## Deployment
 
-If you don't see any changes in your project, that probably means that NPM installed a separate package in your `your-project/node_modules` directory. To fix this, just remove the whole package with the following command:
+1. Install [np](https://github.com/sindresorhus/np#readme), the release tool.
 
-```bash
-$ cd your-project
-$ rm -rf node_modules/@xola
-```
+   ```bash
+   npm install -g np
+   ```
 
-### Troubleshooting
+2. Build and publish the package.
 
-If you encounter some package related issues, try removing the following directories and running the install command again:
+   ```bash
+   npm run build
+   np <your-new-version> --tag=latest --yolo
+   ```
 
-```bash
-$ cd workspace
-$ rm -rf package-lock.json node_modules ui-kit/node_modules your-project/node_modules
-$ npm install
-```
+3. Push the release tags to the upstream repo.
 
-### Lint & Auto-fix
-
-To automatically fix lint issues in this project you have the following commands:
-
-```bash
-npm run lint # Run lint on `src` and output issues
-npm run lint:fix # Run lint and automatically fix any issues. Any that are not fixed are output to screen.
-```
-
-## Notes
-
-To avoid issues with how npm v7 resolves peer dependencies, we enabled `legacy-peer-deps` rule in `.npmrc`.
-
-In order to avoid issues in your projects that are using this UI Kit, use the same `.npmrc` file or always run installs with `--legacy-peer-deps` flag.
-
-For example:
-
-```bash
-$ npm install --legacy-peer-deps
-```
-
-Or:
-
-```bash
-$ npm install some-package --legacy-peer-deps
-```
-
-## Publishing the Package
-
-Install [np](https://github.com/sindresorhus/np#readme) which will help you publish the package
-
-```bash
-npm -g install np
-```
-
-Once you're ready, run this command to publish your package
-
-```bash
-npm run build
-np <your-new-version> --tag=latest --yolo
-```
-
-Then make sure to push all the tags upstream to `xola/ui-kit` repo:
-```
-git push <upstream-remote> master --tags
-```
+   ```bash
+   git push <upstream-remote> master --tags
+   ```
