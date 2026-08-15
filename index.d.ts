@@ -116,6 +116,8 @@ export {
     EmailSendIcon,
     EmptyChecklistIcon,
     EquipmentIcon,
+    EquipmentCheckoutIcon,
+    EquipmentReturnIcon,
     ExportIcon,
     EyeClosedIcon,
     EyeIcon,
