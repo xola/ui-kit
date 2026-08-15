@@ -1,13 +1,29 @@
 module.exports = {
-    stories: ["../src/**/*.stories.@(js|jsx|mdx)"],
+    stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx)"],
+
+    framework: {
+        name: "@storybook/react-vite",
+        options: {
+            builder: {
+                viteConfigPath: ".storybook/vite.config.js",
+            },
+        },
+    },
+
     core: {
         disableTelemetry: true,
     },
+
+    // Resolved relative to this config directory, unlike Storybook 6's root-relative -s flag.
+    staticDirs: ["../public"],
+
+    docs: {
+        autodocs: "tag",
+    },
+
     addons: [
-        "@storybook/addon-postcss",
         "@storybook/addon-links",
-        "storybook-css-modules-preset",
-        "storybook-addon-designs",
+        "@storybook/addon-designs",
         {
             name: "@storybook/addon-essentials",
             options: {
@@ -15,18 +31,4 @@ module.exports = {
             },
         },
     ],
-    webpackFinal: (config) => {
-        // babel-loader's disk cache hashes filenames with crypto.createHash("md4"), which
-        // OpenSSL 3 (Node 17+) doesn't support. Disabling the cache skips that call entirely,
-        // so this works on any Node version without needing --openssl-legacy-provider.
-        config.module.rules.forEach((rule) => {
-            (rule.use || []).forEach((use) => {
-                if (use.loader && use.loader.includes("babel-loader")) {
-                    use.options.cacheDirectory = false;
-                }
-            });
-        });
-
-        return config;
-    },
 };

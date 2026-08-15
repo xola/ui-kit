@@ -1,13 +1,12 @@
 import React from "react";
 import ReactJson from "react-json-view";
-import twConfig from "../../../tailwind.config";
+import { theme } from "../../theme";
 
 const ConfigStories = {
     title: "Configuration/UI Kit Raw Config",
 };
 
 export const UIKitRawConfig = () => {
-    const { theme } = twConfig;
     return (
         <div>
             <div className="mb-4">
