@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import React, { useEffect, useRef, useState } from "react";
@@ -144,7 +143,7 @@ export const Sidebar = ({
         >
             {/* Resize handle */}
             <div
-                className="absolute -right-3 top-0 bottom-0 z-10 w-4 cursor-ew-resize"
+                className="absolute -right-3 bottom-0 top-0 z-10 w-4 cursor-ew-resize"
                 onMouseDown={handleResizeStart}
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
