@@ -2,7 +2,10 @@ import { parsePhoneNumberFromString } from "libphonenumber-js/max";
 
 const parse = (number, countryCode) => {
     try {
-        return parsePhoneNumberFromString(number, countryCode);
+        // extract: false — by default libphonenumber-js pulls a phone number *out* of surrounding
+        // text, so "guest-4624081633870@email.com" formats down to just the digits. Callers pass
+        // arbitrary strings here and expect them back untouched when they aren't a phone number.
+        return parsePhoneNumberFromString(number, { defaultCountry: countryCode, extract: false });
     } catch {
         return undefined;
     }

@@ -16,3 +16,4 @@ src/icons/.eslintcache
 /docs
 storybook-diff
 storybook-smoke
+.mcp.json

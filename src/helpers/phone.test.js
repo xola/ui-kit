@@ -17,6 +17,11 @@ describe("formatPhoneNumber", () => {
         expect(formatPhoneNumber("", "US")).toBe("");
     });
 
+    it("should not pull a phone number out of surrounding text", () => {
+        expect(formatPhoneNumber("guest-4624081633870@email.com", "US")).toBe("guest-4624081633870@email.com");
+        expect(formatPhoneNumber("Order 5402322157 shipped", "US")).toBe("Order 5402322157 shipped");
+    });
+
     it("should default to US when no country code is given", () => {
         expect(formatPhoneNumber("5402322157")).toBe("(540) 232-2157");
     });
