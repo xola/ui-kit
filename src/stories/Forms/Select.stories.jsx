@@ -73,7 +73,7 @@ export const Disabled = () => {
 export const WithError = () => {
     return (
         <FormGroup>
-            <Label className="text-danger">Text is invalid</Label>
+            <Label isError>Text is invalid</Label>
 
             <Select isError>
                 <option value={1}>One</option>

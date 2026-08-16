@@ -55,7 +55,7 @@ export const Disabled = () => {
 export const WithError = () => {
     return (
         <FormGroup>
-            <Label className="text-danger">Text is invalid</Label>
+            <Label isError>Text is invalid</Label>
             <Textarea isError />
         </FormGroup>
     );
