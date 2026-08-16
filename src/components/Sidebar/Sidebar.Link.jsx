@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import React, { useEffect, useRef, useState } from "react";
@@ -44,7 +43,7 @@ export const SidebarLink = ({ isActive = false, icon: Icon, children, isSubMenuI
                     "bg-primary text-white hover:bg-primary-dark": isActive,
                     "text-gray hover:bg-gray-darker": !isActive,
                     "justify-start px-6 py-2": isSubMenuItem,
-                    "justify-center py-3 px-6": !isSubMenuItem,
+                    "justify-center px-6 py-3": !isSubMenuItem,
                 },
             )}
             {...rest}

@@ -1,5 +1,5 @@
 import React from "react";
-import twConfig from "../../../tailwind.config";
+import { theme } from "../../theme";
 
 const SpacingStories = {
     title: "Configuration/Spacing",
@@ -12,7 +12,7 @@ const SpacingStories = {
     },
 };
 
-const { spacing } = twConfig.theme;
+const { spacing } = theme;
 
 export const Spacing = () => {
     const keys = Object.keys(spacing)

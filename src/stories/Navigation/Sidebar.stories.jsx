@@ -121,7 +121,7 @@ export const SidebarWithNotifications = () => {
         },
     };
 
-    const handleDrawerStateChange = (drawer?: "left" | "right") => {
+    const handleDrawerStateChange = (drawer) => {
         if (drawer === "left") {
             if (isRightDrawerOpen) {
                 setIsRightDrawerOpen(false);

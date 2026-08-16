@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import React from "react";
-import twConfig from "../../../tailwind.config";
+import { theme } from "../../theme";
 
 const ColorsStories = {
     title: "Configuration/Colors",
@@ -13,7 +13,7 @@ const ColorsStories = {
     },
 };
 
-const { colors } = twConfig.theme;
+const { colors } = theme;
 
 export const Colors = () => {
     return (

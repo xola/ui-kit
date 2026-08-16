@@ -1,5 +1,5 @@
 import React from "react";
-import twConfig from "../../../tailwind.config";
+import { theme } from "../../theme";
 
 const FontsStories = {
     title: "Configuration/Fonts",
@@ -13,8 +13,8 @@ const FontsStories = {
 };
 
 export const Fonts = () => {
-    const { sans } = twConfig.theme.extend.fontFamily;
-    const { mono } = twConfig.theme.extend.fontFamily;
+    const { sans } = theme.extend.fontFamily;
+    const { mono } = theme.extend.fontFamily;
     return (
         <div className="space-y-4">
             <div className="space-y-2">
