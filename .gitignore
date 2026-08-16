@@ -12,3 +12,5 @@ src/theme.js
 .codegraph
 /.eslintcache
 /docs
+storybook-diff
+storybook-smoke
