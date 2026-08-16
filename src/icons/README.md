@@ -53,7 +53,12 @@ The `size` prop accepts one of four values. Each value maps to a fixed Tailwind 
 | `medium` | `w-4.5 h-4.5` | 18px   |
 | `large`  | `w-6 h-6`     | 24px   |
 
-`size` defaults to `small` when you omit it.
+`size` defaults to `small` when you omit it. The `IconSize` type (plus `IconProps`/`IconComponent`) is
+exported from the package root if you need to type a prop that accepts it.
+
+```tsx
+import type { IconSize } from "@xola/icons";
+```
 
 The package ships as TypeScript source with no build step (`main`/`types` point at `./index.ts`). Your
 bundler compiles the icon files directly, so you get typed props without a separate `@types` package.

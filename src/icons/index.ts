@@ -1,3 +1,6 @@
+export type { IconSize } from "./src/helpers/iconSizes";
+export type { IconProps, IconComponent } from "./src/helpers/icon";
+
 export { AccountIcon } from "./src/AccountIcon";
 export { AddNoteIcon } from "./src/AddNoteIcon";
 export { AddSquareIcon } from "./src/AddSquareIcon";
