@@ -18,9 +18,10 @@ const LOCAL = argv.local ?? "http://localhost:6006";
 const PROD = argv.prod ?? "https://ui.xola.io";
 const OUT = path.resolve(REPO_ROOT, argv.out ?? "storybook-diff");
 const SESSION = argv.session ?? "uikit-diff";
-// Normalised RMSE tolerated before a story is reported. Font rasterisation alone puts identical
-// markup around 0.005, so anything under 1% is noise rather than a rendering change.
-const THRESHOLD = Number(argv.threshold ?? 0.01);
+// Normalised RMSE tolerated before a story is reported. Both sides render in the same browser at the
+// same viewport, so genuinely identical output scores exactly 0 and this can sit very low. It has to:
+// a missing 1px border on a select only moved 0.26% of the pixels and a 1% threshold hid it.
+const THRESHOLD = Number(argv.threshold ?? 0.0005);
 
 const ab = (...args) => $({ env: { ...process.env, AGENT_BROWSER_SESSION: SESSION } })`agent-browser ${args}`;
 
