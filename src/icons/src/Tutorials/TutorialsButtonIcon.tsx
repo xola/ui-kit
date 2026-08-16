@@ -1,5 +1,4 @@
 import clsx from "clsx";
-import React from "react";
 import { IconComponent } from "../helpers/icon";
 
 export const TutorialsButtonIcon: IconComponent = (props) => {

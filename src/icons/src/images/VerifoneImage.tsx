@@ -1,5 +1,4 @@
 import clsx from "clsx";
-import React from "react";
 import { createIcon } from "../helpers/icon";
 
 export const VerifoneImage = createIcon(({ className, ...rest }) => {
