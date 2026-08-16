@@ -1,6 +1,6 @@
 {
     "name": "@xola/icons",
-    "version": "1.1.30",
+    "version": "1.1.31",
     "description": "Xola's icon set",
     "main": "./index.ts",
     "types": "./index.ts",
