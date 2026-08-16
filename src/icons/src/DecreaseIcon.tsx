@@ -1,3 +1,4 @@
+import React from "react";
 import { createIcon } from "./helpers/icon";
 
 export const DecreaseIcon = createIcon((props) => {
