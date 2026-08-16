@@ -1,6 +1,6 @@
 # UI Kit Browser Testing Report
 
-**Branch:** `upgrade-dev-tooling-tier1` · **Date:** 2026-08-15 · **Result:** PASS (155/155 stories, 0 console errors)
+**Branch:** `upgrade-dev-tooling-tier1` · **Date:** 2026-08-16 · **Result:** PASS (155/155 stories console-clean, 148/155 pixel-match production)
 
 Reusable procedure + baseline for verifying `@xola/ui-kit` in a real browser after a dependency
 upgrade. Re-run this before merging any branch that touches build tooling or runtime deps.
@@ -84,6 +84,26 @@ Screenshots: `storybook-smoke/<storyId>.png`, plus `interact-*.png` for the open
 
 ---
 
+## 3b. Visual regression testing (added after console-only testing missed two bugs)
+
+`npx zx scripts/diff-vs-prod.mjs` screenshots every story locally and on production and reports any whose normalised
+RMSE exceeds 1%. **Run this in addition to the smoke script.** A story can render with zero console errors and still be
+visually wrong, which is exactly how the two bugs below reached review.
+
+Current state: **148/155 stories pixel-match production.** The 7 that differ:
+
+| Story | RMSE | Cause |
+| --- | --- | --- |
+| `configuration-fonts--fonts` | 13.7% | Expected. The story prints the font stack, which Tailwind 3.4 changed. |
+| `other-header-toolbars` | 3.6% | Story copy differs from the deployed version. Not a rendering change. |
+| `date-range-picker--relative-date-ranges` (×2) | 1.7% | `<select>` element rendering. Calendars match exactly. |
+| `skeleton--default`, `textarea--sizes`, `media-images--default` | ~1.0% | Animation and image-load timing at capture. |
+
+Two caveats when reading its output:
+
+- Production runs the **last deployed** ui-kit, so genuine merged changes show up as diffs too.
+- **Do not edit source while it runs.** An HMR reload mid-capture produced a blank frame and a bogus 5.8% diff.
+
 ## 4. Defects found and fixed on this branch
 
 | Issue | Where | Pre-existing? |
@@ -92,6 +112,8 @@ Screenshots: `storybook-smoke/<storyId>.png`, plus `interact-*.png` for the open
 | `csvAcceptFormats` declared twice in `argTypes`; first block's description/default belong to the undocumented `caption` prop | `ImageUpload.stories.jsx` | Yes — surfaced by esbuild's duplicate-key warning |
 | `-s public` silently stopped serving static files (SB7 resolves it relative to `.storybook/`) | `package.json`, `.storybook/main.js` | No — introduced by the SB7 migration; fixed with `staticDirs: ["../public"]` |
 | `--no-manager-cache` removed in SB7, `npm run dev` exited 1 | `package.json` | No — cache clearing folded into `npm run clean` |
+| **Disabled buttons rendered in their full accent colour behind grey text.** Colour variants emitted `disabled:bg-<color>` alongside the base `disabled:bg-gray-lighter`; two background utilities under one variant let Tailwind's class order decide, and 3.4 reordered it | `Buttons/Button.jsx` | No — introduced by the Tailwind 3.4 bump. The variant copies never applied under 3.1, so removing them restores the original behaviour for all six colours, hovered and not. |
+| **Every story rendered in a system font.** The Inter and Roboto Mono links lived only in the manager head, which styles Storybook's chrome, not the preview iframe | `.storybook/preview-head.html` | No — SB6 got fonts into the preview; SB7 does not. Fixing it made the preview pixel-identical to production. |
 
 ---
 
@@ -133,7 +155,8 @@ dev-server on `master`.
 
 1. `npm run dev` starts with no errors, `curl -o /dev/null -w "%{http_code}" localhost:6006/favicon.ico` returns 200 (catches static-dir breakage).
 2. `npx zx scripts/smoke-stories.mjs --all` → 155/155 clean, exit 0.
-3. Re-run the §3 interaction table for anything the diff touches; a render pass is not a behaviour pass.
-4. Any *new* console output: check it against production behaviour and against `master`'s dev server before dismissing it.
-5. `npm run build` → `build/ui-kit.umd.js` still exists and is CJS. **Seller's jest does not transform `@xola/ui-kit`**, so `main` must stay UMD/CJS or seller's test suite breaks.
-6. `npm run lint` → 0 errors; `npm test` → green; `npm run build:storybook` → preview builds.
+3. `npx zx scripts/diff-vs-prod.mjs` → triage anything above 1%. **Never skip this on a Tailwind or Storybook bump.** Console-clean is not visually correct: the disabled-button and missing-font bugs both passed the smoke script.
+4. Re-run the §3 interaction table for anything the diff touches; a render pass is not a behaviour pass.
+5. Any *new* console output: check it against production behaviour and against `master`'s dev server before dismissing it.
+6. `npm run build` → `build/ui-kit.umd.js` still exists and is CJS. **Seller's jest does not transform `@xola/ui-kit`**, so `main` must stay UMD/CJS or seller's test suite breaks.
+7. `npm run lint` → 0 errors; `npm test` → green; `npm run build:storybook` → preview builds.
