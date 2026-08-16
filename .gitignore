@@ -14,3 +14,4 @@ src/theme.js
 /.eslintcache
 /docs
 storybook-diff
+storybook-smoke
