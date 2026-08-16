@@ -1,0 +1,10 @@
+import{a as n,j as e,F as h}from"./jsx-runtime-5e7b5774.js";import{c as u}from"./clsx-0839fdbe.js";import"./index-e6e5af86.js";import{t as v}from"./theme-869fe131.js";const w={title:"Configuration/Colors",parameters:{design:{name:"Figma",type:"figma",url:"https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%E2%9A%99%EF%B8%8F-01---DS-Core?node-id=2855%3A99352&viewport=3792%2C737%2C0.13"}}},{colors:f}=v,a=()=>n("div",{children:[e("div",{className:"rounded bg-gray-lighter p-2",children:"Click on the little picture icon to switch between a light and dark background to see the colors"}),e("div",{className:"my-4",children:e(p,{colors:f,prefix:"bg",className:"my-6"})})]}),p=({name:c,prefix:o,colors:s,className:l=""})=>{const i=Object.keys(s).reverse();return e(h,{children:i.map(r=>{const t=s[r];return typeof t=="string"?e(b,{prefix:o,name:c,color:r,hex:t,className:l},r):n("div",{className:"my-6 border-t border-gray-lighter pt-4",children:[e("div",{className:"font-bold uppercase",children:r??""}),e("div",{className:"grid w-[700px] grid-cols-3 gap-x-2 gap-y-4 xl:gap-4 2xl:w-full 2xl:grid-cols-6",children:e(p,{prefix:o,name:r,colors:t,className:"my-2"})})]},r)})})},b=({prefix:c="bg",name:o,color:s,hex:l,className:i=""})=>{const r=o?`-${o}`:"",t=s==="DEFAULT"?r:`${r}-${s}`;return n("div",{className:u("flex flex-col font-mono text-sm",i),children:[e("div",{className:"h-10 w-10 rounded-full border border-gray-lighter",style:{backgroundColor:l},children:" "}),c,t," ",l]})};a.__docgenInfo={description:"",methods:[],displayName:"Colors"};var d,m,g;a.parameters={...a.parameters,docs:{...(d=a.parameters)==null?void 0:d.docs,source:{originalSource:`() => {
+  return <div>
+            <div className="rounded bg-gray-lighter p-2">
+                Click on the little picture icon to switch between a light and dark background to see the colors
+            </div>
+            <div className="my-4">
+                <ProcessColor colors={colors} prefix="bg" className="my-6" />
+            </div>
+        </div>;
+}`,...(g=(m=a.parameters)==null?void 0:m.docs)==null?void 0:g.source}}};const j=["Colors"];export{a as Colors,j as __namedExportsOrder,w as default};
