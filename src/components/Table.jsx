@@ -105,7 +105,6 @@ const EditableCell = ({ className, value, onSave, ...rest }) => {
 
     useEffect(() => {
         if (isEditing) {
-            // eslint-disable-next-line no-undef
             requestAnimationFrame(() => {
                 textAreaRef.current?.focus();
             });

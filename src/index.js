@@ -15,6 +15,7 @@ export { Tooltip } from "./components/Tooltip";
 export { Popover } from "./components/Popover/Popover";
 export { PopoverList } from "./components/Popover/PopoverList";
 export { Modal } from "./components/Modal";
+export { BottomSheet } from "./components/BottomSheet";
 export { Table } from "./components/Table";
 export { ButtonGroup } from "./components/Buttons/ButtonGroup";
 export { Counter } from "./components/Counter";
@@ -33,6 +34,7 @@ export { Checkbox } from "./components/Forms/Checkbox";
 export { Label } from "./components/Forms/Label";
 export { RangeSlider } from "./components/Forms/RangeSlider";
 export { HeaderToolbar } from "./components/HeaderToolbar";
+export { GooglePlacesAutocomplete } from "./components/GooglePlacesAutocomplete";
 export { Tabs } from "./components/Tabs";
 export { Skeleton } from "./components/Skeleton";
 export { Drawer } from "./components/Drawer";
@@ -58,6 +60,10 @@ export { formatPhoneNumber } from "./helpers/phone";
 export { rangeLabels, rangeOptions } from "./components/DatePicker/RelativeDateRange";
 export { isOSX, isIosBrowser } from "./helpers/browser";
 export { flash } from "./helpers/flash";
+
+// Hooks
+export { useId } from "./hooks/useId";
+export { useIsMobile } from "./hooks/useIsMobile";
 
 // Chart options
 export { BaseChartOptions } from "./components/Charts/BaseChartOptions";

@@ -55,7 +55,10 @@ export const BaseInput = forwardRef(
                     ref={ref}
                     className={clsx(
                         "w-full rounded text-gray-darker placeholder-gray-dark hover:placeholder-gray-darker disabled:text-gray",
-                        "border border-transparent hover:border-black hover:bg-gray-lighter focus:text-black active:text-black disabled:bg-gray-lighter",
+                        // No border colour here: the ternary below always supplies one, and a second
+                        // border-colour utility at the same specificity leaves the winner to Tailwind's
+                        // generated class order, which changed in 3.4 and made the border invisible.
+                        "border hover:border-black hover:bg-gray-lighter focus:text-black active:text-black disabled:bg-gray-lighter",
                         sizes[size],
                         isError
                             ? "!focus:border-danger !border-danger focus:ring-0 focus:ring-danger"
@@ -77,10 +80,9 @@ BaseInput.propTypes = {
     className: PropTypes.string,
     isError: PropTypes.bool,
     isRequired: PropTypes.bool,
-    // eslint-disable-next-line react/require-default-props
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    prefix: PropTypes.string, // eslint-disable-line react/require-default-props
-    suffix: PropTypes.string, // eslint-disable-line react/require-default-props
+    prefix: PropTypes.string,
+    suffix: PropTypes.string,
 };
 
 BaseInput.defaultProps = {

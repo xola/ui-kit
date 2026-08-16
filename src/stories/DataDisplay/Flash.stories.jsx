@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { Toaster } from "react-hot-toast";
 import { Button, flash } from "../..";
 
@@ -90,10 +90,16 @@ export const AllStyles = (props) => {
         <div className="w-96 space-y-8">
             {FlashStories.argTypes.color.options.map((color) => {
                 const classes = flash.getStyles(color, props.size, "relative", true);
-                return flash.container(`[${color}] ${props.text}`, classes, props.canClose ? handleClose : null, {
-                    id: `flash-${color}`,
-                    visible: true,
-                });
+                // flash.container returns a bare element; normally react-hot-toast keys it, so the
+                // key has to come from here when the story renders the list itself.
+                return (
+                    <Fragment key={color}>
+                        {flash.container(`[${color}] ${props.text}`, classes, props.canClose ? handleClose : null, {
+                            id: `flash-${color}`,
+                            visible: true,
+                        })}
+                    </Fragment>
+                );
             })}
         </div>
     );

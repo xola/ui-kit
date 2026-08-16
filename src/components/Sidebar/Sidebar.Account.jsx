@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import React, { useEffect, useRef, useState } from "react";

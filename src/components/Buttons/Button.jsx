@@ -5,13 +5,15 @@ import React from "react";
 export const colors = {
     standard: {
         common: "border-transparent text-white", // Common classes for each style
-        primary: "bg-primary hover:bg-primary-darker disabled:bg-primary active:bg-primary",
-        secondary:
-            "bg-secondary text-white hover:bg-secondary-dark disabled:bg-secondary border-transparent active:bg-secondary",
-        success: "bg-success hover:bg-success-dark disabled:bg-success active:bg-success",
-        warning: "bg-warning hover:bg-warning-dark disabled:bg-warning active:bg-warning",
-        caution: "bg-caution hover:bg-caution-dark disabled:bg-caution active:bg-caution",
-        danger: "bg-danger hover:bg-danger-dark disabled:bg-danger active:bg-danger",
+        // No disabled:bg-* here on purpose. The base class list already sets disabled:bg-gray-lighter,
+        // and a second background utility under the same variant leaves the winner up to Tailwind's
+        // generated class order, which shifted in 3.4 and turned disabled buttons blue.
+        primary: "bg-primary hover:bg-primary-darker active:bg-primary",
+        secondary: "bg-secondary text-white hover:bg-secondary-dark border-transparent active:bg-secondary",
+        success: "bg-success hover:bg-success-dark active:bg-success",
+        warning: "bg-warning hover:bg-warning-dark active:bg-warning",
+        caution: "bg-caution hover:bg-caution-dark active:bg-caution",
+        danger: "bg-danger hover:bg-danger-dark active:bg-danger",
     },
     outline: {
         common: "bg-white border hover:bg-white active:text-white", // Common classes for each style
