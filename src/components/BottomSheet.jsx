@@ -72,17 +72,18 @@ export const BottomSheet = ({
                         )}
                         onClick={stopClickPropagation}
                     >
+                        {/* Stays a direct child of the panel so consumers can select it structurally */}
+                        <button
+                            type="button"
+                            aria-label="Close"
+                            className="absolute right-4 top-4 z-10 p-1 text-black hover:text-gray-darker"
+                            onClick={() => onClose()}
+                        >
+                            <CloseIcon />
+                        </button>
+
                         {/* display:contents, so this adds an event-bubbling ancestor without a box */}
                         <div className="contents" onClick={stopClickPropagation}>
-                            <button
-                                type="button"
-                                aria-label="Close"
-                                className="absolute right-4 top-4 z-10 p-1 text-black hover:text-gray-darker"
-                                onClick={() => onClose()}
-                            >
-                                <CloseIcon />
-                            </button>
-
                             {children}
                         </div>
                     </div>

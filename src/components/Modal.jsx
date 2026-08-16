@@ -109,18 +109,19 @@ export const Modal = ({
                             )}
                             onClick={stopClickPropagation}
                         >
+                            {/* Stays a direct child of the panel: consumers select it as `.overflow-hidden > button` */}
+                            {onClose ? (
+                                <button
+                                    type="button"
+                                    className="absolute right-0 top-0 m-4 hidden p-2 text-black hover:text-gray-darker sm:block"
+                                    onClick={() => onClose()}
+                                >
+                                    <CloseIcon />
+                                </button>
+                            ) : null}
+
                             {/* display:contents, so this adds an event-bubbling ancestor without a box */}
                             <div className="contents" onClick={stopClickPropagation}>
-                                {onClose ? (
-                                    <button
-                                        type="button"
-                                        className="absolute right-0 top-0 m-4 hidden p-2 text-black hover:text-gray-darker sm:block"
-                                        onClick={() => onClose()}
-                                    >
-                                        <CloseIcon />
-                                    </button>
-                                ) : null}
-
                                 {children}
                             </div>
                         </div>
