@@ -1,3 +1,4 @@
+import React from "react";
 import { IconProps } from "../helpers/icon";
 
 export const XolaLogoCircle = (props: IconProps) => {

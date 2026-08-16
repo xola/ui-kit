@@ -1,3 +1,4 @@
+import React from "react";
 import { IconComponent } from "../helpers/icon";
 
 export const TutorialsBadgeIcon: IconComponent = (props) => {

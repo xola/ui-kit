@@ -55,7 +55,21 @@ The `size` prop accepts one of four values. Each value maps to a fixed Tailwind 
 
 `size` defaults to `small` when you omit it.
 
-The package ships as TypeScript source with no build step. Your bundler compiles the icon files directly, so you get typed props without a separate `@types` package.
+The package ships as TypeScript source with no build step (`main`/`types` point at `./index.ts`). Your
+bundler compiles the icon files directly, so you get typed props without a separate `@types` package.
+This also means consumers type-check this package's raw source under their own `tsconfig.json`, not a
+pre-built `.d.ts`.
+
+**Every `.tsx` file that uses JSX must start with `import React from "react";`**, even though the
+automatic JSX runtime doesn't require it. Consumer apps using the classic JSX runtime (`"jsx": "react"`)
+need `React` in scope per-file, and since this package ships raw source, their tsconfig applies, not
+ours. Missing this import surfaces as `TS2686: 'React' refers to a UMD global, but the current file is a
+module` in the *consuming* app, not here, so it's easy to miss. Run `npm run typecheck` after adding an
+icon, but also grep for it directly since this repo's own tsconfig may not catch it:
+
+```bash
+grep -rL "^import React" src --include="*.tsx" | grep -v helpers/
+```
 
 ## Development
 
