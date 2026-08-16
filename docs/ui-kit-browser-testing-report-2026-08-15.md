@@ -1,6 +1,6 @@
 # UI Kit Browser Testing Report
 
-**Branch:** `upgrade-dev-tooling-tier1` · **Date:** 2026-08-16 · **Result:** PASS (155/155 stories console-clean, 148/155 pixel-match production)
+**Branch:** `upgrade-dev-tooling-tier1` · **Date:** 2026-08-16 · **Result:** PASS (155/155 stories console-clean, 141/155 pixel-match production at 0.05%, remaining 14 all accounted for)
 
 Reusable procedure + baseline for verifying `@xola/ui-kit` in a real browser after a dependency
 upgrade. Re-run this before merging any branch that touches build tooling or runtime deps.
@@ -90,19 +90,28 @@ Screenshots: `storybook-smoke/<storyId>.png`, plus `interact-*.png` for the open
 RMSE exceeds 1%. **Run this in addition to the smoke script.** A story can render with zero console errors and still be
 visually wrong, which is exactly how the two bugs below reached review.
 
-Current state: **148/155 stories pixel-match production.** The 7 that differ:
+The threshold is **0.05%**, not 1%. Both sides render in the same browser at the same viewport, so identical
+output scores exactly `0` and the threshold can sit very low. It has to: the missing select border below moved only
+0.26% of the pixels and a 1% threshold hid it completely.
+
+Current state: **141/155 stories pixel-match production.** All 14 that differ are accounted for:
 
 | Story | RMSE | Cause |
 | --- | --- | --- |
 | `configuration-fonts--fonts` | 13.7% | Expected. The story prints the font stack, which Tailwind 3.4 changed. |
 | `other-header-toolbars` | 3.6% | Story copy differs from the deployed version. Not a rendering change. |
-| `date-range-picker--relative-date-ranges` (×2) | 1.7% | `<select>` element rendering. Calendars match exactly. |
-| `skeleton--default`, `textarea--sizes`, `media-images--default` | ~1.0% | Animation and image-load timing at capture. |
+| `date-range-picker--relative-date-ranges` (×2), `date-picker--select-year-month` | ~1.7% | Native `<select>` font metrics, from the same Tailwind 3.4 default-stack change. Calendars match exactly. |
+| `input`/`select`/`textarea--with-error` (×3) | 0.85% | **Intentional.** The error label is red here and black on production, because production's `className="text-danger"` was silently overridden. See §4. |
+| `skeleton--default`, `spinner--default`, `spinner--sizes` | 0.2–1.0% | Animation frame at capture time. |
+| `media-images--default`, `media-logo--all-sizes` | 0.4–1.0% | Image load timing at capture. |
+| `badges--all-sizes` | 0.95% | Large badge 2px wider (160 vs 158). Same font, size and weight; sub-pixel text measurement. |
 
-Two caveats when reading its output:
+Three caveats when reading its output:
 
 - Production runs the **last deployed** ui-kit, so genuine merged changes show up as diffs too.
 - **Do not edit source while it runs.** An HMR reload mid-capture produced a blank frame and a bogus 5.8% diff.
+- A diff is a prompt to look, not a verdict. Confirm the cause with computed styles before calling it a regression, and
+  before calling it benign.
 
 ## 4. Defects found and fixed on this branch
 
@@ -114,6 +123,21 @@ Two caveats when reading its output:
 | `--no-manager-cache` removed in SB7, `npm run dev` exited 1 | `package.json` | No — cache clearing folded into `npm run clean` |
 | **Disabled buttons rendered in their full accent colour behind grey text.** Colour variants emitted `disabled:bg-<color>` alongside the base `disabled:bg-gray-lighter`; two background utilities under one variant let Tailwind's class order decide, and 3.4 reordered it | `Buttons/Button.jsx` | No — introduced by the Tailwind 3.4 bump. The variant copies never applied under 3.1, so removing them restores the original behaviour for all six colours, hovered and not. |
 | **Every story rendered in a system font.** The Inter and Roboto Mono links lived only in the manager head, which styles Storybook's chrome, not the preview iframe | `.storybook/preview-head.html` | No — SB6 got fonts into the preview; SB7 does not. Fixing it made the preview pixel-identical to production. |
+| **Inputs, selects and textareas lost their border.** The base class list set `border-transparent` while the state ternary set `border-gray-light`; 3.4 reordered them so transparent won | `Forms/BaseInput.jsx` | No — introduced by the Tailwind 3.4 bump. Affects every `Input`, `Select` and `Textarea`. The ternary always supplies a colour, so the base one was removed. |
+| Error labels passed `className="text-danger"` without `isError`, colliding with the `text-black` the component emits when `isError` is false | Input, Select, Textarea stories | Yes — the intended red only rendered when Tailwind's order happened to favour it, which is why production shows black. Switched to the `isError` prop. |
+
+### The pattern behind three of these
+
+Three separate regressions share one root cause: **two utilities setting the same CSS property at the same
+specificity on one element**. Which one wins is decided purely by Tailwind's generated stylesheet order, and 3.4
+reordered it. Grep for a base utility and a variant/ternary utility touching the same property in one `clsx` call:
+
+```sh
+rg -n "(disabled|hover|active|focus):(bg|text|border)-" src/components
+```
+
+`Switch`, `Checkbox` and the rest of `BaseInput` were checked and are safe: their duplicates are either
+mutually-exclusive ternary branches or different properties.
 
 ---
 
