@@ -75,7 +75,7 @@ export { PieOptions } from "./components/Charts/PieOptions";
 // This is temporary only for backward compatibility. Later all icons will be removed from @xola/ui-kit and only
 // @xola/icons will be used
 //
-export * from "./icons/index.js";
+export * from "./icons/index";
 
 export { theme } from "./theme";
 

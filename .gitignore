@@ -12,6 +12,7 @@ src/theme.js
 .claude/settings.local.json
 .codegraph
 /.eslintcache
+src/icons/.eslintcache
 /docs
 storybook-diff
 storybook-smoke

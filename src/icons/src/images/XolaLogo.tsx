@@ -1,6 +1,7 @@
 import React from "react";
+import { IconProps } from "../helpers/icon";
 
-export const XolaLogo = (props) => {
+export const XolaLogo = (props: IconProps) => {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" width="150" height="48" fill="none" viewBox="0 0 150 48" {...props}>
             <path
