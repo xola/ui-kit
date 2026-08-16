@@ -77,7 +77,7 @@ export const Drawer = forwardRef(
                                 leaveFrom="translate-x-0"
                                 leaveTo={position === "right" ? "translate-x-full" : "-translate-x-full"}
                             >
-                                <div className="flex">
+                                <Dialog.Panel className="flex">
                                     {position === "right" ? <CloseButton onClose={onClose} /> : null}
 
                                     <div
@@ -97,7 +97,7 @@ export const Drawer = forwardRef(
                                     </div>
 
                                     {position === "left" ? <CloseButton onClose={onClose} /> : null}
-                                </div>
+                                </Dialog.Panel>
                             </Transition.Child>
                         </div>
                     </div>

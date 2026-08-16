@@ -63,7 +63,7 @@ export const BottomSheet = ({
                     leaveFrom="translate-y-0"
                     leaveTo="translate-y-full"
                 >
-                    <div
+                    <Dialog.Panel
                         style={panelStyle}
                         className={clsx(
                             className,
@@ -80,7 +80,7 @@ export const BottomSheet = ({
                         </button>
 
                         {children}
-                    </div>
+                    </Dialog.Panel>
                 </Transition.Child>
             </Dialog>
         </Transition>

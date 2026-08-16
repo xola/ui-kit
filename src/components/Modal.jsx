@@ -99,7 +99,7 @@ export const Modal = ({
                         leaveFrom={clsx("opacity-100", animations[position].leaveFrom)}
                         leaveTo={clsx("opacity-0", animations[position].leaveTo)}
                     >
-                        <div
+                        <Dialog.Panel
                             className={clsx(
                                 className,
                                 sizes[size],
@@ -118,7 +118,7 @@ export const Modal = ({
                             ) : null}
 
                             {children}
-                        </div>
+                        </Dialog.Panel>
                     </Transition.Child>
                 </div>
             </Dialog>
