@@ -15,6 +15,7 @@ Storybook is public at [ui.xola.io](https://ui.xola.io). You can preview compone
 - [Installation](#installation)
 - [Usage](#usage)
 - [Configuration](#configuration)
+- [AI Prompt for Integration](#ai-prompt-for-integration)
 - [Development](#development)
 - [Local Package Linking](#local-package-linking)
 - [Troubleshooting](#troubleshooting)
@@ -81,6 +82,50 @@ pass the flag on every install:
 ```bash
 npm install --legacy-peer-deps
 npm install some-package --legacy-peer-deps
+```
+
+## AI Prompt for Integration
+
+Paste this prompt into an AI coding assistant (Claude Code, Cursor, etc.) working in the target
+app's repo to wire up `@xola/ui-kit` end to end.
+
+```
+Integrate the @xola/ui-kit package into this project.
+
+1. Check this project's installed React version (react entry in package.json / package-lock.json,
+   or `npm ls react`).
+   - React 17 (or no major-version conflict): install the default tag.
+     npm install @xola/ui-kit
+   - React 18 or 19: install the `next` tag instead, which targets React 18/19.
+     npm install @xola/ui-kit@next
+   Use whichever tag matches in every command below.
+
+2. Install peer dependencies:
+   npm install autoprefixer postcss tailwindcss lodash
+
+3. Add `legacy-peer-deps=true` to this project's .npmrc (create the file if missing).
+   @xola/ui-kit requires it to avoid npm v7+ peer dependency conflicts.
+
+4. Create tailwind.config.js and postcss.config.js at the project root that extend the kit's config:
+   module.exports = require("@xola/ui-kit/tailwind.config");
+   module.exports = require("@xola/ui-kit/postcss.config");
+   If this project already has its own Tailwind/PostCSS config, merge instead of overwriting:
+   preserve existing content globs, theme extensions, and plugins, and spread the kit's config in
+   rather than replacing the file outright.
+
+5. Import the kit's CSS in the app's entry point (before any of the app's own global styles):
+   import "@xola/ui-kit/index.css";
+   import "@xola/ui-kit/build/style.css";
+
+6. Import components directly from the package, e.g.:
+   import { Button } from "@xola/ui-kit";
+
+7. Verify: run the project's build/dev server and confirm it starts without errors and that an
+   imported component (e.g. Button) renders with its expected Tailwind styling.
+
+Do not vendor or copy ui-kit source into this repo. Do not use Tailwind's default numbered color
+classes when styling around ui-kit components; ui-kit ships with no dark mode support, so avoid
+relying on it in this integration.
 ```
 
 ## Development
