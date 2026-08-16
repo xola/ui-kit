@@ -84,11 +84,11 @@ Screenshots: `storybook-smoke/<storyId>.png`, plus `interact-*.png` for the open
 
 ---
 
-## 3b. Visual regression testing (added after console-only testing missed two bugs)
+## 3b. Visual regression testing (added after console-only testing missed four bugs)
 
 `npx zx scripts/diff-vs-prod.mjs` screenshots every story locally and on production and reports any whose normalised
-RMSE exceeds 1%. **Run this in addition to the smoke script.** A story can render with zero console errors and still be
-visually wrong, which is exactly how the two bugs below reached review.
+RMSE exceeds the threshold. **Run this in addition to the smoke script.** A story can render with zero console errors
+and still be visually wrong: four regressions on this branch passed the smoke script and were caught here or by review.
 
 The threshold is **0.05%**, not 1%. Both sides render in the same browser at the same viewport, so identical
 output scores exactly `0` and the threshold can sit very low. It has to: the missing select border below moved only
