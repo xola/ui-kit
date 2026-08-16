@@ -41,11 +41,14 @@ export const Drawer = forwardRef(
                     open={isOpen}
                     onClose={onClose}
                 >
+                    {/* Containment lives here, on an element headlessui does not render, and outside
+                        the panel so nothing shifts the DOM shape consumers select against */}
                     <div
                         className={clsx(
                             "flex",
                             isIOS ? `h-[${viewportHeight}px] max-h-[${viewportHeight}px] w-full` : "h-screen w-full",
                         )}
+                        onClick={stopClickPropagation}
                     >
                         <Transition.Child
                             as={Fragment}
@@ -78,7 +81,7 @@ export const Drawer = forwardRef(
                                 leaveFrom="translate-x-0"
                                 leaveTo={position === "right" ? "translate-x-full" : "-translate-x-full"}
                             >
-                                <div className="flex" onClick={stopClickPropagation}>
+                                <div className="flex">
                                     {position === "right" ? <CloseButton onClose={onClose} /> : null}
 
                                     <div
@@ -87,7 +90,6 @@ export const Drawer = forwardRef(
                                             sizes[size],
                                             classNames.children,
                                         )}
-                                        onClick={stopClickPropagation}
                                     >
                                         <div className="w-full">
                                             {/* eslint-disable-next-line react/jsx-max-depth */}

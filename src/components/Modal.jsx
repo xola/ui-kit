@@ -71,7 +71,9 @@ export const Modal = ({
     return (
         <Transition appear show={isOpen} as={Fragment}>
             <Dialog as="div" className="ui-modal fixed inset-0 z-30 overflow-y-auto" onClose={handleOutsideClick}>
-                <div className="min-h-screen px-4 text-center">
+                {/* Containment lives here, on an element headlessui does not render, and outside the
+                    panel so nothing shifts the DOM shape consumers select against */}
+                <div className="min-h-screen px-4 text-center" onClick={stopClickPropagation}>
                     <Transition.Child
                         as={Fragment}
                         enter="ease-out duration-300"
@@ -107,9 +109,7 @@ export const Modal = ({
                                 positions[position],
                                 "w-full transform overflow-hidden rounded-lg bg-white p-10 text-left align-middle shadow-xl transition-all",
                             )}
-                            onClick={stopClickPropagation}
                         >
-                            {/* Stays a direct child of the panel: consumers select it as `.overflow-hidden > button` */}
                             {onClose ? (
                                 <button
                                     type="button"
@@ -120,10 +120,7 @@ export const Modal = ({
                                 </button>
                             ) : null}
 
-                            {/* display:contents, so this adds an event-bubbling ancestor without a box */}
-                            <div className="contents" onClick={stopClickPropagation}>
-                                {children}
-                            </div>
+                            {children}
                         </div>
                     </Transition.Child>
                 </div>
