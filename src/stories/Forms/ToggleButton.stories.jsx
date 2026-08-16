@@ -49,6 +49,7 @@ export const Default = ({ size, isActive }) => {
                 {["primary", "secondary", "success", "warning", "caution", "danger"].map((color) => {
                     return (
                         <ToggleButton
+                            key={color}
                             color={color}
                             size={size}
                             isActive={active}

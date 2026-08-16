@@ -1,13 +1,29 @@
 module.exports = {
-    stories: ["../src/**/*.stories.@(js|jsx|mdx)"],
+    stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx)"],
+
+    framework: {
+        name: "@storybook/react-vite",
+        options: {
+            builder: {
+                viteConfigPath: ".storybook/vite.config.js",
+            },
+        },
+    },
+
     core: {
         disableTelemetry: true,
     },
+
+    // Resolved relative to this config directory, unlike Storybook 6's root-relative -s flag.
+    staticDirs: ["../public"],
+
+    docs: {
+        autodocs: "tag",
+    },
+
     addons: [
-        "@storybook/addon-postcss",
         "@storybook/addon-links",
-        "storybook-css-modules-preset",
-        "storybook-addon-designs",
+        "@storybook/addon-designs",
         {
             name: "@storybook/addon-essentials",
             options: {

@@ -276,3 +276,53 @@
 .DayPicker-Day.DayPicker-Day--waitlist > div::after {
     @apply absolute bottom-1 h-2 w-2 rounded-full bg-yellow content-[''];
 }
+
+/**
+ * Mobile: the calendar's desktop sizing (400px min-width, 48px priced cells, 16px row gaps) is
+ * far too big for a phone — inside the traveler bottom sheet the bottom weeks overflow below the
+ * viewport. Below the `md` breakpoint, drop the min-width and tighten cells/row spacing so the
+ * whole month fits. Seller is a desktop dashboard and never hits this breakpoint.
+ */
+@media (max-width: 767px) {
+    .DayPicker-Month {
+        min-width: auto;
+    }
+
+    .has-custom-content .DayPicker-Month {
+        border-spacing: 1px 2px;
+    }
+
+    .has-custom-content .DayPicker-Day .ui-day-content,
+    .has-custom-content .DayPicker-Day .ui-day-content:hover,
+    .has-custom-content .DayPicker-Day .ui-date-picker-day,
+    .has-custom-content .DayPicker-Day:hover .ui-date-picker-day {
+        @apply h-9 w-9;
+    }
+
+    .has-custom-content .DayPicker-Day .ui-day-content-custom {
+        @apply text-[10px] leading-none;
+    }
+
+    /* The desktop `pl-3` per cell adds 12px × 7 columns = 84px, overflowing the phone width and
+       clipping the Saturday column. Trim it so the 7-column grid fits within the viewport. */
+    .DayPicker-Day {
+        @apply !pl-1;
+    }
+
+    /* Trim the popover's own padding (desktop is p-6 / pt-6) so the calendar isn't ringed by wide
+       empty margins on a phone. */
+    .ui-date-picker-input {
+        @apply !p-3;
+    }
+
+    .ui-date-picker {
+        @apply !pt-3;
+    }
+
+    /* The "Today" button is absolutely positioned into the caption row (right-24); on the narrow
+       mobile calendar it collides with the year <select>. Hide it on mobile — the nav arrows and
+       month/year selects still cover navigation — which also reclaims vertical space. */
+    .DayPicker-TodayButton {
+        display: none;
+    }
+}

@@ -1,11 +1,11 @@
 import React from "react";
-import twConfig from "../../../tailwind.config";
+import { theme } from "../../theme";
 
 const BorderRadiusStories = {
     title: "Configuration/Border Radius",
 };
 
-const { borderRadius } = twConfig.theme;
+const { borderRadius } = theme;
 
 export const BorderRadius = () => {
     const keys = Object.keys(borderRadius);

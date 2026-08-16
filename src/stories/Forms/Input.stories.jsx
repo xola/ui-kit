@@ -1,14 +1,14 @@
 import React from "react";
-import { FormGroup, Label, Textarea } from "../..";
+import { FormGroup, Input, Label } from "../..";
 
-const TextareaStories = {
+const InputStories = {
     primary: true,
-    title: "Forms & Fields/Textarea",
+    title: "Forms & Fields/Input",
     parameters: {
         design: {
             name: "Figma",
             type: "figma",
-            url: "https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%E2%9A%99%EF%B8%8F-01---DS-Core?node-id=7683%3A479202&viewport=8855%2C-1452%2C0.44",
+            url: "https://www.figma.com/file/EFmxLREOeGUse5zksD3iT4/%E2%9A%99%EF%B8%8F-02---DS-Application-UI?node-id=196%3A113261&viewport=-3655%2C339%2C0.3",
         },
     },
 };
@@ -17,7 +17,7 @@ export const Default = () => {
     return (
         <FormGroup>
             <Label>Text</Label>
-            <Textarea rows={5} />
+            <Input defaultValue="Hello, World" />
         </FormGroup>
     );
 };
@@ -27,17 +27,17 @@ export const Sizes = () => {
         <div>
             <FormGroup>
                 <Label>Small</Label>
-                <Textarea size="small" />
+                <Input size="small" />
             </FormGroup>
 
             <FormGroup>
                 <Label>Medium</Label>
-                <Textarea size="medium" />
+                <Input size="medium" />
             </FormGroup>
 
             <FormGroup>
                 <Label>Large</Label>
-                <Textarea size="large" />
+                <Input size="large" />
             </FormGroup>
         </div>
     );
@@ -46,8 +46,8 @@ export const Sizes = () => {
 export const Disabled = () => {
     return (
         <FormGroup>
-            <Label>ID</Label>
-            <Textarea disabled value="f003e8a95139cd7b70999070838561e0" />
+            <Label isDisabled>ID</Label>
+            <Input disabled defaultValue="f003e8a95139cd7b70999070838561e0" />
         </FormGroup>
     );
 };
@@ -55,8 +55,17 @@ export const Disabled = () => {
 export const WithError = () => {
     return (
         <FormGroup>
-            <Label className="text-danger">Text is invalid</Label>
-            <Textarea isError />
+            <Label isError>Text is invalid</Label>
+            <Input isError defaultValue="ui@@@xola.com" />
+        </FormGroup>
+    );
+};
+
+export const WithRequired = () => {
+    return (
+        <FormGroup>
+            <Label>Text</Label>
+            <Input isRequired />
         </FormGroup>
     );
 };
@@ -65,26 +74,9 @@ export const CustomWidth = () => {
     return (
         <FormGroup>
             <Label>Text</Label>
-            <Textarea className="!w-60" />
+            <Input className="!w-60" />
         </FormGroup>
     );
 };
 
-export const AutoSize = () => {
-    return (
-        <FormGroup>
-            <Label>Text</Label>
-            <Textarea shouldAutoSize={true} rows={6} />
-        </FormGroup>
-    );
-};
-
-AutoSize.parameters = {
-    docs: {
-        description: {
-            story: "Automatically resize the textarea as the data increases.",
-        },
-    },
-};
-
-export default TextareaStories;
+export default InputStories;
