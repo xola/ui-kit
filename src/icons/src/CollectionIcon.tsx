@@ -1,4 +1,4 @@
-import { createIcon } from "./helpers/icon.jsx";
+import { createIcon } from "./helpers/icon";
 
 export const CollectionIcon = createIcon((props) => {
     return (
