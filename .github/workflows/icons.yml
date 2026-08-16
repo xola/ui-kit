@@ -1,0 +1,43 @@
+name: Icons
+
+on:
+  push:
+    branches:
+      - "master"
+    paths:
+      - "src/icons/**"
+  pull_request:
+    paths:
+      - "src/icons/**"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  Lint-And-Typecheck:
+    name: ⚡ Lint & Typecheck @xola/icons
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: src/icons
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Node.JS 20
+        uses: actions/setup-node@v7
+        with:
+          node-version: 20
+          cache: "npm"
+          cache-dependency-path: "src/icons/package-lock.json"
+
+      - name: Install Node Dependencies
+        run: npm ci --no-fund --no-audit
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck

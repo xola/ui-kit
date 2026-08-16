@@ -143,6 +143,8 @@ module.exports = {
         "dist/**",
         "src/theme.js",
         "src/stories/**",
+        "src/icons/**",
+        "src/icons/.eslintrc.js",
         "docs/**",
         "scripts/**",
         "babel.config.js",
