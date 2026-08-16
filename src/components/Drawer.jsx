@@ -3,6 +3,7 @@ import clsx from "clsx";
 import PropTypes from "prop-types";
 import React, { forwardRef, Fragment } from "react";
 import { isIosBrowser } from "../helpers/browser";
+import { stopClickPropagation } from "../helpers/dom";
 import { useViewportHeight } from "../hooks/useViewportHeight";
 import { CloseIcon } from "../icons";
 import { Button } from "./Buttons/Button";
@@ -77,7 +78,7 @@ export const Drawer = forwardRef(
                                 leaveFrom="translate-x-0"
                                 leaveTo={position === "right" ? "translate-x-full" : "-translate-x-full"}
                             >
-                                <Dialog.Panel className="flex">
+                                <div className="flex" onClick={stopClickPropagation}>
                                     {position === "right" ? <CloseButton onClose={onClose} /> : null}
 
                                     <div
@@ -86,6 +87,7 @@ export const Drawer = forwardRef(
                                             sizes[size],
                                             classNames.children,
                                         )}
+                                        onClick={stopClickPropagation}
                                     >
                                         <div className="w-full">
                                             {/* eslint-disable-next-line react/jsx-max-depth */}
@@ -97,7 +99,7 @@ export const Drawer = forwardRef(
                                     </div>
 
                                     {position === "left" ? <CloseButton onClose={onClose} /> : null}
-                                </Dialog.Panel>
+                                </div>
                             </Transition.Child>
                         </div>
                     </div>

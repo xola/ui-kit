@@ -4,6 +4,7 @@ import { noop } from "lodash";
 import PropTypes from "prop-types";
 import React, { Fragment } from "react";
 import { isIosBrowser } from "../helpers/browser";
+import { stopClickPropagation } from "../helpers/dom";
 import { useViewportHeight } from "../hooks/useViewportHeight";
 import { CloseIcon } from "../icons";
 
@@ -63,24 +64,28 @@ export const BottomSheet = ({
                     leaveFrom="translate-y-0"
                     leaveTo="translate-y-full"
                 >
-                    <Dialog.Panel
+                    <div
                         style={panelStyle}
                         className={clsx(
                             className,
                             "ui-bottom-sheet-panel fixed inset-x-0 bottom-0 flex max-h-[90dvh] w-full flex-col rounded-t-2xl bg-white px-6 pb-8 pt-6 text-left shadow-xl",
                         )}
+                        onClick={stopClickPropagation}
                     >
-                        <button
-                            type="button"
-                            aria-label="Close"
-                            className="absolute right-4 top-4 z-10 p-1 text-black hover:text-gray-darker"
-                            onClick={() => onClose()}
-                        >
-                            <CloseIcon />
-                        </button>
+                        {/* display:contents, so this adds an event-bubbling ancestor without a box */}
+                        <div className="contents" onClick={stopClickPropagation}>
+                            <button
+                                type="button"
+                                aria-label="Close"
+                                className="absolute right-4 top-4 z-10 p-1 text-black hover:text-gray-darker"
+                                onClick={() => onClose()}
+                            >
+                                <CloseIcon />
+                            </button>
 
-                        {children}
-                    </Dialog.Panel>
+                            {children}
+                        </div>
+                    </div>
                 </Transition.Child>
             </Dialog>
         </Transition>

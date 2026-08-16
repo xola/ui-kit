@@ -3,6 +3,7 @@ import clsx from "clsx";
 import PropTypes from "prop-types";
 import React, { Fragment } from "react";
 import { CloseIcon } from "../icons";
+import { stopClickPropagation } from "../helpers/dom";
 
 const sizes = {
     small: "max-w-100", // 400px
@@ -99,26 +100,30 @@ export const Modal = ({
                         leaveFrom={clsx("opacity-100", animations[position].leaveFrom)}
                         leaveTo={clsx("opacity-0", animations[position].leaveTo)}
                     >
-                        <Dialog.Panel
+                        <div
                             className={clsx(
                                 className,
                                 sizes[size],
                                 positions[position],
                                 "w-full transform overflow-hidden rounded-lg bg-white p-10 text-left align-middle shadow-xl transition-all",
                             )}
+                            onClick={stopClickPropagation}
                         >
-                            {onClose ? (
-                                <button
-                                    type="button"
-                                    className="absolute right-0 top-0 m-4 hidden p-2 text-black hover:text-gray-darker sm:block"
-                                    onClick={() => onClose()}
-                                >
-                                    <CloseIcon />
-                                </button>
-                            ) : null}
+                            {/* display:contents, so this adds an event-bubbling ancestor without a box */}
+                            <div className="contents" onClick={stopClickPropagation}>
+                                {onClose ? (
+                                    <button
+                                        type="button"
+                                        className="absolute right-0 top-0 m-4 hidden p-2 text-black hover:text-gray-darker sm:block"
+                                        onClick={() => onClose()}
+                                    >
+                                        <CloseIcon />
+                                    </button>
+                                ) : null}
 
-                            {children}
-                        </Dialog.Panel>
+                                {children}
+                            </div>
+                        </div>
                     </Transition.Child>
                 </div>
             </Dialog>
