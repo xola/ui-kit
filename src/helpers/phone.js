@@ -1,16 +1,23 @@
-import phoneLib from "google-libphonenumber";
+import { parsePhoneNumberFromString } from "libphonenumber-js/max";
 
-const PNF = phoneLib.PhoneNumberFormat;
-const phoneUtil = phoneLib.PhoneNumberUtil.getInstance();
-
-export const getRegionCode = (number, countryCode = "US") => {
+const parse = (number, countryCode) => {
     try {
-        const phoneObject = phoneUtil.parseAndKeepRawInput(number, countryCode);
-
-        return phoneUtil.getRegionCodeForNumber(phoneObject);
+        return parsePhoneNumberFromString(number, countryCode);
     } catch {
         return undefined;
     }
+};
+
+/**
+ * Get the ISO country code libphonenumber resolves a number to.
+ *
+ * @param number {string}
+ * @param countryCode {string} Country to assume when the number has no calling code
+ *
+ * @return {string|undefined} ISO 3166-1 alpha-2 code, or undefined if no region could be resolved
+ */
+export const getRegionCode = (number, countryCode = "US") => {
+    return parse(number, countryCode)?.country;
 };
 
 /**
@@ -22,28 +29,13 @@ export const getRegionCode = (number, countryCode = "US") => {
  * @return {string}
  */
 export const formatPhoneNumber = (number, countryCode = "US") => {
-    try {
-        let phoneObject = phoneUtil.parseAndKeepRawInput(number, countryCode);
+    const phoneNumber = parse(number, countryCode);
+    const regionCode = phoneNumber?.country;
 
-        const regionCode = phoneUtil.getRegionCodeForNumber(phoneObject);
-        if (regionCode && regionCode !== countryCode) {
-            // If the region code is different than what was passed in, reparse according to that format
-            phoneObject = phoneUtil.parseAndKeepRawInput(number, regionCode);
-        }
-
-        // Parse number for display in the region's format
-        let formattedNumber;
-
-        if (regionCode) {
-            const format = regionCode === countryCode ? PNF.NATIONAL : PNF.INTERNATIONAL;
-            formattedNumber = phoneUtil.format(phoneObject, format);
-        } else {
-            // If we didn't detect a region, don't guess and return the original thing
-            formattedNumber = number;
-        }
-
-        return formattedNumber;
-    } catch {
+    // Without a region we have nothing to format against, so show the seller what they entered
+    if (!regionCode) {
         return number;
     }
+
+    return regionCode === countryCode ? phoneNumber.formatNational() : phoneNumber.formatInternational();
 };

@@ -24,6 +24,11 @@ jobs:
       - name: Generate storybook
         run: npm run build:storybook
 
+      # Pages runs Jekyll, which drops files whose names start with an underscore. Vite emits
+      # assets/_commonjs-dynamic-modules-*.js, and without it the preview iframe fails to boot.
+      - name: Disable Jekyll processing
+        run: touch storybook-static/.nojekyll
+
       - name: Publish generated content to GitHub Pages
         uses: tsunematsu21/actions-publish-gh-pages@v1.0.2
         with:
