@@ -1,5 +1,5 @@
 import React from "react";
-import cn from "../helpers/classnames";
+import clsx from "clsx";
 import { createIcon } from "../helpers/icon";
 
 export const VerifoneImage = createIcon(({ className, ...rest }) => {
@@ -11,7 +11,7 @@ export const VerifoneImage = createIcon(({ className, ...rest }) => {
             height="26"
             fill="none"
             viewBox="0 0 27 26"
-            className={cn("h-[26px] w-[27px]", className)}
+            className={clsx("h-[26px] w-[27px]", className)}
             {...rest}
         >
             <rect width="23.04" height="23.04" x="1.869" y="1.48" fill="url(#pattern0)" rx="1.92" />

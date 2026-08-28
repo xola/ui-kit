@@ -4,6 +4,7 @@ export default [
     {
         ignores: [
             "src/stories/**",
+            "src/icons/**",
             "src/theme.js",
             "storybook-static/**",
             "public/theme.css",

@@ -1,3 +1,6 @@
+export type { IconSize } from "./src/helpers/iconSizes";
+export type { IconProps, IconComponent } from "./src/helpers/icon";
+
 export { AccountIcon } from "./src/AccountIcon";
 export { AddNoteIcon } from "./src/AddNoteIcon";
 export { AddSquareIcon } from "./src/AddSquareIcon";
@@ -99,6 +102,8 @@ export { EmailResendIcon } from "./src/EmailResendIcon";
 export { EmptyChecklistIcon } from "./src/EmptyChecklistIcon";
 export { EmvImage } from "./src/images/EmvImage";
 export { EquipmentIcon } from "./src/EquipmentIcon";
+export { EquipmentCheckoutIcon } from "./src/EquipmentCheckoutIcon";
+export { EquipmentReturnIcon } from "./src/EquipmentReturnIcon";
 export { ExpediaImage } from "./src/images/ExpediaImage";
 export { ExportIcon } from "./src/ExportIcon";
 export { EyeIcon } from "./src/EyeIcon";

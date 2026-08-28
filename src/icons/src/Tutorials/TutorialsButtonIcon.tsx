@@ -1,8 +1,9 @@
 import React from "react";
-import cn from "../helpers/classnames";
+import clsx from "clsx";
+import { IconComponent } from "../helpers/icon";
 
-export const TutorialsButtonIcon = (props) => {
-    const className = cn("relative -top-0.25 inline-block", props.className);
+export const TutorialsButtonIcon: IconComponent = (props) => {
+    const className = clsx("relative -top-0.25 inline-block", props.className);
     return (
         <svg
             viewBox="0 0 32 30"
