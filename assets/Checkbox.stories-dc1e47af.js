@@ -1,0 +1,9 @@
+import{j as o,a as h}from"./jsx-runtime-5e7b5774.js";import{r as b}from"./index-e6e5af86.js";import{k as t}from"./PieOptions-9a77d11f.js";import"./clsx-0839fdbe.js";import"./index-5a7afc56.js";import"./lodash-ab783b60.js";import"./index-1ae9f0af.js";import"./emotion-use-insertion-effect-with-fallbacks.browser.esm-33434671.js";import"./debounce-84b605d4.js";import"./isSymbol-939a2475.js";import"./theme-869fe131.js";const S={primary:!0,title:"Forms & Fields/Checkbox",parameters:{docs:{description:{component:"Native browser checkbox component with some styling"}},design:{name:"Figma",type:"figma",url:"https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%E2%9A%99%EF%B8%8F-01---DS-Core?node-id=7683%3A483048&viewport=7074%2C-1137%2C0.4"}}},e=()=>{const[m,l]=b.useState(!1);return o(t,{label:"Checkbox",checked:m,onChange:p=>l(p.target.checked)})},r=()=>h("div",{className:"space-y-3",children:[o(t,{checked:!0,disabled:!0,label:"Checkbox"}),o(t,{disabled:!0,label:"Checkbox"})]});e.__docgenInfo={description:"",methods:[],displayName:"Default"};r.__docgenInfo={description:"",methods:[],displayName:"Disabled"};var s,a,c;e.parameters={...e.parameters,docs:{...(s=e.parameters)==null?void 0:s.docs,source:{originalSource:`() => {
+  const [checked, setChecked] = useState(false);
+  return <Checkbox label="Checkbox" checked={checked} onChange={event_ => setChecked(event_.target.checked)} />;
+}`,...(c=(a=e.parameters)==null?void 0:a.docs)==null?void 0:c.source}}};var d,i,n;r.parameters={...r.parameters,docs:{...(d=r.parameters)==null?void 0:d.docs,source:{originalSource:`() => {
+  return <div className="space-y-3">
+            <Checkbox checked disabled label="Checkbox" />
+            <Checkbox disabled label="Checkbox" />
+        </div>;
+}`,...(n=(i=r.parameters)==null?void 0:i.docs)==null?void 0:n.source}}};const j=["Default","Disabled"];export{e as Default,r as Disabled,j as __namedExportsOrder,S as default};
