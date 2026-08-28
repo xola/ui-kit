@@ -135,7 +135,7 @@ export default {
         "./src/**/*.jsx",
         "./src/**/*.ts",
         "./src/**/*.tsx",
-        path.join(__dirname, "build/ui-kit.es.js"),
+        path.join(__dirname, "build/**/*.js"),
     ],
 
     theme: {

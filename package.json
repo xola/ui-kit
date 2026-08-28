@@ -4,6 +4,7 @@
     "description": "Xola UI Kit",
     "license": "MIT",
     "type": "module",
+    "sideEffects": ["**/*.css"],
     "repository": {
         "type": "git",
         "url": "git://github.com/xola/ui-kit.git"
@@ -14,14 +15,13 @@
         "index.css",
         "index.d.ts",
         "tailwind.config.js",
-        "postcss.config.js",
-        "ui-kit.es.js"
+        "postcss.config.js"
     ],
-    "main": "build/ui-kit.es.js",
-    "module": "build/ui-kit.es.js",
+    "main": "build/index.js",
+    "module": "build/index.js",
     "types": "build/index.d.ts",
     "exports": {
-        ".": { "types": "./build/index.d.ts", "import": "./build/ui-kit.es.js" },
+        ".": { "types": "./build/index.d.ts", "import": "./build/index.js" },
         "./index.css": "./index.css",
         "./build/*": "./build/*",
         "./tailwind.config": "./tailwind.config.js",
@@ -42,7 +42,8 @@
         "lint:report": "eslint --cache --cache-strategy content --output-file=eslint_report.json --format=json src",
         "format": "prettier -l --write src",
         "test": "vitest run --project unit",
-        "test:ssr": "node -e 'import(\"./build/ui-kit.es.js\").then(() => console.log(\"✅ ssr import ok\"))'",
+        "test:ssr": "node -e 'import(\"./build/index.js\").then(() => console.log(\"✅ ssr import ok\"))'",
+        "test:bundle-size": "node scripts/checkBundleSize.js",
         "test:storybook": "vitest run --project storybook",
         "test:all": "vitest run",
         "knip": "knip"

@@ -2,16 +2,11 @@ import path from "path";
 import { defineConfig } from "vite";
 import pkg from "./package.json";
 
-// We import NAMED exports from these two CommonJS-only deps (`{ DateUtils }` from react-day-picker,
-// `{ PhoneNumberUtil, PhoneNumberFormat }` from google-libphonenumber). Node's ESM loader can't detect
-// named exports of a CJS module via cjs-module-lexer, so if left external the built ui-kit throws
-// "Named export 'X' not found" under a Node ESM/SSR context. Bundling just these two lets Rollup do the
-// CJS->ESM interop. Every other dep is either ESM or imported as default (which Node resolves fine), so
-// they stay external to keep the bundle lean and avoid duplicating deps the consuming app already has.
-const bundleForEsmInterop = ["react-day-picker", "google-libphonenumber"];
+const packages = [...Object.keys(pkg.dependencies), ...Object.keys(pkg.devDependencies)];
 
-const dependencies = Object.keys(pkg.dependencies).filter((dep) => !bundleForEsmInterop.includes(dep));
-const devDependencies = Object.keys(pkg.devDependencies);
+// Subpath imports (react-select/creatable, libphonenumber-js/max) don't match the bare package
+// name, so an exact-match list silently bundles them and their metadata.
+const isExternal = (id) => !id.endsWith(".css") && packages.some((name) => id === name || id.startsWith(`${name}/`));
 
 export default defineConfig({
     build: {
@@ -19,24 +14,25 @@ export default defineConfig({
 
         lib: {
             entry: path.resolve(__dirname, "src/index.js"),
-            name: "XolaUIKit",
-            fileName: (format) => `ui-kit.${format}.js`,
-            formats: ["es"]
+            formats: ["es"],
         },
 
         rollupOptions: {
             // Make sure none of the dependencies are bundled.
-            external: [...dependencies, ...devDependencies],
-            // Leave commented out - testing multiple outputs
-            // input: {
-            //     server: "src/utils/index.js",
-            //     all: "src/index.js",
-            // },
-            // output: {
-            //     name: "browser",
-            //     entryFileNames: `ui-kit.[name].js`,
-            //     formats: ["es"]
-            // }
+            external: isExternal,
+
+            output: {
+                // Mirror src/ in build/ instead of one rolled-up file, so consumer bundlers can
+                // tree-shake per-module instead of pulling the whole dependency graph in on any import.
+                preserveModules: true,
+                preserveModulesRoot: "src",
+                entryFileNames: "[name].js",
+
+                // Rollup 3+ defaults to "default", which binds `import x from "cjs-pkg"` to the
+                // whole namespace. Packages without __esModule (get-user-locale, tippy.js) then
+                // blow up at require time in an untransformed CJS consumer.
+                interop: "auto",
+            },
         },
     },
     test: {

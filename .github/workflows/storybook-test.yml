@@ -42,3 +42,6 @@ jobs:
 
       - name: Run Storybook interaction tests
         run: npm run test:storybook
+
+      - name: Check bundle size (tree-shaking regression)
+        run: npm run test:bundle-size

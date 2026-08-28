@@ -1,9 +1,9 @@
-import * as de from "dayjs/locale/de";
-import * as en from "dayjs/locale/en";
-import * as enGB from "dayjs/locale/en-gb";
-import * as es from "dayjs/locale/es";
-import * as esMX from "dayjs/locale/es-mx";
-import * as fr from "dayjs/locale/fr";
+import * as de from "dayjs/locale/de.js";
+import * as en from "dayjs/locale/en.js";
+import * as enGB from "dayjs/locale/en-gb.js";
+import * as es from "dayjs/locale/es.js";
+import * as esMX from "dayjs/locale/es-mx.js";
+import * as fr from "dayjs/locale/fr.js";
 import type { DayPickerProps } from "react-day-picker";
 
 export type LocaleCode = keyof typeof locales;
