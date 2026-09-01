@@ -183,6 +183,27 @@ export const Sidebar = forwardRef(
             notifyVariantChange(currentVariant);
         }, [currentVariant, notifyVariantChange]);
 
+        // Guarded against mount: `isCollapsed` only seeds `effectiveMaxWidth` on first render (see
+        // above), so without this ref check every mount would immediately re-run the collapse
+        // transition against the width `resolveMountWidth` already settled on.
+        const previousIsCollapsedRef = useRef(isCollapsed);
+
+        useEffect(() => {
+            if (previousIsCollapsedRef.current === isCollapsed) {
+                return;
+            }
+
+            previousIsCollapsedRef.current = isCollapsed;
+
+            // A controlled consumer flips this prop instead of clicking the toggle. resolveToggleWidth
+            // branches on the current width, not on which direction changed, so reusing it here keeps
+            // controlled and uncontrolled collapse landing in identical width/lastExpandedWidth state.
+            const next = resolveToggleWidth({ width, lastExpandedWidth, minWidth, maxWidth: effectiveMaxWidth });
+
+            setWidth(next.width);
+            setLastExpandedWidth(next.lastExpandedWidth);
+        }, [isCollapsed, width, lastExpandedWidth, minWidth, effectiveMaxWidth]);
+
         const variantValue = useMemo(() => variantContextValue(currentVariant), [currentVariant]);
 
         const isWidthCollapsed = width <= minWidth;
@@ -217,8 +238,15 @@ export const Sidebar = forwardRef(
             setWidth(clampWidth(event.clientX, minWidth, effectiveMaxWidth));
         });
 
-        const handlePointerUp = useMemoizedFn((event) => {
-            event.currentTarget.releasePointerCapture(event.pointerId);
+        // Shared by pointerup and pointercancel: a touch gesture reinterpreted as a scroll, a
+        // system gesture, or the browser reclaiming the pointer all fire pointercancel INSTEAD of
+        // pointerup, and capture is implicitly released before it fires. Skipping this teardown on
+        // that path is what latched the resize highlight permanently before this task existed.
+        const finishResize = useMemoizedFn((event) => {
+            if (event.currentTarget.hasPointerCapture?.(event.pointerId)) {
+                event.currentTarget.releasePointerCapture(event.pointerId);
+            }
+
             setIsResizing(false);
             setWidth((current) => snapWidth(current, minWidth, effectiveMaxWidth));
             recordIntent();
@@ -251,6 +279,11 @@ export const Sidebar = forwardRef(
             onCollapsedChange?.(next.width === minWidth);
         });
 
+        const handleDoubleClickReset = useMemoizedFn(() => {
+            setWidth(effectiveMaxWidth);
+            recordIntent();
+        });
+
         return (
             <SidebarVariantContext.Provider value={variantValue}>
                 <SidebarWidthContext.Provider value={width}>
@@ -278,9 +311,10 @@ export const Sidebar = forwardRef(
                             className="absolute -right-3 bottom-0 top-0 z-10 w-6 cursor-ew-resize"
                             onPointerDown={handlePointerDown}
                             onPointerMove={handlePointerMove}
-                            onPointerUp={handlePointerUp}
+                            onPointerUp={finishResize}
+                            onPointerCancel={finishResize}
                             onKeyDown={handleKeyDown}
-                            onDoubleClick={() => setWidth(effectiveMaxWidth)}
+                            onDoubleClick={handleDoubleClickReset}
                             onMouseEnter={() => setIsHovered(true)}
                             onMouseLeave={() => setIsHovered(false)}
                         />
