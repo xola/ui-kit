@@ -1,5 +1,9 @@
 import type * as React from "react";
 
+// The only three widths a sidebar can render at. Shared by the `variant` prop, `onVariantChange`,
+// and `useSidebar()`'s return value so the three sites can't drift apart.
+export type SidebarVariant = "icons" | "text" | "iconsAndText";
+
 export interface SidebarNotificationSection {
     count?: number;
     content?: React.ReactNode;
@@ -20,13 +24,13 @@ export interface SidebarProps {
     isRightDrawerOpen?: boolean;
     handleDrawerStateChange?: (side: "left" | "right") => void;
     onSidebarResize?: (width: string) => void;
-    variant?: "icons" | "text" | "iconsAndText";
+    variant?: SidebarVariant;
     minWidth?: number;
     maxWidth?: number;
     isCollapsible?: boolean;
     isCollapsed?: boolean;
     onCollapsedChange?: (isCollapsed: boolean) => void;
-    onVariantChange?: (variant: string) => void;
+    onVariantChange?: (variant: SidebarVariant) => void;
     autoCollapseBelow?: number | null;
     storageKey?: string | null;
     cssVariableTarget?: HTMLElement | null;
@@ -41,6 +45,9 @@ export interface SidebarAccountProps {
     description?: string;
     image?: React.ReactNode;
     icon?: React.ReactNode;
+    // Deprecated no-op, kept only so consumers built against the pre-variant API still compile.
+    // The sidebar's variant (see `useSidebar`) now drives this; the prop warns in development.
+    isResponsive?: boolean;
     className?: string;
 }
 
@@ -54,10 +61,15 @@ export interface SidebarFooterProps {
     children: React.ReactNode;
 }
 
+// A bare thunk is a real call shape (x2-seller AdminMenu.tsx:422 passes `() => Icon` for an
+// already-built element, ignoring `className`), not just a `React.ComponentType`, and the runtime
+// gate is `PropTypes.func`, which permits both.
+export type SidebarLinkIcon = React.ComponentType<{ className?: string }> | (() => React.ReactElement | null);
+
 export interface SidebarLinkProps {
     align?: "center" | "left" | "right";
     isActive?: boolean;
-    icon?: React.ComponentType<{ className?: string }>;
+    icon?: SidebarLinkIcon;
     // A consumer-supplied trailing node. Rendered in every variant, unlike the default chevron.
     info?: React.ReactNode;
     children: React.ReactNode;
@@ -86,7 +98,7 @@ export declare const SIDEBAR_VARIANT: { ICONS: string; TEXT: string; ICONS_AND_T
 export declare const SIDEBAR_VARIANT_WIDTH: { TEXT: number; ICONS_AND_TEXT: number };
 
 export declare function useSidebar(): {
-    variant: string;
+    variant: SidebarVariant;
     showIcons: boolean;
     showText: boolean;
     isCollapsed: boolean;
