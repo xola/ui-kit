@@ -1,4 +1,4 @@
-import { useMemoizedFn } from "ahooks";
+import { useMemoizedFn, useMount, useUnmount } from "ahooks";
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import React, { forwardRef, useEffect, useMemo, useRef, useState } from "react";
@@ -27,6 +27,28 @@ import {
 
 const RESIZE_STEP = 8;
 const RESIZE_STEP_LARGE = 32;
+
+// Storybook renders several sidebars on one page, so two instances sharing a cssVariableTarget is
+// a real, survivable scenario, not a misuse to throw on. Module-level so the check spans instances.
+const cssVariableTargets = new Set();
+
+const widthRange = (props, propertyName, componentName) => {
+    const value = props[propertyName];
+
+    if (value === undefined) {
+        return null;
+    }
+
+    // The variant bands are fixed at 140/174, so a width outside 64-200 produces a sidebar that
+    // can never leave one variant. Fail loudly rather than shipping a sidebar stuck in a band.
+    if (typeof value !== "number" || value < SIDEBAR_WIDTH.MIN || value > SIDEBAR_WIDTH.MAX) {
+        return new Error(
+            `UI Kit: ${componentName} \`${propertyName}\` must be a number between ${SIDEBAR_WIDTH.MIN} and ${SIDEBAR_WIDTH.MAX}.`,
+        );
+    }
+
+    return null;
+};
 
 const LeftDrawerCountStyle = {
     // From Figma
@@ -62,6 +84,33 @@ export const Sidebar = forwardRef(
         },
         ref,
     ) => {
+        // `process` isn't declared here: consumers' bundlers (webpack, Vite) statically replace
+        // process.env.NODE_ENV, the same pattern react/prop-types rely on for dev-only warnings.
+        // eslint-disable-next-line no-undef
+        if (process.env.NODE_ENV !== "production" && variant !== undefined && isCollapsed !== undefined) {
+            console.warn("UI Kit: Sidebar received both `variant` and `isCollapsed`; `variant` wins.");
+        }
+
+        useMount(() => {
+            if (!cssVariableTarget) {
+                return;
+            }
+
+            if (cssVariableTargets.has(cssVariableTarget)) {
+                console.warn(
+                    "UI Kit: Multiple Sidebars share the same `cssVariableTarget`; each write overwrites the others.",
+                );
+            }
+
+            cssVariableTargets.add(cssVariableTarget);
+        });
+
+        useUnmount(() => {
+            if (cssVariableTarget) {
+                cssVariableTargets.delete(cssVariableTarget);
+            }
+        });
+
         const effectiveMaxWidth = Math.min(
             maxWidth,
             ceilingForVariant(variant ?? (isCollapsed ? SIDEBAR_VARIANT.ICONS : SIDEBAR_VARIANT.ICONS_AND_TEXT)),
@@ -442,14 +491,25 @@ Sidebar.propTypes = {
     logo: PropTypes.node,
     children: PropTypes.node.isRequired,
     className: PropTypes.string,
-    footer: PropTypes.element.isRequired,
+    footer: PropTypes.element,
     isFixed: PropTypes.bool,
     isStickyHeader: PropTypes.bool,
     isStickyFooter: PropTypes.bool,
-    onLogoClick: PropTypes.func.isRequired,
+    onLogoClick: PropTypes.func,
     isLeftDrawerOpen: PropTypes.bool,
     isRightDrawerOpen: PropTypes.bool,
     handleDrawerStateChange: PropTypes.func,
+    onSidebarResize: PropTypes.func,
+    variant: PropTypes.oneOf(["icons", "text", "iconsAndText"]),
+    minWidth: widthRange,
+    maxWidth: widthRange,
+    isCollapsible: PropTypes.bool,
+    isCollapsed: PropTypes.bool,
+    onCollapsedChange: PropTypes.func,
+    onVariantChange: PropTypes.func,
+    autoCollapseBelow: PropTypes.number,
+    storageKey: PropTypes.string,
+    cssVariableTarget: PropTypes.object,
     notifications: PropTypes.shape({
         announcements: PropTypes.shape({
             count: PropTypes.number,

@@ -1,3 +1,109 @@
+import type * as React from "react";
+
+export interface SidebarNotificationSection {
+    count?: number;
+    content?: React.ReactNode;
+    title?: string;
+    onClose?: () => void;
+}
+
+export interface SidebarProps {
+    logo?: React.ReactNode;
+    children: React.ReactNode;
+    className?: string;
+    footer?: React.ReactElement;
+    isFixed?: boolean;
+    isStickyHeader?: boolean;
+    isStickyFooter?: boolean;
+    onLogoClick?: () => void;
+    isLeftDrawerOpen?: boolean;
+    isRightDrawerOpen?: boolean;
+    handleDrawerStateChange?: (side: "left" | "right") => void;
+    onSidebarResize?: (width: string) => void;
+    variant?: "icons" | "text" | "iconsAndText";
+    minWidth?: number;
+    maxWidth?: number;
+    isCollapsible?: boolean;
+    isCollapsed?: boolean;
+    onCollapsedChange?: (isCollapsed: boolean) => void;
+    onVariantChange?: (variant: string) => void;
+    autoCollapseBelow?: number | null;
+    storageKey?: string | null;
+    cssVariableTarget?: HTMLElement | null;
+    notifications?: {
+        announcements?: SidebarNotificationSection & { hide?: boolean };
+        notices?: SidebarNotificationSection;
+    };
+}
+
+export interface SidebarAccountProps {
+    name: string;
+    description?: string;
+    image?: React.ReactNode;
+    icon?: React.ReactNode;
+    className?: string;
+}
+
+export interface SidebarButtonProps {
+    icon: React.ComponentType<{ className?: string }>;
+    label: string;
+    className?: string;
+}
+
+export interface SidebarFooterProps {
+    children: React.ReactNode;
+}
+
+export interface SidebarLinkProps {
+    align?: "center" | "left" | "right";
+    isActive?: boolean;
+    icon?: React.ComponentType<{ className?: string }>;
+    // A consumer-supplied trailing node. Rendered in every variant, unlike the default chevron.
+    info?: React.ReactNode;
+    children: React.ReactNode;
+    isSubMenuItem?: boolean;
+    className?: string;
+    classNames?: { text?: string };
+}
+
+export interface SidebarSeparatorProps {
+    className?: string;
+}
+
+export interface SidebarMenuProps {
+    children: React.ReactNode;
+    content: React.ReactNode;
+}
+
+export interface SidebarHeadingProps {
+    icon: React.ComponentType<{ className?: string }>;
+    label: string;
+    className?: string;
+}
+
+export declare const SIDEBAR_WIDTH: { MIN: number; MAX: number };
+export declare const SIDEBAR_VARIANT: { ICONS: string; TEXT: string; ICONS_AND_TEXT: string };
+export declare const SIDEBAR_VARIANT_WIDTH: { TEXT: number; ICONS_AND_TEXT: number };
+
+export declare function useSidebar(): {
+    variant: string;
+    showIcons: boolean;
+    showText: boolean;
+    isCollapsed: boolean;
+};
+
+export declare function useSidebarWidth(): number;
+
+export declare const Sidebar: React.ForwardRefExoticComponent<SidebarProps & React.RefAttributes<HTMLDivElement>> & {
+    Account: React.ComponentType<SidebarAccountProps>;
+    Button: React.ComponentType<SidebarButtonProps>;
+    Footer: React.ComponentType<SidebarFooterProps>;
+    Link: React.ComponentType<SidebarLinkProps>;
+    Separator: React.ComponentType<SidebarSeparatorProps>;
+    Menu: React.ComponentType<SidebarMenuProps>;
+    Heading: React.ComponentType<SidebarHeadingProps>;
+};
+
 // This is just to make the auto-import work.
 // Next step is to add types for the props.
 export {
@@ -234,7 +340,6 @@ export {
     ShareIcon,
     ShirtIcon,
     ShoppingBagIcon,
-    Sidebar,
     Skeleton,
     SlideDown,
     Spinner,
