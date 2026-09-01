@@ -78,9 +78,9 @@ export const resolveCrossingWidth = ({
     maxWidth,
 }) => {
     // Crossing down while the user has already chosen a width at this size would throw that
-    // choice away with no way back except re-dragging.
+    // choice away with no way back except re-dragging. Only snapshot if currently expanded.
     if (isBelow && !wasBelow && !hasIntentBelow) {
-        return { width: minWidth, lastExpandedWidth: width };
+        return { width: minWidth, lastExpandedWidth: width > minWidth ? width : lastExpandedWidth };
     }
 
     if (!isBelow && wasBelow) {

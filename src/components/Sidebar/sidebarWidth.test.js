@@ -181,6 +181,29 @@ describe("resolveCrossingWidth", () => {
             }),
         ).toEqual({ width: 150, lastExpandedWidth: null });
     });
+
+    it("preserves lastExpandedWidth when crossing down while already collapsed", () => {
+        // Step 1: Start wide with no snapshot
+        let state = { width: 200, lastExpandedWidth: null };
+
+        // Step 2: User toggles collapse above threshold
+        state = resolveToggleWidth({ ...base, ...state });
+        expect(state).toEqual({ width: 64, lastExpandedWidth: 200 });
+
+        // Step 3: Viewport crosses below threshold while already at minWidth
+        state = resolveCrossingWidth({
+            ...base,
+            ...state,
+            wasBelow: false,
+            isBelow: true,
+            hasIntentBelow: false,
+        });
+        expect(state).toEqual({ width: 64, lastExpandedWidth: 200 });
+
+        // Step 4: User toggles expand to restore the remembered width
+        state = resolveToggleWidth({ ...base, ...state });
+        expect(state).toEqual({ width: 200, lastExpandedWidth: 200 });
+    });
 });
 
 describe("resolveToggleWidth", () => {
