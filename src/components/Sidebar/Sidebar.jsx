@@ -2,7 +2,7 @@ import { useMemoizedFn } from "ahooks";
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import React, { forwardRef, useEffect, useMemo, useRef, useState } from "react";
-import { AnnounceIcon, BellIcon, XolaLogoSimple } from "../../icons";
+import { AnnounceIcon, BellIcon, CollapseIcon, XolaLogoSimple } from "../../icons";
 import { Counter } from "../Counter";
 import { Drawer } from "../Drawer";
 import { SidebarAccount } from "./Sidebar.Account";
@@ -20,8 +20,13 @@ import {
     clampWidth,
     resolveCrossingWidth,
     resolveMountWidth,
+    resolveToggleWidth,
+    snapWidth,
     variantForWidth,
 } from "./sidebarWidth";
+
+const RESIZE_STEP = 8;
+const RESIZE_STEP_LARGE = 32;
 
 const LeftDrawerCountStyle = {
     // From Figma
@@ -46,18 +51,12 @@ export const Sidebar = forwardRef(
             onSidebarResize,
             variant,
             isCollapsed = false,
-            // Gates the collapse toggle button added in Task 9; destructured now so its default
-            // exists before that lands.
-            // eslint-disable-next-line no-unused-vars
             isCollapsible = false,
             minWidth = SIDEBAR_WIDTH.MIN,
             maxWidth = SIDEBAR_WIDTH.MAX,
             autoCollapseBelow = null,
             storageKey = null,
             cssVariableTarget = null,
-            // Called from the collapse toggle handler added in Task 9; destructured now so it
-            // exists on the public signature already.
-            // eslint-disable-next-line no-unused-vars
             onCollapsedChange,
             onVariantChange,
         },
@@ -114,10 +113,6 @@ export const Sidebar = forwardRef(
         const currentVariant = variantForWidth(width);
 
         const [isHovered, setIsHovered] = useState(false);
-        // setIsResizing is unused until Task 9 restores the pointer up/move lifecycle that clears
-        // it; latching it with no way to reset would leave the resize-handle highlight stuck on
-        // after a single mousedown.
-        // eslint-disable-next-line no-unused-vars
         const [isResizing, setIsResizing] = useState(false);
 
         const { announcements: leftDrawer, notices: rightDrawer } = notifications ?? {};
@@ -190,16 +185,71 @@ export const Sidebar = forwardRef(
 
         const variantValue = useMemo(() => variantContextValue(currentVariant), [currentVariant]);
 
-        // Task 9 replaces this with pointer-capture based resizing; kept as a mousedown-only
-        // affordance here so the handle isn't dead between the two commits. No isResizing latch:
-        // the mouseup listener that used to clear it was deleted with the old effect.
-        const handleResizeStart = (e) => {
-            e.preventDefault();
+        const isWidthCollapsed = width <= minWidth;
+
+        // Marks that the user has made an explicit width choice, so a later mount below
+        // autoCollapseBelow restores it instead of re-auto-collapsing (resolveMountWidth's
+        // hasIntent) and a later upward crossing doesn't overwrite an already-chosen width
+        // (resolveCrossingWidth's hasIntentBelow).
+        const recordIntent = useMemoizedFn(() => {
+            if (!storageKey) {
+                return;
+            }
+
+            window.localStorage.setItem(`${storageKey}:intent`, "1");
 
             if (window.innerWidth < (autoCollapseBelow ?? 0)) {
                 hasIntentBelowRef.current = true;
             }
-        };
+        });
+
+        const handlePointerDown = useMemoizedFn((event) => {
+            event.preventDefault();
+            event.currentTarget.setPointerCapture(event.pointerId);
+            setIsResizing(true);
+        });
+
+        const handlePointerMove = useMemoizedFn((event) => {
+            if (!isResizing) {
+                return;
+            }
+
+            setWidth(clampWidth(event.clientX, minWidth, effectiveMaxWidth));
+        });
+
+        const handlePointerUp = useMemoizedFn((event) => {
+            event.currentTarget.releasePointerCapture(event.pointerId);
+            setIsResizing(false);
+            setWidth((current) => snapWidth(current, minWidth, effectiveMaxWidth));
+            recordIntent();
+        });
+
+        const handleKeyDown = useMemoizedFn((event) => {
+            const step = event.shiftKey ? RESIZE_STEP_LARGE : RESIZE_STEP;
+            const deltas = { ArrowLeft: -step, ArrowRight: step };
+
+            if (event.key === "Home") {
+                setWidth(minWidth);
+            } else if (event.key === "End") {
+                setWidth(effectiveMaxWidth);
+            } else if (deltas[event.key] !== undefined) {
+                setWidth((current) => clampWidth(current + deltas[event.key], minWidth, effectiveMaxWidth));
+            } else {
+                return;
+            }
+
+            event.preventDefault();
+            recordIntent();
+        });
+
+        const handleToggle = useMemoizedFn(() => {
+            const next = resolveToggleWidth({ width, lastExpandedWidth, minWidth, maxWidth: effectiveMaxWidth });
+
+            setWidth(next.width);
+            setLastExpandedWidth(next.lastExpandedWidth);
+            recordIntent();
+            onCollapsedChange?.(next.width === minWidth);
+        });
 
         return (
             <SidebarVariantContext.Provider value={variantValue}>
@@ -216,13 +266,38 @@ export const Sidebar = forwardRef(
                         )}
                         style={{ width: `${width}px` }}
                     >
-                        {/* Resize handle */}
                         <div
-                            className="absolute -right-3 bottom-0 top-0 z-10 w-4 cursor-ew-resize"
-                            onMouseDown={handleResizeStart}
+                            role="separator"
+                            aria-orientation="vertical"
+                            aria-label="Resize sidebar"
+                            aria-valuenow={width}
+                            aria-valuemin={minWidth}
+                            aria-valuemax={effectiveMaxWidth}
+                            tabIndex={0}
+                            // w-6 not w-4: WCAG 2.5.8 wants a 24px target, and the bug this fixes is on a touch device.
+                            className="absolute -right-3 bottom-0 top-0 z-10 w-6 cursor-ew-resize"
+                            onPointerDown={handlePointerDown}
+                            onPointerMove={handlePointerMove}
+                            onPointerUp={handlePointerUp}
+                            onKeyDown={handleKeyDown}
+                            onDoubleClick={() => setWidth(effectiveMaxWidth)}
                             onMouseEnter={() => setIsHovered(true)}
                             onMouseLeave={() => setIsHovered(false)}
                         />
+
+                        {isCollapsible && (
+                            <button
+                                type="button"
+                                aria-label={isWidthCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+                                aria-expanded={!isWidthCollapsed}
+                                className="absolute -right-3 top-8 z-20 flex h-6 w-6 items-center justify-center rounded-full bg-gray-darker"
+                                onPointerDown={(event) => event.stopPropagation()}
+                                onClick={handleToggle}
+                            >
+                                <CollapseIcon className={clsx("h-3 w-3", isWidthCollapsed && "rotate-180")} />
+                            </button>
+                        )}
+
                         {leftDrawer || rightDrawer ? (
                             <div
                                 className={clsx(
