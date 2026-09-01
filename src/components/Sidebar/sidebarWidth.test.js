@@ -4,6 +4,9 @@ import {
     SIDEBAR_WIDTH,
     ceilingForVariant,
     clampWidth,
+    resolveCrossingWidth,
+    resolveMountWidth,
+    resolveToggleWidth,
     snapWidth,
     variantForWidth,
 } from "./sidebarWidth";
@@ -70,5 +73,137 @@ describe("snapWidth", () => {
 
     it("never snaps outside the given bounds", () => {
         expect(snapWidth(150, 64, 139)).toBe(139);
+    });
+});
+
+describe("resolveMountWidth", () => {
+    const base = { minWidth: 64, maxWidth: 200, autoCollapseBelow: 1024 };
+
+    it("uses the stored width on a wide viewport", () => {
+        expect(resolveMountWidth({ ...base, storedWidth: "150", hasIntent: false, viewportWidth: 1440 })).toBe(150);
+    });
+
+    it("collapses on a narrow viewport when the user has never chosen a width", () => {
+        expect(resolveMountWidth({ ...base, storedWidth: "200", hasIntent: false, viewportWidth: 900 })).toBe(64);
+    });
+
+    it("honours a stored width on a narrow viewport once the user has chosen one", () => {
+        expect(resolveMountWidth({ ...base, storedWidth: "200", hasIntent: true, viewportWidth: 900 })).toBe(200);
+    });
+
+    it("falls back to the maximum with nothing stored", () => {
+        expect(resolveMountWidth({ ...base, storedWidth: null, hasIntent: false, viewportWidth: 1440 })).toBe(200);
+    });
+
+    it("never exceeds a lowered ceiling", () => {
+        expect(
+            resolveMountWidth({ ...base, maxWidth: 64, storedWidth: "200", hasIntent: true, viewportWidth: 1440 }),
+        ).toBe(64);
+    });
+
+    it("does not auto-collapse when the viewport rule is disabled", () => {
+        expect(
+            resolveMountWidth({
+                ...base,
+                autoCollapseBelow: null,
+                storedWidth: "200",
+                hasIntent: false,
+                viewportWidth: 900,
+            }),
+        ).toBe(200);
+    });
+});
+
+describe("resolveCrossingWidth", () => {
+    const base = { minWidth: 64, maxWidth: 200 };
+
+    it("snapshots the width and collapses when crossing down", () => {
+        expect(
+            resolveCrossingWidth({
+                ...base,
+                width: 200,
+                lastExpandedWidth: null,
+                wasBelow: false,
+                isBelow: true,
+                hasIntentBelow: false,
+            }),
+        ).toEqual({ width: 64, lastExpandedWidth: 200 });
+    });
+
+    it("restores the snapshot when crossing up", () => {
+        expect(
+            resolveCrossingWidth({
+                ...base,
+                width: 64,
+                lastExpandedWidth: 150,
+                wasBelow: true,
+                isBelow: false,
+                hasIntentBelow: false,
+            }),
+        ).toEqual({ width: 150, lastExpandedWidth: 150 });
+    });
+
+    it("restores to the maximum when there is no snapshot", () => {
+        expect(
+            resolveCrossingWidth({
+                ...base,
+                width: 64,
+                lastExpandedWidth: null,
+                wasBelow: true,
+                isBelow: false,
+                hasIntentBelow: false,
+            }),
+        ).toEqual({ width: 200, lastExpandedWidth: null });
+    });
+
+    it("does not discard a choice the user made while already below the threshold", () => {
+        expect(
+            resolveCrossingWidth({
+                ...base,
+                width: 200,
+                lastExpandedWidth: null,
+                wasBelow: false,
+                isBelow: true,
+                hasIntentBelow: true,
+            }),
+        ).toEqual({ width: 200, lastExpandedWidth: null });
+    });
+
+    it("does nothing when no boundary was crossed", () => {
+        expect(
+            resolveCrossingWidth({
+                ...base,
+                width: 150,
+                lastExpandedWidth: null,
+                wasBelow: false,
+                isBelow: false,
+                hasIntentBelow: false,
+            }),
+        ).toEqual({ width: 150, lastExpandedWidth: null });
+    });
+});
+
+describe("resolveToggleWidth", () => {
+    const base = { minWidth: 64, maxWidth: 200 };
+
+    it("collapses and remembers the width it left", () => {
+        expect(resolveToggleWidth({ ...base, width: 150, lastExpandedWidth: null })).toEqual({
+            width: 64,
+            lastExpandedWidth: 150,
+        });
+    });
+
+    it("round-trips back to the middle band rather than jumping to the maximum", () => {
+        expect(resolveToggleWidth({ ...base, width: 64, lastExpandedWidth: 150 })).toEqual({
+            width: 150,
+            lastExpandedWidth: 150,
+        });
+    });
+
+    it("expands to the maximum when nothing was remembered", () => {
+        expect(resolveToggleWidth({ ...base, width: 64, lastExpandedWidth: null })).toEqual({
+            width: 200,
+            lastExpandedWidth: null,
+        });
     });
 });

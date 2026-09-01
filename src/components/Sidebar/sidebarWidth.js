@@ -60,3 +60,46 @@ export const snapWidth = (width, minWidth, maxWidth) => {
 
     return clampWidth(nearest, minWidth, maxWidth);
 };
+
+export const resolveMountWidth = ({ storedWidth, hasIntent, viewportWidth, minWidth, maxWidth, autoCollapseBelow }) => {
+    const width = clampWidth(storedWidth, minWidth, maxWidth);
+    const shouldAutoCollapse = autoCollapseBelow != null && viewportWidth < autoCollapseBelow && !hasIntent;
+
+    return shouldAutoCollapse ? minWidth : width;
+};
+
+export const resolveCrossingWidth = ({
+    width,
+    lastExpandedWidth,
+    wasBelow,
+    isBelow,
+    hasIntentBelow,
+    minWidth,
+    maxWidth,
+}) => {
+    // Crossing down while the user has already chosen a width at this size would throw that
+    // choice away with no way back except re-dragging.
+    if (isBelow && !wasBelow && !hasIntentBelow) {
+        return { width: minWidth, lastExpandedWidth: width };
+    }
+
+    if (!isBelow && wasBelow) {
+        return {
+            width: clampWidth(lastExpandedWidth ?? maxWidth, minWidth, maxWidth),
+            lastExpandedWidth,
+        };
+    }
+
+    return { width, lastExpandedWidth };
+};
+
+export const resolveToggleWidth = ({ width, lastExpandedWidth, minWidth, maxWidth }) => {
+    if (width > minWidth) {
+        return { width: minWidth, lastExpandedWidth: width };
+    }
+
+    return {
+        width: clampWidth(lastExpandedWidth ?? maxWidth, minWidth, maxWidth),
+        lastExpandedWidth,
+    };
+};
