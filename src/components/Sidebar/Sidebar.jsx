@@ -1,3 +1,4 @@
+import { useMemoizedFn } from "ahooks";
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import React, { forwardRef, useEffect, useMemo, useRef, useState } from "react";
@@ -16,6 +17,7 @@ import {
     SIDEBAR_VARIANT,
     SIDEBAR_WIDTH,
     ceilingForVariant,
+    clampWidth,
     resolveCrossingWidth,
     resolveMountWidth,
     variantForWidth,
@@ -66,9 +68,20 @@ export const Sidebar = forwardRef(
             ceilingForVariant(variant ?? (isCollapsed ? SIDEBAR_VARIANT.ICONS : SIDEBAR_VARIANT.ICONS_AND_TEXT)),
         );
 
+        // `storageKey` alone holds the rendered width (consumers read it for layout during their
+        // own first render), which can itself be an auto-collapsed 64. `:preferred` holds the
+        // user's actual chosen width so a later expand restores it instead of the collapsed value.
+        const readStoredWidth = () => {
+            if (!storageKey) {
+                return null;
+            }
+
+            return window.localStorage.getItem(`${storageKey}:preferred`) ?? window.localStorage.getItem(storageKey);
+        };
+
         const [width, setWidth] = useState(() => {
             const resolved = resolveMountWidth({
-                storedWidth: storageKey ? window.localStorage.getItem(storageKey) : null,
+                storedWidth: readStoredWidth(),
                 hasIntent: storageKey ? window.localStorage.getItem(`${storageKey}:intent`) === "1" : false,
                 viewportWidth: window.innerWidth,
                 minWidth,
@@ -85,12 +98,26 @@ export const Sidebar = forwardRef(
             return resolved;
         });
 
-        const [lastExpandedWidth, setLastExpandedWidth] = useState(null);
+        // Seeded from the stored width, not null: mounting below the auto-collapse threshold with
+        // no in-session history must still know what to restore on the first upward crossing.
+        const [lastExpandedWidth, setLastExpandedWidth] = useState(() => {
+            const clamped = clampWidth(readStoredWidth(), minWidth, effectiveMaxWidth);
+            return clamped > minWidth ? clamped : null;
+        });
+
         const wasBelowRef = useRef(window.innerWidth < (autoCollapseBelow ?? 0));
-        const hasIntentBelowRef = useRef(false);
+        // Seeded from the persisted flag: a reload below the threshold has no in-session drag/toggle
+        // to set this, but the user's earlier intent still applies.
+        const hasIntentBelowRef = useRef(
+            storageKey ? window.localStorage.getItem(`${storageKey}:intent`) === "1" : false,
+        );
         const currentVariant = variantForWidth(width);
 
         const [isHovered, setIsHovered] = useState(false);
+        // setIsResizing is unused until Task 9 restores the pointer up/move lifecycle that clears
+        // it; latching it with no way to reset would leave the resize-handle highlight stuck on
+        // after a single mousedown.
+        // eslint-disable-next-line no-unused-vars
         const [isResizing, setIsResizing] = useState(false);
 
         const { announcements: leftDrawer, notices: rightDrawer } = notifications ?? {};
@@ -115,6 +142,18 @@ export const Sidebar = forwardRef(
                 });
 
                 wasBelowRef.current = isBelow;
+
+                // Native resize events aren't batched in React 17, and this listener's closure goes
+                // stale the moment a render commits without React yet having flushed the passive
+                // effect that would resubscribe it with fresh width/lastExpandedWidth. A second event
+                // arriving in that window would otherwise re-run the no-crossing branch below, which
+                // echoes back exactly the (stale) width/lastExpandedWidth it was given, and clobber
+                // whatever the first event already queued. Bail instead of calling the setters when
+                // nothing actually crossed.
+                if (next.width === width && next.lastExpandedWidth === lastExpandedWidth) {
+                    return;
+                }
+
                 setWidth(next.width);
                 setLastExpandedWidth(next.lastExpandedWidth);
             };
@@ -123,29 +162,39 @@ export const Sidebar = forwardRef(
             return () => window.removeEventListener("resize", handleResize);
         }, [autoCollapseBelow, width, lastExpandedWidth, minWidth, effectiveMaxWidth]);
 
+        // Memoized: a consumer passing an inline onSidebarResize/onVariantChange would otherwise
+        // change identity every render and re-fire these effects on every parent re-render, re-
+        // writing localStorage and re-setting the CSS variable with no actual width/variant change.
+        const notifySidebarResize = useMemoizedFn((value) => onSidebarResize?.(value));
+        const notifyVariantChange = useMemoizedFn((value) => onVariantChange?.(value));
+
         useEffect(() => {
             if (storageKey) {
                 window.localStorage.setItem(storageKey, String(width));
+
+                if (window.localStorage.getItem(`${storageKey}:intent`) === "1") {
+                    window.localStorage.setItem(`${storageKey}:preferred`, String(width));
+                }
             }
 
             if (cssVariableTarget) {
                 cssVariableTarget.style.setProperty("--ui-sidebar-width", `${width}px`);
             }
 
-            onSidebarResize?.(String(width));
-        }, [width, storageKey, cssVariableTarget, onSidebarResize]);
+            notifySidebarResize(String(width));
+        }, [width, storageKey, cssVariableTarget, notifySidebarResize]);
 
         useEffect(() => {
-            onVariantChange?.(currentVariant);
-        }, [currentVariant, onVariantChange]);
+            notifyVariantChange(currentVariant);
+        }, [currentVariant, notifyVariantChange]);
 
         const variantValue = useMemo(() => variantContextValue(currentVariant), [currentVariant]);
 
         // Task 9 replaces this with pointer-capture based resizing; kept as a mousedown-only
-        // affordance here so the handle isn't dead between the two commits.
+        // affordance here so the handle isn't dead between the two commits. No isResizing latch:
+        // the mouseup listener that used to clear it was deleted with the old effect.
         const handleResizeStart = (e) => {
             e.preventDefault();
-            setIsResizing(true);
 
             if (window.innerWidth < (autoCollapseBelow ?? 0)) {
                 hasIntentBelowRef.current = true;
