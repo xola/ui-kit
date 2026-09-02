@@ -1,4 +1,11 @@
-import { useEventListener, useLatest, useMemoizedFn, useThrottleFn, useUpdateEffect } from "ahooks";
+import {
+    useEventListener,
+    useIsomorphicLayoutEffect,
+    useLatest,
+    useMemoizedFn,
+    useThrottleFn,
+    useUpdateEffect,
+} from "ahooks";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { variantContextValue } from "./SidebarContext";
 import {
@@ -147,11 +154,12 @@ export const useSidebarWidthState = ({
     const notifyVariantChange = useMemoizedFn((value) => onVariantChange?.(value));
     const notifyCollapsedChange = useMemoizedFn((value) => onCollapsedChange?.(value));
 
-    // The custom property drives consumer layout live, so it stays synchronous. The
-    // localStorage write and the resize callback are throttled below: a drag fires this effect
-    // once per pointermove, and an unthrottled callback would re-render every consumer that
-    // stores the width once per pixel dragged.
-    useEffect(() => {
+    // Layout effect, not `useEffect`: consumers size their content off this custom property, so
+    // running after paint would show one frame at the CSS fallback and then jump. The visible
+    // case is a cold load below `autoCollapseBelow`, where the rail resolves to 64 but the page
+    // would paint at the fallback first. Isomorphic so a server render stays on `useEffect` and
+    // does not warn.
+    useIsomorphicLayoutEffect(() => {
         if (resolvedCssVariableTarget) {
             resolvedCssVariableTarget.style.setProperty("--ui-sidebar-width", `${width}px`);
         }
