@@ -14,6 +14,7 @@ import { SidebarMenu } from "./Sidebar.Menu";
 import { SidebarVariantContext, SidebarWidthContext, variantContextValue } from "./SidebarContext";
 import sidebarScroll from "./SidebarScroll.module.css";
 import {
+    SIDEBAR_AUTO_COLLAPSE_VIEWPORT,
     SIDEBAR_VARIANT,
     SIDEBAR_WIDTH,
     ceilingForVariant,
@@ -50,6 +51,11 @@ const widthRange = (props, propertyName, componentName) => {
     return null;
 };
 
+// Every mount/crossing seed and the intent flag itself re-derive this same key+comparison; centralize
+// it so the null-storageKey guard and the "1" comparison can't drift between call sites.
+const hasStoredIntent = (storageKey) =>
+    Boolean(storageKey) && window.localStorage.getItem(`${storageKey}:intent`) === "1";
+
 const LeftDrawerCountStyle = {
     // From Figma
     background: "linear-gradient(138.65deg, #583DFF 19.59%, #F849C7 62.96%, #FFC03D 97.07%)",
@@ -72,13 +78,13 @@ export const Sidebar = forwardRef(
             handleDrawerStateChange,
             onSidebarResize,
             variant,
-            isCollapsed = false,
+            isCollapsed,
             isCollapsible = false,
             minWidth = SIDEBAR_WIDTH.MIN,
             maxWidth = SIDEBAR_WIDTH.MAX,
-            autoCollapseBelow = null,
-            storageKey = null,
-            cssVariableTarget = null,
+            autoCollapseBelow = SIDEBAR_AUTO_COLLAPSE_VIEWPORT,
+            storageKey = "sidebarWidth",
+            cssVariableTarget = document.documentElement,
             onCollapsedChange,
             onVariantChange,
         },
@@ -90,6 +96,11 @@ export const Sidebar = forwardRef(
         if (process.env.NODE_ENV !== "production" && variant !== undefined && isCollapsed !== undefined) {
             console.warn("UI Kit: Sidebar received both `variant` and `isCollapsed`; `variant` wins.");
         }
+
+        // Checked against the raw prop above (undefined unless the consumer passed it), then
+        // defaulted here: defaulting in the destructure would make `isCollapsed !== undefined`
+        // always true and fire the warning above on every render.
+        const isCollapsedProperty = isCollapsed ?? false;
 
         useMount(() => {
             if (!cssVariableTarget) {
@@ -113,8 +124,18 @@ export const Sidebar = forwardRef(
 
         const effectiveMaxWidth = Math.min(
             maxWidth,
-            ceilingForVariant(variant ?? (isCollapsed ? SIDEBAR_VARIANT.ICONS : SIDEBAR_VARIANT.ICONS_AND_TEXT)),
+            ceilingForVariant(
+                variant ?? (isCollapsedProperty ? SIDEBAR_VARIANT.ICONS : SIDEBAR_VARIANT.ICONS_AND_TEXT),
+            ),
         );
+
+        // The ceiling the toggle must restore into. Unlike `effectiveMaxWidth`, this never folds in
+        // the *current* `isCollapsed` value: resolving a toggle-to-expand against a ceiling that is
+        // itself pinned to `minWidth` by the collapse being escaped would clamp the restored width
+        // right back down to `minWidth`, stranding the sidebar collapsed forever. `variant` still
+        // applies here, since it is a real, permanent ceiling rather than the two-state control
+        // `isCollapsed` is.
+        const uncollapsedMaxWidth = Math.min(maxWidth, ceilingForVariant(variant ?? SIDEBAR_VARIANT.ICONS_AND_TEXT));
 
         // `storageKey` alone holds the rendered width (consumers read it for layout during their
         // own first render), which can itself be an auto-collapsed 64. `:preferred` holds the
@@ -130,7 +151,7 @@ export const Sidebar = forwardRef(
         const [width, setWidth] = useState(() => {
             const resolved = resolveMountWidth({
                 storedWidth: readStoredWidth(),
-                hasIntent: storageKey ? window.localStorage.getItem(`${storageKey}:intent`) === "1" : false,
+                hasIntent: hasStoredIntent(storageKey),
                 viewportWidth: window.innerWidth,
                 minWidth,
                 maxWidth: effectiveMaxWidth,
@@ -156,10 +177,9 @@ export const Sidebar = forwardRef(
         const wasBelowRef = useRef(window.innerWidth < (autoCollapseBelow ?? 0));
         // Seeded from the persisted flag: a reload below the threshold has no in-session drag/toggle
         // to set this, but the user's earlier intent still applies.
-        const hasIntentBelowRef = useRef(
-            storageKey ? window.localStorage.getItem(`${storageKey}:intent`) === "1" : false,
-        );
+        const hasIntentBelowRef = useRef(hasStoredIntent(storageKey));
         const currentVariant = variantForWidth(width);
+        const isWidthCollapsed = width <= minWidth;
 
         const [isHovered, setIsHovered] = useState(false);
         const [isResizing, setIsResizing] = useState(false);
@@ -212,14 +232,24 @@ export const Sidebar = forwardRef(
         const notifySidebarResize = useMemoizedFn((value) => onSidebarResize?.(value));
         const notifyVariantChange = useMemoizedFn((value) => onVariantChange?.(value));
 
+        // Set by `recordIntent`, in the same synchronous handler as the `setWidth` call that
+        // triggers this effect, and cleared once consumed below. Distinguishes a width change the
+        // user actually chose (drag release, toggle, keyboard resize, double-click reset) from one
+        // this component made on its own (an auto-collapse crossing) — only the former should ever
+        // overwrite `:preferred`, or a crossing would clobber the very choice `:preferred` exists to
+        // remember.
+        const isUserWidthChangeRef = useRef(false);
+
         useEffect(() => {
             if (storageKey) {
                 window.localStorage.setItem(storageKey, String(width));
 
-                if (window.localStorage.getItem(`${storageKey}:intent`) === "1") {
+                if (isUserWidthChangeRef.current) {
                     window.localStorage.setItem(`${storageKey}:preferred`, String(width));
                 }
             }
+
+            isUserWidthChangeRef.current = false;
 
             if (cssVariableTarget) {
                 cssVariableTarget.style.setProperty("--ui-sidebar-width", `${width}px`);
@@ -235,33 +265,44 @@ export const Sidebar = forwardRef(
         // Guarded against mount: `isCollapsed` only seeds `effectiveMaxWidth` on first render (see
         // above), so without this ref check every mount would immediately re-run the collapse
         // transition against the width `resolveMountWidth` already settled on.
-        const previousIsCollapsedRef = useRef(isCollapsed);
+        const previousIsCollapsedRef = useRef(isCollapsedProperty);
 
         useEffect(() => {
-            if (previousIsCollapsedRef.current === isCollapsed) {
+            if (previousIsCollapsedRef.current === isCollapsedProperty) {
                 return;
             }
 
-            previousIsCollapsedRef.current = isCollapsed;
+            previousIsCollapsedRef.current = isCollapsedProperty;
+
+            // `handleToggle` already moves `width` to match when the internal toggle button is what
+            // caused this prop change (click -> onCollapsedChange -> consumer updates `isCollapsed`).
+            // Re-running resolveToggleWidth in that case would read the already-updated width and
+            // toggle it a second time. Only apply the transition when width doesn't already agree
+            // with the new prop, i.e. this change came from the consumer directly.
+            if (isCollapsedProperty === isWidthCollapsed) {
+                return;
+            }
 
             // A controlled consumer flips this prop instead of clicking the toggle. resolveToggleWidth
             // branches on the current width, not on which direction changed, so reusing it here keeps
             // controlled and uncontrolled collapse landing in identical width/lastExpandedWidth state.
-            const next = resolveToggleWidth({ width, lastExpandedWidth, minWidth, maxWidth: effectiveMaxWidth });
+            // Resolved against `uncollapsedMaxWidth`, not `effectiveMaxWidth`, so expanding out of a
+            // collapse isn't clamped by the very ceiling the collapse imposed.
+            const next = resolveToggleWidth({ width, lastExpandedWidth, minWidth, maxWidth: uncollapsedMaxWidth });
 
             setWidth(next.width);
             setLastExpandedWidth(next.lastExpandedWidth);
-        }, [isCollapsed, width, lastExpandedWidth, minWidth, effectiveMaxWidth]);
+        }, [isCollapsedProperty, isWidthCollapsed, width, lastExpandedWidth, minWidth, uncollapsedMaxWidth]);
 
         const variantValue = useMemo(() => variantContextValue(currentVariant), [currentVariant]);
-
-        const isWidthCollapsed = width <= minWidth;
 
         // Marks that the user has made an explicit width choice, so a later mount below
         // autoCollapseBelow restores it instead of re-auto-collapsing (resolveMountWidth's
         // hasIntent) and a later upward crossing doesn't overwrite an already-chosen width
         // (resolveCrossingWidth's hasIntentBelow).
         const recordIntent = useMemoizedFn(() => {
+            isUserWidthChangeRef.current = true;
+
             if (!storageKey) {
                 return;
             }
@@ -320,7 +361,10 @@ export const Sidebar = forwardRef(
         });
 
         const handleToggle = useMemoizedFn(() => {
-            const next = resolveToggleWidth({ width, lastExpandedWidth, minWidth, maxWidth: effectiveMaxWidth });
+            // `uncollapsedMaxWidth`, not `effectiveMaxWidth`: while collapsed, `effectiveMaxWidth` is
+            // itself pinned to `minWidth`, and resolving the restore branch against it would clamp
+            // straight back down to `minWidth`, stranding the sidebar collapsed forever.
+            const next = resolveToggleWidth({ width, lastExpandedWidth, minWidth, maxWidth: uncollapsedMaxWidth });
 
             setWidth(next.width);
             setLastExpandedWidth(next.lastExpandedWidth);
