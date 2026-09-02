@@ -295,6 +295,36 @@ export const ControlledCollapse = () => {
     );
 };
 
+// isCollapsible renders the sidebar's own toggle button alongside the controlled `isCollapsed`
+// prop above. Clicking it must expand past minWidth, not strand the sidebar collapsed forever:
+// effectiveMaxWidth is pinned to minWidth while isCollapsed is true, so resolving the toggle
+// against it (instead of the uncollapsed ceiling) previously clamped the restore straight back
+// down to 64.
+export const ControlledCollapseWithToggle = () => {
+    const [isCollapsed, setIsCollapsed] = useState(true);
+    const [reported, setReported] = useState("");
+
+    return (
+        <div className="h-screen">
+            <p>
+                Click the sidebar's own toggle button (not the button below). It must both collapse to 64 and expand
+                back to 200, never getting stuck. Reported width: {reported}
+            </p>
+            <Sidebar
+                isCollapsible
+                storageKey={null}
+                isCollapsed={isCollapsed}
+                footer={<SidebarFooter />}
+                onLogoClick={handleLogoClick}
+                onSidebarResize={setReported}
+                onCollapsedChange={setIsCollapsed}
+            >
+                <KitchenSink />
+            </Sidebar>
+        </div>
+    );
+};
+
 export const ToggleRoundTrip = () => {
     const [reported, setReported] = useState("");
 
