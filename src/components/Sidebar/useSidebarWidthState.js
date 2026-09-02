@@ -154,11 +154,8 @@ export const useSidebarWidthState = ({
     const notifyVariantChange = useMemoizedFn((value) => onVariantChange?.(value));
     const notifyCollapsedChange = useMemoizedFn((value) => onCollapsedChange?.(value));
 
-    // Layout effect, not `useEffect`: consumers size their content off this custom property, so
-    // running after paint would show one frame at the CSS fallback and then jump. The visible
-    // case is a cold load below `autoCollapseBelow`, where the rail resolves to 64 but the page
-    // would paint at the fallback first. Isomorphic so a server render stays on `useEffect` and
-    // does not warn.
+    // Set before paint: consumers size their layout off this property, so an effect that ran
+    // after paint would show one frame at the CSS fallback. Isomorphic so SSR does not warn.
     useIsomorphicLayoutEffect(() => {
         if (resolvedCssVariableTarget) {
             resolvedCssVariableTarget.style.setProperty("--ui-sidebar-width", `${width}px`);
