@@ -40,7 +40,7 @@ export interface SidebarProps {
     };
 }
 
-export interface SidebarAccountProps {
+export interface SidebarAccountProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     name: string;
     description?: string;
     image?: React.ReactNode;
@@ -48,16 +48,14 @@ export interface SidebarAccountProps {
     // Deprecated no-op, kept only so consumers built against the pre-variant API still compile.
     // The sidebar's variant (see `useSidebar`) now drives this; the prop warns in development.
     isResponsive?: boolean;
-    className?: string;
 }
 
-export interface SidebarButtonProps {
+export interface SidebarButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     icon: React.ComponentType<{ className?: string }>;
     label: string;
-    className?: string;
 }
 
-export interface SidebarFooterProps {
+export interface SidebarFooterProps extends React.HTMLAttributes<HTMLDivElement> {
     children: React.ReactNode;
 }
 
@@ -66,7 +64,7 @@ export interface SidebarFooterProps {
 // gate is `PropTypes.func`, which permits both.
 export type SidebarLinkIcon = React.ComponentType<{ className?: string }> | (() => React.ReactElement | null);
 
-export interface SidebarLinkProps {
+export interface SidebarLinkProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     align?: "center" | "left" | "right";
     isActive?: boolean;
     icon?: SidebarLinkIcon;
@@ -74,7 +72,6 @@ export interface SidebarLinkProps {
     info?: React.ReactNode;
     children: React.ReactNode;
     isSubMenuItem?: boolean;
-    className?: string;
     classNames?: { text?: string };
 }
 
@@ -94,7 +91,7 @@ export interface SidebarHeadingProps {
 }
 
 export declare const SIDEBAR_WIDTH: { MIN: number; MAX: number };
-export declare const SIDEBAR_VARIANT: { ICONS: string; TEXT: string; ICONS_AND_TEXT: string };
+export declare const SIDEBAR_VARIANT: { ICONS: "icons"; TEXT: "text"; ICONS_AND_TEXT: "iconsAndText" };
 export declare const SIDEBAR_VARIANT_WIDTH: { TEXT: number; ICONS_AND_TEXT: number };
 
 export declare function useSidebar(): {
