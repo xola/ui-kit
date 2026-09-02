@@ -474,12 +474,15 @@ export const FirstPaintPersistence = () => (
     </div>
 );
 
-export const ThirdPartyChild = () => {
-    const ConsumerNode = () => {
-        const { showText } = useSidebar();
-        return <div className="p-4 text-white">{showText ? "Third-party label" : "3P"}</div>;
-    };
+// Module scope, not nested in the story: a component declared during render is a new type every
+// render, so React remounts the subtree.
+const ConsumerNode = () => {
+    const { showText } = useSidebar();
 
+    return <div className="p-4 text-white">{showText ? "Third-party label" : "3P"}</div>;
+};
+
+export const ThirdPartyChild = () => {
     return (
         <div className="h-screen">
             <StoryNote title="Interactive: drag the sidebar's right edge">
