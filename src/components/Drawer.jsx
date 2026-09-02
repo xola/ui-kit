@@ -3,7 +3,6 @@ import clsx from "clsx";
 import PropTypes from "prop-types";
 import React, { forwardRef, Fragment } from "react";
 import { isIosBrowser } from "../helpers/browser";
-import { stopClickPropagation } from "../helpers/dom";
 import { useViewportHeight } from "../hooks/useViewportHeight";
 import { CloseIcon } from "../icons";
 import { Button } from "./Buttons/Button";
@@ -41,14 +40,11 @@ export const Drawer = forwardRef(
                     open={isOpen}
                     onClose={onClose}
                 >
-                    {/* Containment lives here, on an element headlessui does not render, and outside
-                        the panel so nothing shifts the DOM shape consumers select against */}
                     <div
                         className={clsx(
                             "flex",
                             isIOS ? `h-[${viewportHeight}px] max-h-[${viewportHeight}px] w-full` : "h-screen w-full",
                         )}
-                        onClick={stopClickPropagation}
                     >
                         <Transition.Child
                             as={Fragment}

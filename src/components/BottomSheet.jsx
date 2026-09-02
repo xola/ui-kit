@@ -4,7 +4,6 @@ import { noop } from "lodash";
 import PropTypes from "prop-types";
 import React, { Fragment } from "react";
 import { isIosBrowser } from "../helpers/browser";
-import { stopClickPropagation } from "../helpers/dom";
 import { useViewportHeight } from "../hooks/useViewportHeight";
 import { CloseIcon } from "../icons";
 
@@ -39,55 +38,50 @@ export const BottomSheet = ({
     return (
         <Transition appear show={isOpen} as={Fragment}>
             <Dialog as="div" className="ui-bottom-sheet fixed inset-0 z-30" onClose={noop}>
-                {/* Containment lives here, on an element headlessui does not render, and outside the
-                    panel so nothing shifts the DOM shape consumers select against. Both children are
-                    fixed-positioned, so this wrapper has no layout effect. */}
-                <div onClick={stopClickPropagation}>
-                    <Transition.Child
-                        as={Fragment}
-                        enter="ease-out duration-300"
-                        enterFrom="opacity-0"
-                        enterTo="opacity-100"
-                        leave="ease-in duration-200"
-                        leaveFrom="opacity-100"
-                        leaveTo="opacity-0"
-                    >
-                        <div
-                            className="ui-bottom-sheet-overlay fixed inset-0 bg-black bg-opacity-80 transition-opacity"
-                            aria-hidden="true"
-                            onClick={handleOverlayClick}
-                        />
-                    </Transition.Child>
+                <Transition.Child
+                    as={Fragment}
+                    enter="ease-out duration-300"
+                    enterFrom="opacity-0"
+                    enterTo="opacity-100"
+                    leave="ease-in duration-200"
+                    leaveFrom="opacity-100"
+                    leaveTo="opacity-0"
+                >
+                    <div
+                        className="ui-bottom-sheet-overlay fixed inset-0 bg-black bg-opacity-80 transition-opacity"
+                        aria-hidden="true"
+                        onClick={handleOverlayClick}
+                    />
+                </Transition.Child>
 
-                    <Transition.Child
-                        as={Fragment}
-                        enter="transform transition ease-out duration-300"
-                        enterFrom="translate-y-full"
-                        enterTo="translate-y-0"
-                        leave="transform transition ease-in duration-200"
-                        leaveFrom="translate-y-0"
-                        leaveTo="translate-y-full"
+                <Transition.Child
+                    as={Fragment}
+                    enter="transform transition ease-out duration-300"
+                    enterFrom="translate-y-full"
+                    enterTo="translate-y-0"
+                    leave="transform transition ease-in duration-200"
+                    leaveFrom="translate-y-0"
+                    leaveTo="translate-y-full"
+                >
+                    <div
+                        style={panelStyle}
+                        className={clsx(
+                            className,
+                            "ui-bottom-sheet-panel fixed inset-x-0 bottom-0 flex max-h-[90dvh] w-full flex-col rounded-t-2xl bg-white px-6 pb-8 pt-6 text-left shadow-xl",
+                        )}
                     >
-                        <div
-                            style={panelStyle}
-                            className={clsx(
-                                className,
-                                "ui-bottom-sheet-panel fixed inset-x-0 bottom-0 flex max-h-[90dvh] w-full flex-col rounded-t-2xl bg-white px-6 pb-8 pt-6 text-left shadow-xl",
-                            )}
+                        <button
+                            type="button"
+                            aria-label="Close"
+                            className="absolute right-4 top-4 z-10 p-1 text-black hover:text-gray-darker"
+                            onClick={() => onClose()}
                         >
-                            <button
-                                type="button"
-                                aria-label="Close"
-                                className="absolute right-4 top-4 z-10 p-1 text-black hover:text-gray-darker"
-                                onClick={() => onClose()}
-                            >
-                                <CloseIcon />
-                            </button>
+                            <CloseIcon />
+                        </button>
 
-                            {children}
-                        </div>
-                    </Transition.Child>
-                </div>
+                        {children}
+                    </div>
+                </Transition.Child>
             </Dialog>
         </Transition>
     );
