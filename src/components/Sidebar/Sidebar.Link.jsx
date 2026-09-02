@@ -54,8 +54,10 @@ export const SidebarLink = ({
             )}
             {...rest}
         >
+            {/* Wrapper stays even with no icon: a consumer hides the chevron with
+                [&>svg:nth-child(3)], so the child count and order must not shift. */}
             <div className={clsx("shrink-0", !showIcons && "hidden")}>
-                <Icon className={clsx("h-5 w-5 shrink-0", showIcons && showText && "mr-3")} />
+                {Icon && <Icon className={clsx("h-5 w-5 shrink-0", showIcons && showText && "mr-3")} />}
             </div>
 
             <span

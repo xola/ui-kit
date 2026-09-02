@@ -43,8 +43,10 @@ export interface SidebarAccountProps extends React.ButtonHTMLAttributes<HTMLButt
     description?: string;
     image?: React.ReactNode;
     icon?: React.ReactNode;
-    // Deprecated no-op, kept only so consumers built against the pre-variant API still compile.
-    // The sidebar's variant (see `useSidebar`) now drives this; the prop warns in development.
+    /**
+     * @deprecated No-op. The sidebar's variant (see `useSidebar`) now drives this presentation.
+     * Kept only so consumers built against the pre-variant API still compile. Warns in development.
+     */
     isResponsive?: boolean;
 }
 
