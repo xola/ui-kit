@@ -215,22 +215,22 @@ export const Sidebar = forwardRef(
                             onDrawerStateChange={handleDrawerStateChange}
                         />
 
-                        <div className="flex-grow space-y-2 overflow-y-auto">
-                            <div className="text-center">
-                                {logo ?? (
-                                    <XolaLogoSimple
-                                        className={clsx(
-                                            "inline-block h-12 w-12",
-                                            variantValue.showText && "h-30 w-30",
-                                            onLogoClick && "cursor-pointer transition-opacity hover:opacity-80",
-                                        )}
-                                        onClick={onLogoClick}
-                                    />
-                                )}
-                            </div>
-
-                            <div>{children}</div>
+                        {/* Outside the scroll container: on a short viewport the branding would
+                            otherwise scroll away with the link list. */}
+                        <div className="shrink-0 pb-2 text-center">
+                            {logo ?? (
+                                <XolaLogoSimple
+                                    className={clsx(
+                                        "inline-block h-12 w-12",
+                                        variantValue.showText && "h-30 w-30",
+                                        onLogoClick && "cursor-pointer transition-opacity hover:opacity-80",
+                                    )}
+                                    onClick={onLogoClick}
+                                />
+                            )}
                         </div>
+
+                        <div className="min-h-0 flex-grow space-y-2 overflow-y-auto">{children}</div>
 
                         <div className="sticky bottom-0 bg-black">{footer}</div>
                     </div>
