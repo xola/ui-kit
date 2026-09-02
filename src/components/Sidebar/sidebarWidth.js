@@ -68,6 +68,11 @@ export const resolveMountWidth = ({ storedWidth, hasIntent, viewportWidth, minWi
     return shouldAutoCollapse ? minWidth : width;
 };
 
+// Shared by the crossing-up and toggle-restore branches below: both need to fall back to the
+// ceiling when there is no remembered expanded width to return to.
+const restoreExpandedWidth = (lastExpandedWidth, minWidth, maxWidth) =>
+    clampWidth(lastExpandedWidth ?? maxWidth, minWidth, maxWidth);
+
 export const resolveCrossingWidth = ({
     width,
     lastExpandedWidth,
@@ -85,7 +90,7 @@ export const resolveCrossingWidth = ({
 
     if (!isBelow && wasBelow) {
         return {
-            width: clampWidth(lastExpandedWidth ?? maxWidth, minWidth, maxWidth),
+            width: restoreExpandedWidth(lastExpandedWidth, minWidth, maxWidth),
             lastExpandedWidth,
         };
     }
@@ -99,7 +104,7 @@ export const resolveToggleWidth = ({ width, lastExpandedWidth, minWidth, maxWidt
     }
 
     return {
-        width: clampWidth(lastExpandedWidth ?? maxWidth, minWidth, maxWidth),
+        width: restoreExpandedWidth(lastExpandedWidth, minWidth, maxWidth),
         lastExpandedWidth,
     };
 };
