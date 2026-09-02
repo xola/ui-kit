@@ -51,6 +51,8 @@ export interface SidebarAccountProps extends React.ButtonHTMLAttributes<HTMLButt
 }
 
 export interface SidebarButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+    /** "solid" gives a filled, card-like button with a larger icon; defaults to "plain". */
+    appearance?: "plain" | "solid";
     icon: React.ComponentType<{ className?: string }>;
     label: string;
 }
