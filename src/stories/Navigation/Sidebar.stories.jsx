@@ -247,7 +247,27 @@ export const BandBoundaryText = () => (
     </div>
 );
 
-export const VariantPropAsCeiling = () => <AtWidth width={200} variant="icons" />;
+// Not AtWidth: it pins minWidth === maxWidth === width, so "drag cannot widen it" would hold
+// trivially with no `variant` at all. This needs a real, non-inverted range — Sidebar's own
+// defaults (64-200) — so the icons ceiling is what narrows effectiveMaxWidth down to 64, not an
+// accidental clamp(x, 200, 64) ordering artifact.
+export const VariantPropAsCeiling = () => (
+    <div className="h-screen">
+        <p>
+            Renders at 64px even though maxWidth allows up to 200 — `variant="icons"` lowers the
+            ceiling. Drag the handle right: it must not widen past 64.
+        </p>
+        <Sidebar
+            isFixed={false}
+            storageKey={null}
+            variant="icons"
+            footer={<SidebarFooter />}
+            onLogoClick={handleLogoClick}
+        >
+            <KitchenSink />
+        </Sidebar>
+    </div>
+);
 
 export const ControlledCollapse = () => {
     const [isCollapsed, setIsCollapsed] = useState(false);
@@ -348,10 +368,13 @@ export const ThirdPartyChild = () => {
 };
 
 export const ConsumerInfoNode = () => (
-    <div className="flex">
-        <AtWidth width={64} />
-        <AtWidth width={150} />
-        <AtWidth width={200} />
+    <div>
+        <p>The `12` badge on Marketing must stay visible in all three sidebars, unlike the chevron it replaces.</p>
+        <div className="flex">
+            <AtWidth width={64} />
+            <AtWidth width={150} />
+            <AtWidth width={200} />
+        </div>
     </div>
 );
 
