@@ -45,7 +45,10 @@ export const SidebarLink = ({
             className={clsx(
                 "ui-sidebar-link",
                 "flex h-10 w-full items-center rounded leading-none transition-colors",
-                showText ? "justify-start px-6 py-3" : "justify-center px-2 py-3",
+                "py-3",
+                showText ? "justify-start" : "justify-center px-2",
+                // No icon: the label sits nearer the edge instead of holding open the icon's gutter.
+                showText && (showIcons ? "px-6" : "px-3"),
                 isActive ? "bg-primary text-white hover:bg-primary-dark" : "text-gray hover:bg-gray-darker",
                 className,
             )}
@@ -57,7 +60,9 @@ export const SidebarLink = ({
 
             <span
                 className={clsx(
-                    "min-w-0 truncate px-1",
+                    // leading-5 overrides the button's leading-none: `truncate` hides overflow, so a
+                    // line box only as tall as the cap height clips the descenders off g, y, p.
+                    "min-w-0 truncate px-1 leading-5",
                     !showText && "hidden",
                     align === "left" && "text-left",
                     classNames?.text,
