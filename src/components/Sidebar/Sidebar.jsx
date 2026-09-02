@@ -92,8 +92,6 @@ export const Sidebar = forwardRef(
             notifications,
             isFixed = true,
             onLogoClick,
-            isStickyHeader = true,
-            isStickyFooter = true,
             isLeftDrawerOpen,
             isRightDrawerOpen,
             handleDrawerStateChange,
@@ -213,7 +211,6 @@ export const Sidebar = forwardRef(
 
         const { announcements: leftDrawer, notices: rightDrawer } = notifications ?? {};
         const hideRightDrawer = rightDrawer?.count <= 0 || !rightDrawer;
-        const isStickyHeaderFooter = isStickyHeader && isStickyFooter;
 
         // useMemoizedFn: one stable reference whose body still reads the current width and bounds,
         // so the listener subscribes once and can never act on a stale width.
@@ -469,7 +466,7 @@ export const Sidebar = forwardRef(
                                     "flex w-full gap-2 p-2",
                                     variantValue.isCollapsed && "flex-col",
                                     variantValue.isCollapsed ? "justify-center" : "justify-between",
-                                    isStickyHeader && "sticky top-0 z-50 bg-black",
+                                    "sticky top-0 z-50 bg-black",
                                 )}
                             >
                                 {leftDrawer && (
@@ -542,7 +539,7 @@ export const Sidebar = forwardRef(
                             />
                         )}
 
-                        <div className={clsx("flex-grow space-y-2", isStickyHeaderFooter && "overflow-y-auto")}>
+                        <div className="flex-grow space-y-2 overflow-y-auto">
                             <div className="text-center">
                                 {logo ?? (
                                     <XolaLogoSimple
@@ -559,7 +556,7 @@ export const Sidebar = forwardRef(
                             <div>{children}</div>
                         </div>
 
-                        <div className={clsx(isStickyFooter && "sticky bottom-0 bg-black")}>{footer}</div>
+                        <div className="sticky bottom-0 bg-black">{footer}</div>
                     </div>
                 </SidebarWidthContext.Provider>
             </SidebarVariantContext.Provider>
@@ -575,8 +572,6 @@ Sidebar.propTypes = {
     className: PropTypes.string,
     footer: PropTypes.element,
     isFixed: PropTypes.bool,
-    isStickyHeader: PropTypes.bool,
-    isStickyFooter: PropTypes.bool,
     onLogoClick: PropTypes.func,
     isLeftDrawerOpen: PropTypes.bool,
     isRightDrawerOpen: PropTypes.bool,

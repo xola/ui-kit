@@ -18,8 +18,6 @@ export interface SidebarProps {
     className?: string;
     footer?: React.ReactElement;
     isFixed?: boolean;
-    isStickyHeader?: boolean;
-    isStickyFooter?: boolean;
     onLogoClick?: () => void;
     isLeftDrawerOpen?: boolean;
     isRightDrawerOpen?: boolean;
