@@ -1,4 +1,5 @@
 import type * as React from "react";
+import type { TippyProps } from "@tippyjs/react";
 
 // The only three widths a sidebar can render at. Shared by the `variant` prop, `onVariantChange`,
 // and `useSidebar()`'s return value so the three sites can't drift apart.
@@ -78,7 +79,10 @@ export interface SidebarSeparatorProps {
     className?: string;
 }
 
-export interface SidebarMenuProps {
+// Extends Tippy's own props, not just `{ children, content }`: Sidebar.Menu.jsx spreads
+// `...rest` onto the underlying Tippy, so x2-seller's `visible`/`onMount`/`onHide` pass-through
+// props need to type-check too.
+export interface SidebarMenuProps extends Omit<TippyProps, "children" | "content"> {
     children: React.ReactNode;
     content: React.ReactNode;
 }

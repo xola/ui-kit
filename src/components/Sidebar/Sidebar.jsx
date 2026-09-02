@@ -1,4 +1,12 @@
-import { useEventListener, useLatest, useMemoizedFn, useMount, useUnmount, useUpdateEffect } from "ahooks";
+import {
+    useEventListener,
+    useLatest,
+    useMemoizedFn,
+    useMount,
+    useThrottleFn,
+    useUnmount,
+    useUpdateEffect,
+} from "ahooks";
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import React, { forwardRef, useEffect, useMemo, useRef, useState } from "react";
@@ -26,8 +34,16 @@ import {
     variantForWidth,
 } from "./sidebarWidth";
 
+// A server render has no viewport to measure, so it assumes a desktop width and never collapses.
+const SSR_VIEWPORT_WIDTH = 1280;
+
 const RESIZE_STEP = 8;
 const RESIZE_STEP_LARGE = 32;
+const RESIZE_PUBLISH_THROTTLE_MS = 100;
+
+// Computed once at module load: guards every window/document read this file does at render or
+// initializer time so a server render resolves to browser defaults instead of throwing.
+const isServer = typeof window === "undefined";
 
 // Storybook renders several sidebars on one page, so two instances sharing a cssVariableTarget is
 // a real, survivable scenario, not a misuse to throw on. Module-level so the check spans instances.
@@ -51,10 +67,15 @@ const widthRange = (props, propertyName, componentName) => {
     return null;
 };
 
-// Every mount/crossing seed and the intent flag itself re-derive this same key+comparison; centralize
-// it so the null-storageKey guard and the "1" comparison can't drift between call sites.
-const hasStoredIntent = (storageKey) =>
-    Boolean(storageKey) && window.localStorage.getItem(`${storageKey}:intent`) === "1";
+// One place builds the suffixes: reads and writes desync silently if any call site typos one.
+const storageKeysFor = (storageKey) =>
+    storageKey ? { width: storageKey, preferred: `${storageKey}:preferred`, intent: `${storageKey}:intent` } : null;
+
+const hasStoredIntent = (storageKey) => {
+    const keys = storageKeysFor(storageKey);
+
+    return !isServer && Boolean(keys) && window.localStorage.getItem(keys.intent) === "1";
+};
 
 const LeftDrawerCountStyle = {
     // From Figma
@@ -83,7 +104,7 @@ export const Sidebar = forwardRef(
             maxWidth = SIDEBAR_WIDTH.MAX,
             autoCollapseBelow = SIDEBAR_AUTO_COLLAPSE_VIEWPORT,
             storageKey = "sidebarWidth",
-            cssVariableTarget = document.documentElement,
+            cssVariableTarget,
             onCollapsedChange,
             onVariantChange,
         },
@@ -101,23 +122,28 @@ export const Sidebar = forwardRef(
         // always true and fire the warning above on every render.
         const isCollapsedProperty = isCollapsed ?? false;
 
+        // Resolved here, not as a destructure default, so the fallback only runs in a browser.
+        // `null` is an explicit opt-out and is left alone; only an absent prop gets the default.
+        const resolvedCssVariableTarget =
+            cssVariableTarget === undefined ? (isServer ? undefined : document.documentElement) : cssVariableTarget;
+
         useMount(() => {
-            if (!cssVariableTarget) {
+            if (!resolvedCssVariableTarget) {
                 return;
             }
 
-            if (cssVariableTargets.has(cssVariableTarget)) {
+            if (cssVariableTargets.has(resolvedCssVariableTarget)) {
                 console.warn(
                     "UI Kit: Multiple Sidebars share the same `cssVariableTarget`; each write overwrites the others.",
                 );
             }
 
-            cssVariableTargets.add(cssVariableTarget);
+            cssVariableTargets.add(resolvedCssVariableTarget);
         });
 
         useUnmount(() => {
-            if (cssVariableTarget) {
-                cssVariableTargets.delete(cssVariableTarget);
+            if (resolvedCssVariableTarget) {
+                cssVariableTargets.delete(resolvedCssVariableTarget);
             }
         });
 
@@ -140,18 +166,20 @@ export const Sidebar = forwardRef(
         // own first render), which can itself be an auto-collapsed 64. `:preferred` holds the
         // user's actual chosen width so a later expand restores it instead of the collapsed value.
         const readStoredWidth = () => {
-            if (!storageKey) {
+            if (!storageKey || isServer) {
                 return null;
             }
 
-            return window.localStorage.getItem(`${storageKey}:preferred`) ?? window.localStorage.getItem(storageKey);
+            const keys = storageKeysFor(storageKey);
+
+            return window.localStorage.getItem(keys.preferred) ?? window.localStorage.getItem(keys.width);
         };
 
         const [width, setWidth] = useState(() => {
             const resolved = resolveMountWidth({
                 storedWidth: readStoredWidth(),
                 hasIntent: hasStoredIntent(storageKey),
-                viewportWidth: window.innerWidth,
+                viewportWidth: isServer ? SSR_VIEWPORT_WIDTH : window.innerWidth,
                 minWidth,
                 maxWidth: effectiveMaxWidth,
                 autoCollapseBelow,
@@ -159,8 +187,8 @@ export const Sidebar = forwardRef(
 
             // Written here, not in an effect: consumers read this key during their own first render
             // (x2-seller Page.tsx:42), so a post-paint write leaves them offsetting against a stale width.
-            if (storageKey) {
-                window.localStorage.setItem(storageKey, String(resolved));
+            if (storageKey && !isServer) {
+                window.localStorage.setItem(storageKeysFor(storageKey).width, String(resolved));
             }
 
             return resolved;
@@ -173,7 +201,7 @@ export const Sidebar = forwardRef(
             return clamped > minWidth ? clamped : null;
         });
 
-        const wasBelowRef = useRef(window.innerWidth < (autoCollapseBelow ?? 0));
+        const wasBelowRef = useRef(!isServer && window.innerWidth < (autoCollapseBelow ?? 0));
         // Seeded from the persisted flag: a reload below the threshold has no in-session drag/toggle
         // to set this, but the user's earlier intent still applies.
         const hasIntentBelowRef = useRef(hasStoredIntent(storageKey));
@@ -223,31 +251,41 @@ export const Sidebar = forwardRef(
         const notifyVariantChange = useMemoizedFn((value) => onVariantChange?.(value));
         const notifyCollapsedChange = useMemoizedFn((value) => onCollapsedChange?.(value));
 
-        // Set by `recordIntent`, in the same synchronous handler as the `setWidth` call that
-        // triggers this effect, and cleared once consumed below. Distinguishes a width change the
-        // user actually chose (drag release, toggle, keyboard resize, double-click reset) from one
-        // this component made on its own (an auto-collapse crossing) — only the former should ever
-        // overwrite `:preferred`, or a crossing would clobber the very choice `:preferred` exists to
-        // remember.
-        const isUserWidthChangeRef = useRef(false);
+        // The custom property drives consumer layout live, so it stays synchronous. The
+        // localStorage write and the resize callback are throttled below: a drag fires this effect
+        // once per pointermove, and an unthrottled callback would re-render every consumer that
+        // stores the width once per pixel dragged.
+        useEffect(() => {
+            if (resolvedCssVariableTarget) {
+                resolvedCssVariableTarget.style.setProperty("--ui-sidebar-width", `${width}px`);
+            }
+        }, [width, resolvedCssVariableTarget]);
+
+        // A flushed gesture and the width effect's trailing call can carry the same width, and a
+        // repeat publish would re-write storage and wake every consumer for no change.
+        const lastPublishedWidthRef = useRef(null);
+
+        const publishWidth = useMemoizedFn((value) => {
+            if (lastPublishedWidthRef.current === value) {
+                return;
+            }
+
+            lastPublishedWidthRef.current = value;
+
+            if (storageKey) {
+                window.localStorage.setItem(storageKeysFor(storageKey).width, String(value));
+            }
+
+            notifySidebarResize(String(value));
+        });
+
+        const { run: runPublishWidth, flush: flushPublishWidth } = useThrottleFn(publishWidth, {
+            wait: RESIZE_PUBLISH_THROTTLE_MS,
+        });
 
         useEffect(() => {
-            if (storageKey) {
-                window.localStorage.setItem(storageKey, String(width));
-
-                if (isUserWidthChangeRef.current) {
-                    window.localStorage.setItem(`${storageKey}:preferred`, String(width));
-                }
-            }
-
-            isUserWidthChangeRef.current = false;
-
-            if (cssVariableTarget) {
-                cssVariableTarget.style.setProperty("--ui-sidebar-width", `${width}px`);
-            }
-
-            notifySidebarResize(String(width));
-        }, [width, storageKey, cssVariableTarget, notifySidebarResize]);
+            runPublishWidth(width);
+        }, [width, runPublishWidth]);
 
         useEffect(() => {
             notifyVariantChange(currentVariant);
@@ -301,19 +339,24 @@ export const Sidebar = forwardRef(
         // Marks that the user has made an explicit width choice, so a later mount below
         // autoCollapseBelow restores it instead of re-auto-collapsing (resolveMountWidth's
         // hasIntent) and a later upward crossing doesn't overwrite an already-chosen width
-        // (resolveCrossingWidth's hasIntentBelow).
-        const recordIntent = useMemoizedFn(() => {
-            isUserWidthChangeRef.current = true;
+        // (resolveCrossingWidth's hasIntentBelow). Writes `:preferred` synchronously with the width
+        // being recorded rather than relying on a later effect: `setWidth` bails out with no
+        // re-render when the value is unchanged (a no-op drag release, `End` already at max), so an
+        // effect gated on width change would never run and a stale "user changed it" flag would
+        // latch true until the next unrelated width change wrote `:preferred` in its place.
+        const recordIntent = useMemoizedFn((chosenWidth) => {
+            if (window.innerWidth < (autoCollapseBelow ?? 0)) {
+                hasIntentBelowRef.current = true;
+            }
 
             if (!storageKey) {
                 return;
             }
 
-            window.localStorage.setItem(`${storageKey}:intent`, "1");
+            const keys = storageKeysFor(storageKey);
 
-            if (window.innerWidth < (autoCollapseBelow ?? 0)) {
-                hasIntentBelowRef.current = true;
-            }
+            window.localStorage.setItem(keys.intent, "1");
+            window.localStorage.setItem(keys.preferred, String(chosenWidth));
         });
 
         const handlePointerDown = useMemoizedFn((event) => {
@@ -334,37 +377,55 @@ export const Sidebar = forwardRef(
         // system gesture, or the browser reclaiming the pointer all fire pointercancel INSTEAD of
         // pointerup, and capture is implicitly released before it fires. Skipping this teardown on
         // that path is what latched the resize highlight permanently before this task existed.
+        // Every explicit width gesture lands here. `runPublishWidth` seeds the throttle with the
+        // settled value before `flush`, because the effect that would otherwise feed it runs after
+        // commit: flushing first publishes whatever the last pointermove left in the throttle.
+        const commitWidth = useMemoizedFn((next) => {
+            // Recorded even when the width is unchanged: pressing End at max is still an explicit
+            // choice, and that intent decides whether a later mount auto-collapses.
+            recordIntent(next);
+
+            if (next === width) {
+                return;
+            }
+
+            setWidth(next);
+            runPublishWidth(next);
+            flushPublishWidth();
+        });
+
         const finishResize = useMemoizedFn((event) => {
             if (event.currentTarget.hasPointerCapture?.(event.pointerId)) {
                 event.currentTarget.releasePointerCapture(event.pointerId);
             }
 
             setIsResizing(false);
-            setWidth((current) => snapWidth(current, minWidth, effectiveMaxWidth));
-            recordIntent();
+
+            commitWidth(snapWidth(width, minWidth, effectiveMaxWidth));
         });
 
         const handleKeyDown = useMemoizedFn((event) => {
             const step = event.shiftKey ? RESIZE_STEP_LARGE : RESIZE_STEP;
             const deltas = { ArrowLeft: -step, ArrowRight: step };
 
+            let nextWidth;
+
             if (event.key === "Home") {
-                setWidth(minWidth);
+                nextWidth = minWidth;
             } else if (event.key === "End") {
-                setWidth(effectiveMaxWidth);
+                nextWidth = effectiveMaxWidth;
             } else if (deltas[event.key] !== undefined) {
-                setWidth((current) => clampWidth(current + deltas[event.key], minWidth, effectiveMaxWidth));
+                nextWidth = clampWidth(width + deltas[event.key], minWidth, effectiveMaxWidth);
             } else {
                 return;
             }
 
             event.preventDefault();
-            recordIntent();
+            commitWidth(nextWidth);
         });
 
         const handleDoubleClickReset = useMemoizedFn(() => {
-            setWidth(effectiveMaxWidth);
-            recordIntent();
+            commitWidth(effectiveMaxWidth);
         });
 
         return (
