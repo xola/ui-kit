@@ -41,7 +41,7 @@ const SidebarFooter = () => {
                         </div>
 
                         <div className="space-y-2">
-                            <Sidebar.Separator className="my-0 mx-0 mt-4" />
+                            <Sidebar.Separator className="mx-0 my-0 mt-4" />
                             <Sidebar.Button icon={PolicyIcon} label="Privacy Policy" />
 
                             <Sidebar.Button icon={HelpCenterIcon} label="Help Center" />
@@ -254,8 +254,8 @@ export const BandBoundaryText = () => (
 export const VariantPropAsCeiling = () => (
     <div className="h-screen">
         <p>
-            Renders at 64px even though maxWidth allows up to 200 — `variant="icons"` lowers the
-            ceiling. Drag the handle right: it must not widen past 64.
+            Renders at 64px even though maxWidth allows up to 200 — `variant="icons"` lowers the ceiling. Drag the
+            handle right: it must not widen past 64.
         </p>
         <Sidebar
             isFixed={false}
@@ -276,8 +276,8 @@ export const ControlledCollapse = () => {
     return (
         <div className="h-screen">
             <p>
-                Click to collapse and expand. Reported width must match the uncontrolled toggle's (64 collapsed, 200
-                expanded).
+                Click to collapse and expand. The sidebar has no collapse button of its own, so this prop is the only
+                way to collapse it programmatically. Reported width: 64 collapsed, 200 expanded.
             </p>
             <button type="button" onClick={() => setIsCollapsed(!isCollapsed)}>
                 Toggle (reported width: {reported})
@@ -295,45 +295,49 @@ export const ControlledCollapse = () => {
     );
 };
 
-// isCollapsible renders the sidebar's own toggle button alongside the controlled `isCollapsed`
-// prop above. Clicking it must expand past minWidth, not strand the sidebar collapsed forever:
-// effectiveMaxWidth is pinned to minWidth while isCollapsed is true, so resolving the toggle
-// against it (instead of the uncollapsed ceiling) previously clamped the restore straight back
-// down to 64.
-export const ControlledCollapseWithToggle = () => {
+// Mounting collapsed pins effectiveMaxWidth to minWidth, so the expand must resolve against the
+// uncollapsed ceiling instead or it clamps straight back down and the sidebar never reopens.
+export const ControlledCollapseStartsCollapsed = () => {
     const [isCollapsed, setIsCollapsed] = useState(true);
     const [reported, setReported] = useState("");
 
     return (
         <div className="h-screen">
             <p>
-                Click the sidebar's own toggle button (not the button below). It must both collapse to 64 and expand
-                back to 200, never getting stuck. Reported width: {reported}
+                Mounts collapsed. Click to expand: it must reach 200 and never stick at 64. Reported width: {reported}
             </p>
             <Sidebar
-                isCollapsible
                 storageKey={null}
                 isCollapsed={isCollapsed}
                 footer={<SidebarFooter />}
                 onLogoClick={handleLogoClick}
                 onSidebarResize={setReported}
-                onCollapsedChange={setIsCollapsed}
             >
                 <KitchenSink />
             </Sidebar>
+            <button type="button" onClick={() => setIsCollapsed(!isCollapsed)}>
+                Toggle isCollapsed
+            </button>
         </div>
     );
 };
 
-export const ToggleRoundTrip = () => {
+export const CollapseRoundTrip = () => {
+    const [isCollapsed, setIsCollapsed] = useState(false);
     const [reported, setReported] = useState("");
 
     return (
         <div className="h-screen">
-            <p>Drag to ~150, collapse, expand. Expect 150, not 200. Reported: {reported}</p>
+            <p>
+                Drag to about 150, then collapse and expand with the button. Expect 150 back, not 200. Reported:{" "}
+                {reported}
+            </p>
+            <button type="button" onClick={() => setIsCollapsed(!isCollapsed)}>
+                Toggle isCollapsed
+            </button>
             <Sidebar
-                isCollapsible
                 storageKey={null}
+                isCollapsed={isCollapsed}
                 footer={<SidebarFooter />}
                 onLogoClick={handleLogoClick}
                 onSidebarResize={setReported}
@@ -365,8 +369,8 @@ const FirstPaintReader = () => {
 export const FirstPaintPersistence = () => (
     <div className="h-screen">
         <p>
-            Set localStorage["x2-14336-demo"] = "200", remove "x2-14336-demo:intent", shrink the canvas below
-            1024px, reload. Expect the line below to print 64, not 200.
+            Set localStorage["x2-14336-demo"] = "200", remove "x2-14336-demo:intent", shrink the canvas below 1024px,
+            reload. Expect the line below to print 64, not 200.
         </p>
         <Sidebar
             storageKey="x2-14336-demo"
@@ -389,7 +393,7 @@ export const ThirdPartyChild = () => {
     return (
         <div className="h-screen">
             <p>Toggle the sidebar. The third-party node below the kitchen sink must react to the variant too.</p>
-            <Sidebar isCollapsible storageKey={null} footer={<SidebarFooter />} onLogoClick={handleLogoClick}>
+            <Sidebar storageKey={null} footer={<SidebarFooter />} onLogoClick={handleLogoClick}>
                 <KitchenSink />
                 <ConsumerNode />
             </Sidebar>
@@ -427,9 +431,7 @@ export const DomShapeInspector = () => {
         // HTML elements, which are always uppercase. Normalizing keeps this comparable to the
         // literal "SVG" above without changing which element the shape check actually found.
         setShape(
-            [...(link?.children ?? [])]
-                .map((node, index) => `${index + 1}:${node.tagName.toUpperCase()}`)
-                .join(" "),
+            [...(link?.children ?? [])].map((node, index) => `${index + 1}:${node.tagName.toUpperCase()}`).join(" "),
         );
     });
 
@@ -445,7 +447,7 @@ export const DomShapeInspector = () => {
 export const KeyboardResize = () => (
     <div className="h-screen">
         <p>Tab to the handle. Arrows resize by 8px, Shift+Arrow by 32px, Home collapses, End expands.</p>
-        <Sidebar isCollapsible storageKey={null} footer={<SidebarFooter />} onLogoClick={handleLogoClick}>
+        <Sidebar storageKey={null} footer={<SidebarFooter />} onLogoClick={handleLogoClick}>
             <KitchenSink />
         </Sidebar>
     </div>

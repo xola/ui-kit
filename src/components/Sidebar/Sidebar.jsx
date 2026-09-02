@@ -1,8 +1,8 @@
-import { useMemoizedFn, useMount, useUnmount } from "ahooks";
+import { useEventListener, useLatest, useMemoizedFn, useMount, useUnmount, useUpdateEffect } from "ahooks";
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import React, { forwardRef, useEffect, useMemo, useRef, useState } from "react";
-import { AnnounceIcon, BellIcon, CollapseIcon, XolaLogoSimple } from "../../icons";
+import { AnnounceIcon, BellIcon, XolaLogoSimple } from "../../icons";
 import { Counter } from "../Counter";
 import { Drawer } from "../Drawer";
 import { SidebarAccount } from "./Sidebar.Account";
@@ -79,7 +79,6 @@ export const Sidebar = forwardRef(
             onSidebarResize,
             variant,
             isCollapsed,
-            isCollapsible = false,
             minWidth = SIDEBAR_WIDTH.MIN,
             maxWidth = SIDEBAR_WIDTH.MAX,
             autoCollapseBelow = SIDEBAR_AUTO_COLLAPSE_VIEWPORT,
@@ -188,49 +187,41 @@ export const Sidebar = forwardRef(
         const hideRightDrawer = rightDrawer?.count <= 0 || !rightDrawer;
         const isStickyHeaderFooter = isStickyHeader && isStickyFooter;
 
-        useEffect(() => {
-            if (autoCollapseBelow == null) {
-                return undefined;
+        // useMemoizedFn: one stable reference whose body still reads the current width and bounds,
+        // so the listener subscribes once and can never act on a stale width.
+        const handleViewportResize = useMemoizedFn(() => {
+            const isBelow = window.innerWidth < autoCollapseBelow;
+            const next = resolveCrossingWidth({
+                width,
+                lastExpandedWidth,
+                wasBelow: wasBelowRef.current,
+                isBelow,
+                hasIntentBelow: hasIntentBelowRef.current,
+                minWidth,
+                maxWidth: effectiveMaxWidth,
+            });
+
+            wasBelowRef.current = isBelow;
+
+            // Skip the setters when nothing crossed: a resize that changes no width queues no render.
+            if (next.width === width && next.lastExpandedWidth === lastExpandedWidth) {
+                return;
             }
 
-            const handleResize = () => {
-                const isBelow = window.innerWidth < autoCollapseBelow;
-                const next = resolveCrossingWidth({
-                    width,
-                    lastExpandedWidth,
-                    wasBelow: wasBelowRef.current,
-                    isBelow,
-                    hasIntentBelow: hasIntentBelowRef.current,
-                    minWidth,
-                    maxWidth: effectiveMaxWidth,
-                });
+            setWidth(next.width);
+            setLastExpandedWidth(next.lastExpandedWidth);
+        });
 
-                wasBelowRef.current = isBelow;
-
-                // Native resize events aren't batched in React 17, and this listener's closure goes
-                // stale the moment a render commits without React yet having flushed the passive
-                // effect that would resubscribe it with fresh width/lastExpandedWidth. A second event
-                // arriving in that window would otherwise re-run the no-crossing branch below, which
-                // echoes back exactly the (stale) width/lastExpandedWidth it was given, and clobber
-                // whatever the first event already queued. Bail instead of calling the setters when
-                // nothing actually crossed.
-                if (next.width === width && next.lastExpandedWidth === lastExpandedWidth) {
-                    return;
-                }
-
-                setWidth(next.width);
-                setLastExpandedWidth(next.lastExpandedWidth);
-            };
-
-            window.addEventListener("resize", handleResize);
-            return () => window.removeEventListener("resize", handleResize);
-        }, [autoCollapseBelow, width, lastExpandedWidth, minWidth, effectiveMaxWidth]);
+        // `enable` rather than a guard inside the handler: a null autoCollapseBelow means the
+        // consumer opted out of the viewport rule, so no listener is attached at all.
+        useEventListener("resize", handleViewportResize, { enable: autoCollapseBelow != null });
 
         // Memoized: a consumer passing an inline onSidebarResize/onVariantChange would otherwise
         // change identity every render and re-fire these effects on every parent re-render, re-
         // writing localStorage and re-setting the CSS variable with no actual width/variant change.
         const notifySidebarResize = useMemoizedFn((value) => onSidebarResize?.(value));
         const notifyVariantChange = useMemoizedFn((value) => onVariantChange?.(value));
+        const notifyCollapsedChange = useMemoizedFn((value) => onCollapsedChange?.(value));
 
         // Set by `recordIntent`, in the same synchronous handler as the `setWidth` call that
         // triggers this effect, and cleared once consumed below. Distinguishes a width change the
@@ -262,24 +253,30 @@ export const Sidebar = forwardRef(
             notifyVariantChange(currentVariant);
         }, [currentVariant, notifyVariantChange]);
 
-        // Guarded against mount: `isCollapsed` only seeds `effectiveMaxWidth` on first render (see
-        // above), so without this ref check every mount would immediately re-run the collapse
-        // transition against the width `resolveMountWidth` already settled on.
-        const previousIsCollapsedRef = useRef(isCollapsedProperty);
+        // useUpdateEffect, not useEffect: a sidebar that mounts already collapsed must not announce
+        // a change that never happened.
+        useUpdateEffect(() => {
+            notifyCollapsedChange(isWidthCollapsed);
+        }, [isWidthCollapsed, notifyCollapsedChange]);
 
-        useEffect(() => {
-            if (previousIsCollapsedRef.current === isCollapsedProperty) {
-                return;
-            }
+        // These are only ever read at the moment the prop flips, never a reason to re-run, so a ref
+        // keeps them out of the dependency list and off the per-drag-frame path.
+        const latestCollapseState = useLatest({
+            width,
+            lastExpandedWidth,
+            isWidthCollapsed,
+            minWidth,
+            uncollapsedMaxWidth,
+        });
 
-            previousIsCollapsedRef.current = isCollapsedProperty;
+        useUpdateEffect(() => {
+            const current = latestCollapseState.current;
 
-            // `handleToggle` already moves `width` to match when the internal toggle button is what
-            // caused this prop change (click -> onCollapsedChange -> consumer updates `isCollapsed`).
-            // Re-running resolveToggleWidth in that case would read the already-updated width and
-            // toggle it a second time. Only apply the transition when width doesn't already agree
-            // with the new prop, i.e. this change came from the consumer directly.
-            if (isCollapsedProperty === isWidthCollapsed) {
+            // Width may already agree with the new prop when an internal width change (keyboard,
+            // drag, auto-collapse) is what moved it and the consumer mirrored that into `isCollapsed`.
+            // Re-running resolveToggleWidth then would read the updated width and toggle it a second
+            // time, so only apply the transition when width and prop actually disagree.
+            if (isCollapsedProperty === current.isWidthCollapsed) {
                 return;
             }
 
@@ -288,11 +285,16 @@ export const Sidebar = forwardRef(
             // controlled and uncontrolled collapse landing in identical width/lastExpandedWidth state.
             // Resolved against `uncollapsedMaxWidth`, not `effectiveMaxWidth`, so expanding out of a
             // collapse isn't clamped by the very ceiling the collapse imposed.
-            const next = resolveToggleWidth({ width, lastExpandedWidth, minWidth, maxWidth: uncollapsedMaxWidth });
+            const next = resolveToggleWidth({
+                width: current.width,
+                lastExpandedWidth: current.lastExpandedWidth,
+                minWidth: current.minWidth,
+                maxWidth: current.uncollapsedMaxWidth,
+            });
 
             setWidth(next.width);
             setLastExpandedWidth(next.lastExpandedWidth);
-        }, [isCollapsedProperty, isWidthCollapsed, width, lastExpandedWidth, minWidth, uncollapsedMaxWidth]);
+        }, [isCollapsedProperty, latestCollapseState]);
 
         const variantValue = useMemo(() => variantContextValue(currentVariant), [currentVariant]);
 
@@ -360,18 +362,6 @@ export const Sidebar = forwardRef(
             recordIntent();
         });
 
-        const handleToggle = useMemoizedFn(() => {
-            // `uncollapsedMaxWidth`, not `effectiveMaxWidth`: while collapsed, `effectiveMaxWidth` is
-            // itself pinned to `minWidth`, and resolving the restore branch against it would clamp
-            // straight back down to `minWidth`, stranding the sidebar collapsed forever.
-            const next = resolveToggleWidth({ width, lastExpandedWidth, minWidth, maxWidth: uncollapsedMaxWidth });
-
-            setWidth(next.width);
-            setLastExpandedWidth(next.lastExpandedWidth);
-            recordIntent();
-            onCollapsedChange?.(next.width === minWidth);
-        });
-
         const handleDoubleClickReset = useMemoizedFn(() => {
             setWidth(effectiveMaxWidth);
             recordIntent();
@@ -411,19 +401,6 @@ export const Sidebar = forwardRef(
                             onMouseEnter={() => setIsHovered(true)}
                             onMouseLeave={() => setIsHovered(false)}
                         />
-
-                        {isCollapsible && (
-                            <button
-                                type="button"
-                                aria-label={isWidthCollapsed ? "Expand sidebar" : "Collapse sidebar"}
-                                aria-expanded={!isWidthCollapsed}
-                                className="absolute -right-3 top-8 z-20 flex h-6 w-6 items-center justify-center rounded-full bg-gray-darker"
-                                onPointerDown={(event) => event.stopPropagation()}
-                                onClick={handleToggle}
-                            >
-                                <CollapseIcon className={clsx("h-3 w-3", isWidthCollapsed && "rotate-180")} />
-                            </button>
-                        )}
 
                         {leftDrawer || rightDrawer ? (
                             <div
@@ -547,7 +524,6 @@ Sidebar.propTypes = {
     variant: PropTypes.oneOf(["icons", "text", "iconsAndText"]),
     minWidth: widthRange,
     maxWidth: widthRange,
-    isCollapsible: PropTypes.bool,
     isCollapsed: PropTypes.bool,
     onCollapsedChange: PropTypes.func,
     onVariantChange: PropTypes.func,

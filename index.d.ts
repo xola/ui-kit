@@ -27,7 +27,6 @@ export interface SidebarProps {
     variant?: SidebarVariant;
     minWidth?: number;
     maxWidth?: number;
-    isCollapsible?: boolean;
     isCollapsed?: boolean;
     onCollapsedChange?: (isCollapsed: boolean) => void;
     onVariantChange?: (variant: SidebarVariant) => void;
