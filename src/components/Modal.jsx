@@ -3,6 +3,7 @@ import clsx from "clsx";
 import PropTypes from "prop-types";
 import React, { Fragment } from "react";
 import { CloseIcon } from "../icons";
+import { stopClickPropagation } from "../helpers/dom";
 
 const sizes = {
     small: "max-w-100", // 400px
@@ -70,7 +71,9 @@ export const Modal = ({
     return (
         <Transition appear show={isOpen} as={Fragment}>
             <Dialog as="div" className="ui-modal fixed inset-0 z-30 overflow-y-auto" onClose={handleOutsideClick}>
-                <div className="min-h-screen px-4 text-center">
+                {/* Containment lives here, on an element headlessui does not render, and outside the
+                    panel so nothing shifts the DOM shape consumers select against */}
+                <div className="min-h-screen px-4 text-center" onClick={stopClickPropagation}>
                     <Transition.Child
                         as={Fragment}
                         enter="ease-out duration-300"
