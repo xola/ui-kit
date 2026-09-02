@@ -1,12 +1,13 @@
-import { useMount } from "ahooks";
 import PropTypes from "prop-types";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import {
     AnnounceIcon,
+    Button,
     CheckIcon,
     HelpCenterIcon,
     LogoutIcon,
     PolicyIcon,
+    ScanQrCodeIcon,
     Sidebar,
     StarIcon,
     UserIcon,
@@ -27,34 +28,38 @@ const SidebarStories = {
 
 const SidebarFooter = () => {
     return (
-        <Sidebar.Footer>
-            <Sidebar.Menu
-                content={
-                    <div className="space-y-3">
-                        <div className="space-y-2">
-                            <Sidebar.Account
-                                name="Twitter"
-                                description="San Francisco, CA"
-                                icon={<CheckIcon className="text-green" />}
-                            />
-                            <Sidebar.Account name="Slack" description="San Francisco, CA" />
+        <>
+            <Sidebar.Button appearance="solid" icon={ScanQrCodeIcon} label="Scan QR" />
+
+            <Sidebar.Footer>
+                <Sidebar.Menu
+                    content={
+                        <div className="space-y-3">
+                            <div className="space-y-2">
+                                <Sidebar.Account
+                                    name="Twitter"
+                                    description="San Francisco, CA"
+                                    icon={<CheckIcon className="text-green" />}
+                                />
+                                <Sidebar.Account name="Slack" description="San Francisco, CA" />
+                            </div>
+
+                            <div className="space-y-2">
+                                <Sidebar.Separator className="mx-0 my-0 mt-4" />
+                                <Sidebar.Button icon={PolicyIcon} label="Privacy Policy" />
+
+                                <Sidebar.Button icon={HelpCenterIcon} label="Help Center" />
+
+                                <Sidebar.Separator className="mx-0" />
+                                <Sidebar.Button icon={LogoutIcon} label="Logout" />
+                            </div>
                         </div>
-
-                        <div className="space-y-2">
-                            <Sidebar.Separator className="mx-0 my-0 mt-4" />
-                            <Sidebar.Button icon={PolicyIcon} label="Privacy Policy" />
-
-                            <Sidebar.Button icon={HelpCenterIcon} label="Help Center" />
-
-                            <Sidebar.Separator className="mx-0" />
-                            <Sidebar.Button icon={LogoutIcon} label="Logout" />
-                        </div>
-                    </div>
-                }
-            >
-                <Sidebar.Account name="Old South Carriage Company" />
-            </Sidebar.Menu>
-        </Sidebar.Footer>
+                    }
+                >
+                    <Sidebar.Account name="Xola Custom Seller" />
+                </Sidebar.Menu>
+            </Sidebar.Footer>
+        </>
     );
 };
 
@@ -195,6 +200,18 @@ export const SidebarWithNotifications = () => {
 
 // Shared by every story below: a long-labelled Button standing in for the "Scan QR" control that
 // overflowed at an intermediate width, plus a Link with a consumer-supplied `info` badge.
+// Storybook renders these bare on a white page, so the instructions need to read as instructions
+// and the controls need to read as controls. Without that a reviewer cannot tell an interactive
+// story from a static one.
+const StoryNote = ({ title, children }) => (
+    <div className="mb-4 max-w-3xl rounded border border-gray-light bg-white p-3">
+        <p className="mb-1 text-sm font-bold text-gray-darker">{title}</p>
+        <p className="text-sm text-gray-dark">{children}</p>
+    </div>
+);
+
+StoryNote.propTypes = { title: PropTypes.string.isRequired, children: PropTypes.node.isRequired };
+
 const KitchenSink = () => (
     <>
         <Sidebar.Link isActive icon={UserIcon}>
@@ -204,7 +221,6 @@ const KitchenSink = () => (
         <Sidebar.Link icon={AnnounceIcon} info={<span className="ml-auto text-xs text-gray">12</span>}>
             Marketing
         </Sidebar.Link>
-        <Sidebar.Button icon={PolicyIcon} label="Scan QR" />
     </>
 );
 
@@ -229,34 +245,93 @@ const AtWidth = ({ width, ...props }) => (
 
 AtWidth.propTypes = { width: PropTypes.number.isRequired };
 
-export const VariantIcons = () => <AtWidth width={64} />;
-export const VariantText = () => <AtWidth width={150} />;
-export const VariantIconsAndText = () => <AtWidth width={200} />;
+export const VariantIcons = () => (
+    <div>
+        <StoryNote title="Baseline: icons variant at 64px">
+            Below 140px every item shows its icon only. The `12` badge on Marketing is consumer-supplied `info` content
+            and stays visible here, unlike the default chevron it replaces.
+        </StoryNote>
+        <AtWidth width={64} />
+    </div>
+);
+
+export const VariantText = () => (
+    <div>
+        <StoryNote title="Baseline: text variant at 150px">
+            Between 140px and 173px every item shows its label only, no icons. The `12` badge stays visible.
+        </StoryNote>
+        <AtWidth width={150} />
+    </div>
+);
+
+export const VariantIconsAndText = () => (
+    <div>
+        <StoryNote title="Baseline: icons and text variant at 200px">
+            At 174px and above every item shows icon, label and trailing node together. The `12` badge stays visible.
+        </StoryNote>
+        <AtWidth width={200} />
+    </div>
+);
 
 export const BandBoundaryIcons = () => (
-    <div className="flex">
-        <AtWidth width={139} />
-        <AtWidth width={140} />
+    <div>
+        <StoryNote title="Comparison: two sidebars, one pixel apart">
+            139px on the left, 140px on the right, straddling the icons/text boundary. Each sidebar must be internally
+            consistent: icons only on the left, labels only on the right. One sidebar showing a mix of both is the bug
+            this change fixes.
+        </StoryNote>
+        <div className="flex">
+            <AtWidth width={139} />
+            <AtWidth width={140} />
+        </div>
     </div>
 );
 
 export const BandBoundaryText = () => (
-    <div className="flex">
-        <AtWidth width={173} />
-        <AtWidth width={174} />
+    <div>
+        <StoryNote title="Comparison: two sidebars, one pixel apart">
+            173px on the left, 174px on the right, straddling the text/iconsAndText boundary. The left shows labels
+            only, the right shows icons and labels. Neither may show a mix.
+        </StoryNote>
+        <div className="flex">
+            <AtWidth width={173} />
+            <AtWidth width={174} />
+        </div>
     </div>
 );
 
-// Not AtWidth: it pins minWidth === maxWidth === width, so "drag cannot widen it" would hold
-// trivially with no `variant` at all. This needs a real, non-inverted range — Sidebar's own
-// defaults (64-200) — so the icons ceiling is what narrows effectiveMaxWidth down to 64, not an
-// accidental clamp(x, 200, 64) ordering artifact.
+// variant="text", not "icons": the icons ceiling is SIDEBAR_WIDTH.MIN, which equals the default
+// minWidth, so that range collapses to the single point 64 and drag has nowhere to travel. A story
+// promising "drag cannot widen it" would then pass without the ceiling doing anything. The text
+// ceiling (173) sits inside the 64-200 range, so the drag can move and still be stopped short of
+// the 200 it would otherwise reach.
 export const VariantPropAsCeiling = () => (
     <div className="h-screen">
-        <p>
-            Renders at 64px even though maxWidth allows up to 200 — `variant="icons"` lowers the ceiling. Drag the
-            handle right: it must not widen past 64.
-        </p>
+        <StoryNote title="Interactive: drag the sidebar's right edge outward">
+            `variant="text"` lowers the ceiling to 173px even though maxWidth allows 200. Dragging right must move the
+            sidebar but stop at 173, never reaching 200. Dragging left still narrows it to 64.
+        </StoryNote>
+        <Sidebar
+            isFixed={false}
+            storageKey={null}
+            variant="text"
+            footer={<SidebarFooter />}
+            onLogoClick={handleLogoClick}
+        >
+            <KitchenSink />
+        </Sidebar>
+    </div>
+);
+
+// The icons ceiling equals the default minWidth, so this variant is a fixed-width rail by design:
+// there is no drag range at all. Kept separate from the ceiling story above so that one can prove
+// the ceiling actually constrains a live drag.
+export const VariantIconsIsFixedWidth = () => (
+    <div className="h-screen">
+        <StoryNote title="Check: no drag range in the icons variant">
+            `variant="icons"` pins the ceiling to 64, which is also the minimum, so the sidebar is a fixed rail.
+            Dragging the right edge does nothing in either direction, deliberately.
+        </StoryNote>
         <Sidebar
             isFixed={false}
             storageKey={null}
@@ -275,13 +350,17 @@ export const ControlledCollapse = () => {
 
     return (
         <div className="h-screen">
-            <p>
-                Click to collapse and expand. The sidebar has no collapse button of its own, so this prop is the only
-                way to collapse it programmatically. Reported width: 64 collapsed, 200 expanded.
-            </p>
-            <button type="button" onClick={() => setIsCollapsed(!isCollapsed)}>
-                Toggle (reported width: {reported})
-            </button>
+            <StoryNote title="Interactive: click the button below">
+                The sidebar has no collapse button of its own, so the `isCollapsed` prop is the only way to collapse it
+                programmatically. Expect a reported width of 64 collapsed and 200 expanded.
+            </StoryNote>
+
+            <div className="mb-4 flex items-center gap-3">
+                <Button onClick={() => setIsCollapsed(!isCollapsed)}>
+                    {isCollapsed ? "Expand" : "Collapse"} sidebar
+                </Button>
+                <span className="text-sm text-gray-dark">Reported width: {reported || "none yet"}</span>
+            </div>
             <Sidebar
                 storageKey={null}
                 isCollapsed={isCollapsed}
@@ -303,9 +382,9 @@ export const ControlledCollapseStartsCollapsed = () => {
 
     return (
         <div className="h-screen">
-            <p>
-                Mounts collapsed. Click to expand: it must reach 200 and never stick at 64. Reported width: {reported}
-            </p>
+            <StoryNote title="Interactive: click the button below the sidebar">
+                Mounts already collapsed. Expanding must reach 200 and never stick at 64.
+            </StoryNote>
             <Sidebar
                 storageKey={null}
                 isCollapsed={isCollapsed}
@@ -315,9 +394,12 @@ export const ControlledCollapseStartsCollapsed = () => {
             >
                 <KitchenSink />
             </Sidebar>
-            <button type="button" onClick={() => setIsCollapsed(!isCollapsed)}>
-                Toggle isCollapsed
-            </button>
+            <div className="mt-4 flex items-center gap-3">
+                <Button onClick={() => setIsCollapsed(!isCollapsed)}>
+                    {isCollapsed ? "Expand" : "Collapse"} sidebar
+                </Button>
+                <span className="text-sm text-gray-dark">Reported width: {reported || "none yet"}</span>
+            </div>
         </div>
     );
 };
@@ -328,13 +410,17 @@ export const CollapseRoundTrip = () => {
 
     return (
         <div className="h-screen">
-            <p>
-                Drag to about 150, then collapse and expand with the button. Expect 150 back, not 200. Reported:{" "}
-                {reported}
-            </p>
-            <button type="button" onClick={() => setIsCollapsed(!isCollapsed)}>
-                Toggle isCollapsed
-            </button>
+            <StoryNote title="Interactive: drag first, then use the button">
+                Drag the sidebar's right edge to about 150px, then collapse and expand with the button. The width must
+                come back to 150, not jump to 200.
+            </StoryNote>
+
+            <div className="mb-4 flex items-center gap-3">
+                <Button onClick={() => setIsCollapsed(!isCollapsed)}>
+                    {isCollapsed ? "Expand" : "Collapse"} sidebar
+                </Button>
+                <span className="text-sm text-gray-dark">Reported width: {reported || "none yet"}</span>
+            </div>
             <Sidebar
                 storageKey={null}
                 isCollapsed={isCollapsed}
@@ -350,7 +436,10 @@ export const CollapseRoundTrip = () => {
 
 export const AutoCollapseOnResize = () => (
     <div className="h-screen">
-        <p>Resize the Storybook canvas across 1024px. Down collapses; up restores the prior width.</p>
+        <StoryNote title="Interactive: resize the Storybook canvas">
+            Drag the preview pane across 1024px wide. Going narrower collapses the sidebar, going wider restores the
+            width it had before.
+        </StoryNote>
         <Sidebar storageKey={null} autoCollapseBelow={1024} footer={<SidebarFooter />} onLogoClick={handleLogoClick}>
             <KitchenSink />
         </Sidebar>
@@ -368,10 +457,11 @@ const FirstPaintReader = () => {
 
 export const FirstPaintPersistence = () => (
     <div className="h-screen">
-        <p>
-            Set localStorage["x2-14336-demo"] = "200", remove "x2-14336-demo:intent", shrink the canvas below 1024px,
-            reload. Expect the line below to print 64, not 200.
-        </p>
+        <StoryNote title="Setup required, then reload">
+            Set localStorage["x2-14336-demo"] to "200", remove "x2-14336-demo:intent", shrink the canvas below 1024px,
+            then reload. The line below reads the key during its own first render, the way a consumer app does, and must
+            print 64 rather than 200.
+        </StoryNote>
         <Sidebar
             storageKey="x2-14336-demo"
             autoCollapseBelow={1024}
@@ -392,7 +482,10 @@ export const ThirdPartyChild = () => {
 
     return (
         <div className="h-screen">
-            <p>Toggle the sidebar. The third-party node below the kitchen sink must react to the variant too.</p>
+            <StoryNote title="Interactive: drag the sidebar's right edge">
+                The third-party node below the kitchen sink reads `useSidebar()` and must switch between its long and
+                short label in step with ui-kit's own children.
+            </StoryNote>
             <Sidebar storageKey={null} footer={<SidebarFooter />} onLogoClick={handleLogoClick}>
                 <KitchenSink />
                 <ConsumerNode />
@@ -401,55 +494,16 @@ export const ThirdPartyChild = () => {
     );
 };
 
-export const ConsumerInfoNode = () => (
-    <div>
-        <p>The `12` badge on Marketing must stay visible in all three sidebars, unlike the chevron it replaces.</p>
-        <div className="flex">
-            <AtWidth width={64} />
-            <AtWidth width={150} />
-            <AtWidth width={200} />
-        </div>
-    </div>
-);
-
-// Both instances intentionally share one target to exercise Sidebar's same-reference collision
-// guard; the second mount must warn exactly once.
 export const TwoSidebars = () => (
-    <div className="flex">
-        <AtWidth width={64} cssVariableTarget={document.body} />
-        <AtWidth width={200} cssVariableTarget={document.body} />
-    </div>
-);
-
-export const DomShapeInspector = () => {
-    const [shape, setShape] = useState("");
-    const ref = useRef(null);
-
-    useMount(() => {
-        const link = ref.current?.querySelector(".ui-sidebar-link");
-        // .toUpperCase(): browsers report SVG elements' tagName in lowercase (namespaced), unlike
-        // HTML elements, which are always uppercase. Normalizing keeps this comparable to the
-        // literal "SVG" above without changing which element the shape check actually found.
-        setShape(
-            [...(link?.children ?? [])].map((node, index) => `${index + 1}:${node.tagName.toUpperCase()}`).join(" "),
-        );
-    });
-
-    return (
-        <div className="h-screen" ref={ref}>
-            <p>Expect 1:DIV 2:SPAN 3:SVG</p>
-            <p>Actual: {shape}</p>
-            <AtWidth width={200} />
+    <div>
+        <StoryNote title="Comparison: two sidebars sharing one CSS variable target">
+            Both write `--ui-sidebar-width` to the same element, so each overwrites the other. Open the console: the
+            collision warning must appear exactly once, from the second mount.
+        </StoryNote>
+        <div className="flex">
+            <AtWidth width={64} cssVariableTarget={document.body} />
+            <AtWidth width={200} cssVariableTarget={document.body} />
         </div>
-    );
-};
-
-export const KeyboardResize = () => (
-    <div className="h-screen">
-        <p>Tab to the handle. Arrows resize by 8px, Shift+Arrow by 32px, Home collapses, End expands.</p>
-        <Sidebar storageKey={null} footer={<SidebarFooter />} onLogoClick={handleLogoClick}>
-            <KitchenSink />
-        </Sidebar>
     </div>
 );
 
