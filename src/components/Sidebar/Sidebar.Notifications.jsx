@@ -38,8 +38,9 @@ export const SidebarNotifications = ({
         return null;
     }
 
-    // A negative count means the consumer has no permission to see the badge, not zero notices.
-    const hideRightDrawer = rightDrawer?.count <= 0 || !rightDrawer;
+    // A positive count is the only state worth a bubble: negative means no permission to see the
+    // badge rather than zero notices, and absent means nothing to report.
+    const hasNoticeCount = rightDrawer?.count > 0;
 
     return (
         <>
@@ -62,7 +63,7 @@ export const SidebarNotifications = ({
                 )}
 
                 {rightDrawer && (
-                    <div className={clsx("cursor-pointer text-center", hideRightDrawer && "hidden")}>
+                    <div className={clsx("cursor-pointer text-center", !hasNoticeCount && "hidden")}>
                         <Counter
                             className="text-sm"
                             style={counterSize(isCollapsed)}
@@ -77,26 +78,24 @@ export const SidebarNotifications = ({
 
             {leftDrawer && (
                 <Drawer
-                    classNames={{ dialogContent: `left-[${width}px]` }}
+                    isOpen={isLeftDrawerOpen}
                     sideIndent={width}
                     position="left"
                     size="xl"
                     title={leftDrawer.title}
                     content={leftDrawer.content}
-                    isOpen={isLeftDrawerOpen}
                     onClose={(event) => !!event && onDrawerStateChange("left")}
                 />
             )}
 
             {rightDrawer && (
                 <Drawer
-                    classNames={{ dialogContent: `left-[${width}px]` }}
+                    isOpen={isRightDrawerOpen}
                     sideIndent={width}
                     position="left"
                     size="xl"
                     title={rightDrawer.title}
                     content={rightDrawer.content}
-                    isOpen={isRightDrawerOpen}
                     onClose={(event) => !!event && onDrawerStateChange("right")}
                 />
             )}
@@ -106,19 +105,26 @@ export const SidebarNotifications = ({
 
 SidebarNotifications.displayName = "Sidebar.Notifications";
 
-const drawerShape = PropTypes.shape({
+const drawerSection = {
     count: PropTypes.number,
     content: PropTypes.node,
     title: PropTypes.string,
-    hide: PropTypes.bool,
     onClose: PropTypes.func,
-});
+};
+
+const noticesShape = PropTypes.shape(drawerSection);
+
+// `hide` is announcements-only, matching `index.d.ts`. The notices badge derives its visibility
+// from its own count, so accepting a flag there would advertise an override the render ignores.
+const announcementsShape = PropTypes.shape({ ...drawerSection, hide: PropTypes.bool });
 
 SidebarNotifications.propTypes = {
-    notifications: PropTypes.shape({ announcements: drawerShape, notices: drawerShape }),
+    notifications: PropTypes.shape({ announcements: announcementsShape, notices: noticesShape }),
     isCollapsed: PropTypes.bool,
     width: PropTypes.number.isRequired,
     isLeftDrawerOpen: PropTypes.bool,
     isRightDrawerOpen: PropTypes.bool,
-    onDrawerStateChange: PropTypes.func,
+    // Required, not guarded at the call sites: this component is internal to Sidebar, which always
+    // passes it. An optional-call guard would silently swallow a broken wiring instead of failing.
+    onDrawerStateChange: PropTypes.func.isRequired,
 };
