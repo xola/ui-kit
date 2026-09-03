@@ -54,7 +54,7 @@ export const SidebarNotifications = ({
                     <div className={clsx("cursor-pointer text-center", leftDrawer.hide && "hidden")}>
                         <Counter
                             style={{ ...LeftDrawerCountStyle, ...counterSize(isCollapsed) }}
-                            onClick={() => onDrawerStateChange("left")}
+                            onClick={() => onDrawerStateChange?.("left")}
                         >
                             <AnnounceIcon className={clsx(isCollapsed && "hidden")} />
                             {leftDrawer.count}
@@ -67,7 +67,7 @@ export const SidebarNotifications = ({
                         <Counter
                             className="text-sm"
                             style={counterSize(isCollapsed)}
-                            onClick={() => onDrawerStateChange("right")}
+                            onClick={() => onDrawerStateChange?.("right")}
                         >
                             <BellIcon className={clsx(isCollapsed && "hidden")} />
                             {rightDrawer.count}
@@ -84,7 +84,7 @@ export const SidebarNotifications = ({
                     size="xl"
                     title={leftDrawer.title}
                     content={leftDrawer.content}
-                    onClose={(event) => !!event && onDrawerStateChange("left")}
+                    onClose={(event) => !!event && onDrawerStateChange?.("left")}
                 />
             )}
 
@@ -96,7 +96,7 @@ export const SidebarNotifications = ({
                     size="xl"
                     title={rightDrawer.title}
                     content={rightDrawer.content}
-                    onClose={(event) => !!event && onDrawerStateChange("right")}
+                    onClose={(event) => !!event && onDrawerStateChange?.("right")}
                 />
             )}
         </>
@@ -124,7 +124,7 @@ SidebarNotifications.propTypes = {
     width: PropTypes.number.isRequired,
     isLeftDrawerOpen: PropTypes.bool,
     isRightDrawerOpen: PropTypes.bool,
-    // Required, not guarded at the call sites: this component is internal to Sidebar, which always
-    // passes it. An optional-call guard would silently swallow a broken wiring instead of failing.
-    onDrawerStateChange: PropTypes.func.isRequired,
+    // Optional: Sidebar forwards its own optional `handleDrawerStateChange` prop here, so a
+    // consumer can render notification badges without wiring up drawer toggling.
+    onDrawerStateChange: PropTypes.func,
 };
