@@ -1,0 +1,21 @@
+import{j as e,a as t}from"./jsx-runtime-5e7b5774.js";import{l as f,X as x}from"./lodash-ab783b60.js";import{R as h}from"./index-e6e5af86.js";import{a as N,X as y,b as L}from"./index-a02e1f47.js";import"./clsx-0839fdbe.js";import"./StackIcon-82582b74.js";import"./MenuIcon-22e8aac8.js";import"./CardIcon-2288de9a.js";import"./MixedChecklistIcon-341e9dce.js";import"./WarningIcon-9c1367a9.js";import"./StarIcon-afa07a08.js";import"./UserIcon-60ec8c67.js";import"./WaitlistIcon-2523e8de.js";const X=f.omitBy(N,(o,a)=>!a.endsWith("Image")),b=f.map(X,(o,a)=>({Image:o,name:a})),w=["text-black","text-gray-dark","text-white","text-primary","text-secondary","text-success","text-warning","text-danger"],R={title:"Media/Images",args:{color:"text-black"},parameters:{design:[{name:"Original Logos",type:"figma",url:"https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%E2%9A%99%EF%B8%8F-01---DS-Core?node-id=2391%3A70526"},{name:"New Logos",type:"figma",url:"https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%E2%9A%99%EF%B8%8F-01---DS-Core?node-id=7869%3A616543"}]},argTypes:{color:{description:"Colors",table:{type:{summary:null},defaultValue:{summary:"text-black"}},options:w,control:{type:"select"}}}},I=({color:o})=>{let a="";return e("div",{className:"flex flex-row flex-wrap gap-3",children:b.map(({Image:u,name:l})=>{const i=l.slice(0,1),m=i!==a;return m&&(a=i),t(h.Fragment,{children:[m&&e("div",{className:"mt-3 w-full flex-grow text-lg font-bold",children:i}),t("div",{className:"space-y-2 rounded border border-gray-lighter p-2 text-center",children:[e("div",{className:"flex justify-center",children:e(u,{className:o})}),e("div",{className:"w-40 text-gray-dark",children:l})]})]},l)})})},r=({color:o})=>e(I,{color:o,size:"large"}),s=()=>t("div",{className:"space-y-8 divide-y divide-gray-light",children:[e("h3",{children:"Available Xola logos"}),t("div",{className:"pt-8",children:[e("div",{className:"mb-4 font-mono text-md",children:"<XolaLogoCircle />"}),e(y,{})]}),t("div",{className:"pt-8",children:[e("div",{className:"mb-4 font-mono text-md",children:"<XolaLogo />"}),e(L,{})]}),t("div",{className:"pt-8",children:[e("div",{className:"mb-4 font-mono text-md",children:"<XolaLogoSimple />"}),e(x,{size:"large"})]})]});r.__docgenInfo={description:"",methods:[],displayName:"Default"};s.__docgenInfo={description:"",methods:[],displayName:"XolaLogos"};var d,n,c;r.parameters={...r.parameters,docs:{...(d=r.parameters)==null?void 0:d.docs,source:{originalSource:`({
+  color
+}) => {
+  return <ImageList color={color} size="large" />;
+}`,...(c=(n=r.parameters)==null?void 0:n.docs)==null?void 0:c.source}}};var g,p,v;s.parameters={...s.parameters,docs:{...(g=s.parameters)==null?void 0:g.docs,source:{originalSource:`() => {
+  return <div className="space-y-8 divide-y divide-gray-light">
+            <h3>Available Xola logos</h3>
+            <div className="pt-8">
+                <div className="mb-4 font-mono text-md">&lt;XolaLogoCircle /&gt;</div>
+                <XolaLogoCircle />
+            </div>
+            <div className="pt-8">
+                <div className="mb-4 font-mono text-md">&lt;XolaLogo /&gt;</div>
+                <XolaLogo />
+            </div>
+            <div className="pt-8">
+                <div className="mb-4 font-mono text-md">&lt;XolaLogoSimple /&gt;</div>
+                <XolaLogoSimple size="large" />
+            </div>
+        </div>;
+}`,...(v=(p=s.parameters)==null?void 0:p.docs)==null?void 0:v.source}}};const U=["Default","XolaLogos"];export{r as Default,s as XolaLogos,U as __namedExportsOrder,R as default};
