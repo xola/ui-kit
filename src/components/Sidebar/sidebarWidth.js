@@ -40,6 +40,12 @@ export const clampWidth = (width, minWidth, maxWidth) => {
         return maxWidth;
     }
 
+    // localStorage hands back strings, and `Number("")` is 0, not NaN. Unguarded, an empty stored
+    // value would clamp to minWidth and mount the sidebar collapsed.
+    if (typeof width === "string" && width.trim() === "") {
+        return maxWidth;
+    }
+
     const parsed = Number(width);
 
     if (!Number.isFinite(parsed)) {

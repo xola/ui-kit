@@ -56,6 +56,24 @@ describe("clampWidth", () => {
     it("returns the maximum when the value is not a finite number", () => {
         expect(clampWidth(Number.NaN, 64, 200)).toBe(200);
         expect(clampWidth(null, 64, 200)).toBe(200);
+        expect(clampWidth(undefined, 64, 200)).toBe(200);
+    });
+
+    it("returns the maximum for a stored string that is not a number", () => {
+        expect(clampWidth("abc", 64, 200)).toBe(200);
+        expect(clampWidth("150px", 64, 200)).toBe(200);
+        expect(clampWidth("Infinity", 64, 200)).toBe(200);
+    });
+
+    it("treats an empty or whitespace-only string as nothing stored, not as zero", () => {
+        expect(clampWidth("", 64, 200)).toBe(200);
+        expect(clampWidth("   ", 64, 200)).toBe(200);
+    });
+
+    it("parses a numeric string and clamps it", () => {
+        expect(clampWidth("1e2", 64, 200)).toBe(100);
+        expect(clampWidth("0", 64, 200)).toBe(64);
+        expect(clampWidth("-5", 64, 200)).toBe(64);
     });
 });
 
@@ -73,6 +91,13 @@ describe("snapWidth", () => {
 
     it("never snaps outside the given bounds", () => {
         expect(snapWidth(150, 64, 139)).toBe(139);
+    });
+
+    // Equidistant from two band edges. The comparator returns 0, so the result rides on Array
+    // sort stability (guaranteed since ES2019) and the target order: narrower edge wins.
+    it("breaks an exact tie towards the narrower target", () => {
+        expect(snapWidth(157, 64, 200)).toBe(SIDEBAR_VARIANT_WIDTH.TEXT);
+        expect(snapWidth(187, 64, 200)).toBe(SIDEBAR_VARIANT_WIDTH.ICONS_AND_TEXT);
     });
 });
 
@@ -99,6 +124,15 @@ describe("resolveMountWidth", () => {
         expect(
             resolveMountWidth({ ...base, maxWidth: 64, storedWidth: "200", hasIntent: true, viewportWidth: 1440 }),
         ).toBe(64);
+    });
+
+    it("falls back to the maximum when the stored width is garbage", () => {
+        expect(resolveMountWidth({ ...base, storedWidth: "abc", hasIntent: false, viewportWidth: 1440 })).toBe(200);
+        expect(resolveMountWidth({ ...base, storedWidth: "", hasIntent: false, viewportWidth: 1440 })).toBe(200);
+    });
+
+    it("still auto-collapses on a narrow viewport when the stored width is garbage", () => {
+        expect(resolveMountWidth({ ...base, storedWidth: "abc", hasIntent: false, viewportWidth: 900 })).toBe(64);
     });
 
     it("does not auto-collapse when the viewport rule is disabled", () => {
