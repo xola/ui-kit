@@ -31,10 +31,36 @@ const isServer = typeof window === "undefined";
 const storageKeysFor = (storageKey) =>
     storageKey ? { width: storageKey, preferred: `${storageKey}:preferred`, intent: `${storageKey}:intent` } : null;
 
+// Safari private mode, an exhausted quota, and blocked-site-data policies throw on reads as well
+// as writes, and the mount write runs during render. Losing persistence must not break resizing.
+const readStorage = (key) => {
+    if (isServer) {
+        return null;
+    }
+
+    try {
+        return window.localStorage.getItem(key);
+    } catch {
+        return null;
+    }
+};
+
+const writeStorage = (key, value) => {
+    if (isServer) {
+        return;
+    }
+
+    try {
+        window.localStorage.setItem(key, value);
+    } catch {
+        // Nothing to recover: the width still lives in React state for this session.
+    }
+};
+
 const hasStoredIntent = (storageKey) => {
     const keys = storageKeysFor(storageKey);
 
-    return !isServer && Boolean(keys) && window.localStorage.getItem(keys.intent) === "1";
+    return Boolean(keys) && readStorage(keys.intent) === "1";
 };
 
 /**
@@ -76,13 +102,13 @@ export const useSidebarWidthState = ({
     // own first render), which can itself be an auto-collapsed 64. `:preferred` holds the
     // user's actual chosen width so a later expand restores it instead of the collapsed value.
     const readStoredWidth = () => {
-        if (!storageKey || isServer) {
+        if (!storageKey) {
             return null;
         }
 
         const keys = storageKeysFor(storageKey);
 
-        return window.localStorage.getItem(keys.preferred) ?? window.localStorage.getItem(keys.width);
+        return readStorage(keys.preferred) ?? readStorage(keys.width);
     };
 
     const [width, setWidth] = useState(() => {
@@ -97,8 +123,8 @@ export const useSidebarWidthState = ({
 
         // Written here, not in an effect: consumers read this key during their own first render
         // (x2-seller Page.tsx:42), so a post-paint write leaves them offsetting against a stale width.
-        if (storageKey && !isServer) {
-            window.localStorage.setItem(storageKeysFor(storageKey).width, String(resolved));
+        if (storageKey) {
+            writeStorage(storageKeysFor(storageKey).width, String(resolved));
         }
 
         return resolved;
@@ -174,7 +200,7 @@ export const useSidebarWidthState = ({
         lastPublishedWidthRef.current = value;
 
         if (storageKey) {
-            window.localStorage.setItem(storageKeysFor(storageKey).width, String(value));
+            writeStorage(storageKeysFor(storageKey).width, String(value));
         }
 
         notifySidebarResize(String(value));
@@ -256,8 +282,8 @@ export const useSidebarWidthState = ({
 
         const keys = storageKeysFor(storageKey);
 
-        window.localStorage.setItem(keys.intent, "1");
-        window.localStorage.setItem(keys.preferred, String(chosenWidth));
+        writeStorage(keys.intent, "1");
+        writeStorage(keys.preferred, String(chosenWidth));
     });
 
     // Every explicit width gesture lands here. `runPublishWidth` seeds the throttle with the
