@@ -31,7 +31,7 @@
         "test": "jest"
     },
     "dependencies": {
-        "@headlessui/react": "^1.4.0",
+        "@headlessui/react": "1.4.3",
         "@tailwindcss/forms": "^0.5.11",
         "@tailwindcss/line-clamp": "^0.3.1",
         "@tippyjs/react": "^4.2.6",
@@ -47,7 +47,7 @@
         "react-day-picker": "^7.4.10",
         "react-hot-toast": "^2.6.0",
         "react-hotkeys-hook": "^3.4.0",
-        "react-select": "^5.7.0",
+        "react-select": "5.7.0",
         "react-textarea-autosize": "^8.5.9",
         "tippy.js": "^6.3.7",
         "use-debounce": "^10.1.1"
