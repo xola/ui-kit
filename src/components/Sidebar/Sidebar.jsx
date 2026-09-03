@@ -180,8 +180,11 @@ export const Sidebar = forwardRef(
                             sidebarScroll,
                             "ui-sidebar",
                             isFixed ? "fixed" : "relative",
-                            "z-20 flex h-full flex-col  border-r-4 border-black bg-black px-1 py-2 text-white transition-all duration-300",
+                            "z-20 flex h-full flex-col border-r-4 border-black bg-black px-1 py-2 text-white transition-all duration-300",
                             (isHovered || isResizing) && "box-border !border-r-4 !border-yellow",
+                            // Per-pointermove width writes would each restart the 300ms interpolation,
+                            // so the rail trails the cursor. Snap on release still animates.
+                            isResizing && "!transition-none",
                             className,
                         )}
                         style={{ width: `${width}px` }}
