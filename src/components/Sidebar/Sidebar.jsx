@@ -2,6 +2,7 @@ import { useMemoizedFn, useMount, useUnmount } from "ahooks";
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import React, { forwardRef, useRef, useState } from "react";
+import { isDevelopment } from "../../helpers/environment";
 import { XolaLogoSimple } from "../../icons";
 import { SidebarAccount } from "./Sidebar.Account";
 import { SidebarButton } from "./Sidebar.Button";
@@ -66,10 +67,11 @@ export const Sidebar = forwardRef(
         },
         ref,
     ) => {
-        // `process` isn't declared here: consumers' bundlers (webpack, Vite) statically replace
-        // process.env.NODE_ENV, the same pattern react/prop-types rely on for dev-only warnings.
-        // eslint-disable-next-line no-undef
-        if (process.env.NODE_ENV !== "production" && variant !== undefined && isCollapsed !== undefined) {
+        // Ref-gated: a drag re-renders this on every pointermove, so an ungated warning repeats.
+        const hasWarnedVariantConflict = useRef(false);
+        const hasConflictingVariantProps = variant !== undefined && isCollapsed !== undefined;
+        if (isDevelopment && hasConflictingVariantProps && !hasWarnedVariantConflict.current) {
+            hasWarnedVariantConflict.current = true;
             console.warn("UI Kit: Sidebar received both `variant` and `isCollapsed`; `variant` wins.");
         }
 
@@ -92,6 +94,10 @@ export const Sidebar = forwardRef(
                 onCollapsedChange,
             });
 
+        // Unmount cleanup reads this, not `resolvedCssVariableTarget`: a target whose identity
+        // changed mid-life would otherwise leave the mount-time element in the Set forever.
+        const registeredTargetRef = useRef(null);
+
         useMount(() => {
             if (!resolvedCssVariableTarget) {
                 return;
@@ -104,11 +110,13 @@ export const Sidebar = forwardRef(
             }
 
             cssVariableTargets.add(resolvedCssVariableTarget);
+            registeredTargetRef.current = resolvedCssVariableTarget;
         });
 
         useUnmount(() => {
-            if (resolvedCssVariableTarget) {
-                cssVariableTargets.delete(resolvedCssVariableTarget);
+            if (registeredTargetRef.current) {
+                cssVariableTargets.delete(registeredTargetRef.current);
+                registeredTargetRef.current = null;
             }
         });
 

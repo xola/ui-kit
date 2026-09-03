@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useRef } from "react";
+import { isDevelopment } from "../../helpers/environment";
 import { ChevronRightIcon } from "../../icons";
 import { Avatar } from "../Avatar";
 import { useSidebar } from "./SidebarContext";
@@ -17,10 +18,10 @@ export const SidebarAccount = ({
     const { showText } = useSidebar();
     const accountImage = image ?? <Avatar size="tiny" name={name} />;
 
-    // `process` isn't declared here: consumers' bundlers (webpack, Vite) statically replace
-    // process.env.NODE_ENV, the same pattern react/prop-types rely on for dev-only warnings.
-    // eslint-disable-next-line no-undef
-    if (process.env.NODE_ENV !== "production" && isResponsive !== undefined) {
+    // Ref-gated: this re-renders on every sidebar width change, so an ungated warning repeats.
+    const hasWarnedIsResponsive = useRef(false);
+    if (isDevelopment && isResponsive !== undefined && !hasWarnedIsResponsive.current) {
+        hasWarnedIsResponsive.current = true;
         console.warn(
             "UI Kit: Sidebar.Account no longer needs `isResponsive`; the sidebar's variant drives this. Remove the prop.",
         );
