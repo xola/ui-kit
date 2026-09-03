@@ -10,6 +10,8 @@ export { Dot } from "./components/Dot/Dot";
 export { DotProgress } from "./components/Dot/DotProgress";
 export { Alert } from "./components/Alert";
 export { Sidebar } from "./components/Sidebar";
+export { useSidebar, useSidebarWidth } from "./components/Sidebar/SidebarContext";
+export { SIDEBAR_VARIANT, SIDEBAR_VARIANT_WIDTH, SIDEBAR_WIDTH } from "./components/Sidebar/sidebarWidth";
 export { Avatar } from "./components/Avatar";
 export { Tooltip } from "./components/Tooltip";
 export { Popover } from "./components/Popover/Popover";

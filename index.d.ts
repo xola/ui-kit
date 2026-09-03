@@ -1,3 +1,123 @@
+import type * as React from "react";
+import type { TippyProps } from "@tippyjs/react";
+
+// The only three widths a sidebar can render at. Shared by the `variant` prop, `onVariantChange`,
+// and `useSidebar()`'s return value so the three sites can't drift apart.
+export type SidebarVariant = "icons" | "text" | "iconsAndText";
+
+export interface SidebarNotificationSection {
+    count?: number;
+    content?: React.ReactNode;
+    title?: string;
+    onClose?: () => void;
+}
+
+export interface SidebarProps {
+    logo?: React.ReactNode;
+    children: React.ReactNode;
+    className?: string;
+    footer?: React.ReactElement;
+    isFixed?: boolean;
+    onLogoClick?: () => void;
+    isLeftDrawerOpen?: boolean;
+    isRightDrawerOpen?: boolean;
+    handleDrawerStateChange?: (side: "left" | "right") => void;
+    onSidebarResize?: (width: string) => void;
+    variant?: SidebarVariant;
+    minWidth?: number;
+    maxWidth?: number;
+    isCollapsed?: boolean;
+    onCollapsedChange?: (isCollapsed: boolean) => void;
+    onVariantChange?: (variant: SidebarVariant) => void;
+    autoCollapseBelow?: number | null;
+    storageKey?: string | null;
+    cssVariableTarget?: HTMLElement | null;
+    notifications?: {
+        announcements?: SidebarNotificationSection & { hide?: boolean };
+        notices?: SidebarNotificationSection;
+    };
+}
+
+export interface SidebarAccountProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+    name: string;
+    description?: string;
+    image?: React.ReactNode;
+    icon?: React.ReactNode;
+    /**
+     * @deprecated No-op. The sidebar's variant (see `useSidebar`) now drives this presentation.
+     * Kept only so consumers built against the pre-variant API still compile. Warns in development.
+     */
+    isResponsive?: boolean;
+}
+
+export interface SidebarButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+    /** "solid" gives a filled, card-like button with a larger icon; defaults to "plain". */
+    appearance?: "plain" | "solid";
+    icon: React.ComponentType<{ className?: string }>;
+    label: string;
+}
+
+export interface SidebarFooterProps extends React.HTMLAttributes<HTMLDivElement> {
+    children: React.ReactNode;
+}
+
+// A bare thunk is a real call shape (x2-seller AdminMenu.tsx:422 passes `() => Icon` for an
+// already-built element, ignoring `className`), not just a `React.ComponentType`, and the runtime
+// gate is `PropTypes.func`, which permits both.
+export type SidebarLinkIcon = React.ComponentType<{ className?: string }> | (() => React.ReactElement | null);
+
+export interface SidebarLinkProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+    align?: "center" | "left" | "right";
+    isActive?: boolean;
+    icon?: SidebarLinkIcon;
+    // A consumer-supplied trailing node. Rendered in every variant, unlike the default chevron.
+    info?: React.ReactNode;
+    children: React.ReactNode;
+    isSubMenuItem?: boolean;
+    classNames?: { text?: string };
+}
+
+export interface SidebarSeparatorProps {
+    className?: string;
+}
+
+// Extends Tippy's own props, not just `{ children, content }`: Sidebar.Menu.jsx spreads
+// `...rest` onto the underlying Tippy, so x2-seller's `visible`/`onMount`/`onHide` pass-through
+// props need to type-check too.
+export interface SidebarMenuProps extends Omit<TippyProps, "children" | "content"> {
+    children: React.ReactNode;
+    content: React.ReactNode;
+}
+
+export interface SidebarHeadingProps {
+    icon: React.ComponentType<{ className?: string }>;
+    label: string;
+    className?: string;
+}
+
+export declare const SIDEBAR_WIDTH: { MIN: number; MAX: number };
+export declare const SIDEBAR_VARIANT: { ICONS: "icons"; TEXT: "text"; ICONS_AND_TEXT: "iconsAndText" };
+export declare const SIDEBAR_VARIANT_WIDTH: { TEXT: number; ICONS_AND_TEXT: number };
+
+export declare function useSidebar(): {
+    variant: SidebarVariant;
+    showIcons: boolean;
+    showText: boolean;
+    isCollapsed: boolean;
+};
+
+export declare function useSidebarWidth(): number;
+
+export declare const Sidebar: React.ForwardRefExoticComponent<SidebarProps & React.RefAttributes<HTMLDivElement>> & {
+    Account: React.ComponentType<SidebarAccountProps>;
+    Button: React.ComponentType<SidebarButtonProps>;
+    Footer: React.ComponentType<SidebarFooterProps>;
+    Link: React.ComponentType<SidebarLinkProps>;
+    Separator: React.ComponentType<SidebarSeparatorProps>;
+    Menu: React.ComponentType<SidebarMenuProps>;
+    Heading: React.ComponentType<SidebarHeadingProps>;
+};
+
 // This is just to make the auto-import work.
 // Next step is to add types for the props.
 export {
@@ -234,7 +354,6 @@ export {
     ShareIcon,
     ShirtIcon,
     ShoppingBagIcon,
-    Sidebar,
     Skeleton,
     SlideDown,
     Spinner,
