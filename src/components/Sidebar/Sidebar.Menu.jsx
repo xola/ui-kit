@@ -6,22 +6,33 @@ import styles from "./Sidebar.Menu.module.css";
 
 const appendTo = typeof window === "undefined" ? undefined : window.document.body;
 
+// The menu is far taller than its trigger, so reaching an item means cutting diagonally across a
+// corner that belongs to neither element. Tippy's 2px default border hides the menu there.
+const INTERACTIVE_BORDER = 24;
+const INTERACTIVE_DEBOUNCE = 75;
+
+// Open instantly, but forgive an overshoot on the way out.
+const DELAY = [0, 100];
+
 export const SidebarMenu = ({ children, content, ...rest }) => {
     return (
         <Tippy
             interactive
+            arrow={false}
             trigger="mouseenter" // Required otherwise menu will be truncated by the sidebar.
             hideOnClick="toggle"
             appendTo={appendTo}
             placement="right"
             offset={[0, 4]}
-            arrow={false}
+            interactiveBorder={INTERACTIVE_BORDER}
+            interactiveDebounce={INTERACTIVE_DEBOUNCE}
+            delay={DELAY}
+            content={content}
             className={clsx(
                 "ui-sidebar-menu",
                 styles.main,
                 "!rounded-none bg-black bg-opacity-90 p-2 backdrop-blur-sm backdrop-filter",
             )}
-            content={content}
             {...rest}
         >
             <span className="block">{children}</span>
