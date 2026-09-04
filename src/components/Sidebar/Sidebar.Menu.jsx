@@ -15,6 +15,9 @@ const INTERACTIVE_DEBOUNCE = 75;
 // otherwise steal the menu. Hide forgives an overshoot.
 const DELAY = [150, 100];
 
+// No fade-out: a 250ms default leaves two menus on screen at once.
+const DURATION = [200, 0];
+
 export const SidebarMenu = ({ children, content, ...rest }) => {
     return (
         <Tippy
@@ -28,6 +31,7 @@ export const SidebarMenu = ({ children, content, ...rest }) => {
             interactiveBorder={INTERACTIVE_BORDER}
             interactiveDebounce={INTERACTIVE_DEBOUNCE}
             delay={DELAY}
+            duration={DURATION}
             content={content}
             className={clsx(
                 "ui-sidebar-menu",
