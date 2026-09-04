@@ -1,0 +1,54 @@
+name: Continuous Release
+
+# Publishes a throwaway @xola/ui-kit build to pkg.pr.new so x2-checkout and x2-seller can install
+# a PR's code without cutting an npm version.
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+
+# A new commit on the PR cancels the run still building the older one.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    name: 📦 Publish to pkg.pr.new
+    runs-on: ubuntu-latest
+    if: github.actor != 'dependabot[bot]'
+
+    steps:
+      - name: Check user for team affiliation
+        uses: tspascoal/get-user-teams-membership@v4
+        id: checkUserMember
+        with:
+          GITHUB_TOKEN: ${{ secrets.ES_LINT_TOKEN }}
+          username: ${{ github.actor }}
+          organization: xola
+          team: "Engineering,X2 Consultants"
+
+      - if: ${{ steps.checkUserMember.outputs.isTeamMember == 'false' }}
+        run: |
+          echo "Hey ${{ github.actor }} you are not in a whitelisted team"
+          exit 1
+
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          persist-credentials: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+          cache-dependency-path: "package-lock.json"
+
+      - name: Install dependencies
+        run: npm ci --no-fund --no-audit
+
+      - name: Build
+        run: npm run build
+
+      - name: Publish
+        run: npx pkg-pr-new publish --packageManager=npm --comment=update

@@ -18,6 +18,7 @@ Storybook is public at [ui.xola.io](https://ui.xola.io). You can preview compone
 - [AI Prompt for Integration](#ai-prompt-for-integration)
 - [Development](#development)
 - [Local Package Linking](#local-package-linking)
+- [Preview Releases](#preview-releases)
 - [Troubleshooting](#troubleshooting)
 - [Deployment](#deployment)
 
@@ -191,6 +192,34 @@ Use an npm workspace to test local `ui-kit` changes against another project befo
    ```
 
    Changes in `ui-kit` now appear in `your-project`.
+
+## Preview Releases
+
+Every pull request publishes an installable build of `@xola/ui-kit` to
+[pkg.pr.new](https://pkg.pr.new). Use it to test a PR's changes in `x2-checkout` or `x2-seller`
+before the change lands on `master` and gets a real version.
+
+A bot comments the install command on the PR. It looks like this:
+
+```bash
+npm install https://pkg.pr.new/@xola/ui-kit@448
+```
+
+The number is the PR number. Commit-specific URLs also work, so a stale install can be pinned to
+one commit:
+
+```bash
+npm install https://pkg.pr.new/@xola/ui-kit@a12fb04
+```
+
+Notes:
+
+- Builds expire, so these URLs are for testing only. Never commit one to a `package.json` that
+  ships.
+- Every push to the pull request publishes a new build and cancels the run still building the
+  previous commit (`.github/workflows/pkg-pr-new.yml`).
+- The [pkg-pr-new GitHub App](https://github.com/apps/pkg-pr-new) must be installed on the `xola`
+  org for the workflow to publish.
 
 ## Troubleshooting
 
