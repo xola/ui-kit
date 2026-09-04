@@ -24,17 +24,23 @@ const DURATION = [200, 0];
 // for that window. Every visible menu registers here and the one opening evicts the rest.
 const visibleInstances = new Set();
 
-const hideOtherInstances = (current) => {
+const hideInstances = (except) => {
     for (const instance of visibleInstances) {
-        if (instance !== current) {
+        if (instance !== except) {
             instance.hide();
         }
     }
 };
 
+// Resizing the rail moves a menu's trigger without a scroll or window resize, the only events
+// popper repositions on, so an open menu would sit at its pre-drag x. Tippy also counts the resize
+// handle as inside the menu's interactive border, so leaving the link for the handle never hides
+// it on its own.
+export const hideAllSidebarMenus = () => hideInstances(null);
+
 export const SidebarMenu = ({ children, content, onShow, onHidden, onDestroy, ...rest }) => {
     const handleShow = (instance) => {
-        hideOtherInstances(instance);
+        hideInstances(instance);
         visibleInstances.add(instance);
 
         return onShow?.(instance);
