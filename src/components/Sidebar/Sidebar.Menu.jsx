@@ -18,7 +18,38 @@ const DELAY = [150, 100];
 // No fade-out: a 250ms default leaves two menus on screen at once.
 const DURATION = [200, 0];
 
-export const SidebarMenu = ({ children, content, ...rest }) => {
+// Each menu is an independent tippy instance, so nothing stops two from being open at once. An
+// instance also cannot always hide itself: @tippyjs/react forces trigger "manual" for any render
+// where `visible` is not undefined, and a consumer toggling that prop strips the hover listeners
+// for that window. Every visible menu registers here and the one opening evicts the rest.
+const visibleInstances = new Set();
+
+const hideOtherInstances = (current) => {
+    for (const instance of visibleInstances) {
+        if (instance !== current) {
+            instance.hide();
+        }
+    }
+};
+
+export const SidebarMenu = ({ children, content, onShow, onHidden, onDestroy, ...rest }) => {
+    const handleShow = (instance) => {
+        hideOtherInstances(instance);
+        visibleInstances.add(instance);
+
+        return onShow?.(instance);
+    };
+
+    const handleHidden = (instance) => {
+        visibleInstances.delete(instance);
+        onHidden?.(instance);
+    };
+
+    const handleDestroy = (instance) => {
+        visibleInstances.delete(instance);
+        onDestroy?.(instance);
+    };
+
     return (
         <Tippy
             interactive
@@ -38,6 +69,9 @@ export const SidebarMenu = ({ children, content, ...rest }) => {
                 styles.main,
                 "!rounded-none bg-black bg-opacity-90 p-2 backdrop-blur-sm backdrop-filter",
             )}
+            onShow={handleShow}
+            onHidden={handleHidden}
+            onDestroy={handleDestroy}
             {...rest}
         >
             <span className="block">{children}</span>
@@ -50,4 +84,7 @@ SidebarMenu.displayName = "Sidebar.Menu";
 SidebarMenu.propTypes = {
     children: PropTypes.node.isRequired,
     content: PropTypes.node.isRequired,
+    onShow: PropTypes.func,
+    onHidden: PropTypes.func,
+    onDestroy: PropTypes.func,
 };

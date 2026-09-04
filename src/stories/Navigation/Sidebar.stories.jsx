@@ -510,4 +510,62 @@ export const TwoSidebars = () => (
     </div>
 );
 
+// Four submenu triggers stacked with no gap, the shape the seller app uses. A synthetic pointer
+// cannot drive this: CDP mouse moves reach the parent document even over iframe pixels, so the
+// stacking has to be checked by hovering the rail by hand.
+const SUBMENU_GROUPS = [
+    { icon: StarIcon, label: "Products", items: ["Experiences", "Add-ons", "Gift Cards"] },
+    { icon: AnnounceIcon, label: "Reports", items: ["Analytics", "Earnings Report", "Payouts", "Disputes"] },
+    {
+        icon: AnnounceIcon,
+        label: "Marketing",
+        items: ["Abandoned Reservation Recovery", "Conversion Tracking", "Coupons", "XolaBot"],
+    },
+    { icon: PolicyIcon, label: "Settings", items: ["Account", "Users", "Integrations"] },
+];
+
+export const AdjacentSubMenus = () => (
+    <div className="h-screen">
+        <StoryNote title="Interactive: sweep the pointer down Products, Reports, Marketing, Settings">
+            Exactly one submenu may be on screen at any moment. Two or three stacked menus, each offset from the last,
+            is the bug. The iframe stands in for the seller app&apos;s legacy page host, which an open menu overlays: a
+            pointer crossing iframe pixels is one way the parent document stops seeing the move, and nothing then tells
+            the menu to close.
+        </StoryNote>
+        <div className="flex h-full">
+            <Sidebar isFixed={false} storageKey={null} footer={<SidebarFooter />} onLogoClick={handleLogoClick}>
+                <Sidebar.Link isActive icon={UserIcon}>
+                    Dashboard
+                </Sidebar.Link>
+
+                {SUBMENU_GROUPS.map(({ icon, label, items }) => (
+                    <Sidebar.Menu
+                        key={label}
+                        content={
+                            <div className="space-y-5 py-6">
+                                <Sidebar.Heading icon={icon} label={label} />
+                                <div>
+                                    {items.map((item) => (
+                                        <Sidebar.Link key={item} isSubMenuItem>
+                                            {item}
+                                        </Sidebar.Link>
+                                    ))}
+                                </div>
+                            </div>
+                        }
+                    >
+                        <Sidebar.Link icon={icon}>{label}</Sidebar.Link>
+                    </Sidebar.Menu>
+                ))}
+            </Sidebar>
+
+            <iframe
+                title="Legacy page host"
+                className="h-full flex-1 border-0"
+                srcDoc="<body style='margin:0;background:#f6f7f9;font:14px system-ui;padding:24px'>Legacy page content</body>"
+            />
+        </div>
+    </div>
+);
+
 export default SidebarStories;
