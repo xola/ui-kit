@@ -7,30 +7,25 @@
 Xola frontends consume it. Components get documentation and visual tests through Storybook, not
 rendered unit tests.
 
-React 17 + Tailwind CSS v3, built with Vite. Plain JavaScript/JSX, no TypeScript.
+React 17 + Tailwind CSS v3, built with Vite. Components are plain JavaScript/JSX;
 `index.d.ts` is hand-maintained for consumers that want types.
+
+`src/icons/` is a nested TypeScript package published separately as `@xola/icons`, with its own
+`package.json`, `tsconfig.json`, and lint setup. Working in `src/icons/`: `src/icons/CLAUDE.md`.
 
 ## Commands
 
 ```sh
-npm run dev              # Storybook dev server, no manager cache
-npm run storybook        # Storybook dev server on port 6006
-npm run build             # Production build (vite build to build/)
-npm run build:storybook   # Static Storybook build
-npm run lint               # xola-lint (ESLint) on src, auto-fix
-npm run format            # Prettier --write on src
-npm test                  # Run all tests (Jest)
-npm run chromatic         # Visual regression via Chromatic
+npm run dev         # Storybook dev server on port 6006, no manager cache
+npm run build       # Production build (vite build to build/)
+npm run lint        # xola-lint (ESLint) on src, auto-fix
+npm test            # Jest
+npm run chromatic   # Visual regression via Chromatic
+
+npx jest src/helpers/avatar.test.js   # One test file
 ```
 
-Run a single test file:
-
-```sh
-npx jest src/helpers/avatar.test.js
-```
-
-Test on Node 16 (`.nvmrc` / `.node-version`, matches `engines.node` in `package.json`). Recent
-fixes restored Node 16 compat; don't regress it by testing only on a newer local Node.
+Run tests on Node 16 (`.nvmrc`), not a newer local default.
 
 ## Key Rules
 
@@ -44,8 +39,7 @@ fixes restored Node 16 compat; don't regress it by testing only on a newer local
 
 - Functional components + hooks only. `const ComponentName = (props) => { ... }`, named export.
   No `React.FC`.
-- Type every public prop with `prop-types`, including `children`/`className` pass-through props.
-  Don't skip a prop's `propTypes` entry because its type looks obvious.
+- Type every public prop with `prop-types`, obvious ones included (`children`, `className`).
 - Destructure props in the function signature, not `props.x` access.
 - Use `clsx` for conditional `className`, not template literals or string concatenation.
 - Max 6 levels of JSX indentation.
@@ -68,13 +62,14 @@ fixes restored Node 16 compat; don't regress it by testing only on a newer local
 
 ### Comments
 
-Comment only to explain WHY, not WHAT. Full rules: `.claude/rules/commenting.md`.
+Comment only to explain WHY, not WHAT. Writing or reviewing a comment:
+`.claude/rules/commenting.md`.
 
 ### Testing
 
-No `@testing-library/react` in this repo. Don't add it without discussion; component behavior is
-validated visually through Storybook + Chromatic. Full rules: `.claude/rules/testing.md`.
+Jest only, with no rendered-component testing library. Writing or changing a test, or deciding
+whether a change needs one: `.claude/rules/testing.md`.
 
 ## Code Review
 
-See `.claude/commands/review-pr.md` for what blocks a merge vs. what's a non-blocking suggestion.
+Reviewing a PR (what blocks a merge, what is a suggestion): `.claude/commands/review-pr.md`.

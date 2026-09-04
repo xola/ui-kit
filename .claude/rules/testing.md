@@ -1,7 +1,10 @@
 ---
 paths:
-  - "**/*.test.js"
-  - "**/*.test.jsx"
+  - "src/**/*.test.js"
+  - "src/**/*.test.jsx"
+  - "src/helpers/**"
+  - "src/hooks/**"
+  - "src/components/**"
 ---
 
 # Testing Guidelines
