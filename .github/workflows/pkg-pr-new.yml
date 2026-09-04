@@ -11,6 +11,11 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
+# pkg-pr-new authenticates to its own server with a hash of the run metadata, and the PR comment
+# is posted by the pkg.pr.new GitHub App, so neither needs GITHUB_TOKEN. Only the checkout does.
+permissions:
+  contents: read
+
 jobs:
   publish:
     name: 📦 Publish to pkg.pr.new
@@ -27,7 +32,9 @@ jobs:
           organization: xola
           team: "Engineering,X2 Consultants"
 
-      - if: ${{ steps.checkUserMember.outputs.isTeamMember == 'false' }}
+      # Fails closed. A lookup that errors, is rate limited, or loses read:org returns an empty
+      # string, which the previous `== 'false'` test skipped over, letting fork code run below.
+      - if: ${{ steps.checkUserMember.outputs.isTeamMember != 'true' }}
         run: |
           echo "Hey ${{ github.actor }} you are not in a whitelisted team"
           exit 1
@@ -37,6 +44,10 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           persist-credentials: false
+          # The steps below run `npm ci` and `npm run build` on PR-authored code while this job
+          # holds the base repo's token and secrets. The team-membership gate above is the only
+          # thing making that safe, so it must stay ahead of this step and must fail closed.
+          allow-unsafe-pr-checkout: true
 
       - uses: actions/setup-node@v4
         with:
