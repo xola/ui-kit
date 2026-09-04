@@ -9,7 +9,7 @@ import { SidebarButton } from "./Sidebar.Button";
 import { SidebarFooter } from "./Sidebar.Footer";
 import { SidebarHeading } from "./Sidebar.Heading";
 import { SidebarLink, SidebarSeparator } from "./Sidebar.Link";
-import { SidebarMenu } from "./Sidebar.Menu";
+import { SidebarMenu, hideAllSidebarMenus } from "./Sidebar.Menu";
 import { SidebarNotifications } from "./Sidebar.Notifications";
 import { SidebarVariantContext, SidebarWidthContext } from "./SidebarContext";
 import sidebarScroll from "./SidebarScroll.module.css";
@@ -126,6 +126,7 @@ export const Sidebar = forwardRef(
 
         const handlePointerDown = useMemoizedFn((event) => {
             event.preventDefault();
+            hideAllSidebarMenus();
             event.currentTarget.setPointerCapture(event.pointerId);
             // clientX is viewport-relative, so a sidebar that does not start at x=0 (isFixed={false}
             // inside an offset container) would jump by that offset on the first move.
@@ -172,10 +173,12 @@ export const Sidebar = forwardRef(
             }
 
             event.preventDefault();
+            hideAllSidebarMenus();
             commitWidth(nextWidth);
         });
 
         const handleDoubleClickReset = useMemoizedFn(() => {
+            hideAllSidebarMenus();
             commitWidth(effectiveMaxWidth);
         });
 

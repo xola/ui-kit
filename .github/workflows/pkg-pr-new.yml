@@ -20,7 +20,7 @@ jobs:
   publish:
     name: 📦 Publish to pkg.pr.new
     runs-on: ubuntu-latest
-    if: github.actor != 'dependabot[bot]'
+    if: github.event.pull_request.user.login != 'dependabot[bot]'
 
     steps:
       - name: Check user for team affiliation
@@ -28,7 +28,7 @@ jobs:
         id: checkUserMember
         with:
           GITHUB_TOKEN: ${{ secrets.ES_LINT_TOKEN }}
-          username: ${{ github.actor }}
+          username: ${{ github.event.pull_request.user.login }}
           organization: xola
           team: "Engineering,X2 Consultants"
 
@@ -36,7 +36,7 @@ jobs:
       # string, which the previous `== 'false'` test skipped over, letting fork code run below.
       - if: ${{ steps.checkUserMember.outputs.isTeamMember != 'true' }}
         run: |
-          echo "Hey ${{ github.actor }} you are not in a whitelisted team"
+          echo "Hey ${{ github.event.pull_request.user.login }} you are not in a whitelisted team"
           exit 1
 
       - uses: actions/checkout@v4
