@@ -11,8 +11,9 @@ const appendTo = typeof window === "undefined" ? undefined : window.document.bod
 const INTERACTIVE_BORDER = 24;
 const INTERACTIVE_DEBOUNCE = 75;
 
-// Open instantly, but forgive an overshoot on the way out.
-const DELAY = [0, 100];
+// Show waits out a transit: reaching an item can cross a neighbouring link, which would
+// otherwise steal the menu. Hide forgives an overshoot.
+const DELAY = [150, 100];
 
 export const SidebarMenu = ({ children, content, ...rest }) => {
     return (
