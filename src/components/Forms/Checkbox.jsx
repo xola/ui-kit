@@ -15,7 +15,7 @@ export const Checkbox = ({ label, className, classNames = {}, ...rest }) => {
                     "ui-checkbox-input",
                     classNames.checkbox,
                     styles.checkbox,
-                    "h-4 w-4 rounded !border-primary text-white transition-colors disabled:border-none disabled:bg-gray-light disabled:text-gray-light",
+                    "h-4 w-4 cursor-pointer rounded !border-primary text-white transition-colors disabled:border-none disabled:bg-gray-light disabled:text-gray-light",
                 )}
                 {...rest}
                 id={id}
@@ -24,7 +24,11 @@ export const Checkbox = ({ label, className, classNames = {}, ...rest }) => {
             {label ? (
                 <label
                     htmlFor={id}
-                    className={clsx("ui-checkbox-label", classNames.label, "ml-2 leading-none text-gray-darker")}
+                    className={clsx(
+                        "ui-checkbox-label",
+                        classNames.label,
+                        "ml-2 w-full cursor-pointer leading-none text-gray-darker",
+                    )}
                 >
                     {label}
                 </label>
