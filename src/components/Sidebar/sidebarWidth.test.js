@@ -177,6 +177,19 @@ describe("resolveCrossingWidth", () => {
         ).toEqual({ width: 150, lastExpandedWidth: 150 });
     });
 
+    it("keeps a width the user chose below the threshold when crossing up", () => {
+        expect(
+            resolveCrossingWidth({
+                ...base,
+                width: 120,
+                lastExpandedWidth: 200,
+                wasBelow: true,
+                isBelow: false,
+                hasIntentBelow: true,
+            }),
+        ).toEqual({ width: 120, lastExpandedWidth: 200 });
+    });
+
     it("restores to the maximum when there is no snapshot", () => {
         expect(
             resolveCrossingWidth({

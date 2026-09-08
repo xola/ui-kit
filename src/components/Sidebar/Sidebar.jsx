@@ -209,7 +209,9 @@ export const Sidebar = forwardRef(
                             aria-valuemax={effectiveMaxWidth}
                             tabIndex={0}
                             // w-6 not w-4: WCAG 2.5.8 wants a 24px target, and the bug this fixes is on a touch device.
-                            className="absolute -right-3 bottom-0 top-0 z-10 w-6 cursor-ew-resize"
+                            // touch-none: without it the browser claims the gesture as a scroll and fires
+                            // pointercancel, so a touch drag does nothing. preventDefault alone cannot stop that.
+                            className="absolute -right-3 bottom-0 top-0 z-10 w-6 cursor-ew-resize touch-none"
                             onPointerDown={handlePointerDown}
                             onPointerMove={handlePointerMove}
                             onPointerUp={finishResize}

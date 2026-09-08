@@ -94,7 +94,10 @@ export const resolveCrossingWidth = ({
         return { width: minWidth, lastExpandedWidth: width > minWidth ? width : lastExpandedWidth };
     }
 
-    if (!isBelow && wasBelow) {
+    // Guarded the same way as the crossing-down branch: a width the user chose while below the
+    // threshold is their answer for both orientations, so rotating wide must not replace it with
+    // the remembered expanded width.
+    if (!isBelow && wasBelow && !hasIntentBelow) {
         return {
             width: restoreExpandedWidth(lastExpandedWidth, minWidth, maxWidth),
             lastExpandedWidth,
