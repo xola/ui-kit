@@ -1,7 +1,9 @@
+import PropTypes from "prop-types";
 import React, { useState } from "react";
 import { expect } from "storybook/test";
 import {
     AnnounceIcon,
+    Button,
     CheckIcon,
     HelpCenterIcon,
     LogoutIcon,
@@ -10,6 +12,7 @@ import {
     Sidebar,
     StarIcon,
     UserIcon,
+    useSidebar,
 } from "../..";
 
 const SidebarStories = {
@@ -95,8 +98,8 @@ export const Default = () => {
                 <Sidebar.Link
                     icon={StarIcon}
                     info={
-                        <span className="w-full text-right">
-                            <span className="inline-flex items-center justify-center w-2.5 h-2.5 p-2.5 text-sm font-medium text-white bg-danger rounded-full">
+                        <span className="ml-auto shrink-0 pl-2">
+                            <span className="inline-flex h-2.5 w-2.5 items-center justify-center rounded-full bg-danger p-2.5 text-sm font-medium text-white">
                                 3
                             </span>
                         </span>
@@ -242,5 +245,420 @@ SidebarWithNotifications.play = async ({ canvas }) => {
     await expect(canvas.getByText("Sellers")).toBeInTheDocument();
     await expect(canvas.getByText("Favorites")).toBeInTheDocument();
 };
+
+const StoryNote = ({ title, children }) => (
+    <div className="mb-4 max-w-3xl rounded border border-gray-light bg-white p-3">
+        <p className="mb-1 text-sm font-bold text-gray-darker">{title}</p>
+        <p className="text-sm text-gray-dark">{children}</p>
+    </div>
+);
+
+StoryNote.propTypes = { title: PropTypes.string.isRequired, children: PropTypes.node.isRequired };
+
+const KitchenSink = () => (
+    <>
+        <Sidebar.Link isActive icon={UserIcon}>
+            Sellers
+        </Sidebar.Link>
+        <Sidebar.Link icon={StarIcon}>Favorites</Sidebar.Link>
+        <Sidebar.Link icon={AnnounceIcon} info={<span className="ml-auto text-xs text-gray">12</span>}>
+            Marketing
+        </Sidebar.Link>
+    </>
+);
+
+const AtWidth = ({ width, ...props }) => (
+    <div className="h-screen">
+        <Sidebar
+            // Not fixed: several stories place two or three of these side by side to make a band
+            // boundary comparable at a glance, which a `position: fixed` sidebar would defeat by
+            // stacking every instance on top of the others.
+            isFixed={false}
+            storageKey={null}
+            // Side-by-side stories mount several of these, and they would otherwise all claim
+            // document.documentElement. TwoSidebars overrides this to demonstrate that collision.
+            cssVariableTarget={null}
+            minWidth={width}
+            maxWidth={width}
+            footer={<SidebarFooter />}
+            onLogoClick={handleLogoClick}
+            {...props}
+        >
+            <KitchenSink />
+        </Sidebar>
+    </div>
+);
+
+AtWidth.propTypes = { width: PropTypes.number.isRequired };
+
+export const VariantIcons = () => (
+    <div>
+        <StoryNote title="Baseline: icons variant at 64px">
+            Below 140px every item shows its icon only. The `12` badge on Marketing is consumer-supplied `info` content
+            and stays visible here, unlike the default chevron it replaces.
+        </StoryNote>
+        <AtWidth width={64} />
+    </div>
+);
+
+export const VariantText = () => (
+    <div>
+        <StoryNote title="Baseline: text variant at 150px">
+            Between 140px and 173px every item shows its label only, no icons. The `12` badge stays visible.
+        </StoryNote>
+        <AtWidth width={150} />
+    </div>
+);
+
+export const VariantIconsAndText = () => (
+    <div>
+        <StoryNote title="Baseline: icons and text variant at 200px">
+            At 174px and above every item shows icon, label and trailing node together. The `12` badge stays visible.
+        </StoryNote>
+        <AtWidth width={200} />
+    </div>
+);
+
+export const BandBoundaryIcons = () => (
+    <div>
+        <StoryNote title="Comparison: two sidebars, one pixel apart">
+            139px on the left, 140px on the right, straddling the icons/text boundary. Each sidebar must be internally
+            consistent: icons only on the left, labels only on the right. One sidebar showing a mix of both is the bug
+            this change fixes.
+        </StoryNote>
+        <div className="flex">
+            <AtWidth width={139} />
+            <AtWidth width={140} />
+        </div>
+    </div>
+);
+
+export const BandBoundaryText = () => (
+    <div>
+        <StoryNote title="Comparison: two sidebars, one pixel apart">
+            173px on the left, 174px on the right, straddling the text/iconsAndText boundary. The left shows labels
+            only, the right shows icons and labels. Neither may show a mix.
+        </StoryNote>
+        <div className="flex">
+            <AtWidth width={173} />
+            <AtWidth width={174} />
+        </div>
+    </div>
+);
+
+VariantIcons.play = async ({ canvas }) => {
+    await expect(canvas.getByRole("separator", { name: "Resize sidebar" })).toHaveAttribute("aria-valuenow", "64");
+    await expect(canvas.getByText("Sellers")).not.toBeVisible();
+};
+
+VariantText.play = async ({ canvas }) => {
+    await expect(canvas.getByRole("separator", { name: "Resize sidebar" })).toHaveAttribute("aria-valuenow", "150");
+    await expect(canvas.getByText("Sellers")).toBeVisible();
+};
+
+VariantIconsAndText.play = async ({ canvas }) => {
+    await expect(canvas.getByRole("separator", { name: "Resize sidebar" })).toHaveAttribute("aria-valuenow", "200");
+    await expect(canvas.getByText("Sellers")).toBeVisible();
+};
+
+// The pair is the assertion: one sidebar either side of 140 must land in different bands, and
+// neither may show a mix. Ordered left-to-right by the DOM, so [0] is the narrower rail.
+BandBoundaryIcons.play = async ({ canvas }) => {
+    const [narrow, wide] = canvas.getAllByText("Sellers");
+
+    await expect(narrow).not.toBeVisible();
+    await expect(wide).toBeVisible();
+};
+
+BandBoundaryText.play = async ({ canvas }) => {
+    const [narrow, wide] = canvas.getAllByText("Sellers");
+
+    await expect(narrow).toBeVisible();
+    await expect(wide).toBeVisible();
+};
+
+// variant="text", not "icons": the icons ceiling equals the default minWidth, so that range is the
+// single point 64 and a drag has nowhere to travel. The text ceiling (173) sits inside 64-200, so
+// the drag can move and still be stopped short of 200.
+export const VariantPropAsCeiling = () => (
+    <div className="h-screen">
+        <StoryNote title="Interactive: drag the sidebar's right edge outward">
+            `variant="text"` lowers the ceiling to 173px even though maxWidth allows 200. Dragging right must move the
+            sidebar but stop at 173, never reaching 200. Dragging left still narrows it to 64.
+        </StoryNote>
+        <Sidebar
+            isFixed={false}
+            storageKey={null}
+            variant="text"
+            footer={<SidebarFooter />}
+            onLogoClick={handleLogoClick}
+        >
+            <KitchenSink />
+        </Sidebar>
+    </div>
+);
+
+// The icons ceiling equals the default minWidth, so this variant is a fixed-width rail by design:
+// there is no drag range at all. Kept separate from the ceiling story above so that one can prove
+// the ceiling actually constrains a live drag.
+export const VariantIconsIsFixedWidth = () => (
+    <div className="h-screen">
+        <StoryNote title="Check: no drag range in the icons variant">
+            `variant="icons"` pins the ceiling to 64, which is also the minimum, so the sidebar is a fixed rail.
+            Dragging the right edge does nothing in either direction, deliberately.
+        </StoryNote>
+        <Sidebar
+            isFixed={false}
+            storageKey={null}
+            variant="icons"
+            footer={<SidebarFooter />}
+            onLogoClick={handleLogoClick}
+        >
+            <KitchenSink />
+        </Sidebar>
+    </div>
+);
+
+export const ControlledCollapse = () => {
+    const [isCollapsed, setIsCollapsed] = useState(false);
+    const [reported, setReported] = useState("");
+
+    return (
+        <div className="h-screen">
+            <StoryNote title="Interactive: click the button below">
+                The sidebar has no collapse button of its own, so the `isCollapsed` prop is the only way to collapse it
+                programmatically. Expect a reported width of 64 collapsed and 200 expanded.
+            </StoryNote>
+
+            <div className="mb-4 flex items-center gap-3">
+                <Button onClick={() => setIsCollapsed(!isCollapsed)}>
+                    {isCollapsed ? "Expand" : "Collapse"} sidebar
+                </Button>
+                <span className="text-sm text-gray-dark">Reported width: {reported || "none yet"}</span>
+            </div>
+            <Sidebar
+                storageKey={null}
+                isCollapsed={isCollapsed}
+                footer={<SidebarFooter />}
+                onLogoClick={handleLogoClick}
+                onSidebarResize={setReported}
+            >
+                <KitchenSink />
+            </Sidebar>
+        </div>
+    );
+};
+
+// Mounting collapsed pins effectiveMaxWidth to minWidth, so the expand must resolve against the
+// uncollapsed ceiling instead or it clamps straight back down and the sidebar never reopens.
+export const ControlledCollapseStartsCollapsed = () => {
+    const [isCollapsed, setIsCollapsed] = useState(true);
+    const [reported, setReported] = useState("");
+
+    return (
+        <div className="h-screen">
+            <StoryNote title="Interactive: click the button below the sidebar">
+                Mounts already collapsed. Expanding must reach 200 and never stick at 64.
+            </StoryNote>
+            <Sidebar
+                storageKey={null}
+                isCollapsed={isCollapsed}
+                footer={<SidebarFooter />}
+                onLogoClick={handleLogoClick}
+                onSidebarResize={setReported}
+            >
+                <KitchenSink />
+            </Sidebar>
+            <div className="mt-4 flex items-center gap-3">
+                <Button onClick={() => setIsCollapsed(!isCollapsed)}>
+                    {isCollapsed ? "Expand" : "Collapse"} sidebar
+                </Button>
+                <span className="text-sm text-gray-dark">Reported width: {reported || "none yet"}</span>
+            </div>
+        </div>
+    );
+};
+
+export const CollapseRoundTrip = () => {
+    const [isCollapsed, setIsCollapsed] = useState(false);
+    const [reported, setReported] = useState("");
+
+    return (
+        <div className="h-screen">
+            <StoryNote title="Interactive: drag first, then use the button">
+                Drag the sidebar's right edge to about 150px, then collapse and expand with the button. The width must
+                come back to 150, not jump to 200.
+            </StoryNote>
+
+            <div className="mb-4 flex items-center gap-3">
+                <Button onClick={() => setIsCollapsed(!isCollapsed)}>
+                    {isCollapsed ? "Expand" : "Collapse"} sidebar
+                </Button>
+                <span className="text-sm text-gray-dark">Reported width: {reported || "none yet"}</span>
+            </div>
+            <Sidebar
+                storageKey={null}
+                isCollapsed={isCollapsed}
+                footer={<SidebarFooter />}
+                onLogoClick={handleLogoClick}
+                onSidebarResize={setReported}
+            >
+                <KitchenSink />
+            </Sidebar>
+        </div>
+    );
+};
+
+export const AutoCollapseOnResize = () => (
+    <div className="h-screen">
+        <StoryNote title="Interactive: resize the Storybook canvas">
+            Drag the preview pane across 1024px wide. Going narrower collapses the sidebar, going wider restores the
+            width it had before.
+        </StoryNote>
+        <Sidebar storageKey={null} autoCollapseBelow={1024} footer={<SidebarFooter />} onLogoClick={handleLogoClick}>
+            <KitchenSink />
+        </Sidebar>
+    </div>
+);
+
+// A sibling component, not an inline hook: React renders siblings in JSX order, so this reads the
+// width Sidebar wrote only when declared AFTER it. That ordering reproduces a consumer app reading
+// the key during its own first render.
+const FirstPaintReader = () => {
+    const [readDuringFirstRender] = useState(() => window.localStorage.getItem("x2-14336-demo"));
+    return <p>Read during first render: {String(readDuringFirstRender)}</p>;
+};
+
+export const FirstPaintPersistence = () => (
+    <div className="h-screen">
+        <StoryNote title="Setup required, then reload">
+            Set localStorage["x2-14336-demo"] to "200", remove "x2-14336-demo:intent", shrink the canvas below 1024px,
+            then reload. The line below reads the key during its own first render, the way a consumer app does, and must
+            print 64 rather than 200.
+        </StoryNote>
+        <Sidebar
+            storageKey="x2-14336-demo"
+            autoCollapseBelow={1024}
+            footer={<SidebarFooter />}
+            onLogoClick={handleLogoClick}
+        >
+            <KitchenSink />
+        </Sidebar>
+        <FirstPaintReader />
+    </div>
+);
+
+// Module scope, not nested in the story: a component declared during render is a new type every
+// render, so React remounts the subtree.
+const ConsumerNode = () => {
+    const { showText } = useSidebar();
+
+    return <div className="p-4 text-white">{showText ? "Third-party label" : "3P"}</div>;
+};
+
+export const ThirdPartyChild = () => {
+    return (
+        <div className="h-screen">
+            <StoryNote title="Interactive: drag the sidebar's right edge">
+                The third-party node below the kitchen sink reads `useSidebar()` and must switch between its long and
+                short label in step with ui-kit's own children.
+            </StoryNote>
+            <Sidebar storageKey={null} footer={<SidebarFooter />} onLogoClick={handleLogoClick}>
+                <KitchenSink />
+                <ConsumerNode />
+            </Sidebar>
+        </div>
+    );
+};
+
+// The resize handle is a focusable separator, so a keyboard user can widen the rail without a
+// pointer. ArrowRight steps by 8px from the 64px this story mounts at.
+ThirdPartyChild.play = async ({ canvas, userEvent }) => {
+    const handle = canvas.getByRole("separator", { name: "Resize sidebar" });
+
+    await userEvent.click(canvas.getByText("Sellers"));
+    handle.focus();
+    await userEvent.keyboard("{Home}");
+    await expect(handle).toHaveAttribute("aria-valuenow", "64");
+
+    await userEvent.keyboard("{ArrowRight}");
+    await expect(handle).toHaveAttribute("aria-valuenow", "72");
+
+    await userEvent.keyboard("{End}");
+    await expect(handle).toHaveAttribute("aria-valuenow", "200");
+};
+
+export const TwoSidebars = () => (
+    <div>
+        <StoryNote title="Comparison: two sidebars sharing one CSS variable target">
+            Both write `--ui-sidebar-width` to the same element, so each overwrites the other. Open the console: the
+            collision warning must appear exactly once, from the second mount.
+        </StoryNote>
+        <div className="flex">
+            <AtWidth width={64} cssVariableTarget={document.body} />
+            <AtWidth width={200} cssVariableTarget={document.body} />
+        </div>
+    </div>
+);
+
+// Four submenu triggers stacked with no gap, the shape the seller app uses. A synthetic pointer
+// cannot drive this: CDP mouse moves reach the parent document even over iframe pixels, so the
+// stacking has to be checked by hovering the rail by hand.
+const SUBMENU_GROUPS = [
+    { icon: StarIcon, label: "Products", items: ["Experiences", "Add-ons", "Gift Cards"] },
+    { icon: AnnounceIcon, label: "Reports", items: ["Analytics", "Earnings Report", "Payouts", "Disputes"] },
+    {
+        icon: AnnounceIcon,
+        label: "Marketing",
+        items: ["Abandoned Reservation Recovery", "Conversion Tracking", "Coupons", "XolaBot"],
+    },
+    { icon: PolicyIcon, label: "Settings", items: ["Account", "Users", "Integrations"] },
+];
+
+export const AdjacentSubMenus = () => (
+    <div className="h-screen">
+        <StoryNote title="Interactive: sweep the pointer down Products, Reports, Marketing, Settings">
+            Exactly one submenu may be on screen at any moment. Two or three stacked menus, each offset from the last,
+            is the bug. The iframe stands in for the seller app&apos;s legacy page host, which an open menu overlays: a
+            pointer crossing iframe pixels is one way the parent document stops seeing the move, and nothing then tells
+            the menu to close.
+        </StoryNote>
+        <div className="flex h-full">
+            <Sidebar isFixed={false} storageKey={null} footer={<SidebarFooter />} onLogoClick={handleLogoClick}>
+                <Sidebar.Link isActive icon={UserIcon}>
+                    Dashboard
+                </Sidebar.Link>
+
+                {SUBMENU_GROUPS.map(({ icon, label, items }) => (
+                    <Sidebar.Menu
+                        key={label}
+                        content={
+                            <div className="space-y-5 py-6">
+                                <Sidebar.Heading icon={icon} label={label} />
+                                <div>
+                                    {items.map((item) => (
+                                        <Sidebar.Link key={item} isSubMenuItem>
+                                            {item}
+                                        </Sidebar.Link>
+                                    ))}
+                                </div>
+                            </div>
+                        }
+                    >
+                        <Sidebar.Link hasSubmenu icon={icon}>
+                            {label}
+                        </Sidebar.Link>
+                    </Sidebar.Menu>
+                ))}
+            </Sidebar>
+
+            <iframe
+                title="Legacy page host"
+                className="h-full flex-1 border-0"
+                srcDoc="<body style='margin:0;background:#f6f7f9;font:14px system-ui;padding:24px'>Legacy page content</body>"
+            />
+        </div>
+    </div>
+);
 
 export default SidebarStories;

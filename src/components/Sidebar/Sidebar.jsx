@@ -1,276 +1,300 @@
+import { useMemoizedFn, useMount, useUnmount } from "ahooks";
 import PropTypes from "prop-types";
-import React, { useEffect, useRef, useState } from "react";
+import React, { forwardRef, useRef, useState } from "react";
 import cn from "../../helpers/classnames";
-import { AnnounceIcon, BellIcon, XolaLogoSimple } from "../../icons";
-import { Counter } from "../Counter";
-import { Drawer } from "../Drawer";
+import { isDevelopment } from "../../helpers/environment";
+import { XolaLogoSimple } from "../../icons";
 import { SidebarAccount } from "./Sidebar.Account";
 import { SidebarButton } from "./Sidebar.Button";
 import { SidebarFooter } from "./Sidebar.Footer";
 import { SidebarHeading } from "./Sidebar.Heading";
 import { SidebarLink, SidebarSeparator } from "./Sidebar.Link";
-import { SidebarMenu } from "./Sidebar.Menu";
+import { SidebarMenu, hideAllSidebarMenus } from "./Sidebar.Menu";
+import { SidebarNotifications } from "./Sidebar.Notifications";
+import { SidebarVariantContext, SidebarWidthContext } from "./SidebarContext";
 import sidebarScroll from "./SidebarScroll.module.css";
+import { SIDEBAR_AUTO_COLLAPSE_VIEWPORT, SIDEBAR_VARIANT, SIDEBAR_WIDTH, clampWidth, snapWidth } from "./sidebarWidth";
+import { useSidebarWidthState } from "./useSidebarWidthState";
 
-const LeftDrawerCountStyle = {
-    // From Figma
-    background: "linear-gradient(138.65deg, #583DFF 19.59%, #F849C7 62.96%, #FFC03D 97.07%)",
+const RESIZE_STEP = 8;
+const RESIZE_STEP_LARGE = 32;
+
+// Storybook renders several sidebars on one page, so two instances sharing a cssVariableTarget is
+// a real, survivable scenario, not a misuse to throw on. Module-level so the check spans instances.
+const cssVariableTargets = new Set();
+
+const widthRange = (props, propertyName, componentName) => {
+    const value = props[propertyName];
+
+    if (value === undefined) {
+        return null;
+    }
+
+    // The variant bands are fixed at 140/174, so a width outside 64-200 produces a sidebar that
+    // can never leave one variant. Fail loudly rather than shipping a sidebar stuck in a band.
+    if (typeof value !== "number" || value < SIDEBAR_WIDTH.MIN || value > SIDEBAR_WIDTH.MAX) {
+        return new Error(
+            `UI Kit: ${componentName} \`${propertyName}\` must be a number between ${SIDEBAR_WIDTH.MIN} and ${SIDEBAR_WIDTH.MAX}.`,
+        );
+    }
+
+    return null;
 };
 
-const SIDEBAR_WIDTHS = {
-    SM: 64, // Small (mobile)
-    MD: 134, // Medium (tablet)
-    LG: 174, // Large (small desktop)
-    XL: 200, // Extra large (desktop)
-};
-
-// Constants for breakpoints (matching Tailwind defaults)
-const BREAKPOINTS = {
-    SM: 640,
-    MD: 768,
-    LG: 1024,
-    XL: 1280,
-};
-
-// Get max width based on window size
-
-const getMaxWidth = (currentWindowWidth = typeof window === "undefined" ? 1280 : window.innerWidth) => {
-    if (currentWindowWidth >= BREAKPOINTS.XL) return SIDEBAR_WIDTHS.XL;
-    if (currentWindowWidth >= BREAKPOINTS.LG) return SIDEBAR_WIDTHS.LG;
-    if (currentWindowWidth >= BREAKPOINTS.MD) return SIDEBAR_WIDTHS.MD;
-    return SIDEBAR_WIDTHS.SM;
-};
-
-export const Sidebar = ({
-    logo,
-    children,
-    className,
-    footer,
-    notifications,
-    isFixed = true,
-    onLogoClick,
-    isStickyHeader = true,
-    isStickyFooter = true,
-    isLeftDrawerOpen,
-    isRightDrawerOpen,
-    handleDrawerStateChange,
-    onSidebarResize,
-}) => {
-    // Initialize width from localStorage or use default responsive values
-    const [width, setWidth] = useState(() => {
-        if (typeof window !== "undefined") {
-            const savedWidth = localStorage.getItem("sidebarWidth");
-            return savedWidth ? Number.parseInt(savedWidth, 10) : getMaxWidth(window.innerWidth);
+export const Sidebar = forwardRef(
+    (
+        {
+            logo,
+            children,
+            className,
+            footer,
+            notifications,
+            isFixed = true,
+            onLogoClick,
+            isStickyHeader = true,
+            isStickyFooter = true,
+            isLeftDrawerOpen,
+            isRightDrawerOpen,
+            handleDrawerStateChange,
+            onSidebarResize,
+            variant,
+            isCollapsed,
+            minWidth = SIDEBAR_WIDTH.MIN,
+            maxWidth = SIDEBAR_WIDTH.MAX,
+            autoCollapseBelow = SIDEBAR_AUTO_COLLAPSE_VIEWPORT,
+            storageKey = "sidebarWidth",
+            cssVariableTarget,
+            onCollapsedChange,
+            onVariantChange,
+        },
+        ref,
+    ) => {
+        // Ref-gated: a drag re-renders this on every pointermove, so an ungated warning repeats.
+        const hasWarnedVariantConflict = useRef(false);
+        const hasConflictingVariantProps = variant !== undefined && isCollapsed !== undefined;
+        if (isDevelopment && hasConflictingVariantProps && !hasWarnedVariantConflict.current) {
+            hasWarnedVariantConflict.current = true;
+            console.warn("UI Kit: Sidebar received both `variant` and `isCollapsed`; `variant` wins.");
         }
 
-        return 200; // Default for SSR
-    });
+        // Checked against the raw prop above (undefined unless the consumer passed it), then
+        // defaulted here: defaulting in the destructure would make `isCollapsed !== undefined`
+        // always true and fire the warning above on every render.
+        const isCollapsedProperty = isCollapsed ?? false;
 
-    const [isHovered, setIsHovered] = useState(false);
-    const [isResizing, setIsResizing] = useState(false);
-    const sidebarRef = useRef(null);
+        const { width, setWidth, commitWidth, variantValue, effectiveMaxWidth, resolvedCssVariableTarget } =
+            useSidebarWidthState({
+                storageKey,
+                minWidth,
+                maxWidth,
+                variant,
+                isCollapsedProperty,
+                autoCollapseBelow,
+                cssVariableTarget,
+                onSidebarResize,
+                onVariantChange,
+                onCollapsedChange,
+            });
 
-    const { announcements: leftDrawer, notices: rightDrawer } = notifications ?? {};
-    const hideRightDrawer = rightDrawer?.count <= 0 || !rightDrawer;
-    const isStickyHeaderFooter = isStickyHeader && isStickyFooter;
+        // Unmount cleanup reads this, not `resolvedCssVariableTarget`: a target whose identity
+        // changed mid-life would otherwise leave the mount-time element in the Set forever.
+        const registeredTargetRef = useRef(null);
 
-    // Handle window resize
-    useEffect(() => {
-        const handleResize = () => {
-            const maxWidth = getMaxWidth(window.innerWidth);
-            setWidth(maxWidth);
-        };
+        useMount(() => {
+            if (!resolvedCssVariableTarget) {
+                return;
+            }
 
-        window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
-    }, [width]);
+            if (cssVariableTargets.has(resolvedCssVariableTarget)) {
+                console.warn(
+                    "UI Kit: Multiple Sidebars share the same `cssVariableTarget`; each write overwrites the others.",
+                );
+            }
 
-    // Handle resizing
-    useEffect(() => {
-        const handleMouseMove = (e) => {
-            if (!isResizing || !sidebarRef.current) return;
+            cssVariableTargets.add(resolvedCssVariableTarget);
+            registeredTargetRef.current = resolvedCssVariableTarget;
+        });
 
-            const newWidth = Math.min(Math.max(e.clientX, 64), 200); // Constrain between 64px and 200px
-            setWidth(newWidth);
-        };
+        useUnmount(() => {
+            if (registeredTargetRef.current) {
+                cssVariableTargets.delete(registeredTargetRef.current);
+                registeredTargetRef.current = null;
+            }
+        });
 
-        const handleMouseUp = () => {
+        const [isHovered, setIsHovered] = useState(false);
+        const [isResizing, setIsResizing] = useState(false);
+        const dragOriginRef = useRef(0);
+
+        const handlePointerDown = useMemoizedFn((event) => {
+            event.preventDefault();
+            hideAllSidebarMenus();
+            // clientX is viewport-relative, so a sidebar that does not start at x=0 (isFixed={false}
+            // inside an offset container) would jump by that offset on the first move.
+            dragOriginRef.current = event.currentTarget.parentElement?.getBoundingClientRect().left ?? 0;
+            setIsResizing(true);
+
+            // Capture keeps the drag alive once the pointer leaves the 24px handle, but it is an
+            // enhancement, not a precondition: it throws NotFoundError when the pointer is already
+            // gone by the time this runs, and an unguarded throw here would abort the drag entirely.
+            try {
+                event.currentTarget.setPointerCapture(event.pointerId);
+            } catch {
+                // Without capture the drag still tracks while the pointer stays over the handle.
+            }
+        });
+
+        const handlePointerMove = useMemoizedFn((event) => {
+            if (!isResizing) {
+                return;
+            }
+
+            setWidth(clampWidth(event.clientX - dragOriginRef.current, minWidth, effectiveMaxWidth));
+        });
+
+        // Shared by pointerup and pointercancel: a gesture the browser reclaims fires
+        // pointercancel INSTEAD of pointerup, and skipping this teardown latches the resize state.
+        const handleResizeEnd = useMemoizedFn((event) => {
+            if (event.currentTarget.hasPointerCapture?.(event.pointerId)) {
+                event.currentTarget.releasePointerCapture(event.pointerId);
+            }
+
             setIsResizing(false);
-            document.body.style.cursor = "";
-            document.body.style.userSelect = "";
-        };
 
-        if (isResizing) {
-            document.addEventListener("mousemove", handleMouseMove);
-            document.addEventListener("mouseup", handleMouseUp);
-            document.body.style.cursor = "ew-resize";
-            document.body.style.userSelect = "none";
-        }
+            commitWidth(snapWidth(width, minWidth, effectiveMaxWidth));
+        });
 
-        return () => {
-            document.removeEventListener("mousemove", handleMouseMove);
-            document.removeEventListener("mouseup", handleMouseUp);
-        };
-    }, [isResizing]);
+        const handleKeyDown = useMemoizedFn((event) => {
+            const step = event.shiftKey ? RESIZE_STEP_LARGE : RESIZE_STEP;
+            const deltas = { ArrowLeft: -step, ArrowRight: step };
 
-    useEffect(() => {
-        if (typeof window !== "undefined" && width) {
-            const timer = setTimeout(() => {
-                localStorage.setItem("sidebarWidth", width.toString());
-                onSidebarResize?.(width);
-            }, 500);
-            return () => clearTimeout(timer);
-        }
-    }, [width, onSidebarResize]);
+            let nextWidth;
 
-    const handleResizeStart = (e) => {
-        e.preventDefault();
-        setIsResizing(true);
-    };
+            if (event.key === "Home") {
+                nextWidth = minWidth;
+            } else if (event.key === "End") {
+                nextWidth = effectiveMaxWidth;
+            } else if (deltas[event.key] !== undefined) {
+                nextWidth = clampWidth(width + deltas[event.key], minWidth, effectiveMaxWidth);
+            } else {
+                return;
+            }
 
-    return (
-        <div
-            ref={sidebarRef}
-            className={cn(
-                sidebarScroll,
-                "ui-sidebar",
-                isFixed ? "fixed" : "relative",
-                "z-20 flex h-full flex-col  border-r-4 border-black bg-black px-1 py-2 text-white transition-all duration-300",
-                (isHovered || isResizing) && "box-border !border-r-4 !border-yellow",
-                className,
-            )}
-            style={{ width: `${width}px` }}
-        >
-            {/* Resize handle */}
-            <div
-                className="absolute -right-3 top-0 bottom-0 z-10 w-4 cursor-ew-resize"
-                onMouseDown={handleResizeStart}
-                onMouseEnter={() => setIsHovered(true)}
-                onMouseLeave={() => setIsHovered(false)}
-            />
-            {leftDrawer || rightDrawer ? (
-                <div
-                    className={cn(
-                        "flex w-full gap-2 p-2",
-                        width <= 78 && "flex-col",
-                        width < 134 ? "justify-center" : "justify-between",
-                        isStickyHeader && "sticky top-0 z-50 bg-black",
-                    )}
-                >
-                    {leftDrawer && (
-                        <div className={cn("cursor-pointer text-center", leftDrawer.hide && "hidden")}>
-                            <Counter
-                                style={{
-                                    ...LeftDrawerCountStyle,
-                                    minWidth: width > 168 ? "48px" : "30px",
-                                    width: width > 168 ? "48px" : "30px",
-                                    minHeight: "20px",
-                                    height: "20px",
-                                    display: "inline-flex",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                }}
-                                onClick={() => handleDrawerStateChange("left")}
-                            >
-                                <AnnounceIcon className={cn(width <= 168 && "hidden")} />
-                                {leftDrawer.count}
-                            </Counter>
-                        </div>
-                    )}
+            event.preventDefault();
+            hideAllSidebarMenus();
+            commitWidth(nextWidth);
+        });
 
-                    {rightDrawer && (
-                        <div className={cn("cursor-pointer text-center", hideRightDrawer && "hidden")}>
-                            <Counter
-                                className="text-sm"
-                                style={{
-                                    minWidth: width > 168 ? "48px" : "30px",
-                                    width: width > 168 ? "48px" : "30px",
-                                    minHeight: "20px",
-                                    height: "20px",
-                                    display: "inline-flex",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                }}
-                                onClick={() => handleDrawerStateChange("right")}
-                            >
-                                <BellIcon className={cn(width <= 168 && "hidden")} />
-                                {rightDrawer.count}
-                            </Counter>
-                        </div>
-                    )}
-                </div>
-            ) : null}
+        const handleDoubleClickReset = useMemoizedFn(() => {
+            hideAllSidebarMenus();
+            commitWidth(effectiveMaxWidth);
+        });
 
-            {leftDrawer && (
-                <Drawer
-                    classNames={{ dialogContent: `left-[${width}px]` }}
-                    sideIndent={width}
-                    position="left"
-                    size="xl"
-                    title={leftDrawer.title}
-                    content={leftDrawer.content}
-                    isOpen={isLeftDrawerOpen}
-                    onClose={(e) => !!e && handleDrawerStateChange("left")}
-                />
-            )}
-
-            {rightDrawer && (
-                <Drawer
-                    classNames={{ dialogContent: `left-[${width}px]` }}
-                    position="left"
-                    sideIndent={width}
-                    size="xl"
-                    title={rightDrawer.title}
-                    content={rightDrawer.content}
-                    isOpen={isRightDrawerOpen}
-                    onClose={(e) => !!e && handleDrawerStateChange("right")}
-                />
-            )}
-
-            <div className={cn("flex-grow space-y-2", isStickyHeaderFooter && "overflow-y-auto")}>
-                {width > 60 && (
-                    <div className="text-center">
-                        {logo
-                            ? React.cloneElement(logo, {
-                                  className: cn(
-                                      "inline-block h-12 w-12",
-                                      width > 160 && "h-30 w-30",
-                                      logo.props.className,
-                                  ),
-                              })
-                            : width > 90 && (
-                                  <XolaLogoSimple
-                                      className={cn(
-                                          "inline-block h-12 w-12 ",
-                                          width > 160 && "h-30 w-30",
-                                          onLogoClick && "cursor-pointer transition-opacity hover:opacity-80",
-                                      )}
-                                      onClick={onLogoClick}
-                                  />
-                              )}
-                    </div>
+        // A consumer logo is cloned rather than rendered as-is so it tracks the variant's sizing
+        // without every consumer re-deriving it; their own className still wins the merge.
+        const brand = logo ? (
+            React.cloneElement(logo, {
+                className: cn("inline-block h-12 w-12", variantValue.showText && "h-30 w-30", logo.props.className),
+            })
+        ) : (
+            <XolaLogoSimple
+                className={cn(
+                    "inline-block h-12 w-12",
+                    variantValue.showText && "h-30 w-30",
+                    onLogoClick && "cursor-pointer transition-opacity hover:opacity-80",
                 )}
+                onClick={onLogoClick}
+            />
+        );
 
-                <div>{children}</div>
-            </div>
+        return (
+            <SidebarVariantContext.Provider value={variantValue}>
+                <SidebarWidthContext.Provider value={width}>
+                    <div
+                        ref={ref}
+                        className={cn(
+                            sidebarScroll,
+                            "ui-sidebar",
+                            isFixed ? "fixed" : "relative",
+                            "z-20 flex h-full flex-col border-r-4 border-black bg-black px-1 py-2 text-white transition-all duration-300",
+                            (isHovered || isResizing) && "box-border !border-r-4 !border-yellow",
+                            // Per-pointermove width writes would each restart the 300ms interpolation,
+                            // so the rail trails the cursor. Snap on release still animates.
+                            isResizing && "!transition-none",
+                            className,
+                        )}
+                        style={{ width: `${width}px` }}
+                    >
+                        <div
+                            role="separator"
+                            aria-orientation="vertical"
+                            aria-label="Resize sidebar"
+                            aria-valuenow={width}
+                            aria-valuemin={minWidth}
+                            aria-valuemax={effectiveMaxWidth}
+                            tabIndex={0}
+                            // w-6: WCAG 2.5.8 wants a 24px target. touch-none: without it the browser
+                            // claims a horizontal drag as a scroll and fires pointercancel instead of
+                            // pointermove, so touch can never resize the rail.
+                            className="absolute -right-3 bottom-0 top-0 z-10 w-6 cursor-ew-resize touch-none"
+                            onPointerDown={handlePointerDown}
+                            onPointerMove={handlePointerMove}
+                            onPointerUp={handleResizeEnd}
+                            onPointerCancel={handleResizeEnd}
+                            onKeyDown={handleKeyDown}
+                            onDoubleClick={handleDoubleClickReset}
+                            onMouseEnter={() => setIsHovered(true)}
+                            onMouseLeave={() => setIsHovered(false)}
+                        />
 
-            <div className={cn(isStickyFooter && "sticky bottom-0 bg-black")}>{footer}</div>
-        </div>
-    );
-};
+                        <SidebarNotifications
+                            notifications={notifications}
+                            isCollapsed={variantValue.isCollapsed}
+                            isSticky={isStickyHeader}
+                            width={width}
+                            isLeftDrawerOpen={isLeftDrawerOpen}
+                            isRightDrawerOpen={isRightDrawerOpen}
+                            onDrawerStateChange={handleDrawerStateChange}
+                        />
+
+                        {/* Outside the scroll container: on a short viewport the branding would
+                            otherwise scroll away with the link list. */}
+                        <div className="shrink-0 pb-2 text-center">{brand}</div>
+
+                        <div className="min-h-0 flex-grow space-y-2 overflow-y-auto">{children}</div>
+
+                        <div className={cn(isStickyFooter && "sticky bottom-0 bg-black")}>{footer}</div>
+                    </div>
+                </SidebarWidthContext.Provider>
+            </SidebarVariantContext.Provider>
+        );
+    },
+);
+
+Sidebar.displayName = "Sidebar";
 
 Sidebar.propTypes = {
-    logo: PropTypes.node,
+    logo: PropTypes.element,
     children: PropTypes.node.isRequired,
     className: PropTypes.string,
-    footer: PropTypes.element.isRequired,
+    footer: PropTypes.element,
     isFixed: PropTypes.bool,
     isStickyHeader: PropTypes.bool,
     isStickyFooter: PropTypes.bool,
-    onLogoClick: PropTypes.func.isRequired,
+    onLogoClick: PropTypes.func,
     isLeftDrawerOpen: PropTypes.bool,
     isRightDrawerOpen: PropTypes.bool,
     handleDrawerStateChange: PropTypes.func,
+    onSidebarResize: PropTypes.func,
+    variant: PropTypes.oneOf(Object.values(SIDEBAR_VARIANT)),
+    minWidth: widthRange,
+    maxWidth: widthRange,
+    isCollapsed: PropTypes.bool,
+    onCollapsedChange: PropTypes.func,
+    onVariantChange: PropTypes.func,
+    autoCollapseBelow: PropTypes.number,
+    storageKey: PropTypes.string,
+    cssVariableTarget: PropTypes.object,
     notifications: PropTypes.shape({
         announcements: PropTypes.shape({
             count: PropTypes.number,
