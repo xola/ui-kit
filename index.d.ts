@@ -324,6 +324,7 @@ export {
     Popover,
     PopoverList,
     PrintIcon,
+    ProductOptionsIcon,
     ProductsIcon,
     Provider,
     QuestionIcon,
