@@ -41,4 +41,4 @@ export const ProductOptionsIcon = createIcon((props) => {
     );
 });
 
-ProductOptionsIcon.tags = ["variant", "variants", "options", "product", "merchandise"];
+ProductOptionsIcon.tags = ["options", "product", "experience options"];
