@@ -164,6 +164,7 @@ export { PlayMarketBadge } from "./src/MobileStore/PlayMarketBadge";
 export { PlusIcon } from "./src/PlusIcon";
 export { PolicyIcon } from "./src/PolicyIcon";
 export { PrintIcon } from "./src/PrintIcon";
+export { ProductOptionsIcon } from "./src/ProductOptionsIcon";
 export { ProductsIcon } from "./src/ProductsIcon";
 export { QuestionIcon } from "./src/QuestionIcon";
 export { QuestionnaireIcon } from "./src/QuestionnaireIcon";
