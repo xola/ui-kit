@@ -13,7 +13,9 @@ export const SidebarButton = ({ icon: Icon, label, appearance = "plain", classNa
             className={clsx(
                 "ui-sidebar-button flex min-w-0 cursor-pointer items-center rounded",
                 isSolid
-                    ? "mx-2 mb-4 bg-white py-1.5 text-base font-semibold text-gray-darker hover:bg-gray-lighter"
+                    ? // A button's `width: auto` is fit-content, not fill, so without an explicit width the
+                      // solid treatment strands itself at the left of the rail. The calc subtracts `mx-2`.
+                      "mx-2 mb-4 w-[calc(100%-16px)] bg-white py-1.5 text-base font-semibold text-gray-darker hover:bg-gray-lighter"
                     : "w-full py-2 hover:bg-gray-darker",
                 showText && (isSolid ? "px-3" : "px-4"),
                 !showText && "justify-center px-2",
