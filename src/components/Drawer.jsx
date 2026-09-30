@@ -32,13 +32,34 @@ export const Drawer = forwardRef(
         const viewportHeight = useViewportHeight();
         const isIOS = isIosBrowser();
 
+         const shouldIgnoreCloseRef = useRef(false);
+         const resetCloseGuardTimeoutRef = useRef(null);
+
+         const handleContentInteraction = () => {
+             shouldIgnoreCloseRef.current = true;
+             if (resetCloseGuardTimeoutRef.current) {
+                 window.clearTimeout(resetCloseGuardTimeoutRef.current);
+             }
+             resetCloseGuardTimeoutRef.current = window.setTimeout(() => {
+                 shouldIgnoreCloseRef.current = false;
+             }, 0);
+         };
+
+         const handleClose = () => {
+             if (shouldIgnoreCloseRef.current) {
+                 shouldIgnoreCloseRef.current = false;
+                 return;
+             }
+             onClose();
+         };
+        console.log("Drawer rendered with isOpen:", isOpen, "position:", position, "sideIndent:", sideIndent);
         return (
             <Transition.Root ref={ref} show={isOpen} as={Fragment}>
                 <Dialog
                     as="div"
                     className={clsx("ui-drawer fixed inset-0 z-10 overflow-hidden", classNames.dialog)}
                     open={isOpen}
-                    onClose={onClose}
+                    onClose={handleClose}
                 >
                     <div
                         className={clsx(
@@ -78,25 +99,24 @@ export const Drawer = forwardRef(
                                 leaveTo={position === "right" ? "translate-x-full" : "-translate-x-full"}
                             >
                                 <div className="flex">
-                                    {position === "right" ? <CloseButton onClose={onClose} /> : null}
-
-                                    <div
+                                    {position === "right" ? <CloseButton onClose={handleClose} /> : null}
+                                    <Dialog.Panel
                                         className={clsx(
                                             "flex h-full w-full flex-col overflow-y-auto bg-white px-4 py-8 shadow-xl sm:px-6",
                                             sizes[size],
                                             classNames.children,
                                         )}
+                                        onMouseDownCapture={handleContentInteraction}
+                                        onTouchStartCapture={handleContentInteraction}
                                     >
-                                        <div className="w-full">
-                                            {/* eslint-disable-next-line react/jsx-max-depth */}
-                                            <Dialog.Title>{title}</Dialog.Title>
-                                        </div>
+                                      
                                         <div className={clsx("relative mt-3 flex-1", classNames.content)}>
+                                            {"testUIKIT1"}
                                             {content}
                                         </div>
-                                    </div>
+                                    </Dialog.Panel>
 
-                                    {position === "left" ? <CloseButton onClose={onClose} /> : null}
+                                    {position === "left" ? <CloseButton onClose={handleClose} /> : null}
                                 </div>
                             </Transition.Child>
                         </div>
@@ -135,6 +155,6 @@ Drawer.propTypes = {
 Drawer.defaultProps = {
     title: "",
     classNames: {},
-    position: "right",
+    position: "left",
     sideIndent: 0,
 };
