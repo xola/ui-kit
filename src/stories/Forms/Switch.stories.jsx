@@ -67,6 +67,26 @@ WithLabel.play = async ({ canvas, userEvent }) => {
     await expect(toggle).toHaveAttribute("aria-checked", "false");
 };
 
+export const WithLabelAndId = () => {
+    const [checked, setChecked] = useState(false);
+    return (
+        <Switch.Group>
+            <Switch.Label direction="left">Email notifications</Switch.Label>
+            <Switch id="email-notifications" isChecked={checked} size="small" onChange={setChecked} />
+        </Switch.Group>
+    );
+};
+
+WithLabelAndId.play = async ({ canvas, userEvent }) => {
+    const toggle = canvas.getByRole("switch", { name: "Email notifications" });
+    const label = canvas.getByText("Email notifications");
+    await expect(toggle).toHaveAttribute("id", "email-notifications");
+    await userEvent.click(label);
+    await expect(toggle).toHaveAttribute("aria-checked", "true");
+    await userEvent.click(label);
+    await expect(toggle).toHaveAttribute("aria-checked", "false");
+};
+
 export const Disabled = ({ size }) => {
     const [checked, setChecked] = useState(false);
     return <Switch disabled isChecked={checked} size={size} onChange={setChecked} />;

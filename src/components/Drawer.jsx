@@ -33,9 +33,7 @@ export const Drawer = forwardRef(
         const isIOS = isIosBrowser();
 
         // The Dialog calls `onClose(false)` on Escape; an overlay click passes the same value, not the click event
-        const handleOverlayClick = () => {
-            onClose(false);
-        };
+        const handleOverlayClick = () => onClose(false);
 
         return (
             <Transition ref={ref} show={isOpen} as={Fragment}>

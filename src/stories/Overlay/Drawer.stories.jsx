@@ -66,12 +66,36 @@ Drawers.args = {
     onClose: fn(),
 };
 
+/**
+ * Resolves with how far the drawer panel sits past its container's right edge when it first enters the DOM.
+ * MutationObserver callbacks run as microtasks, before the animation frame where Headless UI swaps `enterFrom` for
+ * `enterTo`, so the reading is the slide's start position however slow the test runner is.
+ */
+const observePanelStartOffset = (ownerDocument) => {
+    return new Promise((resolve) => {
+        const observer = new MutationObserver(() => {
+            const container = ownerDocument.querySelector(".ui-drawer-container");
+            if (!container) {
+                return;
+            }
+
+            observer.disconnect();
+            const { right: panelRight } = container.firstElementChild.getBoundingClientRect();
+            const { right: containerRight } = container.getBoundingClientRect();
+            resolve(panelRight - containerRight);
+        });
+
+        observer.observe(ownerDocument.body, { childList: true, subtree: true });
+    });
+};
+
 Drawers.play = async ({ args, canvas, canvasElement, userEvent }) => {
     const { ownerDocument } = canvasElement;
     const body = within(ownerDocument.body);
     const launcher = canvas.getByRole("button", { name: "Click Me to open the Drawer" });
     await expect(body.queryByText("Hello World")).not.toBeInTheDocument();
 
+    const panelStartOffset = observePanelStartOffset(ownerDocument);
     await userEvent.click(launcher);
     const dialog = await body.findByRole("dialog");
 
@@ -79,7 +103,7 @@ Drawers.play = async ({ args, canvas, canvasElement, userEvent }) => {
     const container = dialog.querySelector(".ui-drawer-container");
     const panel = container.firstElementChild;
     await expect(container).toHaveStyle({ right: "0px" });
-    await expect(panel.getBoundingClientRect().right).toBeGreaterThan(container.getBoundingClientRect().right);
+    await expect(await panelStartOffset).toBeGreaterThan(0);
     await waitFor(
         () => expect(panel.getBoundingClientRect().right).toBeCloseTo(container.getBoundingClientRect().right, 0),
         { timeout: 2000 },
