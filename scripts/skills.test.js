@@ -2,10 +2,16 @@ import { execFileSync } from "node:child_process";
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { POPOVER_REMOVED_PROPS } from "../src/components/Popover/Popover";
+import { SIDEBAR_MENU_REMOVED_PROPS } from "../src/components/Sidebar/Sidebar.Menu";
+import { TOOLTIP_REMOVED_PROPS } from "../src/components/Tooltip";
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const skillsDir = path.join(repoRoot, "skills");
+const typesPath = path.join(repoRoot, "index.d.ts");
 const readmePath = path.join(skillsDir, "README.md");
+const indexPath = path.join(repoRoot, "src", "index.js");
+const fixturesDir = path.join(skillsDir, "migrate-to-3.8", "fixtures");
 
 const getSkillFolders = () => {
     if (!existsSync(skillsDir)) {
@@ -44,6 +50,38 @@ const getRelativeLinkTargets = (source) => {
         .filter((target) => target && !/^[a-z][a-z0-9+.-]*:/i.test(target));
 };
 
+const getExportedNames = () => {
+    const source = readFileSync(indexPath, "utf8");
+    const blocks = [...source.matchAll(/^export\s*\{([^}]*)\}/gm)];
+
+    return blocks.flatMap(([, names]) => {
+        return names
+            .split(",")
+            .map((name) => name.trim().replace(/^.*\s+as\s+/, ""))
+            .filter(Boolean);
+    });
+};
+
+const getDeclaredTypeNames = () => {
+    const source = readFileSync(typesPath, "utf8");
+
+    return [...source.matchAll(/^export\s+(?:interface|type)\s+(\w+)/gm)].map(([, name]) => name);
+};
+
+const getBacktickedComponentNames = (source) => {
+    const tokens = [...source.matchAll(/`([A-Z][A-Za-z0-9]*(?:\.[A-Z][A-Za-z0-9]*)?)`/g)];
+
+    return [...new Set(tokens.map(([, token]) => token.split(".")[0]))];
+};
+
+const getFixtureNames = (kind) => {
+    const dir = path.join(fixturesDir, kind);
+
+    return existsSync(dir) ? readdirSync(dir).filter((file) => file.endsWith(".tsx")) : [];
+};
+
+const getMarkdownFiles = () => [readmePath, ...getSkillFolders().map(getSkillFile)];
+
 describe("skills folder", () => {
     test("has at least one skill", () => {
         expect(getSkillFolders().length).toBeGreaterThan(0);
@@ -68,8 +106,6 @@ describe("SKILL.md frontmatter", () => {
 });
 
 describe("relative links", () => {
-    const getMarkdownFiles = () => [readmePath, ...getSkillFolders().map(getSkillFile)];
-
     test.each(getMarkdownFiles())("links in %s resolve inside the repo", (file) => {
         const targets = getRelativeLinkTargets(readFileSync(file, "utf8"));
 
@@ -107,4 +143,61 @@ describe("npm pack", () => {
             expect(packed).toContain(file);
         });
     }, 60_000);
+});
+
+describe("using-ui-kit", () => {
+    const skillFile = getSkillFile("using-ui-kit");
+
+    test("exists", () => {
+        expect(existsSync(skillFile)).toBe(true);
+    });
+
+    test("every component named in backticks is exported from src/index.js or typed in index.d.ts", () => {
+        const known = new Set([...getExportedNames(), ...getDeclaredTypeNames()]);
+        const names = getBacktickedComponentNames(readFileSync(skillFile, "utf8"));
+
+        expect(names.length).toBeGreaterThan(0);
+        expect(names.filter((name) => !known.has(name))).toEqual([]);
+    });
+});
+
+describe("migrate-to-3.8", () => {
+    const skillFile = getSkillFile("migrate-to-3.8");
+    const removedProps = {
+        Tooltip: Object.keys(TOOLTIP_REMOVED_PROPS),
+        Popover: Object.keys(POPOVER_REMOVED_PROPS),
+        "Sidebar.Menu": Object.keys(SIDEBAR_MENU_REMOVED_PROPS),
+    };
+
+    test("exists", () => {
+        expect(existsSync(skillFile)).toBe(true);
+    });
+
+    test.each(Object.entries(removedProps))("names every removed %s prop in backticks", (component, props) => {
+        const source = existsSync(skillFile) ? readFileSync(skillFile, "utf8") : "";
+
+        expect(props.filter((prop) => !source.includes(`\`${prop}\``))).toEqual([]);
+    });
+
+    test("every before fixture has an after fixture and the reverse", () => {
+        const before = getFixtureNames("before");
+        const after = getFixtureNames("after");
+
+        expect(before.length).toBeGreaterThan(0);
+        expect(after).toEqual(before);
+    });
+});
+
+describe("skills prose", () => {
+    const getAllSkillFiles = () => {
+        const fixtures = ["before", "after"].flatMap((kind) => {
+            return getFixtureNames(kind).map((file) => path.join(fixturesDir, kind, file));
+        });
+
+        return [...getMarkdownFiles(), ...fixtures];
+    };
+
+    test.each(getAllSkillFiles())("%s has no em-dash", (file) => {
+        expect(readFileSync(file, "utf8")).not.toContain("\u2014");
+    });
 });
