@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import { expect, waitFor } from "storybook/test";
-import { SubmitButton } from "../..";
+import React, { useRef, useState } from "react";
+import { expect, userEvent, waitFor } from "storybook/test";
+import { Button, SubmitButton } from "../..";
+import { hasFormStatus } from "../../helpers/reactFeatures";
 
 const SubmitButtonStories = {
     title: "Forms & Fields/Buttons/Submit Button",
@@ -135,6 +136,54 @@ Success.play = async ({ canvas }) => {
     await waitFor(() => expect(button.querySelector("svg:not(.ui-spinner)")).toBeInTheDocument());
     await expect(button.querySelector(".ui-spinner")).not.toBeInTheDocument();
     await expect(button).toBeDisabled();
+};
+
+/**
+ * Leaves isLoading unset so the form status drives the loading state. Without form actions (React 18)
+ * the form submits through onSubmit, since a function `action` is not valid there.
+ */
+export const WithFormAction = () => {
+    const releaseRef = useRef();
+
+    const handleAction = async () => {
+        await new Promise((resolve) => {
+            releaseRef.current = resolve;
+        });
+    };
+
+    const handleSubmit = (event) => event.preventDefault();
+    const handleRelease = () => releaseRef.current?.();
+    const formProps = hasFormStatus ? { action: handleAction } : { onSubmit: handleSubmit };
+
+    return (
+        <div className="space-x-4">
+            <form className="inline-block" {...formProps}>
+                <SubmitButton>Submit</SubmitButton>
+            </form>
+            <Button type="button" onClick={handleRelease}>
+                Release
+            </Button>
+        </div>
+    );
+};
+
+WithFormAction.play = async ({ canvas }) => {
+    const button = canvas.getByRole("button", { name: "Submit" });
+    await userEvent.click(button);
+
+    if (!hasFormStatus) {
+        await expect(button).not.toBeDisabled();
+        await expect(button.querySelector(".ui-spinner")).not.toBeInTheDocument();
+        return;
+    }
+
+    await waitFor(() => expect(button).toBeDisabled());
+    await expect(button.querySelector(".ui-spinner")).toBeInTheDocument();
+
+    await userEvent.click(canvas.getByRole("button", { name: "Release" }));
+
+    await waitFor(() => expect(button).not.toBeDisabled());
+    await expect(button.querySelector(".ui-spinner")).not.toBeInTheDocument();
 };
 
 export default SubmitButtonStories;
