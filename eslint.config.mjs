@@ -13,4 +13,8 @@ export default [
         ],
     },
     ...xolaLint,
+    {
+        // Library code reads process.env.NODE_ENV, which the consumer's bundler replaces at build time.
+        languageOptions: { globals: { process: "readonly" } },
+    },
 ];

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { expect, fn } from "storybook/test";
+import { expect, fn, spyOn } from "storybook/test";
 import { Button, FormGroup, Label, RangeSlider } from "../..";
 
 const RangeSliderStories = {
@@ -218,6 +218,32 @@ OutOfRange.play = async ({ canvasElement, userEvent }) => {
     await userEvent.keyboard("{ArrowRight}");
 
     await expect(onOutOfRangeChange).toHaveBeenCalledWith([1, 100]);
+};
+
+let warnSpy;
+
+export const RemovedPropWarns = () => {
+    const values = [10, 30];
+    const tooltipCustomFormatter = (value) => `${value}`;
+
+    return (
+        <FormGroup>
+            <Label>Removed tooltipCustomFormatter warns</Label>
+            <RangeSlider values={values} min={0} max={50} tooltipCustomFormatter={tooltipCustomFormatter} />
+        </FormGroup>
+    );
+};
+
+RemovedPropWarns.beforeEach = () => {
+    warnSpy = spyOn(console, "warn");
+};
+
+RemovedPropWarns.play = async () => {
+    const message =
+        "UI Kit RangeSlider: 'tooltipCustomFormatter' was removed in 3.8, use 'formatTooltip(value, index)'";
+    const warnings = warnSpy.mock.calls.filter(([text]) => text === message);
+
+    await expect(warnings).toHaveLength(1);
 };
 
 export default RangeSliderStories;

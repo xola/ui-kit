@@ -1,5 +1,13 @@
-// `process` isn't declared in a browser bundle: consumers' bundlers (webpack, Vite) statically
-// replace process.env.NODE_ENV at build time. The `typeof` guard keeps a bundler-free ESM
-// consumer (SSR, a raw <script type="module">) from throwing on the read.
-// eslint-disable-next-line no-undef
-export const isDevelopment = typeof process === "undefined" ? false : process.env?.NODE_ENV !== "production";
+// Consumers' bundlers (webpack, Vite) statically replace the literal `process.env.NODE_ENV` at build
+// time but leave `process` itself undeclared, so a `typeof process` guard would wrongly disable
+// dev-only warnings in the browser. A bundler-free consumer (a raw <script type="module">) throws a
+// ReferenceError on the read, which counts as development. SSR/Node reads the real value.
+const getIsDevelopment = () => {
+    try {
+        return process.env.NODE_ENV !== "production";
+    } catch {
+        return true;
+    }
+};
+
+export const isDevelopment = getIsDevelopment();
