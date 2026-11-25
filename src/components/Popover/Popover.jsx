@@ -90,7 +90,8 @@ Content.propTypes = {
  * @param {string?}          props.openOn          "hover" opens on hover and focus, "click" on click. Default: "click" if
  *                                                 `open` is set on the first render, else "hover".
  * @param {string?}          props.placement       Tippy-style placement, e.g. "top", "bottom-start". "auto" is "top".
- * @param {number|number[]?} props.delay           Hover open delay in ms; `[open, close]` sets both.
+ * @param {number|number[]?} props.delay           Hover delay in ms before opening and before closing; `[open, close]`
+ *                                                 sets them apart. Closing waits at least 100ms.
  * @param {number?}          props.skidding        Shift along the aligned edge in px, for "-start"/"-end" placements.
  * @param {number?}          props.distance        Gap between target and box in px.
  * @param {number|string?}   props.maxWidth        Box max width. Numbers are px.
@@ -154,10 +155,17 @@ export const Popover = ({
     };
 
     /**
+     * The content, and Radix's outside-press and Escape listeners with it, stay mounted through the fade-out. A closed
+     * popover ignores them, or a second press would reach a toggle-style `onClickOutside` and reopen it.
+     *
      * A press on the target is left to the target. Radix Popover toggles on it, and HoverCard would dismiss, then reopen
      * on the focus the same press gives the target.
      */
     const handlePointerDownOutside = (event) => {
+        if (!isOpen) {
+            return;
+        }
+
         const isTargetPress = triggerRef.current?.contains(event.target);
         if (isTargetPress) {
             event.preventDefault();
@@ -169,10 +177,11 @@ export const Popover = ({
 
     /**
      * Radix default-prevents the Escape it handles, so an enclosing Modal never sees it. A popover controlled without
-     * `onOpenChange` would then stay open, and `onClickOutside` is the only close request its consumer handles.
+     * `onOpenChange` would then stay open, and `onClickOutside` is the only close request its consumer handles. Only
+     * while open, for the same fade-out reason as presses.
      */
     const handleEscapeKeyDown = () => {
-        const isCloseOnlyThroughClickOutside = open !== undefined && !onOpenChange;
+        const isCloseOnlyThroughClickOutside = isOpen && open !== undefined && !onOpenChange;
         if (isCloseOnlyThroughClickOutside) {
             onClickOutside?.();
         }

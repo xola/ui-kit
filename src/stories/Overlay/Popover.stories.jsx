@@ -37,7 +37,7 @@ const PopoverStories = {
             0,
             "number",
             null,
-            "Delay in ms before a hover popover opens. An array sets the open and close delays",
+            "Delay in ms before a hover popover opens and before it closes. `[open, close]` sets them apart",
         ),
         maxWidth: getArgument(
             350,
@@ -557,6 +557,121 @@ ControlledInModal.play = async ({ canvasElement, userEvent }) => {
 
     await userEvent.keyboard("{Escape}");
     await waitFor(() => expect(queryModal()).toBeNull());
+};
+
+export const ToggleOutside = () => {
+    const [isOpen, setIsOpen] = useState(false);
+    const handleToggle = () => setIsOpen(!isOpen);
+
+    return (
+        <div className="flex flex-col items-start gap-10">
+            <Button>Outside</Button>
+            <Popover open={isOpen} placement="right" onClickOutside={handleToggle}>
+                <Button onClick={handleToggle}>Toggle target</Button>
+                <Popover.Content className="p-4">Toggle content</Popover.Content>
+            </Popover>
+        </div>
+    );
+};
+
+ToggleOutside.play = async ({ canvas, canvasElement, userEvent }) => {
+    const outside = canvas.getByRole("button", { name: "Outside" });
+
+    await userEvent.click(canvas.getByRole("button", { name: "Toggle target" }));
+    await findBox(canvasElement, "Toggle content");
+
+    // The second press lands during the fade-out, which must not reach a toggle-style onClickOutside
+    await userEvent.click(outside);
+    await userEvent.click(outside);
+    await expectNoBox(canvasElement, "Toggle content");
+    await waitForChangeWindow();
+    await expect(queryBox(canvasElement, "Toggle content")).toBeUndefined();
+};
+
+export const ToggleEscapeInModal = () => {
+    const [isModalOpen, setIsModalOpen] = useState(true);
+    const [isOpen, setIsOpen] = useState(false);
+    const handleCloseModal = () => setIsModalOpen(false);
+    const handleToggle = () => setIsOpen(!isOpen);
+
+    return (
+        <Modal shouldCloseOnOutsideClick isOpen={isModalOpen} onClose={handleCloseModal}>
+            <Modal.Header>Modal with a toggled popover</Modal.Header>
+            <Modal.Body>
+                <Popover open={isOpen} placement="bottom" onClickOutside={handleToggle}>
+                    <Button onClick={handleToggle}>Toggled modal target</Button>
+                    <Popover.Content className="p-4">Toggled modal content</Popover.Content>
+                </Popover>
+            </Modal.Body>
+        </Modal>
+    );
+};
+
+ToggleEscapeInModal.play = async ({ canvasElement, userEvent }) => {
+    const body = within(canvasElement.ownerDocument.body);
+    const queryModal = () => body.queryByText("Modal with a toggled popover");
+
+    await userEvent.click(await body.findByRole("button", { name: "Toggled modal target" }));
+    await findBox(canvasElement, "Toggled modal content");
+
+    await userEvent.keyboard("{Escape}");
+    await userEvent.keyboard("{Escape}");
+    await expectNoBox(canvasElement, "Toggled modal content");
+    await waitForChangeWindow();
+    await expect(queryBox(canvasElement, "Toggled modal content")).toBeUndefined();
+
+    await userEvent.keyboard("{Escape}");
+    await waitFor(() => expect(queryModal()).toBeNull());
+};
+
+export const HoverCloseGrace = ({ onOpenChange }) => {
+    return (
+        <Popover placement="bottom" distance={20} onOpenChange={onOpenChange}>
+            <Button>Grace target</Button>
+            <Popover.Content className="p-4">Grace content</Popover.Content>
+        </Popover>
+    );
+};
+
+HoverCloseGrace.play = async ({ args, canvas, canvasElement, userEvent }) => {
+    const target = getTarget(canvas, "Grace target");
+
+    await userEvent.hover(target);
+    const box = await findBox(canvasElement, "Grace content");
+
+    // Crossing the gap between target and content takes time; the popover must not start closing meanwhile
+    await userEvent.unhover(target);
+    await new Promise((resolve) => setTimeout(resolve, 50));
+    await userEvent.hover(box);
+    await waitForChangeWindow();
+    await expect(box).toHaveAttribute("data-state", "open");
+    await expect(args.onOpenChange).not.toHaveBeenCalledWith(false);
+};
+
+export const FocusMovesIntoContent = ({ onOpenChange }) => {
+    return (
+        <Popover placement="bottom" onOpenChange={onOpenChange}>
+            <Button>Focus move target</Button>
+            <Popover.Content className="space-y-2 p-4">
+                <p>Focus move content</p>
+                <Input placeholder="Focus move field" />
+            </Popover.Content>
+        </Popover>
+    );
+};
+
+FocusMovesIntoContent.play = async ({ args, canvas, canvasElement, userEvent }) => {
+    await userEvent.tab();
+    await expect(canvas.getByRole("button", { name: "Focus move target" })).toHaveFocus();
+    const box = await findBox(canvasElement, "Focus move content");
+
+    // Blurring the target into its own content keeps the popover open
+    const field = within(box).getByPlaceholderText("Focus move field");
+    await userEvent.click(field);
+    await expect(field).toHaveFocus();
+    await waitForChangeWindow();
+    await expect(box).toHaveAttribute("data-state", "open");
+    await expect(args.onOpenChange).not.toHaveBeenCalledWith(false);
 };
 
 let disabledWarnSpy;

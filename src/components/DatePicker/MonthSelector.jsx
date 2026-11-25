@@ -31,7 +31,7 @@ export const MonthSelector = ({ date, locale, onChange, currentMonth }) => {
         setIsVisible(false);
     };
 
-    /** Radix asks to close on Escape and on presses outside; the caption's own click opens it. */
+    /** Radix asks to close on Escape, a press outside and focus leaving; the caption's own click opens it. */
     const handleOpenChange = (isOpen) => {
         if (!isOpen) {
             handleClear();

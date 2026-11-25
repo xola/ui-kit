@@ -132,8 +132,21 @@ export const DateRangeWithInput = ({ shouldShowRelativeRanges, ranges }) => {
 };
 
 DateRangeWithInput.play = async ({ canvasElement, userEvent }) => {
-    await userEvent.click(canvasElement.querySelector(".cursor-pointer"));
-    await waitFor(() => expect(canvasElement.ownerDocument.querySelector(".DayPicker")).toBeInTheDocument());
+    const { ownerDocument } = canvasElement;
+    const trigger = canvasElement.querySelector(".cursor-pointer");
+    const initialText = trigger.textContent;
+
+    await userEvent.click(trigger);
+    await waitFor(() => expect(ownerDocument.querySelector(".DayPicker")).toBeInTheDocument());
+
+    // Escape on a half-picked range closes the picker and puts the range back, like an outside click
+    const days = [...ownerDocument.querySelectorAll(".DayPicker-Day:not(.DayPicker-Day--outside)")];
+    await userEvent.click(days.find((day) => day.textContent.trim() === "12"));
+    await waitFor(() => expect(trigger).toHaveTextContent("Pending"));
+
+    await userEvent.keyboard("{Escape}");
+    await waitFor(() => expect(ownerDocument.querySelector(".DayPicker")).toBeNull());
+    await expect(trigger.textContent).toBe(initialText);
 };
 
 export default DateRangePickerStories;
