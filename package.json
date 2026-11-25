@@ -36,10 +36,10 @@
         "./package.json": "./package.json"
     },
     "scripts": {
-        "prepare": "node scripts/prepare && vite build",
+        "prepare": "node scripts/prepare && vite build && cp index.d.ts build",
         "start": "./scripts/storybook",
         "dev": "./scripts/storybook",
-        "build": "npm run prepare && vite build && cp index.d.ts build",
+        "build": "npm run prepare",
         "build:storybook": "npm run build && ./scripts/storybook build",
         "clean": "rm -rf node_modules/.vite",
         "lint": "eslint --cache --cache-strategy content --fix src",
