@@ -54,7 +54,7 @@ const SidebarFooter = () => {
                     </div>
                 }
             >
-                <Sidebar.Account isResponsive name="Old South Carriage Company" />
+                <Sidebar.Account name="Old South Carriage Company" />
             </Sidebar.Menu>
         </Sidebar.Footer>
     );
