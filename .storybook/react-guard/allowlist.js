@@ -6,9 +6,6 @@
  * React logs each warning once per component per test file, so the entry sits on the first story that renders the
  * offending component.
  */
-const NOUISLIDER_DEFAULT_PROPS =
-    "Warning: Nouislider2: Support for defaultProps will be removed from function components in a future major " +
-    "release. Use JavaScript default parameters instead.";
 
 /** Raised by @tippyjs/react reading `children.ref` on React 19. */
 const TIPPY_ELEMENT_REF =
@@ -16,9 +13,6 @@ const TIPPY_ELEMENT_REF =
     "Element type in a future release.";
 
 export const allowlist = {
-    // Task 5: nouislider
-    "src/stories/Forms/RangeSlider.stories.jsx > Default": [NOUISLIDER_DEFAULT_PROPS],
-
     // Task 10-12: Tippy
     "src/stories/Overlay/Tooltip.stories.jsx > Default": [TIPPY_ELEMENT_REF],
     "src/stories/Overlay/Popover.stories.jsx > Default": [TIPPY_ELEMENT_REF],
