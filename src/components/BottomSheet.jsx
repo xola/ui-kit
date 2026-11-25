@@ -1,4 +1,4 @@
-import { Dialog, Transition } from "@headlessui/react";
+import { Dialog, DialogTitle, Transition, TransitionChild } from "@headlessui/react";
 import clsx from "clsx";
 import { noop } from "lodash-es";
 import PropTypes from "prop-types";
@@ -37,8 +37,15 @@ export const BottomSheet = ({
 
     return (
         <Transition appear show={isOpen} as={Fragment}>
-            <Dialog as="div" className="ui-bottom-sheet fixed inset-0 z-30" onClose={noop}>
-                <Transition.Child
+            <Dialog
+                // With autoFocus on, Headless UI focuses the dialog container unless a child has data-autofocus.
+                // Off, it focuses the first focusable element inside, so keyboard users land on a control
+                autoFocus={false}
+                as="div"
+                className="ui-bottom-sheet fixed inset-0 z-30"
+                onClose={noop}
+            >
+                <TransitionChild
                     as={Fragment}
                     enter="ease-out duration-300"
                     enterFrom="opacity-0"
@@ -52,9 +59,9 @@ export const BottomSheet = ({
                         aria-hidden="true"
                         onClick={handleOverlayClick}
                     />
-                </Transition.Child>
+                </TransitionChild>
 
-                <Transition.Child
+                <TransitionChild
                     as={Fragment}
                     enter="transform transition ease-out duration-300"
                     enterFrom="translate-y-full"
@@ -81,7 +88,7 @@ export const BottomSheet = ({
 
                         {children}
                     </div>
-                </Transition.Child>
+                </TransitionChild>
             </Dialog>
         </Transition>
     );
@@ -98,17 +105,13 @@ BottomSheet.propTypes = {
 // px-8 keeps the centered title clear of the absolute close button in the top-right corner.
 const Header = ({ children, description, className, ...rest }) => {
     return (
-        <Dialog.Title
-            as="div"
-            className={clsx(className, "ui-bottom-sheet-header shrink-0 px-8 text-center")}
-            {...rest}
-        >
+        <DialogTitle as="div" className={clsx(className, "ui-bottom-sheet-header shrink-0 px-8 text-center")} {...rest}>
             <h3 className="text-2xl font-semibold leading-6 text-black">{children}</h3>
 
             {description ? (
                 <p className="mt-2 text-base font-normal leading-normal text-gray-darker">{description}</p>
             ) : null}
-        </Dialog.Title>
+        </DialogTitle>
     );
 };
 

@@ -1,4 +1,4 @@
-import { Dialog, Transition } from "@headlessui/react";
+import { Dialog, DialogBackdrop, DialogTitle, Transition, TransitionChild } from "@headlessui/react";
 import PropTypes from "prop-types";
 import React, { forwardRef, Fragment } from "react";
 import { isIosBrowser } from "../helpers/browser";
@@ -32,9 +32,15 @@ export const Drawer = forwardRef(
         const viewportHeight = useViewportHeight();
         const isIOS = isIosBrowser();
 
+        // The Dialog calls `onClose(false)` on Escape; an overlay click passes the same value, not the click event
+        const handleOverlayClick = () => onClose(false);
+
         return (
-            <Transition.Root ref={ref} show={isOpen} as={Fragment}>
+            <Transition ref={ref} show={isOpen} as={Fragment}>
                 <Dialog
+                    // With autoFocus on, Headless UI focuses the dialog container unless a child has data-autofocus.
+                    // Off, it focuses the first focusable element inside, so keyboard users land on a control
+                    autoFocus={false}
                     as="div"
                     className={cn("ui-drawer fixed inset-0 z-10 overflow-hidden", classNames.dialog)}
                     onClose={onClose}
@@ -45,7 +51,7 @@ export const Drawer = forwardRef(
                             isIOS ? `h-[${viewportHeight}px] max-h-[${viewportHeight}px] w-full` : "h-screen w-full",
                         )}
                     >
-                        <Transition.Child
+                        <TransitionChild
                             as={Fragment}
                             enter="ease-out duration-500"
                             enterFrom="opacity-0"
@@ -54,13 +60,14 @@ export const Drawer = forwardRef(
                             leaveFrom="opacity-100"
                             leaveTo="opacity-0"
                         >
-                            <Dialog.Overlay
+                            <DialogBackdrop
                                 className={cn(
                                     "ui-drawer-overlay fixed inset-0 bg-black bg-opacity-80 transition-opacity",
                                     classNames.overlay,
                                 )}
+                                onClick={handleOverlayClick}
                             />
-                        </Transition.Child>
+                        </TransitionChild>
                         <div
                             style={{
                                 [position === "right" ? "right" : "left"]: `${sideIndent ?? 0}px`,
@@ -71,7 +78,7 @@ export const Drawer = forwardRef(
                                 classNames.dialogContent,
                             )}
                         >
-                            <Transition.Child
+                            <TransitionChild
                                 as={Fragment}
                                 enter="ease-out duration-500"
                                 enterFrom={position === "right" ? "translate-x-full" : "-translate-x-full"}
@@ -92,7 +99,7 @@ export const Drawer = forwardRef(
                                     >
                                         <div className="ui-drawer-header w-full">
                                             {/* eslint-disable-next-line react/jsx-max-depth */}
-                                            <Dialog.Title>{title}</Dialog.Title>
+                                            <DialogTitle>{title}</DialogTitle>
                                         </div>
                                         <div className={cn("ui-drawer-body relative mt-3 flex-1", classNames.content)}>
                                             {content}
@@ -101,11 +108,11 @@ export const Drawer = forwardRef(
 
                                     {position === "left" ? <CloseButton onClose={onClose} /> : null}
                                 </div>
-                            </Transition.Child>
+                            </TransitionChild>
                         </div>
                     </div>
                 </Dialog>
-            </Transition.Root>
+            </Transition>
         );
     },
 );

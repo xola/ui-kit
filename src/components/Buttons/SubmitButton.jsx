@@ -2,6 +2,7 @@ import { Transition } from "@headlessui/react";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import cn from "../../helpers/classnames";
+import { useFormStatusSafe } from "../../helpers/reactFeatures";
 import { CheckIcon } from "../../icons";
 import { Spinner } from "../Spinner";
 import { Button, colors } from "./Button";
@@ -27,21 +28,22 @@ export const SubmitButton = ({
     ...rest
 }) => {
     const [showSuccess, setShowSuccess] = useState(false);
+    const { pending } = useFormStatusSafe();
+    const isBusy = isLoading ?? pending;
 
     useEffect(() => {
-        if (isSuccess && !isLoading) {
+        if (isSuccess && !isBusy) {
             setShowSuccess(true);
             const timer = setTimeout(() => setShowSuccess(false), 3000);
             return () => clearTimeout(timer);
         }
 
-        if (isLoading && showSuccess) {
+        if (isBusy) {
             setShowSuccess(false);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isSuccess, isLoading]);
+    }, [isSuccess, isBusy]);
 
-    const showTransition = isLoading || showSuccess;
+    const showTransition = isBusy || showSuccess;
 
     return (
         <Button
@@ -76,7 +78,7 @@ export const SubmitButton = ({
                                 })}
                             />
                         )}
-                        {isLoading && !showSuccess && (
+                        {isBusy && !showSuccess && (
                             <Spinner size="current" color="current" className="relative -top-0.25 text-white" />
                         )}
                     </Transition>

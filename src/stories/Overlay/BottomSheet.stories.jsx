@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import React, { useState } from "react";
-import { expect, within } from "storybook/test";
+import { expect, waitFor, within } from "storybook/test";
 import { BottomSheet, Button, DatePickerPopover, Input } from "../..";
 
 const BottomSheetStories = {
@@ -57,12 +57,29 @@ export const Default = ({ shouldCloseOnOutsideClick }) => {
 };
 
 Default.play = async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
+    const { ownerDocument } = canvasElement;
+    const body = within(ownerDocument.body);
+    const launcher = canvas.getByRole("button", { name: "Click me to launch a bottom sheet" });
     await expect(body.queryByText("Apply Code")).not.toBeInTheDocument();
 
-    await userEvent.click(canvas.getByRole("button", { name: "Click me to launch a bottom sheet" }));
-    await expect(await body.findByText("Apply Code")).toBeInTheDocument();
+    await userEvent.click(launcher);
+    const dialog = await body.findByRole("dialog");
+    await expect(body.getByText("Apply Code")).toBeInTheDocument();
     await expect(body.getByPlaceholderText("Coupon or Affiliate")).toBeInTheDocument();
+
+    // Opening focuses the first focusable element inside, not the dialog container itself
+    await waitFor(() => {
+        expect(dialog).toContainElement(ownerDocument.activeElement);
+        expect(ownerDocument.activeElement).not.toBe(dialog);
+    });
+
+    await userEvent.click(body.getByRole("button", { name: "Close" }));
+    await waitFor(() => expect(body.queryByText("Apply Code")).not.toBeInTheDocument());
+
+    await userEvent.click(launcher);
+    await body.findByText("Apply Code");
+    await userEvent.click(ownerDocument.querySelector(".ui-bottom-sheet-overlay"));
+    await waitFor(() => expect(body.queryByText("Apply Code")).not.toBeInTheDocument());
 };
 
 // Tall scrollable body: the Body scrolls independently while the Header/Footer stay pinned.

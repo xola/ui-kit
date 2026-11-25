@@ -1,4 +1,4 @@
-import { Dialog, Transition } from "@headlessui/react";
+import { Dialog, DialogBackdrop, DialogTitle, Transition, TransitionChild } from "@headlessui/react";
 import PropTypes from "prop-types";
 import React, { Fragment } from "react";
 import cn from "../helpers/classnames";
@@ -69,9 +69,16 @@ export const Modal = ({
 
     return (
         <Transition appear show={isOpen} as={Fragment}>
-            <Dialog as="div" className="ui-modal fixed inset-0 z-30 overflow-y-auto" onClose={handleOutsideClick}>
+            <Dialog
+                // With autoFocus on, Headless UI focuses the dialog container unless a child has data-autofocus.
+                // Off, it focuses the first focusable element inside, so keyboard users land on a control
+                autoFocus={false}
+                as="div"
+                className="ui-modal fixed inset-0 z-30 overflow-y-auto"
+                onClose={handleOutsideClick}
+            >
                 <div className="min-h-screen px-4 text-center">
-                    <Transition.Child
+                    <TransitionChild
                         as={Fragment}
                         enter="ease-out duration-300"
                         enterFrom="opacity-0"
@@ -80,8 +87,11 @@ export const Modal = ({
                         leaveFrom="opacity-100"
                         leaveTo="opacity-0"
                     >
-                        <Dialog.Overlay className="ui-modal-overlay fixed inset-0 bg-black bg-opacity-80 transition-opacity" />
-                    </Transition.Child>
+                        <DialogBackdrop
+                            className="ui-modal-overlay fixed inset-0 bg-black bg-opacity-80 transition-opacity"
+                            onClick={handleOutsideClick}
+                        />
+                    </TransitionChild>
 
                     {/* This element is to trick the browser into centering the modal contents. */}
                     {position === "center" && (
@@ -90,7 +100,7 @@ export const Modal = ({
                         </span>
                     )}
 
-                    <Transition.Child
+                    <TransitionChild
                         as={Fragment}
                         enter={cn("ease-out duration-300")}
                         enterFrom={cn("opacity-0", animations[position].enterFrom)}
@@ -119,7 +129,7 @@ export const Modal = ({
 
                             {children}
                         </div>
-                    </Transition.Child>
+                    </TransitionChild>
                 </div>
             </Dialog>
         </Transition>
@@ -138,13 +148,13 @@ Modal.propTypes = {
 
 const Header = ({ children, description, className, ...rest }) => {
     return (
-        <Dialog.Title as="div" className={cn(className, "ui-modal-header text-center")} {...rest}>
+        <DialogTitle as="div" className={cn(className, "ui-modal-header text-center")} {...rest}>
             <h3 className="text-2xl font-semibold leading-6 text-black">{children}</h3>
 
             {description ? (
                 <p className="mt-2 text-base font-normal leading-normal text-gray-darker">{description}</p>
             ) : null}
-        </Dialog.Title>
+        </DialogTitle>
     );
 };
 

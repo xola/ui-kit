@@ -1,6 +1,6 @@
-import { Switch as HeadlessSwitch } from "@headlessui/react";
+import { Field, Switch as HeadlessSwitch, Label } from "@headlessui/react";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import cn from "../../helpers/classnames";
 
 const sizes = {
@@ -21,11 +21,25 @@ const sizes = {
     },
 };
 
+/**
+ * Headless UI's `Label` finds its switch with `document.getElementById` on the `Field`'s generated control id. A
+ * consumer `id` on the switch replaces that id, so the group hands the consumer id to the label instead.
+ */
+const SwitchGroupContext = createContext({});
+
 // TODO: Native checkbox input `checked` and `disabled` properties are not prefixed with `is`.
 // Decide on the naming convention.
-export const Switch = ({ isChecked = false, size = "medium", ...rest }) => {
+export const Switch = ({ id, isChecked = false, size = "medium", ...rest }) => {
+    const { setSwitchId } = useContext(SwitchGroupContext);
+
+    useEffect(() => {
+        setSwitchId?.(id);
+        return () => setSwitchId?.(undefined);
+    }, [id, setSwitchId]);
+
     return (
         <HeadlessSwitch
+            id={id}
             checked={isChecked}
             className={cn(
                 "ui-switch",
@@ -47,40 +61,49 @@ export const Switch = ({ isChecked = false, size = "medium", ...rest }) => {
 };
 
 Switch.propTypes = {
+    id: PropTypes.string,
     isChecked: PropTypes.bool,
     size: PropTypes.string,
 };
 
-Switch.Group = ({ className, children }) => {
+const SwitchGroup = ({ className, children }) => {
+    const [switchId, setSwitchId] = useState();
+
     return (
-        <HeadlessSwitch.Group as="div" className={cn("ui-switch-group", "inline-flex items-center", className)}>
-            {children}
-        </HeadlessSwitch.Group>
+        <SwitchGroupContext.Provider value={{ switchId, setSwitchId }}>
+            <Field className={cn("ui-switch-group", "inline-flex items-center", className)}>{children}</Field>
+        </SwitchGroupContext.Provider>
     );
 };
 
-Switch.Group.displayName = "Switch.Group";
+SwitchGroup.displayName = "Switch.Group";
 
-Switch.Group.propTypes = {
+SwitchGroup.propTypes = {
     className: PropTypes.string,
     children: PropTypes.node.isRequired,
 };
 
-Switch.Label = ({ direction = "left", className, children }) => {
+Switch.Group = SwitchGroup;
+
+const SwitchLabel = ({ direction = "left", className, children }) => {
+    const { switchId } = useContext(SwitchGroupContext);
+
     return (
-        <HeadlessSwitch.Label
-            as="span"
+        <Label
+            htmlFor={switchId}
             className={cn("ui-switch-label", "cursor-pointer", direction === "left" ? "mr-2" : "ml-2", className)}
         >
             {children}
-        </HeadlessSwitch.Label>
+        </Label>
     );
 };
 
-Switch.Label.displayName = "Switch.Label";
+SwitchLabel.displayName = "Switch.Label";
 
-Switch.Label.propTypes = {
+SwitchLabel.propTypes = {
     direction: PropTypes.string,
     className: PropTypes.string,
     children: PropTypes.node.isRequired,
 };
+
+Switch.Label = SwitchLabel;
