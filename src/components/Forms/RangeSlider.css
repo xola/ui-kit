@@ -1,30 +1,50 @@
-/* Hide markers on slider handles */
-.ui-range-slider .noUi-handle::before,
-.ui-range-slider .noUi-handle::after {
-    display: none;
-}
-
-/* Slider Bar */
 .ui-range-slider {
-    @apply h-2 w-full bg-secondary-lighter;
+    @apply relative flex h-5 w-full touch-none select-none items-center;
 }
 
-/* Slider handle connector */
-.ui-range-slider .noUi-connect {
-    @apply bg-primary;
+.ui-range-slider-track {
+    @apply relative h-2 grow overflow-hidden bg-secondary-lighter;
 }
 
-/* Slider handle */
-.ui-range-slider .noUi-handle {
-    @apply h-5 w-5 -translate-x-2/4 rounded-full bg-primary shadow-none;
+.ui-range-slider-range {
+    @apply absolute h-full bg-primary;
 }
 
-.ui-range-slider .noUi-tooltip {
-    @apply left-1/2 top-[130%] h-8 -translate-x-2/4 bg-black text-white;
+.ui-range-slider-thumb {
+    @apply relative block h-5 w-5 rounded-full bg-primary shadow-none outline-none;
 }
 
-.ui-range-slider .noUi-tooltip::after {
+.ui-range-slider-thumb:focus-visible {
+    @apply ring-2 ring-primary-light ring-offset-1;
+}
+
+.ui-range-slider-thumb[data-disabled] {
+    @apply cursor-not-allowed opacity-60;
+}
+
+.ui-range-slider-tooltip {
+    @apply pointer-events-none absolute left-1/2 flex h-8 -translate-x-2/4 items-center whitespace-nowrap bg-black px-2 text-base text-white;
+}
+
+.ui-range-slider-tooltip::after {
     content: "";
+    @apply absolute left-1/2 -ml-1 border-4 border-solid;
+}
+
+.ui-range-slider-tooltip[data-placement="bottom"] {
+    @apply top-[130%];
+}
+
+.ui-range-slider-tooltip[data-placement="bottom"]::after {
     border-color: transparent transparent black transparent;
-    @apply absolute bottom-full left-1/2 -ml-1 border-4 border-solid;
+    @apply bottom-full;
+}
+
+.ui-range-slider-tooltip[data-placement="top"] {
+    @apply bottom-[130%];
+}
+
+.ui-range-slider-tooltip[data-placement="top"]::after {
+    border-color: black transparent transparent transparent;
+    @apply top-full;
 }
