@@ -34,8 +34,3 @@ Textarea.propTypes = {
     rows: PropTypes.number,
     shouldAutoSize: PropTypes.bool,
 };
-
-Textarea.defaultProps = {
-    rows: 2,
-    shouldAutoSize: false,
-};

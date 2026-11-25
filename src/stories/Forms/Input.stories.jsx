@@ -102,4 +102,17 @@ WithRequired.play = async ({ canvas }) => {
     await expect(canvas.getByRole("textbox")).toHaveValue("");
 };
 
+export const NoOptionalProps = () => {
+    return <Input aria-label="Plain" />;
+};
+
+NoOptionalProps.play = async ({ canvas }) => {
+    const input = canvas.getByRole("textbox", { name: "Plain" });
+    await expect(input).toHaveAttribute("type", "text");
+    await expect(input).toHaveClass("ui-input", "py-2.5", "text-base");
+    await expect(input).toHaveClass("border-gray-light");
+    await expect(input).not.toHaveClass("border-danger");
+    await expect(input).toHaveValue("");
+};
+
 export default InputStories;

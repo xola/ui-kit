@@ -13,8 +13,3 @@ Input.propTypes = {
     ...BaseInput.propTypes,
     type: PropTypes.string,
 };
-
-Input.defaultProps = {
-    ...BaseInput.defaultProps,
-    type: "text",
-};
