@@ -14,7 +14,7 @@ export default defineConfig({
                     name: "unit",
                     globals: true,
                     environment: "node",
-                    include: ["src/**/*.test.{js,jsx}"],
+                    include: ["src/**/*.test.{js,jsx}", ".storybook/**/*.test.js"],
                 },
             },
             {
@@ -27,6 +27,7 @@ export default defineConfig({
                 ],
                 test: {
                     name: "storybook",
+                    setupFiles: ["./.storybook/react-guard/setup.js"],
                     browser: {
                         enabled: true,
                         provider: "playwright",

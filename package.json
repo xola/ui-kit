@@ -51,7 +51,9 @@
         "test:bundle-size": "node scripts/checkBundleSize.js",
         "test:storybook": "vitest run --project storybook",
         "test:all": "vitest run",
-        "knip": "knip"
+        "knip": "knip",
+        "react:18": "zx scripts/use-react.mjs 18",
+        "react:19": "zx scripts/use-react.mjs 19"
     },
     "dependencies": {
         "@headlessui/react": "1.7",
@@ -99,7 +101,8 @@
         "tailwindcss": "3.4",
         "typescript": "^5.7.2",
         "vite": "^5.4.21",
-        "vitest": "^3.2.7"
+        "vitest": "^3.2.7",
+        "zx": "^8.8.5"
     },
     "peerDependencies": {
         "@types/react": "^18.2.22 || ^19.0.0",
