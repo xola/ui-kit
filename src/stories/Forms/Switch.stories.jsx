@@ -43,6 +43,10 @@ Default.play = async ({ canvas, userEvent }) => {
     await expect(toggle).toHaveAttribute("aria-checked", "false");
     await userEvent.click(toggle);
     await expect(toggle).toHaveAttribute("aria-checked", "true");
+    await userEvent.click(toggle);
+    await expect(toggle).toHaveAttribute("aria-checked", "false");
+    await userEvent.keyboard("[Space]");
+    await expect(toggle).toHaveAttribute("aria-checked", "true");
 };
 
 export const WithLabel = () => {
@@ -56,10 +60,11 @@ export const WithLabel = () => {
 };
 
 WithLabel.play = async ({ canvas, userEvent }) => {
-    await expect(canvas.getByText("Hello World")).toBeInTheDocument();
-    const toggle = canvas.getByRole("switch");
+    const toggle = canvas.getByRole("switch", { name: "Hello World" });
     await userEvent.click(toggle);
     await expect(toggle).toHaveAttribute("aria-checked", "true");
+    await userEvent.click(canvas.getByText("Hello World"));
+    await expect(toggle).toHaveAttribute("aria-checked", "false");
 };
 
 export const Disabled = ({ size }) => {

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { expect, waitFor, within } from "storybook/test";
+import { expect, fn, waitFor, within } from "storybook/test";
 import { Button, Input, Modal } from "../..";
 
 const ModalStories = {
@@ -48,11 +48,16 @@ const ModalStories = {
     },
 };
 
-export const Default = ({ size, position, shouldCloseOnOutsideClick }) => {
+export const Default = ({ size, position, shouldCloseOnOutsideClick, onClose }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const toggle = () => {
         setIsOpen(!isOpen);
+    };
+
+    const handleClose = () => {
+        onClose();
+        setIsOpen(false);
     };
 
     return (
@@ -64,7 +69,7 @@ export const Default = ({ size, position, shouldCloseOnOutsideClick }) => {
                 position={position}
                 isOpen={isOpen}
                 shouldCloseOnOutsideClick={shouldCloseOnOutsideClick}
-                onClose={toggle}
+                onClose={handleClose}
             >
                 <Modal.Header description="Enter the code bellow to apply the code">Apply Code</Modal.Header>
 
@@ -86,14 +91,45 @@ export const Default = ({ size, position, shouldCloseOnOutsideClick }) => {
     );
 };
 
-Default.play = async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
+Default.args = {
+    onClose: fn(),
+};
+
+Default.play = async ({ args, canvas, canvasElement, userEvent }) => {
+    const { ownerDocument } = canvasElement;
+    const body = within(ownerDocument.body);
+    const launcher = canvas.getByRole("button", { name: "Click me to launch a modal" });
     await expect(body.queryByText("Apply Code")).not.toBeInTheDocument();
 
-    await userEvent.click(canvas.getByRole("button", { name: "Click me to launch a modal" }));
-    await expect(await body.findByText("Apply Code")).toBeInTheDocument();
+    await userEvent.click(launcher);
+    const dialog = await body.findByRole("dialog");
+    await expect(body.getByText("Apply Code")).toBeInTheDocument();
     await expect(body.getByPlaceholderText("Coupon of Affiliate")).toBeInTheDocument();
 
+    // Opening focuses the first focusable element inside, not the dialog container itself
+    await waitFor(() => {
+        expect(dialog).toContainElement(ownerDocument.activeElement);
+        expect(ownerDocument.activeElement).not.toBe(dialog);
+    });
+
+    // More presses than the dialog has tabbable elements, so focus has to wrap at least once
+    for (let press = 0; press < 5; press++) {
+        await userEvent.tab();
+        await waitFor(() => expect(dialog).toContainElement(ownerDocument.activeElement));
+    }
+
+    await userEvent.keyboard("{Escape}");
+    await waitFor(() => expect(body.queryByText("Apply Code")).not.toBeInTheDocument());
+    await expect(args.onClose).toHaveBeenCalledOnce();
+
+    await userEvent.click(launcher);
+    await body.findByText("Apply Code");
+    await userEvent.click(ownerDocument.querySelector(".ui-modal-overlay"));
+    await waitFor(() => expect(body.queryByText("Apply Code")).not.toBeInTheDocument());
+    await expect(args.onClose).toHaveBeenCalledTimes(2);
+
+    await userEvent.click(launcher);
+    await body.findByText("Apply Code");
     await userEvent.click(body.getByRole("button", { name: "Cancel" }));
     await waitFor(() => expect(body.queryByText("Apply Code")).not.toBeInTheDocument());
 };

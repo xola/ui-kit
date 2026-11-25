@@ -1,5 +1,6 @@
 import React from "react";
 import { Toaster } from "react-hot-toast";
+import { expect, waitFor } from "storybook/test";
 import { Button, flash } from "../..";
 
 const FlashStories = {
@@ -79,6 +80,18 @@ export const Default = (props) => {
             <Toaster />
         </div>
     );
+};
+
+Default.play = async ({ args, canvas, userEvent }) => {
+    const { text } = args;
+    const queryToast = () => canvas.queryByText(text, { ignore: "button, button *" });
+
+    await userEvent.click(canvas.getByRole("button", { name: text }));
+    await waitFor(() => expect(queryToast()).toBeVisible());
+
+    // The close control is a plain clickable div next to the text, with no role or label to query by
+    await userEvent.click(queryToast().nextElementSibling);
+    await waitFor(() => expect(queryToast()).not.toBeInTheDocument(), { timeout: 2000 });
 };
 
 export const AllStyles = (props) => {

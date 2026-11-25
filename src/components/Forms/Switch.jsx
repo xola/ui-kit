@@ -1,4 +1,4 @@
-import { Switch as HeadlessSwitch } from "@headlessui/react";
+import { Field, Switch as HeadlessSwitch, Label } from "@headlessui/react";
 import PropTypes from "prop-types";
 import React from "react";
 import cn from "../../helpers/classnames";
@@ -52,11 +52,7 @@ Switch.propTypes = {
 };
 
 Switch.Group = ({ className, children }) => {
-    return (
-        <HeadlessSwitch.Group as="div" className={cn("ui-switch-group", "inline-flex items-center", className)}>
-            {children}
-        </HeadlessSwitch.Group>
-    );
+    return <Field className={cn("ui-switch-group", "inline-flex items-center", className)}>{children}</Field>;
 };
 
 Switch.Group.displayName = "Switch.Group";
@@ -68,12 +64,9 @@ Switch.Group.propTypes = {
 
 Switch.Label = ({ direction = "left", className, children }) => {
     return (
-        <HeadlessSwitch.Label
-            as="span"
-            className={cn("ui-switch-label", "cursor-pointer", direction === "left" ? "mr-2" : "ml-2", className)}
-        >
+        <Label className={cn("ui-switch-label", "cursor-pointer", direction === "left" ? "mr-2" : "ml-2", className)}>
             {children}
-        </HeadlessSwitch.Label>
+        </Label>
     );
 };
 

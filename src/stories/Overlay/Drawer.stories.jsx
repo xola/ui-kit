@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { expect, within } from "storybook/test";
+import { expect, fn, waitFor, within } from "storybook/test";
 import { Button, Drawer } from "../..";
 
 const DrawerStories = {
@@ -44,27 +44,71 @@ const DrawerStories = {
     },
 };
 
-export const Drawers = ({ title = "Hello World", size, content = "Lorem Ipsum. Click the X to close" }) => {
+export const Drawers = ({ title = "Hello World", size, content = "Lorem Ipsum. Click the X to close", onClose }) => {
     const [open, setOpen] = useState(false);
-    const onClose = () => setOpen(false);
+
+    const handleClose = (value) => {
+        onClose(value);
+        setOpen(false);
+    };
 
     return (
         <div>
             <Button size="large" onClick={() => setOpen(true)}>
                 Click Me to open the Drawer
             </Button>
-            <Drawer title={title} content={content} size={size} isOpen={open} onClose={onClose} />
+            <Drawer title={title} content={content} size={size} isOpen={open} onClose={handleClose} />
         </div>
     );
 };
 
-Drawers.play = async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
+Drawers.args = {
+    onClose: fn(),
+};
+
+Drawers.play = async ({ args, canvas, canvasElement, userEvent }) => {
+    const { ownerDocument } = canvasElement;
+    const body = within(ownerDocument.body);
+    const launcher = canvas.getByRole("button", { name: "Click Me to open the Drawer" });
     await expect(body.queryByText("Hello World")).not.toBeInTheDocument();
 
-    await userEvent.click(canvas.getByRole("button", { name: "Click Me to open the Drawer" }));
-    await expect(await body.findByText("Hello World")).toBeInTheDocument();
+    await userEvent.click(launcher);
+    const dialog = await body.findByRole("dialog");
+
+    // The panel starts translated past the right edge and slides in until it sits flush with its container
+    const container = dialog.querySelector(".ui-drawer-container");
+    const panel = container.firstElementChild;
+    await expect(container).toHaveStyle({ right: "0px" });
+    await expect(panel.getBoundingClientRect().right).toBeGreaterThan(container.getBoundingClientRect().right);
+    await waitFor(
+        () => expect(panel.getBoundingClientRect().right).toBeCloseTo(container.getBoundingClientRect().right, 0),
+        { timeout: 2000 },
+    );
+
+    await expect(body.getByText("Hello World")).toBeInTheDocument();
     await expect(body.getByText("Lorem Ipsum. Click the X to close")).toBeInTheDocument();
+
+    // Opening focuses the first focusable element inside, not the dialog container itself
+    await waitFor(() => {
+        expect(dialog).toContainElement(ownerDocument.activeElement);
+        expect(ownerDocument.activeElement).not.toBe(dialog);
+    });
+
+    for (let press = 0; press < 3; press++) {
+        await userEvent.tab();
+        await waitFor(() => expect(dialog).toContainElement(ownerDocument.activeElement));
+    }
+
+    await userEvent.keyboard("{Escape}");
+    await waitFor(() => expect(body.queryByText("Hello World")).not.toBeInTheDocument());
+    await expect(args.onClose).toHaveBeenCalledExactlyOnceWith(false);
+
+    await userEvent.click(launcher);
+    await body.findByText("Hello World");
+    await userEvent.click(ownerDocument.querySelector(".ui-drawer-overlay"));
+    await waitFor(() => expect(body.queryByText("Hello World")).not.toBeInTheDocument());
+    await expect(args.onClose).toHaveBeenCalledTimes(2);
+    await expect(args.onClose).toHaveBeenLastCalledWith(false);
 };
 
 export default DrawerStories;

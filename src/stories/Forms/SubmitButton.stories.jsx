@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { expect } from "storybook/test";
+import { expect, waitFor } from "storybook/test";
 import { SubmitButton } from "../..";
 
 const SubmitButtonStories = {
@@ -106,6 +106,35 @@ export const Default = ({ isLoading, ...rest }) => {
 Default.play = async ({ canvas }) => {
     await expect(canvas.getAllByRole("button")).toHaveLength(6);
     await expect(canvas.getAllByText("Submit")).toHaveLength(3);
+};
+
+export const Loading = (props) => {
+    return <SubmitButton {...props}>Submit</SubmitButton>;
+};
+
+Loading.args = {
+    isLoading: true,
+};
+
+Loading.play = async ({ canvas }) => {
+    const button = canvas.getByRole("button", { name: "Submit" });
+    await expect(button).toBeDisabled();
+    await expect(button.querySelector(".ui-spinner")).toBeInTheDocument();
+};
+
+export const Success = (props) => {
+    return <SubmitButton {...props}>Submit</SubmitButton>;
+};
+
+Success.args = {
+    isSuccess: true,
+};
+
+Success.play = async ({ canvas }) => {
+    const button = canvas.getByRole("button", { name: "Submit" });
+    await waitFor(() => expect(button.querySelector("svg:not(.ui-spinner)")).toBeInTheDocument());
+    await expect(button.querySelector(".ui-spinner")).not.toBeInTheDocument();
+    await expect(button).toBeDisabled();
 };
 
 export default SubmitButtonStories;
