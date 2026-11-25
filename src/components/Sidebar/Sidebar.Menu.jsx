@@ -1,95 +1,152 @@
-import Tippy from "@tippyjs/react";
+import * as RadixHoverCard from "@radix-ui/react-hover-card";
+import { useMemoizedFn } from "ahooks";
 import PropTypes from "prop-types";
-import React from "react";
-import "tippy.js/dist/tippy.css";
+import React, { useEffect, useRef, useState } from "react";
 import cn from "../../helpers/classnames";
-import styles from "./Sidebar.Menu.module.css";
+import { warnRemovedProps } from "../../helpers/warnRemovedProps";
 
-const appendTo = typeof window === "undefined" ? undefined : window.document.body;
+const USE_ON_OPEN_CHANGE = "use 'onOpenChange'";
 
-// The menu is far taller than its trigger, so reaching an item means cutting diagonally across a
-// corner that belongs to neither element. Tippy's 2px default border hides the menu there.
-const INTERACTIVE_BORDER = 24;
-const INTERACTIVE_DEBOUNCE = 75;
+/** Tippy props Sidebar.Menu dropped in 3.8, mapped to the replacement text `warnRemovedProps` prints. */
+export const SIDEBAR_MENU_REMOVED_PROPS = {
+    visible: "use 'open'",
+    onShow: USE_ON_OPEN_CHANGE,
+    onHide: USE_ON_OPEN_CHANGE,
+    onMount: USE_ON_OPEN_CHANGE,
+    onHidden: USE_ON_OPEN_CHANGE,
+    onDestroy: USE_ON_OPEN_CHANGE,
+};
 
 // Show waits out a transit: reaching an item can cross a neighbouring link, which would
 // otherwise steal the menu. Hide forgives an overshoot.
 const DELAY = [150, 100];
 
-// No fade-out: a 250ms default leaves two menus on screen at once.
-const DURATION = [200, 0];
+const SIDE_OFFSET = 4;
 
-// Each menu is an independent tippy instance, so nothing stops two being open at once, and an
-// instance cannot always hide itself: @tippyjs/react forces trigger "manual" whenever `visible` is
-// set. Every visible menu registers here and the one opening evicts the rest.
-const visibleInstances = new Set();
+/**
+ * Close requests of every open menu. Each menu is an independent HoverCard, so nothing else stops two being open at
+ * once: the one opening asks the rest to close.
+ */
+const openMenus = new Set();
 
-const hideInstances = (except) => {
-    for (const instance of visibleInstances) {
-        if (instance !== except) {
-            instance.hide();
+const closeMenus = (except) => {
+    openMenus.forEach((close) => {
+        if (close !== except) {
+            close();
         }
-    }
+    });
 };
 
-// Resizing the rail moves a trigger without a scroll or window resize, the only events popper
-// repositions on, so an open menu would sit at its pre-drag x. Tippy also counts the resize handle
-// as inside the interactive border, so leaving the link for the handle never hides it.
-export const hideAllSidebarMenus = () => hideInstances(null);
+/** Sidebar calls this when a resize starts, so no menu is left over the rail edge being dragged. */
+export const hideAllSidebarMenus = () => closeMenus();
 
-export const SidebarMenu = ({ children, content, onShow, onHidden, onDestroy, ...rest }) => {
-    const handleShow = (instance) => {
-        hideInstances(instance);
-        visibleInstances.add(instance);
+/**
+ * Flyout beside a sidebar item. Opens on hover, focus, or a tap on the item.
+ *
+ * @param {boolean?}         props.open          Controls visibility. Leave undefined to open on hover, focus and tap.
+ * @param {ReactNode}        props.content       Menu body.
+ * @param {number|number[]?} props.delay         Delay in ms before opening and before closing; `[open, close]` sets
+ *                                               them apart. Default `[150, 100]`.
+ * @param {ReactNode}        props.children      Trigger, wrapped in a block `<span>`.
+ * @param {Function?}        props.onOpenChange  `(open: boolean) => void`. Called on hover, focus, tap, Escape, a press
+ *                                               outside, another menu opening, and a sidebar resize starting.
+ */
+export const SidebarMenu = ({ open, content, delay = DELAY, children, onOpenChange, ...removedProps }) => {
+    warnRemovedProps("Sidebar.Menu", removedProps, SIDEBAR_MENU_REMOVED_PROPS);
 
-        return onShow?.(instance);
+    const triggerRef = useRef();
+    const pointerTypeRef = useRef();
+    const [isLocalOpen, setIsLocalOpen] = useState(false);
+    const [openDelay = 0, closeDelay = 0] = Array.isArray(delay) ? delay : [delay, delay];
+
+    /**
+     * Root stays controlled for its whole life, and local state follows `open` while it is set, so a menu held closed
+     * and then released stays closed until the next hover instead of reopening from stale state.
+     */
+    const isOpen = open ?? isLocalOpen;
+    if (open !== undefined && open !== isLocalOpen) {
+        setIsLocalOpen(open);
+    }
+
+    const handleOpenChange = (nextOpen) => {
+        setIsLocalOpen(nextOpen);
+        onOpenChange?.(nextOpen);
     };
 
-    const handleHidden = (instance) => {
-        visibleInstances.delete(instance);
-        onHidden?.(instance);
+    const requestClose = useMemoizedFn(() => handleOpenChange(false));
+
+    useEffect(() => {
+        if (isOpen) {
+            closeMenus(requestClose);
+            openMenus.add(requestClose);
+        }
+
+        return () => openMenus.delete(requestClose);
+    }, [isOpen, requestClose]);
+
+    const handlePointerDown = (event) => {
+        pointerTypeRef.current = event.pointerType;
     };
 
-    const handleDestroy = (instance) => {
-        visibleInstances.delete(instance);
-        onDestroy?.(instance);
+    /**
+     * HoverCard ignores touch pointers and iOS Safari does not focus a tapped button, so on a touchscreen neither of its
+     * open paths runs. A tap opens the menu instead, and a tap outside closes it. Mouse clicks are left alone: hover
+     * already opened the menu.
+     */
+    const handleClick = () => {
+        const isTapWhileClosed = pointerTypeRef.current === "touch" && !isOpen;
+        pointerTypeRef.current = undefined;
+
+        if (isTapWhileClosed) {
+            handleOpenChange(true);
+        }
+    };
+
+    /** A press on the trigger counts as outside to Radix, which would close the menu the same press keeps open. */
+    const handlePointerDownOutside = (event) => {
+        const isTriggerPress = triggerRef.current?.contains(event.target);
+        if (isTriggerPress) {
+            event.preventDefault();
+        }
     };
 
     return (
-        <Tippy
-            interactive
-            arrow={false}
-            trigger="mouseenter" // Required otherwise menu will be truncated by the sidebar.
-            hideOnClick="toggle"
-            appendTo={appendTo}
-            placement="right"
-            offset={[0, 4]}
-            interactiveBorder={INTERACTIVE_BORDER}
-            interactiveDebounce={INTERACTIVE_DEBOUNCE}
-            delay={DELAY}
-            duration={DURATION}
-            content={content}
-            className={cn(
-                "ui-sidebar-menu",
-                styles.main,
-                "!rounded-none bg-black bg-opacity-90 p-2 backdrop-blur-sm backdrop-filter",
-            )}
-            onShow={handleShow}
-            onHidden={handleHidden}
-            onDestroy={handleDestroy}
-            {...rest}
+        <RadixHoverCard.Root
+            open={isOpen}
+            openDelay={openDelay}
+            closeDelay={closeDelay}
+            onOpenChange={handleOpenChange}
         >
-            <span className="block">{children}</span>
-        </Tippy>
+            <RadixHoverCard.Trigger asChild ref={triggerRef} onPointerDown={handlePointerDown} onClick={handleClick}>
+                <span className="block">{children}</span>
+            </RadixHoverCard.Trigger>
+            <RadixHoverCard.Portal>
+                <RadixHoverCard.Content
+                    side="right"
+                    sideOffset={SIDE_OFFSET}
+                    className={cn(
+                        "ui-sidebar-menu",
+                        // Stacking, width cap and type size are the 3.7 values consumer layouts were built around
+                        "z-[9999] max-w-[350px] text-base leading-[1.4] text-white outline-none",
+                        "bg-black bg-opacity-90 p-2 backdrop-blur-sm backdrop-filter",
+                        // No fade-out: a fading menu would still be on screen beside the one replacing it
+                        "data-[state=open]:animate-fade-in",
+                    )}
+                    onPointerDownOutside={handlePointerDownOutside}
+                >
+                    {content}
+                </RadixHoverCard.Content>
+            </RadixHoverCard.Portal>
+        </RadixHoverCard.Root>
     );
 };
 
 SidebarMenu.displayName = "Sidebar.Menu";
 
 SidebarMenu.propTypes = {
-    children: PropTypes.node.isRequired,
+    open: PropTypes.bool,
     content: PropTypes.node.isRequired,
-    onShow: PropTypes.func,
-    onHidden: PropTypes.func,
-    onDestroy: PropTypes.func,
+    delay: PropTypes.oneOfType([PropTypes.number, PropTypes.arrayOf(PropTypes.number)]),
+    children: PropTypes.node.isRequired,
+    onOpenChange: PropTypes.func,
 };
