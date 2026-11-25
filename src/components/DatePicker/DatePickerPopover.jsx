@@ -54,6 +54,13 @@ export const DatePickerPopover = ({
         toggleVisibility();
     };
 
+    /** Radix asks to close on Escape and on presses outside; the target's own click opens it. */
+    const handleOpenChange = (isOpen) => {
+        if (!isOpen) {
+            setIsVisible(false);
+        }
+    };
+
     useEffect(() => {
         setOriginalValue(value);
     }, [value]);
@@ -66,11 +73,13 @@ export const DatePickerPopover = ({
 
     return (
         <Popover
-            visible={isVisible}
+            openOn="click"
+            open={isVisible}
             maxWidth={900}
             distance={18}
             placement="bottom"
             className={cn("ui-date-picker-input", classNames.popover)}
+            onOpenChange={handleOpenChange}
             onClickOutside={handleClickOutside}
             {...popoverProps}
             {...(isMobile ? { placement: "top", distance: 4 } : {})}

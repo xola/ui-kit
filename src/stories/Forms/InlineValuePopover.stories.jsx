@@ -1,7 +1,7 @@
 import { random } from "lodash-es";
 import React, { useState } from "react";
-import { expect, within } from "storybook/test";
-import { Button, FormGroup, InlineValuePopover, Input, Select } from "../..";
+import { expect, waitFor, within } from "storybook/test";
+import { Button, FormGroup, InlineValuePopover, Input, Modal, Select } from "../..";
 
 const InlineValuePopoverStories = {
     title: "Forms & Fields/Inline Value Popover",
@@ -36,6 +36,7 @@ export const Default = () => {
 
     return (
         <div className="h-20">
+            <p className="mb-5">Outside</p>
             <InlineValuePopover
                 text={text}
                 isOpen={isOpen}
@@ -63,6 +64,10 @@ Default.play = async ({ canvas, canvasElement, userEvent }) => {
     await userEvent.click(canvas.getByText("8 hours"));
     const body = within(canvasElement.ownerDocument.body);
     await expect(await body.findByRole("button", { name: "Apply" })).toBeInTheDocument();
+    await waitFor(() => expect(body.getByRole("textbox")).toHaveFocus());
+
+    await userEvent.click(canvas.getByText("Outside"));
+    await waitFor(() => expect(body.queryByRole("button", { name: "Apply" })).toBeNull());
 };
 
 export const WithoutArrow = () => {
@@ -107,6 +112,76 @@ WithoutArrow.play = async ({ canvas, canvasElement, userEvent }) => {
     await userEvent.click(canvas.getByText("8 hours"));
     const body = within(canvasElement.ownerDocument.body);
     await expect(await body.findByRole("button", { name: "Apply" })).toBeInTheDocument();
+};
+
+export const PassThroughProps = () => {
+    return (
+        <InlineValuePopover isOpen text="Pass-through value" data-testid="inline-value-popover-test-id">
+            <Input />
+        </InlineValuePopover>
+    );
+};
+
+PassThroughProps.play = async ({ canvasElement }) => {
+    const { ownerDocument } = canvasElement;
+    await expect(await within(ownerDocument.body).findByRole("textbox")).toBeInTheDocument();
+    await expect(ownerDocument.querySelector("[data-testid='inline-value-popover-test-id']")).toBeNull();
+};
+
+export const WithError = () => {
+    return (
+        <InlineValuePopover text="8 hours" error="Value is required">
+            <Input />
+        </InlineValuePopover>
+    );
+};
+
+WithError.play = async ({ canvasElement, userEvent }) => {
+    const icon = canvasElement.querySelector(".text-danger");
+    await userEvent.hover(icon);
+    await expect(await within(canvasElement.ownerDocument.body).findByRole("tooltip")).toHaveTextContent(
+        "Value is required",
+    );
+};
+
+export const InsideModal = () => {
+    const [isModalOpen, setIsModalOpen] = useState(true);
+    const [isOpen, setIsOpen] = useState(false);
+    const handleCloseModal = () => setIsModalOpen(false);
+    const handleToggle = () => setIsOpen(!isOpen);
+    const handleClickOutside = () => setIsOpen(false);
+
+    return (
+        <Modal shouldCloseOnOutsideClick isOpen={isModalOpen} onClose={handleCloseModal}>
+            <Modal.Header>Modal with an inline value</Modal.Header>
+            <Modal.Body>
+                <InlineValuePopover
+                    text="8 hours"
+                    isOpen={isOpen}
+                    onClick={handleToggle}
+                    onClickOutside={handleClickOutside}
+                >
+                    <Input placeholder="Hours" />
+                </InlineValuePopover>
+            </Modal.Body>
+        </Modal>
+    );
+};
+
+InsideModal.play = async ({ canvasElement, userEvent }) => {
+    const body = within(canvasElement.ownerDocument.body);
+    const queryModal = () => body.queryByText("Modal with an inline value");
+
+    await userEvent.click(await body.findByText("8 hours"));
+    const input = await body.findByPlaceholderText("Hours");
+    await waitFor(() => expect(input).toHaveFocus());
+
+    await userEvent.keyboard("{Escape}");
+    await waitFor(() => expect(body.queryByPlaceholderText("Hours")).toBeNull());
+    await expect(queryModal()).toBeInTheDocument();
+
+    await userEvent.keyboard("{Escape}");
+    await waitFor(() => expect(queryModal()).toBeNull());
 };
 
 export default InlineValuePopoverStories;

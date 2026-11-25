@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import React, { useState } from "react";
-import { expect, waitFor, within } from "storybook/test";
+import { expect, spyOn, waitFor, within } from "storybook/test";
 import { Button, DatePicker, DatePickerPopover, MonthPicker, Switch, theme } from "../..";
 import { formatDate } from "../../utils/date";
 
@@ -247,10 +247,35 @@ addDescription(
     "This example shows how to use the `month` and `shouldShowMonthSelector` prop to change the calendar's month selector caption. For example, we can use these props to show month selector option.",
 );
 
-SelectMonth.play = async ({ canvasElement }) => {
+SelectMonth.play = async ({ canvasElement, userEvent }) => {
     const canvas = within(canvasElement);
+    const body = within(canvasElement.ownerDocument.body);
     await expect(canvas.getByText(/^Date:/)).toBeInTheDocument();
     await expect(canvasElement.querySelectorAll(".DayPicker-Day").length).toBeGreaterThan(0);
+
+    // The caption is the month selector's target; its grid opens in a popover below it, left edges lined up
+    const caption = canvas.getByText("April 2023");
+    const target = caption.parentElement.parentElement;
+    await userEvent.click(caption);
+    await body.findByRole("button", { name: "May" });
+
+    await userEvent.keyboard("{Escape}");
+    await waitFor(() => expect(body.queryByRole("button", { name: "May" })).toBeNull());
+
+    await userEvent.click(caption);
+    const may = await body.findByRole("button", { name: "May" });
+    const box = may.closest(".ui-popover");
+
+    await waitFor(() => {
+        const targetRect = target.getBoundingClientRect();
+        const boxRect = box.getBoundingClientRect();
+
+        expect(boxRect.top - targetRect.bottom).toBeCloseTo(5, 0);
+        expect(Math.abs(boxRect.left - targetRect.left)).toBeLessThanOrEqual(2);
+    });
+
+    await userEvent.click(may);
+    await waitFor(() => expect(body.queryByRole("button", { name: "May" })).toBeNull());
 };
 
 export const MonthPickerPopover = () => {
@@ -334,9 +359,44 @@ addDescription(
     "The `DatePickerPopover` component binds the DatePicker with an input field, displaying the calendar in a popover",
 );
 
-PickerWithInput.play = async ({ canvasElement, userEvent }) => {
+PickerWithInput.play = async ({ canvas, canvasElement, userEvent }) => {
+    const { ownerDocument } = canvasElement;
+    const input = canvasElement.querySelector("input");
+    await userEvent.click(input);
+    await waitFor(() => expect(ownerDocument.querySelector(".ui-date-picker")).toBeInTheDocument());
+
+    await userEvent.keyboard("{Escape}");
+    await waitFor(() => expect(ownerDocument.querySelector(".ui-date-picker")).toBeNull());
+
+    await userEvent.click(input);
+    await waitFor(() => expect(ownerDocument.querySelector(".ui-date-picker")).toBeInTheDocument());
+    await userEvent.click(canvas.getByRole("button", { name: "Clear Date" }));
+    await waitFor(() => expect(ownerDocument.querySelector(".ui-date-picker")).toBeNull());
+};
+
+let placementWarnSpy;
+
+/** ArrivalDatePicker-style `popoverProps` in seller default to `placement: "auto"`, which must keep working silently. */
+export const PopoverPropsPlacementAuto = () => {
+    const [value, setValue] = useState(defaultDate);
+
+    return (
+        <div className="h-75 w-75">
+            <DatePickerPopover value={value} popoverProps={{ placement: "auto" }} onChange={setValue} />
+        </div>
+    );
+};
+
+PopoverPropsPlacementAuto.beforeEach = () => {
+    placementWarnSpy = spyOn(console, "warn");
+};
+
+PopoverPropsPlacementAuto.play = async ({ canvasElement, userEvent }) => {
     await userEvent.click(canvasElement.querySelector("input"));
     await waitFor(() => expect(canvasElement.ownerDocument.querySelector(".ui-date-picker")).toBeInTheDocument());
+
+    const uiKitWarnings = placementWarnSpy.mock.calls.filter(([text]) => String(text).startsWith("UI Kit"));
+    await expect(uiKitWarnings).toHaveLength(0);
 };
 
 export const PickerCustomInput = () => {

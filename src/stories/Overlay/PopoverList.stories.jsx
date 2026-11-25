@@ -8,7 +8,7 @@ const PopoverStories = {
     component: PopoverList,
     args: {
         placement: "bottom",
-        trigger: "mouseenter",
+        openOn: "hover",
     },
     argTypes: {
         placement: {
@@ -21,13 +21,13 @@ const PopoverStories = {
                 defaultValue: { summary: "bottom" },
             },
         },
-        trigger: {
+        openOn: {
             type: { required: false },
-            description: "One or multiple values to indicate what causes the tooltip to show up",
-            control: { type: "select" },
-            options: ["mouseenter", "click", "focus", "focusin", "manual"],
+            description: "What opens the popover: hovering or focusing the target, or clicking it",
+            control: { type: "inline-radio" },
+            options: ["hover", "click"],
             table: {
-                type: "select",
+                type: "string",
                 defaultValue: { summary: "hover" },
             },
         },
@@ -59,7 +59,7 @@ export const Default = () => {
 
     return (
         <div className="h-64">
-            <PopoverList offset={[0, 18]} visible={visible} onClickOutside={hide}>
+            <PopoverList distance={18} open={visible} onClickOutside={hide}>
                 <Button onClick={visible ? hide : show}>Hover over me</Button>
                 <PopoverList.Item name="list" onClickItem={onClickItem}>
                     <MenuIcon />
@@ -103,13 +103,25 @@ Default.play = async ({ canvas, canvasElement, userEvent }) => {
     await userEvent.click(canvas.getByRole("button", { name: "Hover over me" }));
     const months = await body.findAllByText("Month");
     await expect(months.length).toBeGreaterThan(0);
+
+    // Only the first item rounds its top corners and only the last its bottom ones
+    const items = [...canvasElement.ownerDocument.querySelectorAll(".ui-popover-list-item")];
+    await expect(items).toHaveLength(8);
+    await expect(items[0]).toHaveClass("rounded-t-lg");
+    await expect(items[0]).not.toHaveClass("rounded-b-lg");
+    await expect(items[7]).toHaveClass("rounded-b-lg");
+    await expect(items[7]).not.toHaveClass("rounded-t-lg");
+    items.slice(1, 7).forEach((item) => {
+        expect(item).not.toHaveClass("rounded-t-lg");
+        expect(item).not.toHaveClass("rounded-b-lg");
+    });
 };
 
 export const NoIcons = (props) => {
     const onClickItem = (event_, element) => console.log("Clicked on", event_, element);
     return (
         <div className="h-32">
-            <PopoverList offset={[0, 18]} {...props}>
+            <PopoverList distance={18} {...props}>
                 <Button>Hover over me</Button>
                 <PopoverList.Item name="list" onClickItem={onClickItem}>
                     Listing
@@ -141,12 +153,7 @@ export const Scrollable = () => {
 
     return (
         <div className="h-64">
-            <PopoverList
-                className="max-h-96 w-75 overflow-y-auto"
-                offset={[0, 18]}
-                visible={visible}
-                onClickOutside={hide}
-            >
+            <PopoverList className="max-h-96 w-75 overflow-y-auto" distance={18} open={visible} onClickOutside={hide}>
                 <Button onClick={visible ? hide : show}>Click here</Button>
                 <PopoverList.Item name="item1" onClickItem={onClickItem}>
                     Item 1
@@ -187,6 +194,33 @@ Scrollable.play = async ({ canvas, canvasElement, userEvent }) => {
     const body = within(canvasElement.ownerDocument.body);
     await userEvent.click(canvas.getByRole("button", { name: "Click here" }));
     await expect(await body.findByText("Item 1")).toBeInTheDocument();
+
+    // className lands on the popover box and wins over the list's default width
+    const box = body.getByText("Item 1").closest(".ui-popover-list");
+    await expect(box).toHaveClass("ui-popover", "max-h-96", "w-75", "overflow-y-auto");
+    await expect(box).not.toHaveClass("w-40");
+};
+
+export const PassThroughProps = () => {
+    const onClickItem = (event_, element) => console.log("Clicked on", event_, element);
+
+    return (
+        <PopoverList open data-testid="popover-list-test-id">
+            <Button>Pass-through target</Button>
+            <PopoverList.Item name="only" onClickItem={onClickItem}>
+                Only item
+            </PopoverList.Item>
+        </PopoverList>
+    );
+};
+
+PassThroughProps.play = async ({ canvasElement }) => {
+    const { ownerDocument } = canvasElement;
+    const body = within(ownerDocument.body);
+    const item = await body.findByText("Only item");
+
+    await expect(item).toHaveClass("rounded-t-lg", "rounded-b-lg");
+    await expect(ownerDocument.querySelector("[data-testid='popover-list-test-id']")).toBeNull();
 };
 
 export default PopoverStories;

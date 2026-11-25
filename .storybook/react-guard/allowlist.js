@@ -13,11 +13,6 @@ const TIPPY_ELEMENT_REF =
     "Element type in a future release.";
 
 export const allowlist = {
-    // Task 10-12: Tippy
-    "src/stories/Overlay/Popover.stories.jsx > Default": [TIPPY_ELEMENT_REF],
+    // Task 12: Tippy
     "src/stories/Navigation/Sidebar.stories.jsx > Default": [TIPPY_ELEMENT_REF],
-    "src/stories/Overlay/PopoverList.stories.jsx > Default": [TIPPY_ELEMENT_REF],
-    "src/stories/DataDisplay/DatePicker.stories.jsx > Select Month": [TIPPY_ELEMENT_REF],
-    "src/stories/Forms/InlineValuePopover.stories.jsx > Default": [TIPPY_ELEMENT_REF],
-    "src/stories/DataDisplay/DateRangePicker.stories.jsx > Date Range With Input": [TIPPY_ELEMENT_REF],
 };

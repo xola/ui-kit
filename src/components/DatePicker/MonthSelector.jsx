@@ -31,10 +31,23 @@ export const MonthSelector = ({ date, locale, onChange, currentMonth }) => {
         setIsVisible(false);
     };
 
+    /** Radix asks to close on Escape and on presses outside; the caption's own click opens it. */
+    const handleOpenChange = (isOpen) => {
+        if (!isOpen) {
+            handleClear();
+        }
+    };
+
     return (
         <span className="DayPicker-Caption">
             <span className="inline-block">
-                <Popover visible={isVisible} distance={5} skidding={60} placement="bottom" onClickOutside={handleClear}>
+                <Popover
+                    openOn="click"
+                    open={isVisible}
+                    distance={5}
+                    placement="bottom-start"
+                    onOpenChange={handleOpenChange}
+                >
                     <div
                         className="mt-2 min-w-40 cursor-pointer items-center justify-between text-left font-bold"
                         onClick={toggleVisibility}

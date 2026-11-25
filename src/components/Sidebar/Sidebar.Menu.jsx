@@ -1,6 +1,7 @@
 import Tippy from "@tippyjs/react";
 import PropTypes from "prop-types";
 import React from "react";
+import "tippy.js/dist/tippy.css";
 import cn from "../../helpers/classnames";
 import styles from "./Sidebar.Menu.module.css";
 

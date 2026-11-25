@@ -34,7 +34,7 @@ export const InlineValuePopover = ({
     };
 
     return (
-        <Popover visible={isOpen} onClickOutside={onClickOutside} {...rest}>
+        <Popover openOn="click" open={isOpen} onClickOutside={onClickOutside} {...rest}>
             <span
                 className={cn(
                     "cursor-pointer whitespace-nowrap",
