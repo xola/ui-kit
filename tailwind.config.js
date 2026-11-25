@@ -179,15 +179,20 @@ export default {
 
         // Figma: https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%F0%9F%9B%A0-Xola-DS-Desktop-Master-%F0%9F%9B%A0?node-id=1885%3A51905
         extend: {
+            // fade-in and fade-out keep Tippy's default fade (300ms in, 250ms out) for Radix overlays
             animation: {
-                'reverse-spin': 'reverse-spin 1s linear infinite'
+                'reverse-spin': 'reverse-spin 1s linear infinite',
+                "fade-in": "fade-in 300ms ease",
+                "fade-out": "fade-out 250ms ease",
             },
             keyframes: {
                 'reverse-spin': {
                     from: {
                         transform: 'rotate(360deg)'
                     },
-                }
+                },
+                "fade-in": { from: { opacity: "0" } },
+                "fade-out": { to: { opacity: "0" } },
             },
 
             fontFamily: {

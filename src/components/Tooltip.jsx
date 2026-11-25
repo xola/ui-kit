@@ -1,26 +1,140 @@
-import Tippy from "@tippyjs/react";
+import * as RadixTooltip from "@radix-ui/react-tooltip";
 import PropTypes from "prop-types";
-import React from "react";
-import { followCursor } from "tippy.js"; // Dont remove this even if unused. It is required for one prop
-import "tippy.js/dist/tippy.css"; // If we customize the style, the change this and import our own style
-// Do not remove these https://atomiks.github.io/tippyjs/v6/animations/
-import "tippy.js/animations/perspective.css";
-import "tippy.js/animations/scale.css";
-import "tippy.js/animations/shift-away.css";
-import "tippy.js/animations/shift-toward.css";
+import React, { useContext, useRef } from "react";
+import cn from "../helpers/classnames";
+import { toSideAlign } from "../helpers/placement";
+import { warnRemovedProps } from "../helpers/warnRemovedProps";
+import { Context } from "./Provider";
 
-// TODO: Implement "as='div'"
-export const Tooltip = ({ children, className, contentClassName, content, ...rest }) => {
-    const tooltipContent = contentClassName ? <span className={contentClassName}>{content}</span> : content;
-    return (
-        <Tippy content={tooltipContent} {...rest} className="ui-tooltip text-white" plugins={[followCursor]}>
-            <span className={className}>{children}</span>
-        </Tippy>
+const NO_REPLACEMENT = "delete it, there is no replacement";
+
+/** Tippy props Tooltip dropped in 3.8, mapped to the replacement text `warnRemovedProps` prints. */
+export const TOOLTIP_REMOVED_PROPS = {
+    visible: "use 'open'",
+    enabled: "use 'disabled'",
+    allowHTML: "pass JSX as 'content'",
+    offset: "use 'skidding' and 'distance'",
+    animation: "delete it, there is one built-in fade",
+    appendTo: "delete it, the tooltip portals to document.body",
+    trigger: "delete it, the tooltip opens on hover and focus; use 'open' to control it",
+    arrow: NO_REPLACEMENT,
+    zIndex: NO_REPLACEMENT,
+    duration: NO_REPLACEMENT,
+    minWidth: NO_REPLACEMENT,
+    onCreate: NO_REPLACEMENT,
+    onShown: NO_REPLACEMENT,
+    hideOnClick: NO_REPLACEMENT,
+    interactive: NO_REPLACEMENT,
+    followCursor: NO_REPLACEMENT,
+    interactiveBorder: NO_REPLACEMENT,
+};
+
+/** Radix adds the arrow height to `sideOffset`; Tippy's `distance` measured to the bubble edge, so subtract it. */
+const ARROW_HEIGHT = 8;
+
+/**
+ * Tooltip on a `<span>` around `children`. The span is the hover and focus target, so a disabled button inside still
+ * shows the tooltip.
+ *
+ * @param {boolean?}         props.disabled          Never shows the tooltip.
+ * @param {boolean?}         props.open              Controls visibility. Leave undefined to open on hover and focus.
+ * @param {ReactNode?}       props.content           Tooltip body. "", null and undefined show no tooltip.
+ * @param {ReactNode}        props.children          Target, wrapped in a `<span>`.
+ * @param {string?}          props.placement         Tippy-style placement, e.g. "top", "bottom-start". "auto" is "top".
+ * @param {number|number[]?} props.delay             Open delay in ms. With an array, only the first entry is used.
+ * @param {number?}          props.skidding          Shift along the aligned edge in px, for "-start"/"-end" placements.
+ * @param {number?}          props.distance          Gap between target and bubble in px.
+ * @param {number|string?}   props.maxWidth          Bubble max width. Numbers are px.
+ * @param {string?}          props.role              Role of the bubble element.
+ * @param {string?}          props.className         Class name of the target `<span>`.
+ * @param {string?}          props.contentClassName  Class name of a `<span>` around `content`.
+ * @param {Function?}        props.onOpenChange      `(open: boolean) => void`. Called on hover, focus, Escape and so on.
+ * @param {Function?}        props.onClickOutside    Called on a press outside the open bubble and its target.
+ */
+export const Tooltip = ({
+    disabled = false,
+    open,
+    content,
+    children,
+    placement = "top",
+    delay = 0,
+    skidding = 0,
+    distance = 10,
+    maxWidth = 350,
+    role,
+    className,
+    contentClassName,
+    onOpenChange,
+    onClickOutside,
+    ...removedProps
+}) => {
+    warnRemovedProps("Tooltip", removedProps, TOOLTIP_REMOVED_PROPS);
+
+    const triggerRef = useRef();
+    const { hasTooltipProvider } = useContext(Context);
+
+    const { side, align } = toSideAlign(placement);
+    const hasContent = Boolean(content) || content === 0;
+    const isTooltipShown = hasContent && !disabled;
+    const openDelay = Array.isArray(delay) ? (delay[0] ?? 0) : delay;
+
+    const handlePointerDownOutside = (event) => {
+        const isTriggerPress = triggerRef.current?.contains(event.target);
+        if (!isTriggerPress) {
+            onClickOutside?.();
+        }
+    };
+
+    // Forced closed rather than bare children, so toggling `disabled` does not remount the target
+    const tooltip = (
+        <RadixTooltip.Root
+            disableHoverableContent
+            open={isTooltipShown ? open : false}
+            delayDuration={openDelay}
+            onOpenChange={isTooltipShown ? onOpenChange : undefined}
+        >
+            <RadixTooltip.Trigger asChild ref={triggerRef}>
+                <span className={className}>{children}</span>
+            </RadixTooltip.Trigger>
+            <RadixTooltip.Portal>
+                <RadixTooltip.Content
+                    role={role}
+                    side={side}
+                    align={align}
+                    sideOffset={distance - ARROW_HEIGHT}
+                    alignOffset={skidding}
+                    // maxWidth is a runtime prop (number or CSS string), which a Tailwind class cannot express
+                    style={{ maxWidth }}
+                    className={cn(
+                        // Padding, line height and z-index match Tippy's default theme, which consumers laid out around
+                        "ui-tooltip z-[9999] rounded bg-black px-[9px] py-[5px] text-base leading-[1.4] text-white outline-none",
+                        "data-[state=closed]:animate-fade-out data-[state=delayed-open]:animate-fade-in data-[state=instant-open]:animate-fade-in",
+                    )}
+                    onPointerDownOutside={handlePointerDownOutside}
+                >
+                    {contentClassName ? <span className={contentClassName}>{content}</span> : content}
+                    <RadixTooltip.Arrow width={16} height={ARROW_HEIGHT} className="fill-black" />
+                </RadixTooltip.Content>
+            </RadixTooltip.Portal>
+        </RadixTooltip.Root>
     );
+
+    return hasTooltipProvider ? tooltip : <RadixTooltip.Provider>{tooltip}</RadixTooltip.Provider>;
 };
 
 Tooltip.propTypes = {
-    content: PropTypes.node.isRequired, // string, an element, or an array of elements
+    disabled: PropTypes.bool,
+    open: PropTypes.bool,
+    content: PropTypes.node,
     children: PropTypes.node.isRequired,
+    placement: PropTypes.string,
+    delay: PropTypes.oneOfType([PropTypes.number, PropTypes.arrayOf(PropTypes.number)]),
+    skidding: PropTypes.number,
+    distance: PropTypes.number,
+    maxWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    role: PropTypes.string,
     className: PropTypes.string,
+    contentClassName: PropTypes.string,
+    onOpenChange: PropTypes.func,
+    onClickOutside: PropTypes.func,
 };

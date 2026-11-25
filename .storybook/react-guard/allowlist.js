@@ -14,10 +14,8 @@ const TIPPY_ELEMENT_REF =
 
 export const allowlist = {
     // Task 10-12: Tippy
-    "src/stories/Overlay/Tooltip.stories.jsx > Default": [TIPPY_ELEMENT_REF],
     "src/stories/Overlay/Popover.stories.jsx > Default": [TIPPY_ELEMENT_REF],
     "src/stories/Navigation/Sidebar.stories.jsx > Default": [TIPPY_ELEMENT_REF],
-    "src/stories/Forms/ComboBox.stories.jsx > Tags Creator": [TIPPY_ELEMENT_REF],
     "src/stories/Overlay/PopoverList.stories.jsx > Default": [TIPPY_ELEMENT_REF],
     "src/stories/DataDisplay/DatePicker.stories.jsx > Select Month": [TIPPY_ELEMENT_REF],
     "src/stories/Forms/InlineValuePopover.stories.jsx > Default": [TIPPY_ELEMENT_REF],
