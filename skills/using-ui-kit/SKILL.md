@@ -52,7 +52,7 @@ Use ui-kit's named colors (`bg-primary`, `text-gray-dark`, `border-gray-light`),
 - `className` styles the root. Several components also take a `classNames` object for inner parts.
 - Variants are string props: `color`, `size`, `variant`.
 - Compound components hang off the parent: `Modal.Header`, `Modal.Body`, `Modal.Footer`, `Popover.Content`, `Table.Row`, `Tabs.Tab`, `Sidebar.Link`.
-- Exception: the overlay trio `Tooltip`, `Popover` and `Sidebar.Menu` follow Radix naming (`open`, `disabled`, `onOpenChange`) instead of `is*`.
+- Exception: the overlay trio `Tooltip`, `Popover` and `Sidebar.Menu` follow Radix naming instead of `is*`: `open` and `onOpenChange` on all three, `disabled` on `Tooltip` and `Popover` only.
 
 ## Catalog
 
@@ -99,7 +99,7 @@ Icons are exported by name (`*Icon`), for example CheckIcon. Screens: `Login`.
 
 ## 3.8 APIs
 
-Overlays use Radix. Props that Tippy accepted and 3.8 dropped (`visible`, `trigger`, `offset`, `appendTo`, `zIndex`, `interactive`, and the rest) are ignored and log one dev warning each. To move an app from 3.7, follow `migrate-to-3.8`.
+Overlays use Radix. Props that Tippy accepted and 3.8 dropped (`visible`, `trigger`, `offset`, `appendTo`, `zIndex`, `interactive`, and the rest) no longer do anything. `Tooltip`, `Popover` and `RangeSlider` log one dev warning per removed prop. `Sidebar.Menu` warns only for `visible` and its callbacks and ignores `offset`, `appendTo` and the rest silently. To move an app from 3.7, follow `migrate-to-3.8`.
 
 ### Tooltip
 
@@ -111,9 +111,9 @@ Overlays use Radix. Props that Tippy accepted and 3.8 dropped (`visible`, `trigg
 
 Props: `content` (empty shows nothing), `placement`, `open` (controlled), `disabled`, `delay`, `skidding`, `distance`, `maxWidth`, `role`, `className`, `contentClassName`, `onOpenChange`, `onClickOutside`. It wraps `children` in a `<span>`, so a disabled button inside still shows it. It opens on hover and keyboard focus, closes on Escape, and the content is not hoverable. Use `Popover` for interactive content.
 
-- `placement` is a `Placement`: `top`, `right`, `bottom` or `left`, optionally with `-start` or `-end`. `"auto"` and plain strings fail the type check. Radix flips on collision.
+- `placement` is a `Placement`: `top`, `right`, `bottom` or `left`, optionally with `-start`, `-center` or `-end`. `"auto"` and plain strings fail the type check. Radix flips on collision.
 - `delay` is `number | [number, number]`. A tooltip uses only the first value, because Radix has no close delay.
-- `skidding` shifts along the edge for `-start` and `-end` placements only.
+- `skidding` shifts along the edge for `-start` and `-end` placements only, and it is reversed for `-end` (Radix negates it). Pass the negative of the Tippy value there.
 - In tests, query an open tooltip with `getByRole("tooltip")`. It leaves the DOM about 250ms after closing.
 
 ### Popover
@@ -160,7 +160,7 @@ Props: `content`, `open`, `delay`, `onOpenChange`. The menu opens on hover, keyb
     shouldConnectHandles
     tooltipPlacement={["bottom", "top"]}
     formatTooltip={(value) => `${value}%`}
-    onChange={(next) => setRange(next)}
+    onChange={setRange}
 />
 ```
 
