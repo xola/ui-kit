@@ -102,7 +102,7 @@ discussion.
 
 - Use `useMount`/`useUnmount`/`useMemoizedFn` from `ahooks` instead of hand-rolled
   `useEffect`/`useCallback` equivalents.
-- Always clean up `useEffect` side effects: event listeners, timers, tippy/nouislider instances,
+- Always clean up `useEffect` side effects: event listeners, timers, third-party widget instances,
   and subscriptions must be torn down on unmount.
 - Do not suppress `react-hooks/exhaustive-deps`.
 

@@ -33,7 +33,7 @@ export default defineConfig({
                 entryFileNames: "[name].js",
 
                 // Rollup 3+ defaults to "default", which binds `import x from "cjs-pkg"` to the
-                // whole namespace. Packages without __esModule (get-user-locale, tippy.js) then
+                // whole namespace. Packages without __esModule, such as get-user-locale, then
                 // blow up at require time in an untransformed CJS consumer.
                 interop: "auto",
             },

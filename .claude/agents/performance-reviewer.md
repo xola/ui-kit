@@ -38,8 +38,8 @@ Review for:
    (auto-cleanup).
 4. Event listener leaks: `addEventListener` (window, document, refs) without a matching removal in
    the effect's cleanup function.
-5. Third-party widget instances (`tippy.js`, `nouislider-react`, `react-day-picker`) not destroyed
-   or disposed on unmount — these hold DOM references and listeners of their own.
+5. Third-party widget instances (`react-day-picker`) not destroyed or disposed on unmount. They
+   hold DOM references and listeners of their own.
 6. Missing cleanup in any `useEffect` that subscribes, schedules, or attaches to the DOM directly.
 
 ## Tests

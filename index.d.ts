@@ -1,4 +1,3 @@
-import type { TippyProps } from "@tippyjs/react";
 import type * as React from "react";
 
 // The only three widths a sidebar can render at. Shared by the `variant` prop, `onVariantChange`,
@@ -84,12 +83,113 @@ export interface SidebarSeparatorProps {
     className?: string;
 }
 
-// Extends Tippy's own props, not just `{ children, content }`: Sidebar.Menu.jsx spreads
-// `...rest` onto the underlying Tippy, so x2-seller's `visible`/`onMount`/`onHide` pass-through
-// props need to type-check too.
-export interface SidebarMenuProps extends Omit<TippyProps, "children" | "content"> {
-    children: React.ReactNode;
+/** Removed in 3.8: `visible` (use `open`), `onMount`, `onShow`, `onHide`, `onHidden`, `onDestroy` (use `onOpenChange`). */
+export interface SidebarMenuProps {
+    /** Controls visibility. Leave undefined to open on hover, focus and tap. */
+    open?: boolean;
     content: React.ReactNode;
+    /** Delay in ms before opening and before closing; `[open, close]` sets them apart. Default `[150, 300]`. */
+    delay?: number | [number, number];
+    children: React.ReactNode;
+    /** Called on hover, focus, tap, Escape, a press outside, another menu opening, and a sidebar resize starting. */
+    onOpenChange?: (open: boolean) => void;
+}
+
+type PlacementSide = "top" | "right" | "bottom" | "left";
+
+/** Placement strings `toSideAlign` maps to a Radix side and align. `"auto"` is not accepted: Radix flips on collision. */
+export type Placement = PlacementSide | `${PlacementSide}-${"start" | "center" | "end"}`;
+
+export interface TooltipProps {
+    /** Never shows the tooltip. */
+    disabled?: boolean;
+    /** Controls visibility. Leave undefined to open on hover and focus. */
+    open?: boolean;
+    /** Tooltip body. "", null and undefined show no tooltip. */
+    content?: React.ReactNode;
+    /** Target, wrapped in a `<span>`. */
+    children: React.ReactNode;
+    /** Default "top". */
+    placement?: Placement;
+    /** Open delay in ms. With a tuple, only the first entry is used. Default 0. */
+    delay?: number | [number, number];
+    /** Shift along the aligned edge in px, for "-start" and "-end" placements. Default 0. */
+    skidding?: number;
+    /** Gap between target and bubble in px. Default 10. */
+    distance?: number;
+    /** Bubble max width. Numbers are px. Default 350. */
+    maxWidth?: number | string;
+    /** Role of the bubble element. Default "tooltip". */
+    role?: string;
+    /** Class name of the target `<span>`. */
+    className?: string;
+    /** Class name of a `<span>` around `content`. */
+    contentClassName?: string;
+    /** Called on hover, focus, Escape and so on. */
+    onOpenChange?: (open: boolean) => void;
+    /** Called on a press outside the open bubble and its target. */
+    onClickOutside?: () => void;
+}
+
+export interface PopoverProps {
+    /** Never shows the popover. */
+    disabled?: boolean;
+    /** Controls visibility. Leave undefined to open on `openOn`. */
+    open?: boolean;
+    /**
+     * "hover" opens on hover and focus (Radix HoverCard), "click" on click (Radix Popover, content is tabbable).
+     * Without `openOn`, `open` set on the first render picks "click" and `open` undefined picks "hover". The
+     * primitive is chosen at mount, so a popover that starts with `open` undefined stays hover for life: start a
+     * controlled popover at `false`, not `undefined`.
+     */
+    openOn?: "hover" | "click";
+    /** Default "top". */
+    placement?: Placement;
+    /** Hover delay in ms before opening and before closing; `[open, close]` sets them apart. Closing waits at least 100ms. */
+    delay?: number | [number, number];
+    /** Shift along the aligned edge in px, for "-start" and "-end" placements. Default 0. */
+    skidding?: number;
+    /** Gap between target and box in px. Default 10. */
+    distance?: number;
+    /** Box max width. Numbers are px. Default 350. */
+    maxWidth?: number | string;
+    /** Popover body used instead of the `<Popover.Content>` child. */
+    content?: React.ReactNode;
+    /** Target, plus a `<Popover.Content>`. */
+    children: React.ReactNode;
+    /** Class name of the popover box. */
+    className?: string;
+    /** Called on hover, click, Escape and so on. */
+    onOpenChange?: (open: boolean) => void;
+    /** Called on a press outside the open box and its target. A controlled popover with no `onOpenChange` also calls it on Escape. */
+    onClickOutside?: () => void;
+}
+
+export interface PopoverContentProps {
+    children: React.ReactNode;
+    className?: string;
+}
+
+export interface RangeSliderProps {
+    isDisabled?: boolean;
+    /** Default true. */
+    isTooltipEnabled?: boolean;
+    /** Renders a colored bar between handles. */
+    shouldConnectHandles?: boolean;
+    /** One thumb each, clamped to [min, max]. Re-applied when it changes by deep-equal. */
+    values: number[];
+    min: number;
+    max: number;
+    /** Default 1. */
+    step?: number;
+    tooltipSuffix?: string;
+    /** One placement for every thumb, or one per thumb. Default "bottom". */
+    tooltipPlacement?: "top" | "bottom" | Array<"top" | "bottom">;
+    className?: string;
+    /** Replaces the default tooltip text and `tooltipSuffix`. */
+    formatTooltip?: (value: number, index: number) => string;
+    /** Called on release or keyboard commit. */
+    onChange?: (values: number[]) => void;
 }
 
 export interface SidebarHeadingProps {
@@ -209,10 +309,10 @@ export declare const Number: any;
 export declare const numberFormat: any;
 export declare const Phone: any;
 export declare const PlayMarketBadge: any;
-export declare const Popover: any;
+export declare const Popover: React.ComponentType<PopoverProps> & { Content: React.ComponentType<PopoverContentProps> };
 export declare const PopoverList: any;
 export declare const Provider: any;
-export declare const RangeSlider: any;
+export declare const RangeSlider: React.ComponentType<RangeSliderProps>;
 export declare const RelativeDateRange: any;
 export declare const roundNumber: any;
 export declare const RulerIcon: any;
@@ -237,7 +337,7 @@ export declare const TaxIcon: any;
 export declare const TableIcon: any;
 export declare const Textarea: any;
 export declare const theme: any;
-export declare const Tooltip: any;
+export declare const Tooltip: React.ComponentType<TooltipProps>;
 export declare const ToggleButton: any;
 export declare const TransferArrowIcon: any;
 export declare const TranslationIcon: any;

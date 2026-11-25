@@ -16,7 +16,7 @@ Exceptions where comments add value:
 - Non-obvious `prop-types` validators (custom validation functions): explain what invalid state
   they're guarding against.
 - Workarounds for a specific bug or third-party library quirk (`react-day-picker`, `downshift`,
-  `tippy.js`, `nouislider-react`).
+  Radix primitives).
 - Non-obvious invariants or constraints a future reader could easily break.
 
 ## Avoid These Comment Types
@@ -118,7 +118,7 @@ Use these prefixes for work-in-progress notes:
 ```
 // TODO: Replace with the shared Popover primitive once it supports controlled mode
 // FIXME: Focus trap doesn't restore focus on close in Safari
-// HACK: Workaround for a tippy.js v6 positioning bug; remove after upgrade
+// HACK: Workaround for a Radix Popover positioning bug; remove after upgrade
 // NOTE: This assumes a single scrollable ancestor
 // PERF: Consider virtualizing this list if item counts grow beyond ~200
 ```

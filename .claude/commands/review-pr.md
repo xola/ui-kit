@@ -41,7 +41,7 @@ problems.
 - **Accessibility regressions**: interactive elements losing keyboard operability, focus
   visibility, or an accessible name/role they previously had.
 - **Memory leaks**: missing cleanup for timers, listeners, or third-party widget instances
-  (`tippy.js`, `nouislider-react`, `react-day-picker`).
+  (`react-day-picker`).
 
 ### Requires discussion
 
