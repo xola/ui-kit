@@ -16,6 +16,7 @@
         "README.md",
         "index.css",
         "index.d.ts",
+        "skills",
         "tailwind.config.js",
         "postcss.config.js"
     ],

@@ -14,7 +14,7 @@ export default defineConfig({
                     name: "unit",
                     globals: true,
                     environment: "node",
-                    include: ["src/**/*.test.{js,jsx}", ".storybook/**/*.test.js"],
+                    include: ["src/**/*.test.{js,jsx}", ".storybook/**/*.test.js", "scripts/**/*.test.js"],
                 },
             },
             {

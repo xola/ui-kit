@@ -131,6 +131,12 @@ via shadcn/ui), those will collide with ui-kit's, so `build/theme.css` must be
 imported after your own theme so ui-kit's classNames resolve to ui-kit's
 colors, not yours.
 
+### Agent skills
+
+Agent skills ship in the package under `node_modules/@xola/ui-kit/skills/`, version-matched to the
+installed ui-kit. See [`skills/README.md`](skills/README.md) for the list and how to point your
+coding agent at one.
+
 ## Development
 
 ### Installation
