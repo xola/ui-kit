@@ -14,7 +14,7 @@ Out of scope: the consuming app's own bundler jump (for example Vite 3 to 8). Th
 - `git status` shows a clean working tree.
 - Node is 20 or newer (`node -v`). 3.7 sets `engines.node` to `>=20`; 2.6.2 allowed 16.
 - `react` and `react-dom` resolve to 18.3.1 or newer (`npm ls react react-dom`). 2.6.2 peered on React 17; 3.7 peers on `^18.3.1 || ^19.0.0`.
-- `@types/react` and `@types/react-dom` are `^18.2` or `^19` if the app uses TypeScript.
+- `@types/react` and `@types/react-dom` are `^18.2.22` or `^19` (`@types/react`) and `^18.2.7` or `^19` (`@types/react-dom`) if the app uses TypeScript.
 
 Done when all four hold.
 
@@ -45,7 +45,7 @@ The package has `"type": "module"` and no CommonJS build. `main`/`module` now po
   2.6.2 used `module.exports = require("@xola/ui-kit/tailwind.config");` in `tailwind.config.js` and `postcss.config.js`. Delete those files after the `.mjs` versions exist, or the tools pick up the old ones.
 - Test runners that load packages as CommonJS (Jest without ESM support) must transform `@xola/ui-kit` and its ESM-only dependencies, for example through `transformIgnorePatterns`.
 
-Done when `node -e 'import("@xola/ui-kit").then(() => console.log("ok"))'` prints `ok` and `grep -rn "require(\"@xola/ui-kit" . --include='*.js' --exclude-dir=node_modules` finds nothing.
+Done when `node -e 'import("@xola/ui-kit").then(() => console.log("ok"))'` prints `ok` and `rg -n "require\(['\"]@xola/ui-kit" -g '*.{js,cjs,cts,ts,tsx,jsx}' -g '!node_modules' .` finds nothing.
 
 ## 4. Fix entry points (`exports` map)
 
@@ -90,9 +90,9 @@ The 2.6.2 `index.d.ts` also declared `BaseInput`, `CloseCircleIcon` and `SquareI
 
 Added since 2.6.2, available if you need them: `SecondaryButton`, `ValuePopoverText`, `getInitials`, `compactNumber`, `getChildByType`, `getChildrenByType`, `useIsClient`, `useViewportHeight`.
 
-Types: `index.d.ts` now declares every runtime export. Every component except Sidebar is still typed `any`, as in 2.6.2.
+Types: `index.d.ts` now declares every runtime export. Every component except Sidebar is still typed `any`, as in 2.6.2. One signature changed: `Sidebar`'s `onSidebarResize` was `(width: string) => void` and is now `(width: number) => void`. TypeScript consumers must update handlers that parse the string (`parseInt(width)`, `width.replace(...)`) to use the number directly.
 
-Done when `grep -rnE "\b(useId|BaseInput|CloseCircleIcon|SquareIcon)\b" src` shows no import from `@xola/ui-kit`.
+Done when `rg -nU "import\s*(type\s*)?\{[^}]*\b(useId|BaseInput|CloseCircleIcon|SquareIcon)\b[^}]*\}\s*from\s*['\"]@xola/ui-kit['\"]" -g '!node_modules' .` finds nothing (it matches multi-line imports) and `npx tsc --noEmit` accepts every `onSidebarResize` handler.
 
 ## 7. Verify
 
