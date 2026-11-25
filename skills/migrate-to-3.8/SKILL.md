@@ -15,14 +15,14 @@ Fixtures in [fixtures/before](fixtures/before) and [fixtures/after](fixtures/aft
 
 - `git status` shows a clean working tree.
 - `react` and `react-dom` resolve to 18.3.1 or newer (`npm ls react react-dom`).
-- `npm ls @xola/ui-kit` shows 3.8.x (npm version or `github:xola/ui-kit#v3.8.0`) and this file exists at `node_modules/@xola/ui-kit/skills/migrate-to-3.8/SKILL.md`.
+- `npm ls @xola/ui-kit` shows 3.8.x (npm version or `github:xola/ui-kit#v3.8.0`) and this file exists at `node_modules/@xola/ui-kit/skills/migrate-to-3.8/SKILL.md`. In a monorepo, every workspace that depends on `@xola/ui-kit` moves to 3.8 in the same change. A shared package that still resolves 3.7 breaks, for example on `import type { Placement } from "@xola/ui-kit"`.
 - The app already builds and its tests pass on 3.7 behavior. Record the failing tests, if any, so the final run separates old failures from new ones.
 
 Done when all four hold.
 
 ## 2. Find call sites
 
-Run each command, keep the output, and treat every hit as a candidate. A hit on a component that is not from `@xola/ui-kit` (a Headless UI `Popover`, another library's `visible` prop) is not a site; skip it.
+Run each command, keep the output, and treat every hit as a candidate. Expect many false hits: the removed-props command matches whole files, so local variables named `offset` or `visible`, another library's `appendTo` (a `ComboBox` menu), a Headless UI `Popover`, comments and strings all match. Confirm that each hit is an attribute on a `@xola/ui-kit` element (or on a wrapper of one) before you edit it, and skip the rest. After the `declare module` shim is deleted (3.5), `tsc` also reports removed props on the four typed components (`Tooltip`, `Popover`, `Sidebar.Menu`, `RangeSlider`), which makes it a second net there. `PopoverList`, `InlineValuePopover` and `DatePickerPopover` are typed `any` in `index.d.ts`, and so is any wrapper that spreads props into them, so `tsc` never reports removed props on those. The search commands are the only net for them.
 
 Files that render an affected component (the list the next commands read):
 
@@ -58,6 +58,12 @@ rg -niP '(popover|tooltip|tippy)_?props' -g '*.{ts,tsx,js,jsx,mjs}' -g '!node_mo
 rg -nP "placement[^\n]*[\"'\`]auto[\"'\`]|\bplacement\??:\s*string" -g '*.{ts,tsx,js,jsx,mjs}' -g '!node_modules' -g '!dist' -g '!build' .
 ```
 
+Every `RangeSlider` element, whether or not it has a removed prop. Its `onChange` handler changes even when no other prop does:
+
+```bash
+rg -nP '<RangeSlider\b' -g '*.{ts,tsx,js,jsx,mjs}' -g '!node_modules' -g '!dist' -g '!build' .
+```
+
 Tippy, noUiSlider and Headless UI, in code, CSS, configs and `package.json`:
 
 ```bash
@@ -77,7 +83,7 @@ Rules 3.1 to 3.4 cover the components. Apply every one that has hits. Kept props
 
 Edit in place. A renamed or converted prop keeps the old prop's position among the attributes, a deleted prop is removed, and nothing is sorted or reordered (imports included). A wrapper's own props keep their names: rename a prop only on the ui-kit element (`visible={isVisible}` becomes `open={isVisible}`).
 
-Props that are neither kept nor in a table (for example `data-testid` on `Popover`, `PopoverList` or `InlineValuePopover`, or `title` on `Popover.Content`) reached no DOM element under Tippy and still reach none. Leave them.
+Props that are neither kept nor in a table (for example `data-testid` on `Popover`, `PopoverList` or `InlineValuePopover`) reached no DOM element under Tippy and still reach none. Leave them. The exception is `title` on `Popover.Content`: it was a no-op, and `PopoverContentProps` has no `title`, so `tsc` rejects it once the shim is gone. Delete it.
 
 ### 3.1 Tooltip
 
@@ -88,9 +94,10 @@ Fixture: `tooltip-removed-props.tsx`.
 | `visible` | Rename to `open`. |
 | `enabled` | Rename to `disabled` and negate the value: `enabled={x}` becomes `disabled={!x}`. |
 | `offset={[s, d]}` | `skidding={s}` and `distance={d}`, both in the place of `offset`. Omit a value equal to its default (skidding 0, distance 10). On a `-end` placement write `skidding={-s}`: Radix reverses the shift for `-end`, Tippy did not. |
-| `animation`, `appendTo`, `arrow`, `zIndex`, `duration`, `minWidth`, `onCreate`, `onShown`, `hideOnClick`, `interactive`, `followCursor`, `interactiveBorder` | Delete. There is no replacement. The tooltip portals to `document.body`, stacks at z-index 9999 and has one built-in fade. |
+| `animation`, `appendTo`, `arrow`, `zIndex`, `duration`, `minWidth`, `onCreate`, `onShown`, `hideOnClick`, `followCursor`, `interactiveBorder` | Delete. There is no replacement. The tooltip portals to `document.body`, stacks at z-index 9999 and has one built-in fade. |
 | `trigger="mouseenter"` or `trigger="mouseenter focus"` | Delete. A tooltip opens on hover and keyboard focus. |
 | Any other `trigger` (`"focus"`, `"click"`, `"manual"`, a runtime value) | Hand review, see section 4. |
+| `interactive` | Delete when the content is plain text. When the content holds links or buttons, a tooltip is the wrong component: hand review, see section 4. |
 | `allowHTML` | Hand review, see section 4. |
 
 ### 3.2 Popover, PopoverList, InlineValuePopover, DatePickerPopover
@@ -102,16 +109,19 @@ Fixtures: `popover-trigger.tsx`, `popover-default-hover.tsx`, `popover-controlle
 | `trigger="click"` | `openOn="click"` in place, also when `visible` is set on the same element. |
 | `trigger="mouseenter"` or `trigger="mouseenter focus"` | Delete. Hover is the default. |
 | `trigger="manual"` | Delete. The popover is controlled through `open` (renamed from `visible`); start its state at `false`. With no `visible` on the element, hand review, see section 4. |
-| Any other `trigger` (`"focus"`, `"click mouseenter"`, a runtime value) | Hand review, see section 4. |
+| A runtime `trigger` that only switches the popover on and off (`trigger={cond ? undefined : "manual"}`, no `visible`) | `disabled={!cond}`, in the place of `trigger`. |
+| Any other `trigger` (`"focus"`, `"click mouseenter"`, other runtime values) | Hand review, see section 4. |
 | `visible` | Rename to `open`. See the primitive rule below. |
 | `enabled` | Rename to `disabled` and negate the value. |
 | `offset={[s, d]}` | `skidding={s}` and `distance={d}`, both in the place of `offset`. Omit defaults (0, 10). On a `-end` placement write `skidding={-s}`. `offset` used to override both. |
 | `onMount`, `onShow`, `onShown`, `onHide`, `onHidden`, `onCreate` | `onOpenChange(open)`. It receives a boolean, never a Tippy instance. If the old callback used the instance, see section 4. |
 | `appendTo={document.body}` or a function returning it | Delete. Content always portals to `document.body`. |
-| `appendTo` with any other node | Hand review, see section 4. |
+| `appendTo` with any other node | Delete it and flag the site, then do the stacking check in section 4. |
 | `animation`, `arrow`, `zIndex`, `duration`, `minWidth`, `hideOnClick`, `interactive`, `interactiveBorder`, `followCursor`, `isLazy` | Delete. Content mounts only while open and always stacks at z-index 50. |
 
 `PopoverList`, `InlineValuePopover` and `DatePickerPopover` forward their extra props (`PopoverList` and `InlineValuePopover` through `...rest`, `DatePickerPopover` through `popoverProps`) to `Popover`, so the same table applies at their call sites, in wrappers that spread `...rest` into them, and in the objects found in step 2. A wrapper's own prop types must drop a removed prop too, and so must its callers, or they still compile. When a `popoverProps` object ends up empty (`{}`), or an object constant is left empty, delete the `popoverProps` attribute (and the constant).
+
+Delete plumbing that only existed to feed a removed prop: a `popoverParentId` or `parentId` prop or id that fed `appendTo`, an `inModal` flag that only picked a `popoverProps` object, a ref or state that only a Tippy callback used. Delete the matching argument at each caller, and keep going until the linter reports no unused variable.
 
 `InlineValuePopover` already sets `openOn="click"` and `open={isOpen}`. Do not add either. Keep `isOpen` and `onClickOutside`.
 
@@ -122,9 +132,13 @@ Primitive rule, which decides how `open` and `openOn` combine:
 - With no `openOn` and `open` undefined, the popover is a hover popover (Radix HoverCard). It opens on hover and on trigger focus.
 - The choice is made once, at mount. A popover whose `open` starts `undefined` stays a hover popover for its whole life, even after `open` is set. Start the state at `false`: `useState<boolean>()` becomes `useState(false)`.
 
-Do not add `openOn` to a popover that had no `trigger` and no `visible`. It stays hover, and `popover-default-hover.tsx` is the same file before and after.
+Whether to add `openOn` keeps Tippy's behavior:
 
-A hover popover moves every focusable element in its content out of the tab order. A popover that holds inputs, selects or links needs `openOn="click"`.
+- A popover that had no `trigger` and no `visible` stays a hover popover, with no `openOn`. `popover-default-hover.tsx` is the same file before and after.
+- A hover popover keeps its content open while the pointer moves onto it, so links and buttons inside stay usable with a mouse. A hover popover takes every focusable element in its content out of the tab order, so Tab and keyboard users never reach it. Leave links and buttons as hover and accept that loss, or add `openOn="click"` where keyboard access matters.
+- Content with fields the user types in (inputs, selects, textareas) needs `openOn="click"`, because a field that cannot take focus is unusable.
+
+An app hook that drives `open` from hovering the target (`useHover` plus `visible={isHovering}`, with the Tippy `interactive` content inside the hover target) changes behavior. `open` selects the click primitive, and the content portals out of the hover target, so moving the pointer onto it ends the hover and closes the popover. Delete the hook and the `visible` prop, and use the default hover popover. If the hover state is also used elsewhere, hand review, see section 4.
 
 Behavior changes to know before touching tests:
 
@@ -151,7 +165,7 @@ Other props that Tippy accepted (`placement`, `offset`, `interactive`, `appendTo
 
 Replace an instance ref with controlled state:
 
-- Replace the ref declaration with `const [isMenuOpen, setIsMenuOpen] = useState(false)`, and swap `useRef` for `useState` in the `react` import.
+- Replace the ref declaration with `const [isMenuOpen, setIsMenuOpen] = useState(false)`, and add `useState` to the `react` import. Drop `useRef` from that import only when nothing else in the file uses it.
 - Delete the instance type and the mount handler that only stored the instance in the ref.
 - Write `open={isMenuOpen}` as the first prop of `Sidebar.Menu`, and `onOpenChange={setIsMenuOpen}` in the place of the removed callback.
 - Write `setIsMenuOpen(false)` where the code called `instance.hide()`.
@@ -170,24 +184,24 @@ Behavior changes:
 Fixture: `range-slider.tsx` and `range-slider.css`.
 
 - `tooltipCustomFormatter` (an array of `{ from, to }`) becomes `formatTooltip={(value, index) => string}`. Define `const formatTooltip = (value: number) => ...` at module scope, in the place of the `{ from, to }` formatter object, with the body of its `to` function. Delete the `values.map(() => ...)` constant that built the array. Write `formatTooltip={formatTooltip}` in the place of the `tooltipCustomFormatter` attribute. `formatTooltip` replaces `tooltipSuffix`; keep one of them.
-- `onChange` now receives `number[]`. A handler that only converted strings to numbers and forwarded the result (`onChange(next.map(Number))`) is deleted: pass the callback directly (`onChange={onChange}`). In any other handler remove `Number(...)`, `.map(Number)` and `Number.parseFloat(vals[0])`, and change a `(next: string[])` annotation to `number[]` or it fails the type check. If these deletions leave a component body that holds only `return (...)`, collapse it to an expression body. It fires once on release or keyboard commit, as before.
-- A `.noUi-*` selector that moved a tooltip (for example `.noUi-handle[data-handle="1"] .noUi-tooltip` with `top: auto; bottom: 130%`) is replaced by a `tooltipPlacement` array with one entry per handle: `"top"` at the index N of each `data-handle="N"` the CSS moved above the track, `"bottom"` for the others (for three handles, `["bottom", "top", "bottom"]`). Write `tooltipPlacement` in the place of `tooltipCustomFormatter`, before `formatTooltip`. Delete the CSS rules. Delete the file when nothing else is in it, and the `import` of it. `fixtures/after` has no `range-slider.css` for that reason. Other `.noUi-*` rules: hand review, see section 4.
+- `onChange` now receives `number[]`. Every `RangeSlider` `onChange` handler drops its conversion, including the forms `value.map(Number)` followed by a state setter and `Number.parseFloat(vals[0])`. A handler that only converted strings to numbers and forwarded the result to a function (a prop callback such as `onChange(next.map(Number))`, or a state setter) is deleted: pass that function directly (`onChange={onChange}`, `onChange={setValues}`). In any other handler remove `Number(...)`, `.map(Number)` and `Number.parseFloat(vals[0])`, and change a `(next: string[])` annotation to `number[]` or it fails the type check. If these deletions leave a component body that holds only `return (...)`, collapse it to an expression body. It fires once on release or keyboard commit, as before.
+- A `.noUi-*` selector that moved a tooltip (for example `.noUi-handle[data-handle="1"] .noUi-tooltip` with `top: auto; bottom: 130%`) is replaced by a `tooltipPlacement` array with one entry per handle (`values.length`; entries beyond the handle count are ignored, and a handle with no entry gets `"bottom"`; a plain string applies to every handle): `"top"` at the index N of each `data-handle="N"` the CSS moved above the track, `"bottom"` for the others (for three handles, `["bottom", "top", "bottom"]`). Write `tooltipPlacement` in the place of `tooltipCustomFormatter`, before `formatTooltip`. Delete the CSS rules. Delete the file when nothing else is in it, and the `import` of it. `fixtures/after` has no `range-slider.css` for that reason. Other `.noUi-*` rules: hand review, see section 4.
 - `values` is still semi-controlled: a new array with different numbers moves the thumbs, an equal array does not, and a `key` change remounts.
 
 ### 3.5 Types
 
 Fixtures: `tippy-props-type.tsx`.
 
-- Replace the line `import type { TippyProps } from "@tippyjs/react"` in place with `import type { PopoverProps } from "@xola/ui-kit"` (or `TooltipProps` for a tooltip wrapper). Keep it a separate `import type` line; do not merge it into the value import and swap the name in `extends Except<TippyProps, "children">` or similar. A Tippy prop that `PopoverProps` lacks is a removed prop: fix it through the tables above.
+- Replace the line `import type { TippyProps } from "@tippyjs/react"` in place with `import type { PopoverProps } from "@xola/ui-kit"` (or `TooltipProps` for a tooltip wrapper). A plain `import { TippyProps } from "@tippyjs/react"` is replaced by the same `import type` line. Keep it a separate line; do not merge it into the value import. Swap the name in `extends Except<TippyProps, "children">` or similar. A Tippy prop that `PopoverProps` lacks is a removed prop: fix it through the tables above.
 - `placement` is a `Placement` union: `"top"`, `"bottom"`, `"left"`, `"right"`, each optionally with `-start`, `-center` or `-end`. `placement="auto"` and a `placement` variable typed `string` now fail the type check. At runtime ui-kit maps `"auto"` and unknown strings to `"top"`. Delete `placement="auto"`: Radix flips on collision. For a wrapper that forwards `placement?: string`, type it as `Placement` (import the type from `@xola/ui-kit`) and change an `"auto"` default, see section 4.
 - `delay` is `number | [number, number]`. A `number[]` variable fails the type check; type it as a tuple.
-- Delete any `declare module "@xola/ui-kit";` shim (it types every export as `any` and hides these errors). Then run the type check and fix each new error. Do not restore the shim.
+- Delete any `declare module "@xola/ui-kit";` shim (it types every export as `any` and hides these errors). Then run the type check and fix each new error with 3.7 below. Do not restore the shim.
 
 ### 3.6 Headless UI 1 to 2 (direct imports only)
 
 Fixture: `headless-ui-2.tsx`.
 
-3.8 runs on Headless UI 2.2. This section applies to an app that imports `@headlessui/react` itself and shares one copy with ui-kit, either through a bundler `dedupe` entry or because `npm ls @headlessui/react` shows a single deduped 2.x. If it shows a separate older copy under the app, the app's own Headless UI imports are unaffected, and this section is done. A shared copy needs the app's own pin bumped to `^2.2.10`.
+3.8 runs on Headless UI 2.2. This section applies to an app that imports `@headlessui/react` itself and shares one copy with ui-kit, either through a bundler `dedupe` entry or because `npm ls @headlessui/react` shows a single deduped 2.x. If it shows a separate older copy under the app, the app's own Headless UI imports are unaffected, and this section is done. A shared copy needs the app's own pin bumped to `^2.2.10`. Look for every place that pins the old version: the app's `package.json` dependency, a root `overrides` or `resolutions` entry for `@headlessui/react`, and a test-runner `moduleNameMapper` entry for it (for example in `jest.config.js`). Update each, then run `npm install` to regenerate the lockfile. `npm ci` fails until the lockfile matches.
 
 Required changes:
 
@@ -212,6 +226,19 @@ Behavior changes in `Dialog`:
 - Inside `Field`, `Label` is a `<label>` and clicks toggle its `Switch`. An explicit `id` on the `Switch` breaks that lookup unless the `Label` gets the same value as `htmlFor`. The deprecated `Switch.Label` does not depend on ids.
 - The dependency tree grows (react-aria, react-stately, `@internationalized/*`, `@floating-ui/react`). Expect a larger lockfile diff.
 
+### 3.7 Type errors once the shim is gone
+
+Deleting the `declare module "@xola/ui-kit";` shim (3.5) types `Tooltip`, `Popover`, `Popover.Content`, `Sidebar` and its parts, and `RangeSlider`. Props the shim hid now fail. These patterns are known. Fix each at its source, never with a cast.
+
+- A dead prop that was never part of the component, for example `to` on `Sidebar.Link`: delete it. `Sidebar.Link` renders a `<button>` and `to` only became an inert attribute. Navigation belongs in `onClick`. Same for `title` on `Popover.Content` (3.2).
+- `className={cond ? null : "hidden"}` on `Popover` or `Tooltip`: `className` is `string | undefined`. Use `undefined` in place of `null`.
+- A `Tooltip` with no children: `children` is required, because the tooltip needs a target. Give it the element it describes, or delete the `Tooltip`.
+- A `Popover` child that is a function, or an app type whose children return `void`: `children` is `ReactNode`. Call the function and pass its result, and type the app's own render prop as returning `ReactNode`.
+- `Sidebar.Link` or `Sidebar.Heading` with `icon={<SomeIcon />}` or an app prop typed `ReactElement | ReactNode`: `icon` is a component, not an element. Pass `icon={SomeIcon}` and type the app's prop as `React.ComponentType<{ className?: string }>` (`SidebarLinkIcon` for `Sidebar.Link`, exported from `@xola/ui-kit`). `Sidebar.Link` also accepts a thunk `() => ReactElement | null`.
+- `Sidebar.Button` with `label={user?.name}`: `label` is a `string`. Pass a string (`user?.name ?? ""`), or render the button only when there is a name.
+
+Sidebar errors come from 3.7, not 3.8; `migrate-2.6-to-3.7` lists them too.
+
 ## 4. Hand-review list
 
 A rule cannot settle these. Decide each one from the surrounding code, and write the decision in the commit or PR description.
@@ -219,14 +246,15 @@ A rule cannot settle these. Decide each one from the surrounding code, and write
 - Tippy instance callbacks: `onMount`, `onShown`, `onHide`, `onCreate` that read `instance` (`instance.hide()`, `instance.popper`, `instance.setProps`), and a `popperInstance` read. Replace with controlled `open` state and `onOpenChange`. Behavior that depended on `instance.popper` needs a React `onClick` on the content.
 - `import type { Instance } from "tippy.js"` and any other type from `tippy.js` or `@tippyjs/react` (`Placement`, `Props`). These resolved only through ui-kit's dependency. 3.8 no longer installs it, so the import fails. Delete the type and the code that needs it.
 - `allowHTML` on `Tooltip`. Pass JSX as `content` and delete `allowHTML`. If `content` was an HTML string, convert it to JSX and do not inject unsanitized HTML.
-- A `Tooltip` with `interactive`. Tooltip content is not hoverable now. Use a `Popover` if the user must reach links or buttons inside.
-- A dynamic `trigger` (`trigger={cond ? "mouseenter" : "manual"}`, `trigger="focus"`, `trigger="click"` on a `Tooltip`). `Tooltip` has no trigger prop. Use `disabled={!cond}` for on and off, or `open` with `onOpenChange` for full control.
-- `appendTo` that is not `document.body` (a function, a parent id lookup, a ref). Delete it if the content only needed to escape clipping. If the content must stay inside a container (a modal's stacking context, a scaled or translated parent), it needs a different approach, and ui-kit has no `container` prop. Raise it before changing anything.
+- A `Tooltip` with `interactive` whose content holds links or buttons. Tooltip content is not hoverable now. Replace the `Tooltip` with a `Popover` (`content` prop or a `Popover.Content` child), keeping `disabled` for the empty case, and read the `openOn` rule in 3.2. Plain-text content just drops `interactive` (3.1).
+- A dynamic `trigger` (`trigger={cond ? "mouseenter" : "manual"}`, `trigger="focus"`, `trigger="click"`) on a `Tooltip`, and any `Popover` trigger that is not in the 3.2 table. Neither component has a trigger prop. Use `disabled={!cond}` for on and off (both have `disabled`), or `open` with `onOpenChange` for full control.
+- A hover hook that drives a popover's `open` and is also used for something else (3.2). There is no verified recipe for combining that hook with `open`. Prefer removing the popover's use of it, keep the hook for its other use, and test the popover by hand.
+- `appendTo` that is not `document.body` (a function, a parent id lookup, a ref). The default is to delete it and flag the site in the PR. Then check stacking, because the content now portals to `document.body`. `Popover` content is `z-50`, and `Tooltip` and `Sidebar.Menu` content is `z-[9999]`. ui-kit's `Modal` and `BottomSheet` are `z-30` and `Drawer` is `z-10`, so a popover stays above them. If the old target sat inside an app overlay with a z-index above 50, raise the popover with a class: `className="z-[60]"` on `Popover` or `PopoverList` lands on the Radix content element and replaces `z-50` (the class must appear in the app's own source for Tailwind to generate it). For `DatePickerPopover` use `classNames={{ popover: "z-[60]" }}`. A target inside a scaled or translated container is not solved by a class: ui-kit has no `container` prop, so leave the site on this list.
 - Wrappers that forward `placement: string`. Type them as `Placement`. Wrappers with a default `placement = "auto"` (form fields that show a tooltip) lose the "auto" side choice. Pick a default side, usually `"top"`, and check the layout.
 - `popoverProps` objects with `placement: "auto"` (`DatePickerPopover`). Delete the key. `DatePickerPopover` then keeps its own `"bottom"`, which Tippy's auto often chose. A calendar near the bottom edge of a modal flips on collision.
 - `Popover` with a `content` prop. It is still supported and replaces the `Popover.Content` child. It is not wrapped in the `ui-popover-content` div. Check that tests and styles that found the body through that class still find it.
-- App-level `import "tippy.js/dist/tippy.css"` and `@tippyjs/react` or `tippy.js` entries in `package.json`, and Tippy names in a bundler `inline` or `noExternal` list. Delete them when nothing in the app renders Tippy itself. If the app renders `@tippyjs/react` directly, keep the dependency, add it to `package.json` (ui-kit no longer provides it) and import `tippy.js/dist/tippy.css` yourself: ui-kit's `build/style.css` no longer contains Tippy CSS.
-- Tests, mocks and comments that assume Tippy or noUiSlider: a `jest.mock` or `vi.mock` of `@tippyjs/react`, a comment that Tippy never opens in jsdom or that mentions noUiSlider, and helpers named after Tippy (`handleShouldCloseTippy`). Re-run each such test without the mock and keep the mock only if it still fails. Rename leftover helpers.
+- App-level `import "tippy.js/dist/tippy.css"` and `@tippyjs/react` or `tippy.js` entries in `package.json`, and Tippy names in a bundler `inline` or `noExternal` list. Delete them when nothing in the app renders Tippy itself, and remove the packages with `npm uninstall @tippyjs/react tippy.js` (or the package manager's equivalent) so the lockfile updates. If the app renders `@tippyjs/react` directly, keep the dependency, add it to `package.json` (ui-kit no longer provides it) and import `tippy.js/dist/tippy.css` yourself: ui-kit's `build/style.css` no longer contains Tippy CSS.
+- Tests, mocks and comments that assume Tippy or noUiSlider: a `jest.mock` or `vi.mock` of `@tippyjs/react`, a comment that Tippy never opens in jsdom or that mentions noUiSlider, and helpers named after Tippy (`handleShouldCloseTippy`). When the app can run its tests on ui-kit 3.8 (React 18.3 or newer), re-run each such test without the mock and keep the mock only if it still fails. Otherwise keep the mock and reword its comment. Rename leftover helpers.
 - CSS that targets `.tippy-*` classes or `data-tippy-*` attributes. Radix content has `ui-tooltip`, `ui-popover` and `ui-sidebar-menu` classes and `data-state` and `data-side` attributes. Rewrite the rule against those or drop it.
 - `.noUi-*` selectors other than the tooltip placement rule in 3.4, for example handle size or track color. The Radix DOM has different elements. Rewrite against ui-kit's `ui-range-slider`, `ui-range-slider-track`, `ui-range-slider-thumb` and `ui-range-slider-tooltip` classes or drop the override.
 - Tests that assert on a Tooltip or Popover. Radix renders one `role="tooltip"` element for an open tooltip, so `getByRole("tooltip")` is the stable query. The bubble leaves the DOM about 250ms after it closes, so wrap "is gone" assertions in `waitFor`. jsdom has no `ResizeObserver`, which Radix needs when a popper or the slider mounts. If a test fails with "ResizeObserver is not defined", add a stub in the test setup.
@@ -238,15 +266,17 @@ A rule cannot settle these. Decide each one from the surrounding code, and write
 Run the app's own scripts, all green:
 
 ```bash
-npm run lint
-npx tsc --noEmit      # TypeScript apps
+npx eslint <files you changed>   # read-only; many lint scripts pass --fix, so do not run them
+npx tsc --noEmit                 # TypeScript apps
 npm test
 npm run build
 ```
 
+Format only the files you changed, and only if they were already formatted before your edit. Do not reformat files that had formatting drift at `HEAD`, or the diff fills with unrelated changes.
+
 Then re-run the step 2 commands. Done when:
 
-- The removed-props command finds only props on components that are not from ui-kit.
+- The removed-props command finds only false hits: locals, another library's `appendTo` or `visible`, comments and strings, and props on components that are not from ui-kit. Check every remaining hit and write down why it is not a site.
 - The `tippy` command finds nothing, or only comments and the app's own `@tippyjs/react` usage that you chose to keep.
 - The `noUi` command finds nothing (or only comments you chose to keep), and `declare module "@xola/ui-kit"` is gone.
 - A dev run of the app and its tests logs no line containing `was removed in 3.8`.
