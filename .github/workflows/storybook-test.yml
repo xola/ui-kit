@@ -62,3 +62,30 @@ jobs:
 
       - name: Check bundle size (tree-shaking regression)
         run: npm run test:bundle-size
+
+  consumer:
+    name: 📦 Consumer build (Vite 8, React ${{ matrix.react }})
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        react: [18, 19]
+
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Node.JS 24
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: "npm"
+          cache-dependency-path: "package-lock.json"
+
+      - name: Install Node Dependencies
+        run: npm ci --no-fund --no-audit
+
+      - name: Pack, install and build as a consumer
+        run: npm run test:consumer -- --vite 8 --react ${{ matrix.react }}

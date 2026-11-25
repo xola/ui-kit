@@ -53,7 +53,8 @@
         "test:all": "vitest run",
         "knip": "knip",
         "react:18": "zx scripts/use-react.mjs 18",
-        "react:19": "zx scripts/use-react.mjs 19"
+        "react:19": "zx scripts/use-react.mjs 19",
+        "test:consumer": "zx scripts/test-consumer.mjs"
     },
     "dependencies": {
         "@headlessui/react": "1.7",
@@ -112,7 +113,7 @@
         "react": "^18.3.1 || ^19.0.0",
         "react-dom": "^18.3.1 || ^19.0.0",
         "tailwindcss": "^3.1.8",
-        "vite": "^5.4.11 || ^6.0.0 || ^7.0.0"
+        "vite": "^5.4.11 || ^6.0.0 || ^7.0.0 || ^8.0.0"
     },
     "peerDependenciesMeta": {
         "@types/react": {
