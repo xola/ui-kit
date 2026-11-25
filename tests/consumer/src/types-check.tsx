@@ -1,4 +1,4 @@
-import { Button, Sidebar, Tooltip } from "@xola/ui-kit";
+import { Button, CheckIcon, formatPhoneNumber, Sidebar, Tooltip } from "@xola/ui-kit";
 
 /**
  * Compiled with `skipLibCheck: false` so an unresolvable declaration in the published package fails here.
@@ -8,6 +8,8 @@ import { Button, Sidebar, Tooltip } from "@xola/ui-kit";
 export const Usage = () => (
     <>
         <Button color="primary">x</Button>
+        <CheckIcon />
+        <span>{formatPhoneNumber("5555555555")}</span>
         <Tooltip content="hint">
             <span>y</span>
         </Tooltip>
