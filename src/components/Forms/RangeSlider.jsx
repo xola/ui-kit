@@ -3,7 +3,10 @@ import { clamp, isEqual } from "lodash-es";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 import cn from "../../helpers/classnames";
+import { warnRemovedProps } from "../../helpers/warnRemovedProps";
 import "./RangeSlider.css";
+
+const REMOVED_PROPS = { tooltipCustomFormatter: "use 'formatTooltip(value, index)'" };
 
 const getDefaultFormatter = (tooltipSuffix = "") => {
     return (value) => `${Math.round(value)}${tooltipSuffix}`;
@@ -43,7 +46,10 @@ export const RangeSlider = ({
     className,
     formatTooltip,
     onChange,
+    ...removedProps
 }) => {
+    warnRemovedProps("RangeSlider", removedProps, REMOVED_PROPS);
+
     const clampedValues = values.map((value) => clamp(value, min, max));
     const [seededValues, setSeededValues] = useState(clampedValues);
     const [currentValues, setCurrentValues] = useState(clampedValues);
