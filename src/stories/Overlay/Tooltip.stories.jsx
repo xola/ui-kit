@@ -97,9 +97,11 @@ export const Default = (config) => {
 
 Default.play = async ({ canvas, canvasElement, userEvent }) => {
     const target = getTarget(canvas, "Hello World");
+    await expect(queryBubble(canvasElement, "Hey there!")).toBeUndefined();
 
     await userEvent.hover(target);
-    await findBubble(canvasElement, "Hey there!");
+    const bubble = await findBubble(canvasElement, "Hey there!");
+    await expect(bubble).toHaveAttribute("role", "tooltip");
 
     await userEvent.unhover(target);
     await expectNoBubble(canvasElement, "Hey there!");
@@ -270,8 +272,78 @@ export const DisabledButton = () => {
 };
 
 DisabledButton.play = async ({ canvas, canvasElement, userEvent }) => {
-    await userEvent.hover(getTarget(canvas, "Disabled button"));
+    await userEvent.hover(canvas.getByRole("button", { name: "Disabled button" }));
     await findBubble(canvasElement, "Disabled button tip");
+};
+
+let controlWarnSpy;
+let controlErrorSpy;
+
+export const DisabledWhileHovered = () => {
+    const [isDisabled, setIsDisabled] = useState(false);
+    const handleToggle = () => setIsDisabled(!isDisabled);
+
+    return (
+        <div className="flex flex-col items-start gap-10">
+            <Button onClick={handleToggle}>Toggle disabled</Button>
+            <Tooltip disabled={isDisabled} content="Toggled tip">
+                <Button>Target</Button>
+            </Tooltip>
+        </div>
+    );
+};
+
+DisabledWhileHovered.beforeEach = () => {
+    controlWarnSpy = spyOn(console, "warn");
+    controlErrorSpy = spyOn(console, "error");
+};
+
+/** The keyboard toggles `disabled` so the pointer stays on, then leaves, the target in between. */
+DisabledWhileHovered.play = async ({ canvas, canvasElement, userEvent }) => {
+    const target = getTarget(canvas, "Target");
+    canvas.getByRole("button", { name: "Toggle disabled" }).focus();
+
+    await userEvent.hover(target);
+    await findBubble(canvasElement, "Toggled tip");
+
+    await userEvent.keyboard("{Enter}");
+    await expectNoBubble(canvasElement, "Toggled tip");
+
+    await userEvent.unhover(target);
+    await userEvent.keyboard("{Enter}");
+    await waitForOpenWindow();
+    await expect(queryBubble(canvasElement, "Toggled tip")).toBeUndefined();
+
+    const calls = [...controlWarnSpy.mock.calls, ...controlErrorSpy.mock.calls];
+    const modeSwitches = calls.filter((args) => args.some((arg) => String(arg).includes("changing from")));
+    await expect(modeSwitches).toHaveLength(0);
+};
+
+/** Radix's open path closes every other open tooltip, so a tooltip that cannot show must not start it. */
+export const HiddenTooltipKeepsOthersOpen = () => {
+    return (
+        <div className="flex flex-col items-start gap-10">
+            <Tooltip content="Focused tip">
+                <Button>Focused</Button>
+            </Tooltip>
+            <Tooltip disabled content="Disabled tip">
+                <Button>Disabled target</Button>
+            </Tooltip>
+            <Tooltip content="">
+                <Button>Empty target</Button>
+            </Tooltip>
+        </div>
+    );
+};
+
+HiddenTooltipKeepsOthersOpen.play = async ({ canvas, canvasElement, userEvent }) => {
+    await userEvent.tab();
+    await findBubble(canvasElement, "Focused tip");
+
+    await userEvent.hover(getTarget(canvas, "Disabled target"));
+    await userEvent.hover(getTarget(canvas, "Empty target"));
+    await waitForOpenWindow();
+    await expect(queryBubble(canvasElement, "Focused tip")).toHaveAttribute("data-state", "instant-open");
 };
 
 export const EmptyContent = () => {
