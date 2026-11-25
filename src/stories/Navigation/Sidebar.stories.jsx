@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React, { useState } from "react";
-import { expect, fn, spyOn, waitFor } from "storybook/test";
+import { expect, fn, spyOn, waitFor, within } from "storybook/test";
 import {
     AnnounceIcon,
     Button,
@@ -156,7 +156,7 @@ const expectNoMenu = (canvasElement, text, options) => {
     return waitFor(() => expect(queryMenu(canvasElement, text)).toBeUndefined(), options);
 };
 
-/** Clears the 150ms open delay, the 100ms close delay and the fade-in, so a menu that was going to change has. */
+/** Clears the 150ms open delay, the 300ms close delay and the fade-in, so a menu that was going to change has. */
 const waitForChangeWindow = () => new Promise((resolve) => setTimeout(resolve, 400));
 
 Default.play = async ({ canvas, canvasElement, userEvent }) => {
@@ -700,17 +700,17 @@ const SLOW_CLOSE_DELAY = [0, 2000];
 /** Well inside `SLOW_CLOSE_DELAY`'s close, so a menu gone by then was closed by something else. */
 const BEFORE_SLOW_CLOSE = { timeout: 500 };
 
-const SubMenu = ({ items }) => (
+const SubMenu = ({ items, onItemClick }) => (
     <div className="py-2">
         {items.map((item) => (
-            <Sidebar.Link key={item} isSubMenuItem>
+            <Sidebar.Link key={item} isSubMenuItem onClick={onItemClick}>
                 {item}
             </Sidebar.Link>
         ))}
     </div>
 );
 
-SubMenu.propTypes = { items: PropTypes.arrayOf(PropTypes.string).isRequired };
+SubMenu.propTypes = { items: PropTypes.arrayOf(PropTypes.string).isRequired, onItemClick: PropTypes.func };
 
 /**
  * A full-width rail whose width no viewport or stored value changes, with two submenus and an account menu, each
@@ -844,6 +844,43 @@ const tap = (target, previousTarget) => {
     target.dispatchEvent(new MouseEvent("click", init));
 };
 
+const centerOf = (element) => {
+    const { left, top, width, height } = element.getBoundingClientRect();
+
+    return { x: left + width / 2, y: top + height / 2 };
+};
+
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, Math.max(0, ms)));
+
+/** px/ms: an unhurried hand, slower than most moves across a 200px rail. */
+const POINTER_SPEED = 0.5;
+
+const FRAME_MS = 16;
+
+/**
+ * Moves the mouse in a straight line between two client points at `POINTER_SPEED`. Each step's position comes from the
+ * time elapsed, so the pace holds however long a step takes to dispatch. Returns the element under each step.
+ */
+const movePointer = async (userEvent, from, to, ownerDocument) => {
+    const duration = Math.hypot(to.x - from.x, to.y - from.y) / POINTER_SPEED;
+    const startedAt = performance.now();
+    const crossed = [];
+
+    for (let progress = 0; progress < 1;) {
+        await sleep(FRAME_MS);
+        progress = Math.min(1, (performance.now() - startedAt) / duration);
+
+        const clientX = from.x + (to.x - from.x) * progress;
+        const clientY = from.y + (to.y - from.y) * progress;
+        const target = ownerDocument.elementFromPoint(clientX, clientY);
+
+        crossed.push(target);
+        await userEvent.pointer({ target, coords: { clientX, clientY } });
+    }
+
+    return crossed;
+};
+
 export const OneMenuAtATime = () => <MenuRail bookingsMenuProps={slowClose} marketingMenuProps={slowClose} />;
 
 OneMenuAtATime.play = async ({ canvas, canvasElement, userEvent }) => {
@@ -940,6 +977,58 @@ UnmountWhileOpen.play = async ({ args, canvas, canvasElement, userEvent }) => {
     await userEvent.keyboard("{ArrowLeft}");
     await waitForChangeWindow();
     await expect(args.onOpenChange).not.toHaveBeenCalledWith(false);
+};
+
+const LONG_MENU_ITEMS = ["Purchases", "Gifts", "Gift Cards", "Vouchers", "Waivers", "Refunds"];
+
+export const DiagonalToMenuItem = ({ onItemClick }) => (
+    <MenuRail bookingsMenuProps={{ content: <SubMenu items={LONG_MENU_ITEMS} onItemClick={onItemClick} /> }} />
+);
+
+DiagonalToMenuItem.args = { onItemClick: fn() };
+
+/**
+ * The menu is centered on its link and much taller, so its last item sits beside the next link down. The straight path
+ * there leaves the link through its bottom edge and crosses the neighbour before it reaches the menu.
+ */
+DiagonalToMenuItem.play = async ({ args, canvas, canvasElement, userEvent }) => {
+    const bookings = canvas.getByRole("button", { name: "Bookings" });
+    const marketing = canvas.getByRole("button", { name: "Marketing" });
+
+    await userEvent.hover(bookings);
+    const refunds = within(await findMenu(canvasElement, "Refunds")).getByRole("button", { name: "Refunds" });
+    const to = { x: refunds.getBoundingClientRect().left + 24, y: centerOf(refunds).y };
+
+    const crossed = await movePointer(userEvent, centerOf(bookings), to, canvasElement.ownerDocument);
+
+    await expect(crossed.some((element) => marketing.contains(element))).toBe(true);
+    await expect(queryMenu(canvasElement, "Refunds")).toBeInstanceOf(HTMLElement);
+    await expect(queryMenu(canvasElement, "Coupons")).toBeUndefined();
+
+    await userEvent.click(refunds);
+    await expect(args.onItemClick).toHaveBeenCalledTimes(1);
+};
+
+export const CancelledTouchPress = () => <MenuRail />;
+
+CancelledTouchPress.play = async ({ canvas, canvasElement, userEvent }) => {
+    const bookings = canvas.getByRole("button", { name: "Bookings" });
+    const { x, y } = centerOf(bookings);
+    const finger = { pointerId: 2, pointerType: "touch", clientX: x, clientY: y };
+
+    // A scroll that starts on the link cancels the press, so no click follows it
+    dispatchPointer(bookings, "pointerdown", { ...finger, button: 0, buttons: 1 });
+    dispatchPointer(bookings, "pointercancel", finger);
+
+    bookings.focus();
+    await findMenu(canvasElement, "Purchases");
+    await userEvent.keyboard("{Escape}");
+    await expectNoMenu(canvasElement, "Purchases");
+
+    // A keyboard click has no pointerdown of its own and must not read the cancelled touch press
+    await userEvent.keyboard("{Enter}");
+    await waitForChangeWindow();
+    await expect(queryMenu(canvasElement, "Purchases")).toBeUndefined();
 };
 
 export const FocusOpens = () => <MenuRail />;

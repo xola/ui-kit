@@ -17,9 +17,12 @@ export const SIDEBAR_MENU_REMOVED_PROPS = {
     onDestroy: USE_ON_OPEN_CHANGE,
 };
 
-// Show waits out a transit: reaching an item can cross a neighbouring link, which would
-// otherwise steal the menu. Hide forgives an overshoot.
-const DELAY = [150, 100];
+/**
+ * Show waits out a transit: reaching an item can cross a neighbouring link, which would otherwise steal the menu. Hide
+ * waits out the same transit from the other side: a tall menu's lower items are reached diagonally across that
+ * neighbour, and HoverCard's only grace between leaving the link and entering the menu is this close delay.
+ */
+const DELAY = [150, 300];
 
 const SIDE_OFFSET = 4;
 
@@ -46,7 +49,8 @@ export const hideAllSidebarMenus = () => closeMenus();
  * @param {boolean?}         props.open          Controls visibility. Leave undefined to open on hover, focus and tap.
  * @param {ReactNode}        props.content       Menu body.
  * @param {number|number[]?} props.delay         Delay in ms before opening and before closing; `[open, close]` sets
- *                                               them apart. Default `[150, 100]`.
+ *                                               them apart. Default `[150, 300]`. The close delay is also the time the
+ *                                               pointer has to get from the item to the menu.
  * @param {ReactNode}        props.children      Trigger, wrapped in a block `<span>`.
  * @param {Function?}        props.onOpenChange  `(open: boolean) => void`. Called on hover, focus, tap, Escape, a press
  *                                               outside, another menu opening, and a sidebar resize starting.
@@ -88,6 +92,11 @@ export const SidebarMenu = ({ open, content, delay = DELAY, children, onOpenChan
         pointerTypeRef.current = event.pointerType;
     };
 
+    /** A press the browser cancels, e.g. a scroll starting on the item, gets no click to clear its pointer type. */
+    const handlePointerCancel = () => {
+        pointerTypeRef.current = undefined;
+    };
+
     /**
      * HoverCard ignores touch pointers and iOS Safari does not focus a tapped button, so on a touchscreen neither of its
      * open paths runs. A tap opens the menu instead, and a tap outside closes it. Mouse clicks are left alone: hover
@@ -117,7 +126,13 @@ export const SidebarMenu = ({ open, content, delay = DELAY, children, onOpenChan
             closeDelay={closeDelay}
             onOpenChange={handleOpenChange}
         >
-            <RadixHoverCard.Trigger asChild ref={triggerRef} onPointerDown={handlePointerDown} onClick={handleClick}>
+            <RadixHoverCard.Trigger
+                asChild
+                ref={triggerRef}
+                onPointerDown={handlePointerDown}
+                onPointerCancel={handlePointerCancel}
+                onClick={handleClick}
+            >
                 <span className="block">{children}</span>
             </RadixHoverCard.Trigger>
             <RadixHoverCard.Portal>
