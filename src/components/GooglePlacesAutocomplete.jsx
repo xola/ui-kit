@@ -7,7 +7,7 @@ import { useClickAway } from "ahooks";
 import { Input } from "./Forms/Input";
 import { Badge } from "./Badge";
 
-export const GooglePlacesAutocomplete = ({ initialValue, onSelect, apiBaseUrl, remoteId }) => {
+export const GooglePlacesAutocomplete = ({ initialValue = "", onSelect = null, apiBaseUrl, remoteId = null }) => {
     const [inputValue, setInputValue] = useState(initialValue || "");
     const [suggestions, setSuggestions] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -187,10 +187,4 @@ GooglePlacesAutocomplete.propTypes = {
     onSelect: PropTypes.func,
     apiBaseUrl: PropTypes.string.isRequired,
     remoteId: PropTypes.string,
-};
-
-GooglePlacesAutocomplete.defaultProps = {
-    initialValue: "",
-    onSelect: null,
-    remoteId: null,
 };

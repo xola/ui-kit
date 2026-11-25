@@ -11,7 +11,20 @@ const sizes = {
 };
 
 export const BaseInput = forwardRef(
-    ({ as: Tag, size = "medium", isError, className, isRequired, value, prefix, suffix, ...rest }, ref) => {
+    (
+        {
+            as: Tag = "input",
+            size = "medium",
+            isError = false,
+            className = "",
+            isRequired = false,
+            value,
+            prefix,
+            suffix,
+            ...rest
+        },
+        ref,
+    ) => {
         const stringValue = () => {
             if (!isString(value)) return undefined;
 
@@ -83,12 +96,4 @@ BaseInput.propTypes = {
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     prefix: PropTypes.string,
     suffix: PropTypes.string,
-};
-
-BaseInput.defaultProps = {
-    as: "input",
-    size: "medium",
-    className: "",
-    isError: false,
-    isRequired: false,
 };

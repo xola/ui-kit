@@ -67,4 +67,21 @@ Drawers.play = async ({ canvas, canvasElement, userEvent }) => {
     await expect(body.getByText("Lorem Ipsum. Click the X to close")).toBeInTheDocument();
 };
 
+export const NoOptionalProps = () => {
+    return <Drawer isOpen content="Drawer body" onClose={() => {}} />;
+};
+
+NoOptionalProps.play = async ({ canvasElement }) => {
+    const body = within(canvasElement.ownerDocument.body);
+    await expect(await body.findByText("Drawer body")).toBeInTheDocument();
+
+    const container = canvasElement.ownerDocument.body.querySelector(".ui-drawer-container");
+    await expect(container.style.right).toBe("0px");
+    await expect(container.style.left).toBe("");
+
+    const panel = body.getByText("Drawer body").closest(".w-85");
+    await expect(panel).not.toBeNull();
+    await expect(panel.previousElementSibling).toBe(within(container).getByRole("button"));
+};
+
 export default DrawerStories;

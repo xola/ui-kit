@@ -19,7 +19,7 @@ export const Drawer = forwardRef(
     (
         {
             isOpen = false,
-            title,
+            title = "",
             size = "medium",
             content,
             sideIndent = 0,
@@ -135,11 +135,4 @@ Drawer.propTypes = {
     classNames: PropTypes.object,
     position: PropTypes.string,
     sideIndent: PropTypes.number,
-};
-
-Drawer.defaultProps = {
-    title: "",
-    classNames: {},
-    position: "right",
-    sideIndent: 0,
 };
