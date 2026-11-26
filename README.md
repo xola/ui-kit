@@ -7,12 +7,15 @@ This repository is published as two pieces:
 1. [@xola/ui-kit](https://www.npmjs.com/package/@xola/ui-kit)
 2. [@xola/icons](https://www.npmjs.com/package/@xola/icons)
 
-It's storybook is publicly published at [ui.xola.io](https://ui.xola.io). The icons can be previewed there as well.
+Its Storybook is published at [ui.xola.io](https://ui.xola.io), where you can also preview the icons.
 
 ### Requirements
 
--   Node.js v20
--   NPM v7 or higher
+-   Node.js 20 or newer (CI runs Node.js 24)
+-   npm 7 or newer
+-   React and React DOM 18.3.1 or newer, or React 19
+-   Vite 5, 6, 7 or 8
+-   Tailwind CSS v3 or v4 (see the setup for each below)
 
 ### Usage
 
@@ -26,7 +29,7 @@ Install and configure the @xola/ui-kit React component library in this project.
 
 1. Install the package: npm install @xola/ui-kit@next
 2. Install its peer dependencies: react react-dom autoprefixer postcss tailwindcss vite
-   @types/react @types/react-dom
+   @types/react @types/react-dom (React 18.3.1+ or 19, Vite 5 to 8)
 3. @xola/ui-kit is ESM only ("type": "module") with no CommonJS build. Import it, never
    require() it.
 4. Detect the project's Tailwind CSS major version and configure accordingly:
@@ -137,6 +140,18 @@ Agent skills ship in the package under `node_modules/@xola/ui-kit/skills/`, vers
 installed ui-kit. See [`skills/README.md`](skills/README.md) for the list and how to point your
 coding agent at one.
 
+### Upgrading
+
+Each upgrade guide is an agent skill that ships in the package. To upgrade an app:
+
+1. Install the new version: `npm install @xola/ui-kit@next --legacy-peer-deps`.
+2. Tell your coding agent which guide to follow:
+    - From 3.7 to 3.8: "Follow node_modules/@xola/ui-kit/skills/migrate-to-3.8/SKILL.md to upgrade this repo to ui-kit 3.8."
+    - From 2.6 to 3.7: "Follow node_modules/@xola/ui-kit/skills/migrate-2.6-to-3.7/SKILL.md to upgrade this repo to ui-kit 3.7."
+3. Run your type check, linter and tests. Each guide ends with a Verify section listing the checks that must pass.
+
+3.8 moves `Tooltip`, `Popover` and `Sidebar.Menu` from Tippy to Radix, `RangeSlider` from noUiSlider to Radix Slider, and Headless UI from 1.7 to 2.2. Removed props log one warning in development builds and do nothing.
+
 ## Development
 
 ### Installation
@@ -144,7 +159,7 @@ coding agent at one.
 Install all required dependencies:
 
 ```bash
-$ nvm use # Project needs Node.js v20 with NPM v7
+$ nvm use # .nvmrc pins Node.js 20; any newer version works too
 $ npm install
 ```
 
@@ -156,9 +171,7 @@ $ npm start
 
 ### Testing
 
-Tests run on [Vitest](https://vitest.dev). Pure helpers in `src/utils` and `src/helpers` have unit
-tests; component behavior is validated through Storybook interaction (`play`) tests that run in a
-real browser via `@storybook/addon-vitest` and Playwright.
+Tests run on [Vitest](https://vitest.dev). Pure helpers in `src/utils` and `src/helpers` have unit tests. Component behavior is tested by Storybook interaction (`play`) tests that run in Chromium through `@storybook/addon-vitest` and Playwright. A Storybook test fails if the story logs a React deprecation warning.
 
 ```bash
 npm test               # Unit tests (Vitest, node environment)
@@ -170,6 +183,20 @@ The Storybook tests need Playwright's Chromium browser the first time:
 
 ```bash
 npx playwright install chromium
+```
+
+ui-kit supports React 18 and 19, and CI runs every check on both. The checkout installs React 18 from the lockfile. To run the Storybook tests on React 19:
+
+1. Install React 19 without saving it: `npm run react:19`
+2. Run the tests against it: `VITE_REACT_MAJOR=19 npm run test:storybook`
+3. Go back to the lockfile's React 18: `npm run react:18`
+
+Two more checks run in CI and are worth running before you open a release PR:
+
+```bash
+npm run build
+npm run test:ssr                                  # Imports build/index.js in Node
+npm run test:consumer -- --vite 8 --react 19      # Packs ui-kit, installs it in a Vite 8 app, then type-checks and builds
 ```
 
 ## Advanced
@@ -238,7 +265,7 @@ npm run lint:report # Write a JSON report to eslint_report.json
 
 ## Notes
 
-To avoid issues with how npm v7 resolves peer dependencies, we enabled `legacy-peer-deps` rule in `.npmrc`.
+This repo's `.npmrc` sets `legacy-peer-deps`. ui-kit depends on `react-day-picker` 7, whose `react` peer range stops at 17, so a strict npm install fails with `ERESOLVE` on React 18 or 19.
 
 In order to avoid issues in your projects that are using this UI Kit, use the same `.npmrc` file or always run installs with `--legacy-peer-deps` flag.
 
@@ -256,7 +283,9 @@ $ npm install some-package --legacy-peer-deps
 
 ## Publishing the Package
 
-Install [np](https://github.com/sindresorhus/np#readme) which will help you publish the package
+The *Publish @xola/ui-kit* GitHub Actions workflow (`.github/workflows/deploy.yml`) builds and publishes the package. Run it from the Actions tab and enter the npm dist-tag (`next` for 3.x prereleases, `latest` for stable). *Publish @xola/icons* does the same for the icons package.
+
+To publish from your machine instead, install [np](https://github.com/sindresorhus/np#readme):
 
 ```bash
 npm -g install np
