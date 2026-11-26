@@ -1,0 +1,33 @@
+name: Team affiliation
+
+# Called first by every workflow in this repo. Jobs that `needs` it are skipped when the actor
+# is not in a whitelisted xola team, so forks and outside contributors run nothing.
+on:
+  workflow_call:
+    secrets:
+      ES_LINT_TOKEN:
+        required: true
+
+permissions: {}
+
+jobs:
+  check:
+    name: 👥 Team affiliation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check user for team affiliation
+        uses: tspascoal/get-user-teams-membership@239f45b779d25e70c2e669134c6ed90826f008a1 # v4.0.3
+        id: checkUserMember
+        with:
+          GITHUB_TOKEN: ${{ secrets.ES_LINT_TOKEN }}
+          username: ${{ github.actor }}
+          organization: xola
+          team: 'Engineering,X2 Consultants'
+
+      - if: ${{ steps.checkUserMember.outputs.isTeamMember == 'false' }}
+        env:
+          ACTOR: ${{ github.actor }}
+        run: |
+          echo "Hey $ACTOR you are not in a whitelisted team"
+          exit 1

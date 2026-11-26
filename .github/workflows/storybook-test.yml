@@ -13,8 +13,14 @@ permissions:
   contents: read
 
 jobs:
+  affiliation:
+    uses: ./.github/workflows/team-affiliation.yml
+    secrets:
+      ES_LINT_TOKEN: ${{ secrets.ES_LINT_TOKEN }}
+
   test:
     name: 🧪 Storybook Tests (React ${{ matrix.react }})
+    needs: affiliation
     runs-on: ubuntu-latest
 
     strategy:
@@ -65,6 +71,7 @@ jobs:
 
   consumer:
     name: 📦 Consumer build (Vite 8, React ${{ matrix.react }})
+    needs: affiliation
     runs-on: ubuntu-latest
 
     strategy:
