@@ -101,4 +101,16 @@ AutoSize.parameters = {
     },
 };
 
+export const NoOptionalProps = () => {
+    return <Textarea aria-label="Plain" />;
+};
+
+NoOptionalProps.play = async ({ canvas }) => {
+    const textarea = canvas.getByRole("textbox", { name: "Plain" });
+    await expect(textarea.tagName).toBe("TEXTAREA");
+    await expect(textarea).toHaveAttribute("rows", "2");
+    await expect(textarea).toHaveClass("ui-textarea", "py-2.5", "text-base");
+    await expect(textarea).not.toHaveClass("border-danger");
+};
+
 export default TextareaStories;

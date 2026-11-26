@@ -17,10 +17,19 @@ export const parameters = {
     },
 };
 
-export const decorators = [
-    (Story) => (
+/**
+ * `parameters.hasProvider: false` renders a story without ui-kit's Provider, for components that must work outside it.
+ */
+const withProvider = (Story, { parameters }) => {
+    const { hasProvider = true } = parameters;
+
+    return hasProvider ? (
         <Provider>
             <Story />
         </Provider>
-    ),
-];
+    ) : (
+        <Story />
+    );
+};
+
+export const decorators = [withProvider];

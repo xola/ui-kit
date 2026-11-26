@@ -1,26 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEventListener, useMount } from "ahooks";
+import { useState } from "react";
 
 export const useViewportHeight = () => {
     const [viewportHeight, setViewportHeight] = useState(0);
 
-    useEffect(() => {
-        const detectViewportHeight = () => {
-            // Use window.innerHeight for a more accurate viewport height
+    const detectViewportHeight = () => setViewportHeight(window.innerHeight);
 
-            setViewportHeight(window.innerHeight);
-        };
-
-        // Detect height on mount
-        detectViewportHeight();
-
-        // Optional: Re-detect on orientation change for mobile devices
-
-        window.addEventListener("orientationchange", detectViewportHeight);
-
-        return () => {
-            window.removeEventListener("orientationchange", detectViewportHeight);
-        };
-    }, []);
+    useMount(detectViewportHeight);
+    useEventListener("orientationchange", detectViewportHeight);
 
     return viewportHeight;
 };

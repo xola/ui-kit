@@ -14,10 +14,6 @@ dayjs.extend(quarterOfYear);
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-const DateFormat = {
-    DATE_ISO: "YYYY-MM-DD",
-};
-
 export const isValidTimeZoneName = (timezoneName) => {
     try {
         dayjs.tz(new Date(), timezoneName);
@@ -28,18 +24,14 @@ export const isValidTimeZoneName = (timezoneName) => {
     return true;
 };
 
-export const formatDate = (date, format = DateFormat.DATE_ISO) => {
-    return dayjs(date).format(format);
-};
+export const formatDate = (date, format = "YYYY-MM-DD") => dayjs(date).format(format);
 
 export const formatTime = (time, format = "h:mm a") => {
     const stringTime = String(time).padStart(4, 0); // 700 to 0700
     return dayjs(stringTime, "hhmm").format(format);
 };
 
-export const dateFromObjectId = (id) => {
-    return dayjs(new Date(Number.parseInt(id.slice(0, 8), 16) * 1000));
-};
+export const dateFromObjectId = (id) => dayjs(new Date(Number.parseInt(id.slice(0, 8), 16) * 1000));
 
 export const now = (date, timezone) => {
     if (!date) {
@@ -80,11 +72,6 @@ const DayTimeEnd = "T23:59:59";
 
 export const toDate = (date, isStartDate = true) => {
     const suffix = isStartDate ? DayTimeStart : DayTimeEnd;
-
-    if (isDayjs(date)) {
-        return new Date(date.format(DateFormat.DATE_ISO) + suffix);
-    }
-
     return new Date(formatDate(date) + suffix);
 };
 

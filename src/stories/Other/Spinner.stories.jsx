@@ -1,6 +1,7 @@
 import React from "react";
 import { expect } from "storybook/test";
 import { Spinner } from "../..";
+import { selectArg } from "../helpers";
 
 const SpinnerStories = {
     title: "Other/Spinner",
@@ -19,14 +20,7 @@ const SpinnerStories = {
                 defaultValue: { summary: "secondary" },
             },
         },
-        size: {
-            options: ["small", "medium", "large", "current"],
-            control: { type: "select" },
-            table: {
-                type: { summary: null },
-                defaultValue: { summary: "small" },
-            },
-        },
+        size: selectArg(["small", "medium", "large", "current"], "small"),
     },
 };
 
