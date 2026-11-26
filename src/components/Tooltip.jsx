@@ -122,11 +122,13 @@ export const Tooltip = ({
         onOpenChange?.(nextOpen);
     };
 
+    const isOnTarget = (event) => triggerRef.current?.contains(event.target);
+
     /**
      * React bubbles events from portaled children up the component tree, so a Modal the target renders would hover and
      * focus the target from outside it, and the bubble would show over that Modal.
      */
-    const isOpenableFrom = (event) => isTooltipShown && triggerRef.current?.contains(event.target);
+    const isOpenableFrom = (event) => isTooltipShown && isOnTarget(event);
 
     const handleTriggerPointerMove = (event) => {
         if (!isOpenableFrom(event)) {
@@ -186,7 +188,7 @@ export const Tooltip = ({
      * target is left to the target.
      */
     const handlePointerDownOutside = (event) => {
-        const isTargetPress = triggerRef.current?.contains(event.target);
+        const isTargetPress = isOnTarget(event);
         if (!isOpen || isTargetPress) {
             return;
         }

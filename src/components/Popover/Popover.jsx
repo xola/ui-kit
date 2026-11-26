@@ -44,13 +44,14 @@ export const POPOVER_REMOVED_PROPS = {
 const HOVER_CLOSE_GRACE = 100;
 
 /**
- * Radix skips its trigger handler for a default-prevented event, so a hover popover stops a pointerenter or focus it
- * must not open on before HoverCard schedules an open.
+ * Radix skips its handler for a default-prevented event, so a hover popover stops a pointerenter or focus it must not
+ * open on before HoverCard schedules an open. On auto-focus it keeps focus where the user had it; Tippy never moved
+ * focus either.
  */
-const preventOpen = (event) => event.preventDefault();
+const preventDefault = (event) => event.preventDefault();
 
-/** Tippy never moved focus, and a popover opened while the user types elsewhere must not take it. */
-const keepFocus = (event) => event.preventDefault();
+/** Focus moving into a portaled overlay (Headless UI dialogs, Radix popper content) has not left the overlay stack. */
+const OVERLAY_FOCUS_TARGET_SELECTOR = "[data-headlessui-portal], [data-radix-popper-content-wrapper]";
 
 /** Two triangles 1px apart redraw Tippy's bordered arrow. The white one also covers the box border where they meet. */
 const arrowShape = (
@@ -118,7 +119,7 @@ export const Popover = ({
      * `visible` was set, and HoverCard takes its content out of the tab order. Read once, so a later `open` change
      * never swaps the primitive and remounts the target.
      */
-    const [isControlledAtMount] = useState(open !== undefined);
+    const isControlledAtMount = useRef(open !== undefined).current;
     const isClickOpened = openOn ? openOn === "click" : isControlledAtMount;
     const Primitive = isClickOpened ? RadixPopover : RadixHoverCard;
     const { side, align } = toSideAlign(placement);
@@ -171,7 +172,7 @@ export const Popover = ({
 
     const handleTargetPointerEnter = (event) => {
         if (disabled || !isOnTarget(event)) {
-            preventOpen(event);
+            preventDefault(event);
             return;
         }
 
@@ -179,9 +180,7 @@ export const Popover = ({
     };
 
     const handleTargetBlur = (event) => {
-        const overlayFocusTarget = event.relatedTarget?.closest(
-            "[data-headlessui-portal], [data-radix-popper-content-wrapper]",
-        );
+        const overlayFocusTarget = event.relatedTarget?.closest(OVERLAY_FOCUS_TARGET_SELECTOR);
         if (isOnTarget(event) && !overlayFocusTarget) {
             isPressClosedRef.current = false;
         }
@@ -194,7 +193,7 @@ export const Popover = ({
     const handleTargetFocus = (event) => {
         const isOpenable = !disabled && isOnTarget(event) && isFocusVisible(event.target);
         if (!isOpenable) {
-            preventOpen(event);
+            preventDefault(event);
         }
     };
 
@@ -208,7 +207,7 @@ export const Popover = ({
             return;
         }
 
-        const isTargetPress = triggerRef.current?.contains(event.target);
+        const isTargetPress = isOnTarget(event);
         if (isTargetPress) {
             event.preventDefault();
             return;
@@ -247,7 +246,7 @@ export const Popover = ({
     const triggerHandlers = isClickOpened ? {} : hoverTriggerHandlers;
     const rootDelays = isClickOpened ? {} : { openDelay, closeDelay: Math.max(closeDelay, HOVER_CLOSE_GRACE) };
     const contentFocus = isClickOpened
-        ? { onOpenAutoFocus: keepFocus, onCloseAutoFocus: keepFocus, onFocusOutside: handleFocusOutside }
+        ? { onOpenAutoFocus: preventDefault, onCloseAutoFocus: preventDefault, onFocusOutside: handleFocusOutside }
         : {};
 
     return (
