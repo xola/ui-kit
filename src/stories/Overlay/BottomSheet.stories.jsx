@@ -1,7 +1,8 @@
 import dayjs from "dayjs";
 import React, { useState } from "react";
-import { expect, waitFor, within } from "storybook/test";
+import { expect } from "storybook/test";
 import { BottomSheet, Button, DatePickerPopover, Input } from "../..";
+import { expectFocusInside, getPortalCanvas, waitForClosed } from "../helpers";
 
 const BottomSheetStories = {
     title: "Overlay/BottomSheet",
@@ -58,7 +59,7 @@ export const Default = ({ shouldCloseOnOutsideClick }) => {
 
 Default.play = async ({ canvas, canvasElement, userEvent }) => {
     const { ownerDocument } = canvasElement;
-    const body = within(ownerDocument.body);
+    const body = getPortalCanvas(canvasElement);
     const launcher = canvas.getByRole("button", { name: "Click me to launch a bottom sheet" });
     await expect(body.queryByText("Apply Code")).not.toBeInTheDocument();
 
@@ -68,18 +69,15 @@ Default.play = async ({ canvas, canvasElement, userEvent }) => {
     await expect(body.getByPlaceholderText("Coupon or Affiliate")).toBeInTheDocument();
 
     // Opening focuses the first focusable element inside, not the dialog container itself
-    await waitFor(() => {
-        expect(dialog).toContainElement(ownerDocument.activeElement);
-        expect(ownerDocument.activeElement).not.toBe(dialog);
-    });
+    await expectFocusInside(dialog, ownerDocument);
 
     await userEvent.click(body.getByRole("button", { name: "Close" }));
-    await waitFor(() => expect(body.queryByText("Apply Code")).not.toBeInTheDocument());
+    await waitForClosed(body.queryByText("Apply Code"));
 
     await userEvent.click(launcher);
     await body.findByText("Apply Code");
     await userEvent.click(ownerDocument.querySelector(".ui-bottom-sheet-overlay"));
-    await waitFor(() => expect(body.queryByText("Apply Code")).not.toBeInTheDocument());
+    await waitForClosed(body.queryByText("Apply Code"));
 };
 
 // Tall scrollable body: the Body scrolls independently while the Header/Footer stay pinned.
@@ -118,7 +116,7 @@ export const ScrollableContent = ({ shouldCloseOnOutsideClick }) => {
 };
 
 ScrollableContent.play = async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
+    const body = getPortalCanvas(canvasElement);
     await userEvent.click(canvas.getByRole("button", { name: "Click me to launch a scrollable bottom sheet" }));
     await expect(await body.findByText("Terms & Conditions")).toBeInTheDocument();
     await expect(body.getByText(/Paragraph 1:/)).toBeInTheDocument();

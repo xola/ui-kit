@@ -1,6 +1,7 @@
 import React from "react";
 import { expect } from "storybook/test";
 import { Number, numberFormat } from "../..";
+import { LOCALES } from "../helpers";
 
 const NumberStories = {
     title: "Data Display/Number",
@@ -30,7 +31,7 @@ const NumberStories = {
             description: "A locale string",
             type: { required: true },
             control: { type: "select" },
-            options: ["en-IN", "en-US", "fr-FR", "ja-JP", "de-DE", "ar-AE"],
+            options: LOCALES,
             table: {
                 type: { summary: null },
                 defaultValue: { summary: "Auto-detected based on browser settings" },

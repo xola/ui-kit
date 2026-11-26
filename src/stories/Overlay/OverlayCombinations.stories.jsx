@@ -1,6 +1,17 @@
 import React, { useState } from "react";
-import { expect, fn, waitFor, within } from "storybook/test";
+import { expect, fn, waitFor } from "storybook/test";
 import { BottomSheet, Button, ComboBox, Drawer, Input, Modal, Popover, Sidebar, Tooltip } from "../..";
+import {
+    expectFocusInside,
+    expectNoLayer,
+    getPortalCanvas,
+    getTarget,
+    POPOVER_SELECTOR,
+    queryLayer,
+    TOOLTIP_SELECTOR,
+    wait,
+    waitForClosed,
+} from "../helpers";
 
 const OverlayCombinationsStories = {
     title: "Overlay/Combinations",
@@ -19,8 +30,6 @@ const PANEL_CLASS = "combo-panel";
 
 const DIALOG_SELECTOR = ".ui-modal, .ui-drawer, .ui-bottom-sheet";
 const OVERLAY_SELECTOR = ".ui-modal-overlay, .ui-drawer-overlay, .ui-bottom-sheet-overlay";
-const POPOVER_SELECTOR = ".ui-popover";
-const TOOLTIP_SELECTOR = ".ui-tooltip";
 
 /** Centered Modal panels, right-side Drawer panels and BottomSheet panels all leave the top-left corner to the backdrop. */
 const BACKDROP_POINT = { x: 4, y: 4 };
@@ -35,8 +44,6 @@ const CHANGE_WINDOW = 400;
 const LEAVE_WINDOW = 600;
 
 const DRAWER_CLASS_NAMES = { children: PANEL_CLASS };
-
-const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const getCenter = ({ left, top, width, height }) => ({ x: left + width / 2, y: top + height / 2 });
 
@@ -58,16 +65,10 @@ const getPaintedAt = (ownerDocument, { x, y }) => {
     return element;
 };
 
-const queryLayer = (ownerDocument, selector, text) => {
-    const layers = ownerDocument.querySelectorAll(selector);
-
-    return [...layers].find((layer) => layer.textContent.includes(text));
-};
-
 /** Radix parks content at `translate(0, -200%)` until it is placed, then fades it in; rects read before that are off. */
-const findPlacedLayer = (ownerDocument, selector, text) => {
+const findPlacedLayer = (canvasElement, selector, text) => {
     return waitFor(() => {
-        const layer = queryLayer(ownerDocument, selector, text);
+        const layer = queryLayer(canvasElement, selector, text);
         expect(layer).toBeInstanceOf(HTMLElement);
 
         const wrapper = layer.closest("[data-radix-popper-content-wrapper]");
@@ -76,10 +77,6 @@ const findPlacedLayer = (ownerDocument, selector, text) => {
 
         return layer;
     });
-};
-
-const expectNoLayer = (ownerDocument, selector, text) => {
-    return waitFor(() => expect(queryLayer(ownerDocument, selector, text)).toBeUndefined());
 };
 
 /** Headless UI scales and slides panels in; rects read before every transition in the portal ends are off. */
@@ -103,10 +100,6 @@ const findDialog = async (body, title) => {
     return dialog;
 };
 
-const waitForClosed = (dialog) => {
-    return waitFor(() => expect(dialog).not.toBeInTheDocument(), { timeout: 2000 });
-};
-
 /** A dialog that would close has started leaving, or is gone, by the end of the window. */
 const expectStaysOpen = async (dialog) => {
     await wait(LEAVE_WINDOW);
@@ -121,8 +114,6 @@ const getPanel = (dialog) => dialog.querySelector(`.${PANEL_CLASS}`);
 const getPanelRect = (dialog) => getPanel(dialog).getBoundingClientRect();
 
 const getOverlay = (dialog) => dialog.querySelector(OVERLAY_SELECTOR);
-
-const getTarget = (body, name) => body.getByRole("button", { name }).parentElement;
 
 /**
  * `layer` must be on top, and take the click, at its own center and at a point of it past `side` of the panel. A
@@ -156,7 +147,7 @@ const expectBackdropClosesLayerFirst = async ({ canvasElement, userEvent }, dial
     await expect(backdrop).toBe(getOverlay(dialog));
 
     await userEvent.click(backdrop);
-    await expectNoLayer(ownerDocument, selector, text);
+    await expectNoLayer(canvasElement, selector, text);
     await expectStaysOpen(dialog);
 
     await userEvent.click(backdrop);
@@ -245,19 +236,19 @@ export const ModalWithClickPopover = () => {
 ModalWithClickPopover.play = async (context) => {
     const { canvasElement, userEvent } = context;
     const { ownerDocument } = canvasElement;
-    const body = within(ownerDocument.body);
+    const body = getPortalCanvas(canvasElement);
     const dialog = await openLaunched(context, body, "Open modal", "Modal with a click popover");
 
     await userEvent.click(body.getByRole("button", { name: "Click popover target" }));
-    const box = await findPlacedLayer(ownerDocument, POPOVER_SELECTOR, "Click popover content");
+    const box = await findPlacedLayer(canvasElement, POPOVER_SELECTOR, "Click popover content");
     await expectOnTopPastPanel(ownerDocument, box, getPanelRect(dialog), "bottom");
 
     await userEvent.keyboard("{Escape}");
-    await expectNoLayer(ownerDocument, POPOVER_SELECTOR, "Click popover content");
+    await expectNoLayer(canvasElement, POPOVER_SELECTOR, "Click popover content");
     await expectStaysOpen(dialog);
 
     await userEvent.click(body.getByRole("button", { name: "Click popover target" }));
-    await findPlacedLayer(ownerDocument, POPOVER_SELECTOR, "Click popover content");
+    await findPlacedLayer(canvasElement, POPOVER_SELECTOR, "Click popover content");
     await expectBackdropClosesLayerFirst(context, dialog, POPOVER_SELECTOR, "Click popover content");
 };
 
@@ -276,21 +267,21 @@ export const ModalWithHoverPopover = () => {
 ModalWithHoverPopover.play = async (context) => {
     const { canvasElement, userEvent } = context;
     const { ownerDocument } = canvasElement;
-    const body = within(ownerDocument.body);
+    const body = getPortalCanvas(canvasElement);
     const dialog = await openLaunched(context, body, "Open modal", "Modal with a hover popover");
     const target = getTarget(body, "Hover popover target");
 
     await userEvent.hover(target);
-    const box = await findPlacedLayer(ownerDocument, POPOVER_SELECTOR, "Hover popover content");
+    const box = await findPlacedLayer(canvasElement, POPOVER_SELECTOR, "Hover popover content");
     await expectOnTopPastPanel(ownerDocument, box, getPanelRect(dialog), "top");
 
     await userEvent.keyboard("{Escape}");
-    await expectNoLayer(ownerDocument, POPOVER_SELECTOR, "Hover popover content");
+    await expectNoLayer(canvasElement, POPOVER_SELECTOR, "Hover popover content");
     await expectStaysOpen(dialog);
 
     await userEvent.unhover(target);
     await userEvent.hover(target);
-    await findPlacedLayer(ownerDocument, POPOVER_SELECTOR, "Hover popover content");
+    await findPlacedLayer(canvasElement, POPOVER_SELECTOR, "Hover popover content");
 
     // Leaving the target only starts the 100ms close grace, so the popover is still open when the backdrop press lands
     await expectBackdropClosesLayerFirst(context, dialog, POPOVER_SELECTOR, "Hover popover content");
@@ -314,14 +305,14 @@ ModalDefaultDismissal.args = {
 ModalDefaultDismissal.play = async (context) => {
     const { args, canvasElement, userEvent } = context;
     const { ownerDocument } = canvasElement;
-    const body = within(ownerDocument.body);
+    const body = getPortalCanvas(canvasElement);
     const dialog = await openLaunched(context, body, "Open modal", "Modal with default dismissal");
 
     await userEvent.click(body.getByRole("button", { name: "Default dismissal target" }));
-    await findPlacedLayer(ownerDocument, POPOVER_SELECTOR, "Default dismissal content");
+    await findPlacedLayer(canvasElement, POPOVER_SELECTOR, "Default dismissal content");
 
     await userEvent.keyboard("{Escape}");
-    await expectNoLayer(ownerDocument, POPOVER_SELECTOR, "Default dismissal content");
+    await expectNoLayer(canvasElement, POPOVER_SELECTOR, "Default dismissal content");
     await expectStaysOpen(dialog);
 
     // Modal hands Headless UI's Escape close to the same gate as the backdrop, so without the flag Escape is ignored
@@ -347,15 +338,15 @@ export const ModalWithTooltip = () => {
 ModalWithTooltip.play = async (context) => {
     const { canvasElement, userEvent } = context;
     const { ownerDocument } = canvasElement;
-    const body = within(ownerDocument.body);
+    const body = getPortalCanvas(canvasElement);
     const dialog = await openLaunched(context, body, "Open modal", "Modal with a tooltip");
 
     await userEvent.hover(getTarget(body, "Modal tooltip target"));
-    const bubble = await findPlacedLayer(ownerDocument, TOOLTIP_SELECTOR, "Modal tooltip content");
+    const bubble = await findPlacedLayer(canvasElement, TOOLTIP_SELECTOR, "Modal tooltip content");
     await expectOnTopPastPanel(ownerDocument, bubble, getPanelRect(dialog), "top");
 
     await userEvent.keyboard("{Escape}");
-    await expectNoLayer(ownerDocument, TOOLTIP_SELECTOR, "Modal tooltip content");
+    await expectNoLayer(canvasElement, TOOLTIP_SELECTOR, "Modal tooltip content");
     await expectStaysOpen(dialog);
 
     await userEvent.keyboard("{Escape}");
@@ -381,13 +372,13 @@ export const ModalPopoverWithTooltip = () => {
 ModalPopoverWithTooltip.play = async (context) => {
     const { canvasElement, userEvent } = context;
     const { ownerDocument } = canvasElement;
-    const body = within(ownerDocument.body);
+    const body = getPortalCanvas(canvasElement);
     const dialog = await openLaunched(context, body, "Open modal", "Modal with a tooltip in a popover");
 
     await userEvent.click(body.getByRole("button", { name: "Popover holding a tooltip" }));
-    const box = await findPlacedLayer(ownerDocument, POPOVER_SELECTOR, "Tooltip in popover");
+    const box = await findPlacedLayer(canvasElement, POPOVER_SELECTOR, "Tooltip in popover");
     await userEvent.hover(getTarget(body, "Tooltip in popover"));
-    const bubble = await findPlacedLayer(ownerDocument, TOOLTIP_SELECTOR, "Tooltip over the popover");
+    const bubble = await findPlacedLayer(canvasElement, TOOLTIP_SELECTOR, "Tooltip over the popover");
 
     const bubbleCenter = getCenter(bubble.getBoundingClientRect());
     await expect(isOutside(bubbleCenter, box.getBoundingClientRect())).toBe(false);
@@ -396,12 +387,12 @@ ModalPopoverWithTooltip.play = async (context) => {
 
     // Each Escape dismisses only the newest Radix layer, and Headless UI ignores the ones Radix handled
     await userEvent.keyboard("{Escape}");
-    await expectNoLayer(ownerDocument, TOOLTIP_SELECTOR, "Tooltip over the popover");
+    await expectNoLayer(canvasElement, TOOLTIP_SELECTOR, "Tooltip over the popover");
     await wait(CHANGE_WINDOW);
     await expect(box).toHaveAttribute("data-state", "open");
 
     await userEvent.keyboard("{Escape}");
-    await expectNoLayer(ownerDocument, POPOVER_SELECTOR, "Tooltip in popover");
+    await expectNoLayer(canvasElement, POPOVER_SELECTOR, "Tooltip in popover");
     await expectStaysOpen(dialog);
 
     await userEvent.keyboard("{Escape}");
@@ -464,7 +455,7 @@ const openNestedModals = async (context, body) => {
 const expectInnerModalOnTop = async (context) => {
     const { canvasElement, userEvent } = context;
     const { ownerDocument } = canvasElement;
-    const body = within(ownerDocument.body);
+    const body = getPortalCanvas(canvasElement);
     const { outer, inner } = await openNestedModals(context, body);
 
     const innerRect = getPanelRect(inner);
@@ -474,12 +465,12 @@ const expectInnerModalOnTop = async (context) => {
     await expect(isOutside(outerOnly, innerRect)).toBe(true);
     await expect(getPanel(inner)).toContainElement(getPaintedAt(ownerDocument, getCenter(innerRect)));
     await expect(getPaintedAt(ownerDocument, outerOnly)).toBe(getOverlay(inner));
-    await waitFor(() => expect(inner).toContainElement(ownerDocument.activeElement));
+    await expectFocusInside(inner, ownerDocument);
 
     await userEvent.keyboard("{Escape}");
     await waitForClosed(inner);
     await expectStaysOpen(outer);
-    await waitFor(() => expect(outer).toContainElement(ownerDocument.activeElement));
+    await expectFocusInside(outer, ownerDocument);
 
     await userEvent.keyboard("{Escape}");
     await waitForClosed(outer);
@@ -504,7 +495,7 @@ export const NestedModalsOutsideClick = () => {
 NestedModalsOutsideClick.play = async (context) => {
     const { canvasElement, userEvent } = context;
     const { ownerDocument } = canvasElement;
-    const body = within(ownerDocument.body);
+    const body = getPortalCanvas(canvasElement);
     const { outer, inner } = await openNestedModals(context, body);
 
     const innerBackdrop = getHitAt(ownerDocument, BACKDROP_POINT);
@@ -526,11 +517,11 @@ export const PopoverInNestedModal = () => {
 PopoverInNestedModal.play = async (context) => {
     const { canvasElement, userEvent } = context;
     const { ownerDocument } = canvasElement;
-    const body = within(ownerDocument.body);
+    const body = getPortalCanvas(canvasElement);
     const { outer, inner } = await openNestedModals(context, body);
 
     await userEvent.click(body.getByRole("button", { name: "Inner popover target" }));
-    const box = await findPlacedLayer(ownerDocument, POPOVER_SELECTOR, "Inner popover content");
+    const box = await findPlacedLayer(canvasElement, POPOVER_SELECTOR, "Inner popover content");
     await expectOnTopPastPanel(ownerDocument, box, getPanelRect(inner), "bottom");
 
     const boxRect = box.getBoundingClientRect();
@@ -554,19 +545,19 @@ export const DrawerWithPopover = () => {
 DrawerWithPopover.play = async (context) => {
     const { canvasElement, userEvent } = context;
     const { ownerDocument } = canvasElement;
-    const body = within(ownerDocument.body);
+    const body = getPortalCanvas(canvasElement);
     const drawer = await openLaunched(context, body, "Open drawer", "Drawer with a popover");
 
     await userEvent.click(body.getByRole("button", { name: "Drawer popover target" }));
-    const box = await findPlacedLayer(ownerDocument, POPOVER_SELECTOR, "Drawer popover content");
+    const box = await findPlacedLayer(canvasElement, POPOVER_SELECTOR, "Drawer popover content");
     await expectOnTopPastPanel(ownerDocument, box, getPanelRect(drawer), "left");
 
     await userEvent.keyboard("{Escape}");
-    await expectNoLayer(ownerDocument, POPOVER_SELECTOR, "Drawer popover content");
+    await expectNoLayer(canvasElement, POPOVER_SELECTOR, "Drawer popover content");
     await expectStaysOpen(drawer);
 
     await userEvent.click(body.getByRole("button", { name: "Drawer popover target" }));
-    await findPlacedLayer(ownerDocument, POPOVER_SELECTOR, "Drawer popover content");
+    await findPlacedLayer(canvasElement, POPOVER_SELECTOR, "Drawer popover content");
     await expectBackdropClosesLayerFirst(context, drawer, POPOVER_SELECTOR, "Drawer popover content");
 };
 
@@ -583,15 +574,15 @@ export const DrawerWithTooltip = () => {
 DrawerWithTooltip.play = async (context) => {
     const { canvasElement, userEvent } = context;
     const { ownerDocument } = canvasElement;
-    const body = within(ownerDocument.body);
+    const body = getPortalCanvas(canvasElement);
     const drawer = await openLaunched(context, body, "Open drawer", "Drawer with a tooltip");
 
     await userEvent.hover(getTarget(body, "Drawer tooltip target"));
-    const bubble = await findPlacedLayer(ownerDocument, TOOLTIP_SELECTOR, "Drawer tooltip content");
+    const bubble = await findPlacedLayer(canvasElement, TOOLTIP_SELECTOR, "Drawer tooltip content");
     await expectOnTopPastPanel(ownerDocument, bubble, getPanelRect(drawer), "left");
 
     await userEvent.keyboard("{Escape}");
-    await expectNoLayer(ownerDocument, TOOLTIP_SELECTOR, "Drawer tooltip content");
+    await expectNoLayer(canvasElement, TOOLTIP_SELECTOR, "Drawer tooltip content");
     await expectStaysOpen(drawer);
 
     await userEvent.keyboard("{Escape}");
@@ -618,12 +609,12 @@ export const DrawerWithHeldOpenTooltip = () => {
 DrawerWithHeldOpenTooltip.play = async (context) => {
     const { canvasElement, userEvent } = context;
     const { ownerDocument } = canvasElement;
-    const body = within(ownerDocument.body);
+    const body = getPortalCanvas(canvasElement);
     const drawer = await openLaunched(context, body, "Open drawer", "Drawer with a held open tooltip");
-    await findPlacedLayer(ownerDocument, TOOLTIP_SELECTOR, "Held tooltip content");
+    await findPlacedLayer(canvasElement, TOOLTIP_SELECTOR, "Held tooltip content");
 
     await userEvent.keyboard("{Escape}");
-    await expectNoLayer(ownerDocument, TOOLTIP_SELECTOR, "Held tooltip content");
+    await expectNoLayer(canvasElement, TOOLTIP_SELECTOR, "Held tooltip content");
     await expectStaysOpen(drawer);
 
     await userEvent.keyboard("{Escape}");
@@ -643,7 +634,7 @@ export const DrawerOpensModal = () => {
 DrawerOpensModal.play = async (context) => {
     const { canvasElement, userEvent } = context;
     const { ownerDocument } = canvasElement;
-    const body = within(ownerDocument.body);
+    const body = getPortalCanvas(canvasElement);
     const drawer = await openLaunched(context, body, "Open drawer", "Drawer that opens a modal");
 
     await userEvent.click(body.getByRole("button", { name: "Open modal" }));
@@ -655,7 +646,7 @@ DrawerOpensModal.play = async (context) => {
     await expect(isOutside(drawerOnly, modalRect)).toBe(true);
     await expect(getPanel(modal)).toContainElement(getPaintedAt(ownerDocument, getCenter(modalRect)));
     await expect(getPaintedAt(ownerDocument, drawerOnly)).toBe(getOverlay(modal));
-    await waitFor(() => expect(modal).toContainElement(ownerDocument.activeElement));
+    await expectFocusInside(modal, ownerDocument);
 
     const backdrop = getHitAt(ownerDocument, BACKDROP_POINT);
     await expect(backdrop).toBe(getOverlay(modal));
@@ -686,7 +677,7 @@ export const ModalOpensDrawer = () => {
 ModalOpensDrawer.play = async (context) => {
     const { canvasElement, userEvent } = context;
     const { ownerDocument } = canvasElement;
-    const body = within(ownerDocument.body);
+    const body = getPortalCanvas(canvasElement);
     const modal = await openLaunched(context, body, "Open modal", "Modal that opens a drawer");
 
     await userEvent.click(body.getByRole("button", { name: "Open drawer" }));
@@ -700,7 +691,7 @@ ModalOpensDrawer.play = async (context) => {
     await expect(getPanel(drawer)).toContainElement(getPaintedAt(ownerDocument, drawerCenter));
     await expect(getPanel(drawer)).toContainElement(getHitAt(ownerDocument, drawerCenter));
     await expect(getPaintedAt(ownerDocument, modalCenter)).toBe(getOverlay(drawer));
-    await waitFor(() => expect(drawer).toContainElement(ownerDocument.activeElement));
+    await expectFocusInside(drawer, ownerDocument);
 
     await userEvent.keyboard("{Escape}");
     await waitForClosed(drawer);
@@ -724,15 +715,15 @@ export const BottomSheetWithPopover = () => {
 BottomSheetWithPopover.play = async (context) => {
     const { canvasElement, userEvent } = context;
     const { ownerDocument } = canvasElement;
-    const body = within(ownerDocument.body);
+    const body = getPortalCanvas(canvasElement);
     const sheet = await openLaunched(context, body, "Open sheet", "Sheet with a popover");
 
     await userEvent.click(body.getByRole("button", { name: "Sheet popover target" }));
-    const box = await findPlacedLayer(ownerDocument, POPOVER_SELECTOR, "Sheet popover content");
+    const box = await findPlacedLayer(canvasElement, POPOVER_SELECTOR, "Sheet popover content");
     await expectOnTopPastPanel(ownerDocument, box, getPanelRect(sheet), "top");
 
     await userEvent.keyboard("{Escape}");
-    await expectNoLayer(ownerDocument, POPOVER_SELECTOR, "Sheet popover content");
+    await expectNoLayer(canvasElement, POPOVER_SELECTOR, "Sheet popover content");
     await expectStaysOpen(sheet);
 
     // BottomSheet passes a no-op to the Dialog's onClose, so Escape never closes it
@@ -740,7 +731,7 @@ BottomSheetWithPopover.play = async (context) => {
     await expectStaysOpen(sheet);
 
     await userEvent.click(body.getByRole("button", { name: "Sheet popover target" }));
-    await findPlacedLayer(ownerDocument, POPOVER_SELECTOR, "Sheet popover content");
+    await findPlacedLayer(canvasElement, POPOVER_SELECTOR, "Sheet popover content");
     await expectBackdropClosesLayerFirst(context, sheet, POPOVER_SELECTOR, "Sheet popover content");
 };
 
@@ -757,39 +748,39 @@ export const BottomSheetWithTooltip = () => {
 BottomSheetWithTooltip.play = async (context) => {
     const { canvasElement, userEvent } = context;
     const { ownerDocument } = canvasElement;
-    const body = within(ownerDocument.body);
+    const body = getPortalCanvas(canvasElement);
     const sheet = await openLaunched(context, body, "Open sheet", "Sheet with a tooltip");
 
     const target = getTarget(body, "Sheet tooltip target");
     await userEvent.hover(target);
-    const bubble = await findPlacedLayer(ownerDocument, TOOLTIP_SELECTOR, "Sheet tooltip content");
+    const bubble = await findPlacedLayer(canvasElement, TOOLTIP_SELECTOR, "Sheet tooltip content");
     await expectOnTopPastPanel(ownerDocument, bubble, getPanelRect(sheet), "top");
 
     await userEvent.keyboard("{Escape}");
-    await expectNoLayer(ownerDocument, TOOLTIP_SELECTOR, "Sheet tooltip content");
+    await expectNoLayer(canvasElement, TOOLTIP_SELECTOR, "Sheet tooltip content");
     await expectStaysOpen(sheet);
 
     // A tooltip closes as soon as the pointer leaves its target, so only one opened by focus is open at the press
     await userEvent.unhover(target);
     await userEvent.tab();
     await expect(body.getByRole("button", { name: "Sheet tooltip target" })).toHaveFocus();
-    await findPlacedLayer(ownerDocument, TOOLTIP_SELECTOR, "Sheet tooltip content");
+    await findPlacedLayer(canvasElement, TOOLTIP_SELECTOR, "Sheet tooltip content");
     await expectBackdropClosesLayerFirst(context, sheet, TOOLTIP_SELECTOR, "Sheet tooltip content");
 };
 
 const expectBackdropClosesSheetWithUnrelatedLayer = async (context, title, selector, text) => {
     const { canvasElement, userEvent } = context;
     const { ownerDocument } = canvasElement;
-    const body = within(ownerDocument.body);
+    const body = getPortalCanvas(canvasElement);
     const sheet = await openLaunched(context, body, "Open sheet", title);
 
-    await findPlacedLayer(ownerDocument, selector, text);
+    await findPlacedLayer(canvasElement, selector, text);
     const backdrop = getHitAt(ownerDocument, BACKDROP_POINT);
     await expect(backdrop).toBe(getOverlay(sheet));
     await userEvent.click(backdrop);
 
     await waitForClosed(sheet);
-    await expect(queryLayer(ownerDocument, selector, text)).toBeInstanceOf(HTMLElement);
+    await expect(queryLayer(canvasElement, selector, text)).toBeInstanceOf(HTMLElement);
 };
 
 export const BottomSheetWithUnrelatedControlledTooltip = () => {
@@ -862,7 +853,7 @@ export const DrawerWithComboBox = () => {
 
 const openMenu = async ({ canvasElement, userEvent }, name) => {
     const { ownerDocument } = canvasElement;
-    await userEvent.click(within(ownerDocument.body).getByRole("combobox", { name }));
+    await userEvent.click(getPortalCanvas(canvasElement).getByRole("combobox", { name }));
 
     return waitFor(() => {
         const menu = ownerDocument.querySelector(".ui-combo-box__menu");
@@ -887,7 +878,7 @@ const expectMenuOnTop = async ({ canvasElement, userEvent }, menu, drawer) => {
 DrawerWithComboBox.play = async (context) => {
     const { canvasElement } = context;
     const { ownerDocument } = canvasElement;
-    const body = within(ownerDocument.body);
+    const body = getPortalCanvas(canvasElement);
     const drawer = await openLaunched(context, body, "Open drawer", "Drawer with combo boxes");
     await expect(getComputedStyle(drawer).zIndex).toBe("30");
 
@@ -941,7 +932,7 @@ export const SidebarNotificationsDrawer = () => <SidebarWithDrawers />;
 
 SidebarNotificationsDrawer.play = async ({ canvasElement, userEvent }) => {
     const { ownerDocument } = canvasElement;
-    const body = within(ownerDocument.body);
+    const body = getPortalCanvas(canvasElement);
 
     await userEvent.click(body.getByText("1"));
     const drawer = await findDialog(body, "Announcements");
@@ -957,7 +948,7 @@ export const SidebarWithDrawer = () => <SidebarWithDrawers />;
 SidebarWithDrawer.play = async (context) => {
     const { canvasElement } = context;
     const { ownerDocument } = canvasElement;
-    const body = within(ownerDocument.body);
+    const body = getPortalCanvas(canvasElement);
     const drawer = await openLaunched(context, body, "Open drawer", "Drawer beside a sidebar");
 
     const { painted } = getPaintedOverRail(ownerDocument);

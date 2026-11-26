@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { expect, fn, waitFor, within } from "storybook/test";
 import { Button, Drawer } from "../..";
+import { expectFocusInside, getPortalCanvas, waitForClosed } from "../helpers";
 
 const DrawerStories = {
     title: "Overlay/Drawers",
@@ -91,7 +92,7 @@ const observePanelStartOffset = (ownerDocument) => {
 
 Drawers.play = async ({ args, canvas, canvasElement, userEvent }) => {
     const { ownerDocument } = canvasElement;
-    const body = within(ownerDocument.body);
+    const body = getPortalCanvas(canvasElement);
     const launcher = canvas.getByRole("button", { name: "Click Me to open the Drawer" });
     await expect(body.queryByText("Hello World")).not.toBeInTheDocument();
 
@@ -113,24 +114,21 @@ Drawers.play = async ({ args, canvas, canvasElement, userEvent }) => {
     await expect(body.getByText("Lorem Ipsum. Click the X to close")).toBeInTheDocument();
 
     // Opening focuses the first focusable element inside, not the dialog container itself
-    await waitFor(() => {
-        expect(dialog).toContainElement(ownerDocument.activeElement);
-        expect(ownerDocument.activeElement).not.toBe(dialog);
-    });
+    await expectFocusInside(dialog, ownerDocument);
 
     for (let press = 0; press < 3; press++) {
         await userEvent.tab();
-        await waitFor(() => expect(dialog).toContainElement(ownerDocument.activeElement));
+        await expectFocusInside(dialog, ownerDocument);
     }
 
     await userEvent.keyboard("{Escape}");
-    await waitFor(() => expect(body.queryByText("Hello World")).not.toBeInTheDocument());
+    await waitForClosed(body.queryByText("Hello World"));
     await expect(args.onClose).toHaveBeenCalledExactlyOnceWith(false);
 
     await userEvent.click(launcher);
     await body.findByText("Hello World");
     await userEvent.click(ownerDocument.querySelector(".ui-drawer-overlay"));
-    await waitFor(() => expect(body.queryByText("Hello World")).not.toBeInTheDocument());
+    await waitForClosed(body.queryByText("Hello World"));
     await expect(args.onClose).toHaveBeenCalledTimes(2);
     await expect(args.onClose).toHaveBeenLastCalledWith(false);
 };
@@ -140,7 +138,7 @@ export const NoOptionalProps = () => {
 };
 
 NoOptionalProps.play = async ({ canvasElement }) => {
-    const body = within(canvasElement.ownerDocument.body);
+    const body = getPortalCanvas(canvasElement);
     await expect(await body.findByText("Drawer body")).toBeInTheDocument();
 
     const container = canvasElement.ownerDocument.body.querySelector(".ui-drawer-container");

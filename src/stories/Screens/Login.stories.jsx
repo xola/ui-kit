@@ -1,6 +1,7 @@
 import React from "react";
 import { expect } from "storybook/test";
 import { Badge, Login } from "../..";
+import { selectArg } from "../helpers";
 
 const LoginStories = {
     title: "Screens/Login",
@@ -21,13 +22,7 @@ const LoginStories = {
         backgroundType: "default",
     },
     argTypes: {
-        backgroundType: {
-            options: ["default", "x2", "admin", "scaffold"],
-            control: { type: "select" },
-            table: {
-                defaultValue: { summary: "default" },
-            },
-        },
+        backgroundType: selectArg(["default", "x2", "admin", "scaffold"], "default"),
         label: {
             control: { type: "text" },
         },

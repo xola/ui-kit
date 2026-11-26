@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { expect, userEvent, waitFor } from "storybook/test";
 import { Button, SubmitButton } from "../..";
 import { hasFormStatus } from "../../helpers/reactFeatures";
+import { selectArg } from "../helpers";
 
 const SubmitButtonStories = {
     title: "Forms & Fields/Buttons/Submit Button",
@@ -25,13 +26,7 @@ const SubmitButtonStories = {
                 defaultValue: { summary: "medium" },
             },
         },
-        color: {
-            options: ["primary", "secondary", "success", "warning", "danger"],
-            control: { type: "select" },
-            table: {
-                defaultValue: { summary: "primary" },
-            },
-        },
+        color: selectArg(["primary", "secondary", "success", "warning", "danger"], "primary"),
     },
 };
 

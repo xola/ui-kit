@@ -1,7 +1,8 @@
 import { random } from "lodash-es";
 import React, { useState } from "react";
-import { expect, waitFor, within } from "storybook/test";
+import { expect, waitFor } from "storybook/test";
 import { Button, FormGroup, InlineValuePopover, Input, Modal, Select } from "../..";
+import { getPortalCanvas } from "../helpers";
 
 const InlineValuePopoverStories = {
     title: "Forms & Fields/Inline Value Popover",
@@ -62,7 +63,7 @@ Default.play = async ({ canvas, canvasElement, userEvent }) => {
     await expect(canvas.getByText("8 hours")).toBeInTheDocument();
     // Clicking the value opens a popover holding the edit form
     await userEvent.click(canvas.getByText("8 hours"));
-    const body = within(canvasElement.ownerDocument.body);
+    const body = getPortalCanvas(canvasElement);
     await expect(await body.findByRole("button", { name: "Apply" })).toBeInTheDocument();
     await waitFor(() => expect(body.getByRole("textbox")).toHaveFocus());
 
@@ -110,7 +111,7 @@ export const WithoutArrow = () => {
 
 WithoutArrow.play = async ({ canvas, canvasElement, userEvent }) => {
     await userEvent.click(canvas.getByText("8 hours"));
-    const body = within(canvasElement.ownerDocument.body);
+    const body = getPortalCanvas(canvasElement);
     await expect(await body.findByRole("button", { name: "Apply" })).toBeInTheDocument();
 };
 
@@ -124,7 +125,7 @@ export const PassThroughProps = () => {
 
 PassThroughProps.play = async ({ canvasElement }) => {
     const { ownerDocument } = canvasElement;
-    await expect(await within(ownerDocument.body).findByRole("textbox")).toBeInTheDocument();
+    await expect(await getPortalCanvas(canvasElement).findByRole("textbox")).toBeInTheDocument();
     await expect(ownerDocument.querySelector("[data-testid='inline-value-popover-test-id']")).toBeNull();
 };
 
@@ -139,9 +140,7 @@ export const WithError = () => {
 WithError.play = async ({ canvasElement, userEvent }) => {
     const icon = canvasElement.querySelector(".text-danger");
     await userEvent.hover(icon);
-    await expect(await within(canvasElement.ownerDocument.body).findByRole("tooltip")).toHaveTextContent(
-        "Value is required",
-    );
+    await expect(await getPortalCanvas(canvasElement).findByRole("tooltip")).toHaveTextContent("Value is required");
 };
 
 export const InsideModal = () => {
@@ -169,7 +168,7 @@ export const InsideModal = () => {
 };
 
 InsideModal.play = async ({ canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
+    const body = getPortalCanvas(canvasElement);
     const queryModal = () => body.queryByText("Modal with an inline value");
 
     await userEvent.click(await body.findByText("8 hours"));

@@ -2,6 +2,7 @@ import dayjs from "dayjs";
 import React, { useState } from "react";
 import { expect, waitFor, within } from "storybook/test";
 import { DatePicker, DatePickerPopover } from "../..";
+import { getPortalCanvas, waitForClosed } from "../helpers";
 import { findDayCell } from "./datePickerTestUtils";
 
 const DateRangePickerStories = {
@@ -138,7 +139,7 @@ DateRangeWithInput.args = { shouldShowRelativeRanges: true };
 DateRangeWithInput.play = async ({ canvasElement, userEvent }) => {
     const { ownerDocument } = canvasElement;
     const canvas = within(canvasElement);
-    const body = within(ownerDocument.body);
+    const body = getPortalCanvas(canvasElement);
     const trigger = canvasElement.querySelector(".cursor-pointer");
     const outside = canvas.getByRole("button", { name: "Outside" });
     const initialText = trigger.textContent;
@@ -152,7 +153,7 @@ DateRangeWithInput.play = async ({ canvasElement, userEvent }) => {
         await waitFor(() => expect(trigger).toHaveTextContent("Pending"));
     };
     const expectClosedWithText = async (expectedText) => {
-        await waitFor(() => expect(ownerDocument.querySelector(".DayPicker")).toBeNull());
+        await waitForClosed(ownerDocument.querySelector(".DayPicker"));
         await expect(trigger.textContent).toBe(expectedText);
     };
 
@@ -164,7 +165,7 @@ DateRangeWithInput.play = async ({ canvasElement, userEvent }) => {
     await userEvent.click(findDayCell(ownerDocument, 15));
     await waitFor(() => expect(trigger.textContent).not.toContain("Pending"));
     await userEvent.click(body.getByRole("button", { name: "Apply" }));
-    await waitFor(() => expect(ownerDocument.querySelector(".DayPicker")).toBeNull());
+    await waitForClosed(ownerDocument.querySelector(".DayPicker"));
 
     const acceptedText = trigger.textContent;
     await expect(acceptedText).not.toBe(initialText);
@@ -191,7 +192,7 @@ DateRangeWithInput.play = async ({ canvasElement, userEvent }) => {
     await userEvent.click(findDayCell(ownerDocument, 19));
     await waitFor(() => expect(trigger.textContent).not.toContain("Pending"));
     await userEvent.keyboard("{Escape}");
-    await waitFor(() => expect(ownerDocument.querySelector(".DayPicker")).toBeNull());
+    await waitForClosed(ownerDocument.querySelector(".DayPicker"));
 
     const unappliedText = trigger.textContent;
     await expect(unappliedText).not.toBe(acceptedText);

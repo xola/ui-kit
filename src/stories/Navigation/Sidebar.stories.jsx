@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import React, { useState } from "react";
 import { expect, fn, spyOn, waitFor, within } from "storybook/test";
 import { Button, Sidebar, useSidebar } from "../..";
+import { expectNoLayer, expectWarnings, findLayer, queryLayer, wait, waitForChangeWindow } from "../helpers";
 import {
     AnnounceIcon,
     CheckIcon,
@@ -135,40 +136,18 @@ export const Default = () => {
 
 const MENU_SELECTOR = ".ui-sidebar-menu";
 
-const queryMenu = (canvasElement, text) => {
-    const menus = canvasElement.ownerDocument.querySelectorAll(MENU_SELECTOR);
-
-    return [...menus].find((menu) => menu.textContent.includes(text));
-};
-
-const findMenu = (canvasElement, text) => {
-    return waitFor(() => {
-        const menu = queryMenu(canvasElement, text);
-        expect(menu).toBeInstanceOf(HTMLElement);
-
-        return menu;
-    });
-};
-
-const expectNoMenu = (canvasElement, text, options) => {
-    return waitFor(() => expect(queryMenu(canvasElement, text)).toBeUndefined(), options);
-};
-
-/** Clears the 150ms open delay, the 300ms close delay and the fade-in, so a menu that was going to change has. */
-const waitForChangeWindow = () => new Promise((resolve) => setTimeout(resolve, 400));
-
 Default.play = async ({ canvas, canvasElement, userEvent }) => {
     await expect(canvas.getByText("Sellers")).toBeInTheDocument();
     await expect(canvas.getByText("Favorites")).toBeInTheDocument();
 
     const account = canvasElement.querySelector(".ui-sidebar-footer .ui-sidebar-account");
-    await expect(queryMenu(canvasElement, "Privacy Policy")).toBeUndefined();
+    await expect(queryLayer(canvasElement, MENU_SELECTOR, "Privacy Policy")).toBeUndefined();
 
     await userEvent.hover(account);
-    await findMenu(canvasElement, "Privacy Policy");
+    await findLayer(canvasElement, MENU_SELECTOR, "Privacy Policy");
 
     await userEvent.unhover(account);
-    await expectNoMenu(canvasElement, "Privacy Policy");
+    await expectNoLayer(canvasElement, MENU_SELECTOR, "Privacy Policy");
 };
 
 export const CustomLogo = () => {
@@ -848,8 +827,6 @@ const centerOf = (element) => {
     return { x: left + width / 2, y: top + height / 2 };
 };
 
-const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, Math.max(0, ms)));
-
 /** px/ms: an unhurried hand, slower than most moves across a 200px rail. */
 const POINTER_SPEED = 0.5;
 
@@ -865,7 +842,7 @@ const movePointer = async (userEvent, from, to, ownerDocument) => {
     const crossed = [];
 
     for (let progress = 0; progress < 1;) {
-        await sleep(FRAME_MS);
+        await wait(FRAME_MS);
         progress = Math.min(1, (performance.now() - startedAt) / duration);
 
         const clientX = from.x + (to.x - from.x) * progress;
@@ -883,11 +860,11 @@ export const OneMenuAtATime = () => <MenuRail bookingsMenuProps={slowClose} mark
 
 OneMenuAtATime.play = async ({ canvas, canvasElement, userEvent }) => {
     await userEvent.hover(getTrigger(canvas, "Bookings"));
-    await findMenu(canvasElement, "Purchases");
+    await findLayer(canvasElement, MENU_SELECTOR, "Purchases");
 
     await userEvent.hover(getTrigger(canvas, "Marketing"));
-    await findMenu(canvasElement, "Coupons");
-    await expectNoMenu(canvasElement, "Purchases", BEFORE_SLOW_CLOSE);
+    await findLayer(canvasElement, MENU_SELECTOR, "Coupons");
+    await expectNoLayer(canvasElement, MENU_SELECTOR, "Purchases", BEFORE_SLOW_CLOSE);
 };
 
 export const ResizeClosesMenus = () => <MenuRail bookingsMenuProps={slowClose} />;
@@ -898,17 +875,17 @@ ResizeClosesMenus.play = async ({ canvas, canvasElement, userEvent }) => {
     const { left, top } = handle.getBoundingClientRect();
 
     await userEvent.hover(trigger);
-    await findMenu(canvasElement, "Purchases");
+    await findLayer(canvasElement, MENU_SELECTOR, "Purchases");
     dispatchPointer(handle, "pointerdown", { clientX: left, clientY: top, button: 0, buttons: 1 });
-    await expectNoMenu(canvasElement, "Purchases", BEFORE_SLOW_CLOSE);
+    await expectNoLayer(canvasElement, MENU_SELECTOR, "Purchases", BEFORE_SLOW_CLOSE);
     dispatchPointer(handle, "pointerup", { clientX: left, clientY: top });
 
     await userEvent.unhover(trigger);
     await userEvent.hover(trigger);
-    await findMenu(canvasElement, "Purchases");
+    await findLayer(canvasElement, MENU_SELECTOR, "Purchases");
     handle.focus();
     await userEvent.keyboard("{ArrowLeft}");
-    await expectNoMenu(canvasElement, "Purchases", BEFORE_SLOW_CLOSE);
+    await expectNoLayer(canvasElement, MENU_SELECTOR, "Purchases", BEFORE_SLOW_CLOSE);
 };
 
 const getCenterY = ({ top, height }) => top + height / 2;
@@ -931,17 +908,17 @@ MenuFollowsRailResize.play = async ({ canvas, canvasElement, userEvent }) => {
     const widthBefore = getWidth();
 
     await userEvent.hover(trigger);
-    const before = getAttachment(trigger, await findMenu(canvasElement, "Purchases"));
+    const before = getAttachment(trigger, await findLayer(canvasElement, MENU_SELECTOR, "Purchases"));
     await expect(before.gap).toBeCloseTo(4, 0);
     await expect(before.centerOffset).toBeCloseTo(0, 0);
 
     await dragHandle(handle, -100);
     await expect(widthBefore - getWidth()).toBeGreaterThan(90);
-    await expectNoMenu(canvasElement, "Purchases");
+    await expectNoLayer(canvasElement, MENU_SELECTOR, "Purchases");
 
     await userEvent.unhover(trigger);
     await userEvent.hover(trigger);
-    const after = getAttachment(trigger, await findMenu(canvasElement, "Purchases"));
+    const after = getAttachment(trigger, await findLayer(canvasElement, MENU_SELECTOR, "Purchases"));
 
     await expect(after.menuLeft).toBeCloseTo(before.menuLeft - (widthBefore - getWidth()), 0);
     await expect(after.gap).toBeCloseTo(before.gap, 0);
@@ -963,12 +940,12 @@ UnmountWhileOpen.args = { onOpenChange: fn() };
 
 UnmountWhileOpen.play = async ({ args, canvas, canvasElement, userEvent }) => {
     await userEvent.hover(getTrigger(canvas, "Bookings"));
-    await findMenu(canvasElement, "Purchases");
+    await findLayer(canvasElement, MENU_SELECTOR, "Purchases");
 
     // Keyboard, not a click: a press outside would close the menu before it unmounts
     canvas.getByRole("button", { name: "Remount rail" }).focus();
     await userEvent.keyboard("{Enter}");
-    await expectNoMenu(canvasElement, "Purchases");
+    await expectNoLayer(canvasElement, MENU_SELECTOR, "Purchases");
 
     // A menu that unmounted open must not still be asked to close
     getResizeHandle(canvas).focus();
@@ -994,14 +971,16 @@ DiagonalToMenuItem.play = async ({ args, canvas, canvasElement, userEvent }) => 
     const marketing = canvas.getByRole("button", { name: "Marketing" });
 
     await userEvent.hover(bookings);
-    const refunds = within(await findMenu(canvasElement, "Refunds")).getByRole("button", { name: "Refunds" });
+    const refunds = within(await findLayer(canvasElement, MENU_SELECTOR, "Refunds")).getByRole("button", {
+        name: "Refunds",
+    });
     const to = { x: refunds.getBoundingClientRect().left + 24, y: centerOf(refunds).y };
 
     const crossed = await movePointer(userEvent, centerOf(bookings), to, canvasElement.ownerDocument);
 
     await expect(crossed.some((element) => marketing.contains(element))).toBe(true);
-    await expect(queryMenu(canvasElement, "Refunds")).toBeInstanceOf(HTMLElement);
-    await expect(queryMenu(canvasElement, "Coupons")).toBeUndefined();
+    await expect(queryLayer(canvasElement, MENU_SELECTOR, "Refunds")).toBeInstanceOf(HTMLElement);
+    await expect(queryLayer(canvasElement, MENU_SELECTOR, "Coupons")).toBeUndefined();
 
     await userEvent.click(refunds);
     await expect(args.onItemClick).toHaveBeenCalledTimes(1);
@@ -1019,24 +998,24 @@ CancelledTouchPress.play = async ({ canvas, canvasElement, userEvent }) => {
     dispatchPointer(bookings, "pointercancel", finger);
 
     bookings.focus();
-    await findMenu(canvasElement, "Purchases");
+    await findLayer(canvasElement, MENU_SELECTOR, "Purchases");
     await userEvent.keyboard("{Escape}");
-    await expectNoMenu(canvasElement, "Purchases");
+    await expectNoLayer(canvasElement, MENU_SELECTOR, "Purchases");
 
     // A keyboard click has no pointerdown of its own and must not read the cancelled touch press
     await userEvent.keyboard("{Enter}");
     await waitForChangeWindow();
-    await expect(queryMenu(canvasElement, "Purchases")).toBeUndefined();
+    await expect(queryLayer(canvasElement, MENU_SELECTOR, "Purchases")).toBeUndefined();
 };
 
 export const FocusOpens = () => <MenuRail />;
 
 FocusOpens.play = async ({ canvas, canvasElement, userEvent }) => {
     canvas.getByRole("button", { name: "Bookings" }).focus();
-    await findMenu(canvasElement, "Purchases");
+    await findLayer(canvasElement, MENU_SELECTOR, "Purchases");
 
     await userEvent.keyboard("{Escape}");
-    await expectNoMenu(canvasElement, "Purchases");
+    await expectNoLayer(canvasElement, MENU_SELECTOR, "Purchases");
 };
 
 export const TouchTapOpens = (args) => <MenuRail accountMenuProps={args} />;
@@ -1048,20 +1027,20 @@ TouchTapOpens.play = async ({ args, canvas, canvasElement }) => {
     const outside = canvas.getByText("Outside");
 
     tap(account);
-    await findMenu(canvasElement, "Logout");
+    await findLayer(canvasElement, MENU_SELECTOR, "Logout");
 
     // The finger lifting fires a touch pointerleave, which must not close a menu a tap opened
     await waitForChangeWindow();
-    await expect(queryMenu(canvasElement, "Logout")).toBeInstanceOf(HTMLElement);
+    await expect(queryLayer(canvasElement, MENU_SELECTOR, "Logout")).toBeInstanceOf(HTMLElement);
 
     // A second tap on the trigger is not a press outside: the menu stays open without closing in between
     tap(account, account);
     await waitForChangeWindow();
-    await expect(queryMenu(canvasElement, "Logout")).toBeInstanceOf(HTMLElement);
+    await expect(queryLayer(canvasElement, MENU_SELECTOR, "Logout")).toBeInstanceOf(HTMLElement);
     await expect(args.onOpenChange).toHaveBeenCalledTimes(1);
 
     tap(outside, account);
-    await expectNoMenu(canvasElement, "Logout");
+    await expectNoLayer(canvasElement, MENU_SELECTOR, "Logout");
     await expect(args.onOpenChange).toHaveBeenLastCalledWith(false);
 };
 
@@ -1073,18 +1052,18 @@ OpenChangeCallbacks.play = async ({ args, canvas, canvasElement, userEvent }) =>
     const trigger = getTrigger(canvas, "Bookings");
 
     await userEvent.hover(trigger);
-    await findMenu(canvasElement, "Purchases");
+    await findLayer(canvasElement, MENU_SELECTOR, "Purchases");
     await waitFor(() => expect(args.onOpenChange).toHaveBeenCalledTimes(1));
     await expect(args.onOpenChange).toHaveBeenLastCalledWith(true);
 
     // Clicking the hovered trigger is not a press outside: the menu stays open without closing in between
     await userEvent.click(canvas.getByRole("button", { name: "Bookings" }));
     await waitForChangeWindow();
-    await expect(queryMenu(canvasElement, "Purchases")).toBeInstanceOf(HTMLElement);
+    await expect(queryLayer(canvasElement, MENU_SELECTOR, "Purchases")).toBeInstanceOf(HTMLElement);
     await expect(args.onOpenChange).toHaveBeenCalledTimes(1);
 
     await userEvent.unhover(trigger);
-    await expectNoMenu(canvasElement, "Purchases");
+    await expectNoLayer(canvasElement, MENU_SELECTOR, "Purchases");
     await waitFor(() => expect(args.onOpenChange).toHaveBeenCalledTimes(2));
     await expect(args.onOpenChange).toHaveBeenLastCalledWith(false);
 };
@@ -1110,25 +1089,25 @@ Controlled.play = async ({ args, canvas, canvasElement, userEvent }) => {
     const trigger = getTrigger(canvas, "Bookings");
 
     await userEvent.click(canvas.getByRole("button", { name: "Show menu" }));
-    await findMenu(canvasElement, "Purchases");
+    await findLayer(canvasElement, MENU_SELECTOR, "Purchases");
 
     await userEvent.click(canvas.getByRole("button", { name: "Hide menu" }));
-    await expectNoMenu(canvasElement, "Purchases");
+    await expectNoLayer(canvasElement, MENU_SELECTOR, "Purchases");
 
     // Held closed, a hover only asks to open
     await userEvent.hover(trigger);
     await waitFor(() => expect(args.onOpenChange).toHaveBeenCalledWith(true));
     await waitForChangeWindow();
-    await expect(queryMenu(canvasElement, "Purchases")).toBeUndefined();
+    await expect(queryLayer(canvasElement, MENU_SELECTOR, "Purchases")).toBeUndefined();
 
     // Released after being held closed: stays closed until the next hover, as Tippy did
     await userEvent.unhover(trigger);
     await userEvent.click(canvas.getByRole("button", { name: "Release menu" }));
     await waitForChangeWindow();
-    await expect(queryMenu(canvasElement, "Purchases")).toBeUndefined();
+    await expect(queryLayer(canvasElement, MENU_SELECTOR, "Purchases")).toBeUndefined();
 
     await userEvent.hover(trigger);
-    await findMenu(canvasElement, "Purchases");
+    await findLayer(canvasElement, MENU_SELECTOR, "Purchases");
 };
 
 export const HeldOpenFollowsRailResize = () => <MenuRail bookingsMenuProps={{ open: true }} />;
@@ -1138,14 +1117,14 @@ HeldOpenFollowsRailResize.play = async ({ canvas, canvasElement }) => {
     const handle = getResizeHandle(canvas);
     const getWidth = () => Number(handle.getAttribute("aria-valuenow"));
     const widthBefore = getWidth();
-    const before = getAttachment(trigger, await findMenu(canvasElement, "Purchases"));
+    const before = getAttachment(trigger, await findLayer(canvasElement, MENU_SELECTOR, "Purchases"));
 
     // The drag asks every menu to close, and a menu held open with no `onOpenChange` stays open through it
     await dragHandle(handle, -100);
     await expect(widthBefore - getWidth()).toBeGreaterThan(90);
 
     await waitFor(() => {
-        const after = getAttachment(trigger, queryMenu(canvasElement, "Purchases"));
+        const after = getAttachment(trigger, queryLayer(canvasElement, MENU_SELECTOR, "Purchases"));
 
         expect(after.menuLeft).toBeCloseTo(before.menuLeft - (widthBefore - getWidth()), 0);
         expect(after.gap).toBeCloseTo(before.gap, 0);
@@ -1185,11 +1164,7 @@ RemovedPropWarns.play = async () => {
         "UI Kit Sidebar.Menu: 'onHidden' was removed in 3.8, use 'onOpenChange'",
         "UI Kit Sidebar.Menu: 'onDestroy' was removed in 3.8, use 'onOpenChange'",
     ];
-    const warnings = removedWarnSpy.mock.calls.map(([text]) => text);
-
-    expected.forEach((message) => {
-        expect(warnings.filter((text) => text === message)).toHaveLength(1);
-    });
+    expectWarnings(removedWarnSpy, expected);
 };
 
 export default SidebarStories;

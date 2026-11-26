@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { expect, within } from "storybook/test";
+import { expect } from "storybook/test";
 import { Button, PopoverList } from "../..";
+import { getPortalCanvas, PLACEMENTS } from "../helpers";
 import { CalendarDayIcon, CalendarMonthIcon, CalendarWeekIcon, MenuIcon } from "../../icons";
 
 const PopoverStories = {
@@ -16,7 +17,7 @@ const PopoverStories = {
             type: { required: false },
             description: "The direction to show the popover",
             control: { type: "select" },
-            options: ["top", "bottom", "left", "right", "auto"],
+            options: PLACEMENTS,
             table: {
                 type: "string",
                 defaultValue: { summary: "bottom" },
@@ -100,7 +101,7 @@ export const Default = () => {
 };
 
 Default.play = async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
+    const body = getPortalCanvas(canvasElement);
     await userEvent.click(canvas.getByRole("button", { name: "Hover over me" }));
     const months = await body.findAllByText("Month");
     await expect(months.length).toBeGreaterThan(0);
@@ -136,7 +137,7 @@ export const NoIcons = (props) => {
 };
 
 NoIcons.play = async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
+    const body = getPortalCanvas(canvasElement);
     await userEvent.hover(canvas.getByRole("button", { name: "Hover over me" }));
     await expect(await body.findByText("Listing")).toBeInTheDocument();
     await expect(body.getByText("Guides")).toBeInTheDocument();
@@ -192,7 +193,7 @@ export const Scrollable = () => {
 };
 
 Scrollable.play = async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
+    const body = getPortalCanvas(canvasElement);
     await userEvent.click(canvas.getByRole("button", { name: "Click here" }));
     await expect(await body.findByText("Item 1")).toBeInTheDocument();
 
@@ -217,7 +218,7 @@ export const PassThroughProps = () => {
 
 PassThroughProps.play = async ({ canvasElement }) => {
     const { ownerDocument } = canvasElement;
-    const body = within(ownerDocument.body);
+    const body = getPortalCanvas(canvasElement);
     const item = await body.findByText("Only item");
 
     await expect(item).toHaveClass("rounded-t-lg", "rounded-b-lg");

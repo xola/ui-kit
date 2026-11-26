@@ -1,6 +1,19 @@
 import React, { useState } from "react";
 import { expect, fn, spyOn, waitFor, within } from "storybook/test";
 import { Button, Drawer, Input, Modal, Popover } from "../..";
+import {
+    arg,
+    expectNoLayer,
+    expectWarnings,
+    findLayer,
+    getPortalCanvas,
+    getTarget,
+    PLACEMENTS,
+    POPOVER_SELECTOR,
+    queryLayer,
+    wait,
+    waitForChangeWindow,
+} from "../helpers";
 import { getRealUserEvent, restoreKeyboardFocusVisible } from "../realInput";
 
 // More props in docs
@@ -21,77 +34,35 @@ const PopoverStories = {
         onClickOutside: fn(),
     },
     argTypes: {
-        demoText: getArgument("Default", "text", null, "The value for the button", "for this demo only"),
-        openOn: getArgument(
+        demoText: arg("Default", "text", null, "The value for the button", "for this demo only"),
+        openOn: arg(
             "hover",
             "inline-radio",
             ["hover", "click"],
             "What opens the popover: hovering or focusing the target, or clicking it",
         ),
-        placement: getArgument(
+        placement: arg(
             "right",
             "select",
-            ["top", "bottom", "left", "right", "auto"],
+            PLACEMENTS,
             `Where to place the popover; "top-start", "left-end" and similar align it. [More in the docs](${documentationUrl})`,
         ),
-        delay: getArgument(
+        delay: arg(
             0,
             "number",
             null,
             "Delay in ms before a hover popover opens and before it closes. `[open, close]` sets them apart",
         ),
-        maxWidth: getArgument(
+        maxWidth: arg(
             350,
             "number",
             null,
             "Specifies the maximum width of the popover. Useful to prevent it from being too horizontally wide to read",
         ),
-        skidding: getArgument(0, "number", null, "Shifts the popover along its aligned edge, in pixels"),
-        distance: getArgument(10, "number", null, "Gap between the popover and its target, in pixels"),
+        skidding: arg(0, "number", null, "Shifts the popover along its aligned edge, in pixels"),
+        distance: arg(10, "number", null, "Gap between the popover and its target, in pixels"),
     },
 };
-
-function getArgument(defaultValue, type, options, description, summary = null) {
-    return {
-        type: { required: false },
-        description,
-        options,
-        control: { type },
-        table: {
-            type: { summary },
-            defaultValue: { summary: defaultValue },
-        },
-    };
-}
-
-const BOX_SELECTOR = ".ui-popover";
-
-const queryBox = (canvasElement, text) => {
-    const boxes = canvasElement.ownerDocument.querySelectorAll(BOX_SELECTOR);
-
-    return [...boxes].find((box) => box.textContent.includes(text));
-};
-
-const findBox = (canvasElement, text) => {
-    return waitFor(() => {
-        const box = queryBox(canvasElement, text);
-        expect(box).toBeInstanceOf(HTMLElement);
-
-        return box;
-    });
-};
-
-const expectNoBox = (canvasElement, text) => {
-    return waitFor(() => expect(queryBox(canvasElement, text)).toBeUndefined());
-};
-
-/**
- * Proving a popover did not open (or did not close) needs a point in time when it would have. With no delay, both
- * Tippy and Radix react within a timer tick, so 400ms also clears the hover close grace and the 250ms fade-out.
- */
-const waitForChangeWindow = () => new Promise((resolve) => setTimeout(resolve, 400));
-
-const getTarget = (canvas, name) => canvas.getByRole("button", { name }).parentElement;
 
 export const Default = ({ demoText = "Hello World", ...rest }) => {
     return (
@@ -110,13 +81,13 @@ export const Default = ({ demoText = "Hello World", ...rest }) => {
 
 Default.play = async ({ canvas, canvasElement, userEvent }) => {
     const target = getTarget(canvas, "Hello World");
-    await expect(queryBox(canvasElement, "Popover Title")).toBeUndefined();
+    await expect(queryLayer(canvasElement, POPOVER_SELECTOR, "Popover Title")).toBeUndefined();
 
     await userEvent.hover(target);
-    await findBox(canvasElement, "Popover Title");
+    await findLayer(canvasElement, POPOVER_SELECTOR, "Popover Title");
 
     await userEvent.unhover(target);
-    await expectNoBox(canvasElement, "Popover Title");
+    await expectNoLayer(canvasElement, POPOVER_SELECTOR, "Popover Title");
 };
 
 export const NoTitle = ({ demoText = "Detailed", ...rest }) => {
@@ -161,10 +132,10 @@ export const FocusOpens = () => {
 FocusOpens.play = async ({ canvas, canvasElement, userEvent }) => {
     await userEvent.tab();
     await expect(canvas.getByRole("button", { name: "Focus target" })).toHaveFocus();
-    await findBox(canvasElement, "Focus content");
+    await findLayer(canvasElement, POPOVER_SELECTOR, "Focus content");
 
     await userEvent.tab();
-    await expectNoBox(canvasElement, "Focus content");
+    await expectNoLayer(canvasElement, POPOVER_SELECTOR, "Focus content");
 };
 
 export const ClickOpens = ({ onClickOutside }) => {
@@ -186,24 +157,24 @@ ClickOpens.play = async ({ args, canvas, canvasElement, userEvent }) => {
 
     await userEvent.hover(button.parentElement);
     await waitForChangeWindow();
-    await expect(queryBox(canvasElement, "Click content")).toBeUndefined();
+    await expect(queryLayer(canvasElement, POPOVER_SELECTOR, "Click content")).toBeUndefined();
 
     await userEvent.click(button);
-    const box = await findBox(canvasElement, "Click content");
+    const box = await findLayer(canvasElement, POPOVER_SELECTOR, "Click content");
 
     await userEvent.click(within(box).getByText("Click content"));
     await waitForChangeWindow();
-    await expect(queryBox(canvasElement, "Click content")).toBeInstanceOf(HTMLElement);
+    await expect(queryLayer(canvasElement, POPOVER_SELECTOR, "Click content")).toBeInstanceOf(HTMLElement);
     await expect(args.onClickOutside).not.toHaveBeenCalled();
 
     await userEvent.click(canvas.getByRole("button", { name: "Outside" }));
-    await expectNoBox(canvasElement, "Click content");
+    await expectNoLayer(canvasElement, POPOVER_SELECTOR, "Click content");
     await expect(args.onClickOutside).toHaveBeenCalledOnce();
 
     await userEvent.click(button);
-    await findBox(canvasElement, "Click content");
+    await findLayer(canvasElement, POPOVER_SELECTOR, "Click content");
     await userEvent.click(button);
-    await expectNoBox(canvasElement, "Click content");
+    await expectNoLayer(canvasElement, POPOVER_SELECTOR, "Click content");
     await expect(args.onClickOutside).toHaveBeenCalledOnce();
 };
 
@@ -225,17 +196,17 @@ export const Controlled = () => {
 Controlled.play = async ({ canvas, canvasElement, userEvent }) => {
     const toggle = canvas.getByRole("button", { name: "Toggle" });
 
-    await findBox(canvasElement, "Controlled content");
+    await findLayer(canvasElement, POPOVER_SELECTOR, "Controlled content");
 
     await userEvent.click(toggle);
-    await expectNoBox(canvasElement, "Controlled content");
+    await expectNoLayer(canvasElement, POPOVER_SELECTOR, "Controlled content");
 
     await userEvent.hover(getTarget(canvas, "Controlled target"));
     await waitForChangeWindow();
-    await expect(queryBox(canvasElement, "Controlled content")).toBeUndefined();
+    await expect(queryLayer(canvasElement, POPOVER_SELECTOR, "Controlled content")).toBeUndefined();
 
     await userEvent.click(toggle);
-    await findBox(canvasElement, "Controlled content");
+    await findLayer(canvasElement, POPOVER_SELECTOR, "Controlled content");
 };
 
 export const ControlledForm = ({ onOpenChange }) => {
@@ -251,7 +222,7 @@ export const ControlledForm = ({ onOpenChange }) => {
 };
 
 ControlledForm.play = async ({ args, canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
+    const body = getPortalCanvas(canvasElement);
     const target = getTarget(canvas, "Form target");
     const first = await body.findByPlaceholderText("First field");
     const second = body.getByPlaceholderText("Second field");
@@ -283,7 +254,7 @@ export const ControlledHover = ({ onOpenChange }) => {
 ControlledHover.play = async ({ args, canvas, canvasElement, userEvent }) => {
     await userEvent.hover(getTarget(canvas, "Controlled hover target"));
     await waitFor(() => expect(args.onOpenChange).toHaveBeenCalledWith(true));
-    await expect(queryBox(canvasElement, "Controlled hover content")).toBeUndefined();
+    await expect(queryLayer(canvasElement, POPOVER_SELECTOR, "Controlled hover content")).toBeUndefined();
 };
 
 export const OpenSetLater = () => {
@@ -305,7 +276,7 @@ OpenSetLater.play = async ({ canvas, canvasElement, userEvent }) => {
     const targetButton = canvas.getByRole("button", { name: "Later target" });
 
     await userEvent.click(canvas.getByRole("button", { name: "Open it" }));
-    await findBox(canvasElement, "Later content");
+    await findLayer(canvasElement, POPOVER_SELECTOR, "Later content");
 
     // `open` going from undefined to a value keeps the target mounted
     await expect(canvas.getByRole("button", { name: "Later target" })).toBe(targetButton);
@@ -324,7 +295,7 @@ export const SkiddingAndDistance = () => {
 
 SkiddingAndDistance.play = async ({ canvas, canvasElement }) => {
     const target = getTarget(canvas, "Offset target");
-    const box = await findBox(canvasElement, "Offset content");
+    const box = await findLayer(canvasElement, POPOVER_SELECTOR, "Offset content");
 
     await waitFor(() => {
         const targetRect = target.getBoundingClientRect();
@@ -359,9 +330,9 @@ export const MaxWidth = () => {
 };
 
 MaxWidth.play = async ({ canvasElement }) => {
-    const defaultBox = await findBox(canvasElement, "Default:");
-    const narrowBox = await findBox(canvasElement, "Narrow:");
-    const calcBox = await findBox(canvasElement, "Calc:");
+    const defaultBox = await findLayer(canvasElement, POPOVER_SELECTOR, "Default:");
+    const narrowBox = await findLayer(canvasElement, POPOVER_SELECTOR, "Narrow:");
+    const calcBox = await findLayer(canvasElement, POPOVER_SELECTOR, "Calc:");
 
     await waitFor(() => {
         expect(defaultBox.getBoundingClientRect().width).toBeCloseTo(350, 0);
@@ -382,7 +353,7 @@ export const ViewportMaxWidth = () => {
 };
 
 ViewportMaxWidth.play = async ({ canvasElement }) => {
-    const box = await findBox(canvasElement, "Wide content");
+    const box = await findLayer(canvasElement, POPOVER_SELECTOR, "Wide content");
     const { innerWidth } = canvasElement.ownerDocument.defaultView;
 
     await waitFor(() => expect(box.getBoundingClientRect().width).toBeCloseTo(innerWidth - 10, 0));
@@ -400,7 +371,7 @@ export const Disabled = () => {
 Disabled.play = async ({ canvas, canvasElement, userEvent }) => {
     await userEvent.hover(getTarget(canvas, "Disabled target"));
     await waitForChangeWindow();
-    await expect(queryBox(canvasElement, "Disabled content")).toBeUndefined();
+    await expect(queryLayer(canvasElement, POPOVER_SELECTOR, "Disabled content")).toBeUndefined();
 };
 
 export const PassThroughProps = () => {
@@ -416,7 +387,7 @@ export const PassThroughProps = () => {
 
 PassThroughProps.play = async ({ canvasElement }) => {
     const { ownerDocument } = canvasElement;
-    const box = await findBox(canvasElement, "Pass-through content");
+    const box = await findLayer(canvasElement, POPOVER_SELECTOR, "Pass-through content");
 
     await expect(box).toHaveClass("custom-box-class");
     await expect(box.querySelector(".ui-popover-content")).toHaveTextContent("Pass-through content");
@@ -434,7 +405,7 @@ export const ContentProp = () => {
 
 ContentProp.play = async ({ canvas, canvasElement, userEvent }) => {
     await userEvent.hover(getTarget(canvas, "Content prop target"));
-    const box = await findBox(canvasElement, "Content prop body");
+    const box = await findLayer(canvasElement, POPOVER_SELECTOR, "Content prop body");
 
     await expect(box.querySelector(".ui-popover-content")).toBeNull();
 };
@@ -450,10 +421,10 @@ export const EscapeCloses = () => {
 
 EscapeCloses.play = async ({ canvas, canvasElement, userEvent }) => {
     await userEvent.hover(getTarget(canvas, "Escape target"));
-    await findBox(canvasElement, "Escape content");
+    await findLayer(canvasElement, POPOVER_SELECTOR, "Escape content");
 
     await userEvent.keyboard("{Escape}");
-    await expectNoBox(canvasElement, "Escape content");
+    await expectNoLayer(canvasElement, POPOVER_SELECTOR, "Escape content");
 };
 
 export const HoverInteractiveContent = () => {
@@ -470,7 +441,7 @@ export const HoverInteractiveContent = () => {
 
 HoverInteractiveContent.play = async ({ canvas, canvasElement, userEvent }) => {
     await userEvent.hover(getTarget(canvas, "Hover form target"));
-    const box = await findBox(canvasElement, "Hover form");
+    const box = await findLayer(canvasElement, POPOVER_SELECTOR, "Hover form");
     const input = within(box).getByPlaceholderText("Type here");
 
     await userEvent.hover(input);
@@ -478,7 +449,7 @@ HoverInteractiveContent.play = async ({ canvas, canvasElement, userEvent }) => {
     await expect(input).toHaveValue("Hello");
 
     await waitForChangeWindow();
-    await expect(queryBox(canvasElement, "Hover form")).toBeInstanceOf(HTMLElement);
+    await expect(queryLayer(canvasElement, POPOVER_SELECTOR, "Hover form")).toBeInstanceOf(HTMLElement);
 };
 
 export const InsideModal = ({ onClickOutside }) => {
@@ -501,20 +472,20 @@ export const InsideModal = ({ onClickOutside }) => {
 };
 
 InsideModal.play = async ({ args, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
+    const body = getPortalCanvas(canvasElement);
     const queryModal = () => body.queryByText("Modal with a popover");
 
     await userEvent.click(await body.findByRole("button", { name: "Modal popover target" }));
-    const box = await findBox(canvasElement, "Modal popover content");
+    const box = await findLayer(canvasElement, POPOVER_SELECTOR, "Modal popover content");
 
     await userEvent.click(within(box).getByText("Modal popover content"));
     await waitForChangeWindow();
-    await expect(queryBox(canvasElement, "Modal popover content")).toBeInstanceOf(HTMLElement);
+    await expect(queryLayer(canvasElement, POPOVER_SELECTOR, "Modal popover content")).toBeInstanceOf(HTMLElement);
     await expect(queryModal()).toBeInTheDocument();
     await expect(args.onClickOutside).not.toHaveBeenCalled();
 
     await userEvent.keyboard("{Escape}");
-    await expectNoBox(canvasElement, "Modal popover content");
+    await expectNoLayer(canvasElement, POPOVER_SELECTOR, "Modal popover content");
     await waitForChangeWindow();
     await expect(queryModal()).toBeInTheDocument();
 
@@ -544,15 +515,15 @@ export const ControlledInModal = () => {
 };
 
 ControlledInModal.play = async ({ canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
+    const body = getPortalCanvas(canvasElement);
     const queryModal = () => body.queryByText("Modal with a controlled popover");
 
     await userEvent.click(await body.findByRole("button", { name: "Controlled modal target" }));
-    await findBox(canvasElement, "Controlled modal content");
+    await findLayer(canvasElement, POPOVER_SELECTOR, "Controlled modal content");
 
     // With no onOpenChange, Escape reaches the consumer through onClickOutside
     await userEvent.keyboard("{Escape}");
-    await expectNoBox(canvasElement, "Controlled modal content");
+    await expectNoLayer(canvasElement, POPOVER_SELECTOR, "Controlled modal content");
     await expect(queryModal()).toBeInTheDocument();
 
     await userEvent.keyboard("{Escape}");
@@ -578,14 +549,14 @@ ToggleOutside.play = async ({ canvas, canvasElement, userEvent }) => {
     const outside = canvas.getByRole("button", { name: "Outside" });
 
     await userEvent.click(canvas.getByRole("button", { name: "Toggle target" }));
-    await findBox(canvasElement, "Toggle content");
+    await findLayer(canvasElement, POPOVER_SELECTOR, "Toggle content");
 
     // The second press lands during the fade-out, which must not reach a toggle-style onClickOutside
     await userEvent.click(outside);
     await userEvent.click(outside);
-    await expectNoBox(canvasElement, "Toggle content");
+    await expectNoLayer(canvasElement, POPOVER_SELECTOR, "Toggle content");
     await waitForChangeWindow();
-    await expect(queryBox(canvasElement, "Toggle content")).toBeUndefined();
+    await expect(queryLayer(canvasElement, POPOVER_SELECTOR, "Toggle content")).toBeUndefined();
 };
 
 export const ToggleEscapeInModal = () => {
@@ -608,20 +579,20 @@ export const ToggleEscapeInModal = () => {
 };
 
 ToggleEscapeInModal.play = async ({ canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
+    const body = getPortalCanvas(canvasElement);
     const queryModal = () => body.queryByText("Modal with a toggled popover");
 
     await userEvent.click(await body.findByRole("button", { name: "Toggled modal target" }));
-    await findBox(canvasElement, "Toggled modal content");
+    await findLayer(canvasElement, POPOVER_SELECTOR, "Toggled modal content");
 
     await userEvent.keyboard("{Escape}");
     await expect(queryModal()).toBeInTheDocument();
 
     // The closed popover must consume this Escape during its fade-out.
     await userEvent.keyboard("{Escape}");
-    await expectNoBox(canvasElement, "Toggled modal content");
+    await expectNoLayer(canvasElement, POPOVER_SELECTOR, "Toggled modal content");
     await waitForChangeWindow();
-    await expect(queryBox(canvasElement, "Toggled modal content")).toBeUndefined();
+    await expect(queryLayer(canvasElement, POPOVER_SELECTOR, "Toggled modal content")).toBeUndefined();
     await expect(queryModal()).toBeInTheDocument();
 
     await userEvent.keyboard("{Escape}");
@@ -641,11 +612,11 @@ HoverCloseGrace.play = async ({ args, canvas, canvasElement, userEvent }) => {
     const target = getTarget(canvas, "Grace target");
 
     await userEvent.hover(target);
-    const box = await findBox(canvasElement, "Grace content");
+    const box = await findLayer(canvasElement, POPOVER_SELECTOR, "Grace content");
 
     // Crossing the gap between target and content takes time; the popover must not start closing meanwhile
     await userEvent.unhover(target);
-    await new Promise((resolve) => setTimeout(resolve, 50));
+    await wait(50);
     await userEvent.hover(box);
     await waitForChangeWindow();
     await expect(box).toHaveAttribute("data-state", "open");
@@ -667,7 +638,7 @@ export const FocusMovesIntoContent = ({ onOpenChange }) => {
 FocusMovesIntoContent.play = async ({ args, canvas, canvasElement, userEvent }) => {
     await userEvent.tab();
     await expect(canvas.getByRole("button", { name: "Focus move target" })).toHaveFocus();
-    const box = await findBox(canvasElement, "Focus move content");
+    const box = await findLayer(canvasElement, POPOVER_SELECTOR, "Focus move content");
 
     // Blurring the target into its own content keeps the popover open
     const field = within(box).getByPlaceholderText("Focus move field");
@@ -691,20 +662,20 @@ TargetClickCloses.play = async ({ args, canvas, canvasElement, userEvent }) => {
     const target = getTarget(canvas, "Click close target");
 
     await userEvent.hover(target);
-    await findBox(canvasElement, "Click close content");
+    await findLayer(canvasElement, POPOVER_SELECTOR, "Click close content");
     args.onOpenChange.mockClear();
 
     // The focus the same press gives the target must not reopen it
     await userEvent.click(canvas.getByRole("button", { name: "Click close target" }));
-    await expectNoBox(canvasElement, "Click close content");
+    await expectNoLayer(canvasElement, POPOVER_SELECTOR, "Click close content");
     await waitForChangeWindow();
-    await expect(queryBox(canvasElement, "Click close content")).toBeUndefined();
+    await expect(queryLayer(canvasElement, POPOVER_SELECTOR, "Click close content")).toBeUndefined();
     await expect(args.onOpenChange.mock.calls).toEqual([[false]]);
     await expect(args.onClickOutside).not.toHaveBeenCalled();
 
     await userEvent.unhover(target);
     await userEvent.hover(target);
-    await findBox(canvasElement, "Click close content");
+    await findLayer(canvasElement, POPOVER_SELECTOR, "Click close content");
 };
 
 export const ControlledHoverClickCloses = ({ onOpenChange }) => {
@@ -724,11 +695,11 @@ export const ControlledHoverClickCloses = ({ onOpenChange }) => {
 
 ControlledHoverClickCloses.play = async ({ args, canvas, canvasElement, userEvent }) => {
     await userEvent.hover(getTarget(canvas, "Controlled click close target"));
-    await findBox(canvasElement, "Controlled click close content");
+    await findLayer(canvasElement, POPOVER_SELECTOR, "Controlled click close content");
     args.onOpenChange.mockClear();
 
     await userEvent.click(canvas.getByRole("button", { name: "Controlled click close target" }));
-    await expectNoBox(canvasElement, "Controlled click close content");
+    await expectNoLayer(canvasElement, POPOVER_SELECTOR, "Controlled click close content");
     await waitForChangeWindow();
     await expect(args.onOpenChange.mock.calls).toEqual([[false]]);
 };
@@ -766,18 +737,18 @@ export const TargetOpensModal = () => {
 
 TargetOpensModal.play = async ({ canvas, canvasElement, userEvent }) => {
     const { ownerDocument } = canvasElement;
-    const body = within(ownerDocument.body);
+    const body = getPortalCanvas(canvasElement);
     const target = getTarget(canvas, "Edit payouts");
 
     await userEvent.hover(target);
-    await findBox(canvasElement, "Payouts content");
+    await findLayer(canvasElement, POPOVER_SELECTOR, "Payouts content");
 
     // The modal takes focus from inside the target's React tree, which must not hold the popover open over it
     await userEvent.click(canvas.getByRole("button", { name: "Edit payouts" }));
     await body.findByText("Payouts modal");
-    await expectNoBox(canvasElement, "Payouts content");
+    await expectNoLayer(canvasElement, POPOVER_SELECTOR, "Payouts content");
     await waitForChangeWindow();
-    await expect(queryBox(canvasElement, "Payouts content")).toBeUndefined();
+    await expect(queryLayer(canvasElement, POPOVER_SELECTOR, "Payouts content")).toBeUndefined();
 
     const closeButton = body.getByRole("button", { name: "Close payouts" });
     const { left, top, width, height } = closeButton.getBoundingClientRect();
@@ -787,9 +758,9 @@ TargetOpensModal.play = async ({ canvas, canvasElement, userEvent }) => {
 
     // Focus coming back to the target as the modal closes does not reopen the popover; the next hover does
     await waitForChangeWindow();
-    await expect(queryBox(canvasElement, "Payouts content")).toBeUndefined();
+    await expect(queryLayer(canvasElement, POPOVER_SELECTOR, "Payouts content")).toBeUndefined();
     await userEvent.hover(target);
-    await findBox(canvasElement, "Payouts content");
+    await findLayer(canvasElement, POPOVER_SELECTOR, "Payouts content");
 };
 
 export const TargetOpensModalFromKeyboard = () => {
@@ -802,17 +773,17 @@ export const TargetOpensModalFromKeyboard = () => {
 };
 
 TargetOpensModalFromKeyboard.play = async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
+    const body = getPortalCanvas(canvasElement);
 
     await userEvent.tab();
     await expect(canvas.getByRole("button", { name: "Edit payouts" })).toHaveFocus();
-    await findBox(canvasElement, "Keyboard payouts content");
+    await findLayer(canvasElement, POPOVER_SELECTOR, "Keyboard payouts content");
 
     await userEvent.keyboard("{Enter}");
     await body.findByText("Payouts modal");
-    await expectNoBox(canvasElement, "Keyboard payouts content");
+    await expectNoLayer(canvasElement, POPOVER_SELECTOR, "Keyboard payouts content");
     await waitForChangeWindow();
-    await expect(queryBox(canvasElement, "Keyboard payouts content")).toBeUndefined();
+    await expect(queryLayer(canvasElement, POPOVER_SELECTOR, "Keyboard payouts content")).toBeUndefined();
 };
 
 export const KeyboardRefocusAfterTargetClick = () => {
@@ -838,19 +809,19 @@ KeyboardRefocusAfterTargetClick.play = async ({ canvas, canvasElement }) => {
     const target = canvas.getByRole("button", { name: "Refocus target" });
 
     await realUserEvent.hover(target);
-    await findBox(canvasElement, "Refocus content");
+    await findLayer(canvasElement, POPOVER_SELECTOR, "Refocus content");
     await realUserEvent.click(target);
-    await expectNoBox(canvasElement, "Refocus content");
+    await expectNoLayer(canvasElement, POPOVER_SELECTOR, "Refocus content");
     await waitForChangeWindow();
-    await expect(queryBox(canvasElement, "Refocus content")).toBeUndefined();
+    await expect(queryLayer(canvasElement, POPOVER_SELECTOR, "Refocus content")).toBeUndefined();
 
     await realUserEvent.keyboard("{Tab}");
     await expect(canvas.getByRole("button", { name: "After target" })).toHaveFocus();
-    await expectNoBox(canvasElement, "Refocus content");
+    await expectNoLayer(canvasElement, POPOVER_SELECTOR, "Refocus content");
 
     await realUserEvent.keyboard("{Shift>}{Tab}{/Shift}");
     await expect(target).toHaveFocus();
-    await findBox(canvasElement, "Refocus content");
+    await findLayer(canvasElement, POPOVER_SELECTOR, "Refocus content");
 };
 
 export const KeyboardRefocusAfterClickElsewhere = () => {
@@ -877,15 +848,15 @@ KeyboardRefocusAfterClickElsewhere.play = async ({ canvas, canvasElement }) => {
     const elsewhere = canvas.getByRole("button", { name: "After elsewhere" });
 
     await realUserEvent.hover(target);
-    await findBox(canvasElement, "Elsewhere content");
+    await findLayer(canvasElement, POPOVER_SELECTOR, "Elsewhere content");
     await realUserEvent.click(target);
-    await expectNoBox(canvasElement, "Elsewhere content");
+    await expectNoLayer(canvasElement, POPOVER_SELECTOR, "Elsewhere content");
     await realUserEvent.click(elsewhere);
     await expect(elsewhere).toHaveFocus();
 
     await realUserEvent.keyboard("{Shift>}{Tab}{/Shift}");
     await expect(target).toHaveFocus();
-    await findBox(canvasElement, "Elsewhere content");
+    await findLayer(canvasElement, POPOVER_SELECTOR, "Elsewhere content");
 };
 
 export const KeyboardRefocusAfterModalFocusRestoration = () => {
@@ -908,14 +879,14 @@ KeyboardRefocusAfterModalFocusRestoration.play = async ({ canvas, canvasElement 
         return;
     }
 
-    const body = within(canvasElement.ownerDocument.body);
+    const body = getPortalCanvas(canvasElement);
     const target = canvas.getByRole("button", { name: "Edit payouts" });
 
     await realUserEvent.hover(target);
-    await findBox(canvasElement, "Restored focus content");
+    await findLayer(canvasElement, POPOVER_SELECTOR, "Restored focus content");
     await realUserEvent.click(target);
     await body.findByText("Payouts modal");
-    await expectNoBox(canvasElement, "Restored focus content");
+    await expectNoLayer(canvasElement, POPOVER_SELECTOR, "Restored focus content");
 
     const closeButton = body.getByRole("button", { name: "Close payouts" });
     await realUserEvent.hover(closeButton);
@@ -925,13 +896,13 @@ KeyboardRefocusAfterModalFocusRestoration.play = async ({ canvas, canvasElement 
     await waitFor(() => expect(body.queryByText("Payouts modal")).toBeNull());
     await expect(target).toHaveFocus();
     await waitForChangeWindow();
-    await expect(queryBox(canvasElement, "Restored focus content")).toBeUndefined();
+    await expect(queryLayer(canvasElement, POPOVER_SELECTOR, "Restored focus content")).toBeUndefined();
 
     await realUserEvent.keyboard("{Tab}");
     await expect(canvas.getByRole("button", { name: "After opener" })).toHaveFocus();
     await realUserEvent.keyboard("{Shift>}{Tab}{/Shift}");
     await expect(target).toHaveFocus();
-    await findBox(canvasElement, "Restored focus content");
+    await findLayer(canvasElement, POPOVER_SELECTOR, "Restored focus content");
 };
 
 /** A left Drawer puts its close button after the content, so the first focusable control is the popover target. */
@@ -970,14 +941,14 @@ DrawerInitialFocus.play = async ({ canvas, canvasElement }) => {
         return;
     }
 
-    const body = within(canvasElement.ownerDocument.body);
+    const body = getPortalCanvas(canvasElement);
 
     // Headless UI focuses the first control from script, which is not keyboard focus after a mouse click
     await realUserEvent.click(canvas.getByRole("button", { name: "Open drawer" }));
     const firstControl = await body.findByRole("button", { name: "First control" });
     await waitFor(() => expect(firstControl).toHaveFocus());
     await waitForChangeWindow();
-    await expect(queryBox(canvasElement, "First control content")).toBeUndefined();
+    await expect(queryLayer(canvasElement, POPOVER_SELECTOR, "First control content")).toBeUndefined();
 };
 
 export const TouchTapAfterKeyboardFocus = ({ onOpenChange }) => {
@@ -998,7 +969,7 @@ TouchTapAfterKeyboardFocus.play = async ({ args, canvas, canvasElement, userEven
 
     await userEvent.tab();
     await expect(button).toHaveFocus();
-    const box = await findBox(canvasElement, "Touch content");
+    const box = await findLayer(canvasElement, POPOVER_SELECTOR, "Touch content");
     args.onOpenChange.mockClear();
 
     await userEvent.pointer({ keys: "[TouchA]", target: button });
@@ -1007,10 +978,10 @@ TouchTapAfterKeyboardFocus.play = async ({ args, canvas, canvasElement, userEven
     await expect(args.onOpenChange).not.toHaveBeenCalledWith(false);
 
     await userEvent.tab();
-    await expectNoBox(canvasElement, "Touch content");
+    await expectNoLayer(canvasElement, POPOVER_SELECTOR, "Touch content");
     await userEvent.tab({ shift: true });
     await expect(button).toHaveFocus();
-    await findBox(canvasElement, "Touch content");
+    await findLayer(canvasElement, POPOVER_SELECTOR, "Touch content");
 };
 
 export const ReleasedAfterHeldClosed = () => {
@@ -1034,19 +1005,19 @@ ReleasedAfterHeldClosed.play = async ({ canvas, canvasElement, userEvent }) => {
     canvas.getByRole("button", { name: "Hold closed" }).focus();
 
     await userEvent.hover(target);
-    await findBox(canvasElement, "Held content");
+    await findLayer(canvasElement, POPOVER_SELECTOR, "Held content");
 
     await userEvent.keyboard("{Enter}");
-    await expectNoBox(canvasElement, "Held content");
+    await expectNoLayer(canvasElement, POPOVER_SELECTOR, "Held content");
 
     await userEvent.unhover(target);
     await waitForChangeWindow();
     await userEvent.keyboard("{Enter}");
     await waitForChangeWindow();
-    await expect(queryBox(canvasElement, "Held content")).toBeUndefined();
+    await expect(queryLayer(canvasElement, POPOVER_SELECTOR, "Held content")).toBeUndefined();
 
     await userEvent.hover(target);
-    await findBox(canvasElement, "Held content");
+    await findLayer(canvasElement, POPOVER_SELECTOR, "Held content");
 };
 
 let disabledWarnSpy;
@@ -1077,23 +1048,23 @@ DisabledWhileHovered.play = async ({ args, canvas, canvasElement, userEvent }) =
     const toggle = canvas.getByRole("button", { name: "Toggle disabled" });
 
     await userEvent.hover(target);
-    await findBox(canvasElement, "Toggled content");
+    await findLayer(canvasElement, POPOVER_SELECTOR, "Toggled content");
 
     // Toggled from the keyboard so the pointer stays on the target
     toggle.focus();
     await userEvent.keyboard("{Enter}");
-    await expectNoBox(canvasElement, "Toggled content");
+    await expectNoLayer(canvasElement, POPOVER_SELECTOR, "Toggled content");
 
     args.onOpenChange.mockClear();
     await userEvent.unhover(target);
     await userEvent.hover(target);
     await waitForChangeWindow();
-    await expect(queryBox(canvasElement, "Toggled content")).toBeUndefined();
+    await expect(queryLayer(canvasElement, POPOVER_SELECTOR, "Toggled content")).toBeUndefined();
     await expect(args.onOpenChange).not.toHaveBeenCalled();
 
     await userEvent.keyboard("{Enter}");
     await waitForChangeWindow();
-    await expect(queryBox(canvasElement, "Toggled content")).toBeUndefined();
+    await expect(queryLayer(canvasElement, POPOVER_SELECTOR, "Toggled content")).toBeUndefined();
 
     const messages = [...disabledWarnSpy.mock.calls, ...disabledErrorSpy.mock.calls].map(([text]) => String(text));
     await expect(messages.filter((text) => text.includes("changing from"))).toHaveLength(0);
@@ -1115,7 +1086,7 @@ PlacementAuto.beforeEach = () => {
 };
 
 PlacementAuto.play = async ({ canvasElement }) => {
-    await findBox(canvasElement, "Auto content");
+    await findLayer(canvasElement, POPOVER_SELECTOR, "Auto content");
 
     const uiKitWarnings = placementWarnSpy.mock.calls.filter(([text]) => String(text).startsWith("UI Kit"));
     await expect(uiKitWarnings).toHaveLength(0);
@@ -1146,11 +1117,7 @@ RemovedPropWarns.play = async () => {
         "UI Kit Popover: 'isLazy' was removed in 3.8, delete it, the content mounts only while the popover is open",
         "UI Kit Popover: 'onShown' was removed in 3.8, use 'onOpenChange'",
     ];
-    const warnings = removedWarnSpy.mock.calls.map(([text]) => text);
-
-    expected.forEach((message) => {
-        expect(warnings.filter((text) => text === message)).toHaveLength(1);
-    });
+    expectWarnings(removedWarnSpy, expected);
 };
 
 export default PopoverStories;

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { expect } from "storybook/test";
 import { ToggleButton } from "../..";
 import { CheckIcon } from "../../icons";
+import { COLORS, selectArg } from "../helpers";
 
 const ToggleButtonStories = {
     title: "Forms & Fields/Buttons/ToggleButton",
@@ -26,13 +27,7 @@ const ToggleButtonStories = {
                 defaultValue: { summary: "medium" },
             },
         },
-        color: {
-            options: ["primary", "secondary", "success", "warning", "caution", "danger"],
-            control: { type: "select" },
-            table: {
-                defaultValue: { summary: "primary" },
-            },
-        },
+        color: selectArg(COLORS, "primary"),
         isActive: {
             control: { type: "boolean" },
             table: {

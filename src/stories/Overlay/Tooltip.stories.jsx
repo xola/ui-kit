@@ -1,8 +1,20 @@
 import PropTypes from "prop-types";
 import React, { useState } from "react";
-import { expect, fn, spyOn, waitFor, within } from "storybook/test";
+import { expect, fn, spyOn, waitFor } from "storybook/test";
 import { Button, Drawer, Modal, Tooltip } from "../..";
 import { UserIcon } from "../../icons";
+import {
+    arg,
+    expectNoLayer,
+    expectWarnings,
+    findLayer,
+    getPortalCanvas,
+    getTarget,
+    PLACEMENTS,
+    TOOLTIP_SELECTOR,
+    queryLayer,
+    wait,
+} from "../helpers";
 import { getRealUserEvent, restoreKeyboardFocusVisible } from "../realInput";
 
 // More props in docs
@@ -29,60 +41,24 @@ const TooltipStories = {
         },
     },
     argTypes: {
-        content: getArgument("My tooltip text", "text", null, "The text of the tooltip"),
-        placement: getArgument(
+        content: arg("My tooltip text", "text", null, "The text of the tooltip"),
+        placement: arg(
             "right",
             "inline-radio",
-            ["top", "bottom", "left", "right", "auto"],
+            PLACEMENTS,
             `Where to place the tooltip; "top-start", "left-end" and similar align it. [More in the docs](${documentationUrl})`,
         ),
-        delay: getArgument(0, "number", null, "Delay in ms once the pointer enters before the tooltip shows"),
-        maxWidth: getArgument(
+        delay: arg(0, "number", null, "Delay in ms once the pointer enters before the tooltip shows"),
+        maxWidth: arg(
             350,
             "number",
             null,
             "Specifies the maximum width of the tooltip. Useful to prevent it from being too horizontally wide to read",
         ),
-        skidding: getArgument(0, "number", null, "Shifts the tooltip along its aligned edge, in pixels"),
-        distance: getArgument(10, "number", null, "Gap between the tooltip and its target, in pixels"),
+        skidding: arg(0, "number", null, "Shifts the tooltip along its aligned edge, in pixels"),
+        distance: arg(10, "number", null, "Gap between the tooltip and its target, in pixels"),
     },
 };
-
-function getArgument(defaultValue, type, options, description, summary = null) {
-    return {
-        type: { required: false },
-        description,
-        options,
-        control: { type },
-        table: {
-            type: { summary },
-            defaultValue: { summary: defaultValue },
-        },
-    };
-}
-
-const BUBBLE_SELECTOR = ".ui-tooltip";
-
-const queryBubble = (canvasElement, text) => {
-    const bubbles = canvasElement.ownerDocument.querySelectorAll(BUBBLE_SELECTOR);
-
-    return [...bubbles].find((bubble) => bubble.textContent.includes(text));
-};
-
-const findBubble = (canvasElement, text) => {
-    return waitFor(() => {
-        const bubble = queryBubble(canvasElement, text);
-        expect(bubble).toBeInstanceOf(HTMLElement);
-
-        return bubble;
-    });
-};
-
-const expectNoBubble = (canvasElement, text) => {
-    return waitFor(() => expect(queryBubble(canvasElement, text)).toBeUndefined());
-};
-
-const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 /**
  * Proving a tooltip did not open needs a point in time when it would have. With no delay, Tippy opens on the hover
@@ -90,12 +66,10 @@ const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
  */
 const waitForOpenWindow = () => wait(100);
 
-const getTarget = (canvas, name) => canvas.getByRole("button", { name }).parentElement;
-
 /** A closing bubble stays in the DOM through its fade-out with `data-state="closed"`, so presence alone is not open. */
 const findOpenBubble = (canvasElement, text) => {
     return waitFor(() => {
-        const bubble = queryBubble(canvasElement, text);
+        const bubble = queryLayer(canvasElement, TOOLTIP_SELECTOR, text);
         expect(bubble).toHaveAttribute("data-state", expect.stringMatching(/-open$/));
 
         return bubble;
@@ -114,14 +88,14 @@ export const Default = (config) => {
 
 Default.play = async ({ canvas, canvasElement, userEvent }) => {
     const target = getTarget(canvas, "Hello World");
-    await expect(queryBubble(canvasElement, "Hey there!")).toBeUndefined();
+    await expect(queryLayer(canvasElement, TOOLTIP_SELECTOR, "Hey there!")).toBeUndefined();
 
     await userEvent.hover(target);
-    const bubble = await findBubble(canvasElement, "Hey there!");
+    const bubble = await findLayer(canvasElement, TOOLTIP_SELECTOR, "Hey there!");
     await expect(bubble).toHaveAttribute("role", "tooltip");
 
     await userEvent.unhover(target);
-    await expectNoBubble(canvasElement, "Hey there!");
+    await expectNoLayer(canvasElement, TOOLTIP_SELECTOR, "Hey there!");
 };
 
 export const FocusOpens = () => {
@@ -135,10 +109,10 @@ export const FocusOpens = () => {
 FocusOpens.play = async ({ canvas, canvasElement, userEvent }) => {
     await userEvent.tab();
     await expect(canvas.getByRole("button", { name: "Target" })).toHaveFocus();
-    await findBubble(canvasElement, "Focus tip");
+    await findLayer(canvasElement, TOOLTIP_SELECTOR, "Focus tip");
 
     await userEvent.tab();
-    await expectNoBubble(canvasElement, "Focus tip");
+    await expectNoLayer(canvasElement, TOOLTIP_SELECTOR, "Focus tip");
 };
 
 export const EscapeCloses = () => {
@@ -151,10 +125,10 @@ export const EscapeCloses = () => {
 
 EscapeCloses.play = async ({ canvas, canvasElement, userEvent }) => {
     await userEvent.hover(getTarget(canvas, "Target"));
-    await findBubble(canvasElement, "Escape tip");
+    await findLayer(canvasElement, TOOLTIP_SELECTOR, "Escape tip");
 
     await userEvent.keyboard("{Escape}");
-    await expectNoBubble(canvasElement, "Escape tip");
+    await expectNoLayer(canvasElement, TOOLTIP_SELECTOR, "Escape tip");
 };
 
 export const Controlled = () => {
@@ -174,17 +148,17 @@ export const Controlled = () => {
 Controlled.play = async ({ canvas, canvasElement, userEvent }) => {
     const toggle = canvas.getByRole("button", { name: "Toggle" });
 
-    await findBubble(canvasElement, "Controlled tip");
+    await findLayer(canvasElement, TOOLTIP_SELECTOR, "Controlled tip");
 
     await userEvent.click(toggle);
-    await expectNoBubble(canvasElement, "Controlled tip");
+    await expectNoLayer(canvasElement, TOOLTIP_SELECTOR, "Controlled tip");
 
     await userEvent.hover(getTarget(canvas, "Controlled target"));
     await waitForOpenWindow();
-    await expect(queryBubble(canvasElement, "Controlled tip")).toBeUndefined();
+    await expect(queryLayer(canvasElement, TOOLTIP_SELECTOR, "Controlled tip")).toBeUndefined();
 
     await userEvent.click(toggle);
-    await findBubble(canvasElement, "Controlled tip");
+    await findLayer(canvasElement, TOOLTIP_SELECTOR, "Controlled tip");
 };
 
 export const BottomStart = () => {
@@ -201,7 +175,7 @@ BottomStart.play = async ({ canvas, canvasElement, userEvent }) => {
     const target = getTarget(canvas, "Target");
 
     await userEvent.hover(target);
-    const bubble = await findBubble(canvasElement, "Below, left aligned");
+    const bubble = await findLayer(canvasElement, TOOLTIP_SELECTOR, "Below, left aligned");
 
     await waitFor(() => {
         const targetRect = target.getBoundingClientRect();
@@ -227,7 +201,7 @@ SkiddingAndDistance.play = async ({ canvas, canvasElement, userEvent }) => {
     const target = getTarget(canvas, "Target");
 
     await userEvent.hover(target);
-    const bubble = await findBubble(canvasElement, "Skidding and distance tip");
+    const bubble = await findLayer(canvasElement, TOOLTIP_SELECTOR, "Skidding and distance tip");
 
     await waitFor(() => {
         const targetRect = target.getBoundingClientRect();
@@ -258,9 +232,9 @@ export const MaxWidth = () => {
 };
 
 MaxWidth.play = async ({ canvasElement }) => {
-    const defaultBubble = await findBubble(canvasElement, "Default:");
-    const narrowBubble = await findBubble(canvasElement, "Narrow:");
-    const calcBubble = await findBubble(canvasElement, "Calc:");
+    const defaultBubble = await findLayer(canvasElement, TOOLTIP_SELECTOR, "Default:");
+    const narrowBubble = await findLayer(canvasElement, TOOLTIP_SELECTOR, "Narrow:");
+    const calcBubble = await findLayer(canvasElement, TOOLTIP_SELECTOR, "Calc:");
 
     await waitFor(() => {
         expect(defaultBubble.getBoundingClientRect().width).toBeCloseTo(350, 0);
@@ -279,7 +253,7 @@ export const ViewportMaxWidth = () => {
 };
 
 ViewportMaxWidth.play = async ({ canvasElement }) => {
-    const bubble = await findBubble(canvasElement, "Wide tip");
+    const bubble = await findLayer(canvasElement, TOOLTIP_SELECTOR, "Wide tip");
     const { innerWidth } = canvasElement.ownerDocument.defaultView;
 
     await waitFor(() => expect(bubble.getBoundingClientRect().width).toBeCloseTo(innerWidth - 10, 0));
@@ -298,7 +272,7 @@ export const Disabled = () => {
 Disabled.play = async ({ canvas, canvasElement, userEvent }) => {
     await userEvent.hover(getTarget(canvas, "Disabled target"));
     await waitForOpenWindow();
-    await expect(queryBubble(canvasElement, "Disabled tip")).toBeUndefined();
+    await expect(queryLayer(canvasElement, TOOLTIP_SELECTOR, "Disabled tip")).toBeUndefined();
 };
 
 export const DisabledButton = () => {
@@ -311,7 +285,7 @@ export const DisabledButton = () => {
 
 DisabledButton.play = async ({ canvas, canvasElement, userEvent }) => {
     await userEvent.hover(canvas.getByRole("button", { name: "Disabled button" }));
-    await findBubble(canvasElement, "Disabled button tip");
+    await findLayer(canvasElement, TOOLTIP_SELECTOR, "Disabled button tip");
 };
 
 let controlWarnSpy;
@@ -342,15 +316,15 @@ DisabledWhileHovered.play = async ({ canvas, canvasElement, userEvent }) => {
     canvas.getByRole("button", { name: "Toggle disabled" }).focus();
 
     await userEvent.hover(target);
-    await findBubble(canvasElement, "Toggled tip");
+    await findLayer(canvasElement, TOOLTIP_SELECTOR, "Toggled tip");
 
     await userEvent.keyboard("{Enter}");
-    await expectNoBubble(canvasElement, "Toggled tip");
+    await expectNoLayer(canvasElement, TOOLTIP_SELECTOR, "Toggled tip");
 
     await userEvent.unhover(target);
     await userEvent.keyboard("{Enter}");
     await waitForOpenWindow();
-    await expect(queryBubble(canvasElement, "Toggled tip")).toBeUndefined();
+    await expect(queryLayer(canvasElement, TOOLTIP_SELECTOR, "Toggled tip")).toBeUndefined();
 
     const calls = [...controlWarnSpy.mock.calls, ...controlErrorSpy.mock.calls];
     const modeSwitches = calls.filter((args) => args.some((arg) => String(arg).includes("changing from")));
@@ -376,12 +350,15 @@ export const HiddenTooltipKeepsOthersOpen = () => {
 
 HiddenTooltipKeepsOthersOpen.play = async ({ canvas, canvasElement, userEvent }) => {
     await userEvent.tab();
-    await findBubble(canvasElement, "Focused tip");
+    await findLayer(canvasElement, TOOLTIP_SELECTOR, "Focused tip");
 
     await userEvent.hover(getTarget(canvas, "Disabled target"));
     await userEvent.hover(getTarget(canvas, "Empty target"));
     await waitForOpenWindow();
-    await expect(queryBubble(canvasElement, "Focused tip")).toHaveAttribute("data-state", "instant-open");
+    await expect(queryLayer(canvasElement, TOOLTIP_SELECTOR, "Focused tip")).toHaveAttribute(
+        "data-state",
+        "instant-open",
+    );
 };
 
 export const EmptyContent = () => {
@@ -401,7 +378,7 @@ export const EmptyContent = () => {
 };
 
 EmptyContent.play = async ({ canvas, canvasElement, userEvent }) => {
-    const getBubbles = () => canvasElement.ownerDocument.querySelectorAll(BUBBLE_SELECTOR);
+    const getBubbles = () => canvasElement.ownerDocument.querySelectorAll(TOOLTIP_SELECTOR);
 
     await userEvent.hover(getTarget(canvas, "Empty string"));
     await waitForOpenWindow();
@@ -425,7 +402,7 @@ export const PassThroughProps = () => {
 };
 
 PassThroughProps.play = async ({ canvasElement }) => {
-    const bubble = await findBubble(canvasElement, "Pass-through tip");
+    const bubble = await findLayer(canvasElement, TOOLTIP_SELECTOR, "Pass-through tip");
 
     await expect(bubble).toHaveAttribute("role", "note");
     await expect(canvasElement.ownerDocument.querySelector("[data-testid='tooltip-pass-through']")).toBeNull();
@@ -446,7 +423,7 @@ export const ClickOutside = () => {
 
 ClickOutside.play = async ({ canvas, canvasElement, userEvent }) => {
     onClickOutside.mockClear();
-    await findBubble(canvasElement, "Click outside tip");
+    await findLayer(canvasElement, TOOLTIP_SELECTOR, "Click outside tip");
 
     await userEvent.click(canvas.getByRole("button", { name: "Target" }));
     await expect(onClickOutside).not.toHaveBeenCalled();
@@ -472,14 +449,14 @@ export const ToggleOutside = () => {
 
 ToggleOutside.play = async ({ canvas, canvasElement, userEvent }) => {
     const outside = canvas.getByRole("button", { name: "Outside" });
-    await findBubble(canvasElement, "Toggle tip");
+    await findLayer(canvasElement, TOOLTIP_SELECTOR, "Toggle tip");
 
     // The second press lands during the fade-out, which must not reach the toggle and reopen the tooltip
     await userEvent.click(outside);
     await userEvent.click(outside);
-    await expectNoBubble(canvasElement, "Toggle tip");
+    await expectNoLayer(canvasElement, TOOLTIP_SELECTOR, "Toggle tip");
     await waitForOpenWindow();
-    await expect(queryBubble(canvasElement, "Toggle tip")).toBeUndefined();
+    await expect(queryLayer(canvasElement, TOOLTIP_SELECTOR, "Toggle tip")).toBeUndefined();
 };
 
 export const FocusAfterModalCloses = () => {
@@ -512,7 +489,7 @@ FocusAfterModalCloses.play = async ({ canvas, canvasElement }) => {
         return;
     }
 
-    const body = within(canvasElement.ownerDocument.body);
+    const body = getPortalCanvas(canvasElement);
     const opener = canvas.getByRole("button", { name: "Open dialog" });
 
     // Headless UI gives focus back to the opener from script, which is not keyboard focus after a mouse click
@@ -521,7 +498,7 @@ FocusAfterModalCloses.play = async ({ canvas, canvasElement }) => {
     await waitFor(() => expect(body.queryByText("Opened dialog")).toBeNull());
     await waitFor(() => expect(opener).toHaveFocus());
     await waitForOpenWindow();
-    await expect(queryBubble(canvasElement, "Opener tip")).toBeUndefined();
+    await expect(queryLayer(canvasElement, TOOLTIP_SELECTOR, "Opener tip")).toBeUndefined();
 
     await realUserEvent.keyboard("{Tab}");
     await expect(canvas.getByRole("button", { name: "After opener" })).toHaveFocus();
@@ -565,14 +542,14 @@ DrawerInitialFocus.play = async ({ canvas, canvasElement }) => {
         return;
     }
 
-    const body = within(canvasElement.ownerDocument.body);
+    const body = getPortalCanvas(canvasElement);
 
     // Headless UI focuses the first control from script, which is not keyboard focus after a mouse click
     await realUserEvent.click(canvas.getByRole("button", { name: "Open drawer" }));
     const firstControl = await body.findByRole("button", { name: "First control" });
     await waitFor(() => expect(firstControl).toHaveFocus());
     await waitForOpenWindow();
-    await expect(queryBubble(canvasElement, "First control tip")).toBeUndefined();
+    await expect(queryLayer(canvasElement, TOOLTIP_SELECTOR, "First control tip")).toBeUndefined();
 };
 
 export const TouchTapToggles = ({ onOpenChange, onTargetClick }) => {
@@ -603,21 +580,21 @@ TouchTapToggles.play = async ({ args, canvas, canvasElement, userEvent }) => {
     await expect(args.onOpenChange.mock.calls).toEqual([[true]]);
 
     await tap(userEvent, outside);
-    await expectNoBubble(canvasElement, "Tap tip");
+    await expectNoLayer(canvasElement, TOOLTIP_SELECTOR, "Tap tip");
 
     await tap(userEvent, target);
     await findOpenBubble(canvasElement, "Tap tip");
     await tap(userEvent, target);
-    await expectNoBubble(canvasElement, "Tap tip");
+    await expectNoLayer(canvasElement, TOOLTIP_SELECTOR, "Tap tip");
     await waitForOpenWindow();
-    await expect(queryBubble(canvasElement, "Tap tip")).toBeUndefined();
+    await expect(queryLayer(canvasElement, TOOLTIP_SELECTOR, "Tap tip")).toBeUndefined();
 
     // Every tap still reaches the wrapped button, once
     await expect(args.onTargetClick).toHaveBeenCalledTimes(3);
 
     await tap(userEvent, canvas.getByRole("button", { name: "Disabled tap target" }));
     await waitForOpenWindow();
-    await expect(queryBubble(canvasElement, "Disabled tap tip")).toBeUndefined();
+    await expect(queryLayer(canvasElement, TOOLTIP_SELECTOR, "Disabled tap tip")).toBeUndefined();
 };
 
 export const CancelledTouchPress = () => {
@@ -639,7 +616,7 @@ CancelledTouchPress.play = async ({ canvas, canvasElement }) => {
     // A click with no pointerdown of its own, as from the keyboard, must not read the cancelled touch press
     button.click();
     await waitForOpenWindow();
-    await expect(queryBubble(canvasElement, "Cancelled tip")).toBeUndefined();
+    await expect(queryLayer(canvasElement, TOOLTIP_SELECTOR, "Cancelled tip")).toBeUndefined();
 };
 
 const OPEN_DELAY = 500;
@@ -689,7 +666,7 @@ DelayedOpenWhileDisabled.play = async ({ args, canvas, canvasElement, userEvent 
     await userEvent.unhover(target);
     await userEvent.keyboard("{Enter}");
     await waitForOpenWindow();
-    await expect(queryBubble(canvasElement, "Delayed tip")).toBeUndefined();
+    await expect(queryLayer(canvasElement, TOOLTIP_SELECTOR, "Delayed tip")).toBeUndefined();
 };
 
 export const DelayedOpenReenabled = ({ onOpenChange }) => <DelayedTooltip onOpenChange={onOpenChange} />;
@@ -706,7 +683,7 @@ DelayedOpenReenabled.play = async ({ args, canvas, canvasElement, userEvent }) =
     await userEvent.keyboard("{Enter}");
     await wait(OPEN_DELAY);
     await expect(args.onOpenChange).not.toHaveBeenCalledWith(true);
-    await expect(queryBubble(canvasElement, "Delayed tip")).toBeUndefined();
+    await expect(queryLayer(canvasElement, TOOLTIP_SELECTOR, "Delayed tip")).toBeUndefined();
 };
 
 export const ReleasedAfterHeldClosed = () => {
@@ -729,15 +706,15 @@ ReleasedAfterHeldClosed.play = async ({ canvas, canvasElement, userEvent }) => {
     canvas.getByRole("button", { name: "Hold closed" }).focus();
 
     await userEvent.hover(target);
-    await findBubble(canvasElement, "Held tip");
+    await findLayer(canvasElement, TOOLTIP_SELECTOR, "Held tip");
 
     await userEvent.keyboard("{Enter}");
-    await expectNoBubble(canvasElement, "Held tip");
+    await expectNoLayer(canvasElement, TOOLTIP_SELECTOR, "Held tip");
 
     await userEvent.unhover(target);
     await userEvent.keyboard("{Enter}");
     await waitForOpenWindow();
-    await expect(queryBubble(canvasElement, "Held tip")).toBeUndefined();
+    await expect(queryLayer(canvasElement, TOOLTIP_SELECTOR, "Held tip")).toBeUndefined();
 
     await userEvent.hover(target);
     await findOpenBubble(canvasElement, "Held tip");
@@ -774,17 +751,17 @@ export const TargetOpensModal = () => {
 };
 
 TargetOpensModal.play = async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
+    const body = getPortalCanvas(canvasElement);
 
     await userEvent.hover(getTarget(canvas, "Edit payouts"));
-    await findBubble(canvasElement, "Payouts tip");
+    await findLayer(canvasElement, TOOLTIP_SELECTOR, "Payouts tip");
 
     await userEvent.click(canvas.getByRole("button", { name: "Edit payouts" }));
     await body.findByText("Payouts modal");
     await userEvent.hover(body.getByRole("button", { name: "Close payouts" }));
-    await expectNoBubble(canvasElement, "Payouts tip");
+    await expectNoLayer(canvasElement, TOOLTIP_SELECTOR, "Payouts tip");
     await waitForOpenWindow();
-    await expect(queryBubble(canvasElement, "Payouts tip")).toBeUndefined();
+    await expect(queryLayer(canvasElement, TOOLTIP_SELECTOR, "Payouts tip")).toBeUndefined();
 };
 
 export const TargetOpensModalFromKeyboard = () => {
@@ -796,17 +773,17 @@ export const TargetOpensModalFromKeyboard = () => {
 };
 
 TargetOpensModalFromKeyboard.play = async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
+    const body = getPortalCanvas(canvasElement);
 
     await userEvent.tab();
     await expect(canvas.getByRole("button", { name: "Edit payouts" })).toHaveFocus();
-    await findBubble(canvasElement, "Keyboard payouts tip");
+    await findLayer(canvasElement, TOOLTIP_SELECTOR, "Keyboard payouts tip");
 
     await userEvent.keyboard("{Enter}");
     await body.findByText("Payouts modal");
-    await expectNoBubble(canvasElement, "Keyboard payouts tip");
+    await expectNoLayer(canvasElement, TOOLTIP_SELECTOR, "Keyboard payouts tip");
     await waitForOpenWindow();
-    await expect(queryBubble(canvasElement, "Keyboard payouts tip")).toBeUndefined();
+    await expect(queryLayer(canvasElement, TOOLTIP_SELECTOR, "Keyboard payouts tip")).toBeUndefined();
 };
 
 export const WithoutProvider = () => {
@@ -821,7 +798,7 @@ WithoutProvider.parameters = { hasProvider: false };
 
 WithoutProvider.play = async ({ canvas, canvasElement, userEvent }) => {
     await userEvent.hover(getTarget(canvas, "Target"));
-    await findBubble(canvasElement, "No provider tip");
+    await findLayer(canvasElement, TOOLTIP_SELECTOR, "No provider tip");
 };
 
 /**
@@ -844,10 +821,16 @@ export const SharedProvider = () => {
 
 SharedProvider.play = async ({ canvas, canvasElement, userEvent }) => {
     await userEvent.hover(getTarget(canvas, "First"));
-    await expect(await findBubble(canvasElement, "First tip")).toHaveAttribute("data-state", "delayed-open");
+    await expect(await findLayer(canvasElement, TOOLTIP_SELECTOR, "First tip")).toHaveAttribute(
+        "data-state",
+        "delayed-open",
+    );
 
     await userEvent.hover(getTarget(canvas, "Second"));
-    await expect(await findBubble(canvasElement, "Second tip")).toHaveAttribute("data-state", "instant-open");
+    await expect(await findLayer(canvasElement, TOOLTIP_SELECTOR, "Second tip")).toHaveAttribute(
+        "data-state",
+        "instant-open",
+    );
 };
 
 let warnSpy;
@@ -865,11 +848,8 @@ RemovedPropWarns.beforeEach = () => {
     warnSpy = spyOn(console, "warn");
 };
 
-RemovedPropWarns.play = async () => {
-    const message = "UI Kit Tooltip: 'visible' was removed in 3.8, use 'open'";
-    const warnings = warnSpy.mock.calls.filter(([text]) => text === message);
-
-    await expect(warnings).toHaveLength(1);
+RemovedPropWarns.play = () => {
+    expectWarnings(warnSpy, ["UI Kit Tooltip: 'visible' was removed in 3.8, use 'open'"]);
 };
 
 export const WithHTMLContent = () => {

@@ -4,6 +4,7 @@ import { expect, spyOn, waitFor, within } from "storybook/test";
 import { Button, DatePicker, DatePickerPopover, MonthPicker, Switch, theme } from "../..";
 import { formatDate } from "../../utils/date";
 import { findDayCell } from "./datePickerTestUtils";
+import { getPortalCanvas } from "../helpers";
 
 const DatePickerStories = {
     title: "Data Display/Date & Time/Date Picker",
@@ -245,7 +246,7 @@ addDescription(
 
 SelectMonth.play = async ({ canvasElement, userEvent }) => {
     const canvas = within(canvasElement);
-    const body = within(canvasElement.ownerDocument.body);
+    const body = getPortalCanvas(canvasElement);
     await expect(canvas.getByText(/^Date:/)).toBeInTheDocument();
     await expect(canvasElement.querySelectorAll(".DayPicker-Day").length).toBeGreaterThan(0);
 

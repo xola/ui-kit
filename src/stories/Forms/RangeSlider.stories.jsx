@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { expect, fn, spyOn } from "storybook/test";
 import { Button, FormGroup, Label, RangeSlider } from "../..";
+import { expectWarnings } from "../helpers";
 
 const RangeSliderStories = {
     primary: true,
@@ -308,9 +309,8 @@ RemovedPropWarns.beforeEach = () => {
 RemovedPropWarns.play = async () => {
     const message =
         "UI Kit RangeSlider: 'tooltipCustomFormatter' was removed in 3.8, use 'formatTooltip(value, index)'";
-    const warnings = warnSpy.mock.calls.filter(([text]) => text === message);
 
-    await expect(warnings).toHaveLength(1);
+    expectWarnings(warnSpy, [message]);
 };
 
 export default RangeSliderStories;

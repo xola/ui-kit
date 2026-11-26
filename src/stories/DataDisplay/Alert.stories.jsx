@@ -1,6 +1,7 @@
 import React from "react";
 import { expect } from "storybook/test";
 import { Alert } from "../..";
+import { selectArg } from "../helpers";
 
 const AlertStories = {
     title: "Data Display/Alerts & Banners",
@@ -30,14 +31,7 @@ const AlertStories = {
                 type: { summary: "For demo only" },
             },
         },
-        color: {
-            options: ["primary", "success", "warning", "danger"],
-            control: { type: "select" },
-            table: {
-                type: { summary: null },
-                defaultValue: { summary: "primary" },
-            },
-        },
+        color: selectArg(["primary", "success", "warning", "danger"], "primary"),
     },
 };
 
