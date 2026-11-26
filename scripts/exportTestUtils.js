@@ -28,3 +28,9 @@ export const getDeclaredTypeNames = (filePath) => {
 
     return [...source.matchAll(/^export\s+(?:interface|type)\s+(\w+)/gm)].map(([, name]) => name);
 };
+
+export const getDeclaredRuntimeNames = (filePath) => {
+    const source = readFileSync(filePath, "utf8");
+
+    return [...source.matchAll(/^export declare (?:const|function) (\w+)/gm)].map(([, name]) => name);
+};

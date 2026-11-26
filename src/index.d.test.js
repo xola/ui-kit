@@ -1,12 +1,13 @@
 import { readFileSync } from "node:fs";
-import { getDeclaredTypeNames, getExportedTypeNames } from "../scripts/exportTestUtils";
+import { getDeclaredRuntimeNames, getDeclaredTypeNames, getExportedTypeNames } from "../scripts/exportTestUtils";
 import * as publicApi from "./index";
 import * as icons from "./icons/index";
 
-const declarationSource = readFileSync(new URL("../index.d.ts", import.meta.url), "utf8");
-const DECLARATION = /^export declare (?:const|function) (\w+)/gm;
-const declaredNames = new Set([...declarationSource.matchAll(DECLARATION)].map(([, name]) => name));
-const declaredTypeNames = new Set(getDeclaredTypeNames(new URL("../index.d.ts", import.meta.url)));
+const declarationUrl = new URL("../index.d.ts", import.meta.url);
+const declarationSource = readFileSync(declarationUrl, "utf8");
+const ICON_TYPE_REEXPORT = /^export type \{[^}]+\} from ["'][^"']*icons[^"']*["'];?$/gm;
+const declaredNames = new Set(getDeclaredRuntimeNames(declarationUrl));
+const declaredTypeNames = new Set(getDeclaredTypeNames(declarationUrl));
 const iconTypeNames = new Set(getExportedTypeNames(new URL("./icons/index.ts", import.meta.url)));
 
 const runtimeNames = new Set(Object.keys(publicApi));
@@ -20,8 +21,7 @@ describe("index.d.ts", () => {
 
     test("does not export icon types owned by @xola/icons", () => {
         const reexportedTypes = [...iconTypeNames].filter((name) => declaredTypeNames.has(name));
-        const iconTypeReexports =
-            declarationSource.match(/^export type \{[^}]+\} from ["'][^"']*icons[^"']*["'];?$/gm) ?? [];
+        const iconTypeReexports = declarationSource.match(ICON_TYPE_REEXPORT) ?? [];
 
         expect([...reexportedTypes, ...iconTypeReexports]).toEqual([]);
     });
