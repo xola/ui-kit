@@ -66,9 +66,12 @@ export const snapWidth = (width, minWidth, maxWidth) => {
     return clampWidth(nearest, minWidth, maxWidth);
 };
 
+/** A null threshold is an opt-out: comparing against 0, which no viewport is below. */
+export const isBelowAutoCollapse = (viewportWidth, autoCollapseBelow) => viewportWidth < (autoCollapseBelow ?? 0);
+
 export const resolveMountWidth = ({ storedWidth, hasIntent, viewportWidth, minWidth, maxWidth, autoCollapseBelow }) => {
     const width = clampWidth(storedWidth, minWidth, maxWidth);
-    const shouldAutoCollapse = autoCollapseBelow != null && viewportWidth < autoCollapseBelow && !hasIntent;
+    const shouldAutoCollapse = isBelowAutoCollapse(viewportWidth, autoCollapseBelow) && !hasIntent;
 
     return shouldAutoCollapse ? minWidth : width;
 };
