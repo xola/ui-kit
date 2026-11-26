@@ -1,18 +1,28 @@
 import dayjs from "dayjs";
-import { isArray, isFunction } from "lodash-es";
+import { useMemoizedFn } from "ahooks";
 import PropTypes from "prop-types";
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import DayPicker from "react-day-picker";
 import "react-day-picker/lib/style.css";
 import { Tooltip } from "../..";
-import cn from "../../helpers/classnames";
 import { isSame, isValidTimeZoneName, now, toDate } from "../../utils/date";
 import { Context } from "../Provider";
+import { createCaptionElement } from "./CaptionElement";
 import "./DatePicker.css";
+import {
+    createDayMatcher,
+    getDayPickerClassName,
+    getInitialCurrentMonth,
+    getInitialEndMonth,
+    getInitialStartMonth,
+    getRangeModifier,
+    getSelectedDaysValues,
+    hasDistinctRange,
+    hasRange,
+    variants,
+} from "./DatePicker.helpers";
 import { Day } from "./Day";
 import { LocalizedDayPicker } from "./LocalizedDayPicker";
-import { MonthYearSelector } from "./MonthYearSelector";
-import { MonthSelector } from "./MonthSelector";
 import { NavbarElement } from "./NavbarElement";
 import RangeDatePicker from "./RangeDatePicker";
 import { RelativeDateRange } from "./RelativeDateRange";
@@ -20,11 +30,6 @@ import { UpcomingDatePicker } from "./UpcomingDatePicker";
 
 // react-day-picker v7 is CJS-only, so a named import breaks every Node ESM consumer.
 const { DateUtils } = DayPicker;
-
-const variants = {
-    single: "single",
-    range: "range",
-};
 
 /**
  * Figma Design link: https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%F0%9F%9B%A0-Xola-DS-Desktop-Master-%F0%9F%9B%A0?node-id=2689%3A101580
@@ -53,28 +58,12 @@ export const DatePicker = ({
     ...rest
 }) => {
     const { locale: contextLocale } = useContext(Context);
-    const initialValue = value ? (variant === variants.single ? value : value.from) : null;
-    const [currentMonth, setCurrentMonth] = useState(initialValue ?? now(null, timezoneName).toDate());
-    const [startMonth, setStartMonth] = useState(() => {
-        if (!value || !value.from) {
-            return new Date();
-        }
-
-        return value.from;
-    });
-    const [endMonth, setEndMonth] = useState(() => {
-        if (!value || !value.to || !value.from) {
-            return now(null, timezoneName).add(1, "month").toDate();
-        }
-
-        return isSame(now(value.to, timezoneName), now(value.from, timezoneName), "month")
-            ? now(value.from, timezoneName).add(1, "month").toDate()
-            : value.to;
-    });
+    const [currentMonth, setCurrentMonth] = useState(() => getInitialCurrentMonth(value, variant, timezoneName));
+    const [startMonth, setStartMonth] = useState(() => getInitialStartMonth(value));
+    const [endMonth, setEndMonth] = useState(() => getInitialEndMonth(value, timezoneName));
     const [rangeName, setRangeName] = useState("");
     const isRangeVariant = variant === variants.range;
-    const isValidValue = value && value.from && value.to;
-    const isSelectedDaysHasValidRange = selectedDays && selectedDays.from && selectedDays.to;
+    const isValidValue = hasRange(value);
 
     useEffect(() => {
         if (timezoneName && !isValidTimeZoneName(timezoneName)) {
@@ -82,6 +71,10 @@ export const DatePicker = ({
             dayjs.tz.setDefault();
         }
     }, [timezoneName]);
+
+    const isDisabled = useMemo(() => createDayMatcher(disabledDays, timezoneName), [disabledDays, timezoneName]);
+
+    const isLoading = useMemo(() => createDayMatcher(loadingDays, timezoneName), [loadingDays, timezoneName]);
 
     const handleTodayClick = (day, options, event) => {
         if (isRangeVariant) {
@@ -98,30 +91,6 @@ export const DatePicker = ({
         }
     };
 
-    const isDisabled = (date) => {
-        if (isArray(disabledDays)) {
-            return disabledDays.some((_date) => isSame(now(_date, timezoneName), date, "day"));
-        }
-
-        if (isFunction(disabledDays)) {
-            return disabledDays(date);
-        }
-
-        return disabledDays(date);
-    };
-
-    const isLoading = (date) => {
-        if (isArray(loadingDays)) {
-            return loadingDays.some((_date) => isSame(now(_date, timezoneName), date, "day"));
-        }
-
-        if (isFunction(loadingDays)) {
-            return loadingDays(date);
-        }
-
-        return loadingDays(date);
-    };
-
     const handleRelativeRangeChanged = (rangeName, range) => {
         setCurrentMonth(range.from);
         setStartMonth(range.from);
@@ -129,19 +98,56 @@ export const DatePicker = ({
         onChange({ ...range, rangeName }, modifiers, null);
     };
 
-    const handleMonthChange = (m) => {
+    const handleMonthChange = useMemoizedFn((m) => {
         setCurrentMonth(m);
         onMonthChange?.(m);
-    };
+    });
 
-    const handleStartMonthChange = (m) => {
+    const handleStartMonthChange = useMemoizedFn((m) => {
         setStartMonth(m);
         onMonthChange?.(m);
-    };
+    });
 
-    const handleEndMonthChange = (m) => {
+    const handleEndMonthChange = useMemoizedFn((m) => {
         setEndMonth(m);
         onMonthChange?.(m);
+    });
+
+    const handleRangeDayClick = (day, options, event) => {
+        const clicked = now(day, timezoneName);
+        const clickedStart = toDate(clicked);
+        const clickedEnd = toDate(clicked, false);
+
+        if (isValidValue) {
+            // This allows us to easily select another date range,
+            // if both dates are selected.
+            onChange({ from: clickedStart, to: null }, options, event);
+            return;
+        }
+
+        const selected = value?.from ?? value?.to;
+        if (selected && selected.getTime() === day.getTime()) {
+            onChange({ from: clickedStart, to: clickedEnd }, options, event);
+            return;
+        }
+
+        if (value.from && DateUtils.isDayBefore(value.from, clickedStart)) {
+            // this works if the user first clicked on the date that will go to "from", and the second click to "to"
+            onChange(DateUtils.addDayToRange(clickedEnd, value), options, event);
+            return;
+        }
+
+        if (
+            value.from &&
+            (DateUtils.isDayAfter(value.from, clickedStart) || DateUtils.isSameDay(value.from, clickedStart))
+        ) {
+            // this works if the user first clicked on the date that will go to "to", and the second click to "from"
+            // also this works when the user has selected one date
+            onChange({ from: clickedStart, to: toDate(now(value.from, timezoneName), false) }, options, event);
+            return;
+        }
+
+        onChange(DateUtils.addDayToRange(clickedEnd, value), options, event);
     };
 
     const handleDayClick = (day, options, event) => {
@@ -155,69 +161,24 @@ export const DatePicker = ({
 
         setRangeName("");
         if (isRangeVariant) {
-            if (isValidValue) {
-                // This allows us to easily select another date range,
-                // if both dates are selected.
-                onChange({ from: toDate(now(day, timezoneName)), to: null }, options, event);
-            } else if (value && (value.from || value.to) && (value.from || value.to).getTime() === day.getTime()) {
-                const from = toDate(now(day, timezoneName));
-                const to = toDate(now(day, timezoneName).endOf("day"), false);
-
-                onChange({ from, to }, options, event);
-            } else if (value.from && DateUtils.isDayBefore(value.from, toDate(now(day, timezoneName)))) {
-                // this works if the user first clicked on the date that will go to "from", and the second click to "to"
-                onChange(DateUtils.addDayToRange(toDate(now(day, timezoneName), false), value), options, event);
-            } else if (
-                value.from &&
-                (DateUtils.isDayAfter(value.from, toDate(now(day, timezoneName))) ||
-                    DateUtils.isSameDay(value.from, toDate(now(day, timezoneName))))
-            ) {
-                // this works if the user first clicked on the date that will go to "to", and the second click to "from"
-                // also this works when the user has selected one date
-                onChange(
-                    {
-                        from: toDate(now(day, timezoneName)),
-                        to: toDate(now(value.from).endOf("day"), false),
-                    },
-                    options,
-                    event,
-                );
-            } else {
-                // Fallback when value.from is null
-                onChange(
-                    DateUtils.addDayToRange(toDate(now(day, timezoneName).endOf("day"), false), value),
-                    options,
-                    event,
-                );
-            }
+            handleRangeDayClick(day, options, event);
         } else {
             onChange(toDate(now(day, timezoneName)), options, event);
         }
     };
 
-    // TODO: Should be outside this component because this returns JSX
-    const CaptionElement = useMemo(() => {
-        return (shouldShowYearPicker || shouldShowMonthSelector) && currentMonth
-            ? ({ date }) =>
-                  shouldShowMonthSelector ? (
-                      <MonthSelector
-                          date={date}
-                          currentMonth={currentMonth}
-                          locale={locale ?? contextLocale}
-                          onChange={handleMonthChange}
-                      />
-                  ) : (
-                      <MonthYearSelector
-                          date={date}
-                          currentMonth={currentMonth}
-                          locale={locale ?? contextLocale}
-                          onChange={handleMonthChange}
-                      />
-                  )
-            : undefined;
-        // Adding `handleMonthChange` causes a lot of re-renders, and closes drop-down.
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [shouldShowYearPicker, shouldShowMonthSelector, currentMonth]);
+    const resolvedLocale = locale ?? contextLocale;
+    const CaptionElement = useMemo(
+        () =>
+            createCaptionElement({
+                shouldShowYearPicker,
+                shouldShowMonthSelector,
+                currentMonth,
+                locale: resolvedLocale,
+                onChange: handleMonthChange,
+            }),
+        [shouldShowYearPicker, shouldShowMonthSelector, currentMonth, handleMonthChange, resolvedLocale],
+    );
 
     // TODO: Should be outside this component because this returns JSX
     const renderDay = (date) => {
@@ -248,20 +209,12 @@ export const DatePicker = ({
         );
     };
 
-    const rangeModifier =
-        isRangeVariant && isValidValue
-            ? { start: value.from, end: value.to }
-            : isSelectedDaysHasValidRange
-              ? { start: selectedDays.from, end: selectedDays.to }
-              : null;
+    const rangeModifier = getRangeModifier(isRangeVariant, value, selectedDays);
 
     // Comparing `from` and `to` dates hides a weird CSS style when you select the same date twice in a date range.
-    const useDateRangeStyle = isRangeVariant && isValidValue && value.from?.getTime() !== value.to?.getTime();
-    const useDateSelectedRangeStyle =
-        isSelectedDaysHasValidRange && selectedDays.from?.getTime() !== selectedDays.to?.getTime();
-    // Return the same value if it is already dayjs object or has range variant otherwise format it to dayJs object
-    const selectedDaysValues =
-        selectedDays ?? (value && (dayjs.isDayjs(value) || isRangeVariant ? value : now(value, timezoneName).toDate()));
+    const useDateRangeStyle = isRangeVariant && hasDistinctRange(value);
+    const useDateSelectedRangeStyle = hasDistinctRange(selectedDays);
+    const selectedDaysValues = getSelectedDaysValues(selectedDays, value, isRangeVariant, timezoneName);
 
     return (
         <>
@@ -291,19 +244,17 @@ export const DatePicker = ({
                         handleEndMonthChange={handleEndMonthChange}
                         handleTodayClick={handleTodayClick}
                         selectedDays={selectedDaysValues}
-                        locale={locale ?? contextLocale}
+                        locale={resolvedLocale}
                         timezoneName={timezoneName}
                         {...rest}
                     />
                 ) : (
                     <LocalizedDayPicker
-                        className={cn(
-                            "ui-date-picker rounded-lg pt-3",
-                            useDateRangeStyle ? "date-range-picker" : null,
-                            useDateSelectedRangeStyle ? "date-range-picker max-w-[400px]" : null,
-                            getDayContent ? "has-custom-content" : null,
-                            modifiers.waitlist ? "has-custom-content" : null,
-                        )}
+                        className={getDayPickerClassName({
+                            isDateRangeStyle: useDateRangeStyle,
+                            isDateSelectedRangeStyle: useDateSelectedRangeStyle,
+                            hasCustomContent: Boolean(getDayContent || modifiers.waitlist),
+                        })}
                         todayButton="Today"
                         selectedDays={selectedDaysValues}
                         month={currentMonth}

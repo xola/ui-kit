@@ -1,12 +1,11 @@
-import { isArray, isFunction } from "lodash-es";
 import PropTypes from "prop-types";
-import React from "react";
-import cn from "../../helpers/classnames";
+import React, { useMemo } from "react";
 import { now } from "../../utils/date";
 import { Tooltip } from "../Tooltip";
+import { createCaptionElement } from "./CaptionElement";
+import { createDayMatcher, getDayPickerClassName } from "./DatePicker.helpers";
 import { Day } from "./Day";
 import { LocalizedDayPicker } from "./LocalizedDayPicker";
-import { MonthYearSelector } from "./MonthYearSelector";
 import { NavbarElement } from "./NavbarElement";
 
 const RangeDatePicker = ({
@@ -31,36 +30,36 @@ const RangeDatePicker = ({
     const isStartDateIsTheSameMonth = now(value?.from, timezoneName).isSame(now(value?.to, timezoneName), "month");
     const isSingleDayDateRange = now(value?.from, timezoneName).isSame(now(value?.to, timezoneName), "day");
 
-    const createCaptionElement = (currentMonth, handleChange) =>
-        shouldShowYearPicker && currentMonth
-            ? ({ date }) => (
-                  <MonthYearSelector date={date} currentMonth={currentMonth} locale={locale} onChange={handleChange} />
-              )
-            : undefined;
+    const CaptionStartElement = useMemo(
+        () =>
+            createCaptionElement({
+                shouldShowYearPicker,
+                currentMonth: startMonth,
+                locale,
+                onChange: handleStartMonthChange,
+            }),
+        [shouldShowYearPicker, startMonth, locale, handleStartMonthChange],
+    );
+    const CaptionEndElement = useMemo(
+        () =>
+            createCaptionElement({
+                shouldShowYearPicker,
+                currentMonth: endMonth,
+                locale,
+                onChange: handleEndMonthChange,
+            }),
+        [shouldShowYearPicker, endMonth, locale, handleEndMonthChange],
+    );
 
-    const CaptionStartElement = createCaptionElement(startMonth, handleStartMonthChange);
-    const CaptionEndElement = createCaptionElement(endMonth, handleEndMonthChange);
-
-    const isDateDisabledFromOutside = (date) => {
-        if (isFunction(disabledDays)) {
-            return disabledDays(date);
-        }
-
-        if (isArray(disabledDays)) {
-            return disabledDays.some((_date) => now(_date, timezoneName).isSame(date, "day"));
-        }
-
-        return false;
-    };
-
-    const isDisabledStartDays = (date) => {
-        return isDateDisabledFromOutside(date);
-    };
+    const isDisabledStartDays = useMemo(
+        () => createDayMatcher(disabledDays, timezoneName),
+        [disabledDays, timezoneName],
+    );
 
     const isDisabledEndDays = (date) => {
         const isDateBeforeStartDate = now(date, timezoneName).isBefore(value?.from, "day");
 
-        return isDateDisabledFromOutside(date) || (isDateBeforeStartDate && !isSingleDayDateRange);
+        return isDisabledStartDays(date) || (isDateBeforeStartDate && !isSingleDayDateRange);
     };
 
     const renderDay = (date, isDisabledDays, currentMonth) => {
@@ -94,12 +93,11 @@ const RangeDatePicker = ({
     return (
         <div className="flex gap-4">
             <LocalizedDayPicker
-                className={cn(
-                    "ui-date-picker max-w-[400px] rounded-lg pt-3",
-                    isDateRangeStyle ? "date-range-picker" : null,
-                    getDayContent ? "has-custom-content" : null,
-                    modifiers.waitlist ? "has-custom-content" : null,
-                )}
+                className={getDayPickerClassName({
+                    withMaxWidth: true,
+                    isDateRangeStyle,
+                    hasCustomContent: Boolean(getDayContent || modifiers.waitlist),
+                })}
                 month={startMonth}
                 modifiers={{ ...modifiers, start: value?.from }}
                 disabledDays={isDisabledStartDays}
@@ -114,12 +112,11 @@ const RangeDatePicker = ({
                 {...rest}
             />
             <LocalizedDayPicker
-                className={cn(
-                    "ui-date-picker max-w-[400px] rounded-lg pt-3",
-                    isDateRangeStyle ? "date-range-picker" : null,
-                    getDayContent ? "has-custom-content" : null,
-                    modifiers.waitlist ? "has-custom-content" : null,
-                )}
+                className={getDayPickerClassName({
+                    withMaxWidth: true,
+                    isDateRangeStyle,
+                    hasCustomContent: Boolean(getDayContent || modifiers.waitlist),
+                })}
                 month={endMonth}
                 modifiers={isStartDateIsTheSameMonth ? {} : { ...modifiers, end: value?.to }}
                 disabledDays={isDisabledEndDays}

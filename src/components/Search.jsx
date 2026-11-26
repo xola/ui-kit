@@ -84,7 +84,7 @@ ShortcutKeyHint.propTypes = {
     isVisible: PropTypes.bool.isRequired,
 };
 
-const ClearSearchHint = ({ isVisible, showClearText, clearTextRef }) => {
+const ClearSearchHint = ({ isVisible, showClearText }) => {
     if (!isVisible) {
         return null;
     }
@@ -92,7 +92,6 @@ const ClearSearchHint = ({ isVisible, showClearText, clearTextRef }) => {
     return (
         <div className="relative">
             <div
-                ref={clearTextRef}
                 className={cn(
                     "text-gray-500 absolute left-0 top-full transform text-xs transition-all duration-200 ease-in-out",
                     showClearText ? "translate-y-0 opacity-100" : "-translate-y-2 opacity-0",
@@ -110,7 +109,6 @@ const ClearSearchHint = ({ isVisible, showClearText, clearTextRef }) => {
 ClearSearchHint.propTypes = {
     isVisible: PropTypes.bool.isRequired,
     showClearText: PropTypes.bool.isRequired,
-    clearTextRef: PropTypes.shape({ current: PropTypes.instanceOf(Element) }).isRequired,
 };
 
 /**
@@ -147,7 +145,6 @@ export const Search = ({
     const inputId = useId("search-input");
     const menuId = useId("search-menu");
     const isClient = useIsClient();
-    const clearTextRef = useRef();
 
     const [canClose, setCanClose] = useState(true);
 
@@ -291,7 +288,7 @@ export const Search = ({
                 </div>
             </div>
 
-            <ClearSearchHint isVisible={shouldHideMenu} showClearText={showClearText} clearTextRef={clearTextRef} />
+            <ClearSearchHint isVisible={shouldHideMenu} showClearText={showClearText} />
 
             <ul
                 {...getMenuProps({
