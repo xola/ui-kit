@@ -100,6 +100,12 @@ Fixture: `tooltip-removed-props.tsx`.
 | `interactive` | Delete when the content is plain text. When the content holds links or buttons, a tooltip is the wrong component: hand review, see section 4. |
 | `allowHTML` | Hand review, see section 4. |
 
+Behavior changes:
+
+- A tooltip opens on hover and on keyboard focus of the target. Tippy never opened on focus inside the target. Only focus that matches `:focus-visible` counts: focus a dialog moves from script (its initial focus, or focus given back to the opener on close) opens nothing after a mouse click.
+- A touch tap on the target toggles the tooltip and a tap outside closes it, as Tippy's did. The tap still reaches the wrapped control.
+- Escape closes the tooltip. A controlled tooltip with no `onOpenChange` gets `onClickOutside()` instead, so a `visible` plus `onClickOutside` site now closes on Escape (Tippy ignored Escape). For a tooltip held open with neither, see section 4.
+
 ### 3.2 Popover, PopoverList, InlineValuePopover, DatePickerPopover
 
 Fixtures: `popover-trigger.tsx`, `popover-default-hover.tsx`, `popover-controlled.tsx`, `popover-list-spread.tsx`, `inline-value-popover.tsx`, `date-picker-popover-props.tsx`.
@@ -129,26 +135,26 @@ Primitive rule, which decides how `open` and `openOn` combine:
 
 - An explicit `openOn` always wins.
 - With no `openOn`, a popover whose `open` is defined on its first render is a click popover (Radix Popover). Its content is tabbable and it has no hover behavior.
-- With no `openOn` and `open` undefined, the popover is a hover popover (Radix HoverCard). It opens on hover and on trigger focus, and a mouse press on the trigger closes it, as Tippy's `hideOnClick` default did.
-- The choice is made once, at mount. A popover whose `open` starts `undefined` stays a hover popover for its whole life, even after `open` is set. Start the state at `false`: `useState<boolean>()` becomes `useState(false)`.
+- With no `openOn` and `open` undefined, the popover is a hover popover (Radix HoverCard). It opens on hover and on keyboard focus of the trigger (`:focus-visible`; a dialog's initial focus or the focus it restores does not open it), and a mouse press on the trigger closes it, as Tippy's `hideOnClick` default did. After that press it stays closed, focus included, until the pointer re-enters the trigger.
+- The choice is made once, at mount. A popover whose `open` starts `undefined` stays a hover popover for its whole life, even after `open` is set. Start the state at `false`: `useState<boolean>()` becomes `useState(false)`. Changing `openOn` after mount swaps the primitive and remounts the target, so keep it constant.
 
 Whether to add `openOn` keeps Tippy's behavior:
 
 - A popover that had no `trigger` and no `visible` stays a hover popover, with no `openOn`. `popover-default-hover.tsx` is the same file before and after.
-- A hover popover keeps its content open while the pointer moves onto it, so links and buttons inside stay usable with a mouse. A hover popover takes every focusable element in its content out of the tab order, so Tab and keyboard users never reach it. Leave links and buttons as hover and accept that loss, or add `openOn="click"` where keyboard access matters. A hover popover also does not open on an iOS tap (see the touch bullet below), so links in it are unreachable on tablets: add `openOn="click"` where touch matters.
+- A hover popover keeps its content open while the pointer moves onto it, so links and buttons inside stay usable with a mouse. A hover popover takes every focusable element in its content out of the tab order, so Tab and keyboard users never reach it. Leave links and buttons as hover and accept that loss, or add `openOn="click"` where keyboard access matters. A hover popover also does not open on a touch tap (see the touch bullet below), so links in it are unreachable on tablets: add `openOn="click"` where touch matters.
 - Content with fields the user types in (inputs, selects, textareas) needs `openOn="click"`, because a field that cannot take focus is unusable.
 
 An app hook that drives `open` from hovering the target (`useHover` plus `visible={isHovering}`, with the Tippy `interactive` content inside the hover target) changes behavior. `open` selects the click primitive, and the content portals out of the hover target, so moving the pointer onto it ends the hover and closes the popover. Delete the hook and the `visible` prop, and use the default hover popover. If the hover state is also used elsewhere, or if `visible` combines the hover with other conditions (`open={isHovering || isPinned}`), hand review, see section 4: deleting the prop would drop those conditions.
 
 Behavior changes to know before touching tests:
 
-- Escape closes the popover. A controlled popover with `onOpenChange` gets `onOpenChange(false)`. A controlled popover with no `onOpenChange` gets `onClickOutside()` instead, so a `visible` plus `onClickOutside` site still closes on Escape. There is no `onEscapeKeyDown` prop. The Escape is consumed while a popover is open, so an enclosing `Modal` closes on the second press.
+- Escape closes the popover. A controlled popover with `onOpenChange` gets `onOpenChange(false)`. A controlled popover with no `onOpenChange` gets `onClickOutside()` instead, so a `visible` plus `onClickOutside` site still closes on Escape. There is no `onEscapeKeyDown` prop. The Escape is consumed while a popover is open, so an enclosing `Modal` closes on the second press. For a popover held open with neither callback, see section 4.
 - `onClickOutside` takes no arguments (Tippy passed `(instance, event)`).
 - Focus stays on the trigger and Tab does not reach content that is portaled to `document.body`. Content that Tippy placed next to the trigger used to be reachable by Tab.
 - Click popovers have `role="dialog"` on the content, and the trigger span gets `aria-haspopup`, `aria-expanded` and `type="button"`. A test that uses `getByRole("dialog")` for a `Modal` finds two while a click popover is open.
 - Content leaves the target's DOM subtree. Ancestor CSS no longer reaches it, ancestor `overflow: hidden` no longer clips it, and tests that query inside the target's container must query `document.body` (`screen` does).
 - Hover popovers close 100ms after the pointer leaves target and content (or the close `delay`, if larger).
-- Hover popovers no longer open on a touch tap on iOS. Tap does not focus buttons there. Use `openOn="click"` where touch matters.
+- Hover popovers no longer open on a touch tap. Use `openOn="click"` where touch matters. `Tooltip` and `Sidebar.Menu` do open on a tap.
 - `skidding` shifts content only for `-start` and `-end` placements, and the shift is reversed for `-end` (Radix negates it, Tippy did not). Pass `skidding={-s}` there.
 - `text-*` classes on the popover now color its content.
 
@@ -222,7 +228,7 @@ Behavior changes in `Dialog`:
 
 - Initial focus goes to the first `[data-autofocus]` element, else the dialog container. 1.7 focused the first focusable element. `autoFocus={false}` on `Dialog` restores that, and an `initialFocus` ref still wins. Touch devices skip initial focus.
 - Escape blurs the active element before it calls `onClose`.
-- A click on `DialogBackdrop` bubbles to document `click` listeners (analytics, `useClickAway`). 1.7 `Dialog.Overlay` stopped it. `DialogPanel` still stops clicks inside it.
+- A click on `DialogBackdrop` bubbles to document `click` listeners. See section 4, which covers ui-kit's own dialogs too.
 - Inside `Field`, `Label` is a `<label>` and clicks toggle its `Switch`. An explicit `id` on the `Switch` breaks that lookup unless the `Label` gets the same value as `htmlFor`. The deprecated `Switch.Label` does not depend on ids.
 - The dependency tree grows (react-aria, react-stately, `@internationalized/*`, `@floating-ui/react`). Expect a larger lockfile diff.
 
@@ -250,7 +256,9 @@ A rule cannot settle these. Decide each one from the surrounding code, and write
 - A dynamic `trigger` (`trigger={cond ? "mouseenter" : "manual"}`, `trigger="focus"`, `trigger="click"`) on a `Tooltip`, and any `Popover` trigger that is not in the 3.2 table. Neither component has a trigger prop. Use `disabled={!cond}` for on and off (both have `disabled`), or `open` with `onOpenChange` for full control.
 - A hover hook that drives a popover's `open` and is also used for something else (3.2). There is no verified recipe for combining that hook with `open`. Prefer removing the popover's use of it, keep the hook for its other use, and test the popover by hand.
 - `appendTo` that is not `document.body` (a function, a parent id lookup, a ref). The default is to delete `appendTo`, flag the site in the PR, and keep it on this list. Then check stacking, because the content now portals to `document.body`. `Popover` content is `z-50`, and `Tooltip` and `Sidebar.Menu` content is `z-[9999]`. ui-kit's `Modal`, `Drawer` and `BottomSheet` are `z-30`, so a popover stays above them. If the old target sat inside an app overlay with a z-index above 50, raise the popover with a class: `className="z-[60]"` on `Popover`, `PopoverList` or `InlineValuePopover` (it spreads `className` into `Popover`; its `classNames` object styles other parts) lands on the Radix content element and replaces `z-50` (the class must appear in the app's own source for Tailwind to generate it). For `DatePickerPopover` use `classNames={{ popover: "z-[60]" }}`. A target inside a scaled or translated container is not solved by a class: ui-kit has no `container` prop, so leave the site on this list.
-- App elements that showed above an open `Drawer`. `Drawer` moved from `z-10` to `z-30`, the layer of `Modal` and `BottomSheet`, so a drawer opened from a modal is now on top of it. An app element with a z-index from 11 to 30 (a sticky header, a chat widget, ui-kit's own `Sidebar` at `z-20`) now sits under the drawer's backdrop. The announcement and notification drawers that `Sidebar.Notifications` opens beside the rail stay at `z-10`, so the rail stays undimmed next to them. To keep another drawer at the old layer, pass `classNames={{ dialog: "z-10" }}`; a drawer opened from a modal then goes under the modal again.
+- Document `click` listeners (analytics, `useClickAway`, outside-click hooks). A click on the backdrop of ui-kit's `Modal` or `Drawer`, or on an app's own Headless UI `DialogBackdrop`, now reaches them: 3.7 used Headless UI 1.7's `Dialog.Overlay`, which stopped it. `DialogPanel` still stops clicks inside it. Check that such a listener does not act on a backdrop click.
+- A `Tooltip` or `Popover` held open with `open` inside a `Modal`, `Drawer` or `BottomSheet`, with no `onOpenChange` or `onClickOutside` that closes it. It takes every Escape and every backdrop click of that dialog (each closes only the open layer, which stays open), so the dialog cannot close those ways. Give it `onOpenChange`, or an `onClickOutside` that closes it.
+- App elements that showed above an open `Drawer`. `Drawer` moved from `z-10` to `z-30`, the layer of `Modal` and `BottomSheet`, so a drawer opened from a modal is now on top of it. An app element with a z-index from 11 to 30 (a sticky header, a chat widget, ui-kit's own `Sidebar` at `z-20`) now sits under the drawer's backdrop. The announcement and notification drawers that `Sidebar.Notifications` opens beside the rail stay at `z-10`, so the rail stays undimmed next to them. To keep another drawer at the old layer, pass `classNames={{ dialog: "z-10" }}`; a drawer opened from a modal then goes under the modal again. Any drawer whose `classNames.dialog` sets a z-index below 30 (`z-20` included) renders under a default `Drawer`, `Modal` or `BottomSheet`, even one opened before it.
 - Wrappers that forward `placement: string`. Type them as `Placement`. Wrappers with a default `placement = "auto"` (form fields that show a tooltip) lose the "auto" side choice. Pick a default side, usually `"top"`, and check the layout.
 - `popoverProps` objects with `placement: "auto"` (`DatePickerPopover`). Delete the key. `DatePickerPopover` then keeps its own `"bottom"`, which Tippy's auto often chose. A calendar near the bottom edge of a modal flips on collision.
 - `Popover` with a `content` prop. It is still supported and replaces the `Popover.Content` child. It is not wrapped in the `ui-popover-content` div. Check that tests and styles that found the body through that class still find it.
@@ -260,7 +268,7 @@ A rule cannot settle these. Decide each one from the surrounding code, and write
 - `.noUi-*` selectors other than the tooltip placement rule in 3.4, for example handle size or track color. The Radix DOM has different elements. Rewrite against ui-kit's `ui-range-slider`, `ui-range-slider-track`, `ui-range-slider-thumb` and `ui-range-slider-tooltip` classes or drop the override.
 - Tests that assert on a Tooltip or Popover. Radix renders one `role="tooltip"` element for an open tooltip, so `getByRole("tooltip")` is the stable query. The bubble leaves the DOM about 250ms after it closes, so wrap "is gone" assertions in `waitFor`. jsdom has no `ResizeObserver`, which Radix needs when a popper or the slider mounts. If a test fails with "ResizeObserver is not defined", add a stub in the test setup.
 - Dialog-stack workarounds written against Headless UI 1 internals, for example a closed `static` `Dialog` rendered only to register a nested dialog. Confirm focus and Escape behavior by hand.
-- Hover popovers on touch devices. They no longer open on a tap on iOS. Choose `openOn="click"` where tablets or phones use the control. `Sidebar.Menu` still opens on a tap. Confirm on a real iOS and Android device.
+- Hover popovers on touch devices. They no longer open on a tap. Choose `openOn="click"` where tablets or phones use the control. `Sidebar.Menu` still opens on a tap. Confirm on a real iOS and Android device.
 
 ## 5. Verify
 
@@ -284,8 +292,8 @@ Then re-run the step 2 commands. Done when:
 
 Manual checks in the browser, one per kind of component the app uses:
 
-- Tooltip: hover and keyboard focus show it, Escape and moving away hide it, and a tooltip on a disabled button still shows.
-- Hover popover: opens on hover and focus, stays open while the pointer crosses to the content, closes on an outside click and on a mouse press of the trigger. A `Modal` or `Drawer` opened from inside the trigger is not covered by the popover.
+- Tooltip: hover and keyboard focus show it, Escape and moving away hide it, a tap toggles it on a touch device, and a tooltip on a disabled button still shows. Closing a `Modal` with the mouse does not show the tooltip of the button that opened it.
+- Hover popover: opens on hover and keyboard focus, stays open while the pointer crosses to the content, closes on an outside click and on a mouse press of the trigger. A `Modal` or `Drawer` opened from inside the trigger is not covered by the popover.
 - Click and controlled popover: opens on click, closes on an outside click and Escape, and inside a `Modal` the first Escape closes the popover and the second closes the modal. A backdrop click does the same in a `Modal`, `Drawer` or `BottomSheet` that closes on one. Tab order is unchanged around the trigger.
 - `DatePickerPopover`: opens at the right side, including inside a modal and near a viewport edge.
 - `Sidebar.Menu`: hover opens it after about 150ms, a diagonal move to a low item keeps it open, a second menu replaces the first, and a tap opens it on a touch device.

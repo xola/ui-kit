@@ -103,7 +103,12 @@ export type Placement = PlacementSide | `${PlacementSide}-${"start" | "center" |
 export interface TooltipProps {
     /** Never shows the tooltip. */
     disabled?: boolean;
-    /** Controls visibility. Leave undefined to open on hover and focus. */
+    /**
+     * Controls visibility. Leave undefined to open on hover, keyboard focus (`:focus-visible`, so not a dialog's initial
+     * focus or the focus it restores on close) and a touch tap, which toggles it. A tooltip held open (`open` true and
+     * no `onOpenChange` or `onClickOutside` that closes it) takes every backdrop click and Escape of an enclosing
+     * `Modal`, `Drawer` or `BottomSheet`.
+     */
     open?: boolean;
     /** Tooltip body. "", null and undefined show no tooltip. */
     content?: React.ReactNode;
@@ -117,7 +122,7 @@ export interface TooltipProps {
     skidding?: number;
     /** Gap between target and bubble in px. Default 10. */
     distance?: number;
-    /** Bubble max width. Numbers are px. Default 350. */
+    /** Bubble max width. Numbers are px. Capped at the viewport width less 10px. Default 350. */
     maxWidth?: number | string;
     /** Role of the bubble element. Default "tooltip". */
     role?: string;
@@ -125,23 +130,28 @@ export interface TooltipProps {
     className?: string;
     /** Class name of a `<span>` around `content`. */
     contentClassName?: string;
-    /** Called on hover, focus, Escape and so on. */
+    /** Called on hover, focus, tap, Escape and so on. */
     onOpenChange?: (open: boolean) => void;
-    /** Called on a press outside the open bubble and its target. */
+    /** Called on a press outside the open bubble and its target. A controlled tooltip with no `onOpenChange` also calls it on Escape. */
     onClickOutside?: () => void;
 }
 
 export interface PopoverProps {
     /** Never shows the popover. */
     disabled?: boolean;
-    /** Controls visibility. Leave undefined to open on `openOn`. */
+    /**
+     * Controls visibility. Leave undefined to open on `openOn`. A popover held open (`open` true and no `onOpenChange`
+     * or `onClickOutside` that closes it) takes every backdrop click and Escape of an enclosing `Modal`, `Drawer` or
+     * `BottomSheet`.
+     */
     open?: boolean;
     /**
-     * "hover" opens on hover and focus and closes on a mouse press of the target (Radix HoverCard), "click" opens on click
-     * (Radix Popover, content is tabbable).
-     * Without `openOn`, `open` set on the first render picks "click" and `open` undefined picks "hover". The
-     * primitive is chosen at mount, so a popover that starts with `open` undefined stays hover for life: start a
-     * controlled popover at `false`, not `undefined`.
+     * "hover" (Radix HoverCard) opens on hover and keyboard focus (`:focus-visible`, so not a dialog's initial focus or
+     * the focus it restores on close), never on a touch tap. A mouse press of the target closes it, and it stays closed,
+     * focus included, until the pointer re-enters. "click" opens on click (Radix Popover, content is tabbable).
+     * Without `openOn`, `open` set on the first render picks "click" and `open` undefined picks "hover". Both are
+     * fixed at mount: a popover that starts with `open` undefined stays hover for life (start a controlled popover at
+     * `false`, not `undefined`), and changing `openOn` later swaps the primitive and remounts the target.
      */
     openOn?: "hover" | "click";
     /** Default "top". */
@@ -152,7 +162,7 @@ export interface PopoverProps {
     skidding?: number;
     /** Gap between target and box in px. Default 10. */
     distance?: number;
-    /** Box max width. Numbers are px. Default 350. */
+    /** Box max width. Numbers are px. Capped at the viewport width less 10px. Default 350. */
     maxWidth?: number | string;
     /** Popover body used instead of the `<Popover.Content>` child. */
     content?: React.ReactNode;

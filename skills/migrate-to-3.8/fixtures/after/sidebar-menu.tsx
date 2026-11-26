@@ -1,4 +1,4 @@
-import { Sidebar } from "@xola/ui-kit";
+import { LogoutIcon, Sidebar } from "@xola/ui-kit";
 import React, { useState } from "react";
 
 export const FooterMenu = ({ onLogout }: { onLogout: () => void }) => {
@@ -13,7 +13,7 @@ export const FooterMenu = ({ onLogout }: { onLogout: () => void }) => {
         <Sidebar.Menu
             open={isMenuOpen}
             delay={200}
-            content={<Sidebar.Button label="Logout" onClick={handleLogout} />}
+            content={<Sidebar.Button label="Logout" icon={LogoutIcon} onClick={handleLogout} />}
             onOpenChange={setIsMenuOpen}
         >
             <Sidebar.Account name="Account" />

@@ -18,8 +18,8 @@ export const BottomSheet = ({
     isOpen = false,
     // Configurable: when true, tapping the dark overlay closes the sheet. Default false keeps parity
     // with Modal. Closing is wired to the overlay's own onClick (not the Dialog's built-in
-    // outside-click) so interacting with popovers portaled outside the sheet — the DatePicker
-    // calendar, the ComboBox menu — is never mistaken for an outside click.
+    // outside-click) so a press on a layer portaled outside the sheet (a Popover such as the
+    // DatePicker calendar, or a Tooltip) is never mistaken for an outside click.
     shouldCloseOnOutsideClick = false,
     onClose,
     children,

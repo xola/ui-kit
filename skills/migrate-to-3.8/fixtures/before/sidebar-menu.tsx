@@ -1,4 +1,4 @@
-import { Sidebar } from "@xola/ui-kit";
+import { LogoutIcon, Sidebar } from "@xola/ui-kit";
 import React, { useRef } from "react";
 
 interface MenuInstance {
@@ -20,7 +20,7 @@ export const FooterMenu = ({ onLogout }: { onLogout: () => void }) => {
     return (
         <Sidebar.Menu
             delay={200}
-            content={<Sidebar.Button label="Logout" onClick={handleLogout} />}
+            content={<Sidebar.Button label="Logout" icon={LogoutIcon} onClick={handleLogout} />}
             onMount={handleMount}
         >
             <Sidebar.Account name="Account" />

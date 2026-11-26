@@ -22,6 +22,10 @@ npm run format            # Prettier --write on src
 npm test                  # Unit tests only (Vitest); use test:all for unit + Storybook
 npm run test:storybook    # Storybook interaction (play) tests, Playwright/Chromium
 npm run test:all          # Unit + Storybook tests
+npm run test:ssr          # Imports build/index.js in Node; run after npm run build
+npm run react:18          # Installs the lockfile's React 18 (--no-save); the checkout's default
+npm run react:19          # Installs React 19 (--no-save); run Storybook tests with VITE_REACT_MAJOR=19
+npm run test:consumer -- --vite 8 --react 19   # Packs ui-kit into tests/consumer, then vite build + tsc
 ```
 
 Run a single test file:
@@ -32,7 +36,7 @@ npx vitest run src/utils/avatar.test.js
 
 ## Architecture
 
-React 18 + Tailwind CSS v3 component library, built with Vite. Mostly JavaScript/JSX; a small
+React 18 and 19 + Tailwind CSS v3 component library, built with Vite. Mostly JavaScript/JSX; a small
 number of files (`LocalizedDayPicker.tsx`, `DatePicker.helpers.ts`, some icons) are TypeScript.
 `index.d.ts` is hand-maintained for consumers that want types.
 
@@ -89,6 +93,20 @@ discussion.
 - Use `clsx` for conditional `className` construction, not template literals or string
   concatenation.
 - Max 6 levels of JSX indentation.
+- Every change must work on React 18.3 and 19. React 19-only APIs go through
+  `src/helpers/reactFeatures.js` (feature-detected once at module load), never a direct import.
+- Keep `forwardRef`; React 18 has no ref-as-prop.
+- No `defaultProps` on function components (React 19 ignores them); use default parameters.
+- A prop change updates `skills/` (`using-ui-kit`, and `migrate-to-3.8` with its fixtures) and
+  `index.d.ts`. A removed Tooltip, Popover or Sidebar.Menu prop goes in that component's
+  `*_REMOVED_PROPS` map, which drives its dev warning and `scripts/skills.test.js`.
+
+### Overlay stacking
+
+- `Modal`, `Drawer` and `BottomSheet` share `z-30`, so the one opened last is on top
+  (`Sidebar.Notifications` drawers stay at `z-10`, under the `z-20` rail).
+- `Popover` content is `z-50`; `Tooltip` and `Sidebar.Menu` content is `z-[9999]`. All portal to
+  `document.body`, above every dialog. Keep these values; consumer layouts are built around them.
 
 ### Tailwind
 

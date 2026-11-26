@@ -78,7 +78,7 @@ Dates
 
 Overlays
 
-- `Modal`, `Drawer`, `BottomSheet`: dialogs, side panel, mobile sheet. `isOpen` and `onClose` are required. All three stack at `z-30`, so the one opened last is on top. A backdrop click while a `Popover` or `Tooltip` is open closes only that layer, and the next click closes the dialog (`Drawer` always, `Modal` and `BottomSheet` with `shouldCloseOnOutsideClick`).
+- `Modal`, `Drawer`, `BottomSheet`: dialogs, side panel, mobile sheet. `isOpen` and `onClose` are required. All three stack at `z-30`, so the one opened last is on top. A `Drawer` moved to a lower layer through `classNames.dialog` (for example `z-20`) renders under them, even when it opens last. A backdrop click while a `Popover` or `Tooltip` is open closes only that layer, and the next click closes the dialog (`Drawer` always, `Modal` and `BottomSheet` with `shouldCloseOnOutsideClick`).
 - `Tooltip`, `Popover`, `PopoverList`: hover and click overlays, see the 3.8 APIs below.
 - `flash`: toast function, `flash.show(...)`.
 
@@ -111,6 +111,11 @@ Overlays use Radix. Props that Tippy accepted and 3.8 dropped (`visible`, `trigg
 
 Props: `content` (empty shows nothing), `placement`, `open` (controlled), `disabled`, `delay`, `skidding`, `distance`, `maxWidth`, `role`, `className`, `contentClassName`, `onOpenChange`, `onClickOutside`. It wraps `children` in a `<span>`, so a disabled button inside still shows it. It opens on hover and keyboard focus, closes on Escape, and the content is not hoverable. Use `Popover` for interactive content.
 
+- Focus opens it only when the target matches `:focus-visible`. Focus that a dialog moves from script (its initial focus, or focus given back to the opener on close) does not, unless the user was on the keyboard.
+- A touch tap on the target toggles it, and a tap outside closes it. The tap still reaches the wrapped control.
+- A controlled tooltip with no `onOpenChange` calls `onClickOutside` on Escape. One held open with `open` and neither callback closing it takes every Escape and backdrop click of an enclosing `Modal`, `Drawer` or `BottomSheet`, so that dialog cannot close those ways. Give it `onOpenChange` or `onClickOutside`.
+- `maxWidth` is capped at the viewport width less 10px.
+
 - `placement` is a `Placement`: `top`, `right`, `bottom` or `left`, optionally with `-start`, `-center` or `-end`. `"auto"` and plain strings fail the type check. Radix flips on collision.
 - `delay` is `number | [number, number]`. A tooltip uses only the first value, because Radix has no close delay.
 - `skidding` shifts along the edge for `-start` and `-end` placements only, and it is reversed for `-end` (Radix negates it). Pass the negative of the Tippy value there.
@@ -131,19 +136,20 @@ Props: `open`, `openOn`, `disabled`, `placement`, `delay`, `skidding`, `distance
 
 Hover or click is chosen once, at mount:
 
-- `openOn` set: it wins. `"hover"` opens on hover and focus and closes on a mouse press of the target, `"click"` opens on click.
+- `openOn` set: it wins. `"hover"` opens on hover and keyboard focus and closes on a mouse press of the target, `"click"` opens on click. After that press a hover popover stays closed, focus included, until the pointer re-enters the target. Keyboard focus means `:focus-visible`, as for `Tooltip`: a dialog's initial or restored focus does not open it.
+- Changing `openOn` after mount swaps the primitive and remounts the target. Set it once.
 - `openOn` omitted and `open` defined: click popover. The content is tabbable and there is no hover.
 - `openOn` omitted and `open` undefined: hover popover.
 - A popover whose `open` starts `undefined` stays hover for life. Start controlled state at `false`.
 
-For new code, use `openOn="click"` for content with inputs or links: hover popovers take their content out of the tab order, and iOS does not open them on tap.
+For new code, use `openOn="click"` for content with inputs or links: hover popovers take their content out of the tab order, and a touch tap does not open them (a tap does open a `Tooltip`).
 
-Escape closes an open popover. A controlled popover with no `onOpenChange` calls `onClickOutside` on Escape. The Escape does not reach an enclosing `Modal`, so closing both takes two presses. A backdrop click behaves the same way: with the popover open, the first click on a `Modal`, `Drawer` or `BottomSheet` backdrop closes only the popover. `onClickOutside` receives no arguments. Content portals to `document.body`, so focus stays on the trigger and Tab does not enter the content.
+Escape closes an open popover. A controlled popover with no `onOpenChange` calls `onClickOutside` on Escape. The Escape does not reach an enclosing `Modal`, so closing both takes two presses. A popover held open with `open` and neither callback closing it takes every Escape and backdrop click of an enclosing dialog; give it one. A backdrop click behaves the same way: with the popover open, the first click on a `Modal`, `Drawer` or `BottomSheet` backdrop closes only the popover. `onClickOutside` receives no arguments. Content portals to `document.body`, so focus stays on the trigger and Tab does not enter the content.
 
 ### Sidebar.Menu
 
 ```tsx
-<Sidebar.Menu content={<Sidebar.Button label="Logout" onClick={logout} />}>
+<Sidebar.Menu content={<Sidebar.Button label="Logout" icon={LogoutIcon} onClick={logout} />}>
     <Sidebar.Account name={name} />
 </Sidebar.Menu>
 ```
