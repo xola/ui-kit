@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import React, { cloneElement, forwardRef, useEffect, useRef, useState } from "react";
+import React, { cloneElement, forwardRef, useRef, useState } from "react";
 import cn from "../../helpers/classnames";
 import { CalendarIcon, DownArrowIcon } from "../../icons";
 import { formatDate } from "../../utils/date";
@@ -24,25 +24,21 @@ export const DatePickerPopover = ({
     ...rest
 }) => {
     const draftStartValue = useRef(value);
-    const [originalValue, setOriginalValue] = useState(value);
     const [isVisible, setIsVisible] = useState(false);
 
-    const toggleVisibility = () => {
-        setIsVisible(!isVisible);
-    };
+    const toggleVisibility = () => setIsVisible(!isVisible);
 
     const handleChange = (date, options, event) => {
         if (variant === "single") {
             onChange?.(date, options, event);
             toggleVisibility();
         } else {
-            onChange?.(date, originalValue, options, event);
+            onChange?.(date, value, options, event);
         }
     };
 
     const handleSubmitDateRange = () => {
         draftStartValue.current = value;
-        setOriginalValue(value);
         onChange?.(value);
         setIsVisible(false);
     };
@@ -64,12 +60,8 @@ export const DatePickerPopover = ({
         setIsVisible(false);
     };
 
-    useEffect(() => {
-        setOriginalValue(value);
-    }, [value]);
-
     // On mobile the calendar is tall relative to the viewport; opening it downward (below the
-    // input) runs it off the bottom of the screen — especially inside a bottom sheet, and worse
+    // input) runs it off the bottom of the screen, especially inside a bottom sheet, and worse
     // behind the mobile browser's toolbar. Force it to open upward into the roomier space above the
     // field. This deliberately overrides any consumer-supplied `placement` on mobile only.
     const isMobile = useIsMobile();
@@ -94,7 +86,7 @@ export const DatePickerPopover = ({
                     size="medium"
                     value={value ? formatDate(value, dateFormat) : ""}
                     placeholder={placeholder}
-                    className={classNames?.input}
+                    className={classNames.input}
                     onClick={toggleVisibility}
                 />
             )}
