@@ -1,6 +1,7 @@
 import React from "react";
 import { expect, fn } from "storybook/test";
-import { Button, EllipsisIcon, KeyIcon, PlusIcon, UserIcon, WaitlistIcon, WarningIcon } from "../..";
+import { Button } from "../..";
+import { EllipsisIcon, KeyIcon, PlusIcon, UserIcon, WaitlistIcon, WarningIcon } from "../../icons";
 
 const ButtonStories = {
     title: "Forms & Fields/Buttons/Button",

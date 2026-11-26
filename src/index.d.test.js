@@ -1,5 +1,6 @@
 import { readFileSync } from "node:fs";
 import * as publicApi from "./index";
+import * as icons from "./icons/index";
 
 const DECLARATION = /^export declare (?:const|function) (\w+)/gm;
 const declaredNames = new Set(
@@ -9,6 +10,12 @@ const declaredNames = new Set(
 const runtimeNames = new Set(Object.keys(publicApi));
 
 describe("index.d.ts", () => {
+    test("does not re-export icons owned by @xola/icons", () => {
+        const reexportedIcons = Object.keys(icons).filter((name) => runtimeNames.has(name));
+
+        expect(reexportedIcons).toEqual([]);
+    });
+
     test("declares every runtime export of src/index.js", () => {
         const undeclaredNames = Object.keys(publicApi).filter((name) => !declaredNames.has(name));
 

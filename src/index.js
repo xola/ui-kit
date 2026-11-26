@@ -78,13 +78,6 @@ export { PieOptions } from "./components/Charts/PieOptions";
 export { useIsClient } from "./hooks/useIsClient";
 export { useViewportHeight } from "./hooks/useViewportHeight";
 
-//
-// IMPORTANT: Add all icon exports into icons/index.ts, and it will be published as a new package @xola/icons
-// This is temporary only for backward compatibility. Later all icons will be removed from @xola/ui-kit and only
-// @xola/icons will be used
-//
-export * from "./icons/index.ts";
-
 export { theme } from "./theme";
 
 export { Provider } from "./components/Provider";

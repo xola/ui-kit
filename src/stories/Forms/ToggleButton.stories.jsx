@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { expect } from "storybook/test";
-import { CheckIcon, ToggleButton } from "../..";
+import { ToggleButton } from "../..";
+import { CheckIcon } from "../../icons";
 
 const ToggleButtonStories = {
     title: "Forms & Fields/Buttons/ToggleButton",

@@ -1,7 +1,8 @@
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 import { expect, fn, spyOn, waitFor, within } from "storybook/test";
-import { Button, Drawer, Modal, Tooltip, UserIcon } from "../..";
+import { Button, Drawer, Modal, Tooltip } from "../..";
+import { UserIcon } from "../../icons";
 import { getRealUserEvent, restoreKeyboardFocusVisible } from "../realInput";
 
 // More props in docs

@@ -1,4 +1,5 @@
-import { Button, CheckIcon, formatPhoneNumber, Popover, RangeSlider, Sidebar, Tooltip } from "@xola/ui-kit";
+import { CheckIcon } from "@xola/icons";
+import { Button, formatPhoneNumber, Popover, RangeSlider, Sidebar, Tooltip } from "@xola/ui-kit";
 
 /**
  * Compiled with `skipLibCheck: false` so an unresolvable declaration in the published package fails here.
