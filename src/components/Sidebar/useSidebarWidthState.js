@@ -86,9 +86,11 @@ export const useSidebarWidthState = ({
         ceilingForVariant(variant ?? (isCollapsedProperty ? SIDEBAR_VARIANT.ICONS : SIDEBAR_VARIANT.ICONS_AND_TEXT)),
     );
 
-    // The ceiling a toggle restores into. Excludes the current `isCollapsed`, which would pin the
-    // ceiling to `minWidth` and clamp the expand straight back down, stranding it collapsed.
-    // `variant` still applies: it is a permanent ceiling, not a two-state control.
+    /**
+     * The ceiling a toggle restores into. Excludes the current `isCollapsed`, which would pin the
+     * ceiling to `minWidth` and clamp the expand straight back down, stranding it collapsed.
+     * `variant` still applies: it is a permanent ceiling, not a two-state control.
+     */
     const uncollapsedMaxWidth = Math.min(maxWidth, ceilingForVariant(variant ?? SIDEBAR_VARIANT.ICONS_AND_TEXT));
 
     // `storageKey` alone holds the rendered width (consumers read it for layout during their
@@ -229,16 +231,20 @@ export const useSidebarWidthState = ({
     useUpdateEffect(() => {
         const current = latestCollapseState.current;
 
-        // An internal width change (keyboard, drag, auto-collapse) the consumer mirrored back into
-        // `isCollapsed` already agrees with the width, and re-resolving would toggle it a second
-        // time. Only apply the transition when the two actually disagree.
+        /**
+         * An internal width change (keyboard, drag, auto-collapse) the consumer mirrored back into
+         * `isCollapsed` already agrees with the width, and re-resolving would toggle it a second
+         * time. Only apply the transition when the two disagree.
+         */
         if (isCollapsedProperty === current.isWidthCollapsed) {
             return;
         }
 
-        // Reused so controlled and uncontrolled collapse land in identical state: it branches on
-        // the current width, not on direction. Resolved against `uncollapsedMaxWidth` so expanding
-        // out of a collapse isn't clamped by the ceiling that collapse imposed.
+        /**
+         * Reused so controlled and uncontrolled collapse land in identical state: it branches on
+         * the current width, not on direction. Resolved against `uncollapsedMaxWidth` so expanding
+         * out of a collapse isn't clamped by the ceiling that collapse imposed.
+         */
         const next = resolveToggleWidth({
             width: current.width,
             lastExpandedWidth: current.lastExpandedWidth,
@@ -252,9 +258,11 @@ export const useSidebarWidthState = ({
 
     const variantValue = useMemo(() => variantContextValue(currentVariant), [currentVariant]);
 
-    // Marks an explicit width choice, so a later mount or upward crossing restores it instead of
-    // overriding it. Writes synchronously, not in an effect: `setWidth` skips the re-render when
-    // the value is unchanged, so an effect gated on width change would leave a stale flag latched.
+    /**
+     * Marks an explicit width choice, so a later mount or upward crossing restores it instead of
+     * overriding it. Writes synchronously, not in an effect: `setWidth` skips the re-render when
+     * the value is unchanged, so an effect gated on width change would leave a stale flag latched.
+     */
     const recordIntent = useMemoizedFn((chosenWidth) => {
         if (window.innerWidth < (autoCollapseBelow ?? 0)) {
             hasIntentBelowRef.current = true;

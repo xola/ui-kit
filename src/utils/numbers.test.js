@@ -1,10 +1,7 @@
 import { describe, expect, test, vi } from "vitest";
 
 describe("numbers (SSR)", () => {
-    // getDefaultLocale() used to call navigator-dependent getUserLocale() at module load,
-    // which crashed importing this file under SSR/Node (no `navigator`). Stub navigator away
-    // explicitly instead of asserting it's undefined: Node 21+ ships a global navigator, so the
-    // ambient absence this test used to rely on no longer holds.
+    // Node 21+ ships a global navigator, so stub it away to simulate SSR.
     test("imports and formats without a browser navigator", async () => {
         vi.stubGlobal("navigator", undefined);
         const { numberFormat, compactNumber } = await import("./numbers");

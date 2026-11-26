@@ -47,8 +47,6 @@ SidebarButton.displayName = "Sidebar.Button";
 SidebarButton.propTypes = {
     icon: PropTypes.elementType.isRequired,
     label: PropTypes.string.isRequired,
-    // "solid" is the filled, card-like treatment that lifts one action out of the list. It
-    // carries a larger icon to match.
     appearance: PropTypes.oneOf(["plain", "solid"]),
     className: PropTypes.string,
 };
