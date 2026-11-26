@@ -7,7 +7,7 @@ import { BackdropOwnerContext } from "../../helpers/backdrop";
 import { getChildrenByType } from "../../helpers/children";
 import cn from "../../helpers/classnames";
 import { getMaxWidth } from "../../helpers/maxWidth";
-import { ARROW_HEIGHT, toSideAlign } from "../../helpers/placement";
+import { ARROW_HEIGHT, ARROW_WIDTH, toSideAlign, toSideOffset } from "../../helpers/placement";
 import { NO_REPLACEMENT, USE_ON_OPEN_CHANGE, warnRemovedProps } from "../../helpers/warnRemovedProps";
 import styles from "./Popover.module.css";
 import scrollFix from "./PopoverScroll.module.css";
@@ -259,7 +259,7 @@ export const Popover = ({
                 <Primitive.Content
                     side={side}
                     align={align}
-                    sideOffset={distance - ARROW_HEIGHT}
+                    sideOffset={toSideOffset(distance)}
                     alignOffset={skidding}
                     // maxWidth is a runtime prop (number or CSS string), which a Tailwind class cannot express
                     style={{ maxWidth: getMaxWidth(maxWidth) }}
@@ -278,7 +278,7 @@ export const Popover = ({
                     {...contentFocus}
                 >
                     {popoverContent}
-                    <Primitive.Arrow asChild width={16} height={ARROW_HEIGHT}>
+                    <Primitive.Arrow asChild width={ARROW_WIDTH} height={ARROW_HEIGHT}>
                         {arrowShape}
                     </Primitive.Arrow>
                 </Primitive.Content>

@@ -5,7 +5,7 @@ import { isFocusVisible } from "../helpers/browser";
 import { BackdropOwnerContext } from "../helpers/backdrop";
 import cn from "../helpers/classnames";
 import { getMaxWidth } from "../helpers/maxWidth";
-import { ARROW_HEIGHT, toSideAlign } from "../helpers/placement";
+import { ARROW_HEIGHT, ARROW_WIDTH, toSideAlign, toSideOffset } from "../helpers/placement";
 import { NO_REPLACEMENT, warnRemovedProps } from "../helpers/warnRemovedProps";
 import { Context } from "./Provider";
 
@@ -230,7 +230,7 @@ export const Tooltip = ({
                     role={role}
                     side={side}
                     align={align}
-                    sideOffset={distance - ARROW_HEIGHT}
+                    sideOffset={toSideOffset(distance)}
                     alignOffset={skidding}
                     // maxWidth is a runtime prop (number or CSS string), which a Tailwind class cannot express
                     style={{ maxWidth: getMaxWidth(maxWidth) }}
@@ -244,7 +244,7 @@ export const Tooltip = ({
                     onPointerDownOutside={handlePointerDownOutside}
                 >
                     {contentClassName ? <span className={contentClassName}>{content}</span> : content}
-                    <RadixTooltip.Arrow width={16} height={ARROW_HEIGHT} className="fill-black" />
+                    <RadixTooltip.Arrow width={ARROW_WIDTH} height={ARROW_HEIGHT} className="fill-black" />
                 </RadixTooltip.Content>
             </RadixTooltip.Portal>
         </RadixTooltip.Root>

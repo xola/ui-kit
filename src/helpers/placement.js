@@ -5,6 +5,11 @@ const FALLBACK = { side: "top", align: "center" };
 /** Radix adds the arrow height to `sideOffset`; Tippy's `distance` measured to the box edge, so subtract it. */
 export const ARROW_HEIGHT = 8;
 
+/** Radix sizes the Arrow element; the width must match the arrow shape both overlays draw. */
+export const ARROW_WIDTH = 16;
+
+export const toSideOffset = (distance) => distance - ARROW_HEIGHT;
+
 /**
  * Map a Tippy-style placement to Radix `side` and `align`.
  * "auto", undefined and anything unrecognized map to top/center: Radix flips on collision, so no value ever warns.
