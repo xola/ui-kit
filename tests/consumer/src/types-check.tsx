@@ -1,5 +1,8 @@
 import { CheckIcon } from "@xola/icons";
+import type { IconProps } from "@xola/icons";
 import { Button, formatPhoneNumber, Popover, RangeSlider, Sidebar, Tooltip } from "@xola/ui-kit";
+
+const checkIconProps: IconProps = { size: "small" };
 
 /**
  * Compiled with `skipLibCheck: false` so an unresolvable declaration in the published package fails here.
@@ -9,7 +12,7 @@ import { Button, formatPhoneNumber, Popover, RangeSlider, Sidebar, Tooltip } fro
 export const Usage = () => (
     <>
         <Button color="primary">x</Button>
-        <CheckIcon />
+        <CheckIcon {...checkIconProps} />
         <span>{formatPhoneNumber("5555555555")}</span>
         <Tooltip content="hint">
             <span>y</span>

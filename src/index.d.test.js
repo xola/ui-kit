@@ -1,11 +1,13 @@
 import { readFileSync } from "node:fs";
+import { getDeclaredTypeNames, getExportedTypeNames } from "../scripts/exportTestUtils";
 import * as publicApi from "./index";
 import * as icons from "./icons/index";
 
+const declarationSource = readFileSync(new URL("../index.d.ts", import.meta.url), "utf8");
 const DECLARATION = /^export declare (?:const|function) (\w+)/gm;
-const declaredNames = new Set(
-    [...readFileSync(new URL("../index.d.ts", import.meta.url), "utf8").matchAll(DECLARATION)].map(([, name]) => name),
-);
+const declaredNames = new Set([...declarationSource.matchAll(DECLARATION)].map(([, name]) => name));
+const declaredTypeNames = new Set(getDeclaredTypeNames(new URL("../index.d.ts", import.meta.url)));
+const iconTypeNames = new Set(getExportedTypeNames(new URL("./icons/index.ts", import.meta.url)));
 
 const runtimeNames = new Set(Object.keys(publicApi));
 
@@ -14,6 +16,14 @@ describe("index.d.ts", () => {
         const reexportedIcons = Object.keys(icons).filter((name) => runtimeNames.has(name));
 
         expect(reexportedIcons).toEqual([]);
+    });
+
+    test("does not export icon types owned by @xola/icons", () => {
+        const reexportedTypes = [...iconTypeNames].filter((name) => declaredTypeNames.has(name));
+        const iconTypeReexports =
+            declarationSource.match(/^export type \{[^}]+\} from ["'][^"']*icons[^"']*["'];?$/gm) ?? [];
+
+        expect([...reexportedTypes, ...iconTypeReexports]).toEqual([]);
     });
 
     test("declares every runtime export of src/index.js", () => {
