@@ -136,7 +136,7 @@ Hover or click is chosen once, at mount:
 - `openOn` omitted and `open` undefined: hover popover.
 - A popover whose `open` starts `undefined` stays hover for life. Start controlled state at `false`.
 
-Use `openOn="click"` for content with inputs or links: hover popovers take their content out of the tab order, and iOS does not open them on tap.
+For new code, use `openOn="click"` for content with inputs or links: hover popovers take their content out of the tab order, and iOS does not open them on tap.
 
 Escape closes an open popover. A controlled popover with no `onOpenChange` calls `onClickOutside` on Escape. The Escape does not reach an enclosing `Modal`, so closing both takes two presses. `onClickOutside` receives no arguments. Content portals to `document.body`, so focus stays on the trigger and Tab does not enter the content.
 
