@@ -8,16 +8,13 @@ const createBackdrop = (owner = "backdrop-owner") => {
             return null;
         }
 
-        const owner = selector.match(/\[data-backdrop-owner=([^\]]+)\]/)?.[1];
+        const matchedOwner = selector.match(/\[data-backdrop-owner=([^\]]+)\]/)?.[1];
 
-        return backdrop.layers.find((layer) => JSON.stringify(layer.dataset.backdropOwner) === owner) ?? null;
+        return backdrop.layers.find((layer) => JSON.stringify(layer.dataset.backdropOwner) === matchedOwner) ?? null;
     };
     backdrop.ownerDocument = { querySelector };
     backdrop.addLayer = (layerOwner = owner) => {
-        const layer = { dataset: { backdropOwner: layerOwner } };
-        backdrop.layers.push(layer);
-
-        return layer;
+        backdrop.layers.push({ dataset: { backdropOwner: layerOwner } });
     };
     backdrop.addLayer();
 

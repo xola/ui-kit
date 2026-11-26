@@ -16,6 +16,8 @@ const loadingColors = {
     danger: "!bg-danger-light",
 };
 
+const indicatorClassName = "relative -top-0.25 text-white";
+
 export const SubmitButton = ({
     color = "primary",
     isLoading,
@@ -73,13 +75,11 @@ export const SubmitButton = ({
                             <CheckIcon
                                 size="medium"
                                 color="current"
-                                className={cn("relative -top-0.25 text-white", {
-                                    "text-black": variant === "outline",
-                                })}
+                                className={cn(indicatorClassName, { "text-black": variant === "outline" })}
                             />
                         )}
                         {isBusy && !showSuccess && (
-                            <Spinner size="current" color="current" className="relative -top-0.25 text-white" />
+                            <Spinner size="current" color="current" className={indicatorClassName} />
                         )}
                     </Transition>
                 )}

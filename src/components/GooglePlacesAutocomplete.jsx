@@ -61,50 +61,42 @@ export const GooglePlacesAutocomplete = ({ initialValue = "", onSelect = null, a
             case "Escape":
                 setShowDropdown(false);
                 break;
-
-            default:
-                break;
         }
     };
 
-    const fetchSuggestions = useDebouncedCallback(
-        async (query, placeIdToSelect = null) => {
-            if (!query.trim()) {
-                setSuggestions([]);
-                setError("");
-                return;
-            }
-
-            setIsLoading(true);
+    const fetchSuggestions = useDebouncedCallback(async (query, placeIdToSelect = null) => {
+        if (!query.trim()) {
+            setSuggestions([]);
             setError("");
+            return;
+        }
 
-            try {
-                const { data } = await axios.get(`${apiBaseUrl}/searchGooglePlaces`, {
-                    params: { input: query },
-                });
+        setIsLoading(true);
 
-                const results = Array.isArray(data) ? data : data.predictions || [];
+        try {
+            const { data } = await axios.get(`${apiBaseUrl}/searchGooglePlaces`, {
+                params: { input: query },
+            });
 
-                setSuggestions(results);
+            const results = Array.isArray(data) ? data : data.predictions || [];
 
-                if (placeIdToSelect !== null) {
-                    const matchingIndex = results.findIndex((result) => result.place_id === placeIdToSelect);
-                    if (matchingIndex !== -1) {
-                        setActiveSuggestionIndex(matchingIndex);
-                        handleSelect(results[matchingIndex]);
-                    }
+            setSuggestions(results);
+
+            if (placeIdToSelect !== null) {
+                const matchingIndex = results.findIndex((result) => result.place_id === placeIdToSelect);
+                if (matchingIndex !== -1) {
+                    setActiveSuggestionIndex(matchingIndex);
+                    handleSelect(results[matchingIndex]);
                 }
-            } catch (error) {
-                console.error("Google Places error:", error);
-                setSuggestions([]);
-                setError("Failed to load suggestions. Please try again.");
-            } finally {
-                setIsLoading(false);
             }
-        },
-        300,
-        [apiBaseUrl],
-    );
+        } catch (error) {
+            console.error("Google Places error:", error);
+            setSuggestions([]);
+            setError("Failed to load suggestions. Please try again.");
+        } finally {
+            setIsLoading(false);
+        }
+    }, 300);
 
     useEffect(() => {
         if (initialValue && !initialFetchDoneRef.current) {
@@ -121,6 +113,8 @@ export const GooglePlacesAutocomplete = ({ initialValue = "", onSelect = null, a
         setShowDropdown(false);
     }, dropdownRef);
 
+    const statusMessage = isLoading ? "Loading..." : error || (suggestions.length === 0 ? "No results" : null);
+
     return (
         <div ref={dropdownRef} className="relative">
             <Input
@@ -129,7 +123,7 @@ export const GooglePlacesAutocomplete = ({ initialValue = "", onSelect = null, a
                 role="combobox"
                 aria-expanded={showDropdown}
                 aria-controls="autocomplete-list"
-                aria-activedescendant={activeSuggestionId || undefined}
+                aria-activedescendant={activeSuggestionId}
                 aria-autocomplete="list"
                 value={inputValue}
                 placeholder="Search place..."
@@ -141,12 +135,8 @@ export const GooglePlacesAutocomplete = ({ initialValue = "", onSelect = null, a
                     className="absolute z-10 max-h-65 w-full overflow-y-auto rounded-md border border-gray bg-white shadow-lg"
                     role="listbox"
                 >
-                    {isLoading ? (
-                        <div className="px-3 py-2 text-gray-dark">Loading...</div>
-                    ) : error ? (
-                        <div className="px-3 py-2 text-gray-dark">{error}</div>
-                    ) : suggestions.length === 0 ? (
-                        <div className="px-3 py-2 text-gray-dark">No results</div>
+                    {statusMessage ? (
+                        <div className="px-3 py-2 text-gray-dark">{statusMessage}</div>
                     ) : (
                         suggestions.map((suggestion, index) => (
                             <div

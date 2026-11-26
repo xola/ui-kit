@@ -37,6 +37,8 @@ export const Switch = ({ id, isChecked = false, size = "medium", ...rest }) => {
         return () => setSwitchId?.(undefined);
     }, [id, setSwitchId]);
 
+    const { parent, inner, translate } = sizes[size];
+
     return (
         <HeadlessSwitch
             id={id}
@@ -45,15 +47,15 @@ export const Switch = ({ id, isChecked = false, size = "medium", ...rest }) => {
                 "ui-switch",
                 isChecked ? "bg-primary disabled:bg-gray-light" : "bg-gray disabled:bg-gray-light",
                 "relative inline-flex flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none",
-                sizes[size].parent,
+                parent,
             )}
             {...rest}
         >
             <span
                 className={cn(
-                    isChecked ? sizes[size].translate : "translate-x-0",
+                    isChecked ? translate : "translate-x-0",
                     "ui-switch-inner pointer-events-none inline-block transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out",
-                    sizes[size].inner,
+                    inner,
                 )}
             />
         </HeadlessSwitch>

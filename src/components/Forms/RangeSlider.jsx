@@ -56,8 +56,7 @@ export const RangeSlider = ({
     const [seed, setSeed] = useState(nextSeed);
     const [currentValues, setCurrentValues] = useState(clampedValues);
 
-    const isSeedChanged = !isEqual(seed, nextSeed);
-    if (isSeedChanged) {
+    if (!isEqual(seed, nextSeed)) {
         setSeed(nextSeed);
         setCurrentValues(clampedValues);
     }

@@ -42,8 +42,8 @@ export const ImageUpload = ({
         onDelete();
     };
 
-    const hasRequirements = typeof requirements === "string" ? requirements?.trim().length > 0 : !!requirements;
-    const hasCaption = caption ? caption.trim().length > 0 : false;
+    const hasRequirements = typeof requirements === "string" ? requirements.trim().length > 0 : !!requirements;
+    const trimmedCaption = caption ? caption.trim() : null;
 
     return (
         <div className={cn("flex items-center rounded bg-gray-lighter p-4", hasDelete ? "space-x-2" : "space-x-3")}>
@@ -76,12 +76,12 @@ export const ImageUpload = ({
                                 Delete
                             </Button>
                             <SubmitButton disabled={isLoading} isLoading={isLoading} onClick={handleUploadClick}>
-                                {hasCaption ? caption.trim() : "Upload New Photo"}
+                                {trimmedCaption || "Upload New Photo"}
                             </SubmitButton>
                         </>
                     ) : (
                         <SubmitButton disabled={isLoading} isLoading={isLoading} onClick={handleUploadClick}>
-                            {hasCaption ? caption.trim() : src ? "Replace Photo" : "Upload New Photo"}
+                            {trimmedCaption || (src ? "Replace Photo" : "Upload New Photo")}
                         </SubmitButton>
                     )}
                 </div>

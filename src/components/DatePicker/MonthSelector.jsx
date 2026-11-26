@@ -9,26 +9,20 @@ export const MonthSelector = ({ date, locale, onChange, currentMonth }) => {
     const [isVisible, setIsVisible] = useState(false);
     const [year, setYear] = useState(new Date(currentMonth).getFullYear());
 
-    const toggleVisibility = () => {
-        setIsVisible(!isVisible);
-    };
+    const toggleVisibility = () => setIsVisible(!isVisible);
+
+    const handleClear = () => setIsVisible(false);
 
     const handleMonthSelect = (newDate) => {
         onChange(newDate);
-        setIsVisible(false);
+        handleClear();
     };
 
-    const handleYearChange = (offset) => {
-        setYear(year + offset);
-    };
-
-    const handleClear = () => {
-        setIsVisible(false);
-    };
+    const handleYearChange = (offset) => setYear(year + offset);
 
     const handleToday = () => {
         onChange(new Date());
-        setIsVisible(false);
+        handleClear();
     };
 
     /** Radix asks to close on Escape, a press outside and focus leaving; the caption's own click opens it. */

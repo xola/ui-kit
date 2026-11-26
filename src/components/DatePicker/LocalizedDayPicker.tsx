@@ -13,7 +13,7 @@ export const LocalizedDayPicker = forwardRef<any, DayPickerProps>(function Local
 
     useEffect(() => {
         setLocalizationProps({});
-        const localeCode = kebabCase(locale).toLowerCase();
+        const localeCode = kebabCase(locale);
 
         /** We don't want any localization-related props for "English" */
         if (!localeCode || localeCode === "en" || localeCode === "en-us") return;

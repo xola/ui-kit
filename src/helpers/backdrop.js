@@ -1,7 +1,7 @@
-import React from "react";
+import { createContext } from "react";
 
 /** React ownership for portaled overlays; DOM ancestry cannot relate them to their dialog backdrop. */
-export const BackdropOwnerContext = React.createContext(undefined);
+export const BackdropOwnerContext = createContext();
 
 /** JSON quoting escapes the owner ID for an attribute selector without relying on the browser's global CSS object. */
 const getOwnedLayerSelector = (owner) => {
