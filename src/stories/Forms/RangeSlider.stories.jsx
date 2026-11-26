@@ -194,6 +194,73 @@ ValuesChange.play = async ({ canvas, canvasElement, userEvent }) => {
     await expect(onValuesChange).toHaveBeenCalledTimes(1);
 };
 
+export const ClampedValuesChange = () => {
+    const [values, setValues] = useState([-1]);
+    const handleSetEqualValues = () => setValues([...values]);
+    const handleSetNewValues = () => setValues([-2]);
+
+    return (
+        <FormGroup>
+            <Label>Changed raw values reapply when their clamped values match</Label>
+            <RangeSlider values={values} min={0} max={50} />
+            <div className="mt-12 flex gap-2">
+                <Button onClick={handleSetEqualValues}>Set equal clamped values</Button>
+                <Button onClick={handleSetNewValues}>Set new clamped values</Button>
+            </div>
+        </FormGroup>
+    );
+};
+
+ClampedValuesChange.play = async ({ canvas, canvasElement, userEvent }) => {
+    getThumbs(canvasElement)[0].focus();
+    await userEvent.keyboard("{End}");
+    await expect(getTooltips(canvasElement)).toEqual(["50"]);
+
+    await userEvent.click(canvas.getByRole("button", { name: "Set equal clamped values" }));
+    await expect(getTooltips(canvasElement)).toEqual(["50"]);
+
+    await userEvent.click(canvas.getByRole("button", { name: "Set new clamped values" }));
+    await expect(getTooltips(canvasElement)).toEqual(["0"]);
+    await expect(getThumbValues(canvasElement)).toEqual(["0"]);
+};
+
+export const BoundsChange = () => {
+    const values = [50];
+    const [min, setMin] = useState(0);
+    const [max, setMax] = useState(100);
+    const handleRaiseMinimum = () => setMin(20);
+    const handleLowerMaximum = () => setMax(80);
+
+    return (
+        <FormGroup>
+            <Label>Bounds changes reapply the incoming values</Label>
+            <RangeSlider values={values} min={min} max={max} />
+            <div className="mt-12 flex gap-2">
+                <Button onClick={handleRaiseMinimum}>Raise minimum</Button>
+                <Button onClick={handleLowerMaximum}>Lower maximum</Button>
+            </div>
+        </FormGroup>
+    );
+};
+
+BoundsChange.play = async ({ canvas, canvasElement, userEvent }) => {
+    getThumbs(canvasElement)[0].focus();
+    await userEvent.keyboard("{Home}");
+    await expect(getTooltips(canvasElement)).toEqual(["0"]);
+
+    await userEvent.click(canvas.getByRole("button", { name: "Raise minimum" }));
+    await expect(getTooltips(canvasElement)).toEqual(["50"]);
+    await expect(getThumbValues(canvasElement)).toEqual(["50"]);
+
+    getThumbs(canvasElement)[0].focus();
+    await userEvent.keyboard("{End}");
+    await expect(getTooltips(canvasElement)).toEqual(["100"]);
+
+    await userEvent.click(canvas.getByRole("button", { name: "Lower maximum" }));
+    await expect(getTooltips(canvasElement)).toEqual(["50"]);
+    await expect(getThumbValues(canvasElement)).toEqual(["50"]);
+};
+
 const onOutOfRangeChange = fn();
 
 export const OutOfRange = () => {

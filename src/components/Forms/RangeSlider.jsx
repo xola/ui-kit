@@ -17,8 +17,8 @@ const getPlacement = (tooltipPlacement, index) => {
 };
 
 /**
- * Semi-controlled: `values` seeds the internal state and is re-applied whenever it changes by deep-equal, so a parent
- * passing a new array with the same numbers does not undo the user's drag. A `key` change remounts as usual.
+ * Semi-controlled: `values` and the bounds seed internal state and replace it when their values change. Deep-equal
+ * comparison prevents a parent passing a new array with the same numbers from undoing the user's drag. A `key` change remounts as usual.
  *
  * @param {string?}                     props.className             Class name to apply to the slider root.
  * @param {number[]}                    props.values                Values to display, one thumb each. Clamped to [min, max].
@@ -51,12 +51,13 @@ export const RangeSlider = ({
     warnRemovedProps("RangeSlider", removedProps, REMOVED_PROPS);
 
     const clampedValues = values.map((value) => clamp(value, min, max));
-    const [seededValues, setSeededValues] = useState(clampedValues);
+    const nextSeed = { values, min, max };
+    const [seed, setSeed] = useState(nextSeed);
     const [currentValues, setCurrentValues] = useState(clampedValues);
 
-    const isSeedChanged = !isEqual(seededValues, clampedValues);
+    const isSeedChanged = !isEqual(seed, nextSeed);
     if (isSeedChanged) {
-        setSeededValues(clampedValues);
+        setSeed(nextSeed);
         setCurrentValues(clampedValues);
     }
 
