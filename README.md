@@ -295,7 +295,7 @@ Once you're ready, run this command to publish your package
 
 ```bash
 npm run build
-np <your-new-version> --tag=latest --yolo
+np <your-new-version> --tag=next --yolo
 ```
 
 Then make sure to push all the tags upstream to `xola/ui-kit` repo:
