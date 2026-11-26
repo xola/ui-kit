@@ -4,6 +4,7 @@ import { BottomSheet, Button, ComboBox, Drawer, Input, Modal, Popover, Sidebar, 
 import {
     expectFocusInside,
     expectNoLayer,
+    findLayer,
     getPortalCanvas,
     getTarget,
     POPOVER_SELECTOR,
@@ -30,6 +31,7 @@ const PANEL_CLASS = "combo-panel";
 
 const DIALOG_SELECTOR = ".ui-modal, .ui-drawer, .ui-bottom-sheet";
 const OVERLAY_SELECTOR = ".ui-modal-overlay, .ui-drawer-overlay, .ui-bottom-sheet-overlay";
+const SIDEBAR_MENU_SELECTOR = ".ui-sidebar-menu";
 
 /** Centered Modal panels, right-side Drawer panels and BottomSheet panels all leave the top-left corner to the backdrop. */
 const BACKDROP_POINT = { x: 4, y: 4 };
@@ -351,6 +353,27 @@ ModalWithTooltip.play = async (context) => {
 
     await userEvent.keyboard("{Escape}");
     await waitForClosed(dialog);
+};
+
+export const ModalWithSidebarMenu = () => {
+    return (
+        <LaunchedModal title="Modal with a sidebar menu">
+            <Sidebar.Menu content={<div className="p-4">Sidebar menu content</div>}>
+                <Button>Sidebar menu target</Button>
+            </Sidebar.Menu>
+        </LaunchedModal>
+    );
+};
+
+ModalWithSidebarMenu.play = async (context) => {
+    const { canvasElement, userEvent } = context;
+    const body = getPortalCanvas(canvasElement);
+    const dialog = await openLaunched(context, body, "Open modal", "Modal with a sidebar menu");
+
+    await userEvent.hover(getTarget(body, "Sidebar menu target"));
+    await findLayer(canvasElement, SIDEBAR_MENU_SELECTOR, "Sidebar menu content");
+
+    await expectBackdropClosesLayerFirst(context, dialog, SIDEBAR_MENU_SELECTOR, "Sidebar menu content");
 };
 
 export const ModalPopoverWithTooltip = () => {

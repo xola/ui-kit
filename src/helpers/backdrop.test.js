@@ -1,20 +1,31 @@
 import { describe, expect, test, vi } from "vitest";
 import { getBackdropHandlers } from "./backdrop";
 
+const OPEN_LAYER_SELECTOR_PREFIX = '[data-ui-kit-layer="open"]';
+
 const createBackdrop = (owner = "backdrop-owner") => {
-    const backdrop = { isLayerOpen: false, dataset: { backdropOwner: owner }, layers: [] };
+    const backdrop = { dataset: { backdropOwner: owner }, layers: [] };
     const querySelector = (selector) => {
-        if (!backdrop.isLayerOpen) {
+        // Component classes or Radix data-state in this selector would recouple this helper to every overlay.
+        if (!selector.startsWith(OPEN_LAYER_SELECTOR_PREFIX)) {
             return null;
         }
 
         const matchedOwner = selector.match(/\[data-backdrop-owner=([^\]]+)\]/)?.[1];
 
-        return backdrop.layers.find((layer) => JSON.stringify(layer.dataset.backdropOwner) === matchedOwner) ?? null;
+        return (
+            backdrop.layers.find(
+                (layer) =>
+                    layer.dataset.uiKitLayer === "open" && JSON.stringify(layer.dataset.backdropOwner) === matchedOwner,
+            ) ?? null
+        );
     };
     backdrop.ownerDocument = { querySelector };
-    backdrop.addLayer = (layerOwner = owner) => {
-        backdrop.layers.push({ dataset: { backdropOwner: layerOwner } });
+    backdrop.addLayer = (layerOwner = owner, isOpen = false) => {
+        backdrop.layers.push({ dataset: { backdropOwner: layerOwner, uiKitLayer: isOpen ? "open" : undefined } });
+    };
+    backdrop.setLayerOpen = (isOpen, index = 0) => {
+        backdrop.layers[index].dataset.uiKitLayer = isOpen ? "open" : undefined;
     };
     backdrop.addLayer();
 
@@ -42,15 +53,30 @@ describe("getBackdropHandlers", () => {
         expect(onBackdropClick).toHaveBeenCalledWith();
     });
 
+    test("discovers open layers by the ui-kit marker, not component classes or Radix state", () => {
+        const { onBackdropClick, handlers } = setup();
+        const backdrop = createBackdrop();
+        const selectors = [];
+        backdrop.ownerDocument.querySelector = (selector) => {
+            selectors.push(selector);
+            return null;
+        };
+
+        press(handlers, backdrop);
+
+        expect(selectors).toEqual(['[data-ui-kit-layer="open"][data-backdrop-owner="backdrop-owner"]']);
+        expect(onBackdropClick).toHaveBeenCalledTimes(1);
+    });
+
     test("leaves the click of a press that started over an open layer to the layer", () => {
         const { onBackdropClick, handlers } = setup();
         const backdrop = createBackdrop();
 
-        backdrop.isLayerOpen = true;
+        backdrop.setLayerOpen(true);
         press(handlers, backdrop);
         expect(onBackdropClick).not.toHaveBeenCalled();
 
-        backdrop.isLayerOpen = false;
+        backdrop.setLayerOpen(false);
         press(handlers, backdrop);
         expect(onBackdropClick).toHaveBeenCalledTimes(1);
     });
@@ -59,7 +85,7 @@ describe("getBackdropHandlers", () => {
         const { onBackdropClick, handlers } = setup();
         const backdrop = createBackdrop();
         delete backdrop.layers[0].dataset.backdropOwner;
-        backdrop.isLayerOpen = true;
+        backdrop.setLayerOpen(true);
 
         press(handlers, backdrop);
 
@@ -70,7 +96,7 @@ describe("getBackdropHandlers", () => {
         const { onBackdropClick, handlers } = setup();
         const backdrop = createBackdrop();
         backdrop.layers[0].dataset.backdropOwner = "another-backdrop";
-        backdrop.isLayerOpen = true;
+        backdrop.setLayerOpen(true);
 
         press(handlers, backdrop);
 
@@ -81,7 +107,8 @@ describe("getBackdropHandlers", () => {
         const { onBackdropClick, handlers } = setup();
         const backdrop = createBackdrop();
         backdrop.addLayer("another-backdrop");
-        backdrop.isLayerOpen = true;
+        backdrop.setLayerOpen(true);
+        backdrop.setLayerOpen(true, 1);
 
         press(handlers, backdrop);
 
@@ -96,8 +123,8 @@ describe("getBackdropHandlers", () => {
         const outer = createBackdrop("outer");
         const inner = createBackdrop("inner");
         outer.layers[0].dataset.backdropOwner = "inner";
-        outer.isLayerOpen = true;
-        inner.isLayerOpen = true;
+        outer.setLayerOpen(true);
+        inner.setLayerOpen(true);
 
         press(outerHandlers, outer);
         press(innerHandlers, inner);
@@ -110,9 +137,9 @@ describe("getBackdropHandlers", () => {
         const { onBackdropClick, handlers } = setup();
         const backdrop = createBackdrop();
 
-        backdrop.isLayerOpen = true;
+        backdrop.setLayerOpen(true);
         handlers.onPointerDown({ currentTarget: backdrop });
-        backdrop.isLayerOpen = false;
+        backdrop.setLayerOpen(false);
         handlers.onClick({ currentTarget: backdrop });
 
         expect(onBackdropClick).not.toHaveBeenCalled();
@@ -122,7 +149,7 @@ describe("getBackdropHandlers", () => {
         const { onBackdropClick, handlers } = setup();
         const backdrop = createBackdrop();
 
-        backdrop.isLayerOpen = true;
+        backdrop.setLayerOpen(true);
         press(handlers, backdrop);
         handlers.onClick({ currentTarget: backdrop });
 
@@ -145,7 +172,7 @@ describe("getBackdropHandlers", () => {
         const outer = createBackdrop();
         const inner = createBackdrop();
 
-        outer.isLayerOpen = true;
+        outer.setLayerOpen(true);
         outerHandlers.onPointerDown({ currentTarget: outer });
         press(innerHandlers, inner);
         outerHandlers.onClick({ currentTarget: outer });

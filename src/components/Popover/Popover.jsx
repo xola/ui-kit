@@ -3,7 +3,7 @@ import * as RadixPopover from "@radix-ui/react-popover";
 import PropTypes from "prop-types";
 import React, { Children, useContext, useRef, useState } from "react";
 import { isFocusVisible } from "../../helpers/browser";
-import { BackdropOwnerContext } from "../../helpers/backdrop";
+import { BackdropOwnerContext, getOpenLayerProps } from "../../helpers/backdrop";
 import { getChildrenByType } from "../../helpers/children";
 import cn from "../../helpers/classnames";
 import { getMaxWidth } from "../../helpers/maxWidth";
@@ -271,7 +271,7 @@ export const Popover = ({
                         "data-[state=closed]:animate-fade-out data-[state=open]:animate-fade-in",
                         className,
                     )}
-                    data-backdrop-owner={backdropOwner}
+                    {...getOpenLayerProps(isOpen, backdropOwner)}
                     onEscapeKeyDown={handleEscapeKeyDown}
                     onPointerDownOutside={handlePointerDownOutside}
                     {...contentFocus}
