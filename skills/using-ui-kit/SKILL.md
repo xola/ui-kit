@@ -78,7 +78,7 @@ Dates
 
 Overlays
 
-- `Modal`, `Drawer`, `BottomSheet`: dialogs, side panel, mobile sheet. `isOpen` and `onClose` are required.
+- `Modal`, `Drawer`, `BottomSheet`: dialogs, side panel, mobile sheet. `isOpen` and `onClose` are required. All three stack at `z-30`, so the one opened last is on top. A backdrop click while a `Popover` or `Tooltip` is open closes only that layer, and the next click closes the dialog (`Drawer` always, `Modal` and `BottomSheet` with `shouldCloseOnOutsideClick`).
 - `Tooltip`, `Popover`, `PopoverList`: hover and click overlays, see the 3.8 APIs below.
 - `flash`: toast function, `flash.show(...)`.
 
@@ -138,7 +138,7 @@ Hover or click is chosen once, at mount:
 
 For new code, use `openOn="click"` for content with inputs or links: hover popovers take their content out of the tab order, and iOS does not open them on tap.
 
-Escape closes an open popover. A controlled popover with no `onOpenChange` calls `onClickOutside` on Escape. The Escape does not reach an enclosing `Modal`, so closing both takes two presses. `onClickOutside` receives no arguments. Content portals to `document.body`, so focus stays on the trigger and Tab does not enter the content.
+Escape closes an open popover. A controlled popover with no `onOpenChange` calls `onClickOutside` on Escape. The Escape does not reach an enclosing `Modal`, so closing both takes two presses. A backdrop click behaves the same way: with the popover open, the first click on a `Modal`, `Drawer` or `BottomSheet` backdrop closes only the popover. `onClickOutside` receives no arguments. Content portals to `document.body`, so focus stays on the trigger and Tab does not enter the content.
 
 ### Sidebar.Menu
 

@@ -1,6 +1,7 @@
 import { Dialog, DialogBackdrop, DialogTitle, Transition, TransitionChild } from "@headlessui/react";
 import PropTypes from "prop-types";
 import React, { Fragment } from "react";
+import { getBackdropHandlers } from "../helpers/backdrop";
 import cn from "../helpers/classnames";
 import { CloseIcon } from "../icons";
 
@@ -67,6 +68,8 @@ export const Modal = ({
         }
     };
 
+    const backdropHandlers = getBackdropHandlers(handleOutsideClick);
+
     return (
         <Transition appear show={isOpen} as={Fragment}>
             <Dialog
@@ -89,7 +92,7 @@ export const Modal = ({
                     >
                         <DialogBackdrop
                             className="ui-modal-overlay fixed inset-0 bg-black bg-opacity-80 transition-opacity"
-                            onClick={handleOutsideClick}
+                            {...backdropHandlers}
                         />
                     </TransitionChild>
 

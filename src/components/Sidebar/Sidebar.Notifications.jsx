@@ -10,6 +10,12 @@ const LeftDrawerCountStyle = {
     background: "linear-gradient(138.65deg, #583DFF 19.59%, #F849C7 62.96%, #FFC03D 97.07%)",
 };
 
+/**
+ * These drawers slide out beside the rail (`sideIndent` is the rail width). At z-10, under the rail's z-20, a drawer's
+ * backdrop dims the page but not the rail. Other drawers keep the default z-30 and dim the rail too.
+ */
+const NOTIFICATION_DRAWER_CLASS_NAMES = { dialog: "z-10" };
+
 const counterSize = (isCollapsed) => {
     const size = isCollapsed ? "30px" : "48px";
 
@@ -84,6 +90,7 @@ export const SidebarNotifications = ({
                     sideIndent={width}
                     position="left"
                     size="xl"
+                    classNames={NOTIFICATION_DRAWER_CLASS_NAMES}
                     title={leftDrawer.title}
                     content={leftDrawer.content}
                     onClose={(event) => !!event && onDrawerStateChange?.("left")}
@@ -96,6 +103,7 @@ export const SidebarNotifications = ({
                     sideIndent={width}
                     position="left"
                     size="xl"
+                    classNames={NOTIFICATION_DRAWER_CLASS_NAMES}
                     title={rightDrawer.title}
                     content={rightDrawer.content}
                     onClose={(event) => !!event && onDrawerStateChange?.("right")}

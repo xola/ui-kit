@@ -3,13 +3,17 @@ import clsx from "clsx";
 import { noop } from "lodash-es";
 import PropTypes from "prop-types";
 import React, { Fragment } from "react";
+import { getBackdropHandlers } from "../helpers/backdrop";
 import { isIosBrowser } from "../helpers/browser";
 import { useViewportHeight } from "../hooks/useViewportHeight";
 import { CloseIcon } from "../icons";
 
-// A mobile-first bottom sheet. Mirrors Modal's compound API (Header/Body/Footer) so it can be
-// swapped in wherever a Modal is used on small screens. Kept at z-30 (same as Modal) so popovers
-// that portal to document.body (DatePicker calendar at z-40, ComboBox menu at z-30) stack above it.
+/**
+ * A mobile-first bottom sheet. Mirrors Modal's compound API (Header/Body/Footer) so it can be swapped in wherever a
+ * Modal is used on small screens. Kept at z-30, the layer Modal and Drawer share, so the dialog opened last is on top.
+ * Popover content (the DatePickerPopover calendar included) and Tooltips portal to document.body at z-50 and z-[9999],
+ * above it. ComboBox draws its menu inline, inside the sheet.
+ */
 export const BottomSheet = ({
     isOpen = false,
     // Configurable: when true, tapping the dark overlay closes the sheet. Default false keeps parity
@@ -29,6 +33,8 @@ export const BottomSheet = ({
             onClose();
         }
     };
+
+    const overlayHandlers = getBackdropHandlers(handleOverlayClick);
 
     // iOS mobile browsers report an unreliable `vh`/`dvh` (collapsing address bar), so cap the sheet
     // by the measured innerHeight there. Other browsers use `dvh` via the class below. Guarded on a
@@ -57,7 +63,7 @@ export const BottomSheet = ({
                     <div
                         className="ui-bottom-sheet-overlay fixed inset-0 bg-black bg-opacity-80 transition-opacity"
                         aria-hidden="true"
-                        onClick={handleOverlayClick}
+                        {...overlayHandlers}
                     />
                 </TransitionChild>
 

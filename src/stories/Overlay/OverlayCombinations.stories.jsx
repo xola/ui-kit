@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { expect, fn, waitFor, within } from "storybook/test";
-import { BottomSheet, Button, Drawer, Input, Modal, Popover, Tooltip } from "../..";
+import { BottomSheet, Button, ComboBox, Drawer, Input, Modal, Popover, Sidebar, Tooltip } from "../..";
 
 const OverlayCombinationsStories = {
     title: "Overlay/Combinations",
@@ -146,6 +146,23 @@ const expectOnTopPastPanel = async (ownerDocument, layer, panelRect, side) => {
     await expect(layer).toContainElement(getHitAt(ownerDocument, pastPanel));
 };
 
+/**
+ * Radix closes an open layer on an outside press and lets the click through, so the first backdrop click must stop at
+ * the layer and only the next one may close the dialog.
+ */
+const expectBackdropClosesLayerFirst = async ({ canvasElement, userEvent }, dialog, selector, text) => {
+    const { ownerDocument } = canvasElement;
+    const backdrop = getHitAt(ownerDocument, BACKDROP_POINT);
+    await expect(backdrop).toBe(getOverlay(dialog));
+
+    await userEvent.click(backdrop);
+    await expectNoLayer(ownerDocument, selector, text);
+    await expectStaysOpen(dialog);
+
+    await userEvent.click(backdrop);
+    await waitForClosed(dialog);
+};
+
 const LaunchedModal = ({ shouldCloseOnOutsideClick = true, title, children, onClose }) => {
     const [isOpen, setIsOpen] = useState(false);
     const handleOpen = () => setIsOpen(true);
@@ -241,13 +258,7 @@ ModalWithClickPopover.play = async (context) => {
 
     await userEvent.click(body.getByRole("button", { name: "Click popover target" }));
     await findPlacedLayer(ownerDocument, POPOVER_SELECTOR, "Click popover content");
-    const backdrop = getHitAt(ownerDocument, BACKDROP_POINT);
-    await expect(backdrop).toBe(getOverlay(dialog));
-
-    // Radix dismisses the popover on pointerdown and the click that follows still reaches the backdrop, so both close
-    await userEvent.click(backdrop);
-    await expectNoLayer(ownerDocument, POPOVER_SELECTOR, "Click popover content");
-    await waitForClosed(dialog);
+    await expectBackdropClosesLayerFirst(context, dialog, POPOVER_SELECTOR, "Click popover content");
 };
 
 export const ModalWithHoverPopover = () => {
@@ -280,12 +291,9 @@ ModalWithHoverPopover.play = async (context) => {
     await userEvent.unhover(target);
     await userEvent.hover(target);
     await findPlacedLayer(ownerDocument, POPOVER_SELECTOR, "Hover popover content");
-    const backdrop = getHitAt(ownerDocument, BACKDROP_POINT);
-    await expect(backdrop).toBe(getOverlay(dialog));
 
-    await userEvent.click(backdrop);
-    await expectNoLayer(ownerDocument, POPOVER_SELECTOR, "Hover popover content");
-    await waitForClosed(dialog);
+    // Leaving the target only starts the 100ms close grace, so the popover is still open when the backdrop press lands
+    await expectBackdropClosesLayerFirst(context, dialog, POPOVER_SELECTOR, "Hover popover content");
 };
 
 export const ModalDefaultDismissal = ({ onClose }) => {
@@ -559,12 +567,7 @@ DrawerWithPopover.play = async (context) => {
 
     await userEvent.click(body.getByRole("button", { name: "Drawer popover target" }));
     await findPlacedLayer(ownerDocument, POPOVER_SELECTOR, "Drawer popover content");
-    const backdrop = getHitAt(ownerDocument, BACKDROP_POINT);
-    await expect(backdrop).toBe(getOverlay(drawer));
-
-    await userEvent.click(backdrop);
-    await expectNoLayer(ownerDocument, POPOVER_SELECTOR, "Drawer popover content");
-    await waitForClosed(drawer);
+    await expectBackdropClosesLayerFirst(context, drawer, POPOVER_SELECTOR, "Drawer popover content");
 };
 
 export const DrawerWithTooltip = () => {
@@ -656,12 +659,15 @@ ModalOpensDrawer.play = async (context) => {
 
     await userEvent.click(body.getByRole("button", { name: "Open drawer" }));
     const drawer = await findDialog(body, "Drawer from a modal");
-    const drawerCenter = getCenter(getPanelRect(drawer));
 
-    // Pinned, not intended: both dialogs portal to the Headless UI root, where Modal's z-30 paints over Drawer's z-10
-    // whichever opened first. The Modal is inert while the Drawer is on top, so the pointer reaches the Drawer anyway
-    await expect(modal).toContainElement(getPaintedAt(ownerDocument, drawerCenter));
+    // Both dialogs portal to the Headless UI root at z-30, so the one opened last paints on top
+    const drawerRect = getPanelRect(drawer);
+    const drawerCenter = getCenter(drawerRect);
+    const modalCenter = getCenter(getPanelRect(modal));
+    await expect(isOutside(modalCenter, drawerRect)).toBe(true);
+    await expect(getPanel(drawer)).toContainElement(getPaintedAt(ownerDocument, drawerCenter));
     await expect(getPanel(drawer)).toContainElement(getHitAt(ownerDocument, drawerCenter));
+    await expect(getPaintedAt(ownerDocument, modalCenter)).toBe(getOverlay(drawer));
     await waitFor(() => expect(drawer).toContainElement(ownerDocument.activeElement));
 
     await userEvent.keyboard("{Escape}");
@@ -703,12 +709,7 @@ BottomSheetWithPopover.play = async (context) => {
 
     await userEvent.click(body.getByRole("button", { name: "Sheet popover target" }));
     await findPlacedLayer(ownerDocument, POPOVER_SELECTOR, "Sheet popover content");
-    const backdrop = getHitAt(ownerDocument, BACKDROP_POINT);
-    await expect(backdrop).toBe(getOverlay(sheet));
-
-    await userEvent.click(backdrop);
-    await expectNoLayer(ownerDocument, POPOVER_SELECTOR, "Sheet popover content");
-    await waitForClosed(sheet);
+    await expectBackdropClosesLayerFirst(context, sheet, POPOVER_SELECTOR, "Sheet popover content");
 };
 
 export const BottomSheetWithTooltip = () => {
@@ -727,13 +728,153 @@ BottomSheetWithTooltip.play = async (context) => {
     const body = within(ownerDocument.body);
     const sheet = await openLaunched(context, body, "Open sheet", "Sheet with a tooltip");
 
-    await userEvent.hover(getTarget(body, "Sheet tooltip target"));
+    const target = getTarget(body, "Sheet tooltip target");
+    await userEvent.hover(target);
     const bubble = await findPlacedLayer(ownerDocument, TOOLTIP_SELECTOR, "Sheet tooltip content");
     await expectOnTopPastPanel(ownerDocument, bubble, getPanelRect(sheet), "top");
 
     await userEvent.keyboard("{Escape}");
     await expectNoLayer(ownerDocument, TOOLTIP_SELECTOR, "Sheet tooltip content");
     await expectStaysOpen(sheet);
+
+    // A tooltip closes as soon as the pointer leaves its target, so only one opened by focus is open at the press
+    await userEvent.unhover(target);
+    await userEvent.tab();
+    await expect(body.getByRole("button", { name: "Sheet tooltip target" })).toHaveFocus();
+    await findPlacedLayer(ownerDocument, TOOLTIP_SELECTOR, "Sheet tooltip content");
+    await expectBackdropClosesLayerFirst(context, sheet, TOOLTIP_SELECTOR, "Sheet tooltip content");
+};
+
+const COMBO_OPTIONS = [
+    { value: 1, label: "Inline option" },
+    { value: 2, label: "Portaled option" },
+];
+
+const PORTALED_MENU_CLASS_NAMES = { menuPortal: () => "!z-30" };
+
+/**
+ * react-select draws its menu inline by default. A `menuPortalTarget` of `document.body` at z-30 ties with the Drawer,
+ * so DOM order alone keeps that menu on top.
+ */
+export const DrawerWithComboBox = () => {
+    const content = (
+        <div className="flex flex-col gap-4">
+            <ComboBox aria-label="Inline combo box" options={COMBO_OPTIONS} />
+            <ComboBox
+                aria-label="Portaled combo box"
+                options={COMBO_OPTIONS}
+                menuPortalTarget={document.body}
+                classNames={PORTALED_MENU_CLASS_NAMES}
+            />
+        </div>
+    );
+
+    return <LaunchedDrawer title="Drawer with combo boxes" content={content} />;
+};
+
+const openMenu = async ({ canvasElement, userEvent }, name) => {
+    const { ownerDocument } = canvasElement;
+    await userEvent.click(within(ownerDocument.body).getByRole("combobox", { name }));
+
+    return waitFor(() => {
+        const menu = ownerDocument.querySelector(".ui-combo-box__menu");
+        expect(menu).toBeInstanceOf(HTMLElement);
+
+        return menu;
+    });
+};
+
+const expectMenuOnTop = async ({ canvasElement, userEvent }, menu, drawer) => {
+    const { ownerDocument } = canvasElement;
+    const center = getCenter(menu.getBoundingClientRect());
+    await expect(menu).toContainElement(getPaintedAt(ownerDocument, center));
+    await expect(menu).toContainElement(getHitAt(ownerDocument, center));
+
+    // react-select default-prevents the Escape that closes its menu, and Headless UI skips default-prevented ones
+    await userEvent.keyboard("{Escape}");
+    await waitFor(() => expect(menu).not.toBeInTheDocument());
+    await expectStaysOpen(drawer);
+};
+
+DrawerWithComboBox.play = async (context) => {
+    const { canvasElement } = context;
+    const { ownerDocument } = canvasElement;
+    const body = within(ownerDocument.body);
+    const drawer = await openLaunched(context, body, "Open drawer", "Drawer with combo boxes");
+    await expect(getComputedStyle(drawer).zIndex).toBe("30");
+
+    const inlineMenu = await openMenu(context, "Inline combo box");
+    await expect(drawer).toContainElement(inlineMenu);
+    await expectMenuOnTop(context, inlineMenu, drawer);
+
+    const portaledMenu = await openMenu(context, "Portaled combo box");
+    const menuPortal = portaledMenu.closest(".ui-combo-box__menu-portal");
+    await expect(menuPortal.parentElement).toBe(ownerDocument.body);
+    await expect(getComputedStyle(menuPortal).zIndex).toBe("30");
+    await expectMenuOnTop(context, portaledMenu, drawer);
+};
+
+const SidebarWithDrawers = () => {
+    const [isAnnouncementsOpen, setIsAnnouncementsOpen] = useState(false);
+    const handleDrawerStateChange = () => setIsAnnouncementsOpen(!isAnnouncementsOpen);
+    const notifications = {
+        announcements: { count: 1, title: "Announcements", content: <div>Announcement content</div> },
+    };
+
+    return (
+        <div className="h-screen">
+            <Sidebar
+                notifications={notifications}
+                isLeftDrawerOpen={isAnnouncementsOpen}
+                handleDrawerStateChange={handleDrawerStateChange}
+            >
+                <Sidebar.Link>Sellers</Sidebar.Link>
+                <Sidebar.Link>Favorites</Sidebar.Link>
+            </Sidebar>
+            <div className="flex justify-end p-8">
+                <LaunchedDrawer title="Drawer beside a sidebar" content={<Input placeholder="Drawer field" />} />
+            </div>
+        </div>
+    );
+};
+
+/**
+ * What is painted over the sidebar rail with a drawer open. Headless UI makes the rail `inert`, so a raw hit test
+ * always passes through it, and only the painted probe tells whether the drawer's backdrop dims it.
+ */
+const getPaintedOverRail = (ownerDocument) => {
+    const rail = ownerDocument.querySelector(".ui-sidebar");
+    const { left, top, width } = rail.getBoundingClientRect();
+
+    return { rail, painted: getPaintedAt(ownerDocument, { x: left + width / 2, y: top + 200 }) };
+};
+
+export const SidebarNotificationsDrawer = () => <SidebarWithDrawers />;
+
+SidebarNotificationsDrawer.play = async ({ canvasElement, userEvent }) => {
+    const { ownerDocument } = canvasElement;
+    const body = within(ownerDocument.body);
+
+    await userEvent.click(body.getByText("1"));
+    const drawer = await findDialog(body, "Announcements");
+
+    // Sidebar.Notifications keeps its drawers under the z-20 rail they slide out beside, so the rail stays undimmed
+    const { rail, painted } = getPaintedOverRail(ownerDocument);
+    await expect(rail).toContainElement(painted);
+    await expect(getComputedStyle(drawer).zIndex).toBe("10");
+};
+
+export const SidebarWithDrawer = () => <SidebarWithDrawers />;
+
+SidebarWithDrawer.play = async (context) => {
+    const { canvasElement } = context;
+    const { ownerDocument } = canvasElement;
+    const body = within(ownerDocument.body);
+    const drawer = await openLaunched(context, body, "Open drawer", "Drawer beside a sidebar");
+
+    const { painted } = getPaintedOverRail(ownerDocument);
+    await expect(painted).toBe(getOverlay(drawer));
+    await expect(getComputedStyle(drawer).zIndex).toBe("30");
 };
 
 export default OverlayCombinationsStories;

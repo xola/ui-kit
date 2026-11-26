@@ -1,6 +1,7 @@
 import { Dialog, DialogBackdrop, DialogTitle, Transition, TransitionChild } from "@headlessui/react";
 import PropTypes from "prop-types";
 import React, { forwardRef, Fragment } from "react";
+import { getBackdropHandlers } from "../helpers/backdrop";
 import { isIosBrowser } from "../helpers/browser";
 import cn from "../helpers/classnames";
 import { useViewportHeight } from "../hooks/useViewportHeight";
@@ -34,6 +35,7 @@ export const Drawer = forwardRef(
 
         // The Dialog calls `onClose(false)` on Escape; an overlay click passes the same value, not the click event
         const handleOverlayClick = () => onClose(false);
+        const overlayHandlers = getBackdropHandlers(handleOverlayClick);
 
         return (
             <Transition ref={ref} show={isOpen} as={Fragment}>
@@ -42,7 +44,7 @@ export const Drawer = forwardRef(
                     // Off, it focuses the first focusable element inside, so keyboard users land on a control
                     autoFocus={false}
                     as="div"
-                    className={cn("ui-drawer fixed inset-0 z-10 overflow-hidden", classNames.dialog)}
+                    className={cn("ui-drawer fixed inset-0 z-30 overflow-hidden", classNames.dialog)}
                     onClose={onClose}
                 >
                     <div
@@ -65,7 +67,7 @@ export const Drawer = forwardRef(
                                     "ui-drawer-overlay fixed inset-0 bg-black bg-opacity-80 transition-opacity",
                                     classNames.overlay,
                                 )}
-                                onClick={handleOverlayClick}
+                                {...overlayHandlers}
                             />
                         </TransitionChild>
                         <div
