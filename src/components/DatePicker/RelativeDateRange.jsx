@@ -1,9 +1,9 @@
+import { capitalize } from "lodash-es";
 import PropTypes from "prop-types";
 import React from "react";
-import { Button, Select } from "../..";
 import { now, toDate } from "../../utils/date";
-
-const defaultRanges = ["day", "week", "month", "quarter", "year"];
+import { Button } from "../Buttons/Button";
+import { Select } from "../Forms/Select";
 
 const rangeOptions = {
     // Day
@@ -75,60 +75,28 @@ export const rangeLabels = {
     [rangeOptions.LEADING_YEAR]: "Leading Year",
 };
 
-const dateRanges = {
-    day: {
-        label: "Day",
-        rangeOptions: [
-            { value: rangeOptions.YESTERDAY, label: rangeLabels[rangeOptions.YESTERDAY] },
-            { value: rangeOptions.TODAY, label: rangeLabels[rangeOptions.TODAY] },
-            { value: rangeOptions.NEXT_DAY, label: rangeLabels[rangeOptions.NEXT_DAY] },
-        ],
-    },
-
-    week: {
-        label: "Week",
-        rangeOptions: [
-            { value: rangeOptions.LAST_WEEK, label: rangeLabels[rangeOptions.LAST_WEEK] },
-            { value: rangeOptions.TRAILING_WEEK, label: rangeLabels[rangeOptions.TRAILING_WEEK] },
-            { value: rangeOptions.THIS_WEEK, label: rangeLabels[rangeOptions.THIS_WEEK] },
-            { value: rangeOptions.NEXT_WEEK, label: rangeLabels[rangeOptions.NEXT_WEEK] },
-            { value: rangeOptions.LEADING_WEEK, label: rangeLabels[rangeOptions.LEADING_WEEK] },
-        ],
-    },
-
-    month: {
-        label: "Month",
-        rangeOptions: [
-            { value: rangeOptions.LAST_MONTH, label: rangeLabels[rangeOptions.LAST_MONTH] },
-            { value: rangeOptions.TRAILING_MONTH, label: rangeLabels[rangeOptions.TRAILING_MONTH] },
-            { value: rangeOptions.THIS_MONTH, label: rangeLabels[rangeOptions.THIS_MONTH] },
-            { value: rangeOptions.NEXT_MONTH, label: rangeLabels[rangeOptions.NEXT_MONTH] },
-            { value: rangeOptions.LEADING_MONTH, label: rangeLabels[rangeOptions.LEADING_MONTH] },
-        ],
-    },
-
-    quarter: {
-        label: "Quarter",
-        rangeOptions: [
-            { value: rangeOptions.LAST_QUARTER, label: rangeLabels[rangeOptions.LAST_QUARTER] },
-            { value: rangeOptions.TRAILING_QUARTER, label: rangeLabels[rangeOptions.TRAILING_QUARTER] },
-            { value: rangeOptions.THIS_QUARTER, label: rangeLabels[rangeOptions.THIS_QUARTER] },
-            { value: rangeOptions.NEXT_QUARTER, label: rangeLabels[rangeOptions.NEXT_QUARTER] },
-            { value: rangeOptions.LEADING_QUARTER, label: rangeLabels[rangeOptions.LEADING_QUARTER] },
-        ],
-    },
-
-    year: {
-        label: "Year",
-        rangeOptions: [
-            { value: rangeOptions.LAST_YEAR, label: rangeLabels[rangeOptions.LAST_YEAR] },
-            { value: rangeOptions.TRAILING_YEAR, label: rangeLabels[rangeOptions.TRAILING_YEAR] },
-            { value: rangeOptions.THIS_YEAR, label: rangeLabels[rangeOptions.THIS_YEAR] },
-            { value: rangeOptions.NEXT_YEAR, label: rangeLabels[rangeOptions.NEXT_YEAR] },
-            { value: rangeOptions.LEADING_YEAR, label: rangeLabels[rangeOptions.LEADING_YEAR] },
-        ],
-    },
+// Dropdown groups and their options, in render order.
+const rangeGroups = {
+    day: ["YESTERDAY", "TODAY", "NEXT_DAY"],
+    week: ["LAST_WEEK", "TRAILING_WEEK", "THIS_WEEK", "NEXT_WEEK", "LEADING_WEEK"],
+    month: ["LAST_MONTH", "TRAILING_MONTH", "THIS_MONTH", "NEXT_MONTH", "LEADING_MONTH"],
+    quarter: ["LAST_QUARTER", "TRAILING_QUARTER", "THIS_QUARTER", "NEXT_QUARTER", "LEADING_QUARTER"],
+    year: ["LAST_YEAR", "TRAILING_YEAR", "THIS_YEAR", "NEXT_YEAR", "LEADING_YEAR"],
 };
+
+const defaultRanges = Object.keys(rangeGroups);
+
+const dateRangeEntries = Object.entries(rangeGroups).map(([key, optionNames]) => [
+    key,
+    {
+        label: capitalize(key),
+        rangeOptions: optionNames.map((name) => ({
+            value: rangeOptions[name],
+            label: rangeLabels[rangeOptions[name]],
+        })),
+    },
+]);
+const dateRanges = Object.fromEntries(dateRangeEntries);
 
 const filterFutureDates = (rangeOptions, isFutureDatesAllowed, futureDates) => {
     if (!isFutureDatesAllowed) {
@@ -138,7 +106,6 @@ const filterFutureDates = (rangeOptions, isFutureDatesAllowed, futureDates) => {
     return rangeOptions;
 };
 
-// List of future date rangeOptions
 const futureDates = new Set([
     rangeOptions.NEXT_DAY,
     rangeOptions.NEXT_WEEK,
@@ -151,186 +118,70 @@ const futureDates = new Set([
     rangeOptions.LEADING_YEAR,
 ]);
 
-const handlers = {
-    [rangeOptions.YESTERDAY]: (timezone) => {
-        const yesterday = now(null, timezone).subtract(1, "day");
-        return {
-            from: toDate(yesterday.startOf("day")),
-            to: toDate(yesterday.endOf("day"), false),
-        };
-    },
+/** Range spanning the whole unit (day, week, month, quarter, year) `offset` units from today. */
+const wholePeriod = (offset, unit) => (timezone) => {
+    const date = now(null, timezone).add(offset, unit);
+    return {
+        from: toDate(date.startOf(unit)),
+        to: toDate(date.endOf(unit), false),
+    };
+};
 
-    [rangeOptions.TODAY]: (timezone) => {
-        return {
-            from: toDate(now(null, timezone).startOf("day")),
-            to: toDate(now(null, timezone).endOf("day"), false),
-        };
-    },
+/** The `amount`/`unit` window ending yesterday. */
+const trailing = (amount, unit) => (timezone) => {
+    return {
+        from: toDate(now(null, timezone).subtract(amount, unit).startOf("day")),
+        to: toDate(now(null, timezone).subtract(1, "day").endOf("day"), false),
+    };
+};
 
-    [rangeOptions.NEXT_DAY]: (timezone) => {
-        const nextDay = now(null, timezone).add(1, "day");
-        return {
-            from: toDate(nextDay.startOf("day")),
-            to: toDate(nextDay.endOf("day"), false),
-        };
-    },
+/** Today through `amount`/`unit` out, less a day. */
+const leading = (amount, unit) => (timezone) => {
+    const today = now(null, timezone);
+    return {
+        from: toDate(today.startOf("day")),
+        to: toDate(today.add(amount, unit).subtract(1, "day").endOf("day"), false),
+    };
+};
 
-    [rangeOptions.LAST_WEEK]: (timezone) => {
-        const lastWeek = now(null, timezone).subtract(7, "day");
-        return {
-            from: toDate(lastWeek.startOf("week")),
-            to: toDate(lastWeek.endOf("week"), false),
-        };
-    },
+// Exported for the characterization test; not part of the package API (not in src/index.js).
+export const handlers = {
+    [rangeOptions.YESTERDAY]: wholePeriod(-1, "day"),
+    [rangeOptions.TODAY]: wholePeriod(0, "day"),
+    [rangeOptions.NEXT_DAY]: wholePeriod(1, "day"),
 
-    [rangeOptions.TRAILING_WEEK]: (timezone) => {
-        return {
-            from: toDate(now(null, timezone).subtract(7, "day").startOf("day")),
-            to: toDate(now(null, timezone).subtract(1, "day").endOf("day"), false),
-        };
-    },
+    [rangeOptions.LAST_WEEK]: wholePeriod(-1, "week"),
+    [rangeOptions.TRAILING_WEEK]: trailing(7, "day"),
+    [rangeOptions.THIS_WEEK]: wholePeriod(0, "week"),
+    [rangeOptions.NEXT_WEEK]: wholePeriod(1, "week"),
+    [rangeOptions.LEADING_WEEK]: leading(1, "week"),
 
-    [rangeOptions.THIS_WEEK]: (timezone) => {
-        return {
-            from: toDate(now(null, timezone).startOf("week")),
-            to: toDate(now(null, timezone).endOf("week"), false),
-        };
-    },
+    [rangeOptions.LAST_MONTH]: wholePeriod(-1, "month"),
+    [rangeOptions.TRAILING_MONTH]: trailing(1, "month"),
+    [rangeOptions.THIS_MONTH]: wholePeriod(0, "month"),
+    [rangeOptions.NEXT_MONTH]: wholePeriod(1, "month"),
+    [rangeOptions.LEADING_MONTH]: leading(1, "month"),
 
-    [rangeOptions.NEXT_WEEK]: (timezone) => {
-        const nextWeek = now(null, timezone).add(1, "week");
-        return {
-            from: toDate(nextWeek.startOf("week")),
-            to: toDate(nextWeek.endOf("week"), false),
-        };
-    },
+    [rangeOptions.LAST_QUARTER]: wholePeriod(-1, "quarter"),
+    [rangeOptions.TRAILING_QUARTER]: trailing(3, "month"),
+    [rangeOptions.THIS_QUARTER]: wholePeriod(0, "quarter"),
+    [rangeOptions.NEXT_QUARTER]: wholePeriod(1, "quarter"),
+    [rangeOptions.LEADING_QUARTER]: leading(3, "month"),
 
-    [rangeOptions.LEADING_WEEK]: (timezone) => {
-        const today = now(null, timezone);
-        return {
-            from: toDate(today.startOf("day")),
-            to: toDate(today.add(1, "week").subtract(1, "day").endOf("day"), false),
-        };
-    },
-
-    [rangeOptions.LAST_MONTH]: (timezone) => {
-        const lastMonth = now(null, timezone).subtract(1, "month");
-        return {
-            from: toDate(lastMonth.startOf("month")),
-            to: toDate(lastMonth.endOf("month"), false),
-        };
-    },
-
-    [rangeOptions.TRAILING_MONTH]: (timezone) => {
-        return {
-            from: toDate(now(null, timezone).subtract(1, "month").startOf("day")),
-            to: toDate(now(null, timezone).subtract(1, "day").endOf("day"), false),
-        };
-    },
-
-    [rangeOptions.THIS_MONTH]: (timezone) => ({
-        from: toDate(now(null, timezone).startOf("month")),
-        to: toDate(now(null, timezone).endOf("month"), false),
-    }),
-
-    [rangeOptions.NEXT_MONTH]: (timezone) => {
-        const nextMonth = now(null, timezone).add(1, "month");
-        return {
-            from: toDate(nextMonth.startOf("month")),
-            to: toDate(nextMonth.endOf("month"), false),
-        };
-    },
-
-    [rangeOptions.LEADING_MONTH]: (timezone) => {
-        const today = now(null, timezone);
-        return {
-            from: toDate(today.startOf("day")),
-            to: toDate(today.add(1, "month").subtract(1, "day").endOf("day"), false),
-        };
-    },
-
-    [rangeOptions.LAST_QUARTER]: (timezone) => {
-        return {
-            from: toDate(now(null, timezone).startOf("quarter").subtract(3, "month").startOf("month")),
-            to: toDate(now(null, timezone).endOf("quarter").subtract(3, "month").endOf("month"), false),
-        };
-    },
-
-    [rangeOptions.TRAILING_QUARTER]: (timezone) => {
-        return {
-            from: toDate(now(null, timezone).subtract(3, "month").startOf("day")),
-            to: toDate(now(null, timezone).subtract(1, "day").endOf("day"), false),
-        };
-    },
-
-    [rangeOptions.THIS_QUARTER]: (timezone) => {
-        return {
-            from: toDate(now(null, timezone).startOf("Q")),
-            to: toDate(now(null, timezone).endOf("Q"), false),
-        };
-    },
-
-    [rangeOptions.NEXT_QUARTER]: (timezone) => {
-        const nextQuarter = now(null, timezone).add(1, "quarter");
-        return {
-            from: toDate(nextQuarter.startOf("quarter")),
-            to: toDate(nextQuarter.endOf("quarter"), false),
-        };
-    },
-
-    [rangeOptions.LEADING_QUARTER]: (timezone) => {
-        const today = now(null, timezone);
-        return {
-            from: toDate(today.startOf("day")),
-            to: toDate(today.add(3, "month").subtract(1, "day").endOf("day"), false), // Сегодня + 3 месяца
-        };
-    },
-
-    [rangeOptions.LAST_YEAR]: (timezone) => {
-        const lastYear = now(null, timezone).subtract(1, "year");
-        return {
-            from: toDate(lastYear.startOf("year")),
-            to: toDate(lastYear.endOf("year"), false),
-        };
-    },
-
-    [rangeOptions.TRAILING_YEAR]: (timezone) => {
-        return {
-            from: toDate(now(null, timezone).subtract(1, "year").startOf("day")),
-            to: toDate(now(null, timezone).subtract(1, "day").endOf("day"), false),
-        };
-    },
-
-    [rangeOptions.THIS_YEAR]: (timezone) => ({
-        from: toDate(now(null, timezone).startOf("year")),
-        to: toDate(now(null, timezone).endOf("year"), false),
-    }),
-
-    [rangeOptions.NEXT_YEAR]: (timezone) => {
-        const nextYear = now(null, timezone).add(1, "year");
-        return {
-            from: toDate(nextYear.startOf("year")),
-            to: toDate(nextYear.endOf("year"), false),
-        };
-    },
-
-    [rangeOptions.LEADING_YEAR]: (timezone) => {
-        const today = now(null, timezone);
-        return {
-            from: toDate(today.startOf("day")),
-            to: toDate(today.add(1, "year").subtract(1, "day").endOf("day"), false), // Сегодня + 1 год
-        };
-    },
+    [rangeOptions.LAST_YEAR]: wholePeriod(-1, "year"),
+    [rangeOptions.TRAILING_YEAR]: trailing(1, "year"),
+    [rangeOptions.THIS_YEAR]: wholePeriod(0, "year"),
+    [rangeOptions.NEXT_YEAR]: wholePeriod(1, "year"),
+    [rangeOptions.LEADING_YEAR]: leading(1, "year"),
 };
 
 export const RelativeDateRange = ({
+    showApply = true, // TODO: Prop name (showApply) doesn't match rule (^(is|has|should)[A-Z]([A-Za-z0-9]?)+)
+    isFutureDatesAllowed = false, // This prop used to be able to select Future Dates in RelativeDateRange,
     value,
-    // TODO: Prop name (showApply) doesn't match rule (^(is|has|should)[A-Z]([A-Za-z0-9]?)+)
-    showApply = true,
+    timezoneName,
     onChange,
     onSubmit,
-    timezoneName,
-    isFutureDatesAllowed = false, // This prop used to be able to select Future Dates in RelativeDateRange,
 }) => {
     const handleChange = (e) => {
         const rangeName = e.target.value;
