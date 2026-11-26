@@ -74,7 +74,7 @@ Forms
 
 Dates
 
-- `DatePicker`: calendar with `variant`, ranges and disabled days. `DatePickerPopover`: the same calendar behind an input.
+- `DatePicker`: calendar with `variant` (single or range) and disabled days. `DatePickerPopover`: the same calendar behind an input.
 - `RelativeDateRange`: choose a range such as "last week". `MonthPicker`: month grid.
 
 Overlays

@@ -47,7 +47,6 @@ export const DatePicker = ({
     onMonthChange,
     onSubmitDateRange,
     modifiers = {},
-    ranges,
     shouldShowRelativeRanges = false,
     isFutureDatesAllowed = false,
     components = {},
@@ -278,7 +277,6 @@ export const DatePicker = ({
                     <div className="ml-auto w-5/12">
                         <RelativeDateRange
                             value={rangeName}
-                            ranges={ranges}
                             timezoneName={timezoneName}
                             isFutureDatesAllowed={isFutureDatesAllowed}
                             onChange={handleRelativeRangeChanged}
@@ -298,14 +296,14 @@ DatePicker.propTypes = {
     upcomingDates: PropTypes.arrayOf(Date),
     onChange: PropTypes.func.isRequired,
     onMonthChange: PropTypes.func,
+    onSubmitDateRange: PropTypes.func,
     disabledDays: PropTypes.oneOfType([PropTypes.object, PropTypes.array, PropTypes.func]),
+    loadingDays: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.instanceOf(Date)), PropTypes.func]),
     shouldShowYearPicker: PropTypes.bool,
     shouldShowMonthSelector: PropTypes.bool,
-    isDateRangeStyle: PropTypes.bool,
-    isRangeVariant: PropTypes.bool,
+    isFutureDatesAllowed: PropTypes.bool,
     getDayContent: PropTypes.func,
     modifiers: PropTypes.object,
-    ranges: PropTypes.arrayOf(PropTypes.oneOf(["day", "week", "month", "quarter", "year"])),
     shouldShowRelativeRanges: PropTypes.bool,
     components: PropTypes.shape({ Footer: PropTypes.oneOfType([PropTypes.node, PropTypes.func]) }),
     getTooltip: PropTypes.func,

@@ -3,7 +3,9 @@ import React from "react";
 import { Button, Select } from "../..";
 import { now, toDate } from "../../utils/date";
 
-export const rangeOptions = {
+const defaultRanges = ["day", "week", "month", "quarter", "year"];
+
+const rangeOptions = {
     // Day
     YESTERDAY: "P1D,yesterday",
     TODAY: "P1D,today",
@@ -322,7 +324,6 @@ const handlers = {
 };
 
 export const RelativeDateRange = ({
-    ranges = ["day", "week", "month", "quarter", "year"],
     value,
     // TODO: Prop name (showApply) doesn't match rule (^(is|has|should)[A-Z]([A-Za-z0-9]?)+)
     showApply = true,
@@ -341,7 +342,7 @@ export const RelativeDateRange = ({
         <div className="flex space-x-2">
             <Select size="medium" value={value} className="pr-8 leading-5" onChange={handleChange}>
                 <option value="">Relative Date Range</option>
-                {ranges.map((rangeKey) => {
+                {defaultRanges.map((rangeKey) => {
                     const range = dateRanges[rangeKey];
 
                     return (
@@ -361,7 +362,6 @@ export const RelativeDateRange = ({
 };
 
 RelativeDateRange.propTypes = {
-    ranges: PropTypes.arrayOf(PropTypes.oneOf(["day", "week", "month", "quarter", "year"])),
     onChange: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
 

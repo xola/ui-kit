@@ -105,7 +105,7 @@ RelativeDateRangesWithTimeZone.play = async ({ canvasElement }) => {
     await expect(canvasElement.querySelectorAll(".DayPicker-Day").length).toBeGreaterThan(0);
 };
 
-export const DateRangeWithInput = ({ shouldShowRelativeRanges, ranges }) => {
+export const DateRangeWithInput = ({ shouldShowRelativeRanges }) => {
     const defaultValue = { from: today, to: dayjs(today).add(7, "days").toDate() };
     const [value, setValue] = useState(defaultValue);
 
@@ -120,7 +120,6 @@ export const DateRangeWithInput = ({ shouldShowRelativeRanges, ranges }) => {
                 value={value}
                 popoverProps={{ placement: "bottom-start" }}
                 shouldShowRelativeRanges={!!shouldShowRelativeRanges}
-                ranges={ranges}
                 onChange={handleChange}
             >
                 <div className="w-75 cursor-pointer bg-gray-lighter p-3">

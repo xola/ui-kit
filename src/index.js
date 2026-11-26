@@ -62,7 +62,7 @@ export { almostZero, compactNumber, numberFormat, roundNumber } from "./utils/nu
 export { getSymbol, isZeroDecimal } from "./utils/currency";
 export { formatDate, formatTime, dateFromObjectId } from "./utils/date";
 export { formatPhoneNumber } from "./utils/phone";
-export { rangeLabels, rangeOptions } from "./components/DatePicker/RelativeDateRange";
+export { rangeLabels } from "./components/DatePicker/RelativeDateRange";
 export { isOSX, isIosBrowser } from "./helpers/browser";
 export { flash } from "./helpers/flash";
 export { getChildByType, getChildrenByType } from "./helpers/children";

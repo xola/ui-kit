@@ -314,4 +314,3 @@ export declare const SecondaryButton: any;
 export declare const formatPhoneNumber: any;
 export declare const isIosBrowser: any;
 export declare const rangeLabels: any;
-export declare const rangeOptions: any;
