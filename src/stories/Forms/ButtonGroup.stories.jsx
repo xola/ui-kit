@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { expect } from "storybook/test";
-import { ButtonGroup, ChecklistIcon, EmptyChecklistIcon, MixedChecklistIcon, WaitlistIcon } from "../..";
+import { ButtonGroup } from "../..";
+import { ChecklistIcon, EmptyChecklistIcon, MixedChecklistIcon, WaitlistIcon } from "../../icons";
 
 const ButtonGroupStories = {
     title: "Forms & Fields/Buttons/ButtonGroup",

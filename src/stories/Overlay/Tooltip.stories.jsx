@@ -1,6 +1,7 @@
 import React from "react";
 import { expect, within } from "storybook/test";
-import { Button, Tooltip, UserIcon } from "../..";
+import { Button, Tooltip } from "../..";
+import { UserIcon } from "../../icons";
 
 // More props in docs
 const documentationUrl = "https://atomiks.github.io/tippyjs/v6/all-props/";

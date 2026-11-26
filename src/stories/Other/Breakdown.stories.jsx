@@ -1,6 +1,7 @@
 import React from "react";
 import { expect } from "storybook/test";
-import { Breakdown, Button, CardIcon } from "../..";
+import { Breakdown, Button } from "../..";
+import { CardIcon } from "../../icons";
 
 const BreakdownStories = {
     title: "Other/Breakdown",

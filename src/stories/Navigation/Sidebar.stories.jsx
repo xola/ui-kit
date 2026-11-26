@@ -1,19 +1,17 @@
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 import { expect } from "storybook/test";
+import { Button, Sidebar, useSidebar } from "../..";
 import {
     AnnounceIcon,
-    Button,
     CheckIcon,
     HelpCenterIcon,
     LogoutIcon,
     PiggyBankIcon,
     PolicyIcon,
-    Sidebar,
     StarIcon,
     UserIcon,
-    useSidebar,
-} from "../..";
+} from "../../icons";
 
 const SidebarStories = {
     title: "Navigation/Sidebar",

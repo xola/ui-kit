@@ -1,6 +1,8 @@
 import React from "react";
 import { expect, fn } from "storybook/test";
-import { Button, EllipsisIcon, KeyIcon, PlusIcon, UserIcon, WaitlistIcon, WarningIcon } from "../..";
+import { Button } from "../..";
+import { EllipsisIcon, KeyIcon, PlusIcon, UserIcon, WaitlistIcon, WarningIcon } from "../../icons";
+import { COLORS, selectArg } from "../helpers";
 
 const ButtonStories = {
     title: "Forms & Fields/Buttons/Button",
@@ -19,20 +21,8 @@ const ButtonStories = {
         variant: "standard",
     },
     argTypes: {
-        size: {
-            options: ["tiny", "small", "medium", "large"],
-            control: { type: "select" },
-            table: {
-                defaultValue: { summary: "medium" },
-            },
-        },
-        color: {
-            options: ["primary", "secondary", "success", "warning", "caution", "danger"],
-            control: { type: "select" },
-            table: {
-                defaultValue: { summary: "primary" },
-            },
-        },
+        size: selectArg(["tiny", "small", "medium", "large"], "medium"),
+        color: selectArg(COLORS, "primary"),
         variant: {
             options: ["standard", "outline", "link"],
             control: { type: "radio" },

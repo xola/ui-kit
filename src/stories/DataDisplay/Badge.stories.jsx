@@ -1,6 +1,7 @@
 import React from "react";
 import { expect } from "storybook/test";
-import { Badge, BellIcon, BoxIcon, CakeIcon, CashIcon, EditIcon, StackIcon } from "../..";
+import { Badge } from "../..";
+import { BellIcon, BoxIcon, CakeIcon, CashIcon, EditIcon, StackIcon } from "../../icons";
 
 const BadgeStories = {
     title: "Data Display/Badges",

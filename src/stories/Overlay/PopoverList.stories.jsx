@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { expect, within } from "storybook/test";
-import { Button, CalendarDayIcon, CalendarMonthIcon, CalendarWeekIcon, MenuIcon, PopoverList } from "../..";
+import { Button, PopoverList } from "../..";
+import { CalendarDayIcon, CalendarMonthIcon, CalendarWeekIcon, MenuIcon } from "../../icons";
 
 const PopoverStories = {
     id: "PopoverList",
