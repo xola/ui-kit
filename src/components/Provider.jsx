@@ -1,5 +1,6 @@
 import { TooltipProvider } from "@radix-ui/react-tooltip";
-import React, { createContext, useCallback, useMemo, useRef } from "react";
+import { useMemoizedFn } from "ahooks";
+import React, { createContext, useMemo, useRef } from "react";
 
 // Fallback ID counter when not using `Provider`
 let fallbackIdCounter = 1;
@@ -27,9 +28,7 @@ export const Context = createContext({
 export const Provider = ({ children, localize = true, locale = "en_US" }) => {
     const idCounterRef = useRef(1);
 
-    const generateId = useCallback(() => {
-        return idCounterRef.current++;
-    }, [idCounterRef]);
+    const generateId = useMemoizedFn(() => idCounterRef.current++);
 
     const value = useMemo(
         () => ({ generateId, localize, locale, hasTooltipProvider: true }),

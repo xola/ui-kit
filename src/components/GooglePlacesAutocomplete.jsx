@@ -1,9 +1,9 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { startCase } from "lodash-es";
 import { useDebouncedCallback } from "use-debounce";
 import axios from "axios";
-import { useClickAway } from "ahooks";
+import { useClickAway, useMemoizedFn } from "ahooks";
 import { Input } from "./Forms/Input";
 import { Badge } from "./Badge";
 
@@ -21,22 +21,16 @@ export const GooglePlacesAutocomplete = ({ initialValue = "", onSelect = null, a
     const dropdownRef = useRef(null);
     const initialFetchDoneRef = useRef(false);
     const isSilentModeRef = useRef(false);
-    const onSelectRef = useRef(onSelect);
 
-    // Keep onSelectRef in sync with latest onSelect
-    useEffect(() => {
-        onSelectRef.current = onSelect;
-    }, [onSelect]);
-
-    const handleSelect = useCallback((suggestion) => {
+    const handleSelect = useMemoizedFn((suggestion) => {
         setInputValue(suggestion.description || suggestion.name || "");
         setShowDropdown(false);
         if (!isSilentModeRef.current) {
-            onSelectRef.current?.(suggestion);
+            onSelect?.(suggestion);
         }
 
         isSilentModeRef.current = false;
-    }, []);
+    });
 
     const handleInputChange = (e) => {
         setInputValue(e.target.value);
