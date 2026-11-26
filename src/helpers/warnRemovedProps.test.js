@@ -39,6 +39,20 @@ describe("warnRemovedProps", () => {
         expect(warn).toHaveBeenCalledTimes(1);
     });
 
+    test("reset allows a fresh test render to warn again", async () => {
+        const warnRemovedProps = await loadWarner();
+        const { resetRemovedPropWarnings } = await import("./warnRemovedProps");
+
+        warnRemovedProps("Tooltip", { visible: true }, removed);
+
+        expect(resetRemovedPropWarnings).toBeTypeOf("function");
+
+        resetRemovedPropWarnings();
+        warnRemovedProps("Tooltip", { visible: true }, removed);
+
+        expect(warn).toHaveBeenCalledTimes(2);
+    });
+
     test("warns again for a different component", async () => {
         const warnRemovedProps = await loadWarner();
 

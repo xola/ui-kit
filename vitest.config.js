@@ -19,6 +19,7 @@ export default defineConfig({
             },
             {
                 extends: "./vite.config.js",
+                optimizeDeps: { include: ["aria-query"] },
                 plugins: [
                     storybookTest({
                         configDir: path.join(dirname, ".storybook"),

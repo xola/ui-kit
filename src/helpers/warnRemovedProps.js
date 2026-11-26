@@ -2,6 +2,9 @@ import { isDevelopment } from "./environment";
 
 const warned = new Set();
 
+/** Storybook play reruns must observe the same warnings. */
+export const resetRemovedPropWarnings = () => warned.clear();
+
 /**
  * Warn once per component and prop when a consumer still passes a removed prop. React 19 drops `propTypes` checks, so
  * JS consumers would otherwise get no signal. No-op in production (`isDevelopment` reads `process.env.NODE_ENV`, which
