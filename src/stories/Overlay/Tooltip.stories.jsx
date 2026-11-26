@@ -1,6 +1,8 @@
+import PropTypes from "prop-types";
 import React, { useState } from "react";
 import { expect, fn, spyOn, waitFor, within } from "storybook/test";
-import { Button, Modal, Tooltip, UserIcon } from "../..";
+import { Button, Drawer, Modal, Tooltip, UserIcon } from "../..";
+import { getRealUserEvent, restoreKeyboardFocusVisible } from "../realInput";
 
 // More props in docs
 const documentationUrl = "https://www.radix-ui.com/primitives/docs/components/tooltip";
@@ -79,13 +81,27 @@ const expectNoBubble = (canvasElement, text) => {
     return waitFor(() => expect(queryBubble(canvasElement, text)).toBeUndefined());
 };
 
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
 /**
  * Proving a tooltip did not open needs a point in time when it would have. With no delay, Tippy opens on the hover
  * event and Radix one timer tick later, so 100ms leaves a wide margin.
  */
-const waitForOpenWindow = () => new Promise((resolve) => setTimeout(resolve, 100));
+const waitForOpenWindow = () => wait(100);
 
 const getTarget = (canvas, name) => canvas.getByRole("button", { name }).parentElement;
+
+/** A closing bubble stays in the DOM through its fade-out with `data-state="closed"`, so presence alone is not open. */
+const findOpenBubble = (canvasElement, text) => {
+    return waitFor(() => {
+        const bubble = queryBubble(canvasElement, text);
+        expect(bubble).toHaveAttribute("data-state", expect.stringMatching(/-open$/));
+
+        return bubble;
+    });
+};
+
+const tap = (userEvent, target) => userEvent.pointer({ keys: "[TouchA]", target });
 
 export const Default = (config) => {
     return (
@@ -233,6 +249,9 @@ export const MaxWidth = () => {
             <Tooltip open placement="bottom-start" maxWidth={200} content={`Narrow: ${longContent}`}>
                 <Button>Narrow width</Button>
             </Tooltip>
+            <Tooltip open placement="bottom-start" maxWidth="calc(150px + 50px)" content={`Calc: ${longContent}`}>
+                <Button>Calc width</Button>
+            </Tooltip>
         </div>
     );
 };
@@ -240,11 +259,29 @@ export const MaxWidth = () => {
 MaxWidth.play = async ({ canvasElement }) => {
     const defaultBubble = await findBubble(canvasElement, "Default:");
     const narrowBubble = await findBubble(canvasElement, "Narrow:");
+    const calcBubble = await findBubble(canvasElement, "Calc:");
 
     await waitFor(() => {
         expect(defaultBubble.getBoundingClientRect().width).toBeCloseTo(350, 0);
         expect(narrowBubble.getBoundingClientRect().width).toBeCloseTo(200, 0);
+        expect(calcBubble.getBoundingClientRect().width).toBeCloseTo(200, 0);
     });
+};
+
+/** Tippy capped its root at the viewport width less 10px, so a 350px bubble never overflowed a 320px phone. */
+export const ViewportMaxWidth = () => {
+    return (
+        <Tooltip open placement="bottom-start" maxWidth={5000} content={"Wide tip ".repeat(200)}>
+            <Button>Wide target</Button>
+        </Tooltip>
+    );
+};
+
+ViewportMaxWidth.play = async ({ canvasElement }) => {
+    const bubble = await findBubble(canvasElement, "Wide tip");
+    const { innerWidth } = canvasElement.ownerDocument.defaultView;
+
+    await waitFor(() => expect(bubble.getBoundingClientRect().width).toBeCloseTo(innerWidth - 10, 0));
 };
 
 export const Disabled = () => {
@@ -415,6 +452,294 @@ ClickOutside.play = async ({ canvas, canvasElement, userEvent }) => {
 
     await userEvent.click(canvas.getByRole("button", { name: "Outside" }));
     await expect(onClickOutside).toHaveBeenCalledTimes(1);
+};
+
+/** Held open like seller's ErrorTooltip: `open` plus an `onClickOutside` that toggles it, and no `onOpenChange`. */
+export const ToggleOutside = () => {
+    const [isOpen, setIsOpen] = useState(true);
+    const handleToggle = () => setIsOpen(!isOpen);
+
+    return (
+        <div className="flex flex-col items-start gap-10">
+            <Tooltip open={isOpen} content="Toggle tip" onClickOutside={handleToggle}>
+                <Button>Toggle target</Button>
+            </Tooltip>
+            <Button>Outside</Button>
+        </div>
+    );
+};
+
+ToggleOutside.play = async ({ canvas, canvasElement, userEvent }) => {
+    const outside = canvas.getByRole("button", { name: "Outside" });
+    await findBubble(canvasElement, "Toggle tip");
+
+    // The second press lands during the fade-out, which must not reach the toggle and reopen the tooltip
+    await userEvent.click(outside);
+    await userEvent.click(outside);
+    await expectNoBubble(canvasElement, "Toggle tip");
+    await waitForOpenWindow();
+    await expect(queryBubble(canvasElement, "Toggle tip")).toBeUndefined();
+};
+
+export const FocusAfterModalCloses = () => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const handleOpen = () => setIsModalOpen(true);
+    const handleClose = () => setIsModalOpen(false);
+
+    return (
+        <div className="flex flex-col items-start gap-10">
+            <Tooltip content="Opener tip">
+                <Button onClick={handleOpen}>Open dialog</Button>
+            </Tooltip>
+            <Button>After opener</Button>
+            <Modal isOpen={isModalOpen} onClose={handleClose}>
+                <Modal.Header>Opened dialog</Modal.Header>
+                <Modal.Footer>
+                    <Button onClick={handleClose}>Done</Button>
+                </Modal.Footer>
+            </Modal>
+        </div>
+    );
+};
+
+FocusAfterModalCloses.beforeEach = () => restoreKeyboardFocusVisible;
+
+/** Real mouse and keyboard: only trusted input sets the `:focus-visible` state the tooltip reads. */
+FocusAfterModalCloses.play = async ({ canvas, canvasElement }) => {
+    const realUserEvent = await getRealUserEvent();
+    if (!realUserEvent) {
+        return;
+    }
+
+    const body = within(canvasElement.ownerDocument.body);
+    const opener = canvas.getByRole("button", { name: "Open dialog" });
+
+    // Headless UI gives focus back to the opener from script, which is not keyboard focus after a mouse click
+    await realUserEvent.click(opener);
+    await realUserEvent.click(await body.findByRole("button", { name: "Done" }));
+    await waitFor(() => expect(body.queryByText("Opened dialog")).toBeNull());
+    await waitFor(() => expect(opener).toHaveFocus());
+    await waitForOpenWindow();
+    await expect(queryBubble(canvasElement, "Opener tip")).toBeUndefined();
+
+    await realUserEvent.keyboard("{Tab}");
+    await expect(canvas.getByRole("button", { name: "After opener" })).toHaveFocus();
+    await realUserEvent.keyboard("{Shift>}{Tab}{/Shift}");
+    await expect(opener).toHaveFocus();
+    await findOpenBubble(canvasElement, "Opener tip");
+};
+
+/** A left Drawer puts its close button after the content, so the first focusable control is the tooltip target. */
+export const DrawerInitialFocus = () => {
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+    const handleOpen = () => setIsDrawerOpen(true);
+    const handleClose = () => setIsDrawerOpen(false);
+
+    const content = (
+        <Tooltip content="First control tip">
+            <Button>First control</Button>
+        </Tooltip>
+    );
+
+    return (
+        <>
+            <Button onClick={handleOpen}>Open drawer</Button>
+            <Drawer
+                isOpen={isDrawerOpen}
+                position="left"
+                title="Drawer with a tooltip"
+                content={content}
+                onClose={handleClose}
+            />
+        </>
+    );
+};
+
+DrawerInitialFocus.beforeEach = () => restoreKeyboardFocusVisible;
+
+/** Real mouse: only trusted input sets the `:focus-visible` state the tooltip reads. */
+DrawerInitialFocus.play = async ({ canvas, canvasElement }) => {
+    const realUserEvent = await getRealUserEvent();
+    if (!realUserEvent) {
+        return;
+    }
+
+    const body = within(canvasElement.ownerDocument.body);
+
+    // Headless UI focuses the first control from script, which is not keyboard focus after a mouse click
+    await realUserEvent.click(canvas.getByRole("button", { name: "Open drawer" }));
+    const firstControl = await body.findByRole("button", { name: "First control" });
+    await waitFor(() => expect(firstControl).toHaveFocus());
+    await waitForOpenWindow();
+    await expect(queryBubble(canvasElement, "First control tip")).toBeUndefined();
+};
+
+export const TouchTapToggles = ({ onOpenChange, onTargetClick }) => {
+    return (
+        <div className="flex flex-col items-start gap-10">
+            <Tooltip content="Tap tip" onOpenChange={onOpenChange}>
+                <Button onClick={onTargetClick}>Tap target</Button>
+            </Tooltip>
+            <Tooltip disabled content="Disabled tap tip">
+                <Button>Disabled tap target</Button>
+            </Tooltip>
+            <Button>Outside</Button>
+        </div>
+    );
+};
+
+TouchTapToggles.args = { onTargetClick: fn() };
+
+TouchTapToggles.play = async ({ args, canvas, canvasElement, userEvent }) => {
+    const target = canvas.getByRole("button", { name: "Tap target" });
+    const outside = canvas.getByRole("button", { name: "Outside" });
+    args.onOpenChange.mockClear();
+
+    await tap(userEvent, target);
+    await findOpenBubble(canvasElement, "Tap tip");
+    await waitForOpenWindow();
+    await findOpenBubble(canvasElement, "Tap tip");
+    await expect(args.onOpenChange.mock.calls).toEqual([[true]]);
+
+    await tap(userEvent, outside);
+    await expectNoBubble(canvasElement, "Tap tip");
+
+    await tap(userEvent, target);
+    await findOpenBubble(canvasElement, "Tap tip");
+    await tap(userEvent, target);
+    await expectNoBubble(canvasElement, "Tap tip");
+    await waitForOpenWindow();
+    await expect(queryBubble(canvasElement, "Tap tip")).toBeUndefined();
+
+    // Every tap still reaches the wrapped button, once
+    await expect(args.onTargetClick).toHaveBeenCalledTimes(3);
+
+    await tap(userEvent, canvas.getByRole("button", { name: "Disabled tap target" }));
+    await waitForOpenWindow();
+    await expect(queryBubble(canvasElement, "Disabled tap tip")).toBeUndefined();
+};
+
+export const CancelledTouchPress = () => {
+    return (
+        <Tooltip content="Cancelled tip">
+            <Button>Cancel target</Button>
+        </Tooltip>
+    );
+};
+
+CancelledTouchPress.play = async ({ canvas, canvasElement }) => {
+    const button = canvas.getByRole("button", { name: "Cancel target" });
+    const finger = { bubbles: true, cancelable: true, pointerId: 2, pointerType: "touch", isPrimary: true };
+
+    // A scroll that starts on the target cancels the press, so no click follows it
+    button.dispatchEvent(new PointerEvent("pointerdown", { ...finger, button: 0, buttons: 1 }));
+    button.dispatchEvent(new PointerEvent("pointercancel", finger));
+
+    // A click with no pointerdown of its own, as from the keyboard, must not read the cancelled touch press
+    button.click();
+    await waitForOpenWindow();
+    await expect(queryBubble(canvasElement, "Cancelled tip")).toBeUndefined();
+};
+
+const OPEN_DELAY = 500;
+
+const DelayedTooltip = ({ onOpenChange }) => {
+    const [isOpen, setIsOpen] = useState(false);
+    const [isDisabled, setIsDisabled] = useState(false);
+    const handleToggle = () => setIsDisabled(!isDisabled);
+
+    const handleOpenChange = (nextOpen) => {
+        setIsOpen(nextOpen);
+        onOpenChange(nextOpen);
+    };
+
+    return (
+        <div className="flex flex-col items-start gap-10">
+            <Button onClick={handleToggle}>Toggle disabled</Button>
+            <Tooltip
+                open={isOpen}
+                disabled={isDisabled}
+                delay={OPEN_DELAY}
+                content="Delayed tip"
+                onOpenChange={handleOpenChange}
+            >
+                <Button>Delayed target</Button>
+            </Tooltip>
+        </div>
+    );
+};
+
+DelayedTooltip.propTypes = { onOpenChange: PropTypes.func.isRequired };
+
+export const DelayedOpenWhileDisabled = ({ onOpenChange }) => <DelayedTooltip onOpenChange={onOpenChange} />;
+
+/** The keyboard toggles `disabled` so the pointer stays on, then leaves, the target in between. */
+DelayedOpenWhileDisabled.play = async ({ args, canvas, canvasElement, userEvent }) => {
+    const target = getTarget(canvas, "Delayed target");
+    canvas.getByRole("button", { name: "Toggle disabled" }).focus();
+    args.onOpenChange.mockClear();
+
+    await userEvent.hover(target);
+    await wait(100);
+    await userEvent.keyboard("{Enter}");
+    await wait(OPEN_DELAY);
+    await expect(args.onOpenChange).not.toHaveBeenCalledWith(true);
+
+    await userEvent.unhover(target);
+    await userEvent.keyboard("{Enter}");
+    await waitForOpenWindow();
+    await expect(queryBubble(canvasElement, "Delayed tip")).toBeUndefined();
+};
+
+export const DelayedOpenReenabled = ({ onOpenChange }) => <DelayedTooltip onOpenChange={onOpenChange} />;
+
+/** A delayed open started before `disabled` does not fire after re-enabling, even with the pointer still there. */
+DelayedOpenReenabled.play = async ({ args, canvas, canvasElement, userEvent }) => {
+    const target = getTarget(canvas, "Delayed target");
+    canvas.getByRole("button", { name: "Toggle disabled" }).focus();
+    args.onOpenChange.mockClear();
+
+    await userEvent.hover(target);
+    await wait(100);
+    await userEvent.keyboard("{Enter}");
+    await userEvent.keyboard("{Enter}");
+    await wait(OPEN_DELAY);
+    await expect(args.onOpenChange).not.toHaveBeenCalledWith(true);
+    await expect(queryBubble(canvasElement, "Delayed tip")).toBeUndefined();
+};
+
+export const ReleasedAfterHeldClosed = () => {
+    const [isHeldClosed, setIsHeldClosed] = useState(false);
+    const handleToggle = () => setIsHeldClosed(!isHeldClosed);
+
+    return (
+        <div className="flex flex-col items-start gap-10">
+            <Button onClick={handleToggle}>{isHeldClosed ? "Release" : "Hold closed"}</Button>
+            <Tooltip open={isHeldClosed ? false : undefined} content="Held tip">
+                <Button>Held target</Button>
+            </Tooltip>
+        </div>
+    );
+};
+
+/** A tooltip held closed while the pointer leaves, then released, stays closed until the next hover. */
+ReleasedAfterHeldClosed.play = async ({ canvas, canvasElement, userEvent }) => {
+    const target = getTarget(canvas, "Held target");
+    canvas.getByRole("button", { name: "Hold closed" }).focus();
+
+    await userEvent.hover(target);
+    await findBubble(canvasElement, "Held tip");
+
+    await userEvent.keyboard("{Enter}");
+    await expectNoBubble(canvasElement, "Held tip");
+
+    await userEvent.unhover(target);
+    await userEvent.keyboard("{Enter}");
+    await waitForOpenWindow();
+    await expect(queryBubble(canvasElement, "Held tip")).toBeUndefined();
+
+    await userEvent.hover(target);
+    await findOpenBubble(canvasElement, "Held tip");
 };
 
 /** Renders its Modal inside the tooltip target, so the modal's focus and pointer events bubble up to the target. */

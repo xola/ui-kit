@@ -1,7 +1,9 @@
 import * as RadixTooltip from "@radix-ui/react-tooltip";
 import PropTypes from "prop-types";
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { isFocusVisible } from "../helpers/browser";
 import cn from "../helpers/classnames";
+import { getMaxWidth } from "../helpers/maxWidth";
 import { toSideAlign } from "../helpers/placement";
 import { warnRemovedProps } from "../helpers/warnRemovedProps";
 import { Context } from "./Provider";
@@ -43,19 +45,24 @@ const preventOpen = (event) => event.preventDefault();
  * shows the tooltip.
  *
  * @param {boolean?}         props.disabled          Never shows the tooltip.
- * @param {boolean?}         props.open              Controls visibility. Leave undefined to open on hover and focus.
+ * @param {boolean?}         props.open              Controls visibility. Leave undefined to open on hover, keyboard focus
+ *                                                   and tap.
  * @param {ReactNode?}       props.content           Tooltip body. "", null and undefined show no tooltip.
  * @param {ReactNode}        props.children          Target, wrapped in a `<span>`.
  * @param {string?}          props.placement         Tippy-style placement, e.g. "top", "bottom-start". "auto" is "top".
  * @param {number|number[]?} props.delay             Open delay in ms. With an array, only the first entry is used.
  * @param {number?}          props.skidding          Shift along the aligned edge in px, for "-start"/"-end" placements.
  * @param {number?}          props.distance          Gap between target and bubble in px.
- * @param {number|string?}   props.maxWidth          Bubble max width. Numbers are px.
+ * @param {number|string?}   props.maxWidth          Bubble max width. Numbers are px. Capped at the viewport width less
+ *                                                   10px.
  * @param {string?}          props.role              Role of the bubble element. Defaults to "tooltip".
  * @param {string?}          props.className         Class name of the target `<span>`.
  * @param {string?}          props.contentClassName  Class name of a `<span>` around `content`.
- * @param {Function?}        props.onOpenChange      `(open: boolean) => void`. Called on hover, focus, Escape and so on.
- * @param {Function?}        props.onClickOutside    Called on a press outside the open bubble and its target.
+ * @param {Function?}        props.onOpenChange      `(open: boolean) => void`. Called on hover, focus, tap, Escape and so
+ *                                                   on.
+ * @param {Function?}        props.onClickOutside    Called on a press outside the open bubble and its target. A
+ *                                                   controlled tooltip (`open` set) with no `onOpenChange` also calls it
+ *                                                   on Escape.
  */
 export const Tooltip = ({
     disabled = false,
@@ -77,6 +84,9 @@ export const Tooltip = ({
     warnRemovedProps("Tooltip", removedProps, TOOLTIP_REMOVED_PROPS);
 
     const triggerRef = useRef();
+    const pointerTypeRef = useRef();
+    const isOpenAtPressRef = useRef(false);
+    const isOpenRequestStaleRef = useRef(false);
     const [isLocalOpen, setIsLocalOpen] = useState(false);
     const { hasTooltipProvider } = useContext(Context);
 
@@ -87,14 +97,30 @@ export const Tooltip = ({
 
     /**
      * Root stays controlled for its whole life. Switching Radix between controlled and uncontrolled warns, and its
-     * own state would reopen a bubble re-enabled after the pointer left.
+     * own state would reopen a bubble re-enabled after the pointer left. Local state follows what is shown, so a
+     * tooltip held closed through `open` and then released stays closed until the next hover.
      */
     const isOpen = isTooltipShown && (open ?? isLocalOpen);
-    if (!isTooltipShown && isLocalOpen) {
-        setIsLocalOpen(false);
+    if (isOpen !== isLocalOpen) {
+        setIsLocalOpen(isOpen);
     }
 
+    /**
+     * Radix does not cancel a delayed open it started when the tooltip stops being able to show, and its timer fires
+     * later. An open request counts only after a hover, keyboard focus or tap that could open the tooltip again.
+     */
+    useEffect(() => {
+        if (!isTooltipShown) {
+            isOpenRequestStaleRef.current = true;
+        }
+    }, [isTooltipShown]);
+
     const handleOpenChange = (nextOpen) => {
+        const isOpenRejected = nextOpen && (!isTooltipShown || isOpenRequestStaleRef.current);
+        if (isOpenRejected) {
+            return;
+        }
+
         setIsLocalOpen(nextOpen);
         onOpenChange?.(nextOpen);
     };
@@ -103,16 +129,82 @@ export const Tooltip = ({
      * React bubbles events from portaled children up the component tree, so a Modal the target renders would hover and
      * focus the target from outside it, and the bubble would show over that Modal.
      */
-    const handleTriggerOpenEvent = (event) => {
-        const isOpenable = isTooltipShown && triggerRef.current?.contains(event.target);
-        if (!isOpenable) {
+    const isOpenableFrom = (event) => isTooltipShown && triggerRef.current?.contains(event.target);
+
+    const handleTriggerPointerMove = (event) => {
+        if (!isOpenableFrom(event)) {
             preventOpen(event);
+            return;
         }
+
+        isOpenRequestStaleRef.current = false;
     };
 
+    /**
+     * Only keyboard focus opens the tooltip. Headless UI focuses from script, into a dialog as it opens and back to the
+     * opener as it closes, and `:focus-visible` matches that focus only when the previous focus came from the keyboard.
+     * A tap's focus opens nothing: Radix's click handler would close the tooltip again, so the tap's click decides.
+     */
+    const handleTriggerFocus = (event) => {
+        const isKeyboardFocus = isFocusVisible(event.target);
+        const isTouchPress = pointerTypeRef.current === "touch";
+        const isOpenable = isOpenableFrom(event) && isKeyboardFocus && !isTouchPress;
+        if (!isOpenable) {
+            preventOpen(event);
+            return;
+        }
+
+        isOpenRequestStaleRef.current = false;
+    };
+
+    /**
+     * Radix Tooltip ignores touch, so a tap on the target toggles the tooltip, as Tippy's did. Radix closes an open
+     * tooltip on the press itself, so the press records whether it was open, and the click opens one that was closed.
+     * The click is not prevented or stopped: it still reaches the wrapped control.
+     */
+    const handleTriggerPointerDown = (event) => {
+        pointerTypeRef.current = event.pointerType;
+        isOpenAtPressRef.current = isOpen;
+    };
+
+    /** A press the browser cancels, e.g. a scroll starting on the target, gets no click to clear its pointer type. */
+    const handleTriggerPointerCancel = () => {
+        pointerTypeRef.current = undefined;
+    };
+
+    const handleTriggerClick = (event) => {
+        const isTapWhileClosed = pointerTypeRef.current === "touch" && !isOpenAtPressRef.current;
+        pointerTypeRef.current = undefined;
+        if (!isTapWhileClosed || !isOpenableFrom(event)) {
+            return;
+        }
+
+        isOpenRequestStaleRef.current = false;
+        handleOpenChange(true);
+    };
+
+    /**
+     * The content, and Radix's outside-press and Escape listeners with it, stay mounted through the fade-out. A closed
+     * tooltip ignores them, or a second press would reach a toggle-style `onClickOutside` and reopen it. A press on the
+     * target is left to the target.
+     */
     const handlePointerDownOutside = (event) => {
-        const isTriggerPress = triggerRef.current?.contains(event.target);
-        if (!isTriggerPress) {
+        const isTargetPress = triggerRef.current?.contains(event.target);
+        if (!isOpen || isTargetPress) {
+            return;
+        }
+
+        onClickOutside?.();
+    };
+
+    /**
+     * Radix default-prevents the Escape it handles, so an enclosing Modal or Drawer never sees it. A tooltip controlled
+     * without `onOpenChange` would then stay open and take every Escape, and `onClickOutside` is the only close request
+     * its consumer handles. Only while open, for the same fade-out reason as presses.
+     */
+    const handleEscapeKeyDown = () => {
+        const isCloseOnlyThroughClickOutside = isOpen && open !== undefined && !onOpenChange;
+        if (isCloseOnlyThroughClickOutside) {
             onClickOutside?.();
         }
     };
@@ -128,8 +220,11 @@ export const Tooltip = ({
             <RadixTooltip.Trigger
                 asChild
                 ref={triggerRef}
-                onFocus={handleTriggerOpenEvent}
-                onPointerMove={handleTriggerOpenEvent}
+                onFocus={handleTriggerFocus}
+                onPointerMove={handleTriggerPointerMove}
+                onPointerDown={handleTriggerPointerDown}
+                onPointerCancel={handleTriggerPointerCancel}
+                onClick={handleTriggerClick}
             >
                 <span className={className}>{children}</span>
             </RadixTooltip.Trigger>
@@ -141,12 +236,13 @@ export const Tooltip = ({
                     sideOffset={distance - ARROW_HEIGHT}
                     alignOffset={skidding}
                     // maxWidth is a runtime prop (number or CSS string), which a Tailwind class cannot express
-                    style={{ maxWidth }}
+                    style={{ maxWidth: getMaxWidth(maxWidth) }}
                     className={cn(
                         // Padding, line height and z-index match Tippy's default theme, which consumers laid out around
                         "ui-tooltip z-[9999] rounded bg-black px-[9px] py-[5px] text-base leading-[1.4] text-white outline-none",
                         "data-[state=closed]:animate-fade-out data-[state=delayed-open]:animate-fade-in data-[state=instant-open]:animate-fade-in",
                     )}
+                    onEscapeKeyDown={handleEscapeKeyDown}
                     onPointerDownOutside={handlePointerDownOutside}
                 >
                     {contentClassName ? <span className={contentClassName}>{content}</span> : content}

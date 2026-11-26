@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { expect, fn, spyOn, waitFor, within } from "storybook/test";
-import { Button, Input, Modal, Popover } from "../..";
+import { Button, Drawer, Input, Modal, Popover } from "../..";
+import { getRealUserEvent, restoreKeyboardFocusVisible } from "../realInput";
 
 // More props in docs
 const documentationUrl = "https://www.radix-ui.com/primitives/docs/components/popover";
@@ -349,6 +350,10 @@ export const MaxWidth = () => {
                 <Button>Narrow width</Button>
                 <Popover.Content>{`Narrow: ${longContent}`}</Popover.Content>
             </Popover>
+            <Popover open placement="bottom-start" maxWidth="calc(150px + 50px)">
+                <Button>Calc width</Button>
+                <Popover.Content>{`Calc: ${longContent}`}</Popover.Content>
+            </Popover>
         </div>
     );
 };
@@ -356,10 +361,12 @@ export const MaxWidth = () => {
 MaxWidth.play = async ({ canvasElement }) => {
     const defaultBox = await findBox(canvasElement, "Default:");
     const narrowBox = await findBox(canvasElement, "Narrow:");
+    const calcBox = await findBox(canvasElement, "Calc:");
 
     await waitFor(() => {
         expect(defaultBox.getBoundingClientRect().width).toBeCloseTo(350, 0);
         expect(narrowBox.getBoundingClientRect().width).toBeCloseTo(200, 0);
+        expect(calcBox.getBoundingClientRect().width).toBeCloseTo(200, 0);
     });
 };
 
@@ -802,6 +809,121 @@ TargetOpensModalFromKeyboard.play = async ({ canvas, canvasElement, userEvent })
     await expectNoBox(canvasElement, "Keyboard payouts content");
     await waitForChangeWindow();
     await expect(queryBox(canvasElement, "Keyboard payouts content")).toBeUndefined();
+};
+
+/** A left Drawer puts its close button after the content, so the first focusable control is the popover target. */
+export const DrawerInitialFocus = () => {
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+    const handleOpen = () => setIsDrawerOpen(true);
+    const handleClose = () => setIsDrawerOpen(false);
+
+    const content = (
+        <Popover placement="bottom">
+            <Button>First control</Button>
+            <Popover.Content className="p-4">First control content</Popover.Content>
+        </Popover>
+    );
+
+    return (
+        <>
+            <Button onClick={handleOpen}>Open drawer</Button>
+            <Drawer
+                isOpen={isDrawerOpen}
+                position="left"
+                title="Drawer with a hover popover"
+                content={content}
+                onClose={handleClose}
+            />
+        </>
+    );
+};
+
+DrawerInitialFocus.beforeEach = () => restoreKeyboardFocusVisible;
+
+/** Real mouse: only trusted input sets the `:focus-visible` state the popover reads. */
+DrawerInitialFocus.play = async ({ canvas, canvasElement }) => {
+    const realUserEvent = await getRealUserEvent();
+    if (!realUserEvent) {
+        return;
+    }
+
+    const body = within(canvasElement.ownerDocument.body);
+
+    // Headless UI focuses the first control from script, which is not keyboard focus after a mouse click
+    await realUserEvent.click(canvas.getByRole("button", { name: "Open drawer" }));
+    const firstControl = await body.findByRole("button", { name: "First control" });
+    await waitFor(() => expect(firstControl).toHaveFocus());
+    await waitForChangeWindow();
+    await expect(queryBox(canvasElement, "First control content")).toBeUndefined();
+};
+
+export const TouchTapAfterKeyboardFocus = ({ onOpenChange }) => {
+    return (
+        <div className="flex flex-col items-start gap-10">
+            <Popover placement="right" onOpenChange={onOpenChange}>
+                <Button>Touch target</Button>
+                <Popover.Content className="p-4">Touch content</Popover.Content>
+            </Popover>
+            <Button>Next</Button>
+        </div>
+    );
+};
+
+/** Unlike a mouse press, a tap neither closes a hover popover nor keeps the next keyboard focus from opening it. */
+TouchTapAfterKeyboardFocus.play = async ({ args, canvas, canvasElement, userEvent }) => {
+    const button = canvas.getByRole("button", { name: "Touch target" });
+
+    await userEvent.tab();
+    await expect(button).toHaveFocus();
+    const box = await findBox(canvasElement, "Touch content");
+    args.onOpenChange.mockClear();
+
+    await userEvent.pointer({ keys: "[TouchA]", target: button });
+    await waitForChangeWindow();
+    await expect(box).toHaveAttribute("data-state", "open");
+    await expect(args.onOpenChange).not.toHaveBeenCalledWith(false);
+
+    await userEvent.tab();
+    await expectNoBox(canvasElement, "Touch content");
+    await userEvent.tab({ shift: true });
+    await expect(button).toHaveFocus();
+    await findBox(canvasElement, "Touch content");
+};
+
+export const ReleasedAfterHeldClosed = () => {
+    const [isHeldClosed, setIsHeldClosed] = useState(false);
+    const handleToggle = () => setIsHeldClosed(!isHeldClosed);
+
+    return (
+        <div className="flex flex-col items-start gap-10">
+            <Button onClick={handleToggle}>{isHeldClosed ? "Release" : "Hold closed"}</Button>
+            <Popover open={isHeldClosed ? false : undefined} placement="right">
+                <Button>Held target</Button>
+                <Popover.Content className="p-4">Held content</Popover.Content>
+            </Popover>
+        </div>
+    );
+};
+
+/** A popover held closed while the pointer leaves, then released, stays closed until the next hover. */
+ReleasedAfterHeldClosed.play = async ({ canvas, canvasElement, userEvent }) => {
+    const target = getTarget(canvas, "Held target");
+    canvas.getByRole("button", { name: "Hold closed" }).focus();
+
+    await userEvent.hover(target);
+    await findBox(canvasElement, "Held content");
+
+    await userEvent.keyboard("{Enter}");
+    await expectNoBox(canvasElement, "Held content");
+
+    await userEvent.unhover(target);
+    await waitForChangeWindow();
+    await userEvent.keyboard("{Enter}");
+    await waitForChangeWindow();
+    await expect(queryBox(canvasElement, "Held content")).toBeUndefined();
+
+    await userEvent.hover(target);
+    await findBox(canvasElement, "Held content");
 };
 
 let disabledWarnSpy;

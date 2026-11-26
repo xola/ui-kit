@@ -13,3 +13,12 @@ export const isIosBrowser = () => {
 
     return (indexOS && webkit) || indexPad;
 };
+
+/** `:focus-visible` is an invalid selector in Safari before 15.4 and Chrome before 86, which keep opening on any focus. */
+export const isFocusVisible = (element) => {
+    try {
+        return element.matches(":focus-visible");
+    } catch {
+        return true;
+    }
+};

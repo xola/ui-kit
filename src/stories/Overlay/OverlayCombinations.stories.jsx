@@ -598,6 +598,38 @@ DrawerWithTooltip.play = async (context) => {
     await waitForClosed(drawer);
 };
 
+/** Held open like seller's ErrorTooltip: `open` plus an `onClickOutside` that toggles it, and no `onOpenChange`. */
+const HeldOpenTooltip = () => {
+    const [isVisible, setIsVisible] = useState(true);
+    const handleClickOutside = () => setIsVisible(!isVisible);
+
+    return (
+        <Tooltip open={isVisible} content="Held tooltip content" placement="left" onClickOutside={handleClickOutside}>
+            <Button>Held tooltip target</Button>
+        </Tooltip>
+    );
+};
+
+export const DrawerWithHeldOpenTooltip = () => {
+    return <LaunchedDrawer title="Drawer with a held open tooltip" content={<HeldOpenTooltip />} />;
+};
+
+/** Radix takes the Escape from the Drawer, so the tooltip's only close request has to reach `onClickOutside`. */
+DrawerWithHeldOpenTooltip.play = async (context) => {
+    const { canvasElement, userEvent } = context;
+    const { ownerDocument } = canvasElement;
+    const body = within(ownerDocument.body);
+    const drawer = await openLaunched(context, body, "Open drawer", "Drawer with a held open tooltip");
+    await findPlacedLayer(ownerDocument, TOOLTIP_SELECTOR, "Held tooltip content");
+
+    await userEvent.keyboard("{Escape}");
+    await expectNoLayer(ownerDocument, TOOLTIP_SELECTOR, "Held tooltip content");
+    await expectStaysOpen(drawer);
+
+    await userEvent.keyboard("{Escape}");
+    await waitForClosed(drawer);
+};
+
 export const DrawerOpensModal = () => {
     const content = (
         <LaunchedModal title="Modal from a drawer">

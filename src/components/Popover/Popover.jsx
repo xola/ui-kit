@@ -2,8 +2,10 @@ import * as RadixHoverCard from "@radix-ui/react-hover-card";
 import * as RadixPopover from "@radix-ui/react-popover";
 import PropTypes from "prop-types";
 import React, { Children, useRef, useState } from "react";
+import { isFocusVisible } from "../../helpers/browser";
 import { getChildrenByType } from "../../helpers/children";
 import cn from "../../helpers/classnames";
+import { getMaxWidth } from "../../helpers/maxWidth";
 import { toSideAlign } from "../../helpers/placement";
 import { warnRemovedProps } from "../../helpers/warnRemovedProps";
 import styles from "./Popover.module.css";
@@ -55,17 +57,6 @@ const preventOpen = (event) => event.preventDefault();
 /** Tippy never moved focus, and a popover opened while the user types elsewhere must not take it. */
 const keepFocus = (event) => event.preventDefault();
 
-/** Tippy capped its root to the viewport on top of the box's `maxWidth`, and Radix sizes its wrapper to the box. */
-const VIEWPORT_MAX_WIDTH = "calc(100vw - 10px)";
-
-/** Keywords such as "none" are invalid inside `min()`, and under Tippy only the viewport cap limited them. */
-const getMaxWidth = (maxWidth) => {
-    const length = typeof maxWidth === "number" ? `${maxWidth}px` : String(maxWidth);
-    const isLength = /^\d/.test(length);
-
-    return isLength ? `min(${length}, ${VIEWPORT_MAX_WIDTH})` : VIEWPORT_MAX_WIDTH;
-};
-
 /** Two triangles 1px apart redraw Tippy's bordered arrow. The white one also covers the box border where they meet. */
 const arrowShape = (
     <svg viewBox="0 0 16 8" className="overflow-visible">
@@ -87,15 +78,16 @@ Content.propTypes = {
  *
  * @param {boolean?}         props.disabled        Never shows the popover.
  * @param {boolean?}         props.open            Controls visibility. Leave undefined to open on `openOn`.
- * @param {string?}          props.openOn          "hover" opens on hover and focus and closes on a mouse press of the target,
- *                                                 "click" opens on click. Default: "click" if `open` is set on the first
- *                                                 render, else "hover".
+ * @param {string?}          props.openOn          "hover" opens on hover and keyboard focus and closes on a mouse press of
+ *                                                 the target, "click" opens on click. Default: "click" if `open` is set
+ *                                                 on the first render, else "hover". Fixed at mount: changing it later
+ *                                                 swaps the primitive and remounts the target.
  * @param {string?}          props.placement       Tippy-style placement, e.g. "top", "bottom-start". "auto" is "top".
  * @param {number|number[]?} props.delay           Hover delay in ms before opening and before closing; `[open, close]`
  *                                                 sets them apart. Closing waits at least 100ms.
  * @param {number?}          props.skidding        Shift along the aligned edge in px, for "-start"/"-end" placements.
  * @param {number?}          props.distance        Gap between target and box in px.
- * @param {number|string?}   props.maxWidth        Box max width. Numbers are px.
+ * @param {number|string?}   props.maxWidth        Box max width. Numbers are px. Capped at the viewport width less 10px.
  * @param {ReactNode?}       props.content         Popover body used instead of the `<Popover.Content>` child.
  * @param {string?}          props.className       Class name of the popover box.
  * @param {ReactNode}        props.children        Target, plus a `<Popover.Content>`.
@@ -128,7 +120,8 @@ export const Popover = ({
     /**
      * Without `openOn`, a popover controlled from its first render gets the click primitive: Tippy ignored triggers once
      * `visible` was set, and HoverCard takes every field in its content out of the tab order. Read once, so `open`
-     * changing later never swaps the primitive and remounts the target.
+     * changing later never swaps the primitive and remounts the target. `openOn` is read on every render, so changing it
+     * does both; consumers set it once.
      */
     const [isControlledAtMount] = useState(open !== undefined);
     const isClickOpened = openOn ? openOn === "click" : isControlledAtMount;
@@ -140,11 +133,12 @@ export const Popover = ({
 
     /**
      * Root stays controlled for its whole life. Switching Radix between controlled and uncontrolled warns, and its own
-     * state would reopen a popover re-enabled after the pointer left.
+     * state would reopen a popover re-enabled after the pointer left. Local state follows what is shown, so a popover
+     * held closed through `open` and then released stays closed until the next hover.
      */
     const isOpen = !disabled && (open ?? isLocalOpen);
-    if (disabled && isLocalOpen) {
-        setIsLocalOpen(false);
+    if (isOpen !== isLocalOpen) {
+        setIsLocalOpen(isOpen);
     }
 
     const handleOpenChange = (nextOpen) => {
@@ -166,7 +160,7 @@ export const Popover = ({
     /**
      * HoverCard never closes on a press of the target, so a Modal or Drawer opened from it would sit under the popover.
      * Reopening waits for the next pointerenter: the press focuses the target, and so does the Modal closing. Touch is
-     * excluded because a tap opens a hover popover only through that focus.
+     * excluded: a tap leaves a popover opened from the keyboard open, and the next keyboard focus can still open it.
      */
     const handleTargetPointerDown = (event) => {
         const isMousePress = event.pointerType !== "touch" && isOnTarget(event);
@@ -189,8 +183,14 @@ export const Popover = ({
         isPressClosedRef.current = false;
     };
 
+    /**
+     * Only keyboard focus opens a hover popover. Headless UI focuses from script, into a dialog as it opens and back to
+     * the opener as it closes, and `:focus-visible` matches that focus only when the previous focus came from the
+     * keyboard.
+     */
     const handleTargetFocus = (event) => {
-        if (disabled || !isOnTarget(event)) {
+        const isOpenable = !disabled && isOnTarget(event) && isFocusVisible(event.target);
+        if (!isOpenable) {
             preventOpen(event);
         }
     };
