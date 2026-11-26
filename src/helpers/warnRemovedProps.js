@@ -23,12 +23,16 @@ export const warnRemovedProps = (component, props, removed) => {
     }
 
     Object.entries(removed).forEach(([prop, replacement]) => {
-        const key = `${component}.${prop}`;
-        const isRemovedPropUsed = props[prop] !== undefined && !warned.has(key);
-
-        if (isRemovedPropUsed) {
-            warned.add(key);
-            console.warn(`UI Kit ${component}: '${prop}' was removed in 3.8, ${replacement}`);
+        if (props[prop] === undefined) {
+            return;
         }
+
+        const key = `${component}.${prop}`;
+        if (warned.has(key)) {
+            return;
+        }
+
+        warned.add(key);
+        console.warn(`UI Kit ${component}: '${prop}' was removed in 3.8, ${replacement}`);
     });
 };
