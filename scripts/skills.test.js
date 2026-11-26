@@ -5,12 +5,14 @@ import { fileURLToPath } from "node:url";
 import { POPOVER_REMOVED_PROPS } from "../src/components/Popover/Popover";
 import { SIDEBAR_MENU_REMOVED_PROPS } from "../src/components/Sidebar/Sidebar.Menu";
 import { TOOLTIP_REMOVED_PROPS } from "../src/components/Tooltip";
+import { getDeclaredTypeNames, getExportedNames } from "./exportTestUtils";
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const skillsDir = path.join(repoRoot, "skills");
 const typesPath = path.join(repoRoot, "index.d.ts");
 const readmePath = path.join(skillsDir, "README.md");
 const indexPath = path.join(repoRoot, "src", "index.js");
+const iconsPath = path.join(repoRoot, "src", "icons", "index.ts");
 const fixturesDir = path.join(skillsDir, "migrate-to-3.8", "fixtures");
 
 const getSkillFolders = () => {
@@ -48,24 +50,6 @@ const getRelativeLinkTargets = (source) => {
     return links
         .map(([, target]) => target.split("#")[0])
         .filter((target) => target && !/^[a-z][a-z0-9+.-]*:/i.test(target));
-};
-
-const getExportedNames = () => {
-    const source = readFileSync(indexPath, "utf8");
-    const blocks = [...source.matchAll(/^export\s*\{([^}]*)\}/gm)];
-
-    return blocks.flatMap(([, names]) => {
-        return names
-            .split(",")
-            .map((name) => name.trim().replace(/^.*\s+as\s+/, ""))
-            .filter(Boolean);
-    });
-};
-
-const getDeclaredTypeNames = () => {
-    const source = readFileSync(typesPath, "utf8");
-
-    return [...source.matchAll(/^export\s+(?:interface|type)\s+(\w+)/gm)].map(([, name]) => name);
 };
 
 const getBacktickedComponentNames = (source) => {
@@ -152,8 +136,12 @@ describe("using-ui-kit", () => {
         expect(existsSync(skillFile)).toBe(true);
     });
 
-    test("every component named in backticks is exported from src/index.js or typed in index.d.ts", () => {
-        const known = new Set([...getExportedNames(), ...getDeclaredTypeNames()]);
+    test("every component or icon named in backticks is exported by its owning package", () => {
+        const known = new Set([
+            ...getExportedNames(indexPath),
+            ...getExportedNames(iconsPath),
+            ...getDeclaredTypeNames(typesPath),
+        ]);
         const names = getBacktickedComponentNames(readFileSync(skillFile, "utf8"));
 
         expect(names.length).toBeGreaterThan(0);

@@ -5,15 +5,16 @@ description: Use when building or editing UI in an app that depends on @xola/ui-
 
 # Using @xola/ui-kit
 
-`@xola/ui-kit` is Xola's React component library on Tailwind CSS v3. Import every component from the package root, never from a deep path:
+`@xola/ui-kit` is Xola's React component library on Tailwind CSS v3. Import UI components from the package root, never from a deep path. Import icons and their types from `@xola/icons`:
 
 ```tsx
+import { CheckIcon, type IconProps } from "@xola/icons";
 import { Button, Modal, Tooltip } from "@xola/ui-kit";
 ```
 
 ui-kit is ESM only. Never `require` it. Only the root, `index.css`, `build/*`, the two config files and `package.json` resolve; any other subpath throws `ERR_PACKAGE_PATH_NOT_EXPORTED`.
 
-Check `index.d.ts` in the package for types. `Tooltip`, `Popover`, `Sidebar` (with `Sidebar.Menu`) and `RangeSlider` are fully typed (`TooltipProps`, `PopoverProps`, `PopoverContentProps`, `SidebarMenuProps`, `RangeSliderProps`, `Placement`). Other components are typed `any`, so read their source or story for props.
+Check ui-kit's `index.d.ts` for component types. `Tooltip`, `Popover`, `Sidebar` (with `Sidebar.Menu`) and `RangeSlider` are fully typed (`TooltipProps`, `PopoverProps`, `PopoverContentProps`, `SidebarMenuProps`, `RangeSliderProps`, `Placement`). Other components are typed `any`, so read their source or story for props.
 
 ## Setup
 
@@ -95,7 +96,7 @@ Motion
 
 - `FadeIn` and `SlideDown`: show and hide content with a transition.
 
-Icons are exported by name (`*Icon`), for example CheckIcon. Screens: `Login`.
+`@xola/icons` exports icons by name (`*Icon`), icon-owned images, badges and logos, and the `IconProps`, `IconComponent` and `IconSize` types. Screens: `Login`.
 
 ## 3.8 APIs
 
@@ -149,9 +150,11 @@ Escape closes an open popover. A controlled popover with no `onOpenChange` calls
 ### Sidebar.Menu
 
 ```tsx
+import { LogoutIcon } from "@xola/icons";
+
 <Sidebar.Menu content={<Sidebar.Button label="Logout" icon={LogoutIcon} onClick={logout} />}>
     <Sidebar.Account name={name} />
-</Sidebar.Menu>
+</Sidebar.Menu>;
 ```
 
 Props: `content`, `open`, `delay`, `onOpenChange`. The menu opens on hover, keyboard focus or a tap, and closes on Escape, an outside press, another menu opening, and a sidebar resize starting. `delay` defaults to `[150, 300]` (open, close). The close value is also the time the pointer has to cross from the item to the menu, so do not set it low. Control it with `open` and `onOpenChange`; there is no instance object.

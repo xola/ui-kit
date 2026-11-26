@@ -24,6 +24,8 @@ Done when all four hold.
 
 Run each command, keep the output, and treat every hit as a candidate. Expect many false hits: the removed-props command matches whole files, so local variables named `offset` or `visible`, another library's `appendTo` (a `ComboBox` menu), a Headless UI `Popover`, comments and strings all match. Confirm that each hit is an attribute on a `@xola/ui-kit` element (or on a wrapper of one) before you edit it, and skip the rest. After the `declare module` shim is deleted (3.5), `tsc` also reports removed props on the typed components (`Tooltip`, `Popover`, `Popover.Content`, `Sidebar` and its parts (including `Sidebar.Menu`), and `RangeSlider`), which makes it a second net there. `PopoverList`, `InlineValuePopover` and `DatePickerPopover` are typed `any` in `index.d.ts`, and so is any wrapper that spreads props into them, so `tsc` never reports removed props on those. The search commands are the only net for them.
 
+Before searching, inventory aliased `@xola/ui-kit` imports and record each affected component's exact local JSX tag: `PopoverList as ActionsMenu` becomes `ActionsMenu`, and `Sidebar as Navigation` becomes `Navigation.Menu`. Add these local tags to the component alternation in the file-list, removed-props, wrappers/spreads and `RangeSlider` commands below. Otherwise `<ActionsMenu visible={isOpen} />` escapes every search, and `tsc` cannot catch it for components typed `any`.
+
 Files that render an affected component (the list the next commands read):
 
 ```bash
