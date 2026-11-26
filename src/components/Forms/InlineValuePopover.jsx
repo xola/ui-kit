@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React, { useRef } from "react";
 import cn from "../../helpers/classnames";
 import { DownArrowIcon } from "../../icons";
@@ -56,4 +57,16 @@ export const InlineValuePopover = ({
             </Popover.Content>
         </Popover>
     );
+};
+
+InlineValuePopover.propTypes = {
+    text: PropTypes.string,
+    isOpen: PropTypes.bool,
+    showArrow: PropTypes.bool,
+    autoSelectOnClick: PropTypes.bool,
+    onClick: PropTypes.func,
+    onClickOutside: PropTypes.func,
+    classNames: PropTypes.object,
+    children: PropTypes.node,
+    error: PropTypes.node,
 };

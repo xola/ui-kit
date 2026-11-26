@@ -73,6 +73,8 @@ export const MonthSelector = ({ date, locale, onChange, currentMonth }) => {
 };
 
 MonthSelector.propTypes = {
-    date: PropTypes.objectOf(Date).isRequired,
+    currentMonth: PropTypes.instanceOf(Date),
+    date: PropTypes.instanceOf(Date).isRequired,
+    locale: PropTypes.string,
     onChange: PropTypes.func.isRequired,
 };

@@ -5,7 +5,7 @@ import cn from "../../helpers/classnames";
 import { useFormStatusSafe } from "../../helpers/reactFeatures";
 import { CheckIcon } from "../../icons";
 import { Spinner } from "../Spinner";
-import { Button, colors } from "./Button";
+import { Button } from "./Button";
 
 const loadingColors = {
     primary: "!bg-primary-light",
@@ -93,7 +93,6 @@ SubmitButton.propTypes = {
     ...Button.propTypes,
     isLoading: PropTypes.bool,
     isSuccess: PropTypes.bool,
-    variant: PropTypes.oneOf(Object.keys(colors)),
-
     disabled: PropTypes.bool,
+    type: PropTypes.oneOf(["submit", "button", "reset"]),
 };

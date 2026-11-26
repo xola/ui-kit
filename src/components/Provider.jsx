@@ -1,5 +1,6 @@
 import { TooltipProvider } from "@radix-ui/react-tooltip";
 import { useMemoizedFn } from "ahooks";
+import PropTypes from "prop-types";
 import React, { createContext, useMemo, useRef } from "react";
 
 // Fallback ID counter when not using `Provider`
@@ -40,4 +41,10 @@ export const Provider = ({ children, localize = true, locale = "en_US" }) => {
             <TooltipProvider>{children}</TooltipProvider>
         </Context.Provider>
     );
+};
+
+Provider.propTypes = {
+    children: PropTypes.node,
+    localize: PropTypes.bool,
+    locale: PropTypes.string,
 };

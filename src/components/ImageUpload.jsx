@@ -117,7 +117,7 @@ ImageUpload.propTypes = {
     maxSize: PropTypes.number,
     hasDelete: PropTypes.bool,
     caption: PropTypes.string,
-    requirements: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
+    requirements: PropTypes.node,
     csvAcceptFormats: PropTypes.string,
     onChange: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
