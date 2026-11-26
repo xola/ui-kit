@@ -20,19 +20,6 @@ const getPlacement = (tooltipPlacement, index) => {
 /**
  * Semi-controlled: `values` and the bounds seed internal state and replace it when their values change. Deep-equal
  * comparison prevents a parent passing a new array with the same numbers from undoing the user's drag. A `key` change remounts as usual.
- *
- * @param {string?}                     props.className             Class name to apply to the slider root.
- * @param {number[]}                    props.values                Values to display, one thumb each. Clamped to [min, max].
- * @param {number}                      props.min                   Slider minimum value.
- * @param {number}                      props.max                   Slider maximum value.
- * @param {boolean?}                    props.isDisabled            Disables the slider.
- * @param {boolean?}                    props.shouldConnectHandles  Display a colored bar between handles.
- * @param {number?}                     props.step                  Increment / decrement by this step.
- * @param {boolean?}                    props.isTooltipEnabled      Show a tooltip on each thumb.
- * @param {string?}                     props.tooltipSuffix         Suffix appended to the default tooltip text.
- * @param {string|string[]?}            props.tooltipPlacement      "top" or "bottom", or one per thumb. Defaults to "bottom".
- * @param {Function?}                   props.formatTooltip         `(value, index) => string`. Replaces the default text and suffix.
- * @param {Function?}                   props.onChange              `(values: number[]) => void`. Called on release or keyboard commit.
  */
 export const RangeSlider = ({
     isDisabled = false,

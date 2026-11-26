@@ -122,7 +122,7 @@ ScrollableContent.play = async ({ canvas, canvasElement, userEvent }) => {
     await expect(body.getByText(/Paragraph 1:/)).toBeInTheDocument();
 };
 
-// Priced day content — reproduces the traveler calendar's `has-custom-content` layout (larger day
+// Priced day content: reproduces the traveler calendar's `has-custom-content` layout (larger day
 // cells + a price under each date), which is what makes the calendar tall enough to overflow a
 // phone before the mobile size fix in DatePicker.css.
 const getPricedDayContent = (date) => {
@@ -130,7 +130,7 @@ const getPricedDayContent = (date) => {
     return <span className="text-xs text-gray-dark">${dayOfMonth % 3 === 0 ? 22 : 27}</span>;
 };
 
-// Mirrors the traveler "Change Arrival" modal — a tall sheet with an item summary, a date field
+// Mirrors the traveler "Change Arrival" modal: a tall sheet with an item summary, a date field
 // whose (large, priced) calendar opens in a popover, time slots, and a purchase summary. Verifies
 // (a) the calendar stacks ABOVE the sheet (z-40 popover vs z-30 sheet) rather than being hidden,
 // and (b) the calendar fits on a phone instead of overflowing below the viewport.

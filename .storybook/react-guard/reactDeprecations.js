@@ -2,7 +2,7 @@
  * Console messages from React 18.3 deprecations and React 19 removals. A story that logs one of these works on
  * one React major and breaks or warns on the other.
  */
-export const REACT_DEPRECATIONS = [
+const REACT_DEPRECATIONS = [
     /Accessing element\.ref was removed/,
     /defaultProps.*(function components|will be removed)/,
     /findDOMNode/,

@@ -71,25 +71,6 @@ Content.propTypes = {
 
 /**
  * Popover on a `<span>` around the target children. A `<Popover.Content>` child is the popover body.
- *
- * @param {boolean?}         props.disabled        Never shows the popover.
- * @param {boolean?}         props.open            Controls visibility. Leave undefined to open on `openOn`.
- * @param {string?}          props.openOn          "hover" opens on hover and keyboard focus and closes on a mouse press of
- *                                                 the target, "click" opens on click. Default: "click" if `open` is set
- *                                                 on the first render, else "hover". Fixed at mount: changing it later
- *                                                 swaps the primitive and remounts the target.
- * @param {string?}          props.placement       Tippy-style placement, e.g. "top", "bottom-start". "auto" is "top".
- * @param {number|number[]?} props.delay           Hover delay in ms before opening and before closing; `[open, close]`
- *                                                 sets them apart. Closing waits at least 100ms.
- * @param {number?}          props.skidding        Shift along the aligned edge in px, for "-start"/"-end" placements.
- * @param {number?}          props.distance        Gap between target and box in px.
- * @param {number|string?}   props.maxWidth        Box max width. Numbers are px. Capped at the viewport width less 10px.
- * @param {ReactNode?}       props.content         Popover body used instead of the `<Popover.Content>` child.
- * @param {string?}          props.className       Class name of the popover box.
- * @param {ReactNode}        props.children        Target, plus a `<Popover.Content>`.
- * @param {Function?}        props.onOpenChange    `(open: boolean) => void`. Called on hover, click, Escape and so on.
- * @param {Function?}        props.onClickOutside  Called on a press outside the open box and its target. A controlled
- *                                                 popover (`open` set) with no `onOpenChange` also calls it on Escape.
  */
 export const Popover = ({
     disabled = false,

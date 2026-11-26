@@ -338,4 +338,5 @@ Search.propTypes = {
     shouldStayOpen: PropTypes.bool,
     shouldDestroyOnClose: PropTypes.bool,
     shouldHideMenu: PropTypes.bool,
+    minChars: PropTypes.number,
 };

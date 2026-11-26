@@ -39,26 +39,6 @@ const preventOpen = (event) => event.preventDefault();
 /**
  * Tooltip on a `<span>` around `children`. The span is the hover and focus target, so a disabled button inside still
  * shows the tooltip.
- *
- * @param {boolean?}         props.disabled          Never shows the tooltip.
- * @param {boolean?}         props.open              Controls visibility. Leave undefined to open on hover, keyboard focus
- *                                                   and tap.
- * @param {ReactNode?}       props.content           Tooltip body. "", null and undefined show no tooltip.
- * @param {ReactNode}        props.children          Target, wrapped in a `<span>`.
- * @param {string?}          props.placement         Tippy-style placement, e.g. "top", "bottom-start". "auto" is "top".
- * @param {number|number[]?} props.delay             Open delay in ms. With an array, only the first entry is used.
- * @param {number?}          props.skidding          Shift along the aligned edge in px, for "-start"/"-end" placements.
- * @param {number?}          props.distance          Gap between target and bubble in px.
- * @param {number|string?}   props.maxWidth          Bubble max width. Numbers are px. Capped at the viewport width less
- *                                                   10px.
- * @param {string?}          props.role              Role of the bubble element. Defaults to "tooltip".
- * @param {string?}          props.className         Class name of the target `<span>`.
- * @param {string?}          props.contentClassName  Class name of a `<span>` around `content`.
- * @param {Function?}        props.onOpenChange      `(open: boolean) => void`. Called on hover, focus, tap, Escape and so
- *                                                   on.
- * @param {Function?}        props.onClickOutside    Called on a press outside the open bubble and its target. A
- *                                                   controlled tooltip (`open` set) with no `onOpenChange` also calls it
- *                                                   on Escape.
  */
 export const Tooltip = ({
     disabled = false,

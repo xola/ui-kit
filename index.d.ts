@@ -88,7 +88,7 @@ export interface SidebarMenuProps {
     /** Controls visibility. Leave undefined to open on hover, focus and tap. */
     open?: boolean;
     content: React.ReactNode;
-    /** Delay in ms before opening and before closing; `[open, close]` sets them apart. Default `[150, 300]`. */
+    /** Delay in ms before opening and before closing; `[open, close]` sets them apart. Default `[150, 300]`. The close delay is also the time the pointer has to get from the item to the menu. */
     delay?: number | [number, number];
     children: React.ReactNode;
     /** Called on hover, focus, tap, Escape, a press outside, another menu opening, and a sidebar resize starting. */

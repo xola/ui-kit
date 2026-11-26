@@ -42,18 +42,7 @@ const closeMenus = (except) => {
 /** Sidebar calls this when a resize starts, so no menu is left over the rail edge being dragged. */
 export const hideAllSidebarMenus = () => closeMenus();
 
-/**
- * Flyout beside a sidebar item. Opens on hover, focus, or a tap on the item.
- *
- * @param {boolean?}         props.open          Controls visibility. Leave undefined to open on hover, focus and tap.
- * @param {ReactNode}        props.content       Menu body.
- * @param {number|number[]?} props.delay         Delay in ms before opening and before closing; `[open, close]` sets
- *                                               them apart. Default `[150, 300]`. The close delay is also the time the
- *                                               pointer has to get from the item to the menu.
- * @param {ReactNode}        props.children      Trigger, wrapped in a block `<span>`.
- * @param {Function?}        props.onOpenChange  `(open: boolean) => void`. Called on hover, focus, tap, Escape, a press
- *                                               outside, another menu opening, and a sidebar resize starting.
- */
+/** Flyout beside a sidebar item. Opens on hover, focus, or a tap on the item. */
 export const SidebarMenu = ({ open, content, delay = DELAY, children, onOpenChange, ...removedProps }) => {
     warnRemovedProps("Sidebar.Menu", removedProps, SIDEBAR_MENU_REMOVED_PROPS);
 
