@@ -288,21 +288,7 @@ Sidebar.propTypes = {
     autoCollapseBelow: PropTypes.number,
     storageKey: PropTypes.string,
     cssVariableTarget: PropTypes.object,
-    notifications: PropTypes.shape({
-        announcements: PropTypes.shape({
-            count: PropTypes.number,
-            content: PropTypes.node,
-            title: PropTypes.string,
-            hide: PropTypes.bool,
-            onClose: PropTypes.func,
-        }),
-        notices: PropTypes.shape({
-            count: PropTypes.number,
-            content: PropTypes.node,
-            title: PropTypes.string,
-            onClose: PropTypes.func,
-        }),
-    }),
+    notifications: SidebarNotifications.propTypes.notifications,
 };
 
 Sidebar.Account = SidebarAccount;

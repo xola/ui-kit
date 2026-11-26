@@ -49,6 +49,25 @@ export const SidebarNotifications = ({
     // badge rather than zero notices, and absent means nothing to report.
     const hasNoticeCount = rightDrawer?.count > 0;
 
+    const renderDrawer = (drawer, isOpen, side) => {
+        const handleClose = (event) => !!event && onDrawerStateChange?.(side);
+
+        return (
+            drawer && (
+                <Drawer
+                    isOpen={isOpen}
+                    sideIndent={width}
+                    position="left"
+                    size="xl"
+                    classNames={NOTIFICATION_DRAWER_CLASS_NAMES}
+                    title={drawer.title}
+                    content={drawer.content}
+                    onClose={handleClose}
+                />
+            )
+        );
+    };
+
     return (
         <>
             <div
@@ -84,31 +103,9 @@ export const SidebarNotifications = ({
                 )}
             </div>
 
-            {leftDrawer && (
-                <Drawer
-                    isOpen={isLeftDrawerOpen}
-                    sideIndent={width}
-                    position="left"
-                    size="xl"
-                    classNames={NOTIFICATION_DRAWER_CLASS_NAMES}
-                    title={leftDrawer.title}
-                    content={leftDrawer.content}
-                    onClose={(event) => !!event && onDrawerStateChange?.("left")}
-                />
-            )}
+            {renderDrawer(leftDrawer, isLeftDrawerOpen, "left")}
 
-            {rightDrawer && (
-                <Drawer
-                    isOpen={isRightDrawerOpen}
-                    sideIndent={width}
-                    position="left"
-                    size="xl"
-                    classNames={NOTIFICATION_DRAWER_CLASS_NAMES}
-                    title={rightDrawer.title}
-                    content={rightDrawer.content}
-                    onClose={(event) => !!event && onDrawerStateChange?.("right")}
-                />
-            )}
+            {renderDrawer(rightDrawer, isRightDrawerOpen, "right")}
         </>
     );
 };
