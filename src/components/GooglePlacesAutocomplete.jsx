@@ -72,6 +72,7 @@ export const GooglePlacesAutocomplete = ({ initialValue = "", onSelect = null, a
         }
 
         setIsLoading(true);
+        setError("");
 
         try {
             const { data } = await axios.get(`${apiBaseUrl}/searchGooglePlaces`, {
