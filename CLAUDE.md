@@ -6,7 +6,8 @@ This file provides guidance to Claude Code when working with code in this reposi
 
 `@xola/ui-kit` is Xola's shared React component library: Tailwind-based primitives (Button, Form
 inputs, Modal, Table, DatePicker, etc.) published to npm and consumed by `x2-checkout`, `x2-seller`,
-and other Xola frontends. Components are documented and visually tested via Storybook.
+and other Xola frontends. Components are documented in Storybook and tested with Storybook play
+tests.
 
 ## Commands
 
@@ -22,6 +23,7 @@ npm run format            # Prettier --write on src
 npm test                  # Unit tests only (Vitest); use test:all for unit + Storybook
 npm run test:storybook    # Storybook interaction (play) tests, Playwright/Chromium
 npm run test:all          # Unit + Storybook tests
+npm run test:ssr          # Imports build/index.js in Node; run after npm run build
 ```
 
 Run a single test file:
@@ -59,10 +61,8 @@ build or entry. Storybook runs on the Vite builder (`@storybook/react-vite`, Sto
   at, and it is the single source of truth `src/theme.js` and `public/theme.css` are generated from
   (`npm run prepare`).
 
-**Testing:** Vitest only, no `@testing-library/react`. Existing tests cover `src/utils/*` pure
-functions (see `src/utils/avatar.test.js`). Component behavior is validated visually through
-Storybook, not through rendered unit tests. Don't introduce a testing-library dependency without
-discussion.
+**Testing:** Vitest. Pure logic gets a unit test; component behavior gets a Storybook play test. See
+`.claude/rules/testing.md`.
 
 ## Key Rules
 
@@ -102,21 +102,11 @@ discussion.
 
 - Use `useMount`/`useUnmount`/`useMemoizedFn` from `ahooks` instead of hand-rolled
   `useEffect`/`useCallback` equivalents.
-- Always clean up `useEffect` side effects: event listeners, timers, tippy/nouislider instances,
+- Always clean up `useEffect` side effects: event listeners, timers, third-party widget instances,
   and subscriptions must be torn down on unmount.
 - Do not suppress `react-hooks/exhaustive-deps`.
 
 ### Comments
 
-Write code that speaks for itself. Comment only to explain WHY, not WHAT. See
-`.claude/rules/commenting.md` for full guidelines.
+Comment only the WHY the code cannot say. See `.claude/rules/commenting.md`.
 
-### Testing
-
-See `.claude/rules/testing.md` for full rules. New pure logic in `src/utils/` and `src/helpers/`
-needs Vitest coverage; new components rely on a Storybook story existing rather than a rendered unit
-test.
-
-## Code Review
-
-See `.claude/commands/review-pr.md` for what to block on vs. flag as non-blocking during review.
