@@ -4,8 +4,11 @@
  * Packs ui-kit, installs it plus the given vite/react majors into a clean copy of tests/consumer, then runs
  * `vite build` and `tsc --noEmit`.
  *
- * The install has no legacy-peer-deps. vite is an optional peer, so npm installs a vite outside the range without
- * erroring; `npm ls vite` is what exits non-zero (ELSPROBLEMS) on that mismatch.
+ * The install passes `--legacy-peer-deps`: react-day-picker 7 peers on React 17 or older, so a strict install fails
+ * with ERESOLVE on React 18 and 19. The flag is explicit because only `npm run test:consumer` hands the repo .npmrc's
+ * `legacy-peer-deps=true` to the nested install (`npm_config_legacy_peer_deps`), not a direct
+ * `zx scripts/test-consumer.mjs`. With peer checks off, `npm ls vite` is what exits non-zero (ELSPROBLEMS) on a vite
+ * outside ui-kit's peer range.
  */
 import { fileURLToPath } from "node:url";
 import { $, argv, chalk, fs, path } from "zx";
@@ -47,7 +50,7 @@ if (!tarballFiles.split("\n").includes("package/build/index.d.ts")) {
 const reactSpecs = ["react", "react-dom", "@types/react", "@types/react-dom"].map((name) => `${name}@${react}`);
 const $app = $({ cwd: appDir, stdio: "inherit" });
 
-await $app`npm install --no-fund --no-audit ${tarball} vite@${vite} ${reactSpecs}`;
+await $app`npm install --no-fund --no-audit --legacy-peer-deps ${tarball} vite@${vite} ${reactSpecs}`;
 await $app`npm ls vite`;
 await $app`npx vite build`;
 await $app`npx tsc --noEmit`;
