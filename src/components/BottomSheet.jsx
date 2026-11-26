@@ -9,17 +9,14 @@ import { useViewportHeight } from "../hooks/useViewportHeight";
 import { CloseIcon } from "../icons";
 
 /**
- * A mobile-first bottom sheet. Mirrors Modal's compound API (Header/Body/Footer) so it can be swapped in wherever a
- * Modal is used on small screens. Kept at z-30, the layer Modal and Drawer share, so the dialog opened last is on top.
- * Popover content (the DatePickerPopover calendar included) and Tooltips portal to document.body at z-50 and z-[9999],
+ * A mobile-first bottom sheet. Mirrors Modal's compound API (Header/Body/Footer) so it can replace a Modal on small screens.
+ * Stays at z-30 like Modal and Drawer, so the dialog opened last is on top. Popover (z-50) and Tooltip (z-[9999]) portal
  * above it. ComboBox draws its menu inline, inside the sheet.
  */
 export const BottomSheet = ({
     isOpen = false,
-    // Configurable: when true, tapping the dark overlay closes the sheet. Default false keeps parity
-    // with Modal. Closing is wired to the overlay's own onClick (not the Dialog's built-in
-    // outside-click) so a press on a layer portaled outside the sheet (a Popover such as the
-    // DatePicker calendar, or a Tooltip) is never mistaken for an outside click.
+    // When true, tapping the overlay closes the sheet. Wired to the overlay's onClick, not the Dialog's
+    // outside-click, so a press on a portaled Popover or Tooltip is never mistaken for an outside click.
     shouldCloseOnOutsideClick = false,
     onClose,
     children,
@@ -34,6 +31,9 @@ export const BottomSheet = ({
             onClose();
         }
     };
+
+    /** Drops the click event so `onClose` keeps being called with no arguments. */
+    const handleClose = () => onClose();
 
     const overlayHandlers = getBackdropHandlers(handleOverlayClick);
 
@@ -90,7 +90,7 @@ export const BottomSheet = ({
                                 type="button"
                                 aria-label="Close"
                                 className="absolute right-4 top-4 z-10 p-1 text-black hover:text-gray-darker"
-                                onClick={() => onClose()}
+                                onClick={handleClose}
                             >
                                 <CloseIcon />
                             </button>

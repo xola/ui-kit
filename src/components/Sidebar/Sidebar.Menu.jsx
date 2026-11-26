@@ -3,9 +3,7 @@ import { useMemoizedFn } from "ahooks";
 import PropTypes from "prop-types";
 import React, { useEffect, useRef, useState } from "react";
 import cn from "../../helpers/classnames";
-import { warnRemovedProps } from "../../helpers/warnRemovedProps";
-
-const USE_ON_OPEN_CHANGE = "use 'onOpenChange'";
+import { USE_ON_OPEN_CHANGE, warnRemovedProps } from "../../helpers/warnRemovedProps";
 
 /** Tippy props Sidebar.Menu dropped in 3.8, mapped to the replacement text `warnRemovedProps` prints. */
 export const SIDEBAR_MENU_REMOVED_PROPS = {
@@ -141,7 +139,7 @@ export const SidebarMenu = ({ open, content, delay = DELAY, children, onOpenChan
                     sideOffset={SIDE_OFFSET}
                     className={cn(
                         "ui-sidebar-menu",
-                        // Stacking, width cap and type size are the 3.7 values consumer layouts were built around
+                        // Keep stacking, width cap and type size: consumer layouts depend on them
                         "z-[9999] max-w-[350px] text-base leading-[1.4] text-white outline-none",
                         "bg-black bg-opacity-90 p-2 backdrop-blur-sm backdrop-filter",
                         // No fade-out: a fading menu would still be on screen beside the one replacing it

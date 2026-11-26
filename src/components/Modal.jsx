@@ -69,6 +69,9 @@ export const Modal = ({
         }
     };
 
+    /** Drops the click event so `onClose` keeps being called with no arguments. */
+    const handleClose = () => onClose();
+
     const backdropHandlers = getBackdropHandlers(handleOutsideClick);
 
     return (
@@ -108,10 +111,10 @@ export const Modal = ({
 
                         <TransitionChild
                             as={Fragment}
-                            enter={cn("ease-out duration-300")}
+                            enter="ease-out duration-300"
                             enterFrom={cn("opacity-0", animations[position].enterFrom)}
                             enterTo={cn("opacity-100", animations[position].enterTo)}
-                            leave={cn("ease-in duration-300")}
+                            leave="ease-in duration-300"
                             leaveFrom={cn("opacity-100", animations[position].leaveFrom)}
                             leaveTo={cn("opacity-0", animations[position].leaveTo)}
                         >
@@ -127,7 +130,7 @@ export const Modal = ({
                                     <button
                                         type="button"
                                         className="absolute right-0 top-0 m-4 hidden p-2 text-black hover:text-gray-darker sm:block"
-                                        onClick={() => onClose()}
+                                        onClick={handleClose}
                                     >
                                         <CloseIcon />
                                     </button>

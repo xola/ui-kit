@@ -28,9 +28,7 @@ export const isValidTimeZoneName = (timezoneName) => {
     return true;
 };
 
-export const formatDate = (date, format = DateFormat.DATE_ISO) => {
-    return dayjs(date).format(format);
-};
+export const formatDate = (date, format = DateFormat.DATE_ISO) => dayjs(date).format(format);
 
 export const formatTime = (time, format = "h:mm a") => {
     const stringTime = String(time).padStart(4, 0); // 700 to 0700

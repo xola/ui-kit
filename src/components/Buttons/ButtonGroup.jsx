@@ -1,3 +1,4 @@
+import { omit } from "lodash-es";
 import PropTypes from "prop-types";
 import React, { Children, cloneElement } from "react";
 import cn from "../../helpers/classnames";
@@ -52,8 +53,6 @@ const Button = ({
     as: Tag = "button",
     isActive,
     shouldShowText = true,
-    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    isHidden = false,
     size = "medium",
     icon,
     iconPlacement = "left",
@@ -61,6 +60,8 @@ const Button = ({
     children,
     ...rest
 }) => {
+    // `isHidden` is read by ButtonGroup off the child's props and must not reach the DOM.
+    const tagProps = omit(rest, "isHidden");
     const classes = cn(
         "ui-button-group-button",
         "inline-flex border-t border-l border-b last:border-r first:rounded-l-md last:rounded-r-md transition-colors focus:ring disabled:opacity-60 focus:z-10 leading-none",
@@ -72,7 +73,7 @@ const Button = ({
     );
 
     return (
-        <Tag aria-pressed={isActive} className={classes} {...rest}>
+        <Tag aria-pressed={isActive} className={classes} {...tagProps}>
             {icon && iconPlacement === "left" ? <span className="mr-2 flex-shrink-0">{icon}</span> : null}
             {/* Always show text if the icon isn't specified */}
             {shouldShowText ? children : icon ? null : children}

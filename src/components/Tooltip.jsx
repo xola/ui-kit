@@ -5,11 +5,9 @@ import { isFocusVisible } from "../helpers/browser";
 import { BackdropOwnerContext } from "../helpers/backdrop";
 import cn from "../helpers/classnames";
 import { getMaxWidth } from "../helpers/maxWidth";
-import { toSideAlign } from "../helpers/placement";
-import { warnRemovedProps } from "../helpers/warnRemovedProps";
+import { ARROW_HEIGHT, toSideAlign } from "../helpers/placement";
+import { NO_REPLACEMENT, warnRemovedProps } from "../helpers/warnRemovedProps";
 import { Context } from "./Provider";
-
-const NO_REPLACEMENT = "delete it, there is no replacement";
 
 /** Tippy props Tooltip dropped in 3.8, mapped to the replacement text `warnRemovedProps` prints. */
 export const TOOLTIP_REMOVED_PROPS = {
@@ -31,9 +29,6 @@ export const TOOLTIP_REMOVED_PROPS = {
     followCursor: NO_REPLACEMENT,
     interactiveBorder: NO_REPLACEMENT,
 };
-
-/** Radix adds the arrow height to `sideOffset`; Tippy's `distance` measured to the bubble edge, so subtract it. */
-const ARROW_HEIGHT = 8;
 
 /**
  * Radix skips its trigger handler for a default-prevented event. Its open path closes every other open tooltip and

@@ -1,5 +1,8 @@
 import { isDevelopment } from "./environment";
 
+export const NO_REPLACEMENT = "delete it, there is no replacement";
+export const USE_ON_OPEN_CHANGE = "use 'onOpenChange'";
+
 const warned = new Set();
 
 /** Storybook play reruns must observe the same warnings. */

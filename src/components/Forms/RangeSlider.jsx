@@ -8,9 +8,10 @@ import "./RangeSlider.css";
 
 const REMOVED_PROPS = { tooltipCustomFormatter: "use 'formatTooltip(value, index)'" };
 
-const getDefaultFormatter = (tooltipSuffix = "") => {
-    return (value) => `${Math.round(value)}${tooltipSuffix}`;
-};
+const getDefaultFormatter =
+    (tooltipSuffix = "") =>
+    (value) =>
+        `${Math.round(value)}${tooltipSuffix}`;
 
 const getPlacement = (tooltipPlacement, index) => {
     return Array.isArray(tooltipPlacement) ? (tooltipPlacement[index] ?? "bottom") : tooltipPlacement;

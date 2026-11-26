@@ -1,7 +1,6 @@
 import React, { forwardRef, useContext, useEffect, useState } from "react";
 import DayPicker, { type DayPickerProps } from "react-day-picker";
 import { kebabCase } from "lodash-es";
-import cn from "../../helpers/classnames";
 import { Context } from "../Provider";
 import { getLocalizationProps, LocaleCode, LocalizationProps } from "./DatePicker.helpers";
 
@@ -25,5 +24,5 @@ export const LocalizedDayPicker = forwardRef<any, DayPickerProps>(function Local
     /**
      * Note: DayPicker expects locale in en-US, es, en-GB format
      */
-    return <DayPicker ref={ref} className={cn(className)} {...localizationProps} {...rest} />;
+    return <DayPicker ref={ref} className={className} {...localizationProps} {...rest} />;
 });

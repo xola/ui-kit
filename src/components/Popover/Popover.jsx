@@ -7,13 +7,10 @@ import { BackdropOwnerContext } from "../../helpers/backdrop";
 import { getChildrenByType } from "../../helpers/children";
 import cn from "../../helpers/classnames";
 import { getMaxWidth } from "../../helpers/maxWidth";
-import { toSideAlign } from "../../helpers/placement";
-import { warnRemovedProps } from "../../helpers/warnRemovedProps";
+import { ARROW_HEIGHT, toSideAlign } from "../../helpers/placement";
+import { NO_REPLACEMENT, USE_ON_OPEN_CHANGE, warnRemovedProps } from "../../helpers/warnRemovedProps";
 import styles from "./Popover.module.css";
 import scrollFix from "./PopoverScroll.module.css";
-
-const NO_REPLACEMENT = "delete it, there is no replacement";
-const USE_ON_OPEN_CHANGE = "use 'onOpenChange'";
 
 /** Tippy props Popover dropped in 3.8, mapped to the replacement text `warnRemovedProps` prints. */
 export const POPOVER_REMOVED_PROPS = {
@@ -39,9 +36,6 @@ export const POPOVER_REMOVED_PROPS = {
     appendTo: "delete it, the popover portals to document.body",
     isLazy: "delete it, the content mounts only while the popover is open",
 };
-
-/** Radix adds the arrow height to `sideOffset`; Tippy's `distance` measured to the box edge, so subtract it. */
-const ARROW_HEIGHT = 8;
 
 /**
  * Tippy kept an interactive popover open while the pointer crossed the gap to it. HoverCard only has its close delay
@@ -121,9 +115,8 @@ export const Popover = ({
 
     /**
      * Without `openOn`, a popover controlled from its first render gets the click primitive: Tippy ignored triggers once
-     * `visible` was set, and HoverCard takes every field in its content out of the tab order. Read once, so `open`
-     * changing later never swaps the primitive and remounts the target. `openOn` is read on every render, so changing it
-     * does both; consumers set it once.
+     * `visible` was set, and HoverCard takes its content out of the tab order. Read once, so a later `open` change
+     * never swaps the primitive and remounts the target.
      */
     const [isControlledAtMount] = useState(open !== undefined);
     const isClickOpened = openOn ? openOn === "click" : isControlledAtMount;
@@ -161,9 +154,8 @@ export const Popover = ({
 
     /**
      * HoverCard never closes on a press of the target, so a Modal or Drawer opened from it would sit under the popover.
-     * Reopening waits for pointer re-entry or keyboard navigation away from the target: the press focuses the target,
-     * and so does the Modal closing. Touch is excluded: a tap leaves a popover opened from the keyboard open, and the
-     * next keyboard focus can still open it.
+     * Reopening waits for pointer re-entry or keyboard navigation away, since the press and the Modal closing both
+     * focus the target. Touch is excluded: a tap leaves a keyboard-opened popover open.
      */
     const handleTargetPointerDown = (event) => {
         const isMousePress = event.pointerType !== "touch" && isOnTarget(event);
@@ -196,9 +188,8 @@ export const Popover = ({
     };
 
     /**
-     * Only keyboard focus opens a hover popover. Headless UI focuses from script, into a dialog as it opens and back to
-     * the opener as it closes, and `:focus-visible` matches that focus only when the previous focus came from the
-     * keyboard.
+     * Only keyboard focus opens a hover popover. Headless UI focuses from script into a dialog and back to the opener,
+     * and `:focus-visible` matches that only when the previous focus came from the keyboard.
      */
     const handleTargetFocus = (event) => {
         const isOpenable = !disabled && isOnTarget(event) && isFocusVisible(event.target);
@@ -208,11 +199,9 @@ export const Popover = ({
     };
 
     /**
-     * The content, and Radix's outside-press and Escape listeners with it, stay mounted through the fade-out. A closed
-     * popover ignores them, or a second press would reach a toggle-style `onClickOutside` and reopen it.
-     *
-     * A press on the target is left to the target. Radix Popover toggles on it, and `handleTargetPointerDown` already
-     * closes a hover popover.
+     * Radix's outside-press and Escape listeners stay mounted through the fade-out. A closed popover ignores them, or a
+     * second press would reach a toggle-style `onClickOutside` and reopen it. A press on the target is left to the
+     * target: Radix Popover toggles on it, and `handleTargetPointerDown` closes a hover popover.
      */
     const handlePointerDownOutside = (event) => {
         if (!isOpen) {
@@ -230,8 +219,7 @@ export const Popover = ({
 
     /**
      * Radix default-prevents the Escape it handles, so an enclosing Modal never sees it. A popover controlled without
-     * `onOpenChange` would then stay open, and `onClickOutside` is the only close request its consumer handles. Only
-     * while open, for the same fade-out reason as presses.
+     * `onOpenChange` would then stay open, and `onClickOutside` is the only close request its consumer handles.
      */
     const handleEscapeKeyDown = () => {
         const isCloseOnlyThroughClickOutside = isOpen && open !== undefined && !onOpenChange;

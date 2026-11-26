@@ -39,7 +39,7 @@ export const Badge = ({ color = "primary", size = "small", icon, className, chil
             )}
             {...rest}
         >
-            {icon ? cloneElement(icon, { className: cn("mr-1", iconSizes[size]) }) : null}
+            {icon && cloneElement(icon, { className: cn("mr-1", iconSizes[size]) })}
             {children}
         </span>
     );

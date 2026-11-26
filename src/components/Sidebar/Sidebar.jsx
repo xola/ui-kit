@@ -134,9 +134,8 @@ export const Sidebar = forwardRef(
             dragOriginRef.current = event.currentTarget.parentElement?.getBoundingClientRect().left ?? 0;
             setIsResizing(true);
 
-            // Capture keeps the drag alive once the pointer leaves the 24px handle, but it is an
-            // enhancement, not a precondition: it throws NotFoundError when the pointer is already
-            // gone by the time this runs, and an unguarded throw here would abort the drag entirely.
+            // Capture keeps the drag alive outside the 24px handle. It throws NotFoundError when the
+            // pointer is already gone, and an unguarded throw would abort the drag.
             try {
                 event.currentTarget.setPointerCapture(event.pointerId);
             } catch {
@@ -192,17 +191,12 @@ export const Sidebar = forwardRef(
 
         // A consumer logo is cloned rather than rendered as-is so it tracks the variant's sizing
         // without every consumer re-deriving it; their own className still wins the merge.
+        const logoSize = cn("inline-block h-12 w-12", variantValue.showText && "h-30 w-30");
         const brand = logo ? (
-            React.cloneElement(logo, {
-                className: cn("inline-block h-12 w-12", variantValue.showText && "h-30 w-30", logo.props.className),
-            })
+            React.cloneElement(logo, { className: cn(logoSize, logo.props.className) })
         ) : (
             <XolaLogoSimple
-                className={cn(
-                    "inline-block h-12 w-12",
-                    variantValue.showText && "h-30 w-30",
-                    onLogoClick && "cursor-pointer transition-opacity hover:opacity-80",
-                )}
+                className={cn(logoSize, onLogoClick && "cursor-pointer transition-opacity hover:opacity-80")}
                 onClick={onLogoClick}
             />
         );
@@ -233,9 +227,8 @@ export const Sidebar = forwardRef(
                             aria-valuemin={minWidth}
                             aria-valuemax={effectiveMaxWidth}
                             tabIndex={0}
-                            // w-6: WCAG 2.5.8 wants a 24px target. touch-none: without it the browser
-                            // claims a horizontal drag as a scroll and fires pointercancel instead of
-                            // pointermove, so touch can never resize the rail.
+                            // w-6: WCAG 2.5.8 wants a 24px target. touch-none: else the browser claims a
+                            // horizontal touch drag as scroll and fires pointercancel, not pointermove.
                             className="absolute -right-3 bottom-0 top-0 z-10 w-6 cursor-ew-resize touch-none"
                             onPointerDown={handlePointerDown}
                             onPointerMove={handlePointerMove}
