@@ -615,10 +615,14 @@ ToggleEscapeInModal.play = async ({ canvasElement, userEvent }) => {
     await findBox(canvasElement, "Toggled modal content");
 
     await userEvent.keyboard("{Escape}");
+    await expect(queryModal()).toBeInTheDocument();
+
+    // The closed popover must consume this Escape during its fade-out.
     await userEvent.keyboard("{Escape}");
     await expectNoBox(canvasElement, "Toggled modal content");
     await waitForChangeWindow();
     await expect(queryBox(canvasElement, "Toggled modal content")).toBeUndefined();
+    await expect(queryModal()).toBeInTheDocument();
 
     await userEvent.keyboard("{Escape}");
     await waitFor(() => expect(queryModal()).toBeNull());
@@ -809,6 +813,125 @@ TargetOpensModalFromKeyboard.play = async ({ canvas, canvasElement, userEvent })
     await expectNoBox(canvasElement, "Keyboard payouts content");
     await waitForChangeWindow();
     await expect(queryBox(canvasElement, "Keyboard payouts content")).toBeUndefined();
+};
+
+export const KeyboardRefocusAfterTargetClick = () => {
+    return (
+        <div className="flex flex-col items-start gap-10">
+            <Popover placement="bottom">
+                <Button>Refocus target</Button>
+                <Popover.Content className="p-4">Refocus content</Popover.Content>
+            </Popover>
+            <Button>After target</Button>
+        </div>
+    );
+};
+
+KeyboardRefocusAfterTargetClick.beforeEach = () => restoreKeyboardFocusVisible;
+
+KeyboardRefocusAfterTargetClick.play = async ({ canvas, canvasElement }) => {
+    const realUserEvent = await getRealUserEvent();
+    if (!realUserEvent) {
+        return;
+    }
+
+    const target = canvas.getByRole("button", { name: "Refocus target" });
+
+    await realUserEvent.hover(target);
+    await findBox(canvasElement, "Refocus content");
+    await realUserEvent.click(target);
+    await expectNoBox(canvasElement, "Refocus content");
+    await waitForChangeWindow();
+    await expect(queryBox(canvasElement, "Refocus content")).toBeUndefined();
+
+    await realUserEvent.keyboard("{Tab}");
+    await expect(canvas.getByRole("button", { name: "After target" })).toHaveFocus();
+    await expectNoBox(canvasElement, "Refocus content");
+
+    await realUserEvent.keyboard("{Shift>}{Tab}{/Shift}");
+    await expect(target).toHaveFocus();
+    await findBox(canvasElement, "Refocus content");
+};
+
+export const KeyboardRefocusAfterClickElsewhere = () => {
+    return (
+        <div className="flex flex-col items-start gap-10">
+            <Popover placement="bottom">
+                <Button>Elsewhere target</Button>
+                <Popover.Content className="p-4">Elsewhere content</Popover.Content>
+            </Popover>
+            <Button>After elsewhere</Button>
+        </div>
+    );
+};
+
+KeyboardRefocusAfterClickElsewhere.beforeEach = () => restoreKeyboardFocusVisible;
+
+KeyboardRefocusAfterClickElsewhere.play = async ({ canvas, canvasElement }) => {
+    const realUserEvent = await getRealUserEvent();
+    if (!realUserEvent) {
+        return;
+    }
+
+    const target = canvas.getByRole("button", { name: "Elsewhere target" });
+    const elsewhere = canvas.getByRole("button", { name: "After elsewhere" });
+
+    await realUserEvent.hover(target);
+    await findBox(canvasElement, "Elsewhere content");
+    await realUserEvent.click(target);
+    await expectNoBox(canvasElement, "Elsewhere content");
+    await realUserEvent.click(elsewhere);
+    await expect(elsewhere).toHaveFocus();
+
+    await realUserEvent.keyboard("{Shift>}{Tab}{/Shift}");
+    await expect(target).toHaveFocus();
+    await findBox(canvasElement, "Elsewhere content");
+};
+
+export const KeyboardRefocusAfterModalFocusRestoration = () => {
+    return (
+        <div className="flex flex-col items-start gap-10">
+            <Popover placement="bottom">
+                <ModalLauncher />
+                <Popover.Content className="p-4">Restored focus content</Popover.Content>
+            </Popover>
+            <Button>After opener</Button>
+        </div>
+    );
+};
+
+KeyboardRefocusAfterModalFocusRestoration.beforeEach = () => restoreKeyboardFocusVisible;
+
+KeyboardRefocusAfterModalFocusRestoration.play = async ({ canvas, canvasElement }) => {
+    const realUserEvent = await getRealUserEvent();
+    if (!realUserEvent) {
+        return;
+    }
+
+    const body = within(canvasElement.ownerDocument.body);
+    const target = canvas.getByRole("button", { name: "Edit payouts" });
+
+    await realUserEvent.hover(target);
+    await findBox(canvasElement, "Restored focus content");
+    await realUserEvent.click(target);
+    await body.findByText("Payouts modal");
+    await expectNoBox(canvasElement, "Restored focus content");
+
+    const closeButton = body.getByRole("button", { name: "Close payouts" });
+    await realUserEvent.hover(closeButton);
+    await realUserEvent.keyboard("{Tab}");
+    await expect(closeButton).toHaveFocus();
+    await realUserEvent.keyboard("{Enter}");
+    await waitFor(() => expect(body.queryByText("Payouts modal")).toBeNull());
+    await expect(target).toHaveFocus();
+    await waitForChangeWindow();
+    await expect(queryBox(canvasElement, "Restored focus content")).toBeUndefined();
+
+    await realUserEvent.keyboard("{Tab}");
+    await expect(canvas.getByRole("button", { name: "After opener" })).toHaveFocus();
+    await realUserEvent.keyboard("{Shift>}{Tab}{/Shift}");
+    await expect(target).toHaveFocus();
+    await findBox(canvasElement, "Restored focus content");
 };
 
 /** A left Drawer puts its close button after the content, so the first focusable control is the popover target. */

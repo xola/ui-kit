@@ -2,8 +2,8 @@ import { Dialog, DialogTitle, Transition, TransitionChild } from "@headlessui/re
 import clsx from "clsx";
 import { noop } from "lodash-es";
 import PropTypes from "prop-types";
-import React, { Fragment } from "react";
-import { getBackdropHandlers } from "../helpers/backdrop";
+import React, { Fragment, useId } from "react";
+import { BackdropOwnerContext, getBackdropHandlers } from "../helpers/backdrop";
 import { isIosBrowser } from "../helpers/browser";
 import { useViewportHeight } from "../hooks/useViewportHeight";
 import { CloseIcon } from "../icons";
@@ -27,6 +27,7 @@ export const BottomSheet = ({
 }) => {
     const viewportHeight = useViewportHeight();
     const isIOS = isIosBrowser();
+    const backdropOwner = useId();
 
     const handleOverlayClick = () => {
         if (shouldCloseOnOutsideClick) {
@@ -42,61 +43,64 @@ export const BottomSheet = ({
     const panelStyle = isIOS && viewportHeight ? { maxHeight: `${Math.round(viewportHeight * 0.9)}px` } : undefined;
 
     return (
-        <Transition appear show={isOpen} as={Fragment}>
-            <Dialog
-                // With autoFocus on, Headless UI focuses the dialog container unless a child has data-autofocus.
-                // Off, it focuses the first focusable element inside, so keyboard users land on a control
-                autoFocus={false}
-                as="div"
-                className="ui-bottom-sheet fixed inset-0 z-30"
-                onClose={noop}
-            >
-                <TransitionChild
-                    as={Fragment}
-                    enter="ease-out duration-300"
-                    enterFrom="opacity-0"
-                    enterTo="opacity-100"
-                    leave="ease-in duration-200"
-                    leaveFrom="opacity-100"
-                    leaveTo="opacity-0"
+        <BackdropOwnerContext.Provider value={backdropOwner}>
+            <Transition appear show={isOpen} as={Fragment}>
+                <Dialog
+                    // With autoFocus on, Headless UI focuses the dialog container unless a child has data-autofocus.
+                    // Off, it focuses the first focusable element inside, so keyboard users land on a control
+                    autoFocus={false}
+                    as="div"
+                    className="ui-bottom-sheet fixed inset-0 z-30"
+                    onClose={noop}
                 >
-                    <div
-                        className="ui-bottom-sheet-overlay fixed inset-0 bg-black bg-opacity-80 transition-opacity"
-                        aria-hidden="true"
-                        {...overlayHandlers}
-                    />
-                </TransitionChild>
-
-                <TransitionChild
-                    as={Fragment}
-                    enter="transform transition ease-out duration-300"
-                    enterFrom="translate-y-full"
-                    enterTo="translate-y-0"
-                    leave="transform transition ease-in duration-200"
-                    leaveFrom="translate-y-0"
-                    leaveTo="translate-y-full"
-                >
-                    <div
-                        style={panelStyle}
-                        className={clsx(
-                            className,
-                            "ui-bottom-sheet-panel fixed inset-x-0 bottom-0 flex max-h-[90dvh] w-full flex-col rounded-t-2xl bg-white px-6 pb-8 pt-6 text-left shadow-xl",
-                        )}
+                    <TransitionChild
+                        as={Fragment}
+                        enter="ease-out duration-300"
+                        enterFrom="opacity-0"
+                        enterTo="opacity-100"
+                        leave="ease-in duration-200"
+                        leaveFrom="opacity-100"
+                        leaveTo="opacity-0"
                     >
-                        <button
-                            type="button"
-                            aria-label="Close"
-                            className="absolute right-4 top-4 z-10 p-1 text-black hover:text-gray-darker"
-                            onClick={() => onClose()}
-                        >
-                            <CloseIcon />
-                        </button>
+                        <div
+                            className="ui-bottom-sheet-overlay fixed inset-0 bg-black bg-opacity-80 transition-opacity"
+                            aria-hidden="true"
+                            data-backdrop-owner={backdropOwner}
+                            {...overlayHandlers}
+                        />
+                    </TransitionChild>
 
-                        {children}
-                    </div>
-                </TransitionChild>
-            </Dialog>
-        </Transition>
+                    <TransitionChild
+                        as={Fragment}
+                        enter="transform transition ease-out duration-300"
+                        enterFrom="translate-y-full"
+                        enterTo="translate-y-0"
+                        leave="transform transition ease-in duration-200"
+                        leaveFrom="translate-y-0"
+                        leaveTo="translate-y-full"
+                    >
+                        <div
+                            style={panelStyle}
+                            className={clsx(
+                                className,
+                                "ui-bottom-sheet-panel fixed inset-x-0 bottom-0 flex max-h-[90dvh] w-full flex-col rounded-t-2xl bg-white px-6 pb-8 pt-6 text-left shadow-xl",
+                            )}
+                        >
+                            <button
+                                type="button"
+                                aria-label="Close"
+                                className="absolute right-4 top-4 z-10 p-1 text-black hover:text-gray-darker"
+                                onClick={() => onClose()}
+                            >
+                                <CloseIcon />
+                            </button>
+
+                            {children}
+                        </div>
+                    </TransitionChild>
+                </Dialog>
+            </Transition>
+        </BackdropOwnerContext.Provider>
     );
 };
 

@@ -1,11 +1,25 @@
 import { describe, expect, test, vi } from "vitest";
 import { getBackdropHandlers } from "./backdrop";
 
-/** A backdrop whose document reports an open Popover or Tooltip while `isLayerOpen` is true. */
-const createBackdrop = () => {
-    const backdrop = { isLayerOpen: false };
-    const querySelector = () => (backdrop.isLayerOpen ? {} : null);
+const createBackdrop = (owner = "backdrop-owner") => {
+    const backdrop = { isLayerOpen: false, dataset: { backdropOwner: owner }, layers: [] };
+    const querySelector = (selector) => {
+        if (!backdrop.isLayerOpen) {
+            return null;
+        }
+
+        const owner = selector.match(/\[data-backdrop-owner=([^\]]+)\]/)?.[1];
+
+        return backdrop.layers.find((layer) => JSON.stringify(layer.dataset.backdropOwner) === owner) ?? null;
+    };
     backdrop.ownerDocument = { querySelector };
+    backdrop.addLayer = (layerOwner = owner) => {
+        const layer = { dataset: { backdropOwner: layerOwner } };
+        backdrop.layers.push(layer);
+
+        return layer;
+    };
+    backdrop.addLayer();
 
     return backdrop;
 };
@@ -42,6 +56,57 @@ describe("getBackdropHandlers", () => {
         backdrop.isLayerOpen = false;
         press(handlers, backdrop);
         expect(onBackdropClick).toHaveBeenCalledTimes(1);
+    });
+
+    test("closes when the only open layer is unowned", () => {
+        const { onBackdropClick, handlers } = setup();
+        const backdrop = createBackdrop();
+        delete backdrop.layers[0].dataset.backdropOwner;
+        backdrop.isLayerOpen = true;
+
+        press(handlers, backdrop);
+
+        expect(onBackdropClick).toHaveBeenCalledTimes(1);
+    });
+
+    test("closes when the only open layer belongs to another backdrop", () => {
+        const { onBackdropClick, handlers } = setup();
+        const backdrop = createBackdrop();
+        backdrop.layers[0].dataset.backdropOwner = "another-backdrop";
+        backdrop.isLayerOpen = true;
+
+        press(handlers, backdrop);
+
+        expect(onBackdropClick).toHaveBeenCalledTimes(1);
+    });
+
+    test("leaves the click to an owned layer when unrelated layers are also open", () => {
+        const { onBackdropClick, handlers } = setup();
+        const backdrop = createBackdrop();
+        backdrop.addLayer("another-backdrop");
+        backdrop.isLayerOpen = true;
+
+        press(handlers, backdrop);
+
+        expect(onBackdropClick).not.toHaveBeenCalled();
+    });
+
+    test("scopes simultaneous open layers to each backdrop's owner", () => {
+        const onOuterClick = vi.fn();
+        const onInnerClick = vi.fn();
+        const outerHandlers = getBackdropHandlers(onOuterClick);
+        const innerHandlers = getBackdropHandlers(onInnerClick);
+        const outer = createBackdrop("outer");
+        const inner = createBackdrop("inner");
+        outer.layers[0].dataset.backdropOwner = "inner";
+        outer.isLayerOpen = true;
+        inner.isLayerOpen = true;
+
+        press(outerHandlers, outer);
+        press(innerHandlers, inner);
+
+        expect(onOuterClick).toHaveBeenCalledTimes(1);
+        expect(onInnerClick).not.toHaveBeenCalled();
     });
 
     test("decides at the press, not at the click", () => {

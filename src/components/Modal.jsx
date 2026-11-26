@@ -1,7 +1,7 @@
 import { Dialog, DialogBackdrop, DialogTitle, Transition, TransitionChild } from "@headlessui/react";
 import PropTypes from "prop-types";
-import React, { Fragment } from "react";
-import { getBackdropHandlers } from "../helpers/backdrop";
+import React, { Fragment, useId } from "react";
+import { BackdropOwnerContext, getBackdropHandlers } from "../helpers/backdrop";
 import cn from "../helpers/classnames";
 import { CloseIcon } from "../icons";
 
@@ -62,6 +62,7 @@ export const Modal = ({
     children,
     className,
 }) => {
+    const backdropOwner = useId();
     const handleOutsideClick = () => {
         if (shouldCloseOnOutsideClick) {
             onClose();
@@ -71,71 +72,74 @@ export const Modal = ({
     const backdropHandlers = getBackdropHandlers(handleOutsideClick);
 
     return (
-        <Transition appear show={isOpen} as={Fragment}>
-            <Dialog
-                // With autoFocus on, Headless UI focuses the dialog container unless a child has data-autofocus.
-                // Off, it focuses the first focusable element inside, so keyboard users land on a control
-                autoFocus={false}
-                as="div"
-                className="ui-modal fixed inset-0 z-30 overflow-y-auto"
-                onClose={handleOutsideClick}
-            >
-                <div className="min-h-screen px-4 text-center">
-                    <TransitionChild
-                        as={Fragment}
-                        enter="ease-out duration-300"
-                        enterFrom="opacity-0"
-                        enterTo="opacity-100"
-                        leave="ease-in duration-200"
-                        leaveFrom="opacity-100"
-                        leaveTo="opacity-0"
-                    >
-                        <DialogBackdrop
-                            className="ui-modal-overlay fixed inset-0 bg-black bg-opacity-80 transition-opacity"
-                            {...backdropHandlers}
-                        />
-                    </TransitionChild>
-
-                    {/* This element is to trick the browser into centering the modal contents. */}
-                    {position === "center" && (
-                        <span className="inline-block h-screen align-middle" aria-hidden="true">
-                            &#8203;
-                        </span>
-                    )}
-
-                    <TransitionChild
-                        as={Fragment}
-                        enter={cn("ease-out duration-300")}
-                        enterFrom={cn("opacity-0", animations[position].enterFrom)}
-                        enterTo={cn("opacity-100", animations[position].enterTo)}
-                        leave={cn("ease-in duration-300")}
-                        leaveFrom={cn("opacity-100", animations[position].leaveFrom)}
-                        leaveTo={cn("opacity-0", animations[position].leaveTo)}
-                    >
-                        <div
-                            className={cn(
-                                className,
-                                sizes[size],
-                                positions[position],
-                                "w-full transform overflow-hidden rounded-lg bg-white p-10 text-left align-middle shadow-xl transition-all",
-                            )}
+        <BackdropOwnerContext.Provider value={backdropOwner}>
+            <Transition appear show={isOpen} as={Fragment}>
+                <Dialog
+                    // With autoFocus on, Headless UI focuses the dialog container unless a child has data-autofocus.
+                    // Off, it focuses the first focusable element inside, so keyboard users land on a control
+                    autoFocus={false}
+                    as="div"
+                    className="ui-modal fixed inset-0 z-30 overflow-y-auto"
+                    onClose={handleOutsideClick}
+                >
+                    <div className="min-h-screen px-4 text-center">
+                        <TransitionChild
+                            as={Fragment}
+                            enter="ease-out duration-300"
+                            enterFrom="opacity-0"
+                            enterTo="opacity-100"
+                            leave="ease-in duration-200"
+                            leaveFrom="opacity-100"
+                            leaveTo="opacity-0"
                         >
-                            {onClose ? (
-                                <button
-                                    type="button"
-                                    className="absolute right-0 top-0 m-4 hidden p-2 text-black hover:text-gray-darker sm:block"
-                                    onClick={() => onClose()}
-                                >
-                                    <CloseIcon />
-                                </button>
-                            ) : null}
+                            <DialogBackdrop
+                                className="ui-modal-overlay fixed inset-0 bg-black bg-opacity-80 transition-opacity"
+                                data-backdrop-owner={backdropOwner}
+                                {...backdropHandlers}
+                            />
+                        </TransitionChild>
 
-                            {children}
-                        </div>
-                    </TransitionChild>
-                </div>
-            </Dialog>
-        </Transition>
+                        {/* This element is to trick the browser into centering the modal contents. */}
+                        {position === "center" && (
+                            <span className="inline-block h-screen align-middle" aria-hidden="true">
+                                &#8203;
+                            </span>
+                        )}
+
+                        <TransitionChild
+                            as={Fragment}
+                            enter={cn("ease-out duration-300")}
+                            enterFrom={cn("opacity-0", animations[position].enterFrom)}
+                            enterTo={cn("opacity-100", animations[position].enterTo)}
+                            leave={cn("ease-in duration-300")}
+                            leaveFrom={cn("opacity-100", animations[position].leaveFrom)}
+                            leaveTo={cn("opacity-0", animations[position].leaveTo)}
+                        >
+                            <div
+                                className={cn(
+                                    className,
+                                    sizes[size],
+                                    positions[position],
+                                    "w-full transform overflow-hidden rounded-lg bg-white p-10 text-left align-middle shadow-xl transition-all",
+                                )}
+                            >
+                                {onClose && (
+                                    <button
+                                        type="button"
+                                        className="absolute right-0 top-0 m-4 hidden p-2 text-black hover:text-gray-darker sm:block"
+                                        onClick={() => onClose()}
+                                    >
+                                        <CloseIcon />
+                                    </button>
+                                )}
+
+                                {children}
+                            </div>
+                        </TransitionChild>
+                    </div>
+                </Dialog>
+            </Transition>
+        </BackdropOwnerContext.Provider>
     );
 };
 

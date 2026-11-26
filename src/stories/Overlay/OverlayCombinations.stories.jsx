@@ -777,6 +777,62 @@ BottomSheetWithTooltip.play = async (context) => {
     await expectBackdropClosesLayerFirst(context, sheet, TOOLTIP_SELECTOR, "Sheet tooltip content");
 };
 
+const expectBackdropClosesSheetWithUnrelatedLayer = async (context, title, selector, text) => {
+    const { canvasElement, userEvent } = context;
+    const { ownerDocument } = canvasElement;
+    const body = within(ownerDocument.body);
+    const sheet = await openLaunched(context, body, "Open sheet", title);
+
+    await findPlacedLayer(ownerDocument, selector, text);
+    const backdrop = getHitAt(ownerDocument, BACKDROP_POINT);
+    await expect(backdrop).toBe(getOverlay(sheet));
+    await userEvent.click(backdrop);
+
+    await waitForClosed(sheet);
+    await expect(queryLayer(ownerDocument, selector, text)).toBeInstanceOf(HTMLElement);
+};
+
+export const BottomSheetWithUnrelatedControlledTooltip = () => {
+    return (
+        <>
+            <Tooltip open content="Unrelated tooltip content">
+                <Button>Unrelated tooltip target</Button>
+            </Tooltip>
+            <LaunchedBottomSheet title="Sheet with an unrelated tooltip">Sheet body</LaunchedBottomSheet>
+        </>
+    );
+};
+
+BottomSheetWithUnrelatedControlledTooltip.play = async (context) => {
+    await expectBackdropClosesSheetWithUnrelatedLayer(
+        context,
+        "Sheet with an unrelated tooltip",
+        TOOLTIP_SELECTOR,
+        "Unrelated tooltip content",
+    );
+};
+
+export const BottomSheetWithUnrelatedControlledPopover = () => {
+    return (
+        <>
+            <Popover open openOn="click">
+                <Button>Unrelated popover target</Button>
+                <Popover.Content className="p-4">Unrelated popover content</Popover.Content>
+            </Popover>
+            <LaunchedBottomSheet title="Sheet with an unrelated popover">Sheet body</LaunchedBottomSheet>
+        </>
+    );
+};
+
+BottomSheetWithUnrelatedControlledPopover.play = async (context) => {
+    await expectBackdropClosesSheetWithUnrelatedLayer(
+        context,
+        "Sheet with an unrelated popover",
+        POPOVER_SELECTOR,
+        "Unrelated popover content",
+    );
+};
+
 const COMBO_OPTIONS = [
     { value: 1, label: "Inline option" },
     { value: 2, label: "Portaled option" },

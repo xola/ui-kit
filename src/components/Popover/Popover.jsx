@@ -1,8 +1,9 @@
 import * as RadixHoverCard from "@radix-ui/react-hover-card";
 import * as RadixPopover from "@radix-ui/react-popover";
 import PropTypes from "prop-types";
-import React, { Children, useRef, useState } from "react";
+import React, { Children, useContext, useRef, useState } from "react";
 import { isFocusVisible } from "../../helpers/browser";
+import { BackdropOwnerContext } from "../../helpers/backdrop";
 import { getChildrenByType } from "../../helpers/children";
 import cn from "../../helpers/classnames";
 import { getMaxWidth } from "../../helpers/maxWidth";
@@ -114,6 +115,7 @@ export const Popover = ({
     warnRemovedProps("Popover", removedProps, POPOVER_REMOVED_PROPS);
 
     const triggerRef = useRef();
+    const backdropOwner = useContext(BackdropOwnerContext);
     const isPressClosedRef = useRef(false);
     const [isLocalOpen, setIsLocalOpen] = useState(false);
 
@@ -159,8 +161,9 @@ export const Popover = ({
 
     /**
      * HoverCard never closes on a press of the target, so a Modal or Drawer opened from it would sit under the popover.
-     * Reopening waits for the next pointerenter: the press focuses the target, and so does the Modal closing. Touch is
-     * excluded: a tap leaves a popover opened from the keyboard open, and the next keyboard focus can still open it.
+     * Reopening waits for pointer re-entry or keyboard navigation away from the target: the press focuses the target,
+     * and so does the Modal closing. Touch is excluded: a tap leaves a popover opened from the keyboard open, and the
+     * next keyboard focus can still open it.
      */
     const handleTargetPointerDown = (event) => {
         const isMousePress = event.pointerType !== "touch" && isOnTarget(event);
@@ -181,6 +184,15 @@ export const Popover = ({
         }
 
         isPressClosedRef.current = false;
+    };
+
+    const handleTargetBlur = (event) => {
+        const overlayFocusTarget = event.relatedTarget?.closest(
+            "[data-headlessui-portal], [data-radix-popper-content-wrapper]",
+        );
+        if (isOnTarget(event) && !overlayFocusTarget) {
+            isPressClosedRef.current = false;
+        }
     };
 
     /**
@@ -228,14 +240,27 @@ export const Popover = ({
         }
     };
 
+    const handleFocusOutside = (event) => {
+        if (!isOpen) {
+            return;
+        }
+
+        event.preventDefault();
+        onClickOutside?.();
+        handleOpenChange(false);
+    };
+
     const hoverTriggerHandlers = {
+        onBlur: handleTargetBlur,
         onFocus: handleTargetFocus,
         onPointerDown: handleTargetPointerDown,
         onPointerEnter: handleTargetPointerEnter,
     };
     const triggerHandlers = isClickOpened ? {} : hoverTriggerHandlers;
     const rootDelays = isClickOpened ? {} : { openDelay, closeDelay: Math.max(closeDelay, HOVER_CLOSE_GRACE) };
-    const contentFocus = isClickOpened ? { onOpenAutoFocus: keepFocus, onCloseAutoFocus: keepFocus } : {};
+    const contentFocus = isClickOpened
+        ? { onOpenAutoFocus: keepFocus, onCloseAutoFocus: keepFocus, onFocusOutside: handleFocusOutside }
+        : {};
 
     return (
         <Primitive.Root open={isOpen} onOpenChange={handleOpenChange} {...rootDelays}>
@@ -259,6 +284,7 @@ export const Popover = ({
                         "data-[state=closed]:animate-fade-out data-[state=open]:animate-fade-in",
                         className,
                     )}
+                    data-backdrop-owner={backdropOwner}
                     onEscapeKeyDown={handleEscapeKeyDown}
                     onPointerDownOutside={handlePointerDownOutside}
                     {...contentFocus}
