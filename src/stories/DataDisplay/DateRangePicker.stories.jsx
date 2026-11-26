@@ -2,6 +2,7 @@ import dayjs from "dayjs";
 import React, { useState } from "react";
 import { expect, waitFor, within } from "storybook/test";
 import { DatePicker, DatePickerPopover } from "../..";
+import { findDayCell } from "./datePickerTestUtils";
 
 const DateRangePickerStories = {
     title: "Data Display/Date & Time/Date Range Picker",
@@ -127,26 +128,76 @@ export const DateRangeWithInput = ({ shouldShowRelativeRanges, ranges }) => {
                     {value.to ? dayjs(value.to).format("LL") : "Pending"}
                 </div>
             </DatePickerPopover>
+            <button type="button">Outside</button>
         </div>
     );
 };
 
+DateRangeWithInput.args = { shouldShowRelativeRanges: true };
+
 DateRangeWithInput.play = async ({ canvasElement, userEvent }) => {
     const { ownerDocument } = canvasElement;
+    const canvas = within(canvasElement);
+    const body = within(ownerDocument.body);
     const trigger = canvasElement.querySelector(".cursor-pointer");
+    const outside = canvas.getByRole("button", { name: "Outside" });
     const initialText = trigger.textContent;
+    const openPicker = async () => {
+        await userEvent.click(trigger);
+        await waitFor(() => expect(ownerDocument.querySelector(".DayPicker")).toBeInTheDocument());
+    };
+    const pickRangeStart = async (day) => {
+        await openPicker();
+        await userEvent.click(findDayCell(ownerDocument, day));
+        await waitFor(() => expect(trigger).toHaveTextContent("Pending"));
+    };
+    const expectClosedWithText = async (expectedText) => {
+        await waitFor(() => expect(ownerDocument.querySelector(".DayPicker")).toBeNull());
+        await expect(trigger.textContent).toBe(expectedText);
+    };
 
-    await userEvent.click(trigger);
-    await waitFor(() => expect(ownerDocument.querySelector(".DayPicker")).toBeInTheDocument());
+    await pickRangeStart(12);
+    await userEvent.keyboard("{Escape}");
+    await expectClosedWithText(initialText);
 
-    // Escape on a half-picked range closes the picker and puts the range back, like an outside click
-    const days = [...ownerDocument.querySelectorAll(".DayPicker-Day:not(.DayPicker-Day--outside)")];
-    await userEvent.click(days.find((day) => day.textContent.trim() === "12"));
-    await waitFor(() => expect(trigger).toHaveTextContent("Pending"));
+    await pickRangeStart(12);
+    await userEvent.click(findDayCell(ownerDocument, 15));
+    await waitFor(() => expect(trigger.textContent).not.toContain("Pending"));
+    await userEvent.click(body.getByRole("button", { name: "Apply" }));
+    await waitFor(() => expect(ownerDocument.querySelector(".DayPicker")).toBeNull());
 
+    const acceptedText = trigger.textContent;
+    await expect(acceptedText).not.toBe(initialText);
+
+    const verifyHalfPickedDismissal = async (dismiss) => {
+        await pickRangeStart(20);
+
+        await dismiss();
+
+        await expectClosedWithText(acceptedText);
+    };
+
+    await verifyHalfPickedDismissal(() => userEvent.keyboard("{Escape}"));
+    await verifyHalfPickedDismissal(() => userEvent.click(outside));
+    await verifyHalfPickedDismissal(async () => {
+        const apply = body.getByRole("button", { name: "Apply" });
+        apply.focus();
+        await expect(apply).toHaveFocus();
+        outside.focus();
+        await expect(outside).toHaveFocus();
+    });
+
+    await pickRangeStart(18);
+    await userEvent.click(findDayCell(ownerDocument, 19));
+    await waitFor(() => expect(trigger.textContent).not.toContain("Pending"));
     await userEvent.keyboard("{Escape}");
     await waitFor(() => expect(ownerDocument.querySelector(".DayPicker")).toBeNull());
-    await expect(trigger.textContent).toBe(initialText);
+
+    const unappliedText = trigger.textContent;
+    await expect(unappliedText).not.toBe(acceptedText);
+    await pickRangeStart(20);
+    await userEvent.keyboard("{Escape}");
+    await expectClosedWithText(unappliedText);
 };
 
 export default DateRangePickerStories;

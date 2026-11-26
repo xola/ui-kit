@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import React, { cloneElement, forwardRef, useEffect, useState } from "react";
+import React, { cloneElement, forwardRef, useEffect, useRef, useState } from "react";
 import cn from "../../helpers/classnames";
 import { CalendarIcon, DownArrowIcon } from "../../icons";
 import { formatDate } from "../../utils/date";
@@ -23,7 +23,7 @@ export const DatePickerPopover = ({
     getDayContent,
     ...rest
 }) => {
-    const [initialValue] = useState(value);
+    const draftStartValue = useRef(value);
     const [originalValue, setOriginalValue] = useState(value);
     const [isVisible, setIsVisible] = useState(false);
 
@@ -41,6 +41,7 @@ export const DatePickerPopover = ({
     };
 
     const handleSubmitDateRange = () => {
+        draftStartValue.current = value;
         setOriginalValue(value);
         onChange?.(value);
         setIsVisible(false);
@@ -52,11 +53,12 @@ export const DatePickerPopover = ({
      */
     const handleOpenChange = (isOpen) => {
         if (isOpen) {
+            draftStartValue.current = value;
             return;
         }
 
         if (!value?.to && variant === "range") {
-            onChange(initialValue);
+            onChange(draftStartValue.current);
         }
 
         setIsVisible(false);

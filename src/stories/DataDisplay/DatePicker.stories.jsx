@@ -3,11 +3,7 @@ import React, { useState } from "react";
 import { expect, spyOn, waitFor, within } from "storybook/test";
 import { Button, DatePicker, DatePickerPopover, MonthPicker, Switch, theme } from "../..";
 import { formatDate } from "../../utils/date";
-
-const findDayCell = (canvasElement, day) =>
-    [...canvasElement.querySelectorAll(".DayPicker-Day:not(.DayPicker-Day--outside)")].find(
-        (cell) => cell.textContent.trim() === String(day),
-    );
+import { findDayCell } from "./datePickerTestUtils";
 
 const DatePickerStories = {
     title: "Data Display/Date & Time/Date Picker",
