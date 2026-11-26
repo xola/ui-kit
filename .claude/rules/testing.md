@@ -1,43 +1,42 @@
 ---
 paths:
-  - "**/*.test.js"
-  - "**/*.test.jsx"
+    - "**/*.test.js"
+    - "**/*.test.jsx"
+    - "src/stories/**"
 ---
 
-# Testing Guidelines
+# Testing
 
-## General Rules
+`vitest.config.js` has two projects. Pick by what changed:
 
-- All tests use Vitest. There is no `@testing-library/react` dependency in this repo. Don't add
-  one without discussion; component behavior is validated visually via Storybook, not rendered unit
-  tests.
-- Test files match their source filename and live next to it: `avatar.js` → `avatar.test.js` in
-  the same directory.
-- Cover pure logic in `src/utils/`, `src/helpers/`, and `src/hooks/`: anything that transforms
-  data or has branching behavior independent of rendering.
-- Do not hard-code dates; if a helper is date-dependent, generate dynamic dates relative to
-  `Date.now()` rather than a fixed literal.
-- Test both the happy path and edge/failure cases (empty input, `null`/`undefined`, boundary
-  values).
+- **Pure logic** (`src/utils/`, `src/helpers/`, `src/hooks/`, `scripts/`): a `unit` test.
+- **Component behavior**: a Storybook `play` test in the `storybook` project.
 
-```js
-describe("getInitials", () => {
-    test("should get initials from name", () => {
-        expect(getInitials("Nemanja Krstić")).toBe("NK");
-        expect(getInitials("")).toBe("N/A");
-    });
-});
-```
+Every behavior change starts red: write the test, watch it fail for the reason you expect, then fix.
 
-## What Doesn't Need a Vitest Test
+## Unit tests
 
-- New or changed components: add/update a Storybook story under `src/stories/` instead, so the
-  behavior is visible in Storybook.
-- Tailwind class name assertions: never test for the presence of a specific class string.
+- Name the file after its source and keep it beside it: `avatar.js` → `avatar.test.js`.
+- Cover the happy path plus empty, `null`/`undefined` and boundary inputs.
+- Date-dependent logic: build dates from `Date.now()` or `vi.setSystemTime`, never a fixed literal.
+- Run dependencies for real (`dayjs`, `clsx`); assert the helper's own contract.
 
-## Scope
+## Story play tests
 
-- Don't mock third-party libraries (`dayjs`, `clsx`, `downshift`) to test trivial pass-through
-  logic. Test the actual behavior of your helper, not the library underneath it.
-- Keep helper tests focused on one function's contract; don't reach into unrelated modules to set
-  up a test.
+Stories in `src/stories/<section>/` are the component test layer. Write the play function with
+`storybook/test` (`expect`, `userEvent`, `within`, `waitFor`, `fn`). Rendering components in a unit
+test needs `@testing-library/react`, which the repo leaves out by choice: ask before adding it.
+
+- Green on both React legs: `npm run test:storybook`, then `npm run react:19`,
+  `VITE_REACT_MAJOR=19 npm run test:storybook`, and `npm run react:18` to restore. CI runs both.
+- `.storybook/react-guard/` fails any story that logs a React deprecation warning. Fix the warning;
+  `allowlist.js` stays `{}`.
+- Overlays portal to `document.body`: query `within(document.body)`, find a tooltip with
+  `getByRole("tooltip")`, and wrap "is gone" checks in `waitFor` (content fades out over 250ms).
+- Stacking and clipping: assert what is painted with `document.elementFromPoint` at a measured rect,
+  as `src/stories/Overlay/OverlayCombinations.stories.jsx` does.
+- Keyboard versus mouse focus (`:focus-visible`): drive it with `getRealUserEvent()` from
+  `src/stories/realInput.js`. testing-library's `userEvent` cannot tell the two apart.
+- Assert behavior, ARIA roles and callbacks. Tailwind class strings are styling, not behavior.
+- Wait on conditions with `waitFor`. A fixed wait belongs only to a test that pins a timer window
+  (open delay, close delay, fade); name the window in the test.
