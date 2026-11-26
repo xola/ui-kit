@@ -1,0 +1,22 @@
+name: JIRA
+run-name: Link JIRA to ${{ github.event.pull_request.head.ref || github.event.pull_request.number }}
+
+on:
+  pull_request:
+    types: [opened, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  affiliation:
+    uses: ./.github/workflows/team-affiliation.yml
+    secrets:
+      ES_LINT_TOKEN: ${{ secrets.ES_LINT_TOKEN }}
+
+  link-jira:
+    name: Link to PR
+    needs: affiliation
+    uses: xola/actions/.github/workflows/link-jira.yml@main
+    secrets: inherit

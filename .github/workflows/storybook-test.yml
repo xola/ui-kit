@@ -13,8 +13,14 @@ permissions:
   contents: read
 
 jobs:
+  affiliation:
+    uses: ./.github/workflows/team-affiliation.yml
+    secrets:
+      ES_LINT_TOKEN: ${{ secrets.ES_LINT_TOKEN }}
+
   test:
     name: 🧪 Storybook Tests
+    needs: affiliation
     runs-on: ubuntu-latest
 
     steps:
@@ -22,10 +28,10 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Node.JS 20
+      - name: Node.JS 24
         uses: actions/setup-node@v7
         with:
-          node-version: 20
+          node-version: 24
           cache: "npm"
           cache-dependency-path: "package-lock.json"
 
@@ -42,6 +48,12 @@ jobs:
 
       - name: Run Storybook interaction tests
         run: npm run test:storybook
+
+      - name: Build
+        run: npm run build
+
+      - name: SSR import
+        run: npm run test:ssr
 
       - name: Check bundle size (tree-shaking regression)
         run: npm run test:bundle-size
