@@ -129,7 +129,7 @@ Primitive rule, which decides how `open` and `openOn` combine:
 
 - An explicit `openOn` always wins.
 - With no `openOn`, a popover whose `open` is defined on its first render is a click popover (Radix Popover). Its content is tabbable and it has no hover behavior.
-- With no `openOn` and `open` undefined, the popover is a hover popover (Radix HoverCard). It opens on hover and on trigger focus.
+- With no `openOn` and `open` undefined, the popover is a hover popover (Radix HoverCard). It opens on hover and on trigger focus, and a mouse press on the trigger closes it, as Tippy's `hideOnClick` default did.
 - The choice is made once, at mount. A popover whose `open` starts `undefined` stays a hover popover for its whole life, even after `open` is set. Start the state at `false`: `useState<boolean>()` becomes `useState(false)`.
 
 Whether to add `openOn` keeps Tippy's behavior:
@@ -284,7 +284,7 @@ Then re-run the step 2 commands. Done when:
 Manual checks in the browser, one per kind of component the app uses:
 
 - Tooltip: hover and keyboard focus show it, Escape and moving away hide it, and a tooltip on a disabled button still shows.
-- Hover popover: opens on hover and focus, stays open while the pointer crosses to the content, closes on an outside click.
+- Hover popover: opens on hover and focus, stays open while the pointer crosses to the content, closes on an outside click and on a mouse press of the trigger. A `Modal` or `Drawer` opened from inside the trigger is not covered by the popover.
 - Click and controlled popover: opens on click, closes on an outside click and Escape, and inside a `Modal` the first Escape closes the popover and the second closes the modal. Tab order is unchanged around the trigger.
 - `DatePickerPopover`: opens at the right side, including inside a modal and near a viewport edge.
 - `Sidebar.Menu`: hover opens it after about 150ms, a diagonal move to a low item keeps it open, a second menu replaces the first, and a tap opens it on a touch device.

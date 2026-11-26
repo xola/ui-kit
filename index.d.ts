@@ -137,7 +137,8 @@ export interface PopoverProps {
     /** Controls visibility. Leave undefined to open on `openOn`. */
     open?: boolean;
     /**
-     * "hover" opens on hover and focus (Radix HoverCard), "click" on click (Radix Popover, content is tabbable).
+     * "hover" opens on hover and focus and closes on a mouse press of the target (Radix HoverCard), "click" opens on click
+     * (Radix Popover, content is tabbable).
      * Without `openOn`, `open` set on the first render picks "click" and `open` undefined picks "hover". The
      * primitive is chosen at mount, so a popover that starts with `open` undefined stays hover for life: start a
      * controlled popover at `false`, not `undefined`.

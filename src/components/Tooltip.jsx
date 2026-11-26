@@ -34,7 +34,7 @@ const ARROW_HEIGHT = 8;
 
 /**
  * Radix skips its trigger handler for a default-prevented event. Its open path closes every other open tooltip and
- * resets the provider's skip delay, so a tooltip that cannot show stops pointermove and focus before they reach it.
+ * resets the provider's skip delay, so a pointermove or focus that must not open the tooltip stops before it reaches it.
  */
 const preventOpen = (event) => event.preventDefault();
 
@@ -99,6 +99,17 @@ export const Tooltip = ({
         onOpenChange?.(nextOpen);
     };
 
+    /**
+     * React bubbles events from portaled children up the component tree, so a Modal the target renders would hover and
+     * focus the target from outside it, and the bubble would show over that Modal.
+     */
+    const handleTriggerOpenEvent = (event) => {
+        const isOpenable = isTooltipShown && triggerRef.current?.contains(event.target);
+        if (!isOpenable) {
+            preventOpen(event);
+        }
+    };
+
     const handlePointerDownOutside = (event) => {
         const isTriggerPress = triggerRef.current?.contains(event.target);
         if (!isTriggerPress) {
@@ -117,8 +128,8 @@ export const Tooltip = ({
             <RadixTooltip.Trigger
                 asChild
                 ref={triggerRef}
-                onFocus={isTooltipShown ? undefined : preventOpen}
-                onPointerMove={isTooltipShown ? undefined : preventOpen}
+                onFocus={handleTriggerOpenEvent}
+                onPointerMove={handleTriggerOpenEvent}
             >
                 <span className={className}>{children}</span>
             </RadixTooltip.Trigger>

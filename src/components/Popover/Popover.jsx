@@ -47,8 +47,8 @@ const ARROW_HEIGHT = 8;
 const HOVER_CLOSE_GRACE = 100;
 
 /**
- * Radix skips its trigger handler for a default-prevented event, so a disabled hover popover stops pointerenter and
- * focus before HoverCard schedules an open.
+ * Radix skips its trigger handler for a default-prevented event, so a hover popover stops a pointerenter or focus it
+ * must not open on before HoverCard schedules an open.
  */
 const preventOpen = (event) => event.preventDefault();
 
@@ -87,8 +87,9 @@ Content.propTypes = {
  *
  * @param {boolean?}         props.disabled        Never shows the popover.
  * @param {boolean?}         props.open            Controls visibility. Leave undefined to open on `openOn`.
- * @param {string?}          props.openOn          "hover" opens on hover and focus, "click" on click. Default: "click" if
- *                                                 `open` is set on the first render, else "hover".
+ * @param {string?}          props.openOn          "hover" opens on hover and focus and closes on a mouse press of the target,
+ *                                                 "click" opens on click. Default: "click" if `open` is set on the first
+ *                                                 render, else "hover".
  * @param {string?}          props.placement       Tippy-style placement, e.g. "top", "bottom-start". "auto" is "top".
  * @param {number|number[]?} props.delay           Hover delay in ms before opening and before closing; `[open, close]`
  *                                                 sets them apart. Closing waits at least 100ms.
@@ -121,6 +122,7 @@ export const Popover = ({
     warnRemovedProps("Popover", removedProps, POPOVER_REMOVED_PROPS);
 
     const triggerRef = useRef();
+    const isPressClosedRef = useRef(false);
     const [isLocalOpen, setIsLocalOpen] = useState(false);
 
     /**
@@ -146,7 +148,8 @@ export const Popover = ({
     }
 
     const handleOpenChange = (nextOpen) => {
-        if (disabled) {
+        const isReopenAfterPress = nextOpen && isPressClosedRef.current;
+        if (disabled || isReopenAfterPress) {
             return;
         }
 
@@ -155,11 +158,49 @@ export const Popover = ({
     };
 
     /**
+     * React bubbles events from portaled children up the component tree, so a Modal rendered inside the target would
+     * hover and focus it from outside its DOM. Only the target's own DOM counts.
+     */
+    const isOnTarget = (event) => triggerRef.current?.contains(event.target);
+
+    /**
+     * HoverCard never closes on a press of the target, so a Modal or Drawer opened from it would sit under the popover.
+     * Reopening waits for the next pointerenter: the press focuses the target, and so does the Modal closing. Touch is
+     * excluded because a tap opens a hover popover only through that focus.
+     */
+    const handleTargetPointerDown = (event) => {
+        const isMousePress = event.pointerType !== "touch" && isOnTarget(event);
+        if (!isMousePress) {
+            return;
+        }
+
+        isPressClosedRef.current = true;
+        if (isOpen) {
+            handleOpenChange(false);
+        }
+    };
+
+    const handleTargetPointerEnter = (event) => {
+        if (disabled || !isOnTarget(event)) {
+            preventOpen(event);
+            return;
+        }
+
+        isPressClosedRef.current = false;
+    };
+
+    const handleTargetFocus = (event) => {
+        if (disabled || !isOnTarget(event)) {
+            preventOpen(event);
+        }
+    };
+
+    /**
      * The content, and Radix's outside-press and Escape listeners with it, stay mounted through the fade-out. A closed
      * popover ignores them, or a second press would reach a toggle-style `onClickOutside` and reopen it.
      *
-     * A press on the target is left to the target. Radix Popover toggles on it, and HoverCard would dismiss, then reopen
-     * on the focus the same press gives the target.
+     * A press on the target is left to the target. Radix Popover toggles on it, and `handleTargetPointerDown` already
+     * closes a hover popover.
      */
     const handlePointerDownOutside = (event) => {
         if (!isOpen) {
@@ -187,14 +228,18 @@ export const Popover = ({
         }
     };
 
-    const isHoverBlocked = disabled && !isClickOpened;
-    const triggerGuards = isHoverBlocked ? { onFocus: preventOpen, onPointerEnter: preventOpen } : {};
+    const hoverTriggerHandlers = {
+        onFocus: handleTargetFocus,
+        onPointerDown: handleTargetPointerDown,
+        onPointerEnter: handleTargetPointerEnter,
+    };
+    const triggerHandlers = isClickOpened ? {} : hoverTriggerHandlers;
     const rootDelays = isClickOpened ? {} : { openDelay, closeDelay: Math.max(closeDelay, HOVER_CLOSE_GRACE) };
     const contentFocus = isClickOpened ? { onOpenAutoFocus: keepFocus, onCloseAutoFocus: keepFocus } : {};
 
     return (
         <Primitive.Root open={isOpen} onOpenChange={handleOpenChange} {...rootDelays}>
-            <Primitive.Trigger asChild ref={triggerRef} {...triggerGuards}>
+            <Primitive.Trigger asChild ref={triggerRef} {...triggerHandlers}>
                 <span>{target}</span>
             </Primitive.Trigger>
             <Primitive.Portal>

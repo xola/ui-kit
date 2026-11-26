@@ -107,19 +107,12 @@ export const Default = ({ demoText = "Hello World", ...rest }) => {
     );
 };
 
-Default.play = async ({ args, canvas, canvasElement, userEvent }) => {
+Default.play = async ({ canvas, canvasElement, userEvent }) => {
     const target = getTarget(canvas, "Hello World");
     await expect(queryBox(canvasElement, "Popover Title")).toBeUndefined();
 
     await userEvent.hover(target);
     await findBox(canvasElement, "Popover Title");
-
-    // Clicking the hovered target leaves the popover open and is not an outside click
-    await userEvent.click(canvas.getByRole("button", { name: "Hello World" }));
-    await waitForChangeWindow();
-    await expect(queryBox(canvasElement, "Popover Title")).toHaveAttribute("data-state", "open");
-    await expect(args.onOpenChange).not.toHaveBeenCalledWith(false);
-    await expect(args.onClickOutside).not.toHaveBeenCalled();
 
     await userEvent.unhover(target);
     await expectNoBox(canvasElement, "Popover Title");
@@ -672,6 +665,143 @@ FocusMovesIntoContent.play = async ({ args, canvas, canvasElement, userEvent }) 
     await waitForChangeWindow();
     await expect(box).toHaveAttribute("data-state", "open");
     await expect(args.onOpenChange).not.toHaveBeenCalledWith(false);
+};
+
+export const TargetClickCloses = ({ onOpenChange, onClickOutside }) => {
+    return (
+        <Popover placement="right" onOpenChange={onOpenChange} onClickOutside={onClickOutside}>
+            <Button>Click close target</Button>
+            <Popover.Content className="p-4">Click close content</Popover.Content>
+        </Popover>
+    );
+};
+
+TargetClickCloses.play = async ({ args, canvas, canvasElement, userEvent }) => {
+    const target = getTarget(canvas, "Click close target");
+
+    await userEvent.hover(target);
+    await findBox(canvasElement, "Click close content");
+    args.onOpenChange.mockClear();
+
+    // The focus the same press gives the target must not reopen it
+    await userEvent.click(canvas.getByRole("button", { name: "Click close target" }));
+    await expectNoBox(canvasElement, "Click close content");
+    await waitForChangeWindow();
+    await expect(queryBox(canvasElement, "Click close content")).toBeUndefined();
+    await expect(args.onOpenChange.mock.calls).toEqual([[false]]);
+    await expect(args.onClickOutside).not.toHaveBeenCalled();
+
+    await userEvent.unhover(target);
+    await userEvent.hover(target);
+    await findBox(canvasElement, "Click close content");
+};
+
+export const ControlledHoverClickCloses = ({ onOpenChange }) => {
+    const [isOpen, setIsOpen] = useState(false);
+    const handleOpenChange = (nextOpen) => {
+        setIsOpen(nextOpen);
+        onOpenChange(nextOpen);
+    };
+
+    return (
+        <Popover open={isOpen} openOn="hover" onOpenChange={handleOpenChange}>
+            <Button>Controlled click close target</Button>
+            <Popover.Content className="p-4">Controlled click close content</Popover.Content>
+        </Popover>
+    );
+};
+
+ControlledHoverClickCloses.play = async ({ args, canvas, canvasElement, userEvent }) => {
+    await userEvent.hover(getTarget(canvas, "Controlled click close target"));
+    await findBox(canvasElement, "Controlled click close content");
+    args.onOpenChange.mockClear();
+
+    await userEvent.click(canvas.getByRole("button", { name: "Controlled click close target" }));
+    await expectNoBox(canvasElement, "Controlled click close content");
+    await waitForChangeWindow();
+    await expect(args.onOpenChange.mock.calls).toEqual([[false]]);
+};
+
+/** Renders its Modal inside the popover target, as admin's payout and subscription badges do. */
+const ModalLauncher = () => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const handleOpen = () => setIsModalOpen(true);
+    const handleClose = () => setIsModalOpen(false);
+
+    return (
+        <span className="flex items-center gap-2">
+            Payouts
+            <Button size="small" onClick={handleOpen}>
+                Edit payouts
+            </Button>
+            <Modal isOpen={isModalOpen} onClose={handleClose}>
+                <Modal.Header>Payouts modal</Modal.Header>
+                <Modal.Footer>
+                    <Button onClick={handleClose}>Close payouts</Button>
+                </Modal.Footer>
+            </Modal>
+        </span>
+    );
+};
+
+export const TargetOpensModal = () => {
+    return (
+        <Popover placement="bottom">
+            <ModalLauncher />
+            <Popover.Content className="p-4">Payouts content</Popover.Content>
+        </Popover>
+    );
+};
+
+TargetOpensModal.play = async ({ canvas, canvasElement, userEvent }) => {
+    const { ownerDocument } = canvasElement;
+    const body = within(ownerDocument.body);
+    const target = getTarget(canvas, "Edit payouts");
+
+    await userEvent.hover(target);
+    await findBox(canvasElement, "Payouts content");
+
+    // The modal takes focus from inside the target's React tree, which must not hold the popover open over it
+    await userEvent.click(canvas.getByRole("button", { name: "Edit payouts" }));
+    await body.findByText("Payouts modal");
+    await expectNoBox(canvasElement, "Payouts content");
+    await waitForChangeWindow();
+    await expect(queryBox(canvasElement, "Payouts content")).toBeUndefined();
+
+    const closeButton = body.getByRole("button", { name: "Close payouts" });
+    const { left, top, width, height } = closeButton.getBoundingClientRect();
+    await expect(closeButton.contains(ownerDocument.elementFromPoint(left + width / 2, top + height / 2))).toBe(true);
+    await userEvent.click(closeButton);
+    await waitFor(() => expect(body.queryByText("Payouts modal")).toBeNull());
+
+    // Focus coming back to the target as the modal closes does not reopen the popover; the next hover does
+    await waitForChangeWindow();
+    await expect(queryBox(canvasElement, "Payouts content")).toBeUndefined();
+    await userEvent.hover(target);
+    await findBox(canvasElement, "Payouts content");
+};
+
+export const TargetOpensModalFromKeyboard = () => {
+    return (
+        <Popover placement="bottom">
+            <ModalLauncher />
+            <Popover.Content className="p-4">Keyboard payouts content</Popover.Content>
+        </Popover>
+    );
+};
+
+TargetOpensModalFromKeyboard.play = async ({ canvas, canvasElement, userEvent }) => {
+    const body = within(canvasElement.ownerDocument.body);
+
+    await userEvent.tab();
+    await expect(canvas.getByRole("button", { name: "Edit payouts" })).toHaveFocus();
+    await findBox(canvasElement, "Keyboard payouts content");
+
+    await userEvent.keyboard("{Enter}");
+    await body.findByText("Payouts modal");
+    await expectNoBox(canvasElement, "Keyboard payouts content");
+    await waitForChangeWindow();
+    await expect(queryBox(canvasElement, "Keyboard payouts content")).toBeUndefined();
 };
 
 let disabledWarnSpy;

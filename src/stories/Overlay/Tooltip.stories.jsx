@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { expect, fn, spyOn, waitFor } from "storybook/test";
-import { Button, Tooltip, UserIcon } from "../..";
+import { expect, fn, spyOn, waitFor, within } from "storybook/test";
+import { Button, Modal, Tooltip, UserIcon } from "../..";
 
 // More props in docs
 const documentationUrl = "https://www.radix-ui.com/primitives/docs/components/tooltip";
@@ -415,6 +415,72 @@ ClickOutside.play = async ({ canvas, canvasElement, userEvent }) => {
 
     await userEvent.click(canvas.getByRole("button", { name: "Outside" }));
     await expect(onClickOutside).toHaveBeenCalledTimes(1);
+};
+
+/** Renders its Modal inside the tooltip target, so the modal's focus and pointer events bubble up to the target. */
+const ModalLauncher = () => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const handleOpen = () => setIsModalOpen(true);
+    const handleClose = () => setIsModalOpen(false);
+
+    return (
+        <span className="flex items-center gap-2">
+            Payouts
+            <Button size="small" onClick={handleOpen}>
+                Edit payouts
+            </Button>
+            <Modal isOpen={isModalOpen} onClose={handleClose}>
+                <Modal.Header>Payouts modal</Modal.Header>
+                <Modal.Footer>
+                    <Button onClick={handleClose}>Close payouts</Button>
+                </Modal.Footer>
+            </Modal>
+        </span>
+    );
+};
+
+export const TargetOpensModal = () => {
+    return (
+        <Tooltip content="Payouts tip">
+            <ModalLauncher />
+        </Tooltip>
+    );
+};
+
+TargetOpensModal.play = async ({ canvas, canvasElement, userEvent }) => {
+    const body = within(canvasElement.ownerDocument.body);
+
+    await userEvent.hover(getTarget(canvas, "Edit payouts"));
+    await findBubble(canvasElement, "Payouts tip");
+
+    await userEvent.click(canvas.getByRole("button", { name: "Edit payouts" }));
+    await body.findByText("Payouts modal");
+    await userEvent.hover(body.getByRole("button", { name: "Close payouts" }));
+    await expectNoBubble(canvasElement, "Payouts tip");
+    await waitForOpenWindow();
+    await expect(queryBubble(canvasElement, "Payouts tip")).toBeUndefined();
+};
+
+export const TargetOpensModalFromKeyboard = () => {
+    return (
+        <Tooltip content="Keyboard payouts tip">
+            <ModalLauncher />
+        </Tooltip>
+    );
+};
+
+TargetOpensModalFromKeyboard.play = async ({ canvas, canvasElement, userEvent }) => {
+    const body = within(canvasElement.ownerDocument.body);
+
+    await userEvent.tab();
+    await expect(canvas.getByRole("button", { name: "Edit payouts" })).toHaveFocus();
+    await findBubble(canvasElement, "Keyboard payouts tip");
+
+    await userEvent.keyboard("{Enter}");
+    await body.findByText("Payouts modal");
+    await expectNoBubble(canvasElement, "Keyboard payouts tip");
+    await waitForOpenWindow();
+    await expect(queryBubble(canvasElement, "Keyboard payouts tip")).toBeUndefined();
 };
 
 export const WithoutProvider = () => {

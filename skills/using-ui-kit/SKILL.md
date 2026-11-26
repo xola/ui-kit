@@ -131,7 +131,7 @@ Props: `open`, `openOn`, `disabled`, `placement`, `delay`, `skidding`, `distance
 
 Hover or click is chosen once, at mount:
 
-- `openOn` set: it wins. `"hover"` opens on hover and focus, `"click"` opens on click.
+- `openOn` set: it wins. `"hover"` opens on hover and focus and closes on a mouse press of the target, `"click"` opens on click.
 - `openOn` omitted and `open` defined: click popover. The content is tabbable and there is no hover.
 - `openOn` omitted and `open` undefined: hover popover.
 - A popover whose `open` starts `undefined` stays hover for life. Start controlled state at `false`.
