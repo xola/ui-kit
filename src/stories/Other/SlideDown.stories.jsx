@@ -45,4 +45,16 @@ Default.play = async ({ canvas, userEvent }) => {
     });
 };
 
+export const Visible = () => {
+    return (
+        <SlideDown isOpen>
+            <div className="rounded bg-gray-lighter p-4">Slid down into view</div>
+        </SlideDown>
+    );
+};
+
+Visible.play = async ({ canvas }) => {
+    await waitFor(() => expect(canvas.getByText("Slid down into view")).toBeVisible(), { timeout: 2000 });
+};
+
 export default SlideDownStories;

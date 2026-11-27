@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import React, { useState } from "react";
-import { expect } from "storybook/test";
+import { expect, waitFor } from "storybook/test";
 import { BottomSheet, Button, DatePickerPopover, Input } from "../..";
 import { expectFocusInside, getPortalCanvas, waitForClosed } from "../helpers";
 
@@ -79,6 +79,36 @@ Default.play = async ({ canvas, canvasElement, userEvent }) => {
     await userEvent.click(ownerDocument.querySelector(".ui-bottom-sheet-overlay"));
     await waitForClosed(body.queryByText("Apply Code"));
 };
+
+const handleOpenSheetClose = () => {};
+
+const OpenSheet = () => {
+    return (
+        <BottomSheet isOpen onClose={handleOpenSheetClose}>
+            <BottomSheet.Header>Open bottom sheet</BottomSheet.Header>
+            <BottomSheet.Body>Open bottom sheet body</BottomSheet.Body>
+            <BottomSheet.Footer>
+                <Button>Done</Button>
+            </BottomSheet.Footer>
+        </BottomSheet>
+    );
+};
+
+const expectOpenSheet = async ({ canvasElement }) => {
+    const body = getPortalCanvas(canvasElement);
+    const dialog = await body.findByRole("dialog");
+
+    await waitFor(() => {
+        expect(dialog.querySelector("[data-enter], [data-closed]")).toBeNull();
+        expect(dialog.getAnimations({ subtree: true })).toHaveLength(0);
+    });
+};
+
+export const Open = () => <OpenSheet />;
+Open.play = expectOpenSheet;
+
+export const Mobile = () => <OpenSheet />;
+Mobile.play = expectOpenSheet;
 
 // Tall scrollable body: the Body scrolls independently while the Header/Footer stay pinned.
 export const ScrollableContent = ({ shouldCloseOnOutsideClick }) => {

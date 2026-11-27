@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { expect, fn, spyOn } from "storybook/test";
 import { Button, FormGroup, Label, RangeSlider } from "../..";
+import { isDevelopment } from "../../helpers/environment";
 import { expectWarnings } from "../helpers";
 
 const RangeSliderStories = {
@@ -307,6 +308,10 @@ RemovedPropWarns.beforeEach = () => {
 };
 
 RemovedPropWarns.play = async () => {
+    if (!isDevelopment) {
+        return;
+    }
+
     const message =
         "UI Kit RangeSlider: 'tooltipCustomFormatter' was removed in 3.8, use 'formatTooltip(value, index)'";
 

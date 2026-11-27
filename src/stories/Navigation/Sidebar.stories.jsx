@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import React, { useState } from "react";
 import { expect, fn, spyOn, waitFor, within } from "storybook/test";
 import { Button, Modal, Sidebar, useSidebar } from "../..";
+import { isDevelopment } from "../../helpers/environment";
 import { expectNoLayer, expectWarnings, findLayer, queryLayer, wait, waitForChangeWindow } from "../helpers";
 import {
     AnnounceIcon,
@@ -1201,6 +1202,10 @@ RemovedPropWarns.beforeEach = () => {
 };
 
 RemovedPropWarns.play = async () => {
+    if (!isDevelopment) {
+        return;
+    }
+
     const expected = [
         "UI Kit Sidebar.Menu: 'visible' was removed in 3.8, use 'open'",
         "UI Kit Sidebar.Menu: 'onMount' was removed in 3.8, use 'onOpenChange'",

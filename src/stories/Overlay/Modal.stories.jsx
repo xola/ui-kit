@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { expect, fn } from "storybook/test";
+import { expect, fn, waitFor } from "storybook/test";
 import { Button, Input, Modal } from "../..";
 import { expectFocusInside, getPortalCanvas, selectArg, waitForClosed } from "../helpers";
 
@@ -117,6 +117,67 @@ Default.play = async ({ args, canvas, canvasElement, userEvent }) => {
     await userEvent.click(body.getByRole("button", { name: "Cancel" }));
     await waitForClosed(body.queryByText("Apply Code"));
 };
+
+const handleOpenModalClose = () => {};
+
+const OpenModal = ({ size = "medium", position = "center", children = "Open modal body" }) => {
+    return (
+        <Modal isOpen size={size} position={position} onClose={handleOpenModalClose}>
+            <Modal.Header>Open modal</Modal.Header>
+            <Modal.Body>{children}</Modal.Body>
+        </Modal>
+    );
+};
+
+const expectOpenModal = async ({ canvasElement }) => {
+    const body = getPortalCanvas(canvasElement);
+    const dialog = await body.findByRole("dialog");
+
+    await waitFor(() => {
+        expect(dialog.querySelector("[data-enter], [data-closed]")).toBeNull();
+        expect(dialog.getAnimations({ subtree: true })).toHaveLength(0);
+    });
+};
+
+export const OpenSmall = () => <OpenModal size="small" />;
+OpenSmall.play = expectOpenModal;
+
+export const OpenMedium = () => <OpenModal />;
+OpenMedium.play = expectOpenModal;
+
+export const OpenLarge = () => <OpenModal size="large" />;
+OpenLarge.play = expectOpenModal;
+
+export const OpenHuge = () => <OpenModal size="huge" />;
+OpenHuge.play = expectOpenModal;
+
+export const OpenTopLeft = () => <OpenModal position="topLeft" />;
+OpenTopLeft.play = expectOpenModal;
+
+export const OpenTopRight = () => <OpenModal position="topRight" />;
+OpenTopRight.play = expectOpenModal;
+
+export const OpenBottomLeft = () => <OpenModal position="bottomLeft" />;
+OpenBottomLeft.play = expectOpenModal;
+
+export const OpenBottomRight = () => <OpenModal position="bottomRight" />;
+OpenBottomRight.play = expectOpenModal;
+
+export const LongContent = () => {
+    const paragraphs = Array.from({ length: 30 }, (_, index) => `Long modal content paragraph ${index + 1}`);
+
+    return (
+        <OpenModal>
+            {paragraphs.map((paragraph) => (
+                <p key={paragraph} className="mb-4">
+                    {paragraph}
+                </p>
+            ))}
+        </OpenModal>
+    );
+};
+
+LongContent.play = expectOpenModal;
 
 export const CustomWidth = ({ size, position, shouldCloseOnOutsideClick }) => {
     const [isOpen, setIsOpen] = useState(false);

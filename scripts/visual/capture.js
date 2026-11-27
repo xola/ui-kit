@@ -25,6 +25,7 @@ import { chromium } from "playwright";
 const MAX_RESIZE_PASSES = 3;
 const STORY_TIMEOUT_MS = 30_000;
 const VIEWPORT = { width: 1280, height: 800 };
+const MOBILE_VIEWPORT = { width: 375, height: 812 };
 const FIXED_TIME = new Date("2026-01-15T12:00:00Z");
 
 const CONTENT_TYPES = {
@@ -93,6 +94,10 @@ const parseStoryMap = (map) => {
 
     if (!isIdMap) {
         throw new Error('--map must be an object of string pairs like { "production-story-id": "current-story-id" }');
+    }
+
+    if (Object.values(parsed).some((id) => id.length === 0)) {
+        throw new Error("--map target ids must not be empty");
     }
 
     // Two production ids mapped to the same current id would overwrite each other's files mid-capture.
@@ -215,7 +220,7 @@ const getStoryIds = async ({ mode, staticDir, baseUrl, filter }) => {
  * and afterEach hooks in both the success and the error path. STORY_RENDERED alone is not enough:
  * a throwing play function rethrows past the "completed" phase, so STORY_RENDERED never fires.
  */
-const renderStoryInPage = ({ storyId, timeoutMs }) => {
+export const renderStoryInPage = ({ storyId, timeoutMs }) => {
     const channel = window.__STORYBOOK_ADDONS_CHANNEL__;
     const errors = [];
     const describe = (error) => error?.message ?? error?.title ?? String(error);
@@ -246,6 +251,14 @@ const renderStoryInPage = ({ storyId, timeoutMs }) => {
                 finish();
             },
         };
+
+        if (typeof window.__STORYBOOK_PREVIEW__.ready !== "function") {
+            listeners.storyRendered = (renderedId) => {
+                if (renderedId === storyId) {
+                    finish();
+                }
+            };
+        }
 
         const timer = setTimeout(() => {
             errors.push(`Timed out after ${timeoutMs}ms waiting for storyFinished`);
@@ -303,7 +316,7 @@ const fitViewportToContent = async (page) => {
     let lastGrowth = 0;
 
     for (let pass = 0; pass < MAX_RESIZE_PASSES; pass += 1) {
-        const { height: currentHeight } = page.viewportSize();
+        const { width, height: currentHeight } = page.viewportSize();
         const contentHeight = await page.evaluate(() => {
             const { body, documentElement } = document;
             return Math.max(documentElement.scrollHeight, body.scrollHeight);
@@ -315,7 +328,7 @@ const fitViewportToContent = async (page) => {
         }
 
         lastGrowth = growth;
-        await page.setViewportSize({ width: VIEWPORT.width, height: currentHeight + growth });
+        await page.setViewportSize({ width, height: currentHeight + growth });
     }
 };
 
@@ -357,13 +370,17 @@ const pinCurrentDate = (fixedTime) => {
     });
 };
 
+export const getViewport = (storyId) => (storyId.endsWith("--mobile") ? MOBILE_VIEWPORT : VIEWPORT);
+
+export const readyPreview = () => window.__STORYBOOK_PREVIEW__.ready?.();
+
 const captureStory = async ({ browser, baseUrl, outDir, storyId, outputId }) => {
     const context = await browser.newContext({
         locale: "en-US",
         timezoneId: "UTC",
         reducedMotion: "reduce",
         deviceScaleFactor: 1,
-        viewport: VIEWPORT,
+        viewport: getViewport(storyId),
     });
     const page = await context.newPage();
     const errors = [];
@@ -374,7 +391,7 @@ const captureStory = async ({ browser, baseUrl, outDir, storyId, outputId }) => 
         await page.addInitScript(pinCurrentDate, FIXED_TIME.getTime());
         await page.goto(`${baseUrl}/iframe.html`);
         await page.waitForFunction(() => window.__STORYBOOK_PREVIEW__ && window.__STORYBOOK_ADDONS_CHANNEL__);
-        await page.evaluate(() => window.__STORYBOOK_PREVIEW__.ready());
+        await page.evaluate(readyPreview);
         await page.evaluate(disableAutomaticA11yRun);
 
         errors.push(...(await page.evaluate(renderStoryInPage, { storyId, timeoutMs: STORY_TIMEOUT_MS })));
@@ -425,6 +442,17 @@ const runPool = async (items, workers, task) => {
     await Promise.all(Array.from({ length: Math.min(workers, items.length) }, runWorker));
 };
 
+export const getOutputIds = (storyIds, map) => {
+    const unmappedIds = new Set(storyIds.filter((storyId) => map[storyId] === undefined));
+    const collisions = [...new Set(Object.values(map).filter((outputId) => unmappedIds.has(outputId)))].sort();
+
+    if (collisions.length > 0) {
+        throw new Error(`--map target ids collide with unmapped source ids: ${collisions.join(", ")}`);
+    }
+
+    return storyIds.map((storyId) => map[storyId] ?? storyId);
+};
+
 const main = async () => {
     const { outDir, filter, workers, mode, staticDir, baseUrl: remoteUrl, map } = getOptions();
     const storyIds = await getStoryIds({ mode, staticDir, baseUrl: remoteUrl, filter });
@@ -434,7 +462,7 @@ const main = async () => {
     }
 
     const getOutputId = (storyId) => map[storyId] ?? storyId;
-    const outputIds = storyIds.map(getOutputId);
+    const outputIds = getOutputIds(storyIds, map);
     const manifest = await prepareOutDir({ outDir, filter, outputIds });
 
     const server = mode === "static" ? await startServer(staticDir) : undefined;

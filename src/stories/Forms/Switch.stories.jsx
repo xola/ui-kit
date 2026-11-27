@@ -87,6 +87,18 @@ WithLabelAndId.play = async ({ canvas, userEvent }) => {
     await expect(toggle).toHaveAttribute("aria-checked", "false");
 };
 
+export const Focused = () => {
+    const [checked, setChecked] = useState(false);
+    return <Switch isChecked={checked} onChange={setChecked} />;
+};
+
+Focused.play = async ({ canvas, userEvent }) => {
+    const toggle = canvas.getByRole("switch");
+    await userEvent.tab();
+    await expect(toggle).toHaveFocus();
+    await expect(toggle).toHaveAttribute("aria-checked", "false");
+};
+
 export const Disabled = ({ size }) => {
     const [checked, setChecked] = useState(false);
     return <Switch disabled isChecked={checked} size={size} onChange={setChecked} />;

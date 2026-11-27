@@ -104,6 +104,20 @@ Default.play = async ({ canvas }) => {
     await expect(canvas.getAllByText("Submit")).toHaveLength(3);
 };
 
+export const Disabled = (props) => {
+    return <SubmitButton {...props}>Submit</SubmitButton>;
+};
+
+Disabled.args = {
+    disabled: true,
+};
+
+Disabled.play = async ({ canvas }) => {
+    const button = canvas.getByRole("button", { name: "Submit" });
+    await expect(button).toBeDisabled();
+    await expect(button.querySelector(".ui-spinner")).not.toBeInTheDocument();
+};
+
 export const Loading = (props) => {
     return <SubmitButton {...props}>Submit</SubmitButton>;
 };

@@ -116,4 +116,45 @@ export const AllStyles = (props) => {
     );
 };
 
+export const Sizes = () => {
+    return (
+        <div className="space-y-8">
+            {FlashStories.argTypes.size.options.map((size) => {
+                const classes = flash.getStyles("primary", size, "relative", false);
+                return (
+                    <React.Fragment key={size}>
+                        {flash.container(`[${size}] Flash message`, classes, null, {
+                            id: `flash-${size}`,
+                            visible: true,
+                        })}
+                    </React.Fragment>
+                );
+            })}
+        </div>
+    );
+};
+
+Sizes.play = async ({ canvas }) => {
+    await waitFor(() => expect(canvas.getByText("[small] Flash message")).toBeVisible());
+    await expect(canvas.getByText("[medium] Flash message")).toBeVisible();
+    await expect(canvas.getByText("[large] Flash message")).toBeVisible();
+};
+
+export const Persistent = () => {
+    const text = "Persistent flash message";
+    const handleShow = () => flash.show({ text, canClose: false });
+
+    return (
+        <div>
+            <Button onClick={handleShow}>Show persistent flash</Button>
+            <Toaster />
+        </div>
+    );
+};
+
+Persistent.play = async ({ canvas, userEvent }) => {
+    await userEvent.click(canvas.getByRole("button", { name: "Show persistent flash" }));
+    await waitFor(() => expect(canvas.getByText("Persistent flash message")).toBeVisible());
+};
+
 export default FlashStories;

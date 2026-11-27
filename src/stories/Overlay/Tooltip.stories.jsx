@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { expect, fn, spyOn, waitFor } from "storybook/test";
 import { Button, Drawer, Modal, Tooltip } from "../..";
 import { UserIcon } from "../../icons";
+import { isDevelopment } from "../../helpers/environment";
 import {
     arg,
     expectNoLayer,
@@ -849,6 +850,10 @@ RemovedPropWarns.beforeEach = () => {
 };
 
 RemovedPropWarns.play = () => {
+    if (!isDevelopment) {
+        return;
+    }
+
     expectWarnings(warnSpy, ["UI Kit Tooltip: 'visible' was removed in 3.8, use 'open'"]);
 };
 

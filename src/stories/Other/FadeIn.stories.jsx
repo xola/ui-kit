@@ -43,4 +43,16 @@ Default.play = async ({ canvas, userEvent }) => {
     await waitFor(() => expect(canvas.queryByText("Faded into view")).not.toBeInTheDocument(), { timeout: 2000 });
 };
 
+export const Visible = () => {
+    return (
+        <FadeIn shouldShow className="rounded bg-gray-lighter p-4">
+            Faded into view
+        </FadeIn>
+    );
+};
+
+Visible.play = async ({ canvas }) => {
+    await waitFor(() => expect(canvas.getByText("Faded into view")).toBeVisible(), { timeout: 2000 });
+};
+
 export default FadeInStories;

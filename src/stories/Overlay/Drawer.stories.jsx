@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { expect, fn, waitFor, within } from "storybook/test";
+import { expect, fn, spyOn, waitFor, within } from "storybook/test";
 import { Button, Drawer } from "../..";
 import { expectFocusInside, getPortalCanvas, waitForClosed } from "../helpers";
 
@@ -131,6 +131,63 @@ Drawers.play = async ({ args, canvas, canvasElement, userEvent }) => {
     await waitForClosed(body.queryByText("Hello World"));
     await expect(args.onClose).toHaveBeenCalledTimes(2);
     await expect(args.onClose).toHaveBeenLastCalledWith(false);
+};
+
+const handleOpenDrawerClose = () => {};
+
+const OpenDrawer = ({ size = "medium", position = "right" }) => {
+    return (
+        <Drawer
+            isOpen
+            size={size}
+            position={position}
+            title="Open drawer"
+            content="Open drawer body"
+            onClose={handleOpenDrawerClose}
+        />
+    );
+};
+
+const expectOpenDrawer = async ({ canvasElement }) => {
+    const body = getPortalCanvas(canvasElement);
+    const dialog = await body.findByRole("dialog");
+
+    await waitFor(() => {
+        expect(dialog.querySelector("[data-enter], [data-closed]")).toBeNull();
+        expect(dialog.getAnimations({ subtree: true })).toHaveLength(0);
+    });
+};
+
+export const OpenSmall = () => <OpenDrawer size="small" />;
+OpenSmall.play = expectOpenDrawer;
+
+export const OpenMedium = () => <OpenDrawer />;
+OpenMedium.play = expectOpenDrawer;
+
+export const OpenLarge = () => <OpenDrawer size="large" />;
+OpenLarge.play = expectOpenDrawer;
+
+export const OpenExtraLarge = () => <OpenDrawer size="xl" />;
+OpenExtraLarge.play = expectOpenDrawer;
+
+export const OpenDoubleExtraLarge = () => <OpenDrawer size="2xl" />;
+OpenDoubleExtraLarge.play = expectOpenDrawer;
+
+export const OpenLeft = () => <OpenDrawer position="left" />;
+OpenLeft.play = expectOpenDrawer;
+
+export const IosHeight = () => <OpenDrawer />;
+
+IosHeight.beforeEach = () => {
+    spyOn(Navigator.prototype, "userAgent", "get").mockReturnValue("iPhone WebKit");
+    spyOn(window, "innerHeight", "get").mockReturnValue(640);
+};
+
+IosHeight.play = async (context) => {
+    await expectOpenDrawer(context);
+
+    const panel = getPortalCanvas(context.canvasElement).getByText("Open drawer body").closest(".w-85");
+    await expect(panel.parentElement.parentElement.parentElement).toHaveClass("h-[640px]", "max-h-[640px]");
 };
 
 export const NoOptionalProps = () => {

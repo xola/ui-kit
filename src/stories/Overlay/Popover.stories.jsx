@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { createPortal } from "react-dom";
 import { expect, fn, spyOn, waitFor, within } from "storybook/test";
 import { Button, Drawer, Input, Modal, Popover } from "../..";
+import { isDevelopment } from "../../helpers/environment";
 import {
     arg,
     expectNoLayer,
@@ -1162,6 +1163,10 @@ RemovedPropWarns.beforeEach = () => {
 };
 
 RemovedPropWarns.play = async () => {
+    if (!isDevelopment) {
+        return;
+    }
+
     const expected = [
         "UI Kit Popover: 'visible' was removed in 3.8, use 'open'",
         "UI Kit Popover: 'trigger' was removed in 3.8, use 'openOn' (\"hover\" or \"click\")",
