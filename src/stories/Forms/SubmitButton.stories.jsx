@@ -99,9 +99,21 @@ export const Default = ({ isLoading, ...rest }) => {
     );
 };
 
-Default.play = async ({ canvas }) => {
+Default.play = async ({ canvas, userEvent }) => {
     await expect(canvas.getAllByRole("button")).toHaveLength(6);
     await expect(canvas.getAllByText("Submit")).toHaveLength(3);
+
+    const button = canvas.getAllByRole("button", { name: "Submit" })[0];
+    const getSuccessIcon = () => button.querySelector("svg:not(.ui-spinner)");
+    await userEvent.click(button);
+    await waitFor(() => expect(button.querySelector(".ui-spinner")).toBeInTheDocument());
+    await expect(button).toHaveAccessibleName("Submit");
+    await waitFor(() => expect(getSuccessIcon()).toBeInTheDocument(), { timeout: 3000 });
+    await expect(button).toBeDisabled();
+    await expect(button).toHaveAccessibleName("Submit");
+    await waitFor(() => expect(getSuccessIcon()).not.toBeInTheDocument(), { timeout: 4000 });
+    await expect(button).not.toBeDisabled();
+    await expect(button).toHaveAccessibleName("Submit");
 };
 
 export const Disabled = (props) => {
@@ -130,6 +142,7 @@ Loading.play = async ({ canvas }) => {
     const button = canvas.getByRole("button", { name: "Submit" });
     await expect(button).toBeDisabled();
     await expect(button.querySelector(".ui-spinner")).toBeInTheDocument();
+    await expect(button).toHaveAccessibleName("Submit");
 };
 
 export const Success = (props) => {
@@ -145,6 +158,7 @@ Success.play = async ({ canvas }) => {
     await waitFor(() => expect(button.querySelector("svg:not(.ui-spinner)")).toBeInTheDocument());
     await expect(button.querySelector(".ui-spinner")).not.toBeInTheDocument();
     await expect(button).toBeDisabled();
+    await expect(button).toHaveAccessibleName("Submit");
 };
 
 /**
@@ -188,6 +202,7 @@ WithFormAction.play = async ({ canvas }) => {
 
     await waitFor(() => expect(button).toBeDisabled());
     await expect(button.querySelector(".ui-spinner")).toBeInTheDocument();
+    await expect(button).toHaveAccessibleName("Submit");
 
     await userEvent.click(canvas.getByRole("button", { name: "Release" }));
 

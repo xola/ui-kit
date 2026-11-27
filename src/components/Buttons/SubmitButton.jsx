@@ -1,4 +1,3 @@
-import { Transition } from "@headlessui/react";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import cn from "../../helpers/classnames";
@@ -17,6 +16,26 @@ const loadingColors = {
 };
 
 const indicatorClassName = "relative -top-0.25 text-white";
+
+const SubmitButtonIndicator = ({ children }) => {
+    const [isVisible, setIsVisible] = useState(false);
+
+    useEffect(() => {
+        let frame = requestAnimationFrame(() => {
+            frame = requestAnimationFrame(() => setIsVisible(true));
+        });
+
+        return () => cancelAnimationFrame(frame);
+    }, []);
+
+    return (
+        <span className={cn("transition-all duration-700", isVisible ? "opacity-100" : "opacity-0")}>{children}</span>
+    );
+};
+
+SubmitButtonIndicator.propTypes = {
+    children: PropTypes.node.isRequired,
+};
 
 export const SubmitButton = ({
     color = "primary",
@@ -63,14 +82,7 @@ export const SubmitButton = ({
                 )}
             >
                 {showTransition && (
-                    <Transition
-                        appear
-                        as="span"
-                        show={showTransition}
-                        enter="transition-all duration-700"
-                        enterFrom="opacity-0"
-                        enterTo="opacity-100"
-                    >
+                    <SubmitButtonIndicator>
                         {showSuccess && (
                             <CheckIcon
                                 size="medium"
@@ -81,7 +93,7 @@ export const SubmitButton = ({
                         {isBusy && !showSuccess && (
                             <Spinner size="current" color="current" className={indicatorClassName} />
                         )}
-                    </Transition>
+                    </SubmitButtonIndicator>
                 )}
             </span>
             <span className={cn(showTransition ? "flex-shrink flex-grow opacity-0" : "opacity-100")}>{children}</span>

@@ -1,6 +1,6 @@
 import React from "react";
 import { Toaster } from "react-hot-toast";
-import { expect, waitFor } from "storybook/test";
+import { expect, fn, waitFor } from "storybook/test";
 import { Button, flash } from "../..";
 
 const FlashStories = {
@@ -54,8 +54,12 @@ const FlashStories = {
 };
 
 const toastMe = (props) => {
-    props.onClose = (event_, toast) => flash.dismiss(toast.id);
-    flash.show(props);
+    const handleClose = (event, toast) => {
+        props.onClose?.(event, toast);
+        flash.dismiss(toast.id);
+    };
+
+    flash.show({ ...props, onClose: handleClose });
 };
 
 export const Default = (props) => {
@@ -82,15 +86,52 @@ export const Default = (props) => {
     );
 };
 
+Default.args = {
+    onClose: fn(),
+};
+
 Default.play = async ({ args, canvas, userEvent }) => {
-    const { text } = args;
+    const { text, onClose } = args;
     const queryToast = () => canvas.queryByText(text, { ignore: "button, button *" });
 
     await userEvent.click(canvas.getByRole("button", { name: text }));
     await waitFor(() => expect(queryToast()).toBeVisible());
 
+    const toast = queryToast().parentElement;
+    const getOpacity = () => Number(getComputedStyle(toast).opacity);
+
+    await waitFor(() => expect(getOpacity()).toBeLessThan(0.5), { timeout: 2000 });
+    await expect(getComputedStyle(toast).transitionDuration).toBe("0.5s");
+    await expect(getComputedStyle(toast).transitionTimingFunction).toBe("cubic-bezier(0, 0, 0.2, 1)");
+    const enterFromOpacity = getOpacity();
+    await waitFor(() => expect(getOpacity()).toBeGreaterThan(enterFromOpacity), { timeout: 2000 });
+    await waitFor(() => expect(getComputedStyle(toast).opacity).toBe("1"), { timeout: 2000 });
+
     // The close control is a plain clickable div next to the text, with no role or label to query by
-    await userEvent.click(queryToast().nextElementSibling);
+    const closeControl = queryToast().nextElementSibling;
+    let closeEvent;
+    const captureCloseEvent = (event) => {
+        closeEvent = event;
+    };
+    closeControl.addEventListener("click", captureCloseEvent);
+    await userEvent.click(closeControl);
+    closeControl.removeEventListener("click", captureCloseEvent);
+
+    await expect(onClose).toHaveBeenCalledTimes(1);
+    const [callbackEvent, callbackToast] = onClose.mock.calls[0];
+    await expect(callbackEvent.nativeEvent).toBe(closeEvent);
+    await expect(callbackEvent.target).toBe(closeControl);
+    await expect(typeof callbackToast.id).toBe("string");
+    await expect(callbackToast.visible).toBe(true);
+    await expect(callbackToast.duration).toBe(3000);
+    await expect(callbackToast.position).toBe("top-center");
+    await waitFor(() => expect(getComputedStyle(toast).transitionTimingFunction).toBe("cubic-bezier(0.4, 0, 1, 1)"), {
+        timeout: 2000,
+    });
+    await expect(getComputedStyle(toast).transitionDuration).toBe("0.5s");
+    await waitFor(() => expect(getOpacity()).toBeLessThanOrEqual(0.9), { timeout: 2000 });
+    const leaveFromOpacity = getOpacity();
+    await waitFor(() => expect(getOpacity()).toBeLessThan(leaveFromOpacity), { timeout: 2000 });
     await waitFor(() => expect(queryToast()).not.toBeInTheDocument(), { timeout: 2000 });
 };
 
@@ -155,6 +196,9 @@ export const Persistent = () => {
 Persistent.play = async ({ canvas, userEvent }) => {
     await userEvent.click(canvas.getByRole("button", { name: "Show persistent flash" }));
     await waitFor(() => expect(canvas.getByText("Persistent flash message")).toBeVisible());
+    await new Promise((resolve) => setTimeout(resolve, 3500));
+    await expect(canvas.getByText("Persistent flash message")).toBeVisible();
+    await expect(canvas.getByText("Persistent flash message").nextElementSibling).not.toBeInTheDocument();
 };
 
 export default FlashStories;
