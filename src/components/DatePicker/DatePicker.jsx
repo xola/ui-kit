@@ -1,4 +1,5 @@
 import dayjs from "dayjs";
+import { omit } from "lodash-es";
 import PropTypes from "prop-types";
 import React, { useContext, useEffect, useMemo } from "react";
 import { warnRemovedProps } from "../../helpers/warnRemovedProps";
@@ -33,6 +34,8 @@ export const DATE_PICKER_REMOVED_PROPS = {
     selectedDays: "use 'selected'",
     disabledDays: "use 'disabled'",
 };
+
+const REMOVED_PROP_NAMES = Object.keys(DATE_PICKER_REMOVED_PROPS);
 
 /**
  * Figma Design link: https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%F0%9F%9B%A0-Xola-DS-Desktop-Master-%F0%9F%9B%A0?node-id=2689%3A101580
@@ -127,7 +130,7 @@ export const DatePicker = ({
         selected: selectedValue,
         mode: isRangeVariant ? variants.range : getSelectionMode(selectedValue),
         modifiersClassNames: { ...getModifiersClassNames(modifiers), ...modifiersClassNames },
-        ...rest,
+        ...omit(rest, REMOVED_PROP_NAMES),
     };
 
     return (

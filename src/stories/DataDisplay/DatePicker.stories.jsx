@@ -68,6 +68,22 @@ Default.play = async ({ canvasElement, userEvent }) => {
     await waitFor(() => expect(canvasElement.querySelector("td[data-selected]")).toHaveAttribute("data-day", todayKey));
 };
 
+export const IgnoresRemovedProps = () => {
+    const [value, setValue] = useState(defaultDate);
+
+    return <DatePicker month={new Date(2020, 0, 1)} value={value} onChange={setValue} />;
+};
+
+IgnoresRemovedProps.play = async ({ canvasElement, userEvent }) => {
+    const canvas = within(canvasElement);
+    await expect(canvas.getByText(/October 2022/)).toBeInTheDocument();
+
+    await userEvent.click(canvas.getByRole("button", { name: "Go to the next month" }));
+    await expect(canvas.getByText(/November 2022/)).toBeInTheDocument();
+};
+
+addDescription(IgnoresRemovedProps, "A removed v7 prop such as `month` is ignored, so it cannot pin the calendar.");
+
 export const DisabledDays = () => {
     const [value, setValue] = useState(defaultDate);
 
