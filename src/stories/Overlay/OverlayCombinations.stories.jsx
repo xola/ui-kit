@@ -423,6 +423,31 @@ ModalPopoverWithTooltip.play = async (context) => {
 
     await userEvent.keyboard("{Escape}");
     await waitForClosed(dialog);
+
+    // Successive backdrop presses dismiss one layer each: Tooltip, then Popover, then the Modal. The tooltip opens by
+    // keyboard focus so moving the pointer to the backdrop does not close it before the first press lands.
+    const reopened = await openLaunched(context, body, "Open modal", "Modal with a tooltip in a popover");
+    await userEvent.click(body.getByRole("button", { name: "Popover holding a tooltip" }));
+    const reopenedBox = await findPlacedLayer(canvasElement, POPOVER_SELECTOR, "Tooltip in popover");
+    await userEvent.tab();
+    await expect(body.getByRole("button", { name: "Tooltip in popover" })).toHaveFocus();
+    await findPlacedLayer(canvasElement, TOOLTIP_SELECTOR, "Tooltip over the popover");
+
+    const backdrop = getHitAt(ownerDocument, BACKDROP_POINT);
+    await expect(backdrop).toBe(getOverlay(reopened));
+
+    await userEvent.click(backdrop);
+    await expectNoLayer(canvasElement, TOOLTIP_SELECTOR, "Tooltip over the popover");
+    await wait(CHANGE_WINDOW);
+    await expect(reopenedBox).toHaveAttribute("data-state", "open");
+    await expectStaysOpen(reopened);
+
+    await userEvent.click(backdrop);
+    await expectNoLayer(canvasElement, POPOVER_SELECTOR, "Tooltip in popover");
+    await expectStaysOpen(reopened);
+
+    await userEvent.click(backdrop);
+    await waitForClosed(reopened);
 };
 
 const NestedModals = ({ isInnerNested }) => {

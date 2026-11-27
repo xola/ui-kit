@@ -2,7 +2,7 @@ import * as RadixHoverCard from "@radix-ui/react-hover-card";
 import { useMemoizedFn } from "ahooks";
 import PropTypes from "prop-types";
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { BackdropOwnerContext, getOpenLayerProps } from "../../helpers/backdrop";
+import { BackdropOwnerContext, useOpenLayerProps } from "../../helpers/backdrop";
 import cn from "../../helpers/classnames";
 import { USE_ON_OPEN_CHANGE, warnRemovedProps } from "../../helpers/warnRemovedProps";
 
@@ -72,6 +72,7 @@ export const SidebarMenu = ({ open, content, delay = DELAY, children, onOpenChan
     };
 
     const requestClose = useMemoizedFn(() => handleOpenChange(false));
+    const layerProps = useOpenLayerProps(isOpen, backdropOwner, requestClose);
 
     useEffect(() => {
         if (isOpen) {
@@ -181,7 +182,7 @@ export const SidebarMenu = ({ open, content, delay = DELAY, children, onOpenChan
                         // No fade-out: a fading menu would still be on screen beside the one replacing it
                         "data-[state=open]:animate-fade-in",
                     )}
-                    {...getOpenLayerProps(isOpen, backdropOwner)}
+                    {...layerProps}
                     onPointerDownOutside={handlePointerDownOutside}
                 >
                     {content}

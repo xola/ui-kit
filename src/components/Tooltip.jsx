@@ -2,7 +2,7 @@ import * as RadixTooltip from "@radix-ui/react-tooltip";
 import PropTypes from "prop-types";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { isFocusVisible } from "../helpers/browser";
-import { BackdropOwnerContext, getOpenLayerProps } from "../helpers/backdrop";
+import { BackdropOwnerContext, useOpenLayerProps } from "../helpers/backdrop";
 import cn from "../helpers/classnames";
 import { getMaxWidth } from "../helpers/maxWidth";
 import { ARROW_HEIGHT, ARROW_WIDTH, toSideAlign, toSideOffset } from "../helpers/placement";
@@ -188,6 +188,13 @@ export const Tooltip = ({
         }
     };
 
+    /** A backdrop press makes the same close request an outside press does: the callback plus Radix's own close. */
+    const dismissLayer = () => {
+        onClickOutside?.();
+        handleOpenChange(false);
+    };
+    const layerProps = useOpenLayerProps(isOpen, backdropOwner, dismissLayer);
+
     // Forced closed rather than bare children, so toggling `disabled` does not remount the target
     const tooltip = (
         <RadixTooltip.Root
@@ -221,7 +228,7 @@ export const Tooltip = ({
                         "ui-tooltip z-[9999] rounded bg-black px-[9px] py-[5px] text-base leading-[1.4] text-white outline-none",
                         "data-[state=closed]:animate-fade-out data-[state=delayed-open]:animate-fade-in data-[state=instant-open]:animate-fade-in",
                     )}
-                    {...getOpenLayerProps(isOpen, backdropOwner)}
+                    {...layerProps}
                     onEscapeKeyDown={handleEscapeKeyDown}
                     onPointerDownOutside={handlePointerDownOutside}
                 >

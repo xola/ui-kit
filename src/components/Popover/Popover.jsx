@@ -3,7 +3,7 @@ import * as RadixPopover from "@radix-ui/react-popover";
 import PropTypes from "prop-types";
 import React, { Children, useContext, useRef, useState } from "react";
 import { isFocusVisible } from "../../helpers/browser";
-import { BackdropOwnerContext, getOpenLayerProps } from "../../helpers/backdrop";
+import { BackdropOwnerContext, useOpenLayerProps } from "../../helpers/backdrop";
 import { getChildrenByType } from "../../helpers/children";
 import cn from "../../helpers/classnames";
 import { getMaxWidth } from "../../helpers/maxWidth";
@@ -233,6 +233,13 @@ export const Popover = ({
         isPortaledClickRef.current = !isOnTarget(event);
     };
 
+    /** A backdrop press makes the same close request an outside press does: the callback plus Radix's own close. */
+    const dismissLayer = () => {
+        onClickOutside?.();
+        handleOpenChange(false);
+    };
+    const layerProps = useOpenLayerProps(isOpen, backdropOwner, dismissLayer);
+
     const hoverTriggerHandlers = {
         onBlur: handleTargetBlur,
         onFocus: handleTargetFocus,
@@ -267,7 +274,7 @@ export const Popover = ({
                         "data-[state=closed]:animate-fade-out data-[state=open]:animate-fade-in",
                         className,
                     )}
-                    {...getOpenLayerProps(isOpen, backdropOwner)}
+                    {...layerProps}
                     onEscapeKeyDown={handleEscapeKeyDown}
                     onPointerDownOutside={handlePointerDownOutside}
                     {...contentFocus}

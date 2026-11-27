@@ -1,51 +1,100 @@
-import { createContext } from "react";
+import { useLatest } from "ahooks";
+import { createContext, useEffect, useState } from "react";
 
 /** React ownership for portaled overlays; DOM ancestry cannot relate them to their dialog backdrop. */
 export const BackdropOwnerContext = createContext();
 
+/** Open layers keyed by content element, in registration order: the last registered sits highest in the stack. */
+const openLayers = new Map();
+
 /**
- * Props a portaled layer spreads on its content so a dialog backdrop can find it while open: layers declare
- * themselves, so the backdrop selector stays free of component classes and Radix state vocabulary.
+ * Registers an open layer so a backdrop press dismisses only the newest layer of its owner. Radix would instead
+ * dismiss every layer above the dialog on one press. Re-registering an element replaces its owner and dismiss
+ * callback without moving it in the stack.
+ *
+ * @returns {Function} Cleanup removing the layer, for close and unmount.
  */
-export const getOpenLayerProps = (isOpen, owner) => ({
-    "data-ui-kit-layer": isOpen ? "open" : undefined,
-    "data-backdrop-owner": owner,
-});
+export const registerOpenLayer = (element, owner, onDismiss) => {
+    openLayers.set(element, { owner, onDismiss });
 
-/** JSON quoting escapes the owner ID for an attribute selector without relying on the browser's global CSS object. */
-const getOwnedLayerSelector = (owner) => {
-    const ownerAttribute = `[data-backdrop-owner=${JSON.stringify(owner)}]`;
+    return () => openLayers.delete(element);
+};
 
-    return `[data-ui-kit-layer="open"]${ownerAttribute}`;
+/**
+ * Props a portaled layer spreads on its content: a ref capturing the content element plus markers declaring the
+ * layer and its owner. Registers while open, newest last, and keeps the latest dismiss callback without reordering
+ * the stack on rerender. The element is state, not a bare ref: Radix Presence mounts the content a commit after
+ * the layer opens, and only a state change reruns the registration effect for that late node.
+ */
+export const useOpenLayerProps = (isOpen, owner, onDismiss) => {
+    const [element, setElement] = useState();
+    const dismissRef = useLatest(onDismiss);
+
+    useEffect(() => {
+        if (!isOpen || !element) {
+            return undefined;
+        }
+
+        return registerOpenLayer(element, owner, () => dismissRef.current?.());
+    }, [isOpen, owner, element, dismissRef]);
+
+    return {
+        ref: setElement,
+        "data-ui-kit-layer": isOpen ? "open" : undefined,
+        "data-backdrop-owner": owner,
+    };
+};
+
+const findNewestOwnedLayer = (owner) => {
+    if (!owner) {
+        return undefined;
+    }
+
+    let newest;
+    openLayers.forEach((layer) => {
+        if (layer.owner === owner) {
+            newest = layer;
+        }
+    });
+
+    return newest;
 };
 
 /** Per backdrop element: whether its current press started while an owned layer was open. */
 const isLayerPressByBackdrop = new WeakMap();
 
 /**
- * Skips the dialog click ending a press that began with an owned layer (Popover, Tooltip, Sidebar.Menu) open. Radix
- * closes the layer on outside press but lets the click through; React's backdrop pointerdown runs before Radix's
- * document listener, so it records whether the layer was open.
+ * Dismisses one layer per backdrop press, newest owned layer first, then the dialog once none are left. The
+ * pointerdown stops before Radix's document listeners so lower layers and the dialog keep their press; React's
+ * backdrop handler runs before those listeners because the portal container is `body`.
  *
  * @param {Function} onBackdropClick - Closes the dialog. Called with no arguments.
  * @returns {{ onPointerDown: Function, onClick: Function }} Props for the backdrop element
  */
 export const getBackdropHandlers = (onBackdropClick) => {
-    const handlePointerDown = ({ currentTarget }) => {
-        const backdropOwner = currentTarget.dataset.backdropOwner;
-        if (!backdropOwner) {
-            isLayerPressByBackdrop.set(currentTarget, false);
+    const handlePointerDown = (event) => {
+        const { currentTarget } = event;
+        const layer = findNewestOwnedLayer(currentTarget.dataset.backdropOwner);
+        isLayerPressByBackdrop.set(currentTarget, Boolean(layer));
+        if (!layer) {
             return;
         }
 
-        const isLayerOpen = currentTarget.ownerDocument.querySelector(getOwnedLayerSelector(backdropOwner)) !== null;
-        isLayerPressByBackdrop.set(currentTarget, isLayerOpen);
+        event.stopPropagation();
+        // Stopping the press also removes Radix's deferred-press suppression of focus-outside dismissal, and
+        // Firefox fires focusin when focus falls to body. Cancel the default focus change so a surviving lower
+        // layer cannot read the press's blur as an outside interaction.
+        event.preventDefault();
+        layer.onDismiss();
     };
 
-    const handleClick = ({ currentTarget }) => {
+    const handleClick = (event) => {
+        const { currentTarget } = event;
         const isLayerPress = isLayerPressByBackdrop.get(currentTarget);
         isLayerPressByBackdrop.delete(currentTarget);
         if (isLayerPress) {
+            // A lower layer's deferred Radix dismissal may already be waiting on this click.
+            event.stopPropagation();
             return;
         }
 
