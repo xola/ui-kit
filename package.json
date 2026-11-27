@@ -55,7 +55,9 @@
         "knip": "knip",
         "react:18": "zx scripts/use-react.mjs 18",
         "react:19": "zx scripts/use-react.mjs 19",
-        "test:consumer": "zx scripts/test-consumer.mjs"
+        "test:consumer": "zx scripts/test-consumer.mjs",
+        "visual:capture": "node scripts/visual/capture.js --out .visual/current",
+        "visual:compare": "node scripts/visual/compare.js --base .visual/baseline --head .visual/current"
     },
     "dependencies": {
         "@headlessui/react": "^2.2.10",
@@ -94,7 +96,9 @@
         "autoprefixer": "^10.5.2",
         "eslint": "^9.18.0",
         "knip": "^6.27.0",
+        "pixelmatch": "^8.0.0",
         "playwright": "^1.61.1",
+        "pngjs": "^7.0.0",
         "postcss": "8.5",
         "prettier": "^3.9.5",
         "prettier-plugin-tailwindcss": "^0.8.0",
