@@ -188,6 +188,8 @@ export default {
                 "dialog-out":
                     "dialog-out var(--ui-dialog-out-duration) var(--ui-dialog-out-ease, cubic-bezier(0.4, 0, 1, 1)) forwards",
                 "dialog-hold": "dialog-hold var(--ui-dialog-out-duration)",
+                "slide-down-in": "slide-down-in 500ms cubic-bezier(0.4, 0, 0.2, 1)",
+                "slide-down-out": "slide-down-out 500ms cubic-bezier(0.4, 0, 0.2, 1) forwards",
             },
             keyframes: {
                 'reverse-spin': {
@@ -212,6 +214,8 @@ export default {
                     },
                 },
                 "dialog-hold": { to: { opacity: "1" } },
+                "slide-down-in": { from: { opacity: "0", translate: "0 -100%" } },
+                "slide-down-out": { to: { opacity: "0", translate: "0 -100%" } },
             },
 
             fontFamily: {

@@ -36,10 +36,22 @@ Default.play = async ({ canvas, userEvent }) => {
     const toggle = canvas.getByRole("button", { name: "Toggle content" });
     await expect(canvas.queryByText("Slid down into view")).not.toBeInTheDocument();
 
+    // The enter start paints the panel transparent before it slides into place
     await userEvent.click(toggle);
-    await waitFor(() => expect(canvas.getByText("Slid down into view")).toBeVisible(), { timeout: 2000 });
+    const content = await canvas.findByText("Slid down into view");
+    const panel = content.parentElement;
+    const getOpacity = () => Number(getComputedStyle(panel).opacity);
+    await waitFor(() => expect(getOpacity()).toBeLessThan(0.5), { timeout: 2000 });
 
+    // The slide brings the panel up to full opacity
+    const enterStartOpacity = getOpacity();
+    await waitFor(() => expect(getOpacity()).toBeGreaterThan(enterStartOpacity), { timeout: 2000 });
+    await waitFor(() => expect(getComputedStyle(panel).opacity).toBe("1"), { timeout: 2000 });
+
+    // The leave animation keeps the panel mounted while it slides back up, then unmounts it
     await userEvent.click(toggle);
+    await expect(panel).toBeInTheDocument();
+    await waitFor(() => expect(getOpacity()).toBeLessThan(0.5), { timeout: 2000 });
     await waitFor(() => expect(canvas.queryByText("Slid down into view")).not.toBeInTheDocument(), {
         timeout: 2000,
     });
