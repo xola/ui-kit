@@ -6,7 +6,7 @@ Agent Skills (`SKILL.md` with `name` and `description` frontmatter) for Claude C
 
 - `node_modules/@xola/ui-kit/skills/using-ui-kit/SKILL.md`: any UI work against ui-kit: picking a component, its props, overlay behavior (focus, dismissal, stacking), tests that query overlays, and first-time setup (`Provider`, Tailwind, toasts).
 - `node_modules/@xola/ui-kit/skills/migrate-to-3.8/SKILL.md`: an app on ui-kit 3.7 moving to 3.8, or one already on 3.8 that logs "was removed in 3.8" warnings, shows an unstyled calendar, or lost its Tippy or noUiSlider styles.
-- `node_modules/@xola/ui-kit/skills/migrate-2.6-to-3.7/SKILL.md`: an app on ui-kit 2.6 moving to 3.7, or one that fails to load ui-kit's config (`require` of an ES module), throws `ERR_PACKAGE_PATH_NOT_EXPORTED`, or imports a removed export. An app on 2.6 headed for 3.8 runs this one first, then `migrate-to-3.8`.
+- `node_modules/@xola/ui-kit/skills/migrate-2.6-to-3.7/SKILL.md`: an app on ui-kit 2.6 moving to 3.7, or one that fails to load ui-kit's config (`require` of an ES module), throws `ERR_PACKAGE_PATH_NOT_EXPORTED`, or imports a removed export. An app on 2.6 headed for 3.8 runs this one first, then `migrate-to-3.8`. A 2.6 app has no copy in `node_modules` before the upgrade (3.7.0 does not ship `skills/`), so give the agent the file from the ui-kit repository until it installs 3.7.1 or newer.
 
 ## Pointing an agent at a skill
 

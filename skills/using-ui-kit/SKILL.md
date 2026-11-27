@@ -22,7 +22,7 @@ Adding ui-kit to an app: see [Setup](#setup).
 - Compound parts hang off the parent: `Modal.Header`, `Modal.Body`, `Modal.Footer`, `Popover.Content`, `Table.Row`, `Tabs.Tab`, `Sidebar.Link`.
 - `className` styles the root. Components with inner parts (`Drawer`, `Breadcrumb`, `Checkbox`, `Sidebar.Link`, ...) also take a `classNames` object.
 - `Tooltip`, `Popover` and `Sidebar.Menu` use Radix names instead: `open` and `onOpenChange`, plus `disabled` on `Tooltip` and `Popover`.
-- Write only declared props. Tippy-era overlay props (`visible`, `trigger`, `offset`, `appendTo`, `interactive`, ...) and react-day-picker 7 props do nothing: `Tooltip`, `Popover`, `DatePicker` and `RangeSlider` log a dev warning per removed prop, `Sidebar.Menu` only for `visible` and its old callbacks. Code written against 3.7: follow [migrate-to-3.8](../migrate-to-3.8/SKILL.md).
+- Write only declared props. Tippy-era overlay props (`visible`, `trigger`, `offset`, `appendTo`, `interactive`, ...) and react-day-picker 7 props do nothing: `Tooltip`, `Popover`, `DatePicker` and `RangeSlider` log a dev warning per removed prop, `Sidebar.Menu` only for `visible` and its old callbacks. Code written against 3.7: follow [migrate-to-3.8](../migrate-to-3.8/SKILL.md). An app still on 2.6 starts with [migrate-2.6-to-3.7](../migrate-2.6-to-3.7/SKILL.md).
 
 Colors are named, shades too (`lighter`, `light`, default, `dark`, `darker`): `bg-primary`, `text-gray-dark`, `border-gray-light`. The full scale is in ui-kit's `tailwind.config.js`. Numbered classes like `text-gray-600` are not generated under Tailwind v3 and resolve to Tailwind's own off-brand palette under v4. The theme is light only.
 

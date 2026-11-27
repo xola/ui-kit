@@ -7,6 +7,8 @@ description: Use when upgrading an app from @xola/ui-kit 2.6 to 3.7, or when, af
 
 ui-kit 3.7 is ESM-only, requires React 18.3 or newer, and resolves entry points through an `exports` map. Work the steps in order, and start each one only once the previous step's **Done when** holds. The app's own bundler upgrade (for example Vite 3 to 8) belongs to the app's upgrade plan, not to this guide.
 
+Target 3.7.1 or newer. 3.7.0 ships an `index.d.ts` that re-exports a file that does not exist (`./build/ui-kit.es`) and no `skills/` folder, so a 2.6 app has no copy of this guide in `node_modules` until step 2 installs it. Read the guide from the `skills/` folder of the ui-kit repository, or have it pasted into the prompt, until then.
+
 ## 1. Preflight
 
 - `git status` shows a clean working tree.
@@ -19,12 +21,12 @@ Done when every bullet holds.
 ## 2. Install
 
 ```bash
-npm install @xola/ui-kit@3.7 --legacy-peer-deps
+npm install "@xola/ui-kit@>=3.7.1 <3.8" --legacy-peer-deps
 ```
 
 Keep `legacy-peer-deps=true` in the app's `.npmrc` so every later install skips npm 7+ peer conflicts the same way. The `lodash` peer is gone (ui-kit depends on `lodash-es`), so remove `lodash` from the app only when nothing else imports it.
 
-Done when `npm ls @xola/ui-kit` shows 3.7.x with no `invalid` peer lines.
+Done when `npm ls @xola/ui-kit` shows 3.7.1 or a newer 3.7.x with no `invalid` peer lines, and `node_modules/@xola/ui-kit/skills/migrate-2.6-to-3.7/SKILL.md` exists.
 
 ## 3. Load ui-kit as ESM
 
