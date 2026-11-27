@@ -60,7 +60,7 @@ export const InlineValuePopover = ({
 };
 
 InlineValuePopover.propTypes = {
-    text: PropTypes.string,
+    text: PropTypes.node,
     isOpen: PropTypes.bool,
     showArrow: PropTypes.bool,
     autoSelectOnClick: PropTypes.bool,
