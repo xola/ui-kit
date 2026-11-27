@@ -20,7 +20,7 @@ const OverlayCombinationsStories = {
         docs: {
             description: {
                 component:
-                    "Modal, Drawer and BottomSheet (Headless UI) opened from each other and holding a Popover or Tooltip (Radix). The play tests measure stacking with `elementFromPoint` instead of reading z-index classes.",
+                    "Modal, Drawer and BottomSheet opened from each other and holding a Popover or Tooltip. The play tests measure stacking with `elementFromPoint` instead of reading z-index classes.",
             },
         },
     },
@@ -51,17 +51,21 @@ const getCenter = ({ left, top, width, height }) => ({ x: left + width / 2, y: t
 
 const isOutside = ({ x, y }, { left, top, right, bottom }) => x < left || x > right || y < top || y > bottom;
 
-/** The element a real pointer lands on. Headless UI marks everything outside the top dialog `inert`, which it skips. */
+/** The element a real pointer lands on. Modal dialogs make outside content inert or pointer-disabled, which hit testing skips. */
 const getHitAt = (ownerDocument, { x, y }) => ownerDocument.elementFromPoint(x, y);
 
 /**
- * The element painted on top. Inert nodes drop out of hit testing, so a lower dialog would let a point through to a
- * layer it covers; lifting `inert` for one synchronous read makes stacking, not interactivity, decide the result.
+ * The element painted on top. Inert and pointer-disabled nodes drop out of hit testing, so a lower dialog would let a
+ * point through to a layer it covers. Lift those locks for one synchronous read so stacking, not interactivity, decides.
  */
 const getPaintedAt = (ownerDocument, { x, y }) => {
     const inertNodes = [...ownerDocument.querySelectorAll("[inert]")];
+    const { body } = ownerDocument;
+    const bodyPointerEvents = body.style.pointerEvents;
     inertNodes.forEach((node) => node.removeAttribute("inert"));
+    body.style.pointerEvents = "auto";
     const element = ownerDocument.elementFromPoint(x, y);
+    body.style.pointerEvents = bodyPointerEvents;
     inertNodes.forEach((node) => node.setAttribute("inert", ""));
 
     return element;
@@ -81,14 +85,14 @@ const findPlacedLayer = (canvasElement, selector, text) => {
     });
 };
 
-/** Headless UI scales and slides panels in; rects read before every transition in the portal ends are off. */
+/** Dialogs scale, slide and fade in; rects read before every animation ends are off. */
 const waitForSettled = (dialog) => {
-    const portal = dialog.closest("[data-headlessui-portal]");
+    const root = dialog.closest(DIALOG_SELECTOR);
 
     return waitFor(
         () => {
-            expect(portal.querySelector("[data-transition], [data-closed], [data-enter]")).toBeNull();
-            expect(portal.getAnimations({ subtree: true })).toHaveLength(0);
+            expect(dialog).toBeVisible();
+            expect(root.getAnimations({ subtree: true })).toHaveLength(0);
         },
         { timeout: 2000 },
     );
@@ -105,10 +109,7 @@ const findDialog = async (body, title) => {
 /** A dialog that would close has started leaving, or is gone, by the end of the window. */
 const expectStaysOpen = async (dialog) => {
     await wait(LEAVE_WINDOW);
-    await expect(dialog).toBeInTheDocument();
-
-    const portal = dialog.closest("[data-headlessui-portal]");
-    await expect(portal.querySelector("[data-leave], [data-closed]")).toBeNull();
+    await expect(dialog).toBeVisible();
 };
 
 const getPanel = (dialog) => dialog.querySelector(`.${PANEL_CLASS}`);
@@ -281,7 +282,8 @@ ModalWithHoverPopover.play = async (context) => {
     await expectNoLayer(canvasElement, POPOVER_SELECTOR, "Hover popover content");
     await expectStaysOpen(dialog);
 
-    await userEvent.unhover(target);
+    // Modal dialogs disable pointer events on body, so move to the panel rather than unhovering onto body
+    await userEvent.hover(getPanel(dialog));
     await userEvent.hover(target);
     await findPlacedLayer(canvasElement, POPOVER_SELECTOR, "Hover popover content");
 
@@ -317,12 +319,13 @@ ModalDefaultDismissal.play = async (context) => {
     await expectNoLayer(canvasElement, POPOVER_SELECTOR, "Default dismissal content");
     await expectStaysOpen(dialog);
 
-    // Modal hands Headless UI's Escape close to the same gate as the backdrop, so without the flag Escape is ignored
+    // Modal routes Escape through the same gate as the backdrop, so without the flag Escape is ignored
     await userEvent.keyboard("{Escape}");
     await expectStaysOpen(dialog);
 
     await userEvent.click(getHitAt(ownerDocument, BACKDROP_POINT));
     await expectStaysOpen(dialog);
+    await expect(dialog).toHaveFocus();
     await expect(args.onClose).not.toHaveBeenCalled();
 };
 
@@ -408,7 +411,7 @@ ModalPopoverWithTooltip.play = async (context) => {
     await expect(bubble).toContainElement(getPaintedAt(ownerDocument, bubbleCenter));
     await expect(bubble).toContainElement(getHitAt(ownerDocument, bubbleCenter));
 
-    // Each Escape dismisses only the newest Radix layer, and Headless UI ignores the ones Radix handled
+    // Each Escape dismisses only the newest layer, leaving the containing modal open until those layers are gone
     await userEvent.keyboard("{Escape}");
     await expectNoLayer(canvasElement, TOOLTIP_SELECTOR, "Tooltip over the popover");
     await wait(CHANGE_WINDOW);
@@ -706,7 +709,7 @@ ModalOpensDrawer.play = async (context) => {
     await userEvent.click(body.getByRole("button", { name: "Open drawer" }));
     const drawer = await findDialog(body, "Drawer from a modal");
 
-    // Both dialogs portal to the Headless UI root at z-30, so the one opened last paints on top
+    // Both dialogs portal to body at z-30, so the one opened last paints on top
     const drawerRect = getPanelRect(drawer);
     const drawerCenter = getCenter(drawerRect);
     const modalCenter = getCenter(getPanelRect(modal));
@@ -784,7 +787,8 @@ BottomSheetWithTooltip.play = async (context) => {
     await expectStaysOpen(sheet);
 
     // A tooltip closes as soon as the pointer leaves its target, so only one opened by focus is open at the press
-    await userEvent.unhover(target);
+    // Move to the close button because modal dialogs disable pointer events on body, userEvent's usual unhover target
+    await userEvent.hover(body.getByRole("button", { name: "Close" }));
     await userEvent.tab();
     await expect(body.getByRole("button", { name: "Sheet tooltip target" })).toHaveFocus();
     await findPlacedLayer(canvasElement, TOOLTIP_SELECTOR, "Sheet tooltip content");
@@ -892,7 +896,7 @@ const expectMenuOnTop = async ({ canvasElement, userEvent }, menu, drawer) => {
     await expect(menu).toContainElement(getPaintedAt(ownerDocument, center));
     await expect(menu).toContainElement(getHitAt(ownerDocument, center));
 
-    // react-select default-prevents the Escape that closes its menu, and Headless UI skips default-prevented ones
+    // react-select closes its menu on Escape, and the containing drawer must leave that key to the expanded combobox
     await userEvent.keyboard("{Escape}");
     await waitFor(() => expect(menu).not.toBeInTheDocument());
     await expectStaysOpen(drawer);
@@ -941,8 +945,8 @@ const SidebarWithDrawers = () => {
 };
 
 /**
- * What is painted over the sidebar rail with a drawer open. Headless UI makes the rail `inert`, so a raw hit test
- * always passes through it, and only the painted probe tells whether the drawer's backdrop dims it.
+ * What is painted over the sidebar rail with a drawer open. Modal dialogs make the rail inert or pointer-disabled, so
+ * a raw hit test passes through it, and only the painted probe tells whether the drawer's backdrop dims it.
  */
 const getPaintedOverRail = (ownerDocument) => {
     const rail = ownerDocument.querySelector(".ui-sidebar");

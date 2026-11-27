@@ -1,12 +1,19 @@
-import { Dialog, DialogTitle, Transition, TransitionChild } from "@headlessui/react";
+import * as RadixDialog from "@radix-ui/react-dialog";
 import clsx from "clsx";
-import { noop } from "lodash-es";
 import PropTypes from "prop-types";
-import React, { Fragment, useId } from "react";
+import React, { useId } from "react";
 import { BackdropOwnerContext, getBackdropHandlers } from "../helpers/backdrop";
 import { isIosBrowser } from "../helpers/browser";
+import { useDialogFocusReturn } from "../hooks/useDialogFocusReturn";
 import { useViewportHeight } from "../hooks/useViewportHeight";
 import { CloseIcon } from "../icons";
+import {
+    DialogFrame,
+    DialogTitle,
+    DialogTitleScope,
+    preventDialogOutsideInteraction,
+    preventExpandedComboBoxEscape,
+} from "./Dialog/Dialog";
 
 /**
  * A mobile-first bottom sheet. Mirrors Modal's compound API (Header/Body/Footer) so it can replace a Modal on small screens.
@@ -25,6 +32,7 @@ export const BottomSheet = ({
     const viewportHeight = useViewportHeight();
     const isIOS = isIosBrowser();
     const backdropOwner = useId();
+    const { onOpenAutoFocus, onCloseAutoFocus } = useDialogFocusReturn(isOpen);
 
     const handleOverlayClick = () => {
         if (shouldCloseOnOutsideClick) {
@@ -44,62 +52,44 @@ export const BottomSheet = ({
 
     return (
         <BackdropOwnerContext.Provider value={backdropOwner}>
-            <Transition appear show={isOpen} as={Fragment}>
-                <Dialog
-                    // With autoFocus on, Headless UI focuses the dialog container unless a child has data-autofocus.
-                    // Off, it focuses the first focusable element inside, so keyboard users land on a control
-                    autoFocus={false}
-                    as="div"
-                    className="ui-bottom-sheet fixed inset-0 z-30"
-                    onClose={noop}
+            <DialogFrame
+                isOpen={isOpen}
+                className="ui-bottom-sheet group/bottom-sheet fixed inset-0 z-30 [--ui-dialog-out-duration:200ms] data-[state=closed]:animate-dialog-hold"
+            >
+                <div
+                    className="ui-bottom-sheet-overlay fixed inset-0 bg-black bg-opacity-80 transition-opacity [--ui-dialog-in-duration:300ms] [--ui-dialog-opacity:0] group-data-[state=closed]/bottom-sheet:animate-dialog-out group-data-[state=open]/bottom-sheet:animate-dialog-in"
+                    aria-hidden="true"
+                    data-backdrop-owner={backdropOwner}
+                    {...overlayHandlers}
+                />
+
+                <RadixDialog.Content
+                    aria-describedby={undefined}
+                    style={panelStyle}
+                    className={clsx(
+                        className,
+                        "ui-bottom-sheet-panel fixed inset-x-0 bottom-0 flex max-h-[90dvh] w-full flex-col rounded-t-2xl bg-white px-6 pb-8 pt-6 text-left shadow-xl",
+                        "[--ui-dialog-in-duration:300ms] [--ui-dialog-translate:0_100%] data-[state=closed]:animate-dialog-out data-[state=open]:animate-dialog-in",
+                    )}
+                    onEscapeKeyDown={preventExpandedComboBoxEscape}
+                    onInteractOutside={preventDialogOutsideInteraction}
+                    onOpenAutoFocus={onOpenAutoFocus}
+                    onCloseAutoFocus={onCloseAutoFocus}
                 >
-                    <TransitionChild
-                        as={Fragment}
-                        enter="ease-out duration-300"
-                        enterFrom="opacity-0"
-                        enterTo="opacity-100"
-                        leave="ease-in duration-200"
-                        leaveFrom="opacity-100"
-                        leaveTo="opacity-0"
-                    >
-                        <div
-                            className="ui-bottom-sheet-overlay fixed inset-0 bg-black bg-opacity-80 transition-opacity"
-                            aria-hidden="true"
-                            data-backdrop-owner={backdropOwner}
-                            {...overlayHandlers}
-                        />
-                    </TransitionChild>
-
-                    <TransitionChild
-                        as={Fragment}
-                        enter="transform transition ease-out duration-300"
-                        enterFrom="translate-y-full"
-                        enterTo="translate-y-0"
-                        leave="transform transition ease-in duration-200"
-                        leaveFrom="translate-y-0"
-                        leaveTo="translate-y-full"
-                    >
-                        <div
-                            style={panelStyle}
-                            className={clsx(
-                                className,
-                                "ui-bottom-sheet-panel fixed inset-x-0 bottom-0 flex max-h-[90dvh] w-full flex-col rounded-t-2xl bg-white px-6 pb-8 pt-6 text-left shadow-xl",
-                            )}
+                    <DialogTitleScope>
+                        <button
+                            type="button"
+                            aria-label="Close"
+                            className="absolute right-4 top-4 z-10 p-1 text-black hover:text-gray-darker"
+                            onClick={handleClose}
                         >
-                            <button
-                                type="button"
-                                aria-label="Close"
-                                className="absolute right-4 top-4 z-10 p-1 text-black hover:text-gray-darker"
-                                onClick={handleClose}
-                            >
-                                <CloseIcon />
-                            </button>
+                            <CloseIcon />
+                        </button>
 
-                            {children}
-                        </div>
-                    </TransitionChild>
-                </Dialog>
-            </Transition>
+                        {children}
+                    </DialogTitleScope>
+                </RadixDialog.Content>
+            </DialogFrame>
         </BackdropOwnerContext.Provider>
     );
 };
@@ -115,7 +105,7 @@ BottomSheet.propTypes = {
 // px-8 keeps the centered title clear of the absolute close button in the top-right corner.
 const Header = ({ children, description, className, ...rest }) => {
     return (
-        <DialogTitle as="div" className={clsx(className, "ui-bottom-sheet-header shrink-0 px-8 text-center")} {...rest}>
+        <DialogTitle className={clsx(className, "ui-bottom-sheet-header shrink-0 px-8 text-center")} {...rest}>
             <h3 className="text-2xl font-semibold leading-6 text-black">{children}</h3>
 
             {description ? (

@@ -184,6 +184,10 @@ export default {
                 'reverse-spin': 'reverse-spin 1s linear infinite',
                 "fade-in": "fade-in 300ms ease",
                 "fade-out": "fade-out 250ms ease",
+                "dialog-in": "dialog-in var(--ui-dialog-in-duration) var(--ui-dialog-in-ease, cubic-bezier(0, 0, 0.2, 1))",
+                "dialog-out":
+                    "dialog-out var(--ui-dialog-out-duration) var(--ui-dialog-out-ease, cubic-bezier(0.4, 0, 1, 1)) forwards",
+                "dialog-hold": "dialog-hold var(--ui-dialog-out-duration)",
             },
             keyframes: {
                 'reverse-spin': {
@@ -193,6 +197,21 @@ export default {
                 },
                 "fade-in": { from: { opacity: "0" } },
                 "fade-out": { to: { opacity: "0" } },
+                "dialog-in": {
+                    from: {
+                        opacity: "var(--ui-dialog-opacity, 1)",
+                        translate: "var(--ui-dialog-translate, 0)",
+                        scale: "var(--ui-dialog-scale, 1)",
+                    },
+                },
+                "dialog-out": {
+                    to: {
+                        opacity: "var(--ui-dialog-opacity, 1)",
+                        translate: "var(--ui-dialog-translate, 0)",
+                        scale: "var(--ui-dialog-scale, 1)",
+                    },
+                },
+                "dialog-hold": { to: { opacity: "1" } },
             },
 
             fontFamily: {

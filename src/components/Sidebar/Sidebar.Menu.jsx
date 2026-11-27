@@ -92,7 +92,7 @@ export const SidebarMenu = ({ open, content, delay = DELAY, children, onOpenChan
 
     const handleBlur = (event) => {
         const isOverlayFocus = event.relatedTarget?.closest(
-            "[data-headlessui-portal], [data-radix-popper-content-wrapper]",
+            "[role='dialog'], [data-headlessui-portal], [data-radix-popper-content-wrapper]",
         );
         if (isOnTarget(event) && !isOverlayFocus) {
             isPressClosedRef.current = false;

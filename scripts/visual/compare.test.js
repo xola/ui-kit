@@ -109,6 +109,7 @@ beforeAll(async () => {
         `${JSON.stringify(
             [
                 { id: "pixel-change", kind: "pixel" },
+                { id: "size-mismatch", kind: "size" },
                 { id: "aria-change", kind: "aria" },
                 { id: "identical", kind: "pixel" },
             ],
@@ -185,7 +186,9 @@ describe("visual compare harness", () => {
         expect(getResult(acceptedRun, "pixel-change").accepted).toEqual(["pixel 25.000%"]);
         expect(getResult(acceptedRun, "aria-change").failures).toEqual([]);
         expect(getResult(acceptedRun, "aria-change").accepted).toEqual(["aria"]);
-        expect(acceptedRun.failing.map(({ id }) => id)).toEqual(["errored", "missing-head", "size-mismatch"]);
+        expect(getResult(acceptedRun, "size-mismatch").failures).toEqual([]);
+        expect(getResult(acceptedRun, "size-mismatch").accepted).toEqual(["size 10x10 vs 10x11"]);
+        expect(acceptedRun.failing.map(({ id }) => id)).toEqual(["errored", "missing-head"]);
         expect(acceptedRun.stale).toEqual([{ id: "identical", kind: "pixel" }]);
     });
 });

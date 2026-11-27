@@ -1,12 +1,14 @@
-import { Dialog, DialogBackdrop, DialogTitle, Transition, TransitionChild } from "@headlessui/react";
+import * as RadixDialog from "@radix-ui/react-dialog";
 import PropTypes from "prop-types";
-import React, { forwardRef, Fragment, useId } from "react";
+import React, { forwardRef, useId } from "react";
 import { BackdropOwnerContext, getBackdropHandlers } from "../helpers/backdrop";
 import { isIosBrowser } from "../helpers/browser";
 import cn from "../helpers/classnames";
+import { useDialogFocusReturn } from "../hooks/useDialogFocusReturn";
 import { useViewportHeight } from "../hooks/useViewportHeight";
 import { CloseIcon } from "../icons";
 import { Button } from "./Buttons/Button";
+import { DialogFrame, preventDialogOutsideInteraction, preventExpandedComboBoxEscape } from "./Dialog/Dialog";
 
 const sizes = {
     small: "w-72",
@@ -33,84 +35,77 @@ export const Drawer = forwardRef(
         const viewportHeight = useViewportHeight();
         const isIOS = isIosBrowser();
         const backdropOwner = useId();
+        const { onOpenAutoFocus, onCloseAutoFocus } = useDialogFocusReturn(isOpen);
 
-        // The Dialog calls `onClose(false)` on Escape; an overlay click passes the same value, not the click event
+        // Escape and outside presses pass `false`; the close button passes its click event.
         const handleOverlayClick = () => onClose(false);
         const overlayHandlers = getBackdropHandlers(handleOverlayClick);
 
+        const handleOpenChange = (open) => {
+            if (!open) {
+                onClose(false);
+            }
+        };
+
         return (
             <BackdropOwnerContext.Provider value={backdropOwner}>
-                <Transition ref={ref} show={isOpen} as={Fragment}>
-                    <Dialog
-                        // With autoFocus on, Headless UI focuses the dialog container unless a child has data-autofocus.
-                        // Off, it focuses the first focusable element inside, so keyboard users land on a control
-                        autoFocus={false}
-                        as="div"
-                        className={cn("ui-drawer fixed inset-0 z-30 overflow-hidden", classNames.dialog)}
-                        onClose={onClose}
+                <DialogFrame
+                    ref={ref}
+                    isOpen={isOpen}
+                    className={cn(
+                        "ui-drawer group/drawer fixed inset-0 z-30 overflow-hidden [--ui-dialog-out-duration:500ms] data-[state=closed]:animate-dialog-hold",
+                        classNames.dialog,
+                    )}
+                    onOpenChange={handleOpenChange}
+                >
+                    <div
+                        className={cn(
+                            "flex",
+                            isIOS ? `h-[${viewportHeight}px] max-h-[${viewportHeight}px] w-full` : "h-screen w-full",
+                        )}
                     >
                         <div
                             className={cn(
-                                "flex",
-                                isIOS
-                                    ? `h-[${viewportHeight}px] max-h-[${viewportHeight}px] w-full`
-                                    : "h-screen w-full",
+                                "ui-drawer-overlay fixed inset-0 bg-black bg-opacity-80 transition-opacity",
+                                "[--ui-dialog-in-duration:500ms] [--ui-dialog-opacity:0] [--ui-dialog-out-duration:200ms] group-data-[state=closed]/drawer:animate-dialog-out group-data-[state=open]/drawer:animate-dialog-in",
+                                classNames.overlay,
+                            )}
+                            data-backdrop-owner={backdropOwner}
+                            {...overlayHandlers}
+                        />
+                        <div
+                            style={{
+                                [position === "right" ? "right" : "left"]: `${sideIndent ?? 0}px`,
+                            }}
+                            className={cn(
+                                "ui-drawer-container",
+                                "fixed inset-y-0 flex max-w-full",
+                                classNames.dialogContent,
                             )}
                         >
-                            <TransitionChild
-                                as={Fragment}
-                                enter="ease-out duration-500"
-                                enterFrom="opacity-0"
-                                enterTo="opacity-100"
-                                leave="ease-in duration-200"
-                                leaveFrom="opacity-100"
-                                leaveTo="opacity-0"
-                            >
-                                <DialogBackdrop
-                                    className={cn(
-                                        "ui-drawer-overlay fixed inset-0 bg-black bg-opacity-80 transition-opacity",
-                                        classNames.overlay,
-                                    )}
-                                    data-backdrop-owner={backdropOwner}
-                                    {...overlayHandlers}
-                                />
-                            </TransitionChild>
-                            <div
-                                style={{
-                                    [position === "right" ? "right" : "left"]: `${sideIndent ?? 0}px`,
-                                }}
+                            <RadixDialog.Content
+                                aria-describedby={undefined}
                                 className={cn(
-                                    "ui-drawer-container",
-                                    "fixed inset-y-0 flex max-w-full",
-                                    classNames.dialogContent,
+                                    "flex",
+                                    position === "right"
+                                        ? "[--ui-dialog-translate:100%_0]"
+                                        : "[--ui-dialog-translate:-100%_0]",
+                                    "[--ui-dialog-in-duration:500ms] [--ui-dialog-out-duration:500ms] [--ui-dialog-out-ease:cubic-bezier(0.4,0,0.2,1)] data-[state=closed]:animate-dialog-out data-[state=open]:animate-dialog-in",
                                 )}
+                                onEscapeKeyDown={preventExpandedComboBoxEscape}
+                                onInteractOutside={preventDialogOutsideInteraction}
+                                onOpenAutoFocus={onOpenAutoFocus}
+                                onCloseAutoFocus={onCloseAutoFocus}
                             >
-                                <TransitionChild
-                                    as={Fragment}
-                                    enter="ease-out duration-500"
-                                    enterFrom={position === "right" ? "translate-x-full" : "-translate-x-full"}
-                                    enterTo="translate-x-0"
-                                    leave="transform transition ease-out-in duration-500"
-                                    leaveFrom={position === "right" ? "-translate-x-full" : "translate-x-full"}
-                                    leaveTo={position === "right" ? "translate-x-full" : "-translate-x-full"}
-                                >
-                                    <div className="flex">
-                                        {position === "right" && <CloseButton onClose={onClose} />}
+                                {position === "right" && <CloseButton onClose={onClose} />}
 
-                                        <DrawerContent
-                                            classNames={classNames}
-                                            content={content}
-                                            size={size}
-                                            title={title}
-                                        />
+                                <DrawerContent classNames={classNames} content={content} size={size} title={title} />
 
-                                        {position === "left" && <CloseButton onClose={onClose} />}
-                                    </div>
-                                </TransitionChild>
-                            </div>
+                                {position === "left" && <CloseButton onClose={onClose} />}
+                            </RadixDialog.Content>
                         </div>
-                    </Dialog>
-                </Transition>
+                    </div>
+                </DialogFrame>
             </BackdropOwnerContext.Provider>
         );
     },
@@ -151,7 +146,7 @@ const DrawerContent = ({ classNames, content, size, title }) => {
             )}
         >
             <div className="ui-drawer-header w-full">
-                <DialogTitle>{title}</DialogTitle>
+                <RadixDialog.Title>{title}</RadixDialog.Title>
             </div>
             <div className={cn("ui-drawer-body relative mt-3 flex-1", classNames.content)}>{content}</div>
         </div>

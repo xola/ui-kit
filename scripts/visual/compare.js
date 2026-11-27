@@ -3,8 +3,8 @@
  *
  *   node scripts/visual/compare.js --base <dir> --head <dir>
  *
- * Differences listed in visual-accepted.json ({ id, kind } pairs, kind "pixel" or "aria") are
- * reported as accepted instead of failing. The HTML report with base/head/diff images and aria
+ * Differences listed in visual-accepted.json ({ id, kind } pairs, kind "pixel", "size", or "aria")
+ * are reported as accepted instead of failing. The HTML report with base/head/diff images and aria
  * snapshots is written to .visual/report.html.
  */
 import fs from "node:fs/promises";
@@ -106,6 +106,7 @@ const compareStory = async ({ id, baseDir, headDir, diffDir, acceptedKinds, isHe
     const failures = [];
     const accepted = [];
     let ratio;
+    let sizeMismatch;
 
     if (isHeadErrored) {
         failures.push("head capture errored");
@@ -118,9 +119,10 @@ const compareStory = async ({ id, baseDir, headDir, diffDir, acceptedKinds, isHe
     if (basePng && headPng) {
         const result = await comparePixels({ id, basePng, headPng, diffDir });
         ratio = result.ratio;
+        sizeMismatch = result.sizeMismatch;
 
-        if (result.sizeMismatch) {
-            failures.push(`size ${result.sizeMismatch}`);
+        if (sizeMismatch) {
+            (acceptedKinds.has("size") ? accepted : failures).push(`size ${sizeMismatch}`);
         }
 
         if (ratio > MAX_DIFF_RATIO) {
@@ -133,7 +135,7 @@ const compareStory = async ({ id, baseDir, headDir, diffDir, acceptedKinds, isHe
         (acceptedKinds.has("aria") ? accepted : failures).push("aria");
     }
 
-    return { id, ratio, failures, accepted, baseAria, headAria, isAriaDifferent };
+    return { id, ratio, sizeMismatch, failures, accepted, baseAria, headAria, isAriaDifferent };
 };
 
 const escapeHtml = (text) => {
@@ -246,7 +248,11 @@ export const runCompare = async ({ baseDir, headDir, visualDir = VISUAL_DIR, acc
     const stale = accepted.filter(({ id, kind }) => {
         const result = results.find((entry) => entry.id === id);
         const isStillDifferent =
-            kind === "pixel" ? result?.ratio > MAX_DIFF_RATIO : kind === "aria" && result?.isAriaDifferent;
+            kind === "pixel"
+                ? result?.ratio > MAX_DIFF_RATIO
+                : kind === "aria"
+                  ? result?.isAriaDifferent
+                  : kind === "size" && result?.sizeMismatch;
 
         return !isStillDifferent;
     });

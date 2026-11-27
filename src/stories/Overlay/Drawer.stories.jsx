@@ -68,9 +68,8 @@ Drawers.args = {
 };
 
 /**
- * Resolves with how far the drawer panel sits past its container's right edge when it first enters the DOM.
- * MutationObserver callbacks run as microtasks, before the animation frame where Headless UI swaps `enterFrom` for
- * `enterTo`, so the reading is the slide's start position however slow the test runner is.
+ * Reads the panel offset before the first animation frame advances its enter keyframes.
+ * MutationObserver microtasks run before that frame, however slow the test runner is.
  */
 const observePanelStartOffset = (ownerDocument) => {
     return new Promise((resolve) => {
@@ -101,7 +100,7 @@ Drawers.play = async ({ args, canvas, canvasElement, userEvent }) => {
     const dialog = await body.findByRole("dialog");
 
     // The panel starts translated past the right edge and slides in until it sits flush with its container
-    const container = dialog.querySelector(".ui-drawer-container");
+    const container = dialog.closest(".ui-drawer").querySelector(".ui-drawer-container");
     const panel = container.firstElementChild;
     await expect(container).toHaveStyle({ right: "0px" });
     await expect(await panelStartOffset).toBeGreaterThan(0);
@@ -124,6 +123,7 @@ Drawers.play = async ({ args, canvas, canvasElement, userEvent }) => {
     await userEvent.keyboard("{Escape}");
     await waitForClosed(body.queryByText("Hello World"));
     await expect(args.onClose).toHaveBeenCalledExactlyOnceWith(false);
+    await waitFor(() => expect(launcher).toHaveFocus());
 
     await userEvent.click(launcher);
     await body.findByText("Hello World");
@@ -131,6 +131,15 @@ Drawers.play = async ({ args, canvas, canvasElement, userEvent }) => {
     await waitForClosed(body.queryByText("Hello World"));
     await expect(args.onClose).toHaveBeenCalledTimes(2);
     await expect(args.onClose).toHaveBeenLastCalledWith(false);
+    await waitFor(() => expect(launcher).toHaveFocus());
+
+    await userEvent.click(launcher);
+    const reopened = await body.findByRole("dialog");
+    await userEvent.click(within(reopened).getByRole("button"));
+    await waitForClosed(body.queryByText("Hello World"));
+    await expect(args.onClose).toHaveBeenCalledTimes(3);
+    await expect(args.onClose).toHaveBeenLastCalledWith(expect.objectContaining({ type: "click" }));
+    await waitFor(() => expect(launcher).toHaveFocus());
 };
 
 const handleOpenDrawerClose = () => {};
@@ -151,10 +160,11 @@ const OpenDrawer = ({ size = "medium", position = "right" }) => {
 const expectOpenDrawer = async ({ canvasElement }) => {
     const body = getPortalCanvas(canvasElement);
     const dialog = await body.findByRole("dialog");
+    const drawer = dialog.closest(".ui-drawer");
 
     await waitFor(() => {
-        expect(dialog.querySelector("[data-enter], [data-closed]")).toBeNull();
-        expect(dialog.getAnimations({ subtree: true })).toHaveLength(0);
+        expect(dialog).toBeVisible();
+        expect(drawer.getAnimations({ subtree: true })).toHaveLength(0);
     });
 };
 
@@ -187,7 +197,7 @@ IosHeight.play = async (context) => {
     await expectOpenDrawer(context);
 
     const panel = getPortalCanvas(context.canvasElement).getByText("Open drawer body").closest(".w-85");
-    await expect(panel.parentElement.parentElement.parentElement).toHaveClass("h-[640px]", "max-h-[640px]");
+    await expect(panel.closest(".ui-drawer").firstElementChild).toHaveClass("h-[640px]", "max-h-[640px]");
 };
 
 export const NoOptionalProps = () => {

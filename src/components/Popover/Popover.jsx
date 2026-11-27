@@ -50,8 +50,8 @@ const HOVER_CLOSE_GRACE = 100;
  */
 const preventDefault = (event) => event.preventDefault();
 
-/** Focus moving into a portaled overlay (Headless UI dialogs, Radix popper content) has not left the overlay stack. */
-const OVERLAY_FOCUS_TARGET_SELECTOR = "[data-headlessui-portal], [data-radix-popper-content-wrapper]";
+/** Focus moving into a portaled dialog or popper has not left the overlay stack. */
+const OVERLAY_FOCUS_TARGET_SELECTOR = "[role='dialog'], [data-headlessui-portal], [data-radix-popper-content-wrapper]";
 
 /** Two triangles 1px apart redraw Tippy's bordered arrow. The white one also covers the box border where they meet. */
 const arrowShape = (
@@ -175,8 +175,8 @@ export const Popover = ({
     };
 
     /**
-     * Only keyboard focus opens a hover popover. Headless UI focuses from script into a dialog and back to the opener,
-     * and `:focus-visible` matches that only when the previous focus came from the keyboard.
+     * Only keyboard focus opens a hover popover. Dialogs focus from script on open and restore it on close, and
+     * `:focus-visible` matches that only when the previous focus came from the keyboard.
      */
     const handleTargetFocus = (event) => {
         const isOpenable = !disabled && isOnTarget(event) && isFocusVisible(event.target);

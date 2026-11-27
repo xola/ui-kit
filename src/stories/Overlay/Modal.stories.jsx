@@ -104,18 +104,29 @@ Default.play = async ({ args, canvas, canvasElement, userEvent }) => {
 
     await userEvent.keyboard("{Escape}");
     await waitForClosed(body.queryByText("Apply Code"));
-    await expect(args.onClose).toHaveBeenCalledOnce();
+    await expect(args.onClose).toHaveBeenCalledExactlyOnceWith();
+    await waitFor(() => expect(launcher).toHaveFocus());
 
     await userEvent.click(launcher);
     await body.findByText("Apply Code");
     await userEvent.click(ownerDocument.querySelector(".ui-modal-overlay"));
     await waitForClosed(body.queryByText("Apply Code"));
     await expect(args.onClose).toHaveBeenCalledTimes(2);
+    await expect(args.onClose).toHaveBeenLastCalledWith();
+    await waitFor(() => expect(launcher).toHaveFocus());
 
     await userEvent.click(launcher);
     await body.findByText("Apply Code");
     await userEvent.click(body.getByRole("button", { name: "Cancel" }));
     await waitForClosed(body.queryByText("Apply Code"));
+
+    await userEvent.click(launcher);
+    const reopened = await body.findByRole("dialog");
+    await userEvent.click(reopened.querySelector("button"));
+    await waitForClosed(body.queryByText("Apply Code"));
+    await expect(args.onClose).toHaveBeenCalledTimes(3);
+    await expect(args.onClose).toHaveBeenLastCalledWith();
+    await waitFor(() => expect(launcher).toHaveFocus());
 };
 
 const handleOpenModalClose = () => {};
@@ -132,11 +143,14 @@ const OpenModal = ({ size = "medium", position = "center", children = "Open moda
 const expectOpenModal = async ({ canvasElement }) => {
     const body = getPortalCanvas(canvasElement);
     const dialog = await body.findByRole("dialog");
+    const modal = dialog.closest(".ui-modal");
 
     await waitFor(() => {
-        expect(dialog.querySelector("[data-enter], [data-closed]")).toBeNull();
-        expect(dialog.getAnimations({ subtree: true })).toHaveLength(0);
+        expect(dialog).toBeVisible();
+        expect(modal.getAnimations({ subtree: true })).toHaveLength(0);
     });
+
+    return modal;
 };
 
 export const OpenSmall = () => <OpenModal size="small" />;
@@ -177,7 +191,15 @@ export const LongContent = () => {
     );
 };
 
-LongContent.play = expectOpenModal;
+LongContent.play = async (context) => {
+    const modal = await expectOpenModal(context);
+
+    await waitFor(() => expect(modal.scrollHeight).toBeGreaterThan(modal.clientHeight));
+    modal.scrollTop = modal.scrollHeight;
+    await expect(modal.scrollTop).toBeGreaterThan(0);
+    modal.scrollTop = 0;
+    await expect(modal.scrollTop).toBe(0);
+};
 
 export const CustomWidth = ({ size, position, shouldCloseOnOutsideClick }) => {
     const [isOpen, setIsOpen] = useState(false);
