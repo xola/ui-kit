@@ -19,6 +19,8 @@ export default defineConfig({
         lib: {
             entry: path.resolve(__dirname, "src/index.js"),
             formats: ["es"],
+            // Vite 6+ names the bundled CSS after package.json "name"; consumers import build/style.css.
+            cssFileName: "style",
         },
 
         rollupOptions: {
