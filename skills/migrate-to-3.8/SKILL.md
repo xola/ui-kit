@@ -5,7 +5,7 @@ description: Use when upgrading an app from @xola/ui-kit 3.7 to 3.8, or when Too
 
 # Migrate @xola/ui-kit 3.7 to 3.8
 
-3.8 moves `Tooltip`, `Popover` and `Sidebar.Menu` from Tippy to Radix, `RangeSlider` from noUiSlider to Radix Slider, and Headless UI from 1.7 to 2.2. It drops every `defaultProps`, adds React 19 form actions to `SubmitButton`, and types the new props in `index.d.ts`. Removed props still compile in JavaScript. In dev builds each logs one warning, `UI Kit <Component>: '<prop>' was removed in 3.8, <replacement>`, and does nothing.
+3.8 moves `Tooltip`, `Popover` and `Sidebar.Menu` from Tippy to Radix, `RangeSlider` from noUiSlider to Radix Slider, and removes ui-kit's Headless UI dependency. Dialogs and `Switch` use Radix, while transitions use local staged classes or Radix Collapsible. It drops every `defaultProps`, adds React 19 form actions to `SubmitButton`, and types the new props in `index.d.ts`. Removed props still compile in JavaScript. In dev builds each logs one warning, `UI Kit <Component>: '<prop>' was removed in 3.8, <replacement>`, and does nothing.
 
 Work through the steps in order. Each ends with a check; do not start the next step until it passes. Run every `rg` command from the app root (a monorepo root is fine). The commands skip `node_modules`, `dist` and `build`.
 
@@ -75,7 +75,7 @@ rg -n '@headlessui/react' -g '!node_modules' -g '!package-lock.json' .
 rg -nP 'declare module ["'"'"']@xola/ui-kit["'"'"']' -g '*.d.ts' -g '!node_modules' .
 ```
 
-The first two catch `import "tippy.js/dist/tippy.css"`, `TippyProps` and `Instance` type imports, bundler `inline` or `noExternal` lists that name Tippy, `@tippyjs/react` and `tippy.js` entries in `package.json`, and `.noUi-*` selectors. The last one finds a `declare module "@xola/ui-kit";` shim.
+The first two catch `import "tippy.js/dist/tippy.css"`, `TippyProps` and `Instance` type imports, bundler `inline` or `noExternal` lists that name Tippy, `@tippyjs/react` and `tippy.js` entries in `package.json`, and `.noUi-*` selectors. The Headless UI command finds direct imports that need an explicit app dependency (3.6). The last one finds a `declare module "@xola/ui-kit";` shim.
 
 Done when you have a written list of candidate sites grouped by rule below.
 
@@ -205,34 +205,19 @@ Fixtures: `tippy-props-type.tsx`.
 - `delay` is `number | [number, number]`. A `number[]` variable fails the type check; type it as a tuple.
 - Delete any `declare module "@xola/ui-kit";` shim (it types every export as `any` and hides these errors). Then run the type check and fix each new error with 3.7 below. Do not restore the shim.
 
-### 3.6 Headless UI 1 to 2 (direct imports only)
+### 3.6 Headless UI removal
 
-Fixture: `headless-ui-2.tsx`.
+3.8 removes `@headlessui/react` from ui-kit. `Modal`, `Drawer`, `BottomSheet` and `Switch` use Radix. `SlideDown` uses Radix Collapsible; `FadeIn`, `SubmitButton` and `flash` use local transition stages.
 
-3.8 runs on Headless UI 2.2. This section applies to an app that imports `@headlessui/react` itself and shares one copy with ui-kit, either through a bundler `dedupe` entry or because `npm ls @headlessui/react` shows a single deduped 2.x. If it shows a separate older copy under the app, the app's own Headless UI imports are unaffected, and this section is done. A shared copy needs the app's own pin bumped to `^2.2.10`. Look for every place that pins the old version: the app's `package.json` dependency, a root `overrides` or `resolutions` entry for `@headlessui/react`, and a test-runner `moduleNameMapper` entry for it (for example in `jest.config.js`). Update each, then run `npm install` to regenerate the lockfile. `npm ci` fails until the lockfile matches.
+If the app imports `@headlessui/react` directly, declare it in the app's own `package.json` at the version the app has tested. ui-kit no longer provides, dedupes or upgrades that copy. Keep the app's own imports and test them against that declared version. If nothing in the app imports Headless UI, no replacement is needed. Delete `overrides`, `resolutions`, bundler `dedupe` entries and test-runner `moduleNameMapper` entries that existed only for ui-kit's old copy. Run `npm install` after changing dependencies so the lockfile stays in sync.
 
-Required changes:
+The `headless-ui-2.tsx` fixture pair records the former shared-copy 1.x-to-2.x migration. It is historical, not a required 3.8 change. Do not apply those renames unless the app independently chooses to upgrade its own Headless UI dependency.
 
-- `Dialog.Overlay` is removed and throws "Element type is invalid". Replace it in place with `DialogBackdrop`, same props, for the dim layer, and keep a `DialogPanel` around the content; v2 closes the dialog on a click outside the panel. `DialogBackdrop` has no click handler.
-- `<Transition>` without an `as` prop now renders no wrapper element (the default changed from `div` to a fragment). Add `as="div"`, or make sure the single child forwards a `ref`, or it throws "Did you forget to passthrough the `ref`".
+Behavior changes in ui-kit components:
 
-Rename when you touch the file, replacing each element in place with the same props. Add the new names to the existing `@headlessui/react` import and keep its named imports in alphabetical order. The old names still work and keep their behavior:
-
-| 1.x | 2.x |
-| --- | --- |
-| `Dialog.Panel`, `Dialog.Title` | `DialogPanel`, `DialogTitle` |
-| `Dialog.Description`, `Switch.Description` | `Description` |
-| `Transition.Child`, `Transition.Root` | `TransitionChild`, `Transition` |
-| `Switch.Group`, `Switch.Label` | `Field`, `Label` |
-| `Disclosure.Button`, `Disclosure.Panel` | `DisclosureButton`, `DisclosurePanel` |
-
-Behavior changes in `Dialog`:
-
-- Initial focus goes to the first `[data-autofocus]` element, else the dialog container. 1.7 focused the first focusable element. `autoFocus={false}` on `Dialog` restores that, and an `initialFocus` ref still wins. Touch devices skip initial focus.
-- Escape blurs the active element before it calls `onClose`.
-- A click on `DialogBackdrop` bubbles to document `click` listeners. See section 4, which covers ui-kit's own dialogs too.
-- Inside `Field`, `Label` is a `<label>` and clicks toggle its `Switch`. An explicit `id` on the `Switch` breaks that lookup unless the `Label` gets the same value as `htmlFor`. The deprecated `Switch.Label` does not depend on ids.
-- The dependency tree grows (react-aria, react-stately, `@internationalized/*`, `@floating-ui/react`). Expect a larger lockfile diff.
+- `Modal`, `Drawer` and `BottomSheet` keep their public props and callbacks. Radix hides content outside an open dialog from the accessibility tree with `aria-hidden`, so tests must not expect the launcher or other outside controls in the dialog's accessibility snapshot. Focus trapping and return, Escape, outside press, scroll lock and nested backdrop order are preserved. A denied Modal outside press still focuses its frame.
+- `Switch` still toggles on Space and label click, and Enter submits its enclosing form instead of toggling. A form reset now restores the mount-time checked state and calls `onChange` with that value. Inside a form, Radix stops the switch click before ancestor `onClick` handlers. The button gains `data-state`, `data-disabled` and `value` attributes, plus `aria-required` when required. A standalone Switch no longer generates an id, and `Switch.Label` outside `Switch.Group` renders an unpaired label instead of throwing. Interactive children of a label keep their native actions without toggling the switch.
+- `FadeIn` removes `enter` and `enterTo` after entering. Put persistent resting styles in `entered`. `SlideDown` keeps an empty, hidden content wrapper while closed. `SubmitButton` and `flash` keep their public APIs, transition durations and callback behavior.
 
 ### 3.7 Type errors once the shim is gone
 
@@ -258,7 +243,7 @@ A rule cannot settle these. Decide each one from the surrounding code, and write
 - A dynamic `trigger` (`trigger={cond ? "mouseenter" : "manual"}`, `trigger="focus"`, `trigger="click"`) on a `Tooltip`, and any `Popover` trigger that is not in the 3.2 table. Neither component has a trigger prop. Use `disabled={!cond}` for on and off (both have `disabled`), or `open` with `onOpenChange` for full control.
 - A hover hook that drives a popover's `open` and is also used for something else (3.2). There is no verified recipe for combining that hook with `open`. Prefer removing the popover's use of it, keep the hook for its other use, and test the popover by hand.
 - `appendTo` that is not `document.body` (a function, a parent id lookup, a ref). The default is to delete `appendTo`, flag the site in the PR, and keep it on this list. Then check stacking, because the content now portals to `document.body`. `Popover` content is `z-50`, and `Tooltip` and `Sidebar.Menu` content is `z-[9999]`. ui-kit's `Modal`, `Drawer` and `BottomSheet` are `z-30`, so a popover stays above them. If the old target sat inside an app overlay with a z-index above 50, raise the popover with a class: `className="z-[60]"` on `Popover`, `PopoverList` or `InlineValuePopover` (it spreads `className` into `Popover`; its `classNames` object styles other parts) lands on the Radix content element and replaces `z-50` (the class must appear in the app's own source for Tailwind to generate it). For `DatePickerPopover` use `classNames={{ popover: "z-[60]" }}`. A target inside a scaled or translated container is not solved by a class: ui-kit has no `container` prop, so leave the site on this list.
-- Document `click` listeners (analytics, `useClickAway`, outside-click hooks). A click on the backdrop of ui-kit's `Modal` or `Drawer`, or on an app's own Headless UI `DialogBackdrop`, now reaches them: 3.7 used Headless UI 1.7's `Dialog.Overlay`, which stopped it. `DialogPanel` still stops clicks inside it. Check that such a listener does not act on a backdrop click.
+- Document `click` listeners (analytics, `useClickAway`, outside-click hooks). A click on the backdrop of ui-kit's `Modal` or `Drawer` now reaches them: 3.7 used Headless UI 1.7's `Dialog.Overlay`, which stopped it. Clicks inside the dialog panel do not reach the backdrop. Check that such a listener does not act on a backdrop click.
 - A `Tooltip` or `Popover` held open with `open` inside a `Modal`, `Drawer` or `BottomSheet`, with no `onOpenChange` or `onClickOutside` that closes it. It takes every Escape and every backdrop click of that dialog (each closes only the open layer, which stays open), so the dialog cannot close those ways. Give it `onOpenChange`, or an `onClickOutside` that closes it.
 - App elements that showed above an open `Drawer`. `Drawer` moved from `z-10` to `z-30`, the layer of `Modal` and `BottomSheet`, so a drawer opened from a modal is now on top of it. An app element with a z-index from 11 to 30 (a sticky header, a chat widget, ui-kit's own `Sidebar` at `z-20`) now sits under the drawer's backdrop. The announcement and notification drawers that `Sidebar.Notifications` opens beside the rail stay at `z-10`, so the rail stays undimmed next to them. To keep another drawer at the old layer, pass `classNames={{ dialog: "z-10" }}`; a drawer opened from a modal then goes under the modal again. Any drawer whose `classNames.dialog` sets a z-index below 30 (`z-20` included) renders under a default `Drawer`, `Modal` or `BottomSheet`, even one opened before it.
 - Wrappers that forward `placement: string`. Type them as `Placement`. Wrappers with a default `placement = "auto"` (form fields that show a tooltip) lose the "auto" side choice. Pick a default side, usually `"top"`, and check the layout.
@@ -269,7 +254,7 @@ A rule cannot settle these. Decide each one from the surrounding code, and write
 - CSS that targets `.tippy-*` classes or `data-tippy-*` attributes. Radix content has `ui-tooltip`, `ui-popover` and `ui-sidebar-menu` classes and `data-state` and `data-side` attributes. Rewrite the rule against those or drop it.
 - `.noUi-*` selectors other than the tooltip placement rule in 3.4, for example handle size or track color. The Radix DOM has different elements. Rewrite against ui-kit's `ui-range-slider`, `ui-range-slider-track`, `ui-range-slider-thumb` and `ui-range-slider-tooltip` classes or drop the override.
 - Tests that assert on a Tooltip or Popover. Radix renders one `role="tooltip"` element for an open tooltip, so `getByRole("tooltip")` is the stable query. The bubble leaves the DOM about 250ms after it closes, so wrap "is gone" assertions in `waitFor`. jsdom has no `ResizeObserver`, which Radix needs when a popper or the slider mounts. If a test fails with "ResizeObserver is not defined", add a stub in the test setup.
-- Dialog-stack workarounds written against Headless UI 1 internals, for example a closed `static` `Dialog` rendered only to register a nested dialog. Confirm focus and Escape behavior by hand.
+- Dialog-stack workarounds that relied on ui-kit sharing Headless UI 1 internals, for example a closed `static` `Dialog` rendered only to register a nested dialog. Radix does not use that registry. Remove the workaround and confirm focus and Escape behavior by hand.
 - Hover popovers on touch devices. They no longer open on a tap. Choose `openOn="click"` where tablets or phones use the control. `Sidebar.Menu` still opens on a tap. Confirm on a real iOS and Android device.
 
 ## 5. Verify
@@ -300,4 +285,4 @@ Manual checks in the browser, one per kind of component the app uses:
 - `DatePickerPopover`: opens at the right side, including inside a modal and near a viewport edge.
 - `Sidebar.Menu`: hover opens it after about 150ms, a diagonal move to a low item keeps it open, a second menu replaces the first, and a tap opens it on a touch device.
 - `RangeSlider`: drag and arrow keys move handles, the tooltip text and placement match, release calls `onChange` once with numbers.
-- Headless UI dialogs and transitions that the app imports directly: they open, trap focus, close on Escape and an outside click, and animate.
+- Headless UI dialogs and transitions that the app imports directly from its own declared dependency: they open, trap focus, close on Escape and an outside click, and animate.

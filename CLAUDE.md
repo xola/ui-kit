@@ -41,6 +41,11 @@ React 18 and 19 + Tailwind CSS v3 component library, built with Vite. Mostly Jav
 number of files (`LocalizedDayPicker.tsx`, `DatePicker.helpers.ts`, some icons) are TypeScript.
 `index.d.ts` is hand-maintained for consumers that want types.
 
+`Modal`, `Drawer`, `BottomSheet` and `Switch` use Radix primitives. `SlideDown` uses Radix
+Collapsible; `FadeIn`, `SubmitButton` and `flash` use local staged transitions. Headless UI is not a
+dependency. Ordered backdrop dismissal stays in `src/helpers/backdrop.js`, without a parallel overlay
+registry.
+
 **ESM only.** The package is `"type": "module"`; every file is native ESM (`import`/`export`, no
 `require`/`module.exports`). This includes the published `tailwind.config.js` and
 `postcss.config.js`, so consuming apps must load them from an ESM context. There is no CommonJS

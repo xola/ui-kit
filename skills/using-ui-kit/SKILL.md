@@ -94,7 +94,9 @@ Data display
 
 Motion
 
-- `FadeIn` and `SlideDown`: show and hide content with a transition.
+- `FadeIn` and `SlideDown`: show and hide content with a transition. `FadeIn` removes `enter` and
+  `enterTo` after entering, so persistent resting styles belong in `entered`. `SlideDown` keeps an
+  empty hidden content wrapper while closed.
 
 `@xola/icons` exports icons by name (`*Icon`), icon-owned images, badges and logos, and the `IconProps`, `IconComponent` and `IconSize` types. Screens: `Login`.
 

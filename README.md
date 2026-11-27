@@ -150,7 +150,7 @@ Each upgrade guide is an agent skill that ships in the package. To upgrade an ap
     - From 2.6 to 3.7: "Follow node_modules/@xola/ui-kit/skills/migrate-2.6-to-3.7/SKILL.md to upgrade this repo to ui-kit 3.7."
 3. Run your type check, linter and tests. Each guide ends with a Verify section listing the checks that must pass.
 
-3.8 moves `Tooltip`, `Popover` and `Sidebar.Menu` from Tippy to Radix, `RangeSlider` from noUiSlider to Radix Slider, and Headless UI from 1.7 to 2.2. Removed props log one warning in development builds and do nothing.
+3.8 moves `Tooltip`, `Popover` and `Sidebar.Menu` from Tippy to Radix, `RangeSlider` from noUiSlider to Radix Slider, and removes ui-kit's Headless UI dependency. Dialogs and `Switch` use Radix, while transitions use local staged classes or Radix Collapsible. Removed props log one warning in development builds and do nothing.
 
 ## Development
 
