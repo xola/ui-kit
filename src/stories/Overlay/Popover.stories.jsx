@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { createPortal } from "react-dom";
 import { expect, fn, spyOn, waitFor, within } from "storybook/test";
 import { Button, Drawer, Input, Modal, Popover } from "../..";
 import {
@@ -761,6 +762,57 @@ TargetOpensModal.play = async ({ canvas, canvasElement, userEvent }) => {
     await expect(queryLayer(canvasElement, POPOVER_SELECTOR, "Payouts content")).toBeUndefined();
     await userEvent.hover(target);
     await findLayer(canvasElement, POPOVER_SELECTOR, "Payouts content");
+};
+
+export const ClickPopoverIgnoresPortaledClicks = () => {
+    return (
+        <Popover openOn="click" placement="bottom">
+            <span>
+                <Button>Portal click target</Button>
+                {createPortal(<input type="checkbox" aria-label="Portaled action" />, document.body)}
+            </span>
+            <Popover.Content className="p-4">Portal click content</Popover.Content>
+        </Popover>
+    );
+};
+
+ClickPopoverIgnoresPortaledClicks.play = async ({ canvas, canvasElement, userEvent }) => {
+    const body = getPortalCanvas(canvasElement);
+
+    const portaledAction = body.getByRole("checkbox", { name: "Portaled action" });
+    await userEvent.click(portaledAction);
+    await expect(portaledAction).toBeChecked();
+    await expectNoLayer(canvasElement, POPOVER_SELECTOR, "Portal click content");
+
+    await userEvent.click(canvas.getByRole("button", { name: "Portal click target" }));
+    await findLayer(canvasElement, POPOVER_SELECTOR, "Portal click content");
+};
+
+export const ClickTargetClosesAfterContentFocus = () => {
+    return (
+        <Popover openOn="click" placement="bottom">
+            <Button>Focused content target</Button>
+            <Popover.Content className="p-4">
+                <p>Focused content</p>
+                <Input placeholder="Focused content field" />
+            </Popover.Content>
+        </Popover>
+    );
+};
+
+ClickTargetClosesAfterContentFocus.play = async ({ canvas, canvasElement, userEvent }) => {
+    const target = canvas.getByRole("button", { name: "Focused content target" });
+
+    await userEvent.click(target);
+    const box = await findLayer(canvasElement, POPOVER_SELECTOR, "Focused content");
+    const field = within(box).getByPlaceholderText("Focused content field");
+    await userEvent.click(field);
+    await expect(field).toHaveFocus();
+
+    target.focus();
+    await expect(target).toHaveFocus();
+    await userEvent.keyboard("{Enter}");
+    await expectNoLayer(canvasElement, POPOVER_SELECTOR, "Focused content");
 };
 
 export const TargetOpensModalFromKeyboard = () => {

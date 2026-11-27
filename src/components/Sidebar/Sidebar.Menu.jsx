@@ -48,6 +48,7 @@ export const SidebarMenu = ({ open, content, delay = DELAY, children, onOpenChan
 
     const triggerRef = useRef();
     const pointerTypeRef = useRef();
+    const isPressClosedRef = useRef(false);
     const [isLocalOpen, setIsLocalOpen] = useState(false);
     const [openDelay = 0, closeDelay = 0] = Array.isArray(delay) ? delay : [delay, delay];
     const backdropOwner = useContext(BackdropOwnerContext);
@@ -62,6 +63,10 @@ export const SidebarMenu = ({ open, content, delay = DELAY, children, onOpenChan
     }
 
     const handleOpenChange = (nextOpen) => {
+        if (nextOpen && isPressClosedRef.current) {
+            return;
+        }
+
         setIsLocalOpen(nextOpen);
         onOpenChange?.(nextOpen);
     };
@@ -77,8 +82,41 @@ export const SidebarMenu = ({ open, content, delay = DELAY, children, onOpenChan
         return () => openMenus.delete(requestClose);
     }, [isOpen, requestClose]);
 
+    const isOnTarget = (event) => triggerRef.current?.contains(event.target);
+
+    const handleFocus = (event) => {
+        if (!isOnTarget(event) || isPressClosedRef.current) {
+            event.preventDefault();
+        }
+    };
+
+    const handleBlur = (event) => {
+        const isOverlayFocus = event.relatedTarget?.closest(
+            "[data-headlessui-portal], [data-radix-popper-content-wrapper]",
+        );
+        if (isOnTarget(event) && !isOverlayFocus) {
+            isPressClosedRef.current = false;
+        }
+    };
+
+    const handlePointerEnter = (event) => {
+        if (!isOnTarget(event)) {
+            event.preventDefault();
+            return;
+        }
+
+        isPressClosedRef.current = false;
+    };
+
     const handlePointerDown = (event) => {
+        if (!isOnTarget(event)) {
+            return;
+        }
+
         pointerTypeRef.current = event.pointerType;
+        if (event.pointerType !== "touch") {
+            isPressClosedRef.current = true;
+        }
     };
 
     /** A press the browser cancels, e.g. a scroll starting on the item, gets no click to clear its pointer type. */
@@ -91,7 +129,11 @@ export const SidebarMenu = ({ open, content, delay = DELAY, children, onOpenChan
      * open paths runs. A tap opens the menu instead, and a tap outside closes it. Mouse clicks are left alone: hover
      * already opened the menu.
      */
-    const handleClick = () => {
+    const handleClick = (event) => {
+        if (!isOnTarget(event)) {
+            return;
+        }
+
         const isTapWhileClosed = pointerTypeRef.current === "touch" && !isOpen;
         pointerTypeRef.current = undefined;
 
@@ -118,6 +160,9 @@ export const SidebarMenu = ({ open, content, delay = DELAY, children, onOpenChan
             <RadixHoverCard.Trigger
                 asChild
                 ref={triggerRef}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+                onPointerEnter={handlePointerEnter}
                 onPointerDown={handlePointerDown}
                 onPointerCancel={handlePointerCancel}
                 onClick={handleClick}

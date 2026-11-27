@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 import { expect, fn, spyOn, waitFor, within } from "storybook/test";
-import { Button, Sidebar, useSidebar } from "../..";
+import { Button, Modal, Sidebar, useSidebar } from "../..";
 import { expectNoLayer, expectWarnings, findLayer, queryLayer, wait, waitForChangeWindow } from "../helpers";
 import {
     AnnounceIcon,
@@ -1006,6 +1006,51 @@ CancelledTouchPress.play = async ({ canvas, canvasElement, userEvent }) => {
     await userEvent.keyboard("{Enter}");
     await waitForChangeWindow();
     await expect(queryLayer(canvasElement, MENU_SELECTOR, "Purchases")).toBeUndefined();
+};
+
+const ModalMenuTarget = () => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    return (
+        <>
+            <Button onClick={() => setIsModalOpen(true)}>Open menu modal</Button>
+            <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+                <Modal.Header>Menu modal</Modal.Header>
+                <Modal.Footer>
+                    <Button onClick={() => setIsModalOpen(false)}>Close menu modal</Button>
+                </Modal.Footer>
+            </Modal>
+        </>
+    );
+};
+
+export const PortaledModalDoesNotOpenMenu = () => (
+    <>
+        <Sidebar.Menu content={<div className="p-4">Portaled menu content</div>}>
+            <ModalMenuTarget />
+        </Sidebar.Menu>
+        <Button>Menu focus elsewhere</Button>
+    </>
+);
+
+PortaledModalDoesNotOpenMenu.play = async ({ canvas, canvasElement, userEvent }) => {
+    const body = within(canvasElement.ownerDocument.body);
+
+    await userEvent.click(canvas.getByRole("button", { name: "Open menu modal" }));
+    await body.findByText("Menu modal");
+    const closeButton = body.getByRole("button", { name: "Close menu modal" });
+    await userEvent.hover(closeButton);
+    await waitForChangeWindow();
+    await expectNoLayer(canvasElement, MENU_SELECTOR, "Portaled menu content");
+
+    tap(closeButton);
+    await waitFor(() => expect(body.queryByText("Menu modal")).toBeNull());
+    await expectNoLayer(canvasElement, MENU_SELECTOR, "Portaled menu content");
+
+    const target = canvas.getByRole("button", { name: "Open menu modal" });
+    canvas.getByRole("button", { name: "Menu focus elsewhere" }).focus();
+    target.focus();
+    await findLayer(canvasElement, MENU_SELECTOR, "Portaled menu content");
 };
 
 export const FocusOpens = () => <MenuRail />;

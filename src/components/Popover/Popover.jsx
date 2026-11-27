@@ -92,6 +92,7 @@ export const Popover = ({
 
     const triggerRef = useRef();
     const backdropOwner = useContext(BackdropOwnerContext);
+    const isPortaledClickRef = useRef(false);
     const isPressClosedRef = useRef(false);
     const [isLocalOpen, setIsLocalOpen] = useState(false);
 
@@ -119,6 +120,12 @@ export const Popover = ({
     }
 
     const handleOpenChange = (nextOpen) => {
+        const isPortaledClick = isPortaledClickRef.current;
+        isPortaledClickRef.current = false;
+        if (isPortaledClick) {
+            return;
+        }
+
         const isReopenAfterPress = nextOpen && isPressClosedRef.current;
         if (disabled || isReopenAfterPress) {
             return;
@@ -214,8 +221,16 @@ export const Popover = ({
         }
 
         event.preventDefault();
+        if (isOnTarget(event)) {
+            return;
+        }
+
         onClickOutside?.();
         handleOpenChange(false);
+    };
+
+    const handleTargetClick = (event) => {
+        isPortaledClickRef.current = !isOnTarget(event);
     };
 
     const hoverTriggerHandlers = {
@@ -224,7 +239,7 @@ export const Popover = ({
         onPointerDown: handleTargetPointerDown,
         onPointerEnter: handleTargetPointerEnter,
     };
-    const triggerHandlers = isClickOpened ? {} : hoverTriggerHandlers;
+    const triggerHandlers = isClickOpened ? { onClick: handleTargetClick } : hoverTriggerHandlers;
     const rootDelays = isClickOpened ? {} : { openDelay, closeDelay: Math.max(closeDelay, HOVER_CLOSE_GRACE) };
     const contentFocus = isClickOpened
         ? { onOpenAutoFocus: preventDefault, onCloseAutoFocus: preventDefault, onFocusOutside: handleFocusOutside }
