@@ -47,7 +47,7 @@ export const Modal = ({
 }) => {
     const backdropOwner = useId();
     const dialogRef = useRef();
-    const { onOpenAutoFocus, onCloseAutoFocus } = useDialogFocusReturn(isOpen);
+    const { onOpenAutoFocus, onCloseAutoFocus } = useDialogFocusReturn();
 
     const handleBackdropClick = () => {
         if (shouldCloseOnOutsideClick) {
@@ -102,6 +102,7 @@ export const Modal = ({
                     )}
 
                     <RadixDialog.Content
+                        aria-modal="true"
                         aria-describedby={undefined}
                         className={cn(
                             className,

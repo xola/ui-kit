@@ -9,7 +9,8 @@ import React from "react";
 export const SlideDown = ({ isOpen, children }) => {
     return (
         <RadixCollapsible.Root open={isOpen} className="overflow-hidden">
-            <RadixCollapsible.Content className="data-[state=closed]:animate-slide-down-out data-[state=open]:animate-slide-down-in">
+            {/* Radix suppresses mount animations inline; ! keeps the initial-open enter animation active. */}
+            <RadixCollapsible.Content className="data-[state=closed]:animate-slide-down-out data-[state=open]:!animate-slide-down-in">
                 {children}
             </RadixCollapsible.Content>
         </RadixCollapsible.Root>

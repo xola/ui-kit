@@ -115,16 +115,27 @@ Default.play = async ({ canvas, userEvent }) => {
 export const WithLabel = () => {
     const [checked, setChecked] = useState(false);
     const [linkChecked, setLinkChecked] = useState(false);
+    const [buttonChecked, setButtonChecked] = useState(false);
+    const [buttonClicked, setButtonClicked] = useState(false);
     const [linkDefaultPrevented, setLinkDefaultPrevented] = useState();
+    const [buttonDefaultPrevented, setButtonDefaultPrevented] = useState();
 
     useEffect(() => {
         const onClick = (event) => {
-            const isLinkClick = event.target instanceof Element && event.target.closest('[data-testid="label-link"]');
-            if (!isLinkClick) return;
-            // Nobody upstream (the label guard included) may cancel the link's click; cancel it only here,
-            // after the full dispatch ran, so the test iframe does not actually navigate
-            setLinkDefaultPrevented(event.defaultPrevented);
-            event.preventDefault();
+            const target = event.target instanceof Element ? event.target : undefined;
+            const isLinkClick = target?.closest('[data-testid="label-link"]');
+            const isButtonClick = target?.closest('[data-testid="label-button"]');
+            if (!isLinkClick && !isButtonClick) return;
+
+            if (isButtonClick) {
+                setButtonDefaultPrevented(event.defaultPrevented);
+            }
+
+            if (isLinkClick) {
+                // Cancel navigation only after the full dispatch ran, so this records the label's behavior.
+                setLinkDefaultPrevented(event.defaultPrevented);
+                event.preventDefault();
+            }
         };
         window.addEventListener("click", onClick);
         return () => window.removeEventListener("click", onClick);
@@ -143,14 +154,30 @@ export const WithLabel = () => {
                 <Switch.Group>
                     <Switch.Label direction="left">
                         <a className="focus:outline-none" href="#" data-testid="label-link">
-                            docs
+                            <span data-testid="label-link-text">docs</span>
                         </a>
                     </Switch.Label>
                     <span className="sr-only">
                         <Switch data-testid="label-link-switch" isChecked={linkChecked} onChange={setLinkChecked} />
                     </span>
                 </Switch.Group>
+                <Switch.Group>
+                    <Switch.Label direction="left">
+                        <button type="button" data-testid="label-button" onClick={() => setButtonClicked(true)}>
+                            <span data-testid="label-button-text">native button</span>
+                        </button>
+                    </Switch.Label>
+                    <span className="sr-only">
+                        <Switch
+                            data-testid="label-button-switch"
+                            isChecked={buttonChecked}
+                            onChange={setButtonChecked}
+                        />
+                    </span>
+                </Switch.Group>
                 <span data-testid="link-default-prevented">{String(linkDefaultPrevented)}</span>
+                <span data-testid="button-clicked">{String(buttonClicked)}</span>
+                <span data-testid="button-default-prevented">{String(buttonDefaultPrevented)}</span>
             </div>
         </>
     );
@@ -164,15 +191,20 @@ WithLabel.play = async ({ canvas, userEvent }) => {
     await expect(toggle).toHaveAttribute("aria-checked", "false");
     // Clicking the label focuses the switch as well as toggling it
     await expect(toggle).toHaveFocus();
-    // A click on an interactive child of the label keeps its native action and leaves the switch alone.
-    // user-event's simulated label activation forwards clicks to the control even for interactive
-    // descendants, which real browsers never do (the HTML spec makes label activation do nothing for
-    // interactive content), so this dispatches the click directly to match a real browser
+    // Dispatch directly because user-event forwards label activation even for interactive descendants.
+    // Nested spans prove the guard finds the interactive ancestor rather than matching only the event target.
     const linkSwitch = canvas.getByTestId("label-link-switch");
-    canvas.getByTestId("label-link").dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
+    canvas.getByTestId("label-link-text").dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
+    await waitFor(() => expect(canvas.getByTestId("link-default-prevented")).toHaveTextContent("false"));
     await expect(linkSwitch).toHaveAttribute("aria-checked", "false");
     await expect(linkSwitch).not.toHaveFocus();
-    await waitFor(() => expect(canvas.getByTestId("link-default-prevented")).toHaveTextContent("false"));
+
+    const buttonSwitch = canvas.getByTestId("label-button-switch");
+    canvas.getByTestId("label-button-text").dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
+    await waitFor(() => expect(canvas.getByTestId("button-clicked")).toHaveTextContent("true"));
+    await waitFor(() => expect(canvas.getByTestId("button-default-prevented")).toHaveTextContent("false"));
+    await expect(buttonSwitch).toHaveAttribute("aria-checked", "false");
+    await expect(buttonSwitch).not.toHaveFocus();
 };
 
 export const WithLabelAndId = () => {

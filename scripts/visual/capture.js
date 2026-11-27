@@ -133,11 +133,13 @@ export const getOptions = (argv = process.argv.slice(2)) => {
     }
 
     const outDir = path.resolve(out);
-    const relativeOut = path.relative(process.cwd(), outDir);
-    const isInsideRepo = relativeOut !== "" && !relativeOut.startsWith("..") && !path.isAbsolute(relativeOut);
+    const visualDir = path.resolve(".visual");
+    const relativeOut = path.relative(visualDir, outDir);
+    const escapesVisualDir =
+        relativeOut === ".." || relativeOut.startsWith(`..${path.sep}`) || path.isAbsolute(relativeOut);
 
-    if (!isInsideRepo) {
-        throw new Error(`--out must be a subdirectory of ${process.cwd()}, got ${outDir}`);
+    if (relativeOut === "" || escapesVisualDir) {
+        throw new Error(`--out must be a dedicated subdirectory of ${visualDir}, got ${outDir}`);
     }
 
     const workers = Number.parseInt(concurrency, 10);

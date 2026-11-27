@@ -217,7 +217,7 @@ Behavior changes in ui-kit components:
 
 - `Modal`, `Drawer` and `BottomSheet` keep their public props and callbacks. Radix hides content outside an open dialog from the accessibility tree with `aria-hidden`, so tests must not expect the launcher or other outside controls in the dialog's accessibility snapshot. Focus trapping and return, Escape, outside press, scroll lock and nested backdrop order are preserved. A denied Modal outside press still focuses its frame.
 - `Switch` still toggles on Space and label click, and Enter submits its enclosing form instead of toggling. A form reset now restores the mount-time checked state and calls `onChange` with that value. Inside a form, Radix stops the switch click before ancestor `onClick` handlers. The button gains `data-state`, `data-disabled` and `value` attributes, plus `aria-required` when required. A standalone Switch no longer generates an id, and `Switch.Label` outside `Switch.Group` renders an unpaired label instead of throwing. Interactive children of a label keep their native actions without toggling the switch.
-- `FadeIn` removes `enter` and `enterTo` after entering. Put persistent resting styles in `entered`. `SlideDown` keeps an empty, hidden content wrapper while closed. `SubmitButton` and `flash` keep their public APIs, transition durations and callback behavior.
+- `FadeIn` keeps `enter` and `enterTo` after entering and appends `entered`, so persistent resting styles keep working. `SlideDown` keeps an empty, hidden content wrapper while closed. `SubmitButton` and `flash` keep their public APIs, transition durations and callback behavior.
 
 ### 3.7 Type errors once the shim is gone
 

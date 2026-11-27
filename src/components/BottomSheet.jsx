@@ -32,7 +32,7 @@ export const BottomSheet = ({
     const viewportHeight = useViewportHeight();
     const isIOS = isIosBrowser();
     const backdropOwner = useId();
-    const { onOpenAutoFocus, onCloseAutoFocus } = useDialogFocusReturn(isOpen);
+    const { onOpenAutoFocus, onCloseAutoFocus } = useDialogFocusReturn();
 
     const handleOverlayClick = () => {
         if (shouldCloseOnOutsideClick) {
@@ -64,6 +64,7 @@ export const BottomSheet = ({
                 />
 
                 <RadixDialog.Content
+                    aria-modal="true"
                     aria-describedby={undefined}
                     style={panelStyle}
                     className={clsx(

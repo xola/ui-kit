@@ -74,6 +74,7 @@ Default.play = async ({ args, canvas, canvasElement, userEvent }) => {
 
     await userEvent.click(launcher);
     const dialog = await body.findByRole("dialog");
+    await expect(dialog).toHaveAttribute("aria-modal", "true");
     await expect(body.getByText("Apply Code")).toBeInTheDocument();
     await expect(body.getByPlaceholderText("Coupon or Affiliate")).toBeInTheDocument();
 
@@ -121,6 +122,7 @@ const OpenSheet = ({ onClose = handleOpenSheetClose }) => {
 const expectOpenSheet = async ({ canvasElement }) => {
     const body = getPortalCanvas(canvasElement);
     const dialog = await body.findByRole("dialog");
+    await expect(dialog).toHaveAttribute("aria-modal", "true");
     const sheet = dialog.closest(".ui-bottom-sheet");
 
     await waitFor(() => {

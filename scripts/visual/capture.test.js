@@ -27,6 +27,10 @@ describe("visual capture options", () => {
         expect(() => getOptions(argv)).toThrow("--static and --url are mutually exclusive");
     });
 
+    test.each(["src", ".visual/../src", ".visual", "."])("--out %s is rejected before capture", (out) => {
+        expect(() => getOptions(["--out", out])).toThrow("--out must be a dedicated subdirectory of");
+    });
+
     test("--map reads a production-id to current-id JSON object", () => {
         const map = '{"forms-button--primary": "forms-button--overview"}';
         const options = getOptions(["--out", ".visual/baseline", "--url", "https://ui.xola.io", "--map", map]);

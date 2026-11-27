@@ -65,8 +65,41 @@ export const Visible = () => {
     );
 };
 
+let initialSlideDownFrame;
+
+Visible.beforeEach = () => {
+    let recordFrame;
+    initialSlideDownFrame = new Promise((resolve) => {
+        recordFrame = resolve;
+    });
+
+    const observer = new MutationObserver(() => {
+        const panel = document.querySelector(".overflow-hidden > [data-state='open']");
+        if (!panel?.textContent.includes("Slid down into view")) return;
+
+        observer.disconnect();
+        const panelRect = panel.getBoundingClientRect();
+        const rootRect = panel.parentElement.getBoundingClientRect();
+        recordFrame({
+            animationNames: panel.getAnimations().map((animation) => animation.animationName),
+            opacity: Number(getComputedStyle(panel).opacity),
+            topOffset: panelRect.top - rootRect.top,
+        });
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+    return () => observer.disconnect();
+};
+
 Visible.play = async ({ canvas }) => {
-    await waitFor(() => expect(canvas.getByText("Slid down into view")).toBeVisible(), { timeout: 2000 });
+    const initialFrame = await initialSlideDownFrame;
+    await expect(initialFrame.animationNames).toEqual(["slide-down-in"]);
+    await expect(initialFrame.opacity).toBe(0);
+    await expect(initialFrame.topOffset).toBeLessThan(0);
+
+    const panel = canvas.getByText("Slid down into view").parentElement;
+    await waitFor(() => expect(panel).toBeVisible(), { timeout: 2000 });
+    await waitFor(() => expect(getComputedStyle(panel).opacity).toBe("1"), { timeout: 2000 });
 };
 
 export default SlideDownStories;

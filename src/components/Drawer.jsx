@@ -1,6 +1,6 @@
 import * as RadixDialog from "@radix-ui/react-dialog";
 import PropTypes from "prop-types";
-import React, { forwardRef, useId } from "react";
+import React, { forwardRef, useEffect, useId, useRef } from "react";
 import { BackdropOwnerContext, getBackdropHandlers } from "../helpers/backdrop";
 import { isIosBrowser } from "../helpers/browser";
 import cn from "../helpers/classnames";
@@ -37,7 +37,15 @@ export const Drawer = forwardRef(
         const viewportHeight = useViewportHeight();
         const isIOS = isIosBrowser();
         const backdropOwner = useId();
-        const { onOpenAutoFocus, onCloseAutoFocus } = useDialogFocusReturn(isOpen);
+        const shouldAnimateEnterRef = useRef(!isOpen);
+        const { onOpenAutoFocus, onCloseAutoFocus } = useDialogFocusReturn();
+
+        // An initially open Drawer stays at rest; later opens animate after the first close.
+        useEffect(() => {
+            if (!isOpen) {
+                shouldAnimateEnterRef.current = true;
+            }
+        }, [isOpen]);
 
         // Escape and outside presses pass `false`; the close button passes its click event.
         const handleOverlayClick = () => onClose(false);
@@ -70,7 +78,8 @@ export const Drawer = forwardRef(
                         <div
                             className={cn(
                                 "ui-drawer-overlay fixed inset-0 bg-black bg-opacity-80 transition-opacity",
-                                "[--ui-dialog-in-duration:500ms] [--ui-dialog-opacity:0] [--ui-dialog-out-duration:200ms] group-data-[state=closed]/drawer:animate-dialog-out group-data-[state=open]/drawer:animate-dialog-in",
+                                "[--ui-dialog-in-duration:500ms] [--ui-dialog-opacity:0] [--ui-dialog-out-duration:200ms] group-data-[state=closed]/drawer:animate-dialog-out",
+                                shouldAnimateEnterRef.current && "group-data-[state=open]/drawer:animate-dialog-in",
                                 classNames.overlay,
                             )}
                             data-backdrop-owner={backdropOwner}
@@ -87,13 +96,15 @@ export const Drawer = forwardRef(
                             )}
                         >
                             <RadixDialog.Content
+                                aria-modal="true"
                                 aria-describedby={undefined}
                                 className={cn(
                                     "flex",
                                     position === "right"
-                                        ? "[--ui-dialog-translate:100%_0]"
-                                        : "[--ui-dialog-translate:-100%_0]",
-                                    "[--ui-dialog-in-duration:500ms] [--ui-dialog-out-duration:500ms] [--ui-dialog-out-ease:cubic-bezier(0.4,0,0.2,1)] data-[state=closed]:animate-dialog-out data-[state=open]:animate-dialog-in",
+                                        ? "[--ui-dialog-translate:100%_0] [--ui-dialog-out-translate-from:-100%_0]"
+                                        : "[--ui-dialog-translate:-100%_0] [--ui-dialog-out-translate-from:100%_0]",
+                                    "[--ui-dialog-in-duration:500ms] [--ui-dialog-out-duration:500ms] [--ui-dialog-out-ease:cubic-bezier(0.4,0,0.2,1)] data-[state=closed]:animate-dialog-out",
+                                    shouldAnimateEnterRef.current && "data-[state=open]:animate-dialog-in",
                                 )}
                                 onEscapeKeyDown={preventExpandedComboBoxEscape}
                                 onInteractOutside={preventDialogOutsideInteraction}

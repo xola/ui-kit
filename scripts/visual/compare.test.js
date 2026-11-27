@@ -91,15 +91,16 @@ beforeAll(async () => {
     await writeStory(baseDir, "errored", { png: identicalPng, aria: ARIA_SAVE });
     await writeStory(headDir, "errored", { png: identicalPng, aria: ARIA_SAVE });
 
-    await writeManifest(baseDir, [
-        "identical",
-        "pixel-change",
-        "size-mismatch",
-        "aria-change",
-        "missing-head",
-        "errored",
-    ]);
-    await writeManifest(headDir, ["identical", "pixel-change", "size-mismatch", "aria-change", "errored"], ["errored"]);
+    await writeManifest(
+        baseDir,
+        ["identical", "pixel-change", "size-mismatch", "aria-change", "missing-head", "errored", "base-errored"],
+        ["base-errored"],
+    );
+    await writeManifest(
+        headDir,
+        ["identical", "pixel-change", "size-mismatch", "aria-change", "errored", "head-errored"],
+        ["errored", "head-errored"],
+    );
 
     await writeFile(acceptedPath, "[]\n");
     plainRun = await runCompare({ baseDir, headDir, visualDir, acceptedPath });
@@ -170,10 +171,26 @@ describe("visual compare harness", () => {
         expect(plainRun.failing.map(({ id }) => id)).toContain("errored");
     });
 
+    test("fails a manifest-only baseline error without output files", () => {
+        const result = getResult(plainRun, "base-errored");
+
+        expect(plainRun.ids).toContain("base-errored");
+        expect(result.failures).toEqual(["base capture errored", "missing base png, head png, base aria, head aria"]);
+    });
+
+    test("fails a manifest-only head error without output files", () => {
+        const result = getResult(plainRun, "head-errored");
+
+        expect(plainRun.ids).toContain("head-errored");
+        expect(result.failures).toEqual(["head capture errored", "missing base png, head png, base aria, head aria"]);
+    });
+
     test("fails every failure class and writes the report", () => {
         expect(plainRun.failing.map(({ id }) => id)).toEqual([
             "aria-change",
+            "base-errored",
             "errored",
+            "head-errored",
             "missing-head",
             "pixel-change",
             "size-mismatch",
@@ -188,7 +205,12 @@ describe("visual compare harness", () => {
         expect(getResult(acceptedRun, "aria-change").accepted).toEqual(["aria"]);
         expect(getResult(acceptedRun, "size-mismatch").failures).toEqual([]);
         expect(getResult(acceptedRun, "size-mismatch").accepted).toEqual(["size 10x10 vs 10x11"]);
-        expect(acceptedRun.failing.map(({ id }) => id)).toEqual(["errored", "missing-head"]);
+        expect(acceptedRun.failing.map(({ id }) => id)).toEqual([
+            "base-errored",
+            "errored",
+            "head-errored",
+            "missing-head",
+        ]);
         expect(acceptedRun.stale).toEqual([{ id: "identical", kind: "pixel" }]);
     });
 });

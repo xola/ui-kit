@@ -150,7 +150,9 @@ const SwitchLabel = ({ direction = "left", className, children }) => {
     // (a link inside the label) keep their native action instead: the HTML spec makes label activation do
     // nothing for them, so simply stay out of the way.
     const handleClick = (event) => {
-        if (event.target !== event.currentTarget && event.target.matches(INTERACTIVE_CHILD_SELECTOR)) return;
+        const interactiveAncestor =
+            event.target instanceof Element ? event.target.closest(INTERACTIVE_CHILD_SELECTOR) : undefined;
+        if (interactiveAncestor && interactiveAncestor !== event.currentTarget) return;
         event.preventDefault();
         const switchElement = document.getElementById(switchId);
         switchElement?.click();

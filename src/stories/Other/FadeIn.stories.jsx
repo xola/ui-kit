@@ -72,14 +72,18 @@ Default.play = async ({ canvas, userEvent }) => {
 
 export const Visible = () => {
     return (
-        <FadeIn shouldShow className="rounded bg-gray-lighter p-4">
+        <FadeIn shouldShow enterTo="opacity-100 scale-100" entered="rested" className="rounded bg-gray-lighter p-4">
             Faded into view
         </FadeIn>
     );
 };
 
 Visible.play = async ({ canvas }) => {
-    await waitFor(() => expect(canvas.getByText("Faded into view")).toBeVisible(), { timeout: 2000 });
+    const content = canvas.getByText("Faded into view");
+    await waitFor(() => expect(content).toBeVisible(), { timeout: 2000 });
+    await waitFor(() => expect(content).toHaveClass("rested"), { timeout: 2000 });
+    await expect(content).toHaveClass("transition-opacity", "duration-700", "opacity-100", "scale-100", "rested");
+    await expect(getComputedStyle(content).transform).toBe("matrix(1, 0, 0, 1, 0, 0)");
 };
 
 export default FadeInStories;

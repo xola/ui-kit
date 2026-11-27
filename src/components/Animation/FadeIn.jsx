@@ -25,8 +25,8 @@ const getLongestTransition = (element) => {
  * apply. The `*From` classes stay for two frames so the browser paints them before the `*To`
  * classes start the transition, and the stage ends after the element's longest transition.
  *
- * The `entered` stage drops the `enter` and `enterTo` classes (unlike Headless UI, which kept them),
- * so put styles that must persist at rest in `entered`.
+ * The `entered` stage keeps the `enter` and `enterTo` classes and appends `entered`,
+ * so transition timing and persistent resting styles survive after entering.
  */
 export const FadeIn = ({
     shouldShow = true,
@@ -110,7 +110,7 @@ export const FadeIn = ({
     const stageClasses = {
         enterFrom: cn(enter, enterFrom),
         enterTo: cn(enter, enterTo),
-        entered,
+        entered: cn(enter, enterTo, entered),
         leaveFrom: cn(leave, leaveFrom),
         leaveTo: cn(leave, leaveTo),
     };

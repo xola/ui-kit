@@ -37,43 +37,52 @@ const ModalStories = {
 
 export const Default = ({ size, position, shouldCloseOnOutsideClick, onClose }) => {
     const [isOpen, setIsOpen] = useState(false);
+    const [isMounted, setIsMounted] = useState(true);
+
+    const handleOpen = () => {
+        setIsMounted(true);
+        setIsOpen(true);
+    };
 
     const toggle = () => {
         setIsOpen(!isOpen);
     };
 
+    // Keep isOpen true on callback-driven closes to cover consumers that unmount the dialog directly.
     const handleClose = () => {
         onClose();
-        setIsOpen(false);
+        setIsMounted(false);
     };
 
     return (
         <div>
-            <Button onClick={toggle}>Click me to launch a modal</Button>
+            <Button onClick={handleOpen}>Click me to launch a modal</Button>
 
-            <Modal
-                size={size}
-                position={position}
-                isOpen={isOpen}
-                shouldCloseOnOutsideClick={shouldCloseOnOutsideClick}
-                onClose={handleClose}
-            >
-                <Modal.Header description="Enter the code bellow to apply the code">Apply Code</Modal.Header>
+            {isMounted && (
+                <Modal
+                    size={size}
+                    position={position}
+                    isOpen={isOpen}
+                    shouldCloseOnOutsideClick={shouldCloseOnOutsideClick}
+                    onClose={handleClose}
+                >
+                    <Modal.Header description="Enter the code bellow to apply the code">Apply Code</Modal.Header>
 
-                <Modal.Body>
-                    <Input placeholder="Coupon of Affiliate" />
-                </Modal.Body>
+                    <Modal.Body>
+                        <Input placeholder="Coupon of Affiliate" />
+                    </Modal.Body>
 
-                <Modal.Footer className="space-x-4">
-                    <Button color="secondary" variant="outline" onClick={toggle}>
-                        Cancel
-                    </Button>
+                    <Modal.Footer className="space-x-4">
+                        <Button color="secondary" variant="outline" onClick={toggle}>
+                            Cancel
+                        </Button>
 
-                    <Button color="danger" onClick={toggle}>
-                        Confirm
-                    </Button>
-                </Modal.Footer>
-            </Modal>
+                        <Button color="danger" onClick={toggle}>
+                            Confirm
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+            )}
         </div>
     );
 };
@@ -90,6 +99,7 @@ Default.play = async ({ args, canvas, canvasElement, userEvent }) => {
 
     await userEvent.click(launcher);
     const dialog = await body.findByRole("dialog");
+    await expect(dialog).toHaveAttribute("aria-modal", "true");
     await expect(body.getByText("Apply Code")).toBeInTheDocument();
     await expect(body.getByPlaceholderText("Coupon of Affiliate")).toBeInTheDocument();
 
@@ -143,6 +153,7 @@ const OpenModal = ({ size = "medium", position = "center", children = "Open moda
 const expectOpenModal = async ({ canvasElement }) => {
     const body = getPortalCanvas(canvasElement);
     const dialog = await body.findByRole("dialog");
+    await expect(dialog).toHaveAttribute("aria-modal", "true");
     const modal = dialog.closest(".ui-modal");
 
     await waitFor(() => {

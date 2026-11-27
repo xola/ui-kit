@@ -207,6 +207,7 @@ export default {
                     },
                 },
                 "dialog-out": {
+                    from: { translate: "var(--ui-dialog-out-translate-from, 0)" },
                     to: {
                         opacity: "var(--ui-dialog-opacity, 1)",
                         translate: "var(--ui-dialog-translate, 0)",

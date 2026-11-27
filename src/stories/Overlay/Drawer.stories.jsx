@@ -68,24 +68,30 @@ Drawers.args = {
 };
 
 /**
- * Reads the panel offset before the first animation frame advances its enter keyframes.
+ * Reads the panel offset before the first animation frame advances the requested state's keyframes.
  * MutationObserver microtasks run before that frame, however slow the test runner is.
  */
-const observePanelStartOffset = (ownerDocument) => {
+const observePanelStartOffset = (ownerDocument, state = "open") => {
     return new Promise((resolve) => {
         const observer = new MutationObserver(() => {
             const container = ownerDocument.querySelector(".ui-drawer-container");
-            if (!container) {
+            const panel = container?.firstElementChild;
+            if (!panel || panel.getAttribute("data-state") !== state) {
                 return;
             }
 
             observer.disconnect();
-            const { right: panelRight } = container.firstElementChild.getBoundingClientRect();
+            const { right: panelRight } = panel.getBoundingClientRect();
             const { right: containerRight } = container.getBoundingClientRect();
             resolve(panelRight - containerRight);
         });
 
-        observer.observe(ownerDocument.body, { childList: true, subtree: true });
+        observer.observe(ownerDocument.body, {
+            attributes: true,
+            attributeFilter: ["data-state"],
+            childList: true,
+            subtree: true,
+        });
     });
 };
 
@@ -98,6 +104,7 @@ Drawers.play = async ({ args, canvas, canvasElement, userEvent }) => {
     const panelStartOffset = observePanelStartOffset(ownerDocument);
     await userEvent.click(launcher);
     const dialog = await body.findByRole("dialog");
+    await expect(dialog).toHaveAttribute("aria-modal", "true");
 
     // The panel starts translated past the right edge and slides in until it sits flush with its container
     const container = dialog.closest(".ui-drawer").querySelector(".ui-drawer-container");
@@ -120,7 +127,10 @@ Drawers.play = async ({ args, canvas, canvasElement, userEvent }) => {
         await expectFocusInside(dialog, ownerDocument);
     }
 
+    // A right Drawer starts leaving with a negative panel offset before moving toward the right edge.
+    const panelLeaveStartOffset = observePanelStartOffset(ownerDocument, "closed");
     await userEvent.keyboard("{Escape}");
+    await expect(await panelLeaveStartOffset).toBeLessThan(0);
     await waitForClosed(body.queryByText("Hello World"));
     await expect(args.onClose).toHaveBeenCalledExactlyOnceWith(false);
     await waitFor(() => expect(launcher).toHaveFocus());
@@ -160,6 +170,7 @@ const OpenDrawer = ({ size = "medium", position = "right" }) => {
 const expectOpenDrawer = async ({ canvasElement }) => {
     const body = getPortalCanvas(canvasElement);
     const dialog = await body.findByRole("dialog");
+    await expect(dialog).toHaveAttribute("aria-modal", "true");
     const drawer = dialog.closest(".ui-drawer");
 
     await waitFor(() => {
@@ -172,7 +183,45 @@ export const OpenSmall = () => <OpenDrawer size="small" />;
 OpenSmall.play = expectOpenDrawer;
 
 export const OpenMedium = () => <OpenDrawer />;
-OpenMedium.play = expectOpenDrawer;
+
+let initialDrawerFrame;
+
+OpenMedium.beforeEach = () => {
+    let recordFrame;
+    initialDrawerFrame = new Promise((resolve) => {
+        recordFrame = resolve;
+    });
+
+    const observer = new MutationObserver(() => {
+        const panel = document.querySelector(".ui-drawer [role='dialog']");
+        if (!panel) return;
+
+        observer.disconnect();
+        const drawer = panel.closest(".ui-drawer");
+        const container = drawer.querySelector(".ui-drawer-container");
+        const overlay = drawer.querySelector(".ui-drawer-overlay");
+        const panelRect = panel.getBoundingClientRect();
+        const containerRect = container.getBoundingClientRect();
+        recordFrame({
+            animationCount: drawer.getAnimations({ subtree: true }).length,
+            overlayOpacity: Number(getComputedStyle(overlay).opacity),
+            panelOpacity: Number(getComputedStyle(panel).opacity),
+            rightOffset: panelRect.right - containerRect.right,
+        });
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+    return () => observer.disconnect();
+};
+
+OpenMedium.play = async (context) => {
+    const initialFrame = await initialDrawerFrame;
+    await expect(initialFrame.animationCount).toBe(0);
+    await expect(initialFrame.overlayOpacity).toBe(1);
+    await expect(initialFrame.panelOpacity).toBe(1);
+    await expect(initialFrame.rightOffset).toBe(0);
+    await expectOpenDrawer(context);
+};
 
 export const OpenLarge = () => <OpenDrawer size="large" />;
 OpenLarge.play = expectOpenDrawer;
@@ -213,7 +262,7 @@ NoOptionalProps.play = async ({ canvasElement }) => {
     // The root and the body are addressable by test ID, without internal classes
     const root = await body.findByTestId("drawer-root");
     const drawerBody = body.getByTestId("drawer-body");
-    await expect(within(root).getByRole("dialog")).toBeInTheDocument();
+    await expect(within(root).getByRole("dialog")).toHaveAttribute("aria-modal", "true");
     await expect(root).toContainElement(drawerBody);
     await expect(drawerBody).toHaveTextContent("Drawer body");
 

@@ -54,14 +54,18 @@ const getAccepted = async (acceptedPath) => {
  * The manifest is the only record of the error, and it is written last, so a capture that died
  * midway has none.
  */
-const getErroredIds = async (dir) => {
+const getCaptureManifest = async (dir) => {
     const content = await readIfExists(path.join(dir, "manifest.json"), "utf8");
 
     if (content === undefined) {
         throw new Error(`${dir}/manifest.json not found. Rerun the capture that writes ${dir}.`);
     }
 
-    return Object.entries(JSON.parse(content))
+    return JSON.parse(content);
+};
+
+const getErroredIds = (manifest) => {
+    return Object.entries(manifest)
         .filter(([, { status }]) => status !== "ok")
         .map(([id]) => id);
 };
@@ -92,7 +96,7 @@ const comparePixels = async ({ id, basePng, headPng, diffDir }) => {
     return { ratio };
 };
 
-const compareStory = async ({ id, baseDir, headDir, diffDir, acceptedKinds, isHeadErrored }) => {
+const compareStory = async ({ id, baseDir, headDir, diffDir, acceptedKinds, isBaseErrored, isHeadErrored }) => {
     const basePng = await readIfExists(path.join(baseDir, `${id}.png`));
     const headPng = await readIfExists(path.join(headDir, `${id}.png`));
     const baseAria = await readIfExists(path.join(baseDir, `${id}.aria.yml`), "utf8");
@@ -107,6 +111,10 @@ const compareStory = async ({ id, baseDir, headDir, diffDir, acceptedKinds, isHe
     const accepted = [];
     let ratio;
     let sizeMismatch;
+
+    if (isBaseErrored) {
+        failures.push("base capture errored");
+    }
 
     if (isHeadErrored) {
         failures.push("head capture errored");
@@ -218,10 +226,15 @@ const printTable = (rows) => {
 
 export const runCompare = async ({ baseDir, headDir, visualDir = VISUAL_DIR, acceptedPath = ACCEPTED_PATH }) => {
     const accepted = await getAccepted(acceptedPath);
-    const baseErrored = await getErroredIds(baseDir);
-    const headErrored = new Set(await getErroredIds(headDir));
+    const baseManifest = await getCaptureManifest(baseDir);
+    const headManifest = await getCaptureManifest(headDir);
+    const baseErrored = getErroredIds(baseManifest);
+    const baseErroredSet = new Set(baseErrored);
+    const headErrored = new Set(getErroredIds(headManifest));
     const ids = [
         ...new Set([
+            ...Object.keys(baseManifest),
+            ...Object.keys(headManifest),
             ...(await getIds(baseDir, ".png")),
             ...(await getIds(headDir, ".png")),
             ...(await getIds(baseDir, ".aria.yml")),
@@ -239,8 +252,11 @@ export const runCompare = async ({ baseDir, headDir, visualDir = VISUAL_DIR, acc
 
     for (const id of ids) {
         const acceptedKinds = new Set(accepted.filter((entry) => entry.id === id).map(({ kind }) => kind));
+        const isBaseErrored = baseErroredSet.has(id);
         const isHeadErrored = headErrored.has(id);
-        results.push(await compareStory({ id, baseDir, headDir, diffDir, acceptedKinds, isHeadErrored }));
+        results.push(
+            await compareStory({ id, baseDir, headDir, diffDir, acceptedKinds, isBaseErrored, isHeadErrored }),
+        );
     }
 
     const notable = results.filter(({ failures, accepted: diffs }) => failures.length + diffs.length > 0);
