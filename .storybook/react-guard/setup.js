@@ -1,5 +1,6 @@
 import { version } from "react";
-import { afterEach, beforeAll, beforeEach, vi } from "vitest";
+import { spyOn } from "storybook/test";
+import { afterEach, beforeAll, beforeEach } from "vitest";
 import { resetRemovedPropWarnings } from "../../src/helpers/warnRemovedProps";
 import { allowlist } from "./allowlist.js";
 import { findDeprecations, formatConsoleArgs } from "./reactDeprecations.js";
@@ -20,7 +21,7 @@ beforeAll(() => {
 
 beforeEach(() => {
     resetRemovedPropWarnings();
-    spies.push(vi.spyOn(console, "error"), vi.spyOn(console, "warn"));
+    spies.push(spyOn(console, "error"), spyOn(console, "warn"));
 });
 
 /**
