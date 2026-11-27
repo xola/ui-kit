@@ -1,108 +1,81 @@
 ---
 name: using-ui-kit
-description: Use when building or editing UI in an app that depends on @xola/ui-kit, to pick the right component, follow its prop conventions, set up Provider and Tailwind, or use the 3.8 Tooltip, Popover, Sidebar.Menu, RangeSlider and SubmitButton APIs.
+description: Use when @xola/ui-kit or @xola/icons code is written or changed, when ui-kit is added to an app, or when a ui-kit Tooltip, Popover, Sidebar.Menu or dialog opens, closes, takes focus or stacks unexpectedly.
 ---
 
 # Using @xola/ui-kit
 
-`@xola/ui-kit` is Xola's React component library on Tailwind CSS v3. Import UI components from the package root, never from a deep path. Import icons and their types from `@xola/icons`:
+Components come from the package root. Icons come from `@xola/icons`, a separate package whose `index.ts` lists every icon, badge and logo plus the `IconProps`, `IconComponent` and `IconSize` types.
 
 ```tsx
 import { CheckIcon, type IconProps } from "@xola/icons";
 import { Button, Modal, Tooltip } from "@xola/ui-kit";
 ```
 
-ui-kit is ESM only. Never `require` it. Only the root, `index.css`, `build/*`, the two config files and `package.json` resolve; any other subpath throws `ERR_PACKAGE_PATH_NOT_EXPORTED`.
+Props: `index.d.ts` documents `Tooltip`, `Popover`, `Sidebar` (every part, plus `useSidebar`) and `RangeSlider` in JSDoc. Read it before using one of them. Every other export is typed `any`; its prop names and allowed values are in its `propTypes`, in `node_modules/@xola/ui-kit/build/components/` (one readable file per component).
 
-Check ui-kit's `index.d.ts` for component types. `Tooltip`, `Popover`, `Sidebar` (with `Sidebar.Menu`) and `RangeSlider` are fully typed (`TooltipProps`, `PopoverProps`, `PopoverContentProps`, `SidebarMenuProps`, `RangeSliderProps`, `Placement`). Other components are typed `any`, so read their source or story for props.
+Adding ui-kit to an app: see [Setup](#setup).
 
-## Setup
+## Conventions
 
-Wrap the app once in `Provider`. It generates stable ids (needed for SSR) and holds the one tooltip provider that every `Tooltip` shares. `locale` and `localize` are its only props.
+- Booleans are `is*` or `should*` (`isOpen`, `isDisabled`, `shouldCloseOnOutsideClick`), callbacks `on*`, variants string props (`color`, `size`, `variant`).
+- Compound parts hang off the parent: `Modal.Header`, `Modal.Body`, `Modal.Footer`, `Popover.Content`, `Table.Row`, `Tabs.Tab`, `Sidebar.Link`.
+- `className` styles the root. Components with inner parts (`Drawer`, `Breadcrumb`, `Checkbox`, `Sidebar.Link`, ...) also take a `classNames` object.
+- `Tooltip`, `Popover` and `Sidebar.Menu` use Radix names instead: `open` and `onOpenChange`, plus `disabled` on `Tooltip` and `Popover`.
+- Write only declared props. Tippy-era overlay props (`visible`, `trigger`, `offset`, `appendTo`, `interactive`, ...) and react-day-picker 7 props do nothing: `Tooltip`, `Popover`, `DatePicker` and `RangeSlider` log a dev warning per removed prop, `Sidebar.Menu` only for `visible` and its old callbacks. Code written against 3.7: follow [migrate-to-3.8](../migrate-to-3.8/SKILL.md).
 
-```tsx
-import { Provider } from "@xola/ui-kit";
-
-export const Root = ({ children }: { children: React.ReactNode }) => <Provider>{children}</Provider>;
-```
-
-`Tooltip` outside a `Provider` wraps itself and still works. Other components log a warning about ids.
-
-Tailwind v3 apps re-export ui-kit's configs and import two stylesheets. Use `.mjs` files, or set `"type": "module"` in the app's `package.json`:
-
-```js
-// tailwind.config.mjs
-export { default } from "@xola/ui-kit/tailwind.config.js";
-// postcss.config.mjs
-export { default } from "@xola/ui-kit/postcss.config.js";
-```
-
-```js
-import "@xola/ui-kit/index.css";
-import "@xola/ui-kit/build/style.css";
-```
-
-Tailwind v4 apps import only `@xola/ui-kit/build/style.css`, never `index.css`, and add `@source "../node_modules/@xola/ui-kit/build/**/*.js";` plus `@import "@xola/ui-kit/build/theme.css";` to the CSS entry that has `@import "tailwindcss";`. Import `theme.css` after the app's own theme tokens.
-
-Use ui-kit's named colors (`bg-primary`, `text-gray-dark`, `border-gray-light`), not Tailwind's numbered palette. The theme has no dark mode.
-
-## Prop conventions
-
-- Booleans are named `is*` or `should*`: `isOpen`, `isLoading`, `isChecked`, `isDisabled`, `shouldCloseOnOutsideClick`.
-- Callbacks are `on*`: `onClose`, `onChange`, `onClickOutside`.
-- `className` styles the root. Several components also take a `classNames` object for inner parts.
-- Variants are string props: `color`, `size`, `variant`.
-- Compound components hang off the parent: `Modal.Header`, `Modal.Body`, `Modal.Footer`, `Popover.Content`, `Table.Row`, `Tabs.Tab`, `Sidebar.Link`.
-- Exception: the overlay trio `Tooltip`, `Popover` and `Sidebar.Menu` follow Radix naming instead of `is*`: `open` and `onOpenChange` on all three, `disabled` on `Tooltip` and `Popover` only.
+Colors are named, shades too (`lighter`, `light`, default, `dark`, `darker`): `bg-primary`, `text-gray-dark`, `border-gray-light`. The full scale is in ui-kit's `tailwind.config.js`. Numbered classes like `text-gray-600` are not generated under Tailwind v3 and resolve to Tailwind's own off-brand palette under v4. The theme is light only.
 
 ## Catalog
 
 Actions
 
-- `Button`: `color`, `variant`, `size`, optional `icon`. `SecondaryButton` is its outline secondary preset.
-- `SubmitButton`: a `Button` that shows loading and success states. `isLoading`, `isSuccess`.
-- `ToggleButton`: a `Button` with required `isActive`. `ButtonGroup`: segmented choice by `value` and `onChange`.
+- `Button`: `color`, `variant`, `size`, `icon`. `icon` needs `children`; an icon-only button takes the icon as its child. `SecondaryButton` is the outline secondary preset.
+- `SubmitButton`: `Button` with loading and success states, see [SubmitButton](#submitbutton).
+- `ToggleButton`: `Button` with required `isActive`.
+- `ButtonGroup`: segmented control of `ButtonGroup.Button` children. `value` is the active child's index, `onChange(index)`.
 
 Forms
 
-- `Input`, `Textarea`, `Select`, `Checkbox`, `Switch`, `Label`, `FormGroup`: base fields and layout.
-- `ComboBox` and `Search`: typed choice from a list.
-- `GooglePlacesAutocomplete`: address lookup.
-- `RangeSlider`: one or more number handles.
-- `ImageUpload`: image picker with size limit and delete.
+- `Input`, `Textarea`, `Select`, `Checkbox`, `Switch`, `Label`, `FormGroup`: fields and layout.
+- `ComboBox`, `Search`: typed choice from a list. `GooglePlacesAutocomplete`: address lookup.
+- `RangeSlider`: one or more number handles. `ImageUpload`: image picker with size limit and delete.
 - `InlineValuePopover`: click a value to edit it in a popover. `ValuePopoverText` renders its text and error icon.
 
 Dates
 
-- `DatePicker`: calendar with `variant` (single or range). It is react-day-picker 9 underneath: `disabled`, `selected`, `modifiers`, `startMonth`, `endMonth` and `defaultMonth` take its values. `DatePickerPopover`: the same calendar behind an input.
-- `RelativeDateRange`: choose a range such as "last week". `MonthPicker`: month grid.
+- `DatePicker`: calendar, `variant` `"single"` or `"range"`. It is react-day-picker 9 underneath: `disabled`, `selected`, `modifiers`, `startMonth`, `endMonth` and `defaultMonth` take its values. `DatePickerPopover`: the same calendar behind an input.
+- `RelativeDateRange`: ranges such as "last week". `MonthPicker`: month grid.
 
 Overlays
 
-- `Modal`, `Drawer`, `BottomSheet`: dialogs, side panel, mobile sheet. `isOpen` and `onClose` are required. All three stack at `z-30`, so the one opened last is on top. A `Drawer` moved to a lower layer through `classNames.dialog` (for example `z-20`) renders under them, even when it opens last. A backdrop click while a `Popover` or `Tooltip` is open closes only that layer, and the next click closes the dialog (`Drawer` always, `Modal` and `BottomSheet` with `shouldCloseOnOutsideClick`).
-- `Tooltip`, `Popover`, `PopoverList`: hover and click overlays, see the 3.8 APIs below.
-- `flash`: toast function, `flash.show(...)`.
+- `Modal`, `Drawer`, `BottomSheet`: dialog, side panel, mobile sheet. `isOpen` and `onClose` are required. See [Overlays](#overlays).
+- `Tooltip`, `Popover`, `PopoverList` (`PopoverList.Item` rows, a menu in a popover).
+- `flash`: toasts. `flash.show({ text, color, size })`, or `flash.success(text)`, `flash.danger(text)` and the other colors. Needs the Toaster from [Setup](#setup).
 
-Navigation
+Navigation: `Sidebar` (`Sidebar.Account`, `Sidebar.Button`, `Sidebar.Link`, `Sidebar.Menu`, `Sidebar.Heading`, `Sidebar.Separator`, `Sidebar.Footer`), `Tabs`, `Breadcrumb`, `HeaderToolbar`.
 
-- `Sidebar` (with `Sidebar.Account`, `Sidebar.Button`, `Sidebar.Link`, `Sidebar.Menu`, `Sidebar.Heading`, `Sidebar.Separator`, `Sidebar.Footer`), `Tabs`, `Breadcrumb`, `HeaderToolbar`.
-
-Data display
-
-- `Table`, `Breakdown`, `Badge`, `Tag`, `Avatar`, `Dot`, `DotProgress`, `Counter`, `Skeleton`, `Spinner`, `Alert`, `Logo`, `Key`.
-- `Currency`, `Number`, `Phone`: format the value passed as children.
+Data display: `Table`, `Breakdown`, `Badge`, `Tag`, `Avatar`, `Dot`, `DotProgress`, `Counter`, `Skeleton`, `Spinner`, `Alert`, `Logo`, `Key`. `Currency`, `Number` and `Phone` format their children.
 
 Motion
 
-- `FadeIn` and `SlideDown`: show and hide content with a transition. `FadeIn` keeps `enter` and
-  `enterTo` after entering and appends `entered`, so persistent resting styles keep working. `SlideDown`
-  keeps an empty hidden content wrapper while closed.
+- `FadeIn`: Headless UI Transition-style class stages (`enter`, `enterFrom`, `enterTo`, `leave`, ...) driven by `shouldShow`. After entering it keeps `enter` and `enterTo` and appends `entered`.
+- `SlideDown`: `isOpen` slides content in. Children unmount while closed; an empty hidden wrapper stays.
 
-`@xola/icons` exports icons by name (`*Icon`), icon-owned images, badges and logos, and the `IconProps`, `IconComponent` and `IconSize` types. Screens: `Login`.
+Screens: `Login`. Helpers worth reusing before writing your own: `formatDate`, `formatTime`, `numberFormat`, `compactNumber`, `getSymbol`, `isZeroDecimal`, `formatPhoneNumber`, `getInitials`, `useIsMobile`, `useIsClient`, `useViewportHeight`, chart option presets (`BaseChartOptions`, `HistogramOptions`, `PieOptions`) and `theme`, the Tailwind theme as an object.
 
-## 3.8 APIs
+## Overlays
 
-Overlays use Radix. Props that Tippy accepted and 3.8 dropped (`visible`, `trigger`, `offset`, `appendTo`, `zIndex`, `interactive`, and the rest) no longer do anything. `Tooltip`, `Popover` and `RangeSlider` log one dev warning per removed prop. `Sidebar.Menu` warns only for `visible` and its callbacks and ignores `offset`, `appendTo` and the rest silently. To move an app from 3.7, follow `migrate-to-3.8`.
+Stacking:
+
+- `Modal`, `Drawer` and `BottomSheet` share `z-30`, so the one opened last is on top. A `Drawer` lowered through `classNames.dialog` (for example `z-20`) renders under them even when opened last.
+- `Popover` content is `z-50`, `Tooltip` and `Sidebar.Menu` content `z-[9999]`. All portal to `document.body`, above every dialog.
+
+Dismissal:
+
+- Escape and a backdrop click close a `Drawer` always and a `Modal` only with `shouldCloseOnOutsideClick`. A `BottomSheet` closes on a backdrop click with `shouldCloseOnOutsideClick` and ignores Escape.
+- The topmost layer goes first: with a `Tooltip` or `Popover` open over a dialog, Escape or a backdrop click closes only that layer, and the next one reaches the dialog.
+- A `Tooltip` or `Popover` held open (`open` true, and no `onOpenChange` or `onClickOutside` that closes it) takes every Escape and backdrop click of its dialog, so the dialog cannot close those ways. Give it one of the two. A controlled one with no `onOpenChange` also gets `onClickOutside` on Escape.
 
 ### Tooltip
 
@@ -112,17 +85,11 @@ Overlays use Radix. Props that Tippy accepted and 3.8 dropped (`visible`, `trigg
 </Tooltip>
 ```
 
-Props: `content` (empty shows nothing), `placement`, `open` (controlled), `disabled`, `delay`, `skidding`, `distance`, `maxWidth`, `role`, `className`, `contentClassName`, `onOpenChange`, `onClickOutside`. It wraps `children` in a `<span>`, so a disabled button inside still shows it. It opens on hover and keyboard focus, closes on Escape, and the content is not hoverable. Use `Popover` for interactive content.
-
-- Focus opens it only when the target matches `:focus-visible`. Focus that a dialog moves from script (its initial focus, or focus given back to the opener on close) does not, unless the user was on the keyboard.
-- A touch tap on the target toggles it, and a tap outside closes it. The tap still reaches the wrapped control.
-- A controlled tooltip with no `onOpenChange` calls `onClickOutside` on Escape. One held open with `open` and neither callback closing it takes every Escape and backdrop click of an enclosing `Modal`, `Drawer` or `BottomSheet`, so that dialog cannot close those ways. Give it `onOpenChange` or `onClickOutside`.
-- `maxWidth` is capped at the viewport width less 10px.
-
-- `placement` is a `Placement`: `top`, `right`, `bottom` or `left`, optionally with `-start`, `-center` or `-end`. `"auto"` and plain strings fail the type check. Radix flips on collision.
-- `delay` is `number | [number, number]`. A tooltip uses only the first value, because Radix has no close delay.
-- `skidding` shifts along the edge for `-start` and `-end` placements only, and it is reversed for `-end` (Radix negates it). Pass the negative of the Tippy value there.
-- In tests, query an open tooltip with `getByRole("tooltip")`. It leaves the DOM about 250ms after closing.
+- The target is wrapped in a `<span>`, so a disabled button inside still shows the tooltip.
+- Opens on hover and on `:focus-visible` focus, so a dialog's scripted initial or restored focus after a mouse click opens nothing. A touch tap toggles it and still reaches the wrapped control.
+- Content is not hoverable. Content with links or buttons belongs in a `Popover`.
+- `placement` takes no `"auto"`; Radix flips on collision.
+- `skidding` shifts only `-start` and `-end` placements, and positive always moves inward from the aligned edge (Radix mirrors it for `-end`, Tippy did not).
 
 ### Popover
 
@@ -135,19 +102,10 @@ Props: `content` (empty shows nothing), `placement`, `open` (controlled), `disab
 </Popover>
 ```
 
-Props: `open`, `openOn`, `disabled`, `placement`, `delay`, `skidding`, `distance`, `maxWidth`, `content`, `className`, `onOpenChange`, `onClickOutside`. Every child except `Popover.Content` is the target. `Popover.Content` is the body, and `content` replaces it. `PopoverList` and `PopoverList.Item` render a menu-style list in a popover.
-
-Hover or click is chosen once, at mount:
-
-- `openOn` set: it wins. `"hover"` opens on hover and keyboard focus and closes on a mouse press of the target, `"click"` opens on click. After that press a hover popover stays closed, focus included, until the pointer re-enters the target. Keyboard focus means `:focus-visible`, as for `Tooltip`: a dialog's initial or restored focus does not open it.
-- Changing `openOn` after mount swaps the primitive and remounts the target. Set it once.
-- `openOn` omitted and `open` defined: click popover. The content is tabbable and there is no hover.
-- `openOn` omitted and `open` undefined: hover popover.
-- A popover whose `open` starts `undefined` stays hover for life. Start controlled state at `false`.
-
-For new code, use `openOn="click"` for content with inputs or links: hover popovers take their content out of the tab order, and a touch tap does not open them (a tap does open a `Tooltip`).
-
-Escape closes an open popover. A controlled popover with no `onOpenChange` calls `onClickOutside` on Escape. The Escape does not reach an enclosing `Modal`, so closing both takes two presses. A popover held open with `open` and neither callback closing it takes every Escape and backdrop click of an enclosing dialog; give it one. A backdrop click behaves the same way: with the popover open, the first click on a `Modal`, `Drawer` or `BottomSheet` backdrop closes only the popover. `onClickOutside` receives no arguments. Content portals to `document.body`, so focus stays on the trigger and Tab does not enter the content.
+- Every child except `Popover.Content` is the target. The `content` prop replaces `Popover.Content`.
+- Hover or click is fixed at mount (full rule: the `openOn` JSDoc in `index.d.ts`). Start controlled state at `false`, never `undefined`, and keep `openOn` constant.
+- Use `openOn="click"` for content with inputs, links or buttons. A hover popover takes its content out of the tab order and ignores touch taps.
+- Neither kind moves focus into the content, and the content portals to `document.body`, so Tab from the trigger does not reach it.
 
 ### Sidebar.Menu
 
@@ -159,37 +117,29 @@ import { LogoutIcon } from "@xola/icons";
 </Sidebar.Menu>;
 ```
 
-Props: `content`, `open`, `delay`, `onOpenChange`. The menu opens on hover, keyboard focus or a tap, and closes on Escape, an outside press, another menu opening, and a sidebar resize starting. `delay` defaults to `[150, 300]` (open, close). The close value is also the time the pointer has to cross from the item to the menu, so do not set it low. Control it with `open` and `onOpenChange`; there is no instance object.
+Control it with `open` and `onOpenChange`; there is no Tippy instance. Keep the close value of `delay` near its 300ms default: it is the time the pointer has to cross from the item to the menu.
 
 ### RangeSlider
 
-```tsx
-<RangeSlider
-    values={[10, 80]}
-    min={0}
-    max={100}
-    shouldConnectHandles
-    tooltipPlacement={["bottom", "top"]}
-    formatTooltip={(value) => `${value}%`}
-    onChange={setRange}
-/>
-```
+- `values` seeds the handles and re-applies only when its numbers (or `min`, `max`) change, so a new array with equal numbers does not undo a drag. Change `key` to reset.
+- `onChange(values)` fires once per release or keyboard commit. There is no per-move callback.
+- Move a handle's tooltip with `tooltipPlacement` (one entry per handle), not with CSS on the slider's internal classes.
 
-Props: `values`, `min`, `max`, `step` (default 1), `isDisabled`, `shouldConnectHandles`, `isTooltipEnabled` (default true), `tooltipSuffix`, `tooltipPlacement`, `formatTooltip`, `className`, `onChange`.
+### SubmitButton
 
-- `values` seeds the handles and is re-applied when it changes by deep equality. A new array with equal numbers does not undo a drag. Change `key` to remount.
-- `tooltipPlacement` is `"top"`, `"bottom"` or an array with one entry per handle. Do not write CSS against slider internals to move a tooltip.
-- `formatTooltip(value, index)` returns the tooltip text and replaces `tooltipSuffix`.
-- `onChange` receives `number[]` once, on release or keyboard commit.
+On React 19, a `SubmitButton` inside `<form action={fn}>` shows its loading state while the action runs. An explicit `isLoading`, `false` included, wins. On React 18 or without a form `action`, drive `isLoading` yourself. `isSuccess` shows a check for 3 seconds once loading ends.
 
-### SubmitButton and React 19 form actions
+## Testing
 
-On React 19, a `SubmitButton` inside `<form action={fn}>` shows its loading state while the action runs, with no `isLoading` wiring:
+- Overlay content portals to `document.body`: query through `screen` or `within(document.body)`.
+- An open tooltip is `getByRole("tooltip")`. It leaves the DOM about 250ms after closing, so wrap "is gone" assertions in `waitFor`.
+- An open click popover is a `role="dialog"`, so `getByRole("dialog")` for a `Modal` finds two.
+- jsdom has no ResizeObserver, which Radix needs to mount a popper or the slider. Stub it in the test setup.
 
-```tsx
-<form action={saveAction}>
-    <SubmitButton>Save</SubmitButton>
-</form>
-```
+## Setup
 
-An explicit `isLoading`, including `false`, wins over the form state. On React 18, or outside a form that has an `action`, nothing changes. ui-kit uses a React 19 API only when the installed React has it, so one release supports both.
+1. Wrap the app root once in `Provider`. It supplies SSR-stable ids and the one tooltip provider every `Tooltip` shares.
+2. Configure Tailwind and import the CSS per `node_modules/@xola/ui-kit/README.md`, section "Tailwind v3 projects" or "Tailwind v4 projects", matching the app's `tailwindcss` major.
+3. If the app uses `flash`, render react-hot-toast's `<Toaster />` once at the root, imported from the `react-hot-toast` copy ui-kit depends on (`npm ls react-hot-toast` shows one version).
+
+Done when a `Button` renders in ui-kit blue, a `Tooltip` opens on hover, a `flash.success("ok")` call shows (if step 3 applied), and the console has no "Please wrap your app with `<Provider />`" warning.
