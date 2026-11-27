@@ -1,11 +1,11 @@
 ---
 name: migrate-to-3.8
-description: Use when upgrading an app from @xola/ui-kit 3.7 to 3.8, or when Tooltip, Popover, PopoverList, InlineValuePopover, DatePickerPopover, Sidebar.Menu or RangeSlider props log "was removed in 3.8", or Tippy and noUiSlider styles vanish after the bump.
+description: Use when upgrading an app from @xola/ui-kit 3.7 to 3.8, or when Tooltip, Popover, PopoverList, InlineValuePopover, DatePicker, DatePickerPopover, Sidebar.Menu or RangeSlider props log "was removed in 3.8", or the calendar looks unstyled or its day cells are not found by a test, or Tippy and noUiSlider styles vanish after the bump.
 ---
 
 # Migrate @xola/ui-kit 3.7 to 3.8
 
-3.8 moves `Tooltip`, `Popover` and `Sidebar.Menu` from Tippy to Radix, `RangeSlider` from noUiSlider to Radix Slider, and removes ui-kit's Headless UI dependency. Dialogs and `Switch` use Radix, while transitions use local staged classes or Radix Collapsible. It drops every `defaultProps`, adds React 19 form actions to `SubmitButton`, and types the new props in `index.d.ts`. Removed props still compile in JavaScript. In dev builds each logs one warning, `UI Kit <Component>: '<prop>' was removed in 3.8, <replacement>`, and does nothing.
+3.8 moves `Tooltip`, `Popover` and `Sidebar.Menu` from Tippy to Radix, `DatePicker` from react-day-picker 7 to 9, `RangeSlider` from noUiSlider to Radix Slider, and removes ui-kit's Headless UI dependency. Dialogs and `Switch` use Radix, while transitions use local staged classes or Radix Collapsible. It drops every `defaultProps`, adds React 19 form actions to `SubmitButton`, and types the new props in `index.d.ts`. Removed props still compile in JavaScript. In dev builds each logs one warning, `UI Kit <Component>: '<prop>' was removed in 3.8, <replacement>`, and does nothing.
 
 Work through the steps in order. Each ends with a check; do not start the next step until it passes. Run every `rg` command from the app root (a monorepo root is fine). The commands skip `node_modules`, `dist` and `build`.
 
@@ -48,6 +48,13 @@ rg -l0 -P '<(Tooltip|Popover|PopoverList|InlineValuePopover|DatePickerPopover|Si
 
 For each wrapper found, fix the wrapper, then re-run the two commands above with the wrapper's tag name in place of the ui-kit tag names to find its call sites.
 
+`DatePicker` and `DatePickerPopover` props that react-day-picker 9 renamed, and the 7 class names and cell selectors, anywhere in the app:
+
+```bash
+rg -l0 -P '<(DatePicker|DatePickerPopover)\b' -g '*.{ts,tsx,js,jsx,mjs}' -g '!node_modules' -g '!dist' -g '!build' . | xargs -0 -r rg -HnP '(?:^|\s)(selectedDays|disabledDays|fromMonth|toMonth|month|modifiersStyles|modifiers)(?=[\s=/>]|$)|daysOfWeek'
+rg -nP 'DayPicker(-[A-Za-z]+)*(--[a-z]+)?|react-day-picker' -g '*.{ts,tsx,js,jsx,mjs,css,scss}' -g '!node_modules' -g '!dist' -g '!build' .
+```
+
 Objects that reach `popoverProps`, and similar names:
 
 ```bash
@@ -81,7 +88,7 @@ Done when you have a written list of candidate sites grouped by rule below.
 
 ## 3. Apply the rules
 
-Rules 3.1 to 3.4 cover the components. Apply every one that has hits. Kept props need no change: `content`, `placement` (see 3.5), `disabled`, `delay`, `maxWidth`, `className`, `contentClassName` (Tooltip), `role` (Tooltip), `skidding`, `distance`, `onClickOutside`.
+Rules 3.1 to 3.4 and 3.8 cover the components. Apply every one that has hits. Kept props need no change: `content`, `placement` (see 3.5), `disabled`, `delay`, `maxWidth`, `className`, `contentClassName` (Tooltip), `role` (Tooltip), `skidding`, `distance`, `onClickOutside`.
 
 Edit in place. A renamed or converted prop keeps the old prop's position among the attributes, a deleted prop is removed, and nothing is sorted or reordered (imports included). A wrapper's own props keep their names: rename a prop only on the ui-kit element (`visible={isVisible}` becomes `open={isVisible}`).
 
@@ -232,6 +239,28 @@ Deleting the `declare module "@xola/ui-kit";` shim (3.5) types the typed compone
 
 Sidebar errors come from 3.7, not 3.8; `migrate-2.6-to-3.7` lists them too.
 
+### 3.8 DatePicker, DatePickerPopover
+
+Fixtures: `date-picker-v9.tsx`.
+
+`DatePicker` and `DatePickerPopover` (which forwards its props) run on react-day-picker 9. Props that were react-day-picker 7 names are now the 9 names. A removed prop is ignored at runtime and logs one dev warning, so a `disabledDays` left in place shows every day enabled.
+
+| Removed prop | Do this |
+| --- | --- |
+| `selectedDays` | `selected`. A `Date`, or `{ from, to }` for a range. |
+| `disabledDays` | `disabled`. Same values, except the object matcher `{ daysOfWeek: [0] }` is `{ dayOfWeek: [0] }`. `{ before }`, `{ after }`, `{ after, before }`, a `Date` list and a function keep their shape. |
+| `fromMonth`, `toMonth` | `startMonth`, `endMonth`. |
+| `month` | `defaultMonth`. It sets the first month only. `DatePicker` owns navigation, so changing `month` later does not move the calendar. |
+
+Kept props: `value`, `variant`, `onChange(date, modifiers, event)`, `onMonthChange`, `todayButton` (a label or `false`), `modifiers` (react-day-picker 9 matchers, so `daysOfWeek` is `dayOfWeek` there too), `modifiersStyles`, `getDayContent`, `getTooltip`, `loadingDays`, `upcomingDates`, `shouldShowYearPicker`, `shouldShowMonthSelector`, `locale`, `timezoneName`.
+
+Styles and tests that reach into the calendar:
+
+- A custom modifier named `waitlist` renders `ui-day-waitlist` on the day cell. It was `DayPicker-Day--waitlist`.
+- Selectors move from react-day-picker 7 to 9: `.DayPicker` to `.rdp-root`, `.DayPicker-Day` to `.rdp-day`, `--selected`, `--disabled`, `--outside`, `--today` to `.rdp-selected`, `.rdp-disabled`, `.rdp-outside`, `.rdp-today`. The cell is a `td[data-day]` with `data-selected`, `data-disabled`, `data-outside` and `data-today` attributes, and the clickable element is the `button` inside it. A test that clicks the cell must click the button.
+- The month arrows are buttons named "Go to the previous month" and "Go to the next month".
+- ui-kit no longer imports `react-day-picker/lib/style.css`. An app that imports `react-day-picker` 7 itself can move to 9.
+
 ## 4. Hand-review list
 
 A rule cannot settle these. Decide each one from the surrounding code, and write the decision in the commit or PR description.
@@ -283,6 +312,7 @@ Manual checks in the browser, one per kind of component the app uses:
 - Hover popover: opens on hover and keyboard focus, stays open while the pointer crosses to the content, closes on an outside click and on a mouse press of the trigger. A `Modal` or `Drawer` opened from inside the trigger is not covered by the popover.
 - Click and controlled popover: opens on click, closes on an outside click and Escape, and inside a `Modal` the first Escape closes the popover and the second closes the modal. A backdrop click does the same in a `Modal`, `Drawer` or `BottomSheet` that closes on one. Tab order is unchanged around the trigger.
 - `DatePickerPopover`: opens at the right side, including inside a modal and near a viewport edge.
+- `DatePicker`: arrows change the month, disabled days cannot be picked, the Today button selects today, and a range picks in both click orders.
 - `Sidebar.Menu`: hover opens it after about 150ms, a diagonal move to a low item keeps it open, a second menu replaces the first, and a tap opens it on a touch device.
 - `RangeSlider`: drag and arrow keys move handles, the tooltip text and placement match, release calls `onChange` once with numbers.
 - Headless UI dialogs and transitions that the app imports directly from its own declared dependency: they open, trap focus, close on Escape and an outside click, and animate.

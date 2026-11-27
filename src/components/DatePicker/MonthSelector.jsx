@@ -33,7 +33,7 @@ export const MonthSelector = ({ date, locale, onChange, currentMonth }) => {
     };
 
     return (
-        <span className="DayPicker-Caption">
+        <span>
             <span className="inline-block">
                 <Popover
                     openOn="click"

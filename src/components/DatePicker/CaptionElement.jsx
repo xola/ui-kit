@@ -14,16 +14,24 @@ export const createCaptionElement = ({
         return undefined;
     }
 
-    const Caption = ({ date }) => {
-        return shouldShowMonthSelector ? (
-            <MonthSelector date={date} currentMonth={currentMonth} locale={locale} onChange={onChange} />
-        ) : (
-            <MonthYearSelector date={date} currentMonth={currentMonth} locale={locale} onChange={onChange} />
+    const Caption = ({ calendarMonth, className, id }) => {
+        const { date } = calendarMonth;
+
+        return (
+            <div id={id} className={className}>
+                {shouldShowMonthSelector ? (
+                    <MonthSelector date={date} currentMonth={currentMonth} locale={locale} onChange={onChange} />
+                ) : (
+                    <MonthYearSelector date={date} currentMonth={currentMonth} locale={locale} onChange={onChange} />
+                )}
+            </div>
         );
     };
 
     Caption.propTypes = {
-        date: PropTypes.instanceOf(Date).isRequired,
+        calendarMonth: PropTypes.shape({ date: PropTypes.instanceOf(Date).isRequired }).isRequired,
+        className: PropTypes.string,
+        id: PropTypes.string,
     };
 
     return Caption;

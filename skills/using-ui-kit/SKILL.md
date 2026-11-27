@@ -74,7 +74,7 @@ Forms
 
 Dates
 
-- `DatePicker`: calendar with `variant` (single or range) and disabled days. `DatePickerPopover`: the same calendar behind an input.
+- `DatePicker`: calendar with `variant` (single or range). It is react-day-picker 9 underneath: `disabled`, `selected`, `modifiers`, `startMonth`, `endMonth` and `defaultMonth` take its values. `DatePickerPopover`: the same calendar behind an input.
 - `RelativeDateRange`: choose a range such as "last week". `MonthPicker`: month grid.
 
 Overlays

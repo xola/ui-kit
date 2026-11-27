@@ -38,7 +38,7 @@ export const MonthYearSelector = ({ date, locale, onChange, currentMonth }) => {
     };
 
     return (
-        <form className="DayPicker-Caption space-x-2">
+        <form className="space-x-2">
             <span className="inline-block">
                 <Select name="month" value={date.getMonth()} className="month-selector" onChange={handleMonthChange}>
                     {months.map((month, index) => (

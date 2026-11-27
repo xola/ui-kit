@@ -1,4 +1,6 @@
 export const findDayCell = (root, day) =>
-    [...root.querySelectorAll(".DayPicker-Day:not(.DayPicker-Day--outside)")].find(
+    [...root.querySelectorAll("td[data-day]:not([data-outside])")].find(
         (cell) => cell.textContent.trim() === String(day),
     );
+
+export const findDayButton = (root, day) => findDayCell(root, day)?.querySelector("button");

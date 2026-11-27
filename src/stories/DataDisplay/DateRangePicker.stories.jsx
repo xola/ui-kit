@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { expect, waitFor, within } from "storybook/test";
 import { DatePicker, DatePickerPopover } from "../..";
 import { getPortalCanvas, waitForClosed } from "../helpers";
-import { findDayCell } from "./datePickerTestUtils";
+import { findDayButton, findDayCell } from "./datePickerTestUtils";
 
 const DateRangePickerStories = {
     title: "Data Display/Date & Time/Date Range Picker",
@@ -53,7 +53,7 @@ Default.play = async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     await expect(canvas.getByText(/February 2022/)).toBeInTheDocument();
     await expect(canvas.getByText(/March 2022/)).toBeInTheDocument();
-    await expect(canvasElement.querySelectorAll(".DayPicker-Day--selected").length).toBeGreaterThan(0);
+    await expect(canvasElement.querySelectorAll("td[data-selected]").length).toBeGreaterThan(0);
 };
 
 export const RelativeDateRanges = () => {
@@ -102,7 +102,7 @@ export const RelativeDateRangesWithTimeZone = () => {
 RelativeDateRangesWithTimeZone.play = async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     await expect(canvas.getByText("Relative Date Range")).toBeInTheDocument();
-    await expect(canvasElement.querySelectorAll(".DayPicker-Day").length).toBeGreaterThan(0);
+    await expect(canvasElement.querySelectorAll("td[data-day]").length).toBeGreaterThan(0);
 };
 
 export const DateRangeWithInput = ({ shouldShowRelativeRanges }) => {
@@ -144,15 +144,15 @@ DateRangeWithInput.play = async ({ canvasElement, userEvent }) => {
     const initialText = trigger.textContent;
     const openPicker = async () => {
         await userEvent.click(trigger);
-        await waitFor(() => expect(ownerDocument.querySelector(".DayPicker")).toBeInTheDocument());
+        await waitFor(() => expect(ownerDocument.querySelector(".rdp-root")).toBeInTheDocument());
     };
     const pickRangeStart = async (day) => {
         await openPicker();
-        await userEvent.click(findDayCell(ownerDocument, day));
+        await userEvent.click(findDayButton(ownerDocument, day));
         await waitFor(() => expect(trigger).toHaveTextContent("Pending"));
     };
     const expectClosedWithText = async (expectedText) => {
-        await waitForClosed(ownerDocument.querySelector(".DayPicker"));
+        await waitForClosed(ownerDocument.querySelector(".rdp-root"));
         await expect(trigger.textContent).toBe(expectedText);
     };
 
@@ -161,10 +161,10 @@ DateRangeWithInput.play = async ({ canvasElement, userEvent }) => {
     await expectClosedWithText(initialText);
 
     await pickRangeStart(12);
-    await userEvent.click(findDayCell(ownerDocument, 15));
+    await userEvent.click(findDayButton(ownerDocument, 15));
     await waitFor(() => expect(trigger.textContent).not.toContain("Pending"));
     await userEvent.click(body.getByRole("button", { name: "Apply" }));
-    await waitForClosed(ownerDocument.querySelector(".DayPicker"));
+    await waitForClosed(ownerDocument.querySelector(".rdp-root"));
 
     const acceptedText = trigger.textContent;
     await expect(acceptedText).not.toBe(initialText);
@@ -188,10 +188,10 @@ DateRangeWithInput.play = async ({ canvasElement, userEvent }) => {
     });
 
     await pickRangeStart(18);
-    await userEvent.click(findDayCell(ownerDocument, 19));
+    await userEvent.click(findDayButton(ownerDocument, 19));
     await waitFor(() => expect(trigger.textContent).not.toContain("Pending"));
     await userEvent.keyboard("{Escape}");
-    await waitForClosed(ownerDocument.querySelector(".DayPicker"));
+    await waitForClosed(ownerDocument.querySelector(".rdp-root"));
 
     const unappliedText = trigger.textContent;
     await expect(unappliedText).not.toBe(acceptedText);

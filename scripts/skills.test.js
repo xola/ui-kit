@@ -2,6 +2,7 @@ import { execFileSync } from "node:child_process";
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { DATE_PICKER_REMOVED_PROPS } from "../src/components/DatePicker/DatePicker";
 import { POPOVER_REMOVED_PROPS } from "../src/components/Popover/Popover";
 import { SIDEBAR_MENU_REMOVED_PROPS } from "../src/components/Sidebar/Sidebar.Menu";
 import { TOOLTIP_REMOVED_PROPS } from "../src/components/Tooltip";
@@ -154,6 +155,7 @@ describe("migrate-to-3.8", () => {
     const removedProps = {
         Tooltip: Object.keys(TOOLTIP_REMOVED_PROPS),
         Popover: Object.keys(POPOVER_REMOVED_PROPS),
+        DatePicker: Object.keys(DATE_PICKER_REMOVED_PROPS),
         "Sidebar.Menu": Object.keys(SIDEBAR_MENU_REMOVED_PROPS),
     };
 

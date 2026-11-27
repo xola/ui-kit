@@ -43,9 +43,7 @@ Install and configure the @xola/ui-kit React component library in this project.
      @import "tailwindcss";, add:
        @source "../node_modules/@xola/ui-kit/build/**/*.js";
        @import "@xola/ui-kit/build/theme.css";  /* after any of your own theme tokens */
-5. This project uses legacy-peer-deps; run installs with --legacy-peer-deps (or copy ui-kit's
-   .npmrc).
-6. Verify by importing and rendering a component: import { Button } from "@xola/ui-kit";
+5. Verify by importing and rendering a component: import { Button } from "@xola/ui-kit";
 
 Read the @xola/ui-kit README for the full details before making changes.
 ```
@@ -55,13 +53,13 @@ Prefer manual setup? Follow the steps below.
 Install the UI kit:
 
 ```bash
-npm install @xola/ui-kit@next --legacy-peer-deps
+npm install @xola/ui-kit@next
 ```
 
 Install peer dependencies:
 
 ```bash
-npm install react react-dom autoprefixer postcss tailwindcss vite @types/react @types/react-dom --legacy-peer-deps
+npm install react react-dom autoprefixer postcss tailwindcss vite @types/react @types/react-dom
 ```
 
 UI kit expects you already have a working React dev environment with PostCSS support.
@@ -144,7 +142,7 @@ coding agent at one.
 
 Each upgrade guide is an agent skill that ships in the package. To upgrade an app:
 
-1. Install the new version: `npm install @xola/ui-kit@next --legacy-peer-deps`.
+1. Install the new version: `npm install @xola/ui-kit@next`.
 2. Tell your coding agent which guide to follow:
     - From 3.7 to 3.8: "Follow node_modules/@xola/ui-kit/skills/migrate-to-3.8/SKILL.md to upgrade this repo to ui-kit 3.8."
     - From 2.6 to 3.7: "Follow node_modules/@xola/ui-kit/skills/migrate-2.6-to-3.7/SKILL.md to upgrade this repo to ui-kit 3.7."
@@ -261,24 +259,6 @@ $ npm install
 npm run lint        # Lint `src` and auto-fix whatever can be fixed
 npm run lint:ci     # Lint `src` without fixing (used in CI)
 npm run lint:report # Write a JSON report to eslint_report.json
-```
-
-## Notes
-
-This repo's `.npmrc` sets `legacy-peer-deps`. ui-kit depends on `react-day-picker` 7, whose `react` peer range stops at 17, so a strict npm install fails with `ERESOLVE` on React 18 or 19.
-
-In order to avoid issues in your projects that are using this UI Kit, use the same `.npmrc` file or always run installs with `--legacy-peer-deps` flag.
-
-For example:
-
-```bash
-$ npm install --legacy-peer-deps
-```
-
-Or:
-
-```bash
-$ npm install some-package --legacy-peer-deps
 ```
 
 ## Publishing the Package
