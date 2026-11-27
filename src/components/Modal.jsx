@@ -174,6 +174,7 @@ const Body = ({ className, ...rest }) => {
 
 Body.propTypes = {
     className: PropTypes.string,
+    "data-testid": PropTypes.string,
 };
 
 Body.displayName = "Modal.Body";

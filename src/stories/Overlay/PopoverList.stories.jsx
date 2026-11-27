@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { expect } from "storybook/test";
+import { expect, fn, within } from "storybook/test";
 import { Button, PopoverList } from "../..";
 import { getPortalCanvas, PLACEMENTS } from "../helpers";
 import { CalendarDayIcon, CalendarMonthIcon, CalendarWeekIcon, MenuIcon } from "../../icons";
@@ -117,6 +117,11 @@ Default.play = async ({ canvas, canvasElement, userEvent }) => {
         expect(item).not.toHaveClass("rounded-t-lg");
         expect(item).not.toHaveClass("rounded-b-lg");
     });
+
+    // The list is a menu: its options are addressable by role and name, without internal classes
+    const menu = body.getByRole("menu");
+    await expect(within(menu).getAllByRole("menuitem")).toHaveLength(8);
+    await expect(within(menu).getAllByRole("menuitem", { name: "Month" })).toHaveLength(2);
 };
 
 export const NoIcons = (props) => {
@@ -203,9 +208,7 @@ Scrollable.play = async ({ canvas, canvasElement, userEvent }) => {
     await expect(box).not.toHaveClass("w-40");
 };
 
-export const PassThroughProps = () => {
-    const onClickItem = (event_, element) => console.log("Clicked on", event_, element);
-
+export const PassThroughProps = ({ onClickItem }) => {
     return (
         <PopoverList open data-testid="popover-list-test-id">
             <Button>Pass-through target</Button>
@@ -216,13 +219,24 @@ export const PassThroughProps = () => {
     );
 };
 
-PassThroughProps.play = async ({ canvasElement }) => {
+PassThroughProps.args = {
+    onClickItem: fn(),
+};
+
+PassThroughProps.play = async ({ args, canvasElement, userEvent }) => {
     const { ownerDocument } = canvasElement;
     const body = getPortalCanvas(canvasElement);
     const item = await body.findByText("Only item");
 
     await expect(item).toHaveClass("rounded-t-lg", "rounded-b-lg");
     await expect(ownerDocument.querySelector("[data-testid='popover-list-test-id']")).toBeNull();
+
+    // The item is a menu option with its visible label as accessible name; a click keeps the callback contract
+    const menuItem = within(body.getByRole("menu")).getByRole("menuitem", { name: "Only item" });
+    await expect(menuItem).toBe(item);
+    await userEvent.click(menuItem);
+    await expect(args.onClickItem).toHaveBeenCalledExactlyOnceWith(expect.anything(), "only", null);
+    await expect(body.getByRole("menu")).toBeInTheDocument();
 };
 
 export default PopoverStories;

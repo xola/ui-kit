@@ -12,12 +12,19 @@ export const PopoverList = ({ placement = "bottom", className, children, ...rest
         return child.type === PopoverList.Item ? React.cloneElement(child, { position, total: totalItems }) : null;
     });
 
+    // The list reads as a menu, so its options are queryable by role and accessible name. Popover.Content
+    // forwards no extra props, so the identical div is rendered here with the menu role added.
     const content = (
-        <Popover.Content
-            className={cn(scrollFix, "ui-popover-list-content divide-y divide-solid divide-gray-lighter p-0 ")}
+        <div
+            role="menu"
+            className={cn(
+                "ui-popover-content",
+                scrollFix,
+                "ui-popover-list-content divide-y divide-solid divide-gray-lighter p-0 ",
+            )}
         >
             {items}
-        </Popover.Content>
+        </div>
     );
 
     return (
@@ -39,6 +46,7 @@ const Item = ({ name, isActive = false, id = null, position, total, children, cl
     return (
         <div
             name={name}
+            role="menuitem"
             className={cn(
                 "ui-popover-list-item",
                 "flex cursor-pointer space-x-2.5 p-4 align-text-top font-semibold leading-4 tracking-tightest hover:bg-gray-lighter",

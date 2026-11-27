@@ -48,5 +48,25 @@
         "id": "popover--target-opens-modal-from-keyboard",
         "kind": "aria",
         "reason": "Radix aria-hidden excludes outside content that Headless UI inert left in Playwright snapshots; reviewed and accepted."
+    },
+    {
+        "id": "popoverlist--default",
+        "kind": "aria",
+        "reason": "User-requested selector hooks: PopoverList content gains role=menu and items gain role=menuitem; accessible names and pixels are unchanged; reviewed and accepted."
+    },
+    {
+        "id": "popoverlist--no-icons",
+        "kind": "aria",
+        "reason": "User-requested selector hooks: PopoverList content gains role=menu and items gain role=menuitem; accessible names and pixels are unchanged; reviewed and accepted."
+    },
+    {
+        "id": "popoverlist--pass-through-props",
+        "kind": "aria",
+        "reason": "User-requested selector hooks: PopoverList content gains role=menu and items gain role=menuitem; accessible names and pixels are unchanged; reviewed and accepted."
+    },
+    {
+        "id": "popoverlist--scrollable",
+        "kind": "aria",
+        "reason": "User-requested selector hooks: PopoverList content gains role=menu and items gain role=menuitem; accessible names and pixels are unchanged; reviewed and accepted."
     }
 ]

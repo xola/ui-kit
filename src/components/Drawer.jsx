@@ -29,6 +29,8 @@ export const Drawer = forwardRef(
             onClose,
             classNames = {},
             position = "right",
+            "data-testid": dataTestId,
+            bodyTestId,
         },
         ref,
     ) => {
@@ -57,6 +59,7 @@ export const Drawer = forwardRef(
                         classNames.dialog,
                     )}
                     onOpenChange={handleOpenChange}
+                    data-testid={dataTestId}
                 >
                     <div
                         className={cn(
@@ -99,7 +102,13 @@ export const Drawer = forwardRef(
                             >
                                 {position === "right" && <CloseButton onClose={onClose} />}
 
-                                <DrawerContent classNames={classNames} content={content} size={size} title={title} />
+                                <DrawerContent
+                                    bodyTestId={bodyTestId}
+                                    classNames={classNames}
+                                    content={content}
+                                    size={size}
+                                    title={title}
+                                />
 
                                 {position === "left" && <CloseButton onClose={onClose} />}
                             </RadixDialog.Content>
@@ -134,9 +143,11 @@ Drawer.propTypes = {
     classNames: PropTypes.object,
     position: PropTypes.string,
     sideIndent: PropTypes.number,
+    "data-testid": PropTypes.string,
+    bodyTestId: PropTypes.string,
 };
 
-const DrawerContent = ({ classNames, content, size, title }) => {
+const DrawerContent = ({ bodyTestId, classNames, content, size, title }) => {
     return (
         <div
             className={cn(
@@ -148,12 +159,15 @@ const DrawerContent = ({ classNames, content, size, title }) => {
             <div className="ui-drawer-header w-full">
                 <RadixDialog.Title>{title}</RadixDialog.Title>
             </div>
-            <div className={cn("ui-drawer-body relative mt-3 flex-1", classNames.content)}>{content}</div>
+            <div className={cn("ui-drawer-body relative mt-3 flex-1", classNames.content)} data-testid={bodyTestId}>
+                {content}
+            </div>
         </div>
     );
 };
 
 DrawerContent.propTypes = {
+    bodyTestId: PropTypes.string,
     classNames: PropTypes.object.isRequired,
     content: Drawer.propTypes.content,
     size: PropTypes.oneOf(Object.keys(sizes)).isRequired,

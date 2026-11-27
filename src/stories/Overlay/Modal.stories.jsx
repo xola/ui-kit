@@ -135,7 +135,7 @@ const OpenModal = ({ size = "medium", position = "center", children = "Open moda
     return (
         <Modal isOpen size={size} position={position} onClose={handleOpenModalClose}>
             <Modal.Header>Open modal</Modal.Header>
-            <Modal.Body>{children}</Modal.Body>
+            <Modal.Body data-testid="modal-body">{children}</Modal.Body>
         </Modal>
     );
 };
@@ -149,6 +149,10 @@ const expectOpenModal = async ({ canvasElement }) => {
         expect(dialog).toBeVisible();
         expect(modal.getAnimations({ subtree: true })).toHaveLength(0);
     });
+
+    // The header stays a native level-3 heading and the body keeps its test-ID passthrough
+    await expect(body.getByRole("heading", { name: "Open modal", level: 3 })).toBeInTheDocument();
+    await expect(body.getByTestId("modal-body")).toBeInTheDocument();
 
     return modal;
 };

@@ -10,11 +10,11 @@ const keepDialogFrameFocus = (event) => {
     }
 };
 
-export const DialogFrame = forwardRef(({ isOpen, onOpenChange, className, children }, ref) => {
+export const DialogFrame = forwardRef(({ isOpen, onOpenChange, className, children, ...rest }, ref) => {
     return (
         <RadixDialog.Root open={isOpen} onOpenChange={onOpenChange}>
             <RadixDialog.Portal>
-                <RadixDialog.Overlay ref={ref} className={className} onFocusCapture={keepDialogFrameFocus}>
+                <RadixDialog.Overlay ref={ref} className={className} onFocusCapture={keepDialogFrameFocus} {...rest}>
                     {children}
                 </RadixDialog.Overlay>
             </RadixDialog.Portal>

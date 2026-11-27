@@ -201,12 +201,21 @@ IosHeight.play = async (context) => {
 };
 
 export const NoOptionalProps = () => {
-    return <Drawer isOpen content="Drawer body" onClose={() => {}} />;
+    return (
+        <Drawer isOpen content="Drawer body" data-testid="drawer-root" bodyTestId="drawer-body" onClose={() => {}} />
+    );
 };
 
 NoOptionalProps.play = async ({ canvasElement }) => {
     const body = getPortalCanvas(canvasElement);
     await expect(await body.findByText("Drawer body")).toBeInTheDocument();
+
+    // The root and the body are addressable by test ID, without internal classes
+    const root = await body.findByTestId("drawer-root");
+    const drawerBody = body.getByTestId("drawer-body");
+    await expect(within(root).getByRole("dialog")).toBeInTheDocument();
+    await expect(root).toContainElement(drawerBody);
+    await expect(drawerBody).toHaveTextContent("Drawer body");
 
     const container = canvasElement.ownerDocument.body.querySelector(".ui-drawer-container");
     await expect(container.style.right).toBe("0px");
