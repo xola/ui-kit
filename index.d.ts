@@ -146,9 +146,10 @@ export interface PopoverProps {
      */
     open?: boolean;
     /**
-     * "hover" (Radix HoverCard) opens on hover and keyboard focus (`:focus-visible`, so not a dialog's initial focus or
-     * the focus it restores on close), never on a touch tap. A mouse press of the target closes it, and it stays closed,
-     * focus included, until the pointer re-enters. "click" opens on click (Radix Popover, content is tabbable).
+     * "hover" (Radix HoverCard) opens on hover, keyboard focus (`:focus-visible`, so not a dialog's initial focus or
+     * the focus it restores on close) and a touch tap on the target; a tap outside closes it. A mouse press of the
+     * target closes it, and it stays closed, focus included, until the pointer re-enters. "click" opens on click
+     * (Radix Popover, content is tabbable).
      * Without `openOn`, `open` set on the first render picks "click" and `open` undefined picks "hover". Both are
      * fixed at mount: a popover that starts with `open` undefined stays hover for life (start a controlled popover at
      * `false`, not `undefined`), and changing `openOn` later swaps the primitive and remounts the target.

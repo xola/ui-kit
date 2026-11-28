@@ -104,7 +104,7 @@ Dismissal:
 
 - Every child except `Popover.Content` is the target. The `content` prop replaces `Popover.Content`.
 - Hover or click is fixed at mount (full rule: the `openOn` JSDoc in `index.d.ts`). Start controlled state at `false`, never `undefined`, and keep `openOn` constant.
-- Use `openOn="click"` for content with inputs, links or buttons. A hover popover takes its content out of the tab order and ignores touch taps.
+- Use `openOn="click"` for content with inputs, links or buttons. A hover popover takes its content out of the tab order. A touch tap on its target opens it and a tap outside closes it.
 - Neither kind moves focus into the content, and the content portals to `document.body`, so Tab from the trigger does not reach it.
 
 ### Sidebar.Menu
@@ -143,6 +143,7 @@ const ErrorOverlay = import.meta.env.DEV
 - React 19: pass `onUncaughtError` and `onCaughtError` to `createRoot`. React 18: use `componentDidCatch` in an error boundary, plus `window` `error` and `unhandledrejection` listeners.
 - `frames` is optional. Without it the overlay parses `stack`. Resolving source maps and `frame.source` (the code frame) is the app's job, for example through a dev server endpoint.
 - Identical errors merge into one entry with a `count`. Pass `onOpenInEditor(frame)` to show the open-in-editor button.
+- `children` replaces the default layout. Compose it from `ErrorOverlay.Header`, `ErrorOverlay.Message`, `ErrorOverlay.CodeFrame`, `ErrorOverlay.CallStack`, `ErrorOverlay.ComponentStack` and `ErrorOverlay.Toolbar`. A part rendered outside `ErrorOverlay` throws `ErrorOverlay parts must render inside <ErrorOverlay>`.
 
 ## Testing
 

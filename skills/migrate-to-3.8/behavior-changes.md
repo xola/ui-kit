@@ -12,7 +12,7 @@ Reference for [SKILL.md](SKILL.md): how ui-kit 3.8 components behave differently
 
 - A hover popover opens on hover and on keyboard focus of the trigger (`:focus-visible`; a dialog's initial or restored focus does not open it). A mouse press on the trigger closes it, as Tippy's `hideOnClick` default did, and it then stays closed, focus included, until the pointer re-enters the trigger.
 - A hover popover closes 100ms after the pointer leaves target and content, or after the close `delay` if larger.
-- A hover popover does not open on a touch tap. `Tooltip` and `Sidebar.Menu` do.
+- A hover popover opens on a touch tap on its target and closes on a tap outside, like `Tooltip` and `Sidebar.Menu`. Mouse clicks are unchanged.
 - Escape closes the popover. A controlled popover with `onOpenChange` gets `onOpenChange(false)`; one without gets `onClickOutside()`, so a `visible` plus `onClickOutside` site still closes on Escape. There is no `onEscapeKeyDown` prop. The Escape is consumed while a popover is open, so an enclosing `Modal` closes on the second press.
 - `onClickOutside` takes no arguments (Tippy passed `(instance, event)`).
 - Focus stays on the trigger, and Tab does not reach content portaled to `document.body`. Content Tippy placed next to the trigger was reachable by Tab.
