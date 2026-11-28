@@ -1037,6 +1037,45 @@ TouchTapAfterKeyboardFocus.play = async ({ args, canvas, canvasElement, userEven
     await findLayer(canvasElement, POPOVER_SELECTOR, "Touch content");
 };
 
+export const TouchTapOpens = ({ onOpenChange }) => {
+    return (
+        <div className="flex flex-col items-start gap-10">
+            <Popover placement="right" onOpenChange={onOpenChange}>
+                <Button>Tap target</Button>
+                <Popover.Content className="p-4">Tap content</Popover.Content>
+            </Popover>
+            <Button>Elsewhere</Button>
+        </div>
+    );
+};
+
+/**
+ * HoverCard ignores touch pointers, so a tap opens a hover popover, a second tap on the target keeps it, a tap outside
+ * closes it. The tap is raw pointer events: user-event's touch focuses the target, and script focus matches
+ * `:focus-visible`, which would open the popover without the tap handling.
+ */
+TouchTapOpens.play = async ({ args, canvas, canvasElement }) => {
+    const target = canvas.getByRole("button", { name: "Tap target" });
+    const elsewhere = canvas.getByRole("button", { name: "Elsewhere" });
+    const finger = { bubbles: true, cancelable: true, pointerId: 2, pointerType: "touch", isPrimary: true };
+    const tap = (element) => {
+        element.dispatchEvent(new PointerEvent("pointerdown", { ...finger, button: 0, buttons: 1 }));
+        element.dispatchEvent(new PointerEvent("pointerup", finger));
+        element.click();
+    };
+
+    tap(target);
+    const box = await findLayer(canvasElement, POPOVER_SELECTOR, "Tap content");
+    await expect(args.onOpenChange).toHaveBeenCalledWith(true);
+
+    tap(target);
+    await waitForChangeWindow();
+    await expect(box).toHaveAttribute("data-state", "open");
+
+    tap(elsewhere);
+    await expectNoLayer(canvasElement, POPOVER_SELECTOR, "Tap content");
+};
+
 export const ReleasedAfterHeldClosed = () => {
     const [isHeldClosed, setIsHeldClosed] = useState(false);
     const handleToggle = () => setIsHeldClosed(!isHeldClosed);

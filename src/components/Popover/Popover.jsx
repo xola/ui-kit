@@ -94,6 +94,7 @@ export const Popover = ({
     const backdropOwner = useContext(BackdropOwnerContext);
     const isPortaledClickRef = useRef(false);
     const isPressClosedRef = useRef(false);
+    const pointerTypeRef = useRef();
     const [isLocalOpen, setIsLocalOpen] = useState(false);
 
     /**
@@ -147,6 +148,10 @@ export const Popover = ({
      * focus the target. Touch is excluded: a tap leaves a keyboard-opened popover open.
      */
     const handleTargetPointerDown = (event) => {
+        if (isOnTarget(event)) {
+            pointerTypeRef.current = event.pointerType;
+        }
+
         const isMousePress = event.pointerType !== "touch" && isOnTarget(event);
         if (!isMousePress) {
             return;
@@ -156,6 +161,27 @@ export const Popover = ({
         if (isOpen) {
             handleOpenChange(false);
         }
+    };
+
+    /** A press the browser cancels, e.g. a scroll starting on the target, gets no click to clear its pointer type. */
+    const handleTargetPointerCancel = () => {
+        pointerTypeRef.current = undefined;
+    };
+
+    /**
+     * HoverCard ignores touch pointers and iOS Safari does not focus a tapped button, so on a touchscreen neither of its
+     * open paths runs. A tap on the target opens the popover instead, and a tap outside closes it. Mouse clicks are left
+     * alone: hover already opened the popover.
+     */
+    const handleTargetTouchClick = (event) => {
+        const isTapWhileClosed = pointerTypeRef.current === "touch" && !isOpen;
+        pointerTypeRef.current = undefined;
+        if (!isTapWhileClosed || !isOnTarget(event)) {
+            return;
+        }
+
+        isPressClosedRef.current = false;
+        handleOpenChange(true);
     };
 
     const handleTargetPointerEnter = (event) => {
@@ -242,9 +268,11 @@ export const Popover = ({
 
     const hoverTriggerHandlers = {
         onBlur: handleTargetBlur,
+        onClick: handleTargetTouchClick,
         onFocus: handleTargetFocus,
         onPointerDown: handleTargetPointerDown,
         onPointerEnter: handleTargetPointerEnter,
+        onPointerCancel: handleTargetPointerCancel,
     };
     const triggerHandlers = isClickOpened ? { onClick: handleTargetClick } : hoverTriggerHandlers;
     const rootDelays = isClickOpened ? {} : { openDelay, closeDelay: Math.max(closeDelay, HOVER_CLOSE_GRACE) };
