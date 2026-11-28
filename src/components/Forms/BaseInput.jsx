@@ -11,42 +11,35 @@ const sizes = {
 };
 
 export const BaseInput = forwardRef(
-    ({ as: Tag, size = "medium", isError, className, isRequired, value, prefix, suffix, ...rest }, ref) => {
+    (
+        {
+            as: Tag = "input",
+            size = "medium",
+            isError = false,
+            className = "",
+            isRequired = false,
+            value,
+            prefix,
+            suffix,
+            ...rest
+        },
+        ref,
+    ) => {
         const stringValue = () => {
-            if (!isString(value)) return undefined;
-
             let result = value;
 
-            /**
-             * Why are we removing prefix and suffix?
-             *
-             * When BaseInput field is used as a component for `NumberFormat` input, the value would also include prefix and suffix.
-             *
-             * For Example, in UnitField (Weight) we have a suffix as " kg".
-             * So, if a user enters 72, the `value` prop supplied to this component would be "72 kg".
-             * and if the field is empty, the `value` would be " kg".
-             *
-             * Now, if we have `isRequired` set as true, and we need to show the required indicator when the field is empty.
-             * We need a way to know if the `value` supplied to this component is really a value or just prefix or suffix text.
-             * So, we are removing the prefix/suffix from value before comparing.
-             */
+            // NumberFormat includes the prefix/suffix in `value` (e.g. " kg" when the field is
+            // empty), so strip them before the empty check that drives the required indicator.
 
-            // if input contains prefix or suffix, we need to remove them
             if (prefix) result = result.replace(new RegExp(`^${prefix}`), "");
 
             if (suffix) result = result.replace(new RegExp(`${suffix}$`), "");
 
-            // Remove whitespace characters currency sign for currency input
-            return (
-                result
-                    // Remove one or more whitespace characters that are not followed by a period
-                    .replaceAll(/[^.\S]+/g, "")
-                    // Remove any currency symbold
-                    .replace(/[\p{Sc}]/u, "")
-            );
+            // Strip whitespace and the currency symbol so decoration alone does not count as content.
+            return result.replaceAll(/[^.\S]+/g, "").replace(/[\p{Sc}]/u, "");
         };
 
-        // Since the input can only be a string or a number, added the toString method for a numeric value, because lodash's IsEmpty method returns true for any number.
+        // lodash's isEmpty returns true for any number, so numbers are stringified before checking.
         const isEmptyValue = isString(value) ? isEmpty(stringValue()) : isEmpty(value?.toString());
 
         return (
@@ -83,12 +76,4 @@ BaseInput.propTypes = {
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     prefix: PropTypes.string,
     suffix: PropTypes.string,
-};
-
-BaseInput.defaultProps = {
-    as: "input",
-    size: "medium",
-    className: "",
-    isError: false,
-    isRequired: false,
 };

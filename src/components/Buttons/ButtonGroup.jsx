@@ -52,13 +52,13 @@ const Button = ({
     as: Tag = "button",
     isActive,
     shouldShowText = true,
-    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    isHidden = false,
     size = "medium",
     icon,
     iconPlacement = "left",
     className,
     children,
+    // `isHidden` is read by ButtonGroup off the child's props and must not reach the DOM.
+    isHidden: _isHidden,
     ...rest
 }) => {
     const classes = cn(
@@ -73,10 +73,9 @@ const Button = ({
 
     return (
         <Tag aria-pressed={isActive} className={classes} {...rest}>
-            {icon && iconPlacement === "left" ? <span className="mr-2 flex-shrink-0">{icon}</span> : null}
-            {/* Always show text if the icon isn't specified */}
-            {shouldShowText ? children : icon ? null : children}
-            {icon && iconPlacement === "right" ? <span className="ml-2 flex-shrink-0">{icon}</span> : null}
+            {icon && iconPlacement === "left" && <span className="mr-2 flex-shrink-0">{icon}</span>}
+            {(shouldShowText || !icon) && children}
+            {icon && iconPlacement === "right" && <span className="ml-2 flex-shrink-0">{icon}</span>}
         </Tag>
     );
 };

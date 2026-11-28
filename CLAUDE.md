@@ -7,7 +7,7 @@ This file provides guidance to Claude Code when working with code in this reposi
 `@xola/ui-kit` is Xola's shared React component library: Tailwind-based primitives (Button, Form
 inputs, Modal, Table, DatePicker, etc.) published to npm and consumed by `x2-checkout`, `x2-seller`,
 and other Xola frontends. Components are documented in Storybook and tested with Storybook play
-tests.
+tests on React 18 and 19.
 
 ## Commands
 
@@ -19,11 +19,15 @@ npm run build:storybook   # Static Storybook build
 npm run lint               # eslint --fix on src (flat config from @xola/jslint); use lint:ci for a read-only check
 npm run lint:fix          # eslint --fix on src (alias for lint)
 npm run lint:ci           # eslint check only, no writes; exits non-zero on violations
+npm run typecheck         # tsc --noEmit over .ts/.tsx (strict); JS files are not checked
 npm run format            # Prettier --write on src
 npm test                  # Unit tests only (Vitest); use test:all for unit + Storybook
 npm run test:storybook    # Storybook interaction (play) tests, Playwright/Chromium
 npm run test:all          # Unit + Storybook tests
 npm run test:ssr          # Imports build/index.js in Node; run after npm run build
+npm run react:18          # Installs the lockfile's React 18 (--no-save); the checkout's default
+npm run react:19          # Installs React 19 (--no-save); run Storybook tests with VITE_REACT_MAJOR=19
+npm run test:consumer -- --vite 8 --react 19   # Packs ui-kit into tests/consumer, then vite build + tsc
 ```
 
 Run a single test file:
@@ -34,9 +38,14 @@ npx vitest run src/utils/avatar.test.js
 
 ## Architecture
 
-React 18 + Tailwind CSS v3 component library, built with Vite. Mostly JavaScript/JSX; a small
+React 18 and 19 + Tailwind CSS v3 component library, built with Vite. Mostly JavaScript/JSX; a small
 number of files (`LocalizedDayPicker.tsx`, `DatePicker.helpers.ts`, some icons) are TypeScript.
 `index.d.ts` is hand-maintained for consumers that want types.
+
+`Modal`, `Drawer`, `BottomSheet` and `Switch` use Radix primitives. `SlideDown` uses Radix
+Collapsible; `FadeIn`, `SubmitButton` and `flash` use local staged transitions. Headless UI is not a
+dependency. Ordered backdrop dismissal stays in `src/helpers/backdrop.js`, without a parallel overlay
+registry.
 
 **ESM only.** The package is `"type": "module"`; every file is native ESM (`import`/`export`, no
 `require`/`module.exports`). This includes the published `tailwind.config.js` and
@@ -84,11 +93,27 @@ build or entry. Storybook runs on the Vite builder (`@storybook/react-vite`, Sto
 - Functional components + hooks only. `const ComponentName = (props) => { ... }`, named export.
 - Type props with `prop-types`, not TypeScript. Every public prop needs a `PropTypes` entry;
   `children`/`className` pass-through props still need one.
+- Files converted to `.tsx` use TS interfaces and no `PropTypes`; `index.d.ts` stays hand-maintained
+  until generated types land.
 - No `props: any`-equivalent; don't skip `propTypes` for a prop because it's "obvious".
 - Destructure props in the function signature rather than accessing `props.x`.
 - Use `clsx` for conditional `className` construction, not template literals or string
   concatenation.
 - Max 6 levels of JSX indentation.
+- Every change must work on React 18.3 and 19. React 19-only APIs go through
+  `src/helpers/reactFeatures.js` (feature-detected once at module load), never a direct import.
+- Keep `forwardRef`; React 18 has no ref-as-prop.
+- No `defaultProps` on function components (React 19 ignores them); use default parameters.
+- A prop change updates `skills/` (`using-ui-kit`, and `migrate-to-3.8` with its fixtures) and
+  `index.d.ts`. A removed Tooltip, Popover or Sidebar.Menu prop goes in that component's
+  `*_REMOVED_PROPS` map, which drives its dev warning and `scripts/skills.test.js`.
+
+### Overlay stacking
+
+- `Modal`, `Drawer` and `BottomSheet` share `z-30`, so the one opened last is on top
+  (`Sidebar.Notifications` drawers stay at `z-10`, under the `z-20` rail).
+- `Popover` content is `z-50`; `Tooltip` and `Sidebar.Menu` content is `z-[9999]`. All portal to
+  `document.body`, above every dialog. Keep these values; consumer layouts are built around them.
 
 ### Tailwind
 
@@ -109,4 +134,3 @@ build or entry. Storybook runs on the Vite builder (`@storybook/react-vite`, Sto
 ### Comments
 
 Comment only the WHY the code cannot say. See `.claude/rules/commenting.md`.
-

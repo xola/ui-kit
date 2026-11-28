@@ -1,0 +1,72 @@
+[
+    {
+        "id": "configuration-ui-kit-raw-config--ui-kit-raw-config",
+        "kind": "size",
+        "reason": "Required dialog keyframes increase the rendered Tailwind config height; reviewed and accepted."
+    },
+    {
+        "id": "configuration-ui-kit-raw-config--ui-kit-raw-config",
+        "kind": "aria",
+        "reason": "Required dialog keyframes appear in the rendered Tailwind config; reviewed and accepted."
+    },
+    {
+        "id": "overlay-bottomsheet--scrollable-content",
+        "kind": "aria",
+        "reason": "Radix aria-hidden excludes outside content that Headless UI inert left in Playwright snapshots; reviewed and accepted."
+    },
+    {
+        "id": "overlay-combinations--drawer-with-combo-box",
+        "kind": "aria",
+        "reason": "Radix aria-hidden excludes outside content that Headless UI inert left in Playwright snapshots; reviewed and accepted."
+    },
+    {
+        "id": "overlay-combinations--modal-default-dismissal",
+        "kind": "aria",
+        "reason": "Radix aria-hidden excludes outside content that Headless UI inert left in Playwright snapshots; reviewed and accepted."
+    },
+    {
+        "id": "overlay-combinations--sidebar-notifications-drawer",
+        "kind": "aria",
+        "reason": "Radix aria-hidden excludes outside content that Headless UI inert left in Playwright snapshots; reviewed and accepted."
+    },
+    {
+        "id": "overlay-combinations--sidebar-with-drawer",
+        "kind": "aria",
+        "reason": "Radix aria-hidden excludes outside content that Headless UI inert left in Playwright snapshots; reviewed and accepted."
+    },
+    {
+        "id": "overlay-tooltip--target-opens-modal",
+        "kind": "aria",
+        "reason": "Radix aria-hidden excludes outside content that Headless UI inert left in Playwright snapshots; reviewed and accepted."
+    },
+    {
+        "id": "overlay-tooltip--target-opens-modal-from-keyboard",
+        "kind": "aria",
+        "reason": "Radix aria-hidden excludes outside content that Headless UI inert left in Playwright snapshots; reviewed and accepted."
+    },
+    {
+        "id": "popover--target-opens-modal-from-keyboard",
+        "kind": "aria",
+        "reason": "Radix aria-hidden excludes outside content that Headless UI inert left in Playwright snapshots; reviewed and accepted."
+    },
+    {
+        "id": "popoverlist--default",
+        "kind": "aria",
+        "reason": "User-requested selector hooks: PopoverList content gains role=menu and items gain role=menuitem; accessible names and pixels are unchanged; reviewed and accepted."
+    },
+    {
+        "id": "popoverlist--no-icons",
+        "kind": "aria",
+        "reason": "User-requested selector hooks: PopoverList content gains role=menu and items gain role=menuitem; accessible names and pixels are unchanged; reviewed and accepted."
+    },
+    {
+        "id": "popoverlist--pass-through-props",
+        "kind": "aria",
+        "reason": "User-requested selector hooks: PopoverList content gains role=menu and items gain role=menuitem; accessible names and pixels are unchanged; reviewed and accepted."
+    },
+    {
+        "id": "popoverlist--scrollable",
+        "kind": "aria",
+        "reason": "User-requested selector hooks: PopoverList content gains role=menu and items gain role=menuitem; accessible names and pixels are unchanged; reviewed and accepted."
+    }
+]

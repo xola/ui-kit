@@ -9,32 +9,39 @@ export const MonthSelector = ({ date, locale, onChange, currentMonth }) => {
     const [isVisible, setIsVisible] = useState(false);
     const [year, setYear] = useState(new Date(currentMonth).getFullYear());
 
-    const toggleVisibility = () => {
-        setIsVisible(!isVisible);
-    };
+    const toggleVisibility = () => setIsVisible(!isVisible);
+
+    const handleClear = () => setIsVisible(false);
 
     const handleMonthSelect = (newDate) => {
         onChange(newDate);
-        setIsVisible(false);
+        handleClear();
     };
 
-    const handleYearChange = (offset) => {
-        setYear(year + offset);
-    };
-
-    const handleClear = () => {
-        setIsVisible(false);
-    };
+    const handleYearChange = (offset) => setYear(year + offset);
 
     const handleToday = () => {
         onChange(new Date());
-        setIsVisible(false);
+        handleClear();
+    };
+
+    /** Radix asks to close on Escape, a press outside and focus leaving; the caption's own click opens it. */
+    const handleOpenChange = (isOpen) => {
+        if (!isOpen) {
+            handleClear();
+        }
     };
 
     return (
-        <span className="DayPicker-Caption">
+        <span>
             <span className="inline-block">
-                <Popover visible={isVisible} distance={5} skidding={60} placement="bottom" onClickOutside={handleClear}>
+                <Popover
+                    openOn="click"
+                    open={isVisible}
+                    distance={5}
+                    placement="bottom-start"
+                    onOpenChange={handleOpenChange}
+                >
                     <div
                         className="mt-2 min-w-40 cursor-pointer items-center justify-between text-left font-bold"
                         onClick={toggleVisibility}
@@ -60,6 +67,8 @@ export const MonthSelector = ({ date, locale, onChange, currentMonth }) => {
 };
 
 MonthSelector.propTypes = {
-    date: PropTypes.objectOf(Date).isRequired,
+    currentMonth: PropTypes.instanceOf(Date),
+    date: PropTypes.instanceOf(Date).isRequired,
+    locale: PropTypes.string,
     onChange: PropTypes.func.isRequired,
 };

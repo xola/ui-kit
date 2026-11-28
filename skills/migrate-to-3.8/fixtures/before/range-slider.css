@@ -1,0 +1,11 @@
+/* Three handles: the second one's tooltip sits above the track, the others below. */
+.reminder-slider .noUi-handle[data-handle="1"] .noUi-tooltip {
+    top: auto;
+    bottom: 130%;
+}
+
+.reminder-slider .noUi-handle[data-handle="1"] .noUi-tooltip::after {
+    top: 100%;
+    bottom: auto;
+    border-color: black transparent transparent transparent;
+}

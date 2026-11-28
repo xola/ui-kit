@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import cn from "../../helpers/classnames";
 
-export const colors = {
+const colors = {
     standard: {
         common: "border-transparent text-white", // Common classes for each style
         primary: "bg-primary hover:bg-primary-darker active:bg-primary",
@@ -46,6 +46,18 @@ const sizes = {
     large: "px-6 py-4 h-[50px] text-md leading-md", // 50px
 };
 
+/**
+ * @typedef {import("react").ComponentPropsWithoutRef<"button"> & {
+ *     as?: import("react").ElementType,
+ *     variant?: keyof typeof colors,
+ *     color?: keyof typeof colors.outline,
+ *     size?: keyof typeof sizes,
+ *     icon?: import("react").ReactNode,
+ *     iconPlacement?: "left" | "right",
+ * }} ButtonProps
+ */
+
+/** @param {ButtonProps} props */
 export const Button = ({
     as: Tag = "button",
     variant = "standard",

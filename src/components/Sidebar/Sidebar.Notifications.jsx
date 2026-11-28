@@ -10,6 +10,12 @@ const LeftDrawerCountStyle = {
     background: "linear-gradient(138.65deg, #583DFF 19.59%, #F849C7 62.96%, #FFC03D 97.07%)",
 };
 
+/**
+ * These drawers slide out beside the rail (`sideIndent` is the rail width). At z-10, under the rail's z-20, a drawer's
+ * backdrop dims the page but not the rail. Other drawers keep the default z-30 and dim the rail too.
+ */
+const NOTIFICATION_DRAWER_CLASS_NAMES = { dialog: "z-10" };
+
 const counterSize = (isCollapsed) => {
     const size = isCollapsed ? "30px" : "48px";
 
@@ -42,6 +48,25 @@ export const SidebarNotifications = ({
     // A positive count is the only state worth a bubble: negative means no permission to see the
     // badge rather than zero notices, and absent means nothing to report.
     const hasNoticeCount = rightDrawer?.count > 0;
+
+    const renderDrawer = (drawer, isOpen, side) => {
+        const handleClose = (event) => !!event && onDrawerStateChange?.(side);
+
+        return (
+            drawer && (
+                <Drawer
+                    isOpen={isOpen}
+                    sideIndent={width}
+                    position="left"
+                    size="xl"
+                    classNames={NOTIFICATION_DRAWER_CLASS_NAMES}
+                    title={drawer.title}
+                    content={drawer.content}
+                    onClose={handleClose}
+                />
+            )
+        );
+    };
 
     return (
         <>
@@ -78,29 +103,9 @@ export const SidebarNotifications = ({
                 )}
             </div>
 
-            {leftDrawer && (
-                <Drawer
-                    isOpen={isLeftDrawerOpen}
-                    sideIndent={width}
-                    position="left"
-                    size="xl"
-                    title={leftDrawer.title}
-                    content={leftDrawer.content}
-                    onClose={(event) => !!event && onDrawerStateChange?.("left")}
-                />
-            )}
+            {renderDrawer(leftDrawer, isLeftDrawerOpen, "left")}
 
-            {rightDrawer && (
-                <Drawer
-                    isOpen={isRightDrawerOpen}
-                    sideIndent={width}
-                    position="left"
-                    size="xl"
-                    title={rightDrawer.title}
-                    content={rightDrawer.content}
-                    onClose={(event) => !!event && onDrawerStateChange?.("right")}
-                />
-            )}
+            {renderDrawer(rightDrawer, isRightDrawerOpen, "right")}
         </>
     );
 };

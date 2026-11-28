@@ -4,10 +4,8 @@ import React from "react";
 import cn from "../../helpers/classnames";
 import { Dot } from "../Dot/Dot";
 
-export const Day = ({ selectedDate, date, getContent, currentMonth, isLoading = false, disabled = false }) => {
-    const isSameMonth = dayjs(currentMonth).isSame(date, "month");
-
-    if (getContent && isSameMonth) {
+export const Day = ({ selectedDate, date, getContent, isCurrentMonth = true, isLoading = false, disabled = false }) => {
+    if (getContent && isCurrentMonth) {
         if (isLoading) {
             return (
                 <div className="flex animate-pulse items-center justify-center">
@@ -34,8 +32,8 @@ export const Day = ({ selectedDate, date, getContent, currentMonth, isLoading = 
             className={cn(
                 "ui-date-picker-day",
                 "flex items-center justify-center",
-                isSameDay && isSameMonth && !disabled ? "selected text-white" : null,
-                isSameMonth ? "date" : null,
+                isSameDay && isCurrentMonth && !disabled ? "selected text-white" : null,
+                isCurrentMonth ? "date" : null,
             )}
         >
             {date.getDate()}
@@ -47,7 +45,9 @@ Day.propTypes = {
     selectedDate: PropTypes.objectOf(Date),
     date: PropTypes.objectOf(Date),
     getContent: PropTypes.func,
-    currentMonth: PropTypes.objectOf(Date),
+    isCurrentMonth: PropTypes.bool,
+    isLoading: PropTypes.bool,
+    disabled: PropTypes.bool,
 };
 
 /**

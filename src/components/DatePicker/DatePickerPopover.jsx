@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import React, { cloneElement, forwardRef, useEffect, useState } from "react";
+import React, { cloneElement, forwardRef, useRef, useState } from "react";
 import cn from "../../helpers/classnames";
 import { CalendarIcon, DownArrowIcon } from "../../icons";
 import { formatDate } from "../../utils/date";
@@ -23,55 +23,58 @@ export const DatePickerPopover = ({
     getDayContent,
     ...rest
 }) => {
-    const [initialValue] = useState(value);
-    const [originalValue, setOriginalValue] = useState(value);
+    const draftStartValue = useRef(value);
     const [isVisible, setIsVisible] = useState(false);
 
-    const toggleVisibility = () => {
-        setIsVisible(!isVisible);
-    };
+    const toggleVisibility = () => setIsVisible(!isVisible);
 
     const handleChange = (date, options, event) => {
         if (variant === "single") {
             onChange?.(date, options, event);
             toggleVisibility();
         } else {
-            onChange?.(date, originalValue, options, event);
+            onChange?.(date, value, options, event);
         }
     };
 
     const handleSubmitDateRange = () => {
-        setOriginalValue(value);
+        draftStartValue.current = value;
         onChange?.(value);
         setIsVisible(false);
     };
 
-    const handleClickOutside = () => {
-        if (!value?.to && variant === "range") {
-            onChange(initialValue);
+    /**
+     * Radix asks to close on Escape, a press outside and focus leaving; the target's own click opens it. Each way out
+     * puts back a half-picked range.
+     */
+    const handleOpenChange = (isOpen) => {
+        if (isOpen) {
+            draftStartValue.current = value;
+            return;
         }
 
-        toggleVisibility();
+        if (!value?.to && variant === "range") {
+            onChange(draftStartValue.current);
+        }
+
+        setIsVisible(false);
     };
 
-    useEffect(() => {
-        setOriginalValue(value);
-    }, [value]);
-
     // On mobile the calendar is tall relative to the viewport; opening it downward (below the
-    // input) runs it off the bottom of the screen — especially inside a bottom sheet, and worse
+    // input) runs it off the bottom of the screen, especially inside a bottom sheet, and worse
     // behind the mobile browser's toolbar. Force it to open upward into the roomier space above the
     // field. This deliberately overrides any consumer-supplied `placement` on mobile only.
     const isMobile = useIsMobile();
 
     return (
         <Popover
-            visible={isVisible}
+            openOn="click"
+            open={isVisible}
             maxWidth={900}
             distance={18}
             placement="bottom"
             className={cn("ui-date-picker-input", classNames.popover)}
-            onClickOutside={handleClickOutside}
+            onOpenChange={handleOpenChange}
             {...popoverProps}
             {...(isMobile ? { placement: "top", distance: 4 } : {})}
         >
@@ -83,7 +86,7 @@ export const DatePickerPopover = ({
                     size="medium"
                     value={value ? formatDate(value, dateFormat) : ""}
                     placeholder={placeholder}
-                    className={classNames?.input}
+                    className={classNames.input}
                     onClick={toggleVisibility}
                 />
             )}

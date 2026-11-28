@@ -1,5 +1,6 @@
-import { Transition } from "@headlessui/react";
-import React, { Fragment } from "react";
+import { useUpdateEffect } from "ahooks";
+import PropTypes from "prop-types";
+import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { CloseIcon } from "../icons";
 import cn from "./classnames";
@@ -23,6 +24,80 @@ const defaultProps = {
     duration: 3000,
     position: "top-center",
     reverseOrder: false,
+};
+
+const nextStage = {
+    enterFrom: "enterTo",
+    leaveFrom: "leaveTo",
+};
+
+const stageClasses = {
+    enterFrom: "transition transform duration-500 ease-out -translate-y-full !opacity-0",
+    enterTo: "transition transform duration-500 ease-out translate-y-0 !opacity-100",
+    entered: "translate-y-0 !opacity-100",
+    leaveFrom: "transition transform duration-500 ease-in !opacity-90 translate-y-0",
+    leaveTo: "transition transform duration-500 ease-in !opacity-0 -translate-y-full",
+};
+
+const FlashMessage = ({ text, className, onClose, toastObject }) => {
+    const [stage, setStage] = useState(toastObject.visible ? "enterFrom" : "hidden");
+
+    useUpdateEffect(() => {
+        if (toastObject.visible) {
+            setStage("enterFrom");
+            return;
+        }
+
+        setStage((current) => (current === "hidden" ? current : "leaveFrom"));
+    }, [toastObject.visible]);
+
+    useEffect(() => {
+        const next = nextStage[stage];
+        if (next) {
+            let frame = requestAnimationFrame(() => {
+                frame = requestAnimationFrame(() => setStage(next));
+            });
+
+            return () => cancelAnimationFrame(frame);
+        }
+
+        if (stage === "enterTo" || stage === "leaveTo") {
+            const timer = setTimeout(() => setStage(stage === "enterTo" ? "entered" : "hidden"), 500);
+            return () => clearTimeout(timer);
+        }
+
+        return undefined;
+    }, [stage]);
+
+    if (stage === "hidden") {
+        return null;
+    }
+
+    const handleClose = (event) => onClose(event, toastObject);
+
+    return (
+        <div key={toastObject.id} className={cn(className, stageClasses[stage])}>
+            <div className="w-full">{text}</div>
+            {onClose && (
+                <div
+                    className="flex cursor-pointer items-center justify-center pl-3 opacity-60 hover:opacity-100"
+                    onClick={handleClose}
+                >
+                    <CloseIcon />
+                </div>
+            )}
+        </div>
+    );
+};
+
+FlashMessage.propTypes = {
+    text: PropTypes.node.isRequired,
+    className: PropTypes.string.isRequired,
+    onClose: PropTypes.func,
+    toastObject: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        visible: PropTypes.bool.isRequired,
+    }).isRequired,
 };
 
 /**
@@ -71,33 +146,7 @@ export const flash = {
     },
 
     container(text, className, onClose, toastObject) {
-        const onCloseWrapper = (event) => onClose(event, toastObject);
-
-        return (
-            <Transition
-                appear
-                as={Fragment}
-                show={toastObject.visible}
-                enter="transition transform duration-500 ease-out"
-                enterFrom="-translate-y-full !opacity-0"
-                enterTo="translate-y-0 !opacity-100"
-                leave="transition transform duration-500 ease-in"
-                leaveFrom="!opacity-90 translate-y-0"
-                leaveTo="!opacity-0 -translate-y-full"
-            >
-                <div key={toastObject.id} className={className}>
-                    <div className="w-full">{text}</div>
-                    {onClose && (
-                        <div
-                            className="flex cursor-pointer items-center justify-center pl-3 opacity-60 hover:opacity-100"
-                            onClick={onCloseWrapper}
-                        >
-                            <CloseIcon />
-                        </div>
-                    )}
-                </div>
-            </Transition>
-        );
+        return <FlashMessage text={text} className={className} onClose={onClose} toastObject={toastObject} />;
     },
 
     remove(id) {

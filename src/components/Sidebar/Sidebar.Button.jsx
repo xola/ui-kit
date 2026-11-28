@@ -19,7 +19,7 @@ export const SidebarButton = ({ icon: Icon, label, appearance = "plain", classNa
                 !showText && "justify-center px-2",
                 className,
             )}
-            // Not `title`: consumers wrap sidebar items in Sidebar.Menu (tippy), and a native
+            // Not `title`: consumers wrap sidebar items in Sidebar.Menu, and a native
             // title on the same node renders a second tooltip alongside it.
             aria-label={showText ? undefined : label}
             {...rest}
@@ -47,8 +47,6 @@ SidebarButton.displayName = "Sidebar.Button";
 SidebarButton.propTypes = {
     icon: PropTypes.elementType.isRequired,
     label: PropTypes.string.isRequired,
-    // "solid" is the filled, card-like treatment that lifts one action out of the list. It
-    // carries a larger icon to match.
     appearance: PropTypes.oneOf(["plain", "solid"]),
     className: PropTypes.string,
 };

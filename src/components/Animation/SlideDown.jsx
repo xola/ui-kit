@@ -1,24 +1,19 @@
-import { Transition } from "@headlessui/react";
+import * as RadixCollapsible from "@radix-ui/react-collapsible";
 import PropTypes from "prop-types";
 import React from "react";
 
+/**
+ * Slides the content down from behind its own top edge while the box takes its full height at
+ * once, as the 3.x transition did, rather than growing with `--radix-collapsible-content-height`.
+ */
 export const SlideDown = ({ isOpen, children }) => {
     return (
-        <div className="overflow-hidden">
-            <Transition
-                show={isOpen}
-                appear={isOpen}
-                as="div"
-                enter="transition-all duration-500"
-                enterFrom="transform -translate-y-full opacity-0"
-                enterTo="transform translate-y-0 opacity-100"
-                leave="transition duration-500"
-                leaveFrom="transform translate-y-0 opacity-100"
-                leaveTo="transform -translate-y-full opacity-0"
-            >
+        <RadixCollapsible.Root open={isOpen} className="overflow-hidden">
+            {/* Radix suppresses mount animations inline; ! keeps the initial-open enter animation active. */}
+            <RadixCollapsible.Content className="data-[state=closed]:animate-slide-down-out data-[state=open]:!animate-slide-down-in">
                 {children}
-            </Transition>
-        </div>
+            </RadixCollapsible.Content>
+        </RadixCollapsible.Root>
     );
 };
 

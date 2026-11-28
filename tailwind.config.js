@@ -179,15 +179,44 @@ export default {
 
         // Figma: https://www.figma.com/file/tL2vrxuBIzujkDfYvVjUhs/%F0%9F%9B%A0-Xola-DS-Desktop-Master-%F0%9F%9B%A0?node-id=1885%3A51905
         extend: {
+            // fade-in and fade-out keep Tippy's default fade (300ms in, 250ms out) for Radix overlays
             animation: {
-                'reverse-spin': 'reverse-spin 1s linear infinite'
+                'reverse-spin': 'reverse-spin 1s linear infinite',
+                "fade-in": "fade-in 300ms ease",
+                "fade-out": "fade-out 250ms ease",
+                "dialog-in": "dialog-in var(--ui-dialog-in-duration) var(--ui-dialog-in-ease, cubic-bezier(0, 0, 0.2, 1))",
+                "dialog-out":
+                    "dialog-out var(--ui-dialog-out-duration) var(--ui-dialog-out-ease, cubic-bezier(0.4, 0, 1, 1)) forwards",
+                "dialog-hold": "dialog-hold var(--ui-dialog-out-duration)",
+                "slide-down-in": "slide-down-in 500ms cubic-bezier(0.4, 0, 0.2, 1)",
+                "slide-down-out": "slide-down-out 500ms cubic-bezier(0.4, 0, 0.2, 1) forwards",
             },
             keyframes: {
                 'reverse-spin': {
                     from: {
                         transform: 'rotate(360deg)'
                     },
-                }
+                },
+                "fade-in": { from: { opacity: "0" } },
+                "fade-out": { to: { opacity: "0" } },
+                "dialog-in": {
+                    from: {
+                        opacity: "var(--ui-dialog-opacity, 1)",
+                        translate: "var(--ui-dialog-translate, 0)",
+                        scale: "var(--ui-dialog-scale, 1)",
+                    },
+                },
+                "dialog-out": {
+                    from: { translate: "var(--ui-dialog-out-translate-from, 0)" },
+                    to: {
+                        opacity: "var(--ui-dialog-opacity, 1)",
+                        translate: "var(--ui-dialog-translate, 0)",
+                        scale: "var(--ui-dialog-scale, 1)",
+                    },
+                },
+                "dialog-hold": { to: { opacity: "1" } },
+                "slide-down-in": { from: { opacity: "0", translate: "0 -100%" } },
+                "slide-down-out": { to: { opacity: "0", translate: "0 -100%" } },
             },
 
             fontFamily: {

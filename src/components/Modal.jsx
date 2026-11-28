@@ -1,8 +1,17 @@
-import { Dialog, Transition } from "@headlessui/react";
+import * as RadixDialog from "@radix-ui/react-dialog";
 import PropTypes from "prop-types";
-import React, { Fragment } from "react";
+import React, { useId, useRef } from "react";
+import { BackdropOwnerContext, getBackdropHandlers } from "../helpers/backdrop";
 import cn from "../helpers/classnames";
+import { useDialogFocusReturn } from "../hooks/useDialogFocusReturn";
 import { CloseIcon } from "../icons";
+import {
+    DialogFrame,
+    DialogTitle,
+    DialogTitleScope,
+    preventDialogOutsideInteraction,
+    preventExpandedComboBoxEscape,
+} from "./Dialog/Dialog";
 
 const sizes = {
     small: "max-w-100", // 400px
@@ -19,39 +28,27 @@ const positions = {
     bottomRight: "absolute m-4 bottom-0 right-0",
 };
 
-const animations = {
-    center: {
-        enterFrom: "translate-y-4 sm:translate-y-0 sm:scale-95",
-        enterTo: "translate-y-0 sm:scale-100",
-        leaveFrom: "translate-y-0 sm:scale-100",
-        leaveTo: "translate-y-4 sm:translate-y-0 sm:scale-95",
-    },
-    topLeft: {
-        enterFrom: "scale-0 origin-top-left",
-        enterTo: "scale-100 origin-top-left",
-        leaveFrom: "scale-100 origin-top-left",
-        leaveTo: "scale-0 origin-top-left",
-    },
-    topRight: {
-        enterFrom: "scale-0 origin-top-right",
-        enterTo: "scale-100 origin-top-right",
-        leaveFrom: "scale-100 origin-top-right",
-        leaveTo: "scale-0 origin-top-right",
-    },
-    bottomLeft: {
-        enterFrom: "scale-0 origin-bottom-left",
-        enterTo: "scale-100 origin-bottom-left",
-        leaveFrom: "scale-100 origin-bottom-left",
-        leaveTo: "scale-0 origin-bottom-left",
-    },
-    bottomRight: {
-        enterFrom: "scale-0 origin-bottom-right",
-        enterTo: "scale-100 origin-bottom-right",
-        leaveFrom: "scale-100 origin-bottom-right",
-        leaveTo: "scale-0 origin-bottom-right",
-    },
+const hiddenStates = {
+    center: "[--ui-dialog-translate:0_16px] sm:[--ui-dialog-translate:0] sm:[--ui-dialog-scale:0.95]",
+    topLeft: "[--ui-dialog-scale:0] origin-top-left",
+    topRight: "[--ui-dialog-scale:0] origin-top-right",
+    bottomLeft: "[--ui-dialog-scale:0] origin-bottom-left",
+    bottomRight: "[--ui-dialog-scale:0] origin-bottom-right",
 };
 
+/**
+ * @typedef {{
+ *     size?: keyof typeof sizes,
+ *     position?: keyof typeof positions,
+ *     isOpen?: boolean,
+ *     shouldCloseOnOutsideClick?: boolean,
+ *     onClose: () => void,
+ *     children: import("react").ReactNode,
+ *     className?: string,
+ * }} ModalProps
+ */
+
+/** @param {ModalProps} props */
 export const Modal = ({
     size = "medium",
     position = "center",
@@ -61,27 +58,54 @@ export const Modal = ({
     children,
     className,
 }) => {
-    const handleOutsideClick = () => {
+    const backdropOwner = useId();
+    const dialogRef = useRef();
+    const { onOpenAutoFocus, onCloseAutoFocus } = useDialogFocusReturn();
+
+    const handleBackdropClick = () => {
         if (shouldCloseOnOutsideClick) {
+            onClose();
+            return;
+        }
+
+        if (dialogRef.current) {
+            dialogRef.current.tabIndex = -1;
+            dialogRef.current.focus();
+        }
+    };
+
+    const handleContentFocusOut = (event) => {
+        if (event.relatedTarget === dialogRef.current) {
+            event.stopPropagation();
+        }
+    };
+
+    // Escape shares the outside-click policy; backdrop handlers own pointer dismissal.
+    const handleOpenChange = (open) => {
+        if (!open && shouldCloseOnOutsideClick) {
             onClose();
         }
     };
 
+    /** Drops the click event so `onClose` keeps being called with no arguments. */
+    const handleClose = () => onClose();
+
+    const backdropHandlers = getBackdropHandlers(handleBackdropClick);
+
     return (
-        <Transition appear show={isOpen} as={Fragment}>
-            <Dialog as="div" className="ui-modal fixed inset-0 z-30 overflow-y-auto" onClose={handleOutsideClick}>
+        <BackdropOwnerContext.Provider value={backdropOwner}>
+            <DialogFrame
+                ref={dialogRef}
+                isOpen={isOpen}
+                className="ui-modal group/modal fixed inset-0 z-30 overflow-y-auto [--ui-dialog-out-duration:300ms] data-[state=closed]:animate-dialog-hold"
+                onOpenChange={handleOpenChange}
+            >
                 <div className="min-h-screen px-4 text-center">
-                    <Transition.Child
-                        as={Fragment}
-                        enter="ease-out duration-300"
-                        enterFrom="opacity-0"
-                        enterTo="opacity-100"
-                        leave="ease-in duration-200"
-                        leaveFrom="opacity-100"
-                        leaveTo="opacity-0"
-                    >
-                        <Dialog.Overlay className="ui-modal-overlay fixed inset-0 bg-black bg-opacity-80 transition-opacity" />
-                    </Transition.Child>
+                    <div
+                        className="ui-modal-overlay fixed inset-0 bg-black bg-opacity-80 transition-opacity [--ui-dialog-in-duration:300ms] [--ui-dialog-opacity:0] [--ui-dialog-out-duration:200ms] group-data-[state=closed]/modal:animate-dialog-out group-data-[state=open]/modal:animate-dialog-in"
+                        data-backdrop-owner={backdropOwner}
+                        {...backdropHandlers}
+                    />
 
                     {/* This element is to trick the browser into centering the modal contents. */}
                     {position === "center" && (
@@ -90,39 +114,40 @@ export const Modal = ({
                         </span>
                     )}
 
-                    <Transition.Child
-                        as={Fragment}
-                        enter={cn("ease-out duration-300")}
-                        enterFrom={cn("opacity-0", animations[position].enterFrom)}
-                        enterTo={cn("opacity-100", animations[position].enterTo)}
-                        leave={cn("ease-in duration-300")}
-                        leaveFrom={cn("opacity-100", animations[position].leaveFrom)}
-                        leaveTo={cn("opacity-0", animations[position].leaveTo)}
+                    <RadixDialog.Content
+                        aria-modal="true"
+                        aria-describedby={undefined}
+                        className={cn(
+                            className,
+                            sizes[size],
+                            positions[position],
+                            hiddenStates[position],
+                            "w-full transform overflow-hidden rounded-lg bg-white p-10 text-left align-middle shadow-xl transition-all",
+                            "[--ui-dialog-in-duration:300ms] [--ui-dialog-opacity:0] [--ui-dialog-out-duration:300ms] data-[state=closed]:animate-dialog-out data-[state=open]:animate-dialog-in",
+                        )}
+                        onEscapeKeyDown={preventExpandedComboBoxEscape}
+                        onBlurCapture={handleContentFocusOut}
+                        onInteractOutside={preventDialogOutsideInteraction}
+                        onOpenAutoFocus={onOpenAutoFocus}
+                        onCloseAutoFocus={onCloseAutoFocus}
                     >
-                        <div
-                            className={cn(
-                                className,
-                                sizes[size],
-                                positions[position],
-                                "w-full transform overflow-hidden rounded-lg bg-white p-10 text-left align-middle shadow-xl transition-all",
-                            )}
-                        >
-                            {onClose ? (
+                        <DialogTitleScope>
+                            {onClose && (
                                 <button
                                     type="button"
                                     className="absolute right-0 top-0 m-4 hidden p-2 text-black hover:text-gray-darker sm:block"
-                                    onClick={() => onClose()}
+                                    onClick={handleClose}
                                 >
                                     <CloseIcon />
                                 </button>
-                            ) : null}
+                            )}
 
                             {children}
-                        </div>
-                    </Transition.Child>
+                        </DialogTitleScope>
+                    </RadixDialog.Content>
                 </div>
-            </Dialog>
-        </Transition>
+            </DialogFrame>
+        </BackdropOwnerContext.Provider>
     );
 };
 
@@ -136,15 +161,18 @@ Modal.propTypes = {
     className: PropTypes.string,
 };
 
+/**
+ * @param {{ children: import("react").ReactNode, description?: string, className?: string }} props
+ */
 const Header = ({ children, description, className, ...rest }) => {
     return (
-        <Dialog.Title as="div" className={cn(className, "ui-modal-header text-center")} {...rest}>
+        <DialogTitle className={cn(className, "ui-modal-header text-center")} {...rest}>
             <h3 className="text-2xl font-semibold leading-6 text-black">{children}</h3>
 
             {description ? (
                 <p className="mt-2 text-base font-normal leading-normal text-gray-darker">{description}</p>
             ) : null}
-        </Dialog.Title>
+        </DialogTitle>
     );
 };
 
@@ -163,6 +191,7 @@ const Body = ({ className, ...rest }) => {
 
 Body.propTypes = {
     className: PropTypes.string,
+    "data-testid": PropTypes.string,
 };
 
 Body.displayName = "Modal.Body";

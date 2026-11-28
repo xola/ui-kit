@@ -1,6 +1,7 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { defineConfig } from "vitest/config";
+import { playwright } from "@vitest/browser-playwright";
 import { storybookTest } from "@storybook/addon-vitest/vitest-plugin";
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -19,6 +20,7 @@ export default defineConfig({
             },
             {
                 extends: "./vite.config.js",
+                optimizeDeps: { include: ["aria-query"] },
                 plugins: [
                     storybookTest({
                         configDir: path.join(dirname, ".storybook"),
@@ -27,9 +29,10 @@ export default defineConfig({
                 ],
                 test: {
                     name: "storybook",
+                    setupFiles: ["./.storybook/react-guard/setup.js"],
                     browser: {
                         enabled: true,
-                        provider: "playwright",
+                        provider: playwright(),
                         headless: true,
                         instances: [{ browser: "chromium" }],
                     },

@@ -1,29 +1,15 @@
-import React, { forwardRef, useContext, useEffect, useState } from "react";
-import DayPicker, { type DayPickerProps } from "react-day-picker";
-import { kebabCase } from "lodash-es";
-import cn from "../../helpers/classnames";
-import { Context } from "../Provider";
-import { getLocalizationProps, LocaleCode, LocalizationProps } from "./DatePicker.helpers";
+import React from "react";
+import { DayPicker, type DayPickerProps } from "react-day-picker";
+import { getDayPickerLocale } from "./DatePicker.helpers";
 
-export const LocalizedDayPicker = forwardRef<any, DayPickerProps>(function LocalizedDayPicker(
-    { className, ...rest },
-    ref,
-) {
-    const { locale } = useContext(Context);
-    const [localizationProps, setLocalizationProps] = useState<Partial<LocalizationProps>>({});
+type LocalizedDayPickerProps = DayPickerProps & { localeCode: string };
 
-    useEffect(() => {
-        setLocalizationProps({});
-        const localeCode = kebabCase(locale).toLowerCase();
+/**
+ * react-day-picker only follows a changing `selected` when `onSelect` is set. Without it, `selected` is the initial
+ * value of its own state, so a Today click or a new `value` from the parent would not move the selection.
+ */
+const keepSelectionControlled = () => undefined;
 
-        /** We don't want any localization-related props for "English" */
-        if (!localeCode || localeCode === "en" || localeCode === "en-us") return;
-
-        getLocalizationProps(locale as LocaleCode).then(setLocalizationProps);
-    }, [locale]);
-
-    /**
-     * Note: DayPicker expects locale in en-US, es, en-GB format
-     */
-    return <DayPicker ref={ref} className={cn(className)} {...localizationProps} {...rest} />;
-});
+export const LocalizedDayPicker = ({ localeCode, ...rest }: LocalizedDayPickerProps) => {
+    return <DayPicker onSelect={keepSelectionControlled} {...getDayPickerLocale(localeCode)} {...rest} />;
+};

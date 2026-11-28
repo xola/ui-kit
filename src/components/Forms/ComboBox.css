@@ -1,3 +1,8 @@
+/* An open Modal, Drawer or BottomSheet sets `pointer-events: none` on <body>, which a menu portaled there inherits */
+.ui-combo-box__menu-portal {
+    @apply pointer-events-auto;
+}
+
 /* Container */
 .ui-combo-box__control {
     @apply p-0 font-sans text-base leading-base !text-gray-dark; /* These don't do much, added just in case */

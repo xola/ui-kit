@@ -1,6 +1,6 @@
 {
     "$schema": "https://unpkg.com/knip@6/schema.json",
     "entry": ["src/index.js"],
-    "project": ["src/**/*.{js,jsx}"],
+    "project": ["src/**/*.{js,jsx,ts,tsx}", "!src/icons/**"],
     "ignoreDependencies": ["prettier-plugin-tailwindcss"]
 }

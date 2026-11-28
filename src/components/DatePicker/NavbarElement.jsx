@@ -6,34 +6,37 @@ import { ChevronLeftIcon, ChevronRightIcon } from "../../icons";
 /**
  * Render the custom left & right arrows to change the current month.
  */
-export const NavbarElement = ({ onPreviousClick, onNextClick, className, showNextButton, showPreviousButton }) => {
+export const NavbarElement = ({ previousMonth, nextMonth, onPreviousClick, onNextClick, className }) => {
     return (
-        <div className={cn("absolute right-1 top-1.5 z-50", className)}>
-            <ChevronButton isVisible={showPreviousButton} onClick={onPreviousClick}>
+        <nav className={cn("absolute right-1 top-1.5 z-50", className)}>
+            <ChevronButton
+                label="Go to the previous month"
+                isVisible={Boolean(previousMonth)}
+                onClick={onPreviousClick}
+            >
                 <ChevronLeftIcon />
             </ChevronButton>
 
-            <ChevronButton isVisible={showNextButton} onClick={onNextClick}>
+            <ChevronButton label="Go to the next month" isVisible={Boolean(nextMonth)} onClick={onNextClick}>
                 <ChevronRightIcon />
             </ChevronButton>
-        </div>
+        </nav>
     );
 };
 
 NavbarElement.propTypes = {
+    previousMonth: PropTypes.instanceOf(Date),
+    nextMonth: PropTypes.instanceOf(Date),
     onPreviousClick: PropTypes.func,
     onNextClick: PropTypes.func,
     className: PropTypes.string,
-
-    showNextButton: PropTypes.bool,
-
-    showPreviousButton: PropTypes.bool,
 };
 
-export const ChevronButton = ({ isVisible = true, onClick, children }) => {
+export const ChevronButton = ({ isVisible = true, label, onClick, children }) => {
     return (
         <button
             type="button"
+            aria-label={label}
             className={cn(
                 isVisible ? "inline-block" : "invisible",
                 "inline-flex h-7 w-7 items-center justify-center rounded-full border border-transparent leading-none text-black hover:border-black",
@@ -47,6 +50,7 @@ export const ChevronButton = ({ isVisible = true, onClick, children }) => {
 
 ChevronButton.propTypes = {
     isVisible: PropTypes.bool,
+    label: PropTypes.string,
     onClick: PropTypes.func.isRequired,
     children: PropTypes.element.isRequired,
 };

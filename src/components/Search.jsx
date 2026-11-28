@@ -1,5 +1,5 @@
+import { useDebounceFn } from "ahooks";
 import { useCombobox } from "downshift";
-import { debounce } from "lodash-es";
 import PropTypes from "prop-types";
 import React, { useEffect, useId, useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
@@ -10,7 +10,106 @@ import { SearchIcon } from "../icons";
 import { Key } from "./Key";
 import { Spinner } from "./Spinner";
 
-const callDebounced = debounce((function_, value) => function_(value), 500);
+const SubmitValueItemContent = ({ isLoading, hasResults, isHighlighted, inputValue, minChars }) => {
+    if (isLoading && !hasResults) {
+        return (
+            <div className="p-3 text-center">
+                <Spinner size="small" />
+            </div>
+        );
+    }
+
+    if (inputValue.length < minChars) {
+        return (
+            <div className={cn("cursor-pointer p-2", isHighlighted ? "bg-blue-light text-white" : "")}>
+                {`Enter at least ${minChars} characters to begin search`}
+            </div>
+        );
+    }
+
+    return null;
+};
+
+SubmitValueItemContent.propTypes = {
+    isLoading: PropTypes.bool.isRequired,
+    hasResults: PropTypes.bool.isRequired,
+    isHighlighted: PropTypes.bool.isRequired,
+    inputValue: PropTypes.string.isRequired,
+    minChars: PropTypes.number.isRequired,
+};
+
+const SearchMenuFooter = ({ isLoading, hasResults }) => {
+    return (
+        <li className="bg-white search-footer sticky bottom-0 items-center flex space-x-5 p-2 text-sm text-gray-dark">
+            <span className="flex items-center">
+                <Key char="up" className="mr-0.5" />
+                <Key char="down" className="mr-2" /> navigate results
+            </span>
+
+            <span className="flex items-center">
+                <Key char="enter" className="mr-2" /> submit
+            </span>
+
+            <span className="flex items-center">
+                <Key char="esc" className="mr-2" /> close search
+            </span>
+
+            {isLoading && (
+                <span>
+                    <Spinner size="tiny" className="mr-1" /> Fetching {hasResults ? "more data" : "data"}
+                </span>
+            )}
+        </li>
+    );
+};
+
+SearchMenuFooter.propTypes = {
+    isLoading: PropTypes.bool.isRequired,
+    hasResults: PropTypes.bool.isRequired,
+};
+
+const ShortcutKeyHint = ({ isVisible }) => {
+    if (!isVisible) {
+        return null;
+    }
+
+    return (
+        <>
+            <Key char="cmd" /> <Key char="K" />
+        </>
+    );
+};
+
+ShortcutKeyHint.propTypes = {
+    isVisible: PropTypes.bool.isRequired,
+};
+
+const ClearSearchHint = ({ isVisible, showClearText }) => {
+    if (!isVisible) {
+        return null;
+    }
+
+    return (
+        <div className="relative">
+            <div
+                className={cn(
+                    "text-gray-500 absolute left-0 top-full transform text-xs transition-all duration-200 ease-in-out",
+                    showClearText ? "translate-y-0 opacity-100" : "-translate-y-2 opacity-0",
+                )}
+            >
+                <span className="inline-flex items-center gap-1">
+                    <Key char="Esc" />
+                    <span>Clear search</span>
+                </span>
+            </div>
+        </div>
+    );
+};
+
+ClearSearchHint.propTypes = {
+    isVisible: PropTypes.bool.isRequired,
+    showClearText: PropTypes.bool.isRequired,
+};
 
 /**
  * @param {string?}     props.className             Class name to apply to the input.
@@ -46,9 +145,7 @@ export const Search = ({
     const inputId = useId("search-input");
     const menuId = useId("search-menu");
     const isClient = useIsClient();
-    const clearTextRef = useRef();
 
-    // Flag for controlling the delay before actually closing the menu.
     const [canClose, setCanClose] = useState(true);
 
     useEffect(() => {
@@ -59,11 +156,7 @@ export const Search = ({
         }
     }, [inputValue]);
 
-    // Placeholder item for the current search input value.
-    // Will be added to the list only if not empty.
     const submitValueItem = { value: inputValue };
-
-    // List of all items, including the submit value item.
     const itemList = inputValue ? [submitValueItem, ...items] : [];
 
     const handleSelectedItemChange = ({ selectedItem, type }) => {
@@ -83,15 +176,14 @@ export const Search = ({
             inputReference.current.blur(); // Remove focus so that focusing away and coming doesn't open the search box
         }
 
-        // Always close the menu after an item is selected.
         closeMenu();
     };
 
+    const { run: callDebounced } = useDebounceFn((value) => onChange?.(value), { wait: 500 });
+
     const handleInputChange = ({ inputValue }) => {
         setInputValue(inputValue);
-        if (onChange) {
-            callDebounced(onChange, inputValue);
-        }
+        callDebounced(inputValue);
     };
 
     const {
@@ -136,7 +228,6 @@ export const Search = ({
         inputReference.current.focus();
     };
 
-    // Combined keyboard shortcuts
     useHotkeys(
         isOSX ? "cmd+k" : "ctrl+k",
         (event) => {
@@ -146,19 +237,15 @@ export const Search = ({
         { enableOnTags: ["INPUT"] },
     );
 
-    // Combined ESC key handler
     useHotkeys(
         "esc",
         (event) => {
             if (document?.activeElement === inputReference.current) {
                 event.preventDefault();
 
-                // If there's text, clear it
                 if (inputValue.length > 0) {
                     handleClearSearch();
-                }
-                // If no text, blur the input
-                else {
+                } else {
                     inputReference.current.blur();
                 }
             }
@@ -166,7 +253,6 @@ export const Search = ({
         { enableOnTags: ["INPUT"] },
     );
 
-    // Show dropdown only when `isOpen` is set to `true` and there are items in the list.
     const open = (isOpen || !canClose || shouldStayOpen) && itemList.length > 0 && !shouldHideMenu;
     const noResultFound = open && !isLoading && itemList.length <= 1 && inputValue.length >= minChars;
     const isVisible = open || !shouldDestroyOnClose;
@@ -198,29 +284,11 @@ export const Search = ({
                 />
 
                 <div className="pointer-events-none absolute inset-y-0 right-0 hidden items-center space-x-1 pr-3 lg:flex">
-                    {isClient && showShortcutKey ? (
-                        <>
-                            <Key char="cmd" /> <Key char="K" />
-                        </>
-                    ) : null}
+                    <ShortcutKeyHint isVisible={isClient && showShortcutKey} />
                 </div>
             </div>
 
-            <div className="relative">
-                {shouldHideMenu && (
-                    <div
-                        ref={clearTextRef}
-                        className={`text-gray-500 absolute left-0 top-full transform 
-                       text-xs transition-all duration-200
-                       ease-in-out ${showClearText ? "translate-y-0 opacity-100" : "-translate-y-2 opacity-0"}`}
-                    >
-                        <span className="inline-flex items-center gap-1">
-                            <Key char="Esc" />
-                            <span>Clear search</span>
-                        </span>
-                    </div>
-                )}
-            </div>
+            <ClearSearchHint isVisible={shouldHideMenu} showClearText={showClearText} />
 
             <ul
                 {...getMenuProps({
@@ -236,20 +304,13 @@ export const Search = ({
                     ? itemList.map((item, index) => (
                           <li key={item?.id ?? index} {...getItemProps({ item, index, className: "ui-search-item" })}>
                               {item === submitValueItem ? (
-                                  isLoading && !hasResults ? (
-                                      <div className="p-3 text-center">
-                                          <Spinner size="small" />
-                                      </div>
-                                  ) : inputValue.length < minChars ? (
-                                      <div
-                                          className={cn(
-                                              "cursor-pointer p-2",
-                                              highlightedIndex === index ? "bg-blue-light text-white" : "",
-                                          )}
-                                      >
-                                          {`Enter at least ${minChars} characters to begin search`}
-                                      </div>
-                                  ) : null
+                                  <SubmitValueItemContent
+                                      isLoading={isLoading}
+                                      hasResults={hasResults}
+                                      isHighlighted={highlightedIndex === index}
+                                      inputValue={inputValue}
+                                      minChars={minChars}
+                                  />
                               ) : (
                                   children?.(item, highlightedIndex === index)
                               )}
@@ -259,28 +320,7 @@ export const Search = ({
 
                 {isVisible && noResultFound ? <li className="cursor-not-allowed p-2">No results found</li> : null}
 
-                {isVisible && hasResults && (
-                    <li className="bg-white search-footer pointer-events sticky bottom-0 items-center flex space-x-5 p-2 text-sm text-gray-dark">
-                        <span className="flex items-center">
-                            <Key char="up" className="mr-0.5" />
-                            <Key char="down" className="mr-2" /> navigate results
-                        </span>
-
-                        <span className="flex items-center">
-                            <Key char="enter" className="mr-2" /> submit
-                        </span>
-
-                        <span className="flex items-center">
-                            <Key char="esc" className="mr-2" /> close search
-                        </span>
-
-                        {isLoading && (
-                            <span>
-                                <Spinner size="tiny" className="mr-1" /> Fetching {hasResults ? "more data" : "data"}
-                            </span>
-                        )}
-                    </li>
-                )}
+                {isVisible && hasResults && <SearchMenuFooter isLoading={isLoading} hasResults={hasResults} />}
             </ul>
         </div>
     );
@@ -298,4 +338,5 @@ Search.propTypes = {
     shouldStayOpen: PropTypes.bool,
     shouldDestroyOnClose: PropTypes.bool,
     shouldHideMenu: PropTypes.bool,
+    minChars: PropTypes.number,
 };

@@ -1,10 +1,6 @@
-.DayPicker-wrapper {
-    @apply ring-0 focus:outline-none focus:ring-0;
-}
-
 /* The parent component of the entire date picker */
 .ui-date-picker {
-    @apply pt-6 tracking-tightest ring-0 focus:outline-none focus:ring-0;
+    @apply relative inline-block tracking-tightest ring-0 focus:outline-none focus:ring-0;
 }
 
 .ui-date-picker-input {
@@ -16,48 +12,49 @@
     @apply w-[810px];
 }
 
-.DayPicker-NavBar {
-    @apply text-gray-darker;
+.ui-date-picker .rdp-months {
+    @apply relative flex justify-start pb-4;
 }
 
-.DayPicker-Months {
-    @apply justify-start space-x-2;
+/* Month block which includes the month name 'July 2021' and the weeks, days etc. */
+.ui-date-picker .rdp-month {
+    @apply ring-0 focus:outline-none focus:ring-0;
 }
 
-/**
-  * Month block which includes the month name 'July 2021' and the weeks, days etc.
-  * This does not include the today button
-  */
-.DayPicker-Month {
-    @apply mx-0 my-0 p-0 pt-0.5 ring-0 focus:outline-none focus:ring-0;
+.ui-date-picker .rdp-month_grid {
+    @apply m-0 p-0 pt-0.5 ring-0 focus:outline-none focus:ring-0;
     min-width: 400px; /* Odd width given from Figma */
-    border-collapse: inherit;
+    border-collapse: separate;
     border-spacing: 0 8px; /* 8px between each week (row) */
 }
 
-.DayPicker-Month .DayPicker-Caption {
+.ui-date-picker .rdp-month_caption {
     @apply m-0 h-10 p-0 pl-4;
     margin-bottom: 10px;
 }
 
-.DayPicker-Day--outside {
+.ui-date-picker .rdp-outside {
     pointer-events: none;
 }
 
 /* The name of the month July 2021 */
-.DayPicker-Month .DayPicker-Caption[role="heading"] div {
-    @apply relative top-[1px] h-10 text-lg font-semibold leading-10;
+.ui-date-picker .rdp-caption_label {
+    @apply relative top-[1px] inline-block h-10 text-lg font-semibold leading-10;
 }
 
 /* The "Today" button.
     A lot of specific vaules which I normally wouldn't use. But this is a third party lib where I cannot change the markup */
-.DayPicker-TodayButton {
-    @apply absolute right-24 top-0 h-10 px-3.5 py-2.5 leading-4;
+.ui-date-picker .rdp-footer {
+    @apply static;
+}
+
+.ui-date-picker-today {
+    @apply absolute right-24 top-3 h-10 px-3.5 py-2.5 leading-4;
     @apply rounded border border-solid border-gray bg-white text-base font-semibold tracking-tightest text-black hover:border-blue hover:bg-blue-lighter;
 }
 
 /* The month & year select dropdown that is injected into the date picker at the top */
-.DayPicker-Month .DayPicker-Caption select {
+.ui-date-picker .rdp-month_caption select {
     @apply mr-2.5 h-10 pl-2 pr-6;
     @apply rounded-md border border-solid border-gray bg-white text-gray-darker;
     background-position: right 0.2rem center;
@@ -66,69 +63,55 @@
 /**
   * Sunday, Monday, Tuesday headers
   */
-.DayPicker-Weekday {
-    @apply m-0 p-0 text-base font-semibold text-black;
+.ui-date-picker .rdp-weekday {
+    @apply m-0 p-0 text-center text-base font-semibold text-black;
 }
 
-.DayPicker-Day {
-    @apply h-8 w-8 !p-0 leading-3 ring-0 focus:outline-none focus:ring-0;
+.ui-date-picker .rdp-day {
+    @apply h-8 w-8 !p-0 text-center align-middle leading-3 ring-0 focus:outline-none focus:ring-0;
     @apply !pl-3; /* This will center the cell */
 }
 
-/* .DayPicker-Day .ui-day-content-value {
-    @apply p-0 w-12 h-12 rounded-full text-md ring-0 focus:ring-0 focus:outline-none;
-} */
+.ui-date-picker .rdp-day_button {
+    @apply block rounded-full ring-0 focus:outline-none focus:ring-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-blue;
+}
+
+.ui-date-picker .rdp-day_button[aria-disabled="true"] {
+    @apply cursor-default;
+}
 
 /* The style for today's date */
-.DayPicker-Day--today .ui-day-content {
+.ui-date-picker .rdp-today .ui-day-content {
     @apply border border-gray-light font-normal text-black;
 }
 
-/* Neutralize the parent div's styles */
-.DayPicker:not(.DayPicker--interactionDisabled)
-    .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside):hover,
-.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside),
-.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside):hover {
-    @apply bg-transparent ring-0 focus:outline-none focus:ring-0;
-}
-
-/* State when a day is selected -- parent div */
-.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside),
-.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside):hover {
-    @apply border-transparent;
-}
-
 /* State when a day is selected -- inner div with date number */
-.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) .ui-date-picker-day,
-.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside):hover .ui-date-picker-day {
+.ui-date-picker .rdp-selected:not(.rdp-disabled):not(.rdp-outside) .ui-date-picker-day {
     @apply rounded-full bg-blue text-white;
 }
 
 /* State when you hover on a day */
-.DayPicker:not(.DayPicker--interactionDisabled)
-    .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside)
-    .ui-day-content:hover {
+.ui-date-picker .rdp-day:not(.rdp-disabled):not(.rdp-selected):not(.rdp-outside) .ui-day-content:hover {
     @apply border border-blue bg-blue-lighter text-black;
 }
 
 /* State when you hover on a **selected** day */
-.DayPicker .DayPicker-Day:not(.DayPicker-Day--disabled) .date:hover {
+.ui-date-picker .rdp-day:not(.rdp-disabled) .date:hover {
     @apply rounded-full border-transparent bg-blue-darker text-white;
 }
 
 /* Days which are outside the current month */
-.DayPicker-Day--outside .date {
+.ui-date-picker .rdp-outside .date {
     @apply cursor-pointer text-gray-dark;
 }
 
 /* Days which are disabled */
-.DayPicker-Day--disabled:not(.DayPicker-Day--today) .date {
+.ui-date-picker .rdp-disabled:not(.rdp-today) .date {
     @apply text-gray-light;
 }
 
 /* Change the dates within the date to have the full light blue to show that it's a part of the range */
-.date-range-picker
-    .DayPicker-Day--selected:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside) {
+.date-range-picker .rdp-range_middle:not(.rdp-outside) {
     @apply rounded-none bg-blue-lighter text-black;
 }
 
@@ -141,17 +124,13 @@
  *  3. Hover over start and end
  *  4. Dates are disabled
  */
-.date-range-picker
-    .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside)
-    .ui-date-picker-day,
-.date-range-picker
-    .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside):hover
-    .ui-date-picker-day {
+.date-range-picker .rdp-selected:not(.rdp-disabled):not(.rdp-outside) .ui-date-picker-day,
+.date-range-picker .rdp-selected:not(.rdp-disabled):not(.rdp-outside):hover .ui-date-picker-day {
     @apply bg-transparent text-black;
 }
 
-.date-range-picker .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) .date,
-.date-range-picker .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) .date:hover {
+.date-range-picker .rdp-selected:not(.rdp-disabled):not(.rdp-outside) .date,
+.date-range-picker .rdp-selected:not(.rdp-disabled):not(.rdp-outside) .date:hover {
     @apply bg-blue-lighter text-black;
 }
 
@@ -160,120 +139,119 @@
 }
 
 /* The explicit start date & end date of the range */
-.date-range-picker .DayPicker-Day--start:not(.DayPicker-Day--disabled) .ui-date-picker-day,
-.date-range-picker .DayPicker-Day--start:not(.DayPicker-Day--disabled) .ui-date-picker-day:hover,
-.date-range-picker .DayPicker-Day--end:not(.DayPicker-Day--disabled) .ui-date-picker-day,
-.date-range-picker .DayPicker-Day--end:not(.DayPicker-Day--disabled) .ui-date-picker-day:hover {
+.date-range-picker .rdp-range_start:not(.rdp-disabled) .ui-date-picker-day,
+.date-range-picker .rdp-range_start:not(.rdp-disabled) .ui-date-picker-day:hover,
+.date-range-picker .rdp-range_end:not(.rdp-disabled) .ui-date-picker-day,
+.date-range-picker .rdp-range_end:not(.rdp-disabled) .ui-date-picker-day:hover {
     @apply !bg-blue !text-white;
 }
 
 /* Make the start date have a 50% light blue background towards the RIGHT side when start and end is not same */
-.date-range-picker .DayPicker-Day--start:not(.DayPicker-Day--outside):not(.DayPicker-Day--end) {
+.date-range-picker .rdp-range_start:not(.rdp-outside):not(.rdp-range_end) {
     @apply rounded-none;
     background: linear-gradient(90deg, #ffffff 40%, #d1e1ff 25%);
 }
 
-.date-range-picker .DayPicker-Day--start div {
+.date-range-picker .rdp-range_start .rdp-day_button,
+.date-range-picker .rdp-range_start .ui-date-picker-day {
     @apply rounded-full;
 }
 
 /* Make the end date have a 50% light blue background towards the LEFT side when start and end is not same */
-.date-range-picker .DayPicker-Day--end:not(.DayPicker-Day--outside):not(.DayPicker-Day--start) {
+.date-range-picker .rdp-range_end:not(.rdp-outside):not(.rdp-range_start) {
     @apply rounded-none;
     background: linear-gradient(90deg, #d1e1ff 40%, #ffffff 25%); /* D1E1FF Blue lighter */
 }
 
 /* This is when start & end are the same. We shown an outline to indicate it is different */
-.date-range-picker .DayPicker-Day--start.DayPicker-Day--end:not(.DayPicker-Day--disabled) .ui-date-picker-day {
+.date-range-picker .rdp-range_start.rdp-range_end:not(.rdp-disabled) .ui-date-picker-day {
     @apply outline outline-offset-1 outline-blue-lighter;
 }
 
-.date-range-picker .DayPicker-Day--end div {
+.date-range-picker .rdp-range_end .rdp-day_button,
+.date-range-picker .rdp-range_end .ui-date-picker-day {
     @apply rounded-full;
 }
 
 /**
  * These are styles for the Date Picker, but only when they have custom content like prices or seller messaging
  */
-.has-custom-content .DayPicker-Month {
+.has-custom-content .rdp-month_grid {
     border-spacing: 1px 16px;
 }
 
-.has-custom-content .DayPicker-Day .ui-date-picker-day,
-.has-custom-content .DayPicker-Day:hover .ui-date-picker-day {
+.has-custom-content .rdp-day .ui-date-picker-day,
+.has-custom-content .rdp-day:hover .ui-date-picker-day {
     @apply h-12 w-12 border border-transparent;
 }
 
-.has-custom-content
-    .DayPicker:not(.DayPicker--interactionDisabled)
-    .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside):hover {
+.has-custom-content .rdp-day:not(.rdp-disabled):not(.rdp-selected):not(.rdp-outside):hover {
     @apply border border-transparent bg-white;
 }
 
-.has-custom-content
-    .DayPicker:not(.DayPicker--interactionDisabled)
-    .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):hover
-    .ui-day-content {
+.has-custom-content .rdp-day:not(.rdp-disabled):not(.rdp-selected):hover .ui-day-content {
     @apply border border-blue bg-blue-lighter;
 }
 
-.has-custom-content .DayPicker-Day.DayPicker-Day--selected {
+.has-custom-content .rdp-day.rdp-selected {
     @apply border border-transparent bg-white;
 }
 
-.has-custom-content .DayPicker-Day .ui-day-content {
+.has-custom-content .rdp-day .ui-day-content {
     @apply h-12 w-12 rounded-full border border-transparent;
 }
 
-.has-custom-content .DayPicker-Day .ui-day-content:hover {
+.has-custom-content .rdp-day .ui-day-content:hover {
     @apply h-12 w-12 rounded-full border border-transparent;
 }
 
-.has-custom-content .DayPicker-Day {
+.has-custom-content .rdp-day {
     @apply space-y-0;
 }
 
-.has-custom-content .DayPicker-Day .ui-day-content-custom {
+.has-custom-content .rdp-day .ui-day-content-custom {
     @apply text-xs text-gray-dark;
 }
 
-.has-custom-content .DayPicker-Day.DayPicker-Day--selected:hover,
-.has-custom-content .DayPicker-Day.DayPicker-Day--selected {
+.has-custom-content .rdp-day.rdp-selected:hover,
+.has-custom-content .rdp-day.rdp-selected {
     @apply bg-white;
 }
 
-.has-custom-content .DayPicker-Day.DayPicker-Day--selected .ui-day-content {
+.has-custom-content .rdp-day.rdp-selected .ui-day-content {
     @apply rounded-full bg-blue font-normal text-black;
 }
 
-.has-custom-content .DayPicker-Day.DayPicker-Day--selected .ui-day-content-custom {
+.has-custom-content .rdp-day.rdp-selected .ui-day-content-custom {
     @apply truncate font-normal text-gray-light;
 }
 
-.has-custom-content .DayPicker-Day--today {
+.has-custom-content .rdp-today {
     @apply border border-transparent bg-white font-normal text-black;
 }
 
-.has-custom-content .DayPicker-Day--today .ui-day-content {
+.has-custom-content .rdp-today .ui-day-content {
     @apply border border-gray-light bg-white;
 }
 
-.has-custom-content .DayPicker .DayPicker-Day:not(.DayPicker-Day--disabled):hover {
+.has-custom-content .rdp-day:not(.rdp-disabled):hover {
     @apply bg-white text-gray-dark;
 }
 
-.has-custom-content .DayPicker-Day .ui-day-content-custom {
+.has-custom-content .rdp-day .ui-day-content-custom {
     @apply text-gray-dark;
 }
 
 /**
  * Styling for waitlist. Just a dot
  */
-.DayPicker-Day.DayPicker-Day--waitlist > div {
+.rdp-day.ui-day-waitlist .ui-date-picker-day,
+.rdp-day.ui-day-waitlist .ui-day-content {
     @apply relative;
 }
 
-.DayPicker-Day.DayPicker-Day--waitlist > div::after {
+.rdp-day.ui-day-waitlist .ui-date-picker-day::after,
+.rdp-day.ui-day-waitlist .ui-day-content::after {
     @apply absolute bottom-1 h-2 w-2 rounded-full bg-yellow content-[''];
 }
 
@@ -284,28 +262,28 @@
  * whole month fits. Seller is a desktop dashboard and never hits this breakpoint.
  */
 @media (max-width: 767px) {
-    .DayPicker-Month {
+    .ui-date-picker .rdp-month_grid {
         min-width: auto;
     }
 
-    .has-custom-content .DayPicker-Month {
+    .has-custom-content .rdp-month_grid {
         border-spacing: 1px 2px;
     }
 
-    .has-custom-content .DayPicker-Day .ui-day-content,
-    .has-custom-content .DayPicker-Day .ui-day-content:hover,
-    .has-custom-content .DayPicker-Day .ui-date-picker-day,
-    .has-custom-content .DayPicker-Day:hover .ui-date-picker-day {
+    .has-custom-content .rdp-day .ui-day-content,
+    .has-custom-content .rdp-day .ui-day-content:hover,
+    .has-custom-content .rdp-day .ui-date-picker-day,
+    .has-custom-content .rdp-day:hover .ui-date-picker-day {
         @apply h-9 w-9;
     }
 
-    .has-custom-content .DayPicker-Day .ui-day-content-custom {
+    .has-custom-content .rdp-day .ui-day-content-custom {
         @apply text-[10px] leading-none;
     }
 
     /* The desktop `pl-3` per cell adds 12px × 7 columns = 84px, overflowing the phone width and
        clipping the Saturday column. Trim it so the 7-column grid fits within the viewport. */
-    .DayPicker-Day {
+    .ui-date-picker .rdp-day {
         @apply !pl-1;
     }
 
@@ -322,7 +300,7 @@
     /* The "Today" button is absolutely positioned into the caption row (right-24); on the narrow
        mobile calendar it collides with the year <select>. Hide it on mobile — the nav arrows and
        month/year selects still cover navigation — which also reclaims vertical space. */
-    .DayPicker-TodayButton {
+    .ui-date-picker-today {
         display: none;
     }
 }

@@ -57,12 +57,12 @@ export { Phone } from "./components/Utilities/Phone";
 export { Number } from "./components/Utilities/Number";
 
 // Helpers
-export { getInitials } from "./utils/avatar.js";
+export { getInitials } from "./utils/avatar";
 export { almostZero, compactNumber, numberFormat, roundNumber } from "./utils/numbers";
 export { getSymbol, isZeroDecimal } from "./utils/currency";
 export { formatDate, formatTime, dateFromObjectId } from "./utils/date";
 export { formatPhoneNumber } from "./utils/phone";
-export { rangeLabels, rangeOptions } from "./components/DatePicker/RelativeDateRange";
+export { rangeLabels } from "./components/DatePicker/RelativeDateRange";
 export { isOSX, isIosBrowser } from "./helpers/browser";
 export { flash } from "./helpers/flash";
 export { getChildByType, getChildrenByType } from "./helpers/children";

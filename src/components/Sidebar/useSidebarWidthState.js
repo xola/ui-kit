@@ -12,6 +12,7 @@ import {
     SIDEBAR_VARIANT,
     ceilingForVariant,
     clampWidth,
+    isBelowAutoCollapse,
     resolveCrossingWidth,
     resolveMountWidth,
     resolveToggleWidth,
@@ -64,6 +65,15 @@ const hasStoredIntent = (storageKey) => {
     return Boolean(keys) && readStorage(keys.intent) === "1";
 };
 
+// `storageKey` alone holds the rendered width (consumers read it for layout during their own first
+// render), which can itself be an auto-collapsed 64. `:preferred` holds the user's actual chosen
+// width so a later expand restores it instead of the collapsed value.
+const readStoredWidth = (storageKey) => {
+    const keys = storageKeysFor(storageKey);
+
+    return keys && (readStorage(keys.preferred) ?? readStorage(keys.width));
+};
+
 export const useSidebarWidthState = ({
     storageKey,
     minWidth,
@@ -86,27 +96,16 @@ export const useSidebarWidthState = ({
         ceilingForVariant(variant ?? (isCollapsedProperty ? SIDEBAR_VARIANT.ICONS : SIDEBAR_VARIANT.ICONS_AND_TEXT)),
     );
 
-    // The ceiling a toggle restores into. Excludes the current `isCollapsed`, which would pin the
-    // ceiling to `minWidth` and clamp the expand straight back down, stranding it collapsed.
-    // `variant` still applies: it is a permanent ceiling, not a two-state control.
+    /**
+     * The ceiling a toggle restores into. Excludes the current `isCollapsed`, which would pin the
+     * ceiling to `minWidth` and clamp the expand straight back down, stranding it collapsed.
+     * `variant` still applies: it is a permanent ceiling, not a two-state control.
+     */
     const uncollapsedMaxWidth = Math.min(maxWidth, ceilingForVariant(variant ?? SIDEBAR_VARIANT.ICONS_AND_TEXT));
-
-    // `storageKey` alone holds the rendered width (consumers read it for layout during their
-    // own first render), which can itself be an auto-collapsed 64. `:preferred` holds the
-    // user's actual chosen width so a later expand restores it instead of the collapsed value.
-    const readStoredWidth = () => {
-        if (!storageKey) {
-            return null;
-        }
-
-        const keys = storageKeysFor(storageKey);
-
-        return readStorage(keys.preferred) ?? readStorage(keys.width);
-    };
 
     const [width, setWidth] = useState(() => {
         const resolved = resolveMountWidth({
-            storedWidth: readStoredWidth(),
+            storedWidth: readStoredWidth(storageKey),
             hasIntent: hasStoredIntent(storageKey),
             viewportWidth: isServer ? SSR_VIEWPORT_WIDTH : window.innerWidth,
             minWidth,
@@ -126,11 +125,11 @@ export const useSidebarWidthState = ({
     // Seeded from the stored width, not null: mounting below the auto-collapse threshold with
     // no in-session history must still know what to restore on the first upward crossing.
     const [lastExpandedWidth, setLastExpandedWidth] = useState(() => {
-        const clamped = clampWidth(readStoredWidth(), minWidth, effectiveMaxWidth);
+        const clamped = clampWidth(readStoredWidth(storageKey), minWidth, effectiveMaxWidth);
         return clamped > minWidth ? clamped : null;
     });
 
-    const wasBelowRef = useRef(!isServer && window.innerWidth < (autoCollapseBelow ?? 0));
+    const wasBelowRef = useRef(!isServer && isBelowAutoCollapse(window.innerWidth, autoCollapseBelow));
     // Seeded from the persisted flag: a reload below the threshold has no in-session drag/toggle
     // to set this, but the user's earlier intent still applies.
     const hasIntentBelowRef = useRef(hasStoredIntent(storageKey));
@@ -139,7 +138,7 @@ export const useSidebarWidthState = ({
 
     // Stable reference, so the listener subscribes once and can never act on a stale width.
     const handleViewportResize = useMemoizedFn(() => {
-        const isBelow = window.innerWidth < autoCollapseBelow;
+        const isBelow = isBelowAutoCollapse(window.innerWidth, autoCollapseBelow);
         const next = resolveCrossingWidth({
             width,
             lastExpandedWidth,
@@ -229,16 +228,20 @@ export const useSidebarWidthState = ({
     useUpdateEffect(() => {
         const current = latestCollapseState.current;
 
-        // An internal width change (keyboard, drag, auto-collapse) the consumer mirrored back into
-        // `isCollapsed` already agrees with the width, and re-resolving would toggle it a second
-        // time. Only apply the transition when the two actually disagree.
+        /**
+         * An internal width change (keyboard, drag, auto-collapse) the consumer mirrored back into
+         * `isCollapsed` already agrees with the width, and re-resolving would toggle it a second
+         * time. Only apply the transition when the two disagree.
+         */
         if (isCollapsedProperty === current.isWidthCollapsed) {
             return;
         }
 
-        // Reused so controlled and uncontrolled collapse land in identical state: it branches on
-        // the current width, not on direction. Resolved against `uncollapsedMaxWidth` so expanding
-        // out of a collapse isn't clamped by the ceiling that collapse imposed.
+        /**
+         * Reused so controlled and uncontrolled collapse land in identical state: it branches on
+         * the current width, not on direction. Resolved against `uncollapsedMaxWidth` so expanding
+         * out of a collapse isn't clamped by the ceiling that collapse imposed.
+         */
         const next = resolveToggleWidth({
             width: current.width,
             lastExpandedWidth: current.lastExpandedWidth,
@@ -252,11 +255,13 @@ export const useSidebarWidthState = ({
 
     const variantValue = useMemo(() => variantContextValue(currentVariant), [currentVariant]);
 
-    // Marks an explicit width choice, so a later mount or upward crossing restores it instead of
-    // overriding it. Writes synchronously, not in an effect: `setWidth` skips the re-render when
-    // the value is unchanged, so an effect gated on width change would leave a stale flag latched.
+    /**
+     * Marks an explicit width choice, so a later mount or upward crossing restores it instead of
+     * overriding it. Writes synchronously, not in an effect: `setWidth` skips the re-render when
+     * the value is unchanged, so an effect gated on width change would leave a stale flag latched.
+     */
     const recordIntent = useMemoizedFn((chosenWidth) => {
-        if (window.innerWidth < (autoCollapseBelow ?? 0)) {
+        if (isBelowAutoCollapse(window.innerWidth, autoCollapseBelow)) {
             hasIntentBelowRef.current = true;
         }
 

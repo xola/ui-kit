@@ -1,13 +1,12 @@
 import { readFileSync } from "node:fs";
-import { getDeclaredRuntimeNames, getDeclaredTypeNames, getExportedNames, getExportedTypeNames } from "../scripts/exportTestUtils";
+import { getDeclaredRuntimeNames, getDeclaredTypeNames, getExportedTypeNames } from "../scripts/exportTestUtils";
 import * as publicApi from "./index";
 import * as icons from "./icons/index";
 
 const declarationUrl = new URL("../index.d.ts", import.meta.url);
 const declarationSource = readFileSync(declarationUrl, "utf8");
 const ICON_TYPE_REEXPORT = /^export type \{[^}]+\} from ["'][^"']*icons[^"']*["'];?$/gm;
-// index.d.ts declares some exports in place and re-exports the rest from the build bundle.
-const declaredNames = new Set([...getDeclaredRuntimeNames(declarationUrl), ...getExportedNames(declarationUrl)]);
+const declaredNames = new Set(getDeclaredRuntimeNames(declarationUrl));
 const declaredTypeNames = new Set(getDeclaredTypeNames(declarationUrl));
 const iconTypeNames = new Set(getExportedTypeNames(new URL("./icons/index.ts", import.meta.url)));
 

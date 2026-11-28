@@ -69,7 +69,7 @@ pre-built `.d.ts`.
 automatic JSX runtime doesn't require it. Consumer apps using the classic JSX runtime (`"jsx": "react"`)
 need `React` in scope per-file, and since this package ships raw source, their tsconfig applies, not
 ours. Missing this import surfaces as `TS2686: 'React' refers to a UMD global, but the current file is a
-module` in the *consuming* app, not here, so it's easy to miss. Run `npm run typecheck` after adding an
+module` in the _consuming_ app, not here, so it's easy to miss. Run `npm run typecheck` after adding an
 icon, but also grep for it directly since this repo's own tsconfig may not catch it:
 
 ```bash
@@ -95,14 +95,14 @@ Follow these steps in the `src/icons/` folder to publish a new version.
 
 1. Bump the version number.
 
-   ```bash
-   npm version <your-new-version>
-   ```
+    ```bash
+    npm version <your-new-version>
+    ```
 
 2. Publish the package.
 
-   ```bash
-   npm publish --tag=latest
-   ```
+    ```bash
+    npm publish --tag=latest
+    ```
 
 3. Confirm the new version on the [npm package page](https://www.npmjs.com/package/@xola/icons?activeTab=versions).

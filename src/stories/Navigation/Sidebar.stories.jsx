@@ -1,7 +1,9 @@
 import PropTypes from "prop-types";
 import React, { useState } from "react";
-import { expect } from "storybook/test";
-import { Button, Sidebar, useSidebar } from "../..";
+import { expect, fn, spyOn, waitFor, within } from "storybook/test";
+import { Button, Modal, Sidebar, useSidebar } from "../..";
+import { isDevelopment } from "../../helpers/environment";
+import { expectNoLayer, expectWarnings, findLayer, queryLayer, wait, waitForChangeWindow } from "../helpers";
 import {
     AnnounceIcon,
     CheckIcon,
@@ -52,7 +54,7 @@ const SidebarFooter = () => {
                     </div>
                 }
             >
-                <Sidebar.Account isResponsive name="Old South Carriage Company" />
+                <Sidebar.Account name="Old South Carriage Company" />
             </Sidebar.Menu>
         </Sidebar.Footer>
     );
@@ -133,9 +135,20 @@ export const Default = () => {
     );
 };
 
-Default.play = async ({ canvas }) => {
+const MENU_SELECTOR = ".ui-sidebar-menu";
+
+Default.play = async ({ canvas, canvasElement, userEvent }) => {
     await expect(canvas.getByText("Sellers")).toBeInTheDocument();
     await expect(canvas.getByText("Favorites")).toBeInTheDocument();
+
+    const account = canvasElement.querySelector(".ui-sidebar-footer .ui-sidebar-account");
+    await expect(queryLayer(canvasElement, MENU_SELECTOR, "Privacy Policy")).toBeUndefined();
+
+    await userEvent.hover(account);
+    await findLayer(canvasElement, MENU_SELECTOR, "Privacy Policy");
+
+    await userEvent.unhover(account);
+    await expectNoLayer(canvasElement, MENU_SELECTOR, "Privacy Policy");
 };
 
 export const CustomLogo = () => {
@@ -658,5 +671,550 @@ export const AdjacentSubMenus = () => (
         </div>
     </div>
 );
+
+/** Long enough that a menu still open after it is only open because nothing else closed it. */
+const SLOW_CLOSE_DELAY = [0, 2000];
+
+/** Well inside `SLOW_CLOSE_DELAY`'s close, so a menu gone by then was closed by something else. */
+const BEFORE_SLOW_CLOSE = { timeout: 500 };
+
+const SubMenu = ({ items, onItemClick }) => (
+    <div className="py-2">
+        {items.map((item) => (
+            <Sidebar.Link key={item} isSubMenuItem onClick={onItemClick}>
+                {item}
+            </Sidebar.Link>
+        ))}
+    </div>
+);
+
+SubMenu.propTypes = { items: PropTypes.arrayOf(PropTypes.string).isRequired, onItemClick: PropTypes.func };
+
+/**
+ * A full-width rail whose width no viewport or stored value changes, with two submenus and an account menu, each
+ * taking its own props.
+ */
+const MenuRail = ({ bookingsMenuProps, marketingMenuProps, accountMenuProps, children }) => (
+    <div className="flex h-screen">
+        <Sidebar
+            isFixed={false}
+            storageKey={null}
+            cssVariableTarget={null}
+            autoCollapseBelow={null}
+            footer={
+                <Sidebar.Footer>
+                    <Sidebar.Menu
+                        content={
+                            <div>
+                                <Sidebar.Button icon={HelpCenterIcon} label="Help Center" />
+                                <Sidebar.Button icon={LogoutIcon} label="Logout" />
+                            </div>
+                        }
+                        {...accountMenuProps}
+                    >
+                        <Sidebar.Account name="Old South Carriage Company" />
+                    </Sidebar.Menu>
+                </Sidebar.Footer>
+            }
+        >
+            <Sidebar.Menu content={<SubMenu items={["Purchases", "Gifts"]} />} {...bookingsMenuProps}>
+                <Sidebar.Link hasSubmenu icon={PiggyBankIcon}>
+                    Bookings
+                </Sidebar.Link>
+            </Sidebar.Menu>
+
+            <Sidebar.Menu content={<SubMenu items={["Coupons", "Partners"]} />} {...marketingMenuProps}>
+                <Sidebar.Link hasSubmenu icon={AnnounceIcon}>
+                    Marketing
+                </Sidebar.Link>
+            </Sidebar.Menu>
+        </Sidebar>
+
+        <div className="space-y-2 p-4">
+            <p>Outside</p>
+            {children}
+        </div>
+    </div>
+);
+
+MenuRail.propTypes = {
+    bookingsMenuProps: PropTypes.object,
+    marketingMenuProps: PropTypes.object,
+    accountMenuProps: PropTypes.object,
+    children: PropTypes.node,
+};
+
+const slowClose = { delay: SLOW_CLOSE_DELAY };
+
+const getTrigger = (canvas, name) => canvas.getByRole("button", { name }).parentElement;
+
+const getResizeHandle = (canvas) => canvas.getByRole("separator", { name: "Resize sidebar" });
+
+const dispatchPointer = (target, type, init) => {
+    const pointer = { bubbles: true, cancelable: true, pointerId: 1, pointerType: "mouse", isPrimary: true };
+    target.dispatchEvent(new PointerEvent(type, { ...pointer, ...init }));
+};
+
+const nextFrame = () => new Promise((resolve) => requestAnimationFrame(resolve));
+
+/**
+ * Drags the resize handle `deltaX` px with a mouse. Each event waits for the render it causes: the rail drops its width
+ * transition only while a drag is rendered as in progress, and a width committed after release animates instead.
+ */
+const dragHandle = async (handle, deltaX) => {
+    const { left, top, width, height } = handle.getBoundingClientRect();
+    const start = { clientX: left + width / 2, clientY: top + height / 2 };
+    const end = { ...start, clientX: start.clientX + deltaX };
+    const startWidth = handle.getAttribute("aria-valuenow");
+
+    dispatchPointer(handle, "pointerdown", { ...start, button: 0, buttons: 1 });
+    await nextFrame();
+    dispatchPointer(handle, "pointermove", { ...end, buttons: 1 });
+    await waitFor(() => expect(handle).not.toHaveAttribute("aria-valuenow", startWidth));
+    dispatchPointer(handle, "pointerup", end);
+    await nextFrame();
+};
+
+const ancestorsOf = (element) => {
+    const ancestors = [];
+    for (let node = element; node; node = node.parentElement) {
+        ancestors.push(node);
+    }
+
+    return ancestors;
+};
+
+/**
+ * Chrome's events for a finger tap: touch pointer events, then compatibility mouse events and `click`. Mouse boundary
+ * events fire only when the tap lands somewhere new, measured from `previousTarget`. Nothing gets focus, as on iOS
+ * Safari, which does not focus a tapped button.
+ */
+const tap = (target, previousTarget) => {
+    const { left, top, width, height } = target.getBoundingClientRect();
+    const init = { bubbles: true, cancelable: true, clientX: left + width / 2, clientY: top + height / 2 };
+    const finger = { ...init, pointerId: 2, pointerType: "touch", isPrimary: true };
+    const targetChain = ancestorsOf(target);
+    const enterTargets = targetChain.filter((node) => !previousTarget || !node.contains(previousTarget));
+    const leaveTargets = previousTarget ? ancestorsOf(previousTarget).filter((node) => !node.contains(target)) : [];
+    const isNewTarget = enterTargets.length > 0;
+
+    target.dispatchEvent(new PointerEvent("pointerover", finger));
+    targetChain.forEach((node) => {
+        node.dispatchEvent(new PointerEvent("pointerenter", { ...finger, bubbles: false }));
+    });
+    target.dispatchEvent(new PointerEvent("pointerdown", { ...finger, button: 0, buttons: 1 }));
+    target.dispatchEvent(new PointerEvent("pointerup", finger));
+    target.dispatchEvent(new PointerEvent("pointerout", finger));
+    targetChain.forEach((node) => {
+        node.dispatchEvent(new PointerEvent("pointerleave", { ...finger, bubbles: false }));
+    });
+
+    if (isNewTarget) {
+        previousTarget?.dispatchEvent(new MouseEvent("mouseout", init));
+        leaveTargets.forEach((node) => node.dispatchEvent(new MouseEvent("mouseleave", { ...init, bubbles: false })));
+        target.dispatchEvent(new MouseEvent("mouseover", init));
+        enterTargets.forEach((node) => node.dispatchEvent(new MouseEvent("mouseenter", { ...init, bubbles: false })));
+    }
+
+    target.dispatchEvent(new MouseEvent("mousemove", init));
+    target.dispatchEvent(new MouseEvent("mousedown", { ...init, button: 0, buttons: 1 }));
+    target.dispatchEvent(new MouseEvent("mouseup", init));
+    target.dispatchEvent(new MouseEvent("click", init));
+};
+
+const centerOf = (element) => {
+    const { left, top, width, height } = element.getBoundingClientRect();
+
+    return { x: left + width / 2, y: top + height / 2 };
+};
+
+/** px/ms: an unhurried hand, slower than most moves across a 200px rail. */
+const POINTER_SPEED = 0.5;
+
+const FRAME_MS = 16;
+
+/**
+ * Moves the mouse in a straight line between two client points at `POINTER_SPEED`. Each step's position comes from the
+ * time elapsed, so the pace holds however long a step takes to dispatch. Returns the element under each step.
+ */
+const movePointer = async (userEvent, from, to, ownerDocument) => {
+    const duration = Math.hypot(to.x - from.x, to.y - from.y) / POINTER_SPEED;
+    const startedAt = performance.now();
+    const crossed = [];
+
+    for (let progress = 0; progress < 1;) {
+        await wait(FRAME_MS);
+        progress = Math.min(1, (performance.now() - startedAt) / duration);
+
+        const clientX = from.x + (to.x - from.x) * progress;
+        const clientY = from.y + (to.y - from.y) * progress;
+        const target = ownerDocument.elementFromPoint(clientX, clientY);
+
+        crossed.push(target);
+        await userEvent.pointer({ target, coords: { clientX, clientY } });
+    }
+
+    return crossed;
+};
+
+export const OneMenuAtATime = () => <MenuRail bookingsMenuProps={slowClose} marketingMenuProps={slowClose} />;
+
+OneMenuAtATime.play = async ({ canvas, canvasElement, userEvent }) => {
+    await userEvent.hover(getTrigger(canvas, "Bookings"));
+    await findLayer(canvasElement, MENU_SELECTOR, "Purchases");
+
+    await userEvent.hover(getTrigger(canvas, "Marketing"));
+    await findLayer(canvasElement, MENU_SELECTOR, "Coupons");
+    await expectNoLayer(canvasElement, MENU_SELECTOR, "Purchases", BEFORE_SLOW_CLOSE);
+};
+
+export const ResizeClosesMenus = () => <MenuRail bookingsMenuProps={slowClose} />;
+
+ResizeClosesMenus.play = async ({ canvas, canvasElement, userEvent }) => {
+    const trigger = getTrigger(canvas, "Bookings");
+    const handle = getResizeHandle(canvas);
+    const { left, top } = handle.getBoundingClientRect();
+
+    await userEvent.hover(trigger);
+    await findLayer(canvasElement, MENU_SELECTOR, "Purchases");
+    dispatchPointer(handle, "pointerdown", { clientX: left, clientY: top, button: 0, buttons: 1 });
+    await expectNoLayer(canvasElement, MENU_SELECTOR, "Purchases", BEFORE_SLOW_CLOSE);
+    dispatchPointer(handle, "pointerup", { clientX: left, clientY: top });
+
+    await userEvent.unhover(trigger);
+    await userEvent.hover(trigger);
+    await findLayer(canvasElement, MENU_SELECTOR, "Purchases");
+    handle.focus();
+    await userEvent.keyboard("{ArrowLeft}");
+    await expectNoLayer(canvasElement, MENU_SELECTOR, "Purchases", BEFORE_SLOW_CLOSE);
+};
+
+const getCenterY = ({ top, height }) => top + height / 2;
+
+const getAttachment = (trigger, menu) => {
+    const triggerBox = trigger.getBoundingClientRect();
+    const menuBox = menu.getBoundingClientRect();
+    const gap = menuBox.left - triggerBox.right;
+
+    return { gap, menuLeft: menuBox.left, centerOffset: getCenterY(menuBox) - getCenterY(triggerBox) };
+};
+
+export const MenuFollowsRailResize = () => <MenuRail />;
+
+MenuFollowsRailResize.play = async ({ canvas, canvasElement, userEvent }) => {
+    const trigger = getTrigger(canvas, "Bookings");
+    const handle = getResizeHandle(canvas);
+
+    const getWidth = () => Number(handle.getAttribute("aria-valuenow"));
+    const widthBefore = getWidth();
+
+    await userEvent.hover(trigger);
+    const before = getAttachment(trigger, await findLayer(canvasElement, MENU_SELECTOR, "Purchases"));
+    await expect(before.gap).toBeCloseTo(4, 0);
+    await expect(before.centerOffset).toBeCloseTo(0, 0);
+
+    await dragHandle(handle, -100);
+    await expect(widthBefore - getWidth()).toBeGreaterThan(90);
+    await expectNoLayer(canvasElement, MENU_SELECTOR, "Purchases");
+
+    await userEvent.unhover(trigger);
+    await userEvent.hover(trigger);
+    const after = getAttachment(trigger, await findLayer(canvasElement, MENU_SELECTOR, "Purchases"));
+
+    await expect(after.menuLeft).toBeCloseTo(before.menuLeft - (widthBefore - getWidth()), 0);
+    await expect(after.gap).toBeCloseTo(before.gap, 0);
+    await expect(after.centerOffset).toBeCloseTo(before.centerOffset, 0);
+};
+
+export const UnmountWhileOpen = ({ onOpenChange }) => {
+    const [mountCount, setMountCount] = useState(0);
+    const handleRemount = () => setMountCount(mountCount + 1);
+
+    return (
+        <MenuRail key={mountCount} bookingsMenuProps={{ ...slowClose, onOpenChange }}>
+            <Button onClick={handleRemount}>Remount rail</Button>
+        </MenuRail>
+    );
+};
+
+UnmountWhileOpen.args = { onOpenChange: fn() };
+
+UnmountWhileOpen.play = async ({ args, canvas, canvasElement, userEvent }) => {
+    await userEvent.hover(getTrigger(canvas, "Bookings"));
+    await findLayer(canvasElement, MENU_SELECTOR, "Purchases");
+
+    // Keyboard, not a click: a press outside would close the menu before it unmounts
+    canvas.getByRole("button", { name: "Remount rail" }).focus();
+    await userEvent.keyboard("{Enter}");
+    await expectNoLayer(canvasElement, MENU_SELECTOR, "Purchases");
+
+    // A menu that unmounted open must not still be asked to close
+    getResizeHandle(canvas).focus();
+    await userEvent.keyboard("{ArrowLeft}");
+    await waitForChangeWindow();
+    await expect(args.onOpenChange).not.toHaveBeenCalledWith(false);
+};
+
+const LONG_MENU_ITEMS = ["Purchases", "Gifts", "Gift Cards", "Vouchers", "Waivers", "Refunds"];
+
+export const DiagonalToMenuItem = ({ onItemClick }) => (
+    <MenuRail bookingsMenuProps={{ content: <SubMenu items={LONG_MENU_ITEMS} onItemClick={onItemClick} /> }} />
+);
+
+DiagonalToMenuItem.args = { onItemClick: fn() };
+
+/**
+ * The menu is centered on its link and much taller, so its last item sits beside the next link down. The straight path
+ * there leaves the link through its bottom edge and crosses the neighbour before it reaches the menu.
+ */
+DiagonalToMenuItem.play = async ({ args, canvas, canvasElement, userEvent }) => {
+    const bookings = canvas.getByRole("button", { name: "Bookings" });
+    const marketing = canvas.getByRole("button", { name: "Marketing" });
+
+    await userEvent.hover(bookings);
+    const refunds = within(await findLayer(canvasElement, MENU_SELECTOR, "Refunds")).getByRole("button", {
+        name: "Refunds",
+    });
+    const to = { x: refunds.getBoundingClientRect().left + 24, y: centerOf(refunds).y };
+
+    const crossed = await movePointer(userEvent, centerOf(bookings), to, canvasElement.ownerDocument);
+
+    await expect(crossed.some((element) => marketing.contains(element))).toBe(true);
+    await expect(queryLayer(canvasElement, MENU_SELECTOR, "Refunds")).toBeInstanceOf(HTMLElement);
+    await expect(queryLayer(canvasElement, MENU_SELECTOR, "Coupons")).toBeUndefined();
+
+    await userEvent.click(refunds);
+    await expect(args.onItemClick).toHaveBeenCalledTimes(1);
+};
+
+export const CancelledTouchPress = () => <MenuRail />;
+
+CancelledTouchPress.play = async ({ canvas, canvasElement, userEvent }) => {
+    const bookings = canvas.getByRole("button", { name: "Bookings" });
+    const { x, y } = centerOf(bookings);
+    const finger = { pointerId: 2, pointerType: "touch", clientX: x, clientY: y };
+
+    // A scroll that starts on the link cancels the press, so no click follows it
+    dispatchPointer(bookings, "pointerdown", { ...finger, button: 0, buttons: 1 });
+    dispatchPointer(bookings, "pointercancel", finger);
+
+    bookings.focus();
+    await findLayer(canvasElement, MENU_SELECTOR, "Purchases");
+    await userEvent.keyboard("{Escape}");
+    await expectNoLayer(canvasElement, MENU_SELECTOR, "Purchases");
+
+    // A keyboard click has no pointerdown of its own and must not read the cancelled touch press
+    await userEvent.keyboard("{Enter}");
+    await waitForChangeWindow();
+    await expect(queryLayer(canvasElement, MENU_SELECTOR, "Purchases")).toBeUndefined();
+};
+
+const ModalMenuTarget = () => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    return (
+        <>
+            <Button onClick={() => setIsModalOpen(true)}>Open menu modal</Button>
+            <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+                <Modal.Header>Menu modal</Modal.Header>
+                <Modal.Footer>
+                    <Button onClick={() => setIsModalOpen(false)}>Close menu modal</Button>
+                </Modal.Footer>
+            </Modal>
+        </>
+    );
+};
+
+export const PortaledModalDoesNotOpenMenu = () => (
+    <>
+        <Sidebar.Menu content={<div className="p-4">Portaled menu content</div>}>
+            <ModalMenuTarget />
+        </Sidebar.Menu>
+        <Button>Menu focus elsewhere</Button>
+    </>
+);
+
+PortaledModalDoesNotOpenMenu.play = async ({ canvas, canvasElement, userEvent }) => {
+    const body = within(canvasElement.ownerDocument.body);
+
+    await userEvent.click(canvas.getByRole("button", { name: "Open menu modal" }));
+    await body.findByText("Menu modal");
+    const closeButton = body.getByRole("button", { name: "Close menu modal" });
+    await userEvent.hover(closeButton);
+    await waitForChangeWindow();
+    await expectNoLayer(canvasElement, MENU_SELECTOR, "Portaled menu content");
+
+    tap(closeButton);
+    await waitFor(() => expect(body.queryByText("Menu modal")).toBeNull());
+    await expectNoLayer(canvasElement, MENU_SELECTOR, "Portaled menu content");
+
+    const target = canvas.getByRole("button", { name: "Open menu modal" });
+    canvas.getByRole("button", { name: "Menu focus elsewhere" }).focus();
+    target.focus();
+    await findLayer(canvasElement, MENU_SELECTOR, "Portaled menu content");
+};
+
+export const FocusOpens = () => <MenuRail />;
+
+FocusOpens.play = async ({ canvas, canvasElement, userEvent }) => {
+    canvas.getByRole("button", { name: "Bookings" }).focus();
+    await findLayer(canvasElement, MENU_SELECTOR, "Purchases");
+
+    await userEvent.keyboard("{Escape}");
+    await expectNoLayer(canvasElement, MENU_SELECTOR, "Purchases");
+};
+
+export const TouchTapOpens = (args) => <MenuRail accountMenuProps={args} />;
+
+TouchTapOpens.args = { onOpenChange: fn() };
+
+TouchTapOpens.play = async ({ args, canvas, canvasElement }) => {
+    const account = canvasElement.querySelector(".ui-sidebar-footer .ui-sidebar-account");
+    const outside = canvas.getByText("Outside");
+
+    tap(account);
+    await findLayer(canvasElement, MENU_SELECTOR, "Logout");
+
+    // The finger lifting fires a touch pointerleave, which must not close a menu a tap opened
+    await waitForChangeWindow();
+    await expect(queryLayer(canvasElement, MENU_SELECTOR, "Logout")).toBeInstanceOf(HTMLElement);
+
+    // A second tap on the trigger is not a press outside: the menu stays open without closing in between
+    tap(account, account);
+    await waitForChangeWindow();
+    await expect(queryLayer(canvasElement, MENU_SELECTOR, "Logout")).toBeInstanceOf(HTMLElement);
+    await expect(args.onOpenChange).toHaveBeenCalledTimes(1);
+
+    tap(outside, account);
+    await expectNoLayer(canvasElement, MENU_SELECTOR, "Logout");
+    await expect(args.onOpenChange).toHaveBeenLastCalledWith(false);
+};
+
+export const OpenChangeCallbacks = (args) => <MenuRail bookingsMenuProps={args} />;
+
+OpenChangeCallbacks.args = { onOpenChange: fn() };
+
+OpenChangeCallbacks.play = async ({ args, canvas, canvasElement, userEvent }) => {
+    const trigger = getTrigger(canvas, "Bookings");
+
+    await userEvent.hover(trigger);
+    await findLayer(canvasElement, MENU_SELECTOR, "Purchases");
+    await waitFor(() => expect(args.onOpenChange).toHaveBeenCalledTimes(1));
+    await expect(args.onOpenChange).toHaveBeenLastCalledWith(true);
+
+    // Clicking the hovered trigger is not a press outside: the menu stays open without closing in between
+    await userEvent.click(canvas.getByRole("button", { name: "Bookings" }));
+    await waitForChangeWindow();
+    await expect(queryLayer(canvasElement, MENU_SELECTOR, "Purchases")).toBeInstanceOf(HTMLElement);
+    await expect(args.onOpenChange).toHaveBeenCalledTimes(1);
+
+    await userEvent.unhover(trigger);
+    await expectNoLayer(canvasElement, MENU_SELECTOR, "Purchases");
+    await waitFor(() => expect(args.onOpenChange).toHaveBeenCalledTimes(2));
+    await expect(args.onOpenChange).toHaveBeenLastCalledWith(false);
+};
+
+export const Controlled = ({ onOpenChange }) => {
+    const [isOpen, setIsOpen] = useState();
+    const handleShow = () => setIsOpen(true);
+    const handleHide = () => setIsOpen(false);
+    const handleRelease = () => setIsOpen(undefined);
+
+    return (
+        <MenuRail bookingsMenuProps={{ open: isOpen, onOpenChange }}>
+            <Button onClick={handleShow}>Show menu</Button>
+            <Button onClick={handleHide}>Hide menu</Button>
+            <Button onClick={handleRelease}>Release menu</Button>
+        </MenuRail>
+    );
+};
+
+Controlled.args = { onOpenChange: fn() };
+
+Controlled.play = async ({ args, canvas, canvasElement, userEvent }) => {
+    const trigger = getTrigger(canvas, "Bookings");
+
+    await userEvent.click(canvas.getByRole("button", { name: "Show menu" }));
+    await findLayer(canvasElement, MENU_SELECTOR, "Purchases");
+
+    await userEvent.click(canvas.getByRole("button", { name: "Hide menu" }));
+    await expectNoLayer(canvasElement, MENU_SELECTOR, "Purchases");
+
+    // Held closed, a hover only asks to open
+    await userEvent.hover(trigger);
+    await waitFor(() => expect(args.onOpenChange).toHaveBeenCalledWith(true));
+    await waitForChangeWindow();
+    await expect(queryLayer(canvasElement, MENU_SELECTOR, "Purchases")).toBeUndefined();
+
+    // Released after being held closed: stays closed until the next hover, as Tippy did
+    await userEvent.unhover(trigger);
+    await userEvent.click(canvas.getByRole("button", { name: "Release menu" }));
+    await waitForChangeWindow();
+    await expect(queryLayer(canvasElement, MENU_SELECTOR, "Purchases")).toBeUndefined();
+
+    await userEvent.hover(trigger);
+    await findLayer(canvasElement, MENU_SELECTOR, "Purchases");
+};
+
+export const HeldOpenFollowsRailResize = () => <MenuRail bookingsMenuProps={{ open: true }} />;
+
+HeldOpenFollowsRailResize.play = async ({ canvas, canvasElement }) => {
+    const trigger = getTrigger(canvas, "Bookings");
+    const handle = getResizeHandle(canvas);
+    const getWidth = () => Number(handle.getAttribute("aria-valuenow"));
+    const widthBefore = getWidth();
+    const before = getAttachment(trigger, await findLayer(canvasElement, MENU_SELECTOR, "Purchases"));
+
+    // The drag asks every menu to close, and a menu held open with no `onOpenChange` stays open through it
+    await dragHandle(handle, -100);
+    await expect(widthBefore - getWidth()).toBeGreaterThan(90);
+
+    await waitFor(() => {
+        const after = getAttachment(trigger, queryLayer(canvasElement, MENU_SELECTOR, "Purchases"));
+
+        expect(after.menuLeft).toBeCloseTo(before.menuLeft - (widthBefore - getWidth()), 0);
+        expect(after.gap).toBeCloseTo(before.gap, 0);
+        expect(after.centerOffset).toBeCloseTo(before.centerOffset, 0);
+    });
+};
+
+let removedWarnSpy;
+
+export const RemovedPropWarns = () => {
+    const handleTippyEvent = () => {};
+
+    return (
+        <MenuRail
+            bookingsMenuProps={{
+                visible: false,
+                onMount: handleTippyEvent,
+                onShow: handleTippyEvent,
+                onHide: handleTippyEvent,
+                onHidden: handleTippyEvent,
+                onDestroy: handleTippyEvent,
+            }}
+        />
+    );
+};
+
+RemovedPropWarns.beforeEach = () => {
+    removedWarnSpy = spyOn(console, "warn");
+};
+
+RemovedPropWarns.play = async () => {
+    if (!isDevelopment) {
+        return;
+    }
+
+    const expected = [
+        "UI Kit Sidebar.Menu: 'visible' was removed in 3.8, use 'open'",
+        "UI Kit Sidebar.Menu: 'onMount' was removed in 3.8, use 'onOpenChange'",
+        "UI Kit Sidebar.Menu: 'onShow' was removed in 3.8, use 'onOpenChange'",
+        "UI Kit Sidebar.Menu: 'onHide' was removed in 3.8, use 'onOpenChange'",
+        "UI Kit Sidebar.Menu: 'onHidden' was removed in 3.8, use 'onOpenChange'",
+        "UI Kit Sidebar.Menu: 'onDestroy' was removed in 3.8, use 'onOpenChange'",
+    ];
+    expectWarnings(removedWarnSpy, expected);
+};
 
 export default SidebarStories;

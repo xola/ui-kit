@@ -1,0 +1,38 @@
+import { isDevelopment } from "./environment";
+
+export const NO_REPLACEMENT = "delete it, there is no replacement";
+export const USE_ON_OPEN_CHANGE = "use 'onOpenChange'";
+
+const warned = new Set();
+
+/** Storybook play reruns must observe the same warnings. */
+export const resetRemovedPropWarnings = () => warned.clear();
+
+/**
+ * Warn once per component and prop when a consumer still passes a removed prop. React 19 drops `propTypes` checks, so
+ * JS consumers would otherwise get no signal. No-op in production (`isDevelopment` reads `process.env.NODE_ENV`, which
+ * the consumer's bundler replaces; `import.meta.env` would be frozen at ui-kit's own build).
+ *
+ * @param {string} component - Component name, e.g. "Tooltip"
+ * @param {object} props - Props the component received
+ * @param {Record<string, string>} removed - Removed prop name to replacement text, e.g. { visible: "use 'open'" }
+ */
+export const warnRemovedProps = (component, props, removed) => {
+    if (!isDevelopment) {
+        return;
+    }
+
+    Object.entries(removed).forEach(([prop, replacement]) => {
+        if (props[prop] === undefined) {
+            return;
+        }
+
+        const key = `${component}.${prop}`;
+        if (warned.has(key)) {
+            return;
+        }
+
+        warned.add(key);
+        console.warn(`UI Kit ${component}: '${prop}' was removed in 3.8, ${replacement}`);
+    });
+};

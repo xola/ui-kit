@@ -14,7 +14,7 @@ Its Storybook is published at [ui.xola.io](https://ui.xola.io), where you can al
 -   Node.js 20 or newer (CI runs Node.js 24)
 -   npm 7 or newer
 -   React and React DOM 18.3.1 or newer, or React 19
--   Vite 5, 6 or 7
+-   Vite 5, 6, 7 or 8
 -   Tailwind CSS v3 or v4 (see the setup for each below)
 
 ### Usage
@@ -29,7 +29,7 @@ Install and configure the @xola/ui-kit React component library in this project.
 
 1. Install the package: npm install @xola/ui-kit@next
 2. Install its peer dependencies: react react-dom autoprefixer postcss tailwindcss vite
-   @types/react @types/react-dom (React 18.3.1+ or 19, Vite 5 to 7)
+   @types/react @types/react-dom (React 18.3.1+ or 19, Vite 5 to 8)
 3. @xola/ui-kit is ESM only ("type": "module") with no CommonJS build. Import it, never
    require() it.
 4. Detect the project's Tailwind CSS major version and configure accordingly:
@@ -43,9 +43,7 @@ Install and configure the @xola/ui-kit React component library in this project.
      @import "tailwindcss";, add:
        @source "../node_modules/@xola/ui-kit/build/**/*.js";
        @import "@xola/ui-kit/build/theme.css";  /* after any of your own theme tokens */
-5. This project uses legacy-peer-deps; run installs with --legacy-peer-deps (or copy ui-kit's
-   .npmrc).
-6. Verify by importing and rendering a component: import { Button } from "@xola/ui-kit";
+5. Verify by importing and rendering a component: import { Button } from "@xola/ui-kit";
 
 Read the @xola/ui-kit README for the full details before making changes.
 ```
@@ -55,13 +53,13 @@ Prefer manual setup? Follow the steps below.
 Install the UI kit:
 
 ```bash
-npm install @xola/ui-kit@next --legacy-peer-deps
+npm install @xola/ui-kit@next
 ```
 
 Install peer dependencies:
 
 ```bash
-npm install react react-dom autoprefixer postcss tailwindcss vite @types/react @types/react-dom --legacy-peer-deps
+npm install react react-dom autoprefixer postcss tailwindcss vite @types/react @types/react-dom
 ```
 
 UI kit expects you already have a working React dev environment with PostCSS support.
@@ -144,10 +142,13 @@ coding agent at one.
 
 Each upgrade guide is an agent skill that ships in the package. To upgrade an app:
 
-1. Install the new version: `npm install @xola/ui-kit@next --legacy-peer-deps`.
+1. Install the new version: `npm install @xola/ui-kit@next`.
 2. Tell your coding agent which guide to follow:
+    - From 3.7 to 3.8: "Follow node_modules/@xola/ui-kit/skills/migrate-to-3.8/SKILL.md to upgrade this repo to ui-kit 3.8."
     - From 2.6 to 3.7: "Follow node_modules/@xola/ui-kit/skills/migrate-2.6-to-3.7/SKILL.md to upgrade this repo to ui-kit 3.7."
 3. Run your type check, linter and tests. Each guide ends with a Verify section listing the checks that must pass.
+
+3.8 moves `Tooltip`, `Popover` and `Sidebar.Menu` from Tippy to Radix, `RangeSlider` from noUiSlider to Radix Slider, and removes ui-kit's Headless UI dependency. Dialogs and `Switch` use Radix, while transitions use local staged classes or Radix Collapsible. Removed props log one warning in development builds and do nothing.
 
 ## Development
 
@@ -168,7 +169,7 @@ $ npm start
 
 ### Testing
 
-Tests run on [Vitest](https://vitest.dev). Pure helpers in `src/utils` and `src/helpers` have unit tests. Component behavior is tested by Storybook interaction (`play`) tests that run in Chromium through `@storybook/addon-vitest` and Playwright.
+Tests run on [Vitest](https://vitest.dev). Pure helpers in `src/utils` and `src/helpers` have unit tests. Component behavior is tested by Storybook interaction (`play`) tests that run in Chromium through `@storybook/addon-vitest` and Playwright. A Storybook test fails if the story logs a React deprecation warning.
 
 ```bash
 npm test               # Unit tests (Vitest, node environment)
@@ -182,11 +183,18 @@ The Storybook tests need Playwright's Chromium browser the first time:
 npx playwright install chromium
 ```
 
+ui-kit supports React 18 and 19, and CI runs every check on both. The checkout installs React 18 from the lockfile. To run the Storybook tests on React 19:
+
+1. Install React 19 without saving it: `npm run react:19`
+2. Run the tests against it: `VITE_REACT_MAJOR=19 npm run test:storybook`
+3. Go back to the lockfile's React 18: `npm run react:18`
+
 Two more checks run in CI and are worth running before you open a release PR:
 
 ```bash
 npm run build
-npm run test:ssr   # Imports build/index.js in Node
+npm run test:ssr                                  # Imports build/index.js in Node
+npm run test:consumer -- --vite 8 --react 19      # Packs ui-kit, installs it in a Vite 8 app, then type-checks and builds
 ```
 
 ## Advanced
@@ -253,27 +261,9 @@ npm run lint:ci     # Lint `src` without fixing (used in CI)
 npm run lint:report # Write a JSON report to eslint_report.json
 ```
 
-## Notes
-
-This repo's `.npmrc` sets `legacy-peer-deps`. ui-kit depends on `react-day-picker` 7, whose `react` peer range stops at 17, so a strict npm install fails with `ERESOLVE` on React 18 or 19.
-
-In order to avoid issues in your projects that are using this UI Kit, use the same `.npmrc` file or always run installs with `--legacy-peer-deps` flag.
-
-For example:
-
-```bash
-$ npm install --legacy-peer-deps
-```
-
-Or:
-
-```bash
-$ npm install some-package --legacy-peer-deps
-```
-
 ## Publishing the Package
 
-The *Publish @xola/ui-kit* GitHub Actions workflow (`.github/workflows/deploy.yml`) builds and publishes the package. Run it from the Actions tab and enter the npm dist-tag; it defaults to `next`, which is what 3.x prereleases from this branch publish under. *Publish @xola/icons* does the same for the icons package.
+The *Publish @xola/ui-kit* GitHub Actions workflow (`.github/workflows/deploy.yml`) builds and publishes the package. Run it from the Actions tab and enter the npm dist-tag (`next` for 3.x prereleases, `latest` for stable). *Publish @xola/icons* does the same for the icons package.
 
 To publish from your machine instead, install [np](https://github.com/sindresorhus/np#readme):
 

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { expect, within } from "storybook/test";
+import { expect, fn, within } from "storybook/test";
 import { Button, PopoverList } from "../..";
+import { getPortalCanvas, PLACEMENTS } from "../helpers";
 import { CalendarDayIcon, CalendarMonthIcon, CalendarWeekIcon, MenuIcon } from "../../icons";
 
 const PopoverStories = {
@@ -9,26 +10,26 @@ const PopoverStories = {
     component: PopoverList,
     args: {
         placement: "bottom",
-        trigger: "mouseenter",
+        openOn: "hover",
     },
     argTypes: {
         placement: {
             type: { required: false },
             description: "The direction to show the popover",
             control: { type: "select" },
-            options: ["top", "bottom", "left", "right", "auto"],
+            options: PLACEMENTS,
             table: {
                 type: "string",
                 defaultValue: { summary: "bottom" },
             },
         },
-        trigger: {
+        openOn: {
             type: { required: false },
-            description: "One or multiple values to indicate what causes the tooltip to show up",
-            control: { type: "select" },
-            options: ["mouseenter", "click", "focus", "focusin", "manual"],
+            description: "What opens the popover: hovering or focusing the target, or clicking it",
+            control: { type: "inline-radio" },
+            options: ["hover", "click"],
             table: {
-                type: "select",
+                type: "string",
                 defaultValue: { summary: "hover" },
             },
         },
@@ -60,7 +61,7 @@ export const Default = () => {
 
     return (
         <div className="h-64">
-            <PopoverList offset={[0, 18]} visible={visible} onClickOutside={hide}>
+            <PopoverList distance={18} open={visible} onClickOutside={hide}>
                 <Button onClick={visible ? hide : show}>Hover over me</Button>
                 <PopoverList.Item name="list" onClickItem={onClickItem}>
                     <MenuIcon />
@@ -100,17 +101,34 @@ export const Default = () => {
 };
 
 Default.play = async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
+    const body = getPortalCanvas(canvasElement);
     await userEvent.click(canvas.getByRole("button", { name: "Hover over me" }));
     const months = await body.findAllByText("Month");
     await expect(months.length).toBeGreaterThan(0);
+
+    // Only the first item rounds its top corners and only the last its bottom ones
+    const items = [...canvasElement.ownerDocument.querySelectorAll(".ui-popover-list-item")];
+    await expect(items).toHaveLength(8);
+    await expect(items[0]).toHaveClass("rounded-t-lg");
+    await expect(items[0]).not.toHaveClass("rounded-b-lg");
+    await expect(items[7]).toHaveClass("rounded-b-lg");
+    await expect(items[7]).not.toHaveClass("rounded-t-lg");
+    items.slice(1, 7).forEach((item) => {
+        expect(item).not.toHaveClass("rounded-t-lg");
+        expect(item).not.toHaveClass("rounded-b-lg");
+    });
+
+    // The list is a menu: its options are addressable by role and name, without internal classes
+    const menu = body.getByRole("menu");
+    await expect(within(menu).getAllByRole("menuitem")).toHaveLength(8);
+    await expect(within(menu).getAllByRole("menuitem", { name: "Month" })).toHaveLength(2);
 };
 
 export const NoIcons = (props) => {
     const onClickItem = (event_, element) => console.log("Clicked on", event_, element);
     return (
         <div className="h-32">
-            <PopoverList offset={[0, 18]} {...props}>
+            <PopoverList distance={18} {...props}>
                 <Button>Hover over me</Button>
                 <PopoverList.Item name="list" onClickItem={onClickItem}>
                     Listing
@@ -124,7 +142,7 @@ export const NoIcons = (props) => {
 };
 
 NoIcons.play = async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
+    const body = getPortalCanvas(canvasElement);
     await userEvent.hover(canvas.getByRole("button", { name: "Hover over me" }));
     await expect(await body.findByText("Listing")).toBeInTheDocument();
     await expect(body.getByText("Guides")).toBeInTheDocument();
@@ -142,12 +160,7 @@ export const Scrollable = () => {
 
     return (
         <div className="h-64">
-            <PopoverList
-                className="max-h-96 w-75 overflow-y-auto"
-                offset={[0, 18]}
-                visible={visible}
-                onClickOutside={hide}
-            >
+            <PopoverList className="max-h-96 w-75 overflow-y-auto" distance={18} open={visible} onClickOutside={hide}>
                 <Button onClick={visible ? hide : show}>Click here</Button>
                 <PopoverList.Item name="item1" onClickItem={onClickItem}>
                     Item 1
@@ -185,9 +198,45 @@ export const Scrollable = () => {
 };
 
 Scrollable.play = async ({ canvas, canvasElement, userEvent }) => {
-    const body = within(canvasElement.ownerDocument.body);
+    const body = getPortalCanvas(canvasElement);
     await userEvent.click(canvas.getByRole("button", { name: "Click here" }));
     await expect(await body.findByText("Item 1")).toBeInTheDocument();
+
+    // className lands on the popover box and wins over the list's default width
+    const box = body.getByText("Item 1").closest(".ui-popover-list");
+    await expect(box).toHaveClass("ui-popover", "max-h-96", "w-75", "overflow-y-auto");
+    await expect(box).not.toHaveClass("w-40");
+};
+
+export const PassThroughProps = ({ onClickItem }) => {
+    return (
+        <PopoverList open data-testid="popover-list-test-id">
+            <Button>Pass-through target</Button>
+            <PopoverList.Item name="only" onClickItem={onClickItem}>
+                Only item
+            </PopoverList.Item>
+        </PopoverList>
+    );
+};
+
+PassThroughProps.args = {
+    onClickItem: fn(),
+};
+
+PassThroughProps.play = async ({ args, canvasElement, userEvent }) => {
+    const { ownerDocument } = canvasElement;
+    const body = getPortalCanvas(canvasElement);
+    const item = await body.findByText("Only item");
+
+    await expect(item).toHaveClass("rounded-t-lg", "rounded-b-lg");
+    await expect(ownerDocument.querySelector("[data-testid='popover-list-test-id']")).toBeNull();
+
+    // The item is a menu option with its visible label as accessible name; a click keeps the callback contract
+    const menuItem = within(body.getByRole("menu")).getByRole("menuitem", { name: "Only item" });
+    await expect(menuItem).toBe(item);
+    await userEvent.click(menuItem);
+    await expect(args.onClickItem).toHaveBeenCalledExactlyOnceWith(expect.anything(), "only", null);
+    await expect(body.getByRole("menu")).toBeInTheDocument();
 };
 
 export default PopoverStories;

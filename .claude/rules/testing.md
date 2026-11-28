@@ -27,8 +27,16 @@ Stories in `src/stories/<section>/` are the component test layer. Write the play
 `storybook/test` (`expect`, `userEvent`, `within`, `waitFor`, `fn`). Rendering components in a unit
 test needs `@testing-library/react`, which the repo leaves out by choice: ask before adding it.
 
+- Green on both React legs: `npm run test:storybook`, then `npm run react:19`,
+  `VITE_REACT_MAJOR=19 npm run test:storybook`, and `npm run react:18` to restore. CI runs both.
+- `.storybook/react-guard/` fails any story that logs a React deprecation warning. Fix the warning;
+  `allowlist.js` stays `{}`.
 - Overlays portal to `document.body`: query `within(document.body)`, find a tooltip with
   `getByRole("tooltip")`, and wrap "is gone" checks in `waitFor` (content fades out over 250ms).
+- Stacking and clipping: assert what is painted with `document.elementFromPoint` at a measured rect,
+  as `src/stories/Overlay/OverlayCombinations.stories.jsx` does.
+- Keyboard versus mouse focus (`:focus-visible`): drive it with `getRealUserEvent()` from
+  `src/stories/realInput.js`. testing-library's `userEvent` cannot tell the two apart.
 - Assert behavior, ARIA roles and callbacks. Tailwind class strings are styling, not behavior.
 - Wait on conditions with `waitFor`. A fixed wait belongs only to a test that pins a timer window
   (open delay, close delay, fade); name the window in the test.

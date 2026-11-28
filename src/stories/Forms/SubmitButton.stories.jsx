@@ -1,6 +1,8 @@
-import React, { useState } from "react";
-import { expect } from "storybook/test";
-import { SubmitButton } from "../..";
+import React, { useRef, useState } from "react";
+import { expect, userEvent, waitFor } from "storybook/test";
+import { Button, SubmitButton } from "../..";
+import { hasFormStatus } from "../../helpers/reactFeatures";
+import { selectArg } from "../helpers";
 
 const SubmitButtonStories = {
     title: "Forms & Fields/Buttons/Submit Button",
@@ -24,13 +26,7 @@ const SubmitButtonStories = {
                 defaultValue: { summary: "medium" },
             },
         },
-        color: {
-            options: ["primary", "secondary", "success", "warning", "danger"],
-            control: { type: "select" },
-            table: {
-                defaultValue: { summary: "primary" },
-            },
-        },
+        color: selectArg(["primary", "secondary", "success", "warning", "danger"], "primary"),
     },
 };
 
@@ -103,9 +99,115 @@ export const Default = ({ isLoading, ...rest }) => {
     );
 };
 
-Default.play = async ({ canvas }) => {
+Default.play = async ({ canvas, userEvent }) => {
     await expect(canvas.getAllByRole("button")).toHaveLength(6);
     await expect(canvas.getAllByText("Submit")).toHaveLength(3);
+
+    const button = canvas.getAllByRole("button", { name: "Submit" })[0];
+    const getSuccessIcon = () => button.querySelector("svg:not(.ui-spinner)");
+    await userEvent.click(button);
+    await waitFor(() => expect(button.querySelector(".ui-spinner")).toBeInTheDocument());
+    await expect(button).toHaveAccessibleName("Submit");
+    await waitFor(() => expect(getSuccessIcon()).toBeInTheDocument(), { timeout: 3000 });
+    await expect(button).toBeDisabled();
+    await expect(button).toHaveAccessibleName("Submit");
+    await waitFor(() => expect(getSuccessIcon()).not.toBeInTheDocument(), { timeout: 4000 });
+    await expect(button).not.toBeDisabled();
+    await expect(button).toHaveAccessibleName("Submit");
+};
+
+export const Disabled = (props) => {
+    return <SubmitButton {...props}>Submit</SubmitButton>;
+};
+
+Disabled.args = {
+    disabled: true,
+};
+
+Disabled.play = async ({ canvas }) => {
+    const button = canvas.getByRole("button", { name: "Submit" });
+    await expect(button).toBeDisabled();
+    await expect(button.querySelector(".ui-spinner")).not.toBeInTheDocument();
+};
+
+export const Loading = (props) => {
+    return <SubmitButton {...props}>Submit</SubmitButton>;
+};
+
+Loading.args = {
+    isLoading: true,
+};
+
+Loading.play = async ({ canvas }) => {
+    const button = canvas.getByRole("button", { name: "Submit" });
+    await expect(button).toBeDisabled();
+    await expect(button.querySelector(".ui-spinner")).toBeInTheDocument();
+    await expect(button).toHaveAccessibleName("Submit");
+};
+
+export const Success = (props) => {
+    return <SubmitButton {...props}>Submit</SubmitButton>;
+};
+
+Success.args = {
+    isSuccess: true,
+};
+
+Success.play = async ({ canvas }) => {
+    const button = canvas.getByRole("button", { name: "Submit" });
+    await waitFor(() => expect(button.querySelector("svg:not(.ui-spinner)")).toBeInTheDocument());
+    await expect(button.querySelector(".ui-spinner")).not.toBeInTheDocument();
+    await expect(button).toBeDisabled();
+    await expect(button).toHaveAccessibleName("Submit");
+};
+
+/**
+ * Leaves isLoading unset so the form status drives the loading state. Without form actions (React 18)
+ * the form submits through onSubmit, since a function `action` is not valid there.
+ */
+export const WithFormAction = () => {
+    const releaseRef = useRef();
+
+    const handleAction = async () => {
+        await new Promise((resolve) => {
+            releaseRef.current = resolve;
+        });
+    };
+
+    const handleSubmit = (event) => event.preventDefault();
+    const handleRelease = () => releaseRef.current?.();
+    const formProps = hasFormStatus ? { action: handleAction } : { onSubmit: handleSubmit };
+
+    return (
+        <div className="space-x-4">
+            <form className="inline-block" {...formProps}>
+                <SubmitButton>Submit</SubmitButton>
+            </form>
+            <Button type="button" onClick={handleRelease}>
+                Release
+            </Button>
+        </div>
+    );
+};
+
+WithFormAction.play = async ({ canvas }) => {
+    const button = canvas.getByRole("button", { name: "Submit" });
+    await userEvent.click(button);
+
+    if (!hasFormStatus) {
+        await expect(button).not.toBeDisabled();
+        await expect(button.querySelector(".ui-spinner")).not.toBeInTheDocument();
+        return;
+    }
+
+    await waitFor(() => expect(button).toBeDisabled());
+    await expect(button.querySelector(".ui-spinner")).toBeInTheDocument();
+    await expect(button).toHaveAccessibleName("Submit");
+
+    await userEvent.click(canvas.getByRole("button", { name: "Release" }));
+
+    await waitFor(() => expect(button).not.toBeDisabled());
+    await expect(button.querySelector(".ui-spinner")).not.toBeInTheDocument();
 };
 
 export default SubmitButtonStories;
