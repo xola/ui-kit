@@ -30,6 +30,7 @@ try {
     const packageInputs = [
         "package.json",
         "index.d.ts",
+        "dev.d.ts",
         "index.css",
         "README.md",
         "tailwind.config.js",
@@ -52,12 +53,14 @@ try {
     const { stdout: tarballFiles } = await $`tar -tzf ${tarball}`;
 
     /**
-     * `types` and the exports map point at build/index.d.ts, and `prepare` (run by pack and publish) must copy it in.
-     * A tarball without it makes every consumer's `@xola/ui-kit` import untyped.
+     * `types` and the exports map point at build/index.d.ts and build/dev.d.ts, and `prepare` (run by pack and publish)
+     * must copy them in. A tarball without them makes every consumer's `@xola/ui-kit` import untyped.
      */
-    if (!tarballFiles.split("\n").includes("package/build/index.d.ts")) {
-        throw new Error(`${filename} is missing build/index.d.ts, which package.json "types" points at`);
-    }
+    ["package/build/index.d.ts", "package/build/dev.d.ts"].forEach((typesFile) => {
+        if (!tarballFiles.split("\n").includes(typesFile)) {
+            throw new Error(`${filename} is missing ${typesFile}, which package.json "types" points at`);
+        }
+    });
 
     const reactSpecs = ["react", "react-dom", "@types/react", "@types/react-dom"].map((name) => `${name}@${react}`);
     const $app = $({ cwd: appDir, stdio: "inherit" });

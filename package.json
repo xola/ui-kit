@@ -16,6 +16,7 @@
         "README.md",
         "index.css",
         "index.d.ts",
+        "dev.d.ts",
         "skills",
         "tailwind.config.js",
         "postcss.config.js"
@@ -28,6 +29,10 @@
             "types": "./build/index.d.ts",
             "import": "./build/index.js"
         },
+        "./dev": {
+            "types": "./build/dev.d.ts",
+            "import": "./build/dev/index.js"
+        },
         "./index.css": "./index.css",
         "./build/*": "./build/*",
         "./tailwind.config": "./tailwind.config.js",
@@ -37,7 +42,7 @@
         "./package.json": "./package.json"
     },
     "scripts": {
-        "prepare": "node scripts/prepare && vite build && cp index.d.ts build",
+        "prepare": "node scripts/prepare && vite build && cp index.d.ts dev.d.ts build",
         "start": "./scripts/storybook",
         "dev": "./scripts/storybook",
         "build": "npm run prepare",
@@ -48,7 +53,7 @@
         "lint:report": "eslint --cache --cache-strategy content --output-file=eslint_report.json --format=json src",
         "format": "prettier -l --write src",
         "test": "vitest run --project unit",
-        "test:ssr": "node -e 'import(\"./build/index.js\").then(() => console.log(\"✅ ssr import ok\"))'",
+        "test:ssr": "node -e 'Promise.all([import(\"./build/index.js\"), import(\"./build/dev/index.js\")]).then(() => console.log(\"✅ ssr import ok\"))'",
         "test:bundle-size": "node scripts/checkBundleSize.js",
         "test:storybook": "vitest run --project storybook",
         "test:all": "vitest run",

@@ -17,7 +17,11 @@ export default defineConfig({
         outDir: "build",
 
         lib: {
-            entry: path.resolve(import.meta.dirname, "src/index.js"),
+            // `dev/index` keeps the dev-only subpath out of src/index.js; preserveModules still emits one copy of shared modules.
+            entry: {
+                index: path.resolve(import.meta.dirname, "src/index.js"),
+                "dev/index": path.resolve(import.meta.dirname, "src/dev/index.js"),
+            },
             formats: ["es"],
             // Vite 6+ names the bundled CSS after package.json "name"; consumers import build/style.css.
             cssFileName: "style",

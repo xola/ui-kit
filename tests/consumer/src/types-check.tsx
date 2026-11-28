@@ -1,6 +1,23 @@
 import { CheckIcon } from "@xola/icons";
 import type { IconProps } from "@xola/icons";
 import { Button, formatPhoneNumber, Popover, RangeSlider, Sidebar, Tooltip } from "@xola/ui-kit";
+import { ErrorOverlay, toOverlayError, useErrorOverlay } from "@xola/ui-kit/dev";
+
+const overlayError = { id: "a", name: "Error", message: "x", count: 1 };
+
+export const DevUsage = () => {
+    const { errors, push } = useErrorOverlay();
+
+    push(toOverlayError(new Error("x")), { componentStack: "in App" });
+
+    return (
+        <>
+            <ErrorOverlay isOpen errors={[overlayError, ...errors]} onClose={() => {}} />
+            {/* @ts-expect-error onClose is required */}
+            <ErrorOverlay isOpen errors={[overlayError]} />
+        </>
+    );
+};
 
 const checkIconProps: IconProps = { size: "small" };
 

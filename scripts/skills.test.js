@@ -14,6 +14,8 @@ const typesPath = path.join(repoRoot, "index.d.ts");
 const readmePath = path.join(skillsDir, "README.md");
 const indexPath = path.join(repoRoot, "src", "index.js");
 const iconsPath = path.join(repoRoot, "src", "icons", "index.ts");
+const devIndexPath = path.join(repoRoot, "src", "dev", "index.js");
+const devTypesPath = path.join(repoRoot, "dev.d.ts");
 const fixturesDir = path.join(skillsDir, "migrate-to-3.8", "fixtures");
 
 const getSkillFolders = () => {
@@ -146,7 +148,9 @@ describe("using-ui-kit", () => {
         const known = new Set([
             ...getExportedNames(indexPath),
             ...getExportedNames(iconsPath),
+            ...getExportedNames(devIndexPath),
             ...getDeclaredTypeNames(typesPath),
+            ...getDeclaredTypeNames(devTypesPath),
         ]);
         const names = getBacktickedComponentNames(readFileSync(skillFile, "utf8"));
 
