@@ -51,6 +51,9 @@ jobs:
       - name: Install React ${{ matrix.react }}
         run: npm run react:${{ matrix.react }}
 
+      - name: Type check
+        run: npm run typecheck
+
       - name: Install Playwright Chromium
         run: npx playwright install chromium --with-deps
 

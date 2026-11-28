@@ -19,6 +19,7 @@ npm run build:storybook   # Static Storybook build
 npm run lint               # eslint --fix on src (flat config from @xola/jslint); use lint:ci for a read-only check
 npm run lint:fix          # eslint --fix on src (alias for lint)
 npm run lint:ci           # eslint check only, no writes; exits non-zero on violations
+npm run typecheck         # tsc --noEmit over .ts/.tsx (strict); JS files are not checked
 npm run format            # Prettier --write on src
 npm test                  # Unit tests only (Vitest); use test:all for unit + Storybook
 npm run test:storybook    # Storybook interaction (play) tests, Playwright/Chromium
@@ -92,6 +93,8 @@ build or entry. Storybook runs on the Vite builder (`@storybook/react-vite`, Sto
 - Functional components + hooks only. `const ComponentName = (props) => { ... }`, named export.
 - Type props with `prop-types`, not TypeScript. Every public prop needs a `PropTypes` entry;
   `children`/`className` pass-through props still need one.
+- Files converted to `.tsx` use TS interfaces and no `PropTypes`; `index.d.ts` stays hand-maintained
+  until generated types land.
 - No `props: any`-equivalent; don't skip `propTypes` for a prop because it's "obvious".
 - Destructure props in the function signature rather than accessing `props.x`.
 - Use `clsx` for conditional `className` construction, not template literals or string
