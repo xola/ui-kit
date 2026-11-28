@@ -1,9 +1,12 @@
-import PropTypes from "prop-types";
-import React from "react";
+import type { ComponentPropsWithoutRef } from "react";
 import cn from "../helpers/classnames";
 import { isOSX } from "../helpers/browser";
 
-export const Key = ({ char, className, ...rest }) => {
+interface KeyProps extends ComponentPropsWithoutRef<"div"> {
+    char: string;
+}
+
+export const Key = ({ char, className, ...rest }: KeyProps) => {
     const key = keyMap[char] ?? char;
 
     return (
@@ -24,15 +27,10 @@ export const Key = ({ char, className, ...rest }) => {
 /**
  * Since initial devs are Mac based, we define the shortcuts in Mac and translate them to windows
  */
-const keyMap = {
+const keyMap: Record<string, string> = {
     cmd: isOSX ? "⌘" : "ctrl",
     option: isOSX ? "⌥" : "win",
     ctrl: isOSX ? "ctrl" : "ctrl",
     up: "↑",
     down: "↓",
-};
-
-Key.propTypes = {
-    char: PropTypes.string.isRequired,
-    className: PropTypes.string,
 };

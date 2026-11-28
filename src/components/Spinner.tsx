@@ -1,7 +1,5 @@
-import PropTypes from "prop-types";
-import React from "react";
 import cn from "../helpers/classnames";
-import { CircleNotch } from "../icons";
+import { CircleNotch, type IconProps } from "../icons";
 
 const colors = {
     primary: "text-primary",
@@ -21,17 +19,16 @@ const sizes = {
     current: "w-[1em] h-[1em]", // TODO: Consider setting this as the default value.
 };
 
-export const Spinner = ({ className, size = "small", color = "secondary", ...rest }) => {
+interface SpinnerProps extends Omit<IconProps, "size" | "color"> {
+    size?: keyof typeof sizes;
+    color?: keyof typeof colors;
+}
+
+export const Spinner = ({ className, size = "small", color = "secondary", ...rest }: SpinnerProps) => {
     return (
         <CircleNotch
             className={cn("ui-spinner", className, sizes[size], colors[color], "inline-block animate-spin")}
             {...rest}
         />
     );
-};
-
-Spinner.propTypes = {
-    className: PropTypes.string,
-    size: PropTypes.string,
-    color: PropTypes.string,
 };

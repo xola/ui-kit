@@ -1,8 +1,7 @@
-import PropTypes from "prop-types";
-import React from "react";
+import type { ComponentPropsWithoutRef } from "react";
 import cn from "../helpers/classnames";
 
-export const Counter = ({ className, ...rest }) => {
+export const Counter = ({ className, ...rest }: ComponentPropsWithoutRef<"span">) => {
     return (
         <span
             className={cn(
@@ -13,8 +12,4 @@ export const Counter = ({ className, ...rest }) => {
             {...rest}
         />
     );
-};
-
-Counter.propTypes = {
-    className: PropTypes.string,
 };

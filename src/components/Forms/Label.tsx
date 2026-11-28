@@ -1,8 +1,12 @@
-import PropTypes from "prop-types";
-import React from "react";
+import type { ComponentPropsWithoutRef } from "react";
 import cn from "../../helpers/classnames";
 
-export const Label = ({ isDisabled = false, isError = false, className, ...rest }) => {
+interface LabelProps extends ComponentPropsWithoutRef<"label"> {
+    isDisabled?: boolean;
+    isError?: boolean;
+}
+
+export const Label = ({ isDisabled = false, isError = false, className, ...rest }: LabelProps) => {
     return (
         <label
             className={cn(
@@ -14,10 +18,4 @@ export const Label = ({ isDisabled = false, isError = false, className, ...rest 
             {...rest}
         />
     );
-};
-
-Label.propTypes = {
-    isDisabled: PropTypes.bool,
-    isError: PropTypes.bool,
-    className: PropTypes.string,
 };
