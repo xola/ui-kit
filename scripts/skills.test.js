@@ -112,10 +112,15 @@ describe("skills/README.md", () => {
 });
 
 describe("npm pack", () => {
+    /**
+     * npm 10 runs `prepare` on `npm pack` even with --ignore-scripts, so the vite build log lands
+     * on stdout ahead of the JSON. The report is the last top-level array.
+     */
     const getPackedPaths = () => {
         const packArgs = ["pack", "--dry-run", "--json", "--ignore-scripts"];
         const output = execFileSync("npm", packArgs, { cwd: repoRoot, encoding: "utf8" });
-        const [{ files }] = JSON.parse(output);
+        const jsonStart = output.lastIndexOf("\n[\n") + 1;
+        const [{ files }] = JSON.parse(output.slice(jsonStart));
 
         return files.map(({ path: filePath }) => filePath);
     };
