@@ -129,6 +129,21 @@ Control it with `open` and `onOpenChange`; there is no Tippy instance. Keep the 
 
 On React 19, a `SubmitButton` inside `<form action={fn}>` shows its loading state while the action runs. An explicit `isLoading`, `false` included, wins. On React 18 or without a form `action`, drive `isLoading` yourself. `isSuccess` shows a check for 3 seconds once loading ends.
 
+### ErrorOverlay (development only)
+
+`ErrorOverlay` ships from `@xola/ui-kit/dev`, never from the main entry. It renders nothing, and warns once, when `NODE_ENV` is `production`; gate the import so production bundles drop it:
+
+```jsx
+const ErrorOverlay = import.meta.env.DEV
+    ? lazy(() => import("@xola/ui-kit/dev").then((m) => ({ default: m.ErrorOverlay })))
+    : () => null;
+```
+
+- The app captures and the overlay renders. Feed it with `useErrorOverlay()`: `push(toOverlayError(thrown), { frames, componentStack })`, `isOpen = errors.length > 0`, `onClose={clear}`.
+- React 19: pass `onUncaughtError` and `onCaughtError` to `createRoot`. React 18: use `componentDidCatch` in an error boundary, plus `window` `error` and `unhandledrejection` listeners.
+- `frames` is optional. Without it the overlay parses `stack`. Resolving source maps and `frame.source` (the code frame) is the app's job, for example through a dev server endpoint.
+- Identical errors merge into one entry with a `count`. Pass `onOpenInEditor(frame)` to show the open-in-editor button.
+
 ## Testing
 
 - Overlay content portals to `document.body`: query through `screen` or `within(document.body)`.
