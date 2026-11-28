@@ -1,3 +1,11 @@
+import type { StackFrame } from "../../dev";
+
+interface CodeFrameRow {
+    number: number;
+    text: string;
+    isError: boolean;
+}
+
 /**
  * `(.*?):(\d+):(\d+)` takes line and column from the last two number groups, so a `:3000` port stays in `file`.
  */
@@ -5,14 +13,14 @@ const V8_FRAME = /^(?:(.*?) \()?(.*?):(\d+):(\d+)\)?$/;
 const GECKO_FRAME = /^(.*?)@(.+?):(\d+):(\d+)$/;
 const V8_PREFIX = /^(?:async )?(?:new )?/;
 
-const buildFrame = ([, method, file, line, column]) => ({
+const buildFrame = ([, method, file, line, column]: RegExpMatchArray): StackFrame => ({
     method: method || undefined,
     file,
     line: Number(line),
     column: Number(column),
 });
 
-const parseLine = (rawLine) => {
+const parseLine = (rawLine: string): StackFrame | undefined => {
     const line = rawLine.trim();
 
     if (line.startsWith("at ")) {
@@ -26,16 +34,19 @@ const parseLine = (rawLine) => {
 
 /**
  * Parses a V8, Firefox or Safari stack string. Lines that are not frames (the message line, `[native code]`) are dropped.
- * @param {string} stack
- * @returns {Array<{ file: string, line: number, column: number, method?: string }>}
  */
-export const parseStack = (stack) => stack.split("\n").map(parseLine).filter(Boolean);
+export const parseStack = (stack: string): StackFrame[] => {
+    return stack
+        .split("\n")
+        .map(parseLine)
+        .filter((frame) => frame !== undefined);
+};
 
 /**
  * The frames to show for an error: supplied `frames` when non-empty, else the parsed `stack`. An empty `frames` (a
  * resolver that found nothing) must not hide a stack that still parses.
  */
-export const getErrorFrames = ({ frames, stack }) => {
+export const getErrorFrames = ({ frames, stack }: { frames?: StackFrame[]; stack?: string }) => {
     if (frames?.length) {
         return frames;
     }
@@ -45,9 +56,8 @@ export const getErrorFrames = ({ frames, stack }) => {
 
 /**
  * Sets `isLibrary` from the file path where the frame does not carry it already.
- * @param {Array<{ file: string, isLibrary?: boolean }>} frames
  */
-export const markLibraryFrames = (frames) => {
+export const markLibraryFrames = (frames: StackFrame[]) => {
     return frames.map((frame) => {
         const { file, isLibrary } = frame;
         return { ...frame, isLibrary: isLibrary ?? file.includes("/node_modules/") };
@@ -57,11 +67,8 @@ export const markLibraryFrames = (frames) => {
 /**
  * Hides library frames unless expanded. `ignoredCount` is 0 when there is nothing to toggle: no library frames, or
  * only library frames (hiding them all would leave an empty stack).
- * @param {Array<{ isLibrary?: boolean }>} frames
- * @param {boolean} isExpanded
- * @returns {{ visible: Array, ignoredCount: number }}
  */
-export const collapseFrames = (frames, isExpanded) => {
+export const collapseFrames = (frames: StackFrame[], isExpanded: boolean) => {
     const libraryCount = frames.filter(({ isLibrary }) => isLibrary).length;
     const hasToggle = libraryCount > 0 && libraryCount < frames.length;
 
@@ -75,15 +82,14 @@ export const collapseFrames = (frames, isExpanded) => {
 /**
  * The frame whose source the code frame shows: the first app frame with source, else the first library frame with source.
  */
-export const pickCodeFrame = (frames) => {
+export const pickCodeFrame = (frames: StackFrame[]) => {
     return frames.find(({ source, isLibrary }) => source && !isLibrary) ?? frames.find(({ source }) => source);
 };
 
 /**
  * Rows for the code frame, or undefined when `line` falls outside the supplied source.
- * @returns {{ rows: Array<{ number: number, text: string, isError: boolean }>, caretColumn: number } | undefined}
  */
-export const getCodeFrameRows = (frame) => {
+export const getCodeFrameRows = (frame: StackFrame): { rows: CodeFrameRow[]; caretColumn: number } | undefined => {
     const { source, line, column } = frame;
 
     if (!source) {

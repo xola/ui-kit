@@ -1,11 +1,11 @@
 import { useEventListener } from "ahooks";
-import PropTypes from "prop-types";
-import React, { Component, useState } from "react";
+import { Component, useState, type ReactNode } from "react";
+import type { ErrorOverlay as DevErrorOverlay, ErrorOverlayProps, OverlayError } from "../../dev";
 import { Modal } from "../components/Modal";
 import { isDevelopment } from "../helpers/environment";
 import { CallStack } from "./CallStack";
 import { CodeFrame } from "./CodeFrame";
-import { ErrorOverlayContext } from "./ErrorOverlayContext";
+import { ErrorOverlayContext, type ErrorOverlayContextValue } from "./ErrorOverlayContext";
 import { ComponentStack, Header, Message, Toolbar } from "./ErrorOverlayParts";
 import { getErrorFrames, markLibraryFrames } from "./stackFrames";
 
@@ -18,7 +18,7 @@ let hasWarnedInProduction = false;
  * The fallback stays plain on purpose: it renders when the overlay's own content threw, so it reads `message` through
  * `String` instead of trusting its shape.
  */
-const OverlayFallback = ({ error }) => {
+const OverlayFallback = ({ error }: { error: OverlayError }) => {
     const { name, message, stack } = error;
 
     return (
@@ -31,20 +31,8 @@ const OverlayFallback = ({ error }) => {
     );
 };
 
-OverlayFallback.propTypes = {
-    error: PropTypes.shape({
-        name: PropTypes.string,
-        message: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-    }).isRequired,
-};
-
 /** Paging to another error remounts the boundary through `key`, so one bad error does not hide the rest. */
-class OverlayBoundary extends Component {
-    static propTypes = {
-        error: PropTypes.object.isRequired,
-        children: PropTypes.node.isRequired,
-    };
-
+class OverlayBoundary extends Component<{ error: OverlayError; children: ReactNode }, { hasError: boolean }> {
     state = { hasError: false };
 
     static getDerivedStateFromError() {
@@ -59,11 +47,15 @@ class OverlayBoundary extends Component {
     }
 }
 
+interface OverlayBodyProps extends Omit<ErrorOverlayContextValue, "frames"> {
+    children?: ReactNode;
+}
+
 /**
  * Frames are computed here, inside the boundary, because bad frame data (null fields from an unmapped source map
  * position, a non-string `stack`) throws and must reach the fallback instead of the host app.
  */
-const OverlayBody = ({ error, errors, index, setIndex, onOpenInEditor, children }) => {
+const OverlayBody = ({ error, errors, index, setIndex, onOpenInEditor, children }: OverlayBodyProps) => {
     const value = { error, frames: markLibraryFrames(getErrorFrames(error)), errors, index, setIndex, onOpenInEditor };
 
     return (
@@ -82,23 +74,22 @@ const OverlayBody = ({ error, errors, index, setIndex, onOpenInEditor, children 
     );
 };
 
-OverlayBody.propTypes = {
-    error: PropTypes.object.isRequired,
-    errors: PropTypes.arrayOf(PropTypes.object).isRequired,
-    index: PropTypes.number.isRequired,
-    children: PropTypes.node,
-    setIndex: PropTypes.func.isRequired,
-    onOpenInEditor: PropTypes.func,
-};
-
-const OverlayContent = ({ isOpen = false, errors, onClose, onOpenInEditor, activeIndex, onActiveChange, children }) => {
+const OverlayContent = ({
+    isOpen = false,
+    errors,
+    activeIndex,
+    children,
+    onClose,
+    onOpenInEditor,
+    onActiveChange,
+}: ErrorOverlayProps) => {
     const [innerIndex, setInnerIndex] = useState(0);
     const isControlled = activeIndex !== undefined;
     const rawIndex = isControlled ? activeIndex : innerIndex;
     const lastIndex = errors.length - 1;
     const index = Math.max(0, Math.min(rawIndex, lastIndex));
 
-    const setIndex = (next) => {
+    const setIndex = (next: number) => {
         const clamped = Math.max(0, Math.min(next, lastIndex));
 
         if (!isControlled) {
@@ -147,32 +138,7 @@ const OverlayContent = ({ isOpen = false, errors, onClose, onOpenInEditor, activ
     );
 };
 
-const errorShape = PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    message: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
-    stack: PropTypes.string,
-    frames: PropTypes.arrayOf(PropTypes.object),
-    componentStack: PropTypes.string,
-    count: PropTypes.number.isRequired,
-});
-
-const propTypes = {
-    isOpen: PropTypes.bool.isRequired,
-    errors: PropTypes.arrayOf(errorShape).isRequired,
-    activeIndex: PropTypes.number,
-    children: PropTypes.node,
-    onClose: PropTypes.func.isRequired,
-    onOpenInEditor: PropTypes.func,
-    onActiveChange: PropTypes.func,
-};
-
-OverlayContent.propTypes = propTypes;
-
-/**
- * Development-only error panel. Renders nothing, and warns once, when NODE_ENV is production.
- */
-export const ErrorOverlay = (props) => {
+const ErrorOverlayRoot = (props: ErrorOverlayProps) => {
     if (!isDevelopment) {
         if (!hasWarnedInProduction) {
             hasWarnedInProduction = true;
@@ -185,10 +151,14 @@ export const ErrorOverlay = (props) => {
     return <OverlayContent {...props} />;
 };
 
-ErrorOverlay.propTypes = propTypes;
-ErrorOverlay.Header = Header;
-ErrorOverlay.Message = Message;
-ErrorOverlay.CallStack = CallStack;
-ErrorOverlay.CodeFrame = CodeFrame;
-ErrorOverlay.ComponentStack = ComponentStack;
-ErrorOverlay.Toolbar = Toolbar;
+/**
+ * Development-only error panel. Renders nothing, and warns once, when NODE_ENV is production.
+ */
+export const ErrorOverlay = Object.assign(ErrorOverlayRoot, {
+    Header,
+    Message,
+    Toolbar,
+    CallStack,
+    CodeFrame,
+    ComponentStack,
+}) satisfies typeof DevErrorOverlay;

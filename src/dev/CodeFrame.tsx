@@ -1,9 +1,9 @@
-import React, { Fragment, useContext } from "react";
-import { ErrorOverlayContext } from "./ErrorOverlayContext";
+import { Fragment } from "react";
+import { useErrorOverlayContext } from "./ErrorOverlayContext";
 import { getCodeFrameRows, pickCodeFrame } from "./stackFrames";
 
 export const CodeFrame = () => {
-    const { frames } = useContext(ErrorOverlayContext);
+    const { frames } = useErrorOverlayContext();
     const frame = pickCodeFrame(frames);
     const result = frame ? getCodeFrameRows(frame) : undefined;
 

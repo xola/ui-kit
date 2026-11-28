@@ -1,12 +1,18 @@
-import PropTypes from "prop-types";
-import React, { useContext, useState } from "react";
+import { useState } from "react";
+import type { StackFrame } from "../../dev";
 import { ArrowTopRightIcon } from "../icons";
-import { ErrorOverlayContext } from "./ErrorOverlayContext";
+import { useErrorOverlayContext } from "./ErrorOverlayContext";
 import { collapseFrames } from "./stackFrames";
 
-const CallStackFrame = ({ frame, onOpenInEditor }) => {
+const CallStackFrame = ({
+    frame,
+    onOpenInEditor,
+}: {
+    frame: StackFrame;
+    onOpenInEditor?: (frame: StackFrame) => void;
+}) => {
     const { method, file, line, column } = frame;
-    const handleOpen = () => onOpenInEditor(frame);
+    const handleOpen = () => onOpenInEditor?.(frame);
 
     return (
         <li className="flex items-center justify-between space-x-4 py-1.5 text-sm">
@@ -29,18 +35,8 @@ const CallStackFrame = ({ frame, onOpenInEditor }) => {
     );
 };
 
-CallStackFrame.propTypes = {
-    frame: PropTypes.shape({
-        file: PropTypes.string.isRequired,
-        line: PropTypes.number.isRequired,
-        column: PropTypes.number.isRequired,
-        method: PropTypes.string,
-    }).isRequired,
-    onOpenInEditor: PropTypes.func,
-};
-
 export const CallStack = () => {
-    const { frames, onOpenInEditor } = useContext(ErrorOverlayContext);
+    const { frames, onOpenInEditor } = useErrorOverlayContext();
     const [isExpanded, setIsExpanded] = useState(false);
     const { visible, ignoredCount } = collapseFrames(frames, isExpanded);
     const handleToggle = () => setIsExpanded(!isExpanded);

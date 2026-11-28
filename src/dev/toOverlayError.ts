@@ -1,4 +1,6 @@
-const stringifyThrown = (thrown) => {
+import type { OverlayError } from "../../dev";
+
+const stringifyThrown = (thrown: unknown) => {
     if (typeof thrown === "string") {
         return thrown;
     }
@@ -12,10 +14,8 @@ const stringifyThrown = (thrown) => {
 
 /**
  * Normalizes anything a `throw` or a rejected promise can carry into `{ name, message, stack? }`.
- * @param {unknown} thrown
- * @returns {{ name: string, message: string, stack?: string }}
  */
-export const toOverlayError = (thrown) => {
+export const toOverlayError = (thrown: unknown): Pick<OverlayError, "name" | "message" | "stack"> => {
     if (thrown instanceof Error) {
         const { name, message, stack } = thrown;
         return { name, message, stack };

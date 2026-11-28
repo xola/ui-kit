@@ -36,6 +36,19 @@ const hiddenStates = {
     bottomRight: "[--ui-dialog-scale:0] origin-bottom-right",
 };
 
+/**
+ * @typedef {{
+ *     size?: keyof typeof sizes,
+ *     position?: keyof typeof positions,
+ *     isOpen?: boolean,
+ *     shouldCloseOnOutsideClick?: boolean,
+ *     onClose: () => void,
+ *     children: import("react").ReactNode,
+ *     className?: string,
+ * }} ModalProps
+ */
+
+/** @param {ModalProps} props */
 export const Modal = ({
     size = "medium",
     position = "center",
@@ -148,6 +161,9 @@ Modal.propTypes = {
     className: PropTypes.string,
 };
 
+/**
+ * @param {{ children: import("react").ReactNode, description?: string, className?: string }} props
+ */
 const Header = ({ children, description, className, ...rest }) => {
     return (
         <DialogTitle className={cn(className, "ui-modal-header text-center")} {...rest}>

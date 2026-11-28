@@ -1,22 +1,25 @@
 import { useTimeout } from "ahooks";
-import React, { useContext, useState } from "react";
+import { useState } from "react";
+import type { OverlayError } from "../../dev";
 import { Button } from "../components/Buttons/Button";
 import { Modal } from "../components/Modal";
 import { ChevronLeftIcon, ChevronRightIcon, CopyIcon } from "../icons";
-import { ErrorOverlayContext } from "./ErrorOverlayContext";
+import { useErrorOverlayContext } from "./ErrorOverlayContext";
 
 const URL_PATTERN = /(https?:\/\/[^\s)]+)/g;
 const COPY_STATUS_RESET_MS = 2000;
 const COPY_LABELS = { idle: "Copy error", copied: "Copied", failed: "Copy failed" };
 
-const getCopyText = ({ name, message, stack, componentStack }) => {
+type CopyStatus = keyof typeof COPY_LABELS;
+
+const getCopyText = ({ name, message, stack, componentStack }: OverlayError) => {
     const componentSection = componentStack ? `\n\nComponent stack:\n${componentStack}` : "";
 
     return `${name}: ${message}\n${stack ?? ""}${componentSection}`;
 };
 
 export const Header = () => {
-    const { error, errors, index, setIndex } = useContext(ErrorOverlayContext);
+    const { error, errors, index, setIndex } = useErrorOverlayContext();
     const { name, count } = error;
     const lastIndex = errors.length - 1;
     const handlePrevious = () => setIndex(index - 1);
@@ -56,7 +59,7 @@ export const Header = () => {
 };
 
 export const Message = () => {
-    const { error } = useContext(ErrorOverlayContext);
+    const { error } = useErrorOverlayContext();
     const parts = error.message.split(URL_PATTERN);
 
     return (
@@ -75,7 +78,7 @@ export const Message = () => {
 };
 
 export const ComponentStack = () => {
-    const { error } = useContext(ErrorOverlayContext);
+    const { error } = useErrorOverlayContext();
     const { componentStack } = error;
 
     if (!componentStack) {
@@ -90,8 +93,8 @@ export const ComponentStack = () => {
 };
 
 export const Toolbar = () => {
-    const { error } = useContext(ErrorOverlayContext);
-    const [status, setStatus] = useState("idle");
+    const { error } = useErrorOverlayContext();
+    const [status, setStatus] = useState<CopyStatus>("idle");
 
     useTimeout(() => setStatus("idle"), status === "idle" ? undefined : COPY_STATUS_RESET_MS);
 
