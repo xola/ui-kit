@@ -16,7 +16,7 @@ export const PickerDayContext = createContext({});
  * The button stays focusable but is not natively disabled: a disabled button swallows hover, and a disabled day can
  * still carry a tooltip.
  */
-export const PickerDayButton = ({ day, modifiers, ...buttonProps }) => {
+const PickerDayButton = ({ day, modifiers, ...buttonProps }) => {
     const { value, getContent, getTooltip, isLoading } = useContext(PickerDayContext);
     const { date } = day;
     const { disabled, outside } = modifiers;

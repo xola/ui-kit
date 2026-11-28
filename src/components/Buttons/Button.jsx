@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import cn from "../../helpers/classnames";
 
-export const colors = {
+const colors = {
     standard: {
         common: "border-transparent text-white", // Common classes for each style
         primary: "bg-primary hover:bg-primary-darker active:bg-primary",
