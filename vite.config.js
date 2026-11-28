@@ -1,6 +1,6 @@
 import path from "path";
 import { defineConfig } from "vite";
-import pkg from "./package.json";
+import pkg from "./package.json" with { type: "json" };
 
 const packages = [...Object.keys(pkg.dependencies), ...Object.keys(pkg.devDependencies)];
 
@@ -17,7 +17,7 @@ export default defineConfig({
         outDir: "build",
 
         lib: {
-            entry: path.resolve(__dirname, "src/index.js"),
+            entry: path.resolve(import.meta.dirname, "src/index.js"),
             formats: ["es"],
             // Vite 6+ names the bundled CSS after package.json "name"; consumers import build/style.css.
             cssFileName: "style",
@@ -33,11 +33,6 @@ export default defineConfig({
                 preserveModules: true,
                 preserveModulesRoot: "src",
                 entryFileNames: "[name].js",
-
-                // Rollup 3+ defaults to "default", which binds `import x from "cjs-pkg"` to the
-                // whole namespace. Packages without __esModule, such as get-user-locale, then
-                // blow up at require time in an untransformed CJS consumer.
-                interop: "auto",
             },
         },
     },
